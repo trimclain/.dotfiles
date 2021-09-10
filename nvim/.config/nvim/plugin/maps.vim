@@ -84,5 +84,14 @@ if has('nvim')
     tnoremap <Esc><Esc> <C-\><C-n>
 endif
 
-" save and run python code
-nnoremap <silent> <C-b> :w <bar> :! python3 % <cr>
+" Check the filetype to know how to run the file
+if &filetype ==# "python"
+    " python
+    nnoremap <silent> <C-b> :w <bar> :! python3 % <cr>
+elseif &filetype ==# "sh"
+    " bash, shell, zsh -> all will run in bash coz why not
+    nnoremap <silent> <C-b> :w <bar> :! bash % <cr>
+else
+    " other executables
+    nnoremap <silent> <C-b> :w <bar> :! ./% <cr>
+endif
