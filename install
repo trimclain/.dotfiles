@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# Create .vim/undodir for vim/nvim, if it doesn't exist
+mkdir -p ~/.vim/undodir
+
+# To update INSTALL_MODE
+ORIGIN="INSTALL_MODE=\"(.*?)\""
+FILE="$HOME/.dotfiles/uninstall"
+
+# Get the mode, default to normal
+if [[ -n $1 ]]; then
+    if [[ $1 == "-f" || $1 == "--full" ]]; then
+        # Folders to stow
+        STOW_FOLDERS="bin,bash,nvim,tmux,vim,zsh"
+        # Update the INSTALL_MODE variable
+        NEW='INSTALL_MODE="full"'
+
+        # Check if there are any old files that are not symlinks and delete them, so stow works
+        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc ~/.config/nvim/init.vim)
+        for file in ${DOTFS[@]}; do
+            # Check if file exists and is not a symlink
+            if [[ -f $file && ! -h $file ]]; then
+                echo removing old $file
+                rm $file
+            fi
+        done
+    elif [[ $1 == "-s" || $1 == "--small" ]]; then
+        # Folders to stow
+        STOW_FOLDERS="bin,bash,tmux,vim"
+        # Update the INSTALL_MODE variable
+        NEW='INSTALL_MODE="small"'
+
+        # Check if there are any old files that are not symlinks and delete them, so stow works
+        DOTFS=(~/.bashrc ~/.tmux.conf ~/.vimrc)
+        for file in ${DOTFS[@]}; do
+            # Check if file exists and is not a symlink
+            if [[ -f $file && ! -h $file ]]; then
+                echo removing old $file
+                rm $file
+            fi
+        done
+    fi
+else
+    # Folders to stow
+    STOW_FOLDERS="bin,nvim,tmux,zsh"
+    # Update the INSTALL_MODE variable
+    NEW='INSTALL_MODE="normal"'
+
+    # Check if there are any old files that are not symlinks and delete them, so stow works
+    DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim/init.vim)
+    for file in ${DOTFS[@]}; do
+        # Check if file exists and is not a symlink
+        if [[ -f $file && ! -h $file ]]; then
+            echo removing old $file
+            rm $file
+        fi
+    done
+fi
+
+# Stowing Everything
+if [[ -n $DOTFILES ]]; then
+    pushd $DOTFILES > /dev/null
+
+    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
+    do
+        stow -D $folder
+        stow $folder
+        echo "Adding symlink to" $folder
+    done
+    echo Done
+
+    # Save INSTALL_MODE to uninstall
+    sed -i -r "s/$ORIGIN/$NEW/" $FILE
+    popd > /dev/null
+else
+
+    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
+    do
+        stow -D $folder
+        stow $folder
+        echo "Adding symlink to" $folder
+    done
+    echo Done
+
+    # Save INSTALL_MODE to uninstall
+    sed -i -r "s/$ORIGIN/$NEW/" $FILE
+fi
+

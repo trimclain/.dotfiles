@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+INSTALL_MODE="normal"
+
+if [[ $INSTALL_MODE = "small" ]]; then
+    STOW_FOLDERS="bin,bash,tmux,vim"
+elif [[ $INSTALL_MODE = "full" ]]; then
+    STOW_FOLDERS="bin,bash,nvim,tmux,vim,zsh"
+else
+    STOW_FOLDERS="bin,nvim,tmux,zsh"
+fi
+
+# Unstowing Everything
+if [[ -n $DOTFILES ]]; then
+    pushd $DOTFILES > /dev/null
+    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
+        stow -D $folder
+        echo "Removing symlink to $folder"
+    done
+    echo Done
+    popd > /dev/null
+else
+    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
+        stow -D $folder
+        echo "Removing symlink to $folder"
+    done
+    echo Done
+
+fi
