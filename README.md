@@ -50,17 +50,21 @@ This version installs bash, vim, tmux and bin<br/>
 ```
 sudo apt install git stow
 ```
-2. Clone this repository to your $HOME directory:
+2. Install tpm (tmux plugin manager)
+```
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+3. Clone this repository to your $HOME directory:
 ```
 git clone https://github.com/trimclain/.dotfiles.git
 ```
-3. Go to .dotfiles folder and launch the script.<br/>
+4. Go to .dotfiles folder and launch the script.<br/>
 ```
 cd .dotfiles
 ./install --small
 ```
-4. Launch and close vim 2 times to let it automatically install vim-plug and plugins
-5. Restart the terminal
+5. Launch and close vim 2 times to let it automatically install vim-plug and plugins
+6. Restart the terminal
 
 ### Normal version
 This is the default option.It installs zsh, nvim, tmux and bin<br/>
@@ -69,32 +73,36 @@ This is the default option.It installs zsh, nvim, tmux and bin<br/>
 ```
 sudo apt install git zsh stow ripgrep
 ```
-2. Download and install the GOAT MesloLGS NF fonts from https://github.com/romkatv/powerlevel10k#manual-font-installation<br/>
+2. Install tpm (tmux plugin manager)
+```
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+3. Download and install the GOAT MesloLGS NF fonts from https://github.com/romkatv/powerlevel10k#manual-font-installation<br/>
 Optionally you can download Nerd Fonts (https://github.com/ryanoasis/nerd-fonts) or Powerline Fonts (https://github.com/powerline/fonts)
-3. Change your terminal fonts (On Windows switch to Windows Terminal \#MUSTHAVE)
-4. Install Oh My Zsh and follow instructions:
+4. Change your terminal fonts (On Windows switch to Windows Terminal \#MUSTHAVE)
+5. Install Oh My Zsh and follow instructions:
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
-5. Install zsh-autosuggestions plugin
+6. Install zsh-autosuggestions plugin
 ```
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
-6. Install zsh-syntax-highlighting plugin
+7. Install zsh-syntax-highlighting plugin
 ```
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
-7. Clone this repository to your $HOME directory:
+8. Clone this repository to your $HOME directory:
 ```
 git clone https://github.com/trimclain/.dotfiles.git
 ```
-8. Go to .dotfiles folder and launch the script.
+9. Go to .dotfiles folder and launch the script.
 ```
 cd .dotfiles
 ./install
 ```
-9. Launch and close neovim 2 times to let it automatically install vim-plug and plugins
-10. Restart the terminal
+10. Launch and close neovim 2 times to let it automatically install vim-plug and plugins
+11. Restart the terminal
 
 ### Full version
 This option installs it all.<br/>
