@@ -1,9 +1,9 @@
 # My Dotfiles
 
-This repo contains my dotfiles and configs. Feel free to use and modify them if you want. Shoutout to Prime (https://github.com/ThePrimeagen) and TJ (https://github.com/tjdevries). There is a lot here written with the help of their dotfiles.
+This repo contains my dotfiles and configs. Feel free to use and modify them if you want. Shoutout to [Prime](https://github.com/ThePrimeagen) and [Teej](https://github.com/tjdevries). There is a lot here written using their dotfiles.
 
 ## Getting Started
-NOTE: Do these only if you want to install normal or full versions. Check below for more information about this options.
+NOTE: You can skip to [Installing Dotfiles](https://github.com/trimclain/.dotfiles#Installing-Dotfiles) if you want to install the small version. Check below for more information about versions.
 
 ### Build Neovim <br/>
 
@@ -32,15 +32,13 @@ sudo make install
 sudo rm -rf neovim
 ```
 
-# _________________________________________
 ### Install the Latest Node
 
 It is generally a good practice to have latest stable npm and nodejs, since a lot of things depend on it, for example the pyright language server.<br/>
 There are 2 great options to install them:<br/>
-First option is a great guide at https://www.freecodecamp.org/news/how-to-install-node-js-on-ubuntu-and-update-npm-to-the-latest-version/<br/>
-Second BANGER option (thanks Prime) is to use this repo: https://github.com/mklement0/n-install<br/>
+- [This](https://github.com/mklement0/n-install) BANGER repo (thanks Prime)
+- Great [guide on freeCodeCamp](https://www.freecodecamp.org/news/how-to-install-node-js-on-ubuntu-and-update-npm-to-the-latest-version/)
 
-# _________________________________________
 ## Installing Dotfiles
 
 ### Small version
@@ -77,8 +75,8 @@ sudo apt install git zsh stow ripgrep
 ```
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
-3. Download and install the GOAT MesloLGS NF fonts from https://github.com/romkatv/powerlevel10k#manual-font-installation<br/>
-Optionally you can download Nerd Fonts (https://github.com/ryanoasis/nerd-fonts) or Powerline Fonts (https://github.com/powerline/fonts)
+3. Download and install the GOAT [MesloLGS NF Fonts](https://github.com/romkatv/powerlevel10k#manual-font-installation)<br/>
+Optionally you can download any [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) or [Powerline Fonts](https://github.com/powerline/fonts)
 4. Change your terminal fonts (On Windows switch to Windows Terminal \#MUSTHAVE)
 5. Install Oh My Zsh and follow instructions:
 ```
@@ -114,8 +112,6 @@ cd .dotfiles
 ```
 
 NOTE: If you want to install dotfiles with a difference option, use the uninstall script first with `./uninstall`
-
-# _________________________________________
 
 ## Additional information
 
