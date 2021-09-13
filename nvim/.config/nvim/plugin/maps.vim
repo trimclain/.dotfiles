@@ -8,16 +8,30 @@ nnoremap <silent> Q <nop>
 nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 
 " Easier movement between vim windows
-nnoremap <leader>h <C-w>h
-nnoremap <leader>j <C-w>j
-nnoremap <leader>k <C-w>k
-nnoremap <leader>l <C-w>l
+" Use ALT+{h,j,k,l} to switch windows
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <M-h> <C-w>h
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-l> <C-w>l
 
 " Navigate buffers
-nnoremap <leader>bn :bnext<CR>
-nnoremap <leader>bp :bprevious<CR>
-nnoremap <leader>bf :bfirst<CR>
-nnoremap <leader>bl :blast<CR>
+nnoremap <silent> <leader>j :bnext<CR>
+nnoremap <silent> <leader>k :bprevious<CR>
+
+" Resizing
+" Use Ctrl + arrows to resize windows
+nnoremap <silent> <C-Up> :resize -5<CR>
+nnoremap <silent> <C-Down> :resize +5<CR>
+nnoremap <silent> <C-Left> :vertical resize -5<CR>
+nnoremap <silent> <C-Right> :vertical resize +5<CR>
 
 " Vim-fugitive remaps
 " git status
@@ -30,14 +44,6 @@ nnoremap <leader>gf :diffget //2<CR>
 nnoremap <silent> <leader>pv :Ex<CR>
 " Undotree
 nnoremap <silent> <leader>u :UndotreeShow<CR>
-
-" Resizing
-" Use alt + hjkl to resize windows
-nnoremap <silent> <M-j> :resize -5<CR>
-nnoremap <silent> <M-k> :resize +5<CR>
-nnoremap <silent> <M-h> :vertical resize -5<CR>
-nnoremap <silent> <M-l> :vertical resize +5<CR>
-
 
 " Make Y work like C and D
 nnoremap Y y$
