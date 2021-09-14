@@ -61,8 +61,9 @@ git clone https://github.com/trimclain/.dotfiles.git
 cd .dotfiles
 ./install --small
 ```
-5. Launch and close vim 2 times to let it automatically install vim-plug and plugins
-6. Restart the terminal
+5. Restart the terminal
+6. Launch and close vim 2 times to let it automatically install vim-plug and plugins
+
 
 ### Normal version
 This is the default option. It installs zsh, nvim, tmux and bin<br/>
@@ -87,8 +88,8 @@ git clone https://github.com/trimclain/.dotfiles.git
 cd .dotfiles
 ./install
 ```
-7. Launch and close neovim 2 times to let it automatically install vim-plug and plugins
-8. Restart the terminal
+7. Restart the terminal
+8. Launch and close neovim 2 times to let it automatically install vim-plug and plugins
 
 ### Full version
 This option installs it all.<br/>
