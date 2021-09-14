@@ -19,8 +19,7 @@ if [[ -n $1 ]]; then
         if [[ ! $SHELL == "/usr/bin/zsh" ]]; then
             echo Changing your shell to ZSH. Enter the password.;
             chsh -s $(which zsh)
-            echo Successfully switched to ZSH.
-            echo Restart your terminal.
+            echo Successfully switched to ZSH. Don\'t forget to Restart your terminal.
         fi
 
         # Check if there are any old files that are not symlinks and delete them, so stow works
@@ -58,8 +57,7 @@ else
     if [[ ! $SHELL == "/usr/bin/zsh" ]]; then
         echo Changing your shell to ZSH. Enter the password.;
         chsh -s $(which zsh)
-        echo Successfully switched to ZSH.
-        echo Restart your terminal.
+        echo Successfully switched to ZSH. Don\'t forget to Restart your terminal.
     fi
 
     # Check if there are any old files that are not symlinks and delete them, so stow works
