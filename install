@@ -15,6 +15,14 @@ if [[ -n $1 ]]; then
         # Update the INSTALL_MODE variable
         NEW='INSTALL_MODE="full"'
 
+        # Check if zsh is the shell, change if not
+        if [[ ! $SHELL == "/usr/bin/zsh" ]]; then
+            echo Changing your shell to ZSH. Enter the password.;
+            chsh -s $(which zsh)
+            echo Successfully switched to ZSH.
+            echo Restart your terminal.
+        fi
+
         # Check if there are any old files that are not symlinks and delete them, so stow works
         DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc)
         for file in ${DOTFS[@]}; do
@@ -46,6 +54,14 @@ else
     # Update the INSTALL_MODE variable
     NEW='INSTALL_MODE="normal"'
 
+    # Check if zsh is the shell, change if not
+    if [[ ! $SHELL == "/usr/bin/zsh" ]]; then
+        echo Changing your shell to ZSH. Enter the password.;
+        chsh -s $(which zsh)
+        echo Successfully switched to ZSH.
+        echo Restart your terminal.
+    fi
+
     # Check if there are any old files that are not symlinks and delete them, so stow works
     DOTFS=(~/.zshrc ~/.tmux.conf)
     for file in ${DOTFS[@]}; do
@@ -57,7 +73,8 @@ else
     done
 fi
 
-# Stowing Everything
+
+# Stow Time
 if [[ -n $DOTFILES ]]; then
     pushd $DOTFILES > /dev/null
 
