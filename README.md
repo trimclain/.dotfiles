@@ -65,7 +65,7 @@ cd .dotfiles
 6. Restart the terminal
 
 ### Normal version
-This is the default option.It installs zsh, nvim, tmux and bin<br/>
+This is the default option. It installs zsh, nvim, tmux and bin<br/>
 
 1. Install git, zsh, stow and ripgrep (for Telescope):
 ```
@@ -78,34 +78,22 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 3. Download and install the GOAT [MesloLGS NF Fonts](https://github.com/romkatv/powerlevel10k#manual-font-installation)<br/>
 Optionally you can download any [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) or [Powerline Fonts](https://github.com/powerline/fonts)
 4. Change your terminal fonts (On Windows switch to Windows Terminal \#MUSTHAVE)
-5. Install Oh My Zsh and follow instructions:
-```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-6. Install zsh-autosuggestions plugin
-```
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-7. Install zsh-syntax-highlighting plugin
-```
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-```
-8. Clone this repository to your $HOME directory:
+5. Clone this repository to your $HOME directory:
 ```
 git clone https://github.com/trimclain/.dotfiles.git
 ```
-9. Go to .dotfiles folder and launch the script.
+6. Go to .dotfiles folder and launch the script.
 ```
 cd .dotfiles
 ./install
 ```
-10. Launch and close neovim 2 times to let it automatically install vim-plug and plugins
-11. Restart the terminal
+7. Launch and close neovim 2 times to let it automatically install vim-plug and plugins
+8. Restart the terminal
 
 ### Full version
 This option installs it all.<br/>
 
-Do everything as in Normal version, except in step 8 do:
+Do everything as in Normal version, except in step 6 do:
 ```
 cd .dotfiles
 ./install --full
