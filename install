@@ -16,7 +16,7 @@ if [[ -n $1 ]]; then
         NEW='INSTALL_MODE="full"'
 
         # Check if there are any old files that are not symlinks and delete them, so stow works
-        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc ~/.config/nvim/init.vim)
+        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc)
         for file in ${DOTFS[@]}; do
             # Check if file exists and is not a symlink
             if [[ -f $file && ! -h $file ]]; then
@@ -47,7 +47,7 @@ else
     NEW='INSTALL_MODE="normal"'
 
     # Check if there are any old files that are not symlinks and delete them, so stow works
-    DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim/init.vim)
+    DOTFS=(~/.zshrc ~/.tmux.conf)
     for file in ${DOTFS[@]}; do
         # Check if file exists and is not a symlink
         if [[ -f $file && ! -h $file ]]; then
