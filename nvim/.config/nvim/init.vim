@@ -42,15 +42,16 @@ Plug 'tpope/vim-commentary'             " easy commenting, thanks tpope
 Plug 'tpope/vim-fugitive'               " vim git integration, thanks tpope
 Plug 'tpope/vim-surround'               " easy surrounding, thanks tpope
 Plug 'mbbill/undotree'                  " see the undo history
+Plug 'dstein64/vim-startuptime'         " check the startuptime of plugins
 " Plug 'preservim/nerdtree'               " nice file tree
 
 " Colorschemes
 Plug 'gruvbox-community/gruvbox'        " pretty cool colorscheme, thanks prime
-Plug 'arzg/vim-colors-xcode'            " fun pink colorscheme, thanks bashbunni
-Plug 'dracula/vim', { 'as': 'dracula' } " dracula-theme
-Plug 'rakr/vim-one'                     " one-dark theme from Atom
-Plug 'phanviet/vim-monokai-pro'         " vim-monokai-pro from Sublime
-Plug 'kyoz/purify', { 'rtp': 'vim' }    " purify theme, thanks bashbunni
+" Plug 'arzg/vim-colors-xcode'            " fun pink colorscheme, thanks bashbunni
+" Plug 'dracula/vim', { 'as': 'dracula' } " dracula-theme
+" Plug 'rakr/vim-one'                     " one-dark theme from Atom
+" Plug 'phanviet/vim-monokai-pro'         " vim-monokai-pro from Sublime
+" Plug 'kyoz/purify', { 'rtp': 'vim' }    " purify theme, thanks bashbunni
 
 " LSP
 Plug 'neovim/nvim-lspconfig'            " LSP configurations
@@ -84,10 +85,10 @@ endif
 
 " ================== CHOOSE ONE ===================
 " gruvbox
-" let g:gruvbox_contrast_dark = 'hard'
-" let g:gruvbox_invert_selection='0'
-" colorscheme gruvbox
-" set background=dark
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_invert_selection='0'
+colorscheme gruvbox
+set background=dark
 
 " vim-colors-xcode
 " colorscheme xcodedarkhc
@@ -104,7 +105,7 @@ endif
 " colorscheme monokai_pro
 
 " purify theme
-colorscheme purify
+" colorscheme purify
 
 " =================================================
 
