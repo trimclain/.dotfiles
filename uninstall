@@ -2,12 +2,12 @@
 
 INSTALL_MODE="normal"
 
-if [[ $INSTALL_MODE = "small" ]]; then
+if [[ $INSTALL_MODE = "full" ]]; then
+    STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
+elif [[ $INSTALL_MODE = "small" ]]; then
     STOW_FOLDERS="bin,bash,tmux,vim"
-elif [[ $INSTALL_MODE = "full" ]]; then
-    STOW_FOLDERS="bin,bash,nvim,tmux,vim,zsh"
 else
-    STOW_FOLDERS="bin,nvim,tmux,zsh"
+    STOW_FOLDERS="bin,i3,nvim,tmux,zsh"
 fi
 
 # Unstowing Everything

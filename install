@@ -11,7 +11,7 @@ FILE="$HOME/.dotfiles/uninstall"
 if [[ -n $1 ]]; then
     if [[ $1 == "-f" || $1 == "--full" ]]; then
         # Folders to stow
-        STOW_FOLDERS="bin,bash,nvim,tmux,vim,zsh"
+        STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
         # Update the INSTALL_MODE variable
         NEW='INSTALL_MODE="full"'
 
@@ -23,7 +23,7 @@ if [[ -n $1 ]]; then
         fi
 
         # Check if there are any old files that are not symlinks and delete them, so stow works
-        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc)
+        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc ~/.config/i3/config)
         for file in ${DOTFS[@]}; do
             # Check if file exists and is not a symlink
             if [[ -f $file && ! -h $file ]]; then
@@ -49,7 +49,7 @@ if [[ -n $1 ]]; then
     fi
 else
     # Folders to stow
-    STOW_FOLDERS="bin,nvim,tmux,zsh"
+    STOW_FOLDERS="bin,i3,nvim,tmux,zsh"
     # Update the INSTALL_MODE variable
     NEW='INSTALL_MODE="normal"'
 
@@ -61,7 +61,7 @@ else
     fi
 
     # Check if there are any old files that are not symlinks and delete them, so stow works
-    DOTFS=(~/.zshrc ~/.tmux.conf)
+    DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/i3/config)
     for file in ${DOTFS[@]}; do
         # Check if file exists and is not a symlink
         if [[ -f $file && ! -h $file ]]; then
@@ -86,6 +86,7 @@ if [[ -n $DOTFILES ]]; then
 
     # Save INSTALL_MODE to uninstall
     sed -i -r "s/$ORIGIN/$NEW/" $FILE
+
     popd > /dev/null
 else
 
