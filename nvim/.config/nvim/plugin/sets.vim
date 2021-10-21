@@ -25,7 +25,7 @@ set wildmenu				            " better command-line completion
 set showcmd				                " show partial commands in the last line of the screen
 set colorcolumn=80                      " vertical column to see 80 characters
 set signcolumn=yes                      " enable error-column
-set laststatus=0                        " disable statusbar, coz airline
+" set laststatus=0                        " disable statusbar for airline
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
 set formatoptions="tcqjnr"              " type :h formatoptions to see the meaning of this option and this string
 

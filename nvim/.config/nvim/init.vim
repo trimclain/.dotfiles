@@ -37,13 +37,18 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 " #############################################################################
 call plug#begin(stdpath('data') . '/plugged')
 
-Plug 'vim-airline/vim-airline'          " nice bottom status line
 Plug 'tpope/vim-commentary'             " easy commenting, thanks tpope
 Plug 'tpope/vim-fugitive'               " vim git integration, thanks tpope
 Plug 'tpope/vim-surround'               " easy surrounding, thanks tpope
 Plug 'mbbill/undotree'                  " see the undo history
 Plug 'dstein64/vim-startuptime'         " check the startuptime of plugins
 " Plug 'preservim/nerdtree'               " nice file tree
+
+" Status Lines
+ Plug 'itchyny/lightline.vim'           " lightweight and cool
+" Plug 'vim-airline/vim-airline'          " nice but too laggy
+" Plug 'hoob3rt/lualine.nvim'             " to try sometime 1
+" Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}  " to try sometime 2
 
 " Colorschemes
 Plug 'gruvbox-community/gruvbox'        " pretty cool colorscheme, thanks prime
@@ -124,7 +129,19 @@ if executable('rg')
 endif
 
 " Airline
-let g:airline_powerline_fonts = 1           " force using powerline-fonts
+" let g:airline_powerline_fonts = 1           " force using powerline-fonts
+
+" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
 
 " Other Lets
 let loaded_matchparen = 1                   " disable highlighting matching parentesis
