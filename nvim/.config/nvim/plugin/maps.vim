@@ -8,23 +8,24 @@ nnoremap <silent> Q <nop>
 nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 
 " Easier movement between vim windows
-" Use ALT+{h,j,k,l} to switch windows
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-inoremap <A-h> <C-\><C-N><C-w>h
-inoremap <A-j> <C-\><C-N><C-w>j
-inoremap <A-k> <C-\><C-N><C-w>k
-inoremap <A-l> <C-\><C-N><C-w>l
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
+" Can't use ALT+{h,j,k,l} to switch windows coz of i3 so back old movement
+tnoremap <leader>h <C-\><C-N><C-w>h
+tnoremap <leader>j <C-\><C-N><C-w>j
+tnoremap <leader>k <C-\><C-N><C-w>k
+tnoremap <leader>l <C-\><C-N><C-w>l
+" Can't do that with leader keys
+" inoremap <leader>h <C-\><C-N><C-w>h
+" inoremap <leader>j <C-\><C-N><C-w>j
+" inoremap <leader>k <C-\><C-N><C-w>k
+" inoremap <leader>l <C-\><C-N><C-w>l
+nnoremap <leader>h <C-w>h
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <leader>l <C-w>l
 
 " Navigate buffers
-nnoremap <silent> <leader>j :bnext<CR>
-nnoremap <silent> <leader>k :bprevious<CR>
+nnoremap <silent> <leader>bn :bnext<CR>
+nnoremap <silent> <leader>bp :bprevious<CR>
 
 " Resizing
 " Use Ctrl + arrows to resize windows
