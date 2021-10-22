@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Create .vim/undodir for vim/nvim, if it doesn't exist
-mkdir -p ~/.vim/undodir
-
 # To update INSTALL_MODE
 ORIGIN="INSTALL_MODE=\"(.*?)\""
 FILE="$HOME/.dotfiles/uninstall"
@@ -10,6 +7,11 @@ FILE="$HOME/.dotfiles/uninstall"
 # Get the mode, default to normal
 if [[ -n $1 ]]; then
     if [[ $1 == "-f" || $1 == "--full" ]]; then
+
+        # Create .vim/undodir for vim and .nvim/undodir for nvim
+        mkdir -p ~/.nvim/undodir
+        mkdir -p ~/.vim/undodir
+
         # Folders to stow
         STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
         # Update the INSTALL_MODE variable
@@ -32,6 +34,10 @@ if [[ -n $1 ]]; then
             fi
         done
     elif [[ $1 == "-s" || $1 == "--small" ]]; then
+
+        # Create .vim/undodir for vim
+        mkdir -p ~/.vim/undodir
+
         # Folders to stow
         STOW_FOLDERS="bin,bash,tmux,vim"
         # Update the INSTALL_MODE variable
@@ -48,6 +54,10 @@ if [[ -n $1 ]]; then
         done
     fi
 else
+
+    # Create .nvim/undodir for nvim
+    mkdir -p ~/.nvim/undodir
+
     # Folders to stow
     STOW_FOLDERS="bin,i3,nvim,tmux,zsh"
     # Update the INSTALL_MODE variable

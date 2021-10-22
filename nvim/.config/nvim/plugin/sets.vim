@@ -46,5 +46,5 @@ set tm=500
 " Disable swapfiles
 set noswapfile
 set nobackup
-set undodir=~/.vim/undodir
+set undodir=~/.nvim/undodir
 set undofile
