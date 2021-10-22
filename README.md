@@ -44,9 +44,9 @@ There are 2 great options to install them:<br/>
 ### Small version
 This version installs bash, vim, tmux and bin<br/>
 
-1. Install git and stow:
+1. Install git, stow, ripgrep and fzf coz why not:
 ```
-sudo apt install git stow
+sudo apt install git stow ripgrep fzf
 ```
 2. Install tpm (tmux plugin manager)
 ```
@@ -68,9 +68,9 @@ cd .dotfiles
 ### Normal version
 This is the default option. It installs zsh, nvim, tmux and bin<br/>
 
-1. Install git, zsh, stow and ripgrep (for Telescope):
+1. Install git, zsh, stow, ripgrep and fzf coz why not:
 ```
-sudo apt install git zsh stow ripgrep
+sudo apt install git zsh stow ripgrep fzf
 ```
 2. Install tpm (tmux plugin manager)
 ```
