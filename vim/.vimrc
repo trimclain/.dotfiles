@@ -12,34 +12,43 @@
 "                                                                             "
 "#############################################################################"
 
-" Don't try to be vi compatible
-set nocompatible
+" Enable syntax and plugins
+syntax enable
+filetype plugin indent on
 
-" Don't wrap lines
-set nowrap
-set textwidth=0
-set wrapmargin=0
+" #############################################################################
+" Settings
+" #############################################################################
 
-" Encoding
-set encoding=utf-8
+set path+=**                            " expand the search whe gf or :find
 
-" Show line number
-set number
-set relativenumber
+set nocompatible 			            " disable compatibility to vi
+set encoding=utf-8                      " pretty straight-forward
 
-" Make search not hilighted
-set nohlsearch
+set wildmenu                            " better command-line completion
+set showmatch				            " show matching brackets
+set nowrap				                " pretty clear
+set textwidth=0                         " disable breaking the long line of the paste
+set wrapmargin=0                        " simply don't wrap the text (distance from the right border = 0)
+set number				                " enable line numbering
+set relativenumber			            " show relative line numbers
+set nohlsearch				            " don't highlight search results
+set incsearch				            " go to search while typing #GOAT
+set ignorecase                          " use case insensitive search
+set smartcase                           " except when using capital letters
+set hidden                              " allows to open multiple buffers
+set ruler				                " Show the line and column number of the cursor position in the bottom right
+set backspace=indent,eol,start		    " make sure backspace works properly
+set scrolloff=8                         " start scrolling when 8 lines away from the bottom
+set wildmenu				            " better command-line completion
+set showcmd				                " show partial commands in the last line of the screen
+set colorcolumn=80                      " vertical column to see 80 characters
+set signcolumn=yes                      " enable error-column
+set laststatus=2                        " No statusbar because airline but now lightline so 2 and not 0
+set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
+set formatoptions="tcqjnr"              " type :h formatoptions to see the meaning of this option and this string
 
-" Change buffers even if a file is unsaved
-set hidden
-
-" Show row and column ruler informantion
-set ruler
-
-" Backspace
-set backspace=indent,eol,start
-
-" Tab and indent
+" Indentation settings
 set autoindent
 set expandtab
 set tabstop=4 softtabstop=4
@@ -47,15 +56,17 @@ set shiftwidth=4
 set smartindent
 set smarttab
 
-" Better command-line completion
-set wildmenu
+" Disable ALL sounds and errorbells
+set noerrorbells
+set visualbell
+set t_vb=
+set tm=500
 
-" Show partial commands in the last line of the screen
-set showcmd
-
-" enable syntax and plugins
-syntax enable
-filetype plugin indent on
+" Disable swapfiles
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
 
 " NetRW sets
 let g:netrw_browse_split=0              " open in same window
@@ -64,47 +75,9 @@ let g:netrw_altv=1                      " open splits to the right
 let g:netrw_winsize=75                  " when pressing v/t have the new split be 75% of the whole screen
 let g:newrw_localrmdir='rm -r'
 
-" No annoying sound on errors
-set noerrorbells
-set visualbell
-set t_vb=
-set tm=500
-
-" Use case insensitive search, except when using capital letters
-set ignorecase
-set smartcase
-
-" No swapfiles
-set noswapfile
-set nobackup
-set undodir=~/.vim/undodir
-set undofile
-
-set incsearch
-
-" Start scrolling when I'm 8 lines away from edges
-set scrolloff=8
-
-" Set 80 charakter column and set left colimn for errors
-set colorcolumn=80
-set signcolumn=yes
-
-" No statusbar because airline
-set laststatus=0
-
 " #############################################################################
-" PLUGINS"
+" Vim Plug Installation
 " #############################################################################
-
-" Install Plugins
-call plug#begin('~/.vim/plugged')
-Plug 'gruvbox-community/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-commentary'
-Plug 'mbbill/undotree'
-Plug 'jremmen/vim-ripgrep'
-Plug 'kien/ctrlp.vim'
-call plug#end()
 
 " Install vim-plug if not found
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -117,37 +90,71 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     \| PlugInstall --sync | source $MYVIMRC
 \| endif
 
-" Enable and Modify Plugins
+" #############################################################################
+" Plugin Installation
+" #############################################################################
+call plug#begin('~/.vim/plugged')
+Plug 'gruvbox-community/gruvbox'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'itchyny/lightline.vim'
+" Plug 'mbbill/undotree'
+" Plug 'jremmen/vim-ripgrep'
+Plug 'ctrlpvim/ctrlp.vim'
+call plug#end()
+
+" #############################################################################
+" Plugin Settings
+" #############################################################################
 
 " Colorscheme
-let g:gruvbox_contrast_dark = 'hard'
-
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8e = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-let g:gruvbox_invert_selection='0'
 
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_invert_selection='0'
 colorscheme gruvbox
 set background=dark
 
 " Make the background transparent
 highlight Normal ctermbg=NONE guibg=NONE
 
-" Some Configurations from old Prime
+" For ripgrep to find root directory correctly
 if executable('rg')
     let g:rg_derive_root='true'
 endif
 
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files --exclude-standard']
-let g:ctrlp_user_command = 0
+" CtrlP configs
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
-" SET LEADER KEY
-let mapleader = " "
+" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
+" Other Lets
+let loaded_matchparen = 1                   " disable highlighting matching parentesis
 
 " #############################################################################
 " REMAPS
 " #############################################################################
+
+" SET LEADER KEY
+let mapleader = " "
+
+" Disable Q coz useless
+nnoremap <silent> Q <nop>
+" Source .vimrc
+nnoremap <silent> <Leader><CR> :so ~/.vimrc<CR>
 
 " Easier movement between vim windows
 nnoremap <leader>h <C-w>h
@@ -155,17 +162,31 @@ nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
 nnoremap <leader>l <C-w>l
 
-" Open Undotree
-nnoremap <leader>u :UndotreeShow<CR>
+" Navigate buffers
+nnoremap <silent> <leader>bn :bnext<CR>
+nnoremap <silent> <leader>bp :bprevious<CR>
 
-" View the Project Tree in netrw
+" Resizing
+" Use Ctrl + arrows to resize windows
+nnoremap <silent> <C-Up> :resize -5<CR>
+nnoremap <silent> <C-Down> :resize +5<CR>
+nnoremap <silent> <C-Left> :vertical resize -5<CR>
+nnoremap <silent> <C-Right> :vertical resize +5<CR>
+
+" Vim-fugitive remaps
+" git status
+nnoremap <silent> <leader>gs :G<CR>
+" resolve conflicts when merging branches
+nnoremap <leader>gj :diffget //3<CR>
+nnoremap <leader>gf :diffget //2<CR>
+
+" Project View
 nnoremap <silent> <leader>pv :Ex<CR>
-" Start a Project Search
-nnoremap <leader>ps :Rg<SPACE>
+" Open Undotree
+" nnoremap <leader>u :UndotreeShow<CR>
 
-" Make moving higlighted lines up and down a line easier
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+" Start a Project Search
+" nnoremap <leader>ps :Rg<SPACE>
 
 " Make Y work like C and D
 nnoremap Y y$
@@ -182,11 +203,44 @@ inoremap . .<c-g>u
 inoremap ! !<c-g>u
 inoremap ? ?<c-g>u
 
+" Move higlighted lines up and down a line
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Yank not hurting registry
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+" Yank whole file
+nnoremap <leader>Y gg"+yG
+
+" Helpful delete into blackhole buffer
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" Esc is too far and I don't like <C-[>
+" Normal, Visual, Select, Operator-pending
+noremap <C-c> <esc>
+" Insert, Command-line, Lang-Arg
+lnoremap <C-c> <esc>
+
 " Disable arrow keys to learn vim movement
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
+
+" IDE STUFF
+" Check the filetype to know how to run the file
+if &filetype ==# "python"
+    " python
+    nnoremap <silent> <C-b> :w <bar> :! python3 % <cr>
+elseif &filetype ==# "sh"
+    " bash, shell, zsh -> all will run in bash coz why not
+    nnoremap <silent> <C-b> :w <bar> :! bash % <cr>
+else
+    " other executables
+    nnoremap <silent> <C-b> :w <bar> :! ./% <cr>
+endif
 
 " #############################################################################
 " Autocommands
@@ -199,11 +253,11 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-" highlight when yanking
-augroup highlight_yank
-    autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
-augroup END
+" highlight when yanking not working in vim coz no lua support
+" augroup highlight_yank
+"     autocmd!
+"     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
+" augroup END
 
 augroup trimclain
     autocmd!
