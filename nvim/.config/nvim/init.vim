@@ -45,7 +45,7 @@ Plug 'dstein64/vim-startuptime'         " check the startuptime of plugins
 " Plug 'preservim/nerdtree'               " nice file tree
 
 " Status Lines
- Plug 'itchyny/lightline.vim'           " lightweight and cool
+Plug 'itchyny/lightline.vim'           " lightweight and cool
 " Plug 'vim-airline/vim-airline'          " nice but too laggy
 " Plug 'hoob3rt/lualine.nvim'             " to try sometime 1
 " Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}  " to try sometime 2
@@ -123,7 +123,7 @@ lua require("trimclain")
 " Enable Treesitter
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 
-" No idea if this is still needed
+" For ripgrep to find root directory correctly
 if executable('rg')
     let g:rg_derive_root='true'
 endif
