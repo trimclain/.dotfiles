@@ -1,29 +1,26 @@
 #!/usr/bin/env bash
 
-INSTALL_MODE="normal"
-
-if [[ $INSTALL_MODE = "full" ]]; then
-    STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
-elif [[ $INSTALL_MODE = "small" ]]; then
-    STOW_FOLDERS="bin,bash,tmux,vim"
-else
-    STOW_FOLDERS="bin,i3,nvim,tmux,zsh"
-fi
+# Unstow it all coz no error when symlink doesn't exist
+STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
 
 # Unstowing Everything
+echo Removing all symlinks...
+
 if [[ -n $DOTFILES ]]; then
     pushd $DOTFILES > /dev/null
+
     for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
         stow -D $folder
-        echo "Removing symlink to $folder"
     done
+
     echo Done
     popd > /dev/null
 else
+
     for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
         stow -D $folder
-        echo "Removing symlink to $folder"
     done
+
     echo Done
 
 fi
