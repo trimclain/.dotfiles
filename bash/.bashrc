@@ -157,3 +157,6 @@ export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 
 # Disable annoying error sound in terminal
 bind 'set bell-style none'
+
+# Changed n to .n in N_PREFIX
+export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
