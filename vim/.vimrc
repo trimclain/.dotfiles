@@ -98,8 +98,8 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'itchyny/lightline.vim'
-" Plug 'mbbill/undotree'
-" Plug 'jremmen/vim-ripgrep'
+Plug 'mbbill/undotree'
+Plug 'jremmen/vim-ripgrep'
 Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
@@ -183,10 +183,10 @@ nnoremap <leader>gf :diffget //2<CR>
 " Project View
 nnoremap <silent> <leader>pv :Ex<CR>
 " Open Undotree
-" nnoremap <leader>u :UndotreeShow<CR>
+nnoremap <leader>u :UndotreeShow<CR>
 
 " Start a Project Search
-" nnoremap <leader>ps :Rg<SPACE>
+nnoremap <leader>ps :Rg<SPACE>
 
 " Make Y work like C and D
 nnoremap Y y$

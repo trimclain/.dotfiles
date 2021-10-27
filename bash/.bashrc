@@ -102,24 +102,26 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-alias la="ls -A --group-directories-first"
-alias l="ls -lhA --group-directories-first"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+bind '"\C-u": "Update\r"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
+alias ebrc="vim $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
+alias evrc="vim $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
+
 alias sbrc="source ~/.bashrc"
 alias godf="cd ~/.dotfiles"
 
-alias evrc="vim ~/.vimrc"
-alias ebrc="vim ~/.bashrc"
+alias la="ls -A --group-directories-first"
+alias l="ls -lhA --group-directories-first"
 
 if [ -f ~/.zsh_aliases ]; then
     alias eals="vim ~/.zsh_aliases"
