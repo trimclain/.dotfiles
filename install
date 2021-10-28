@@ -1,11 +1,36 @@
 #!/usr/bin/env bash
 
-# To update INSTALL_MODE
-ORIGIN="INSTALL_MODE=\"(.*?)\""
-FILE="$HOME/.dotfiles/uninstall"
+# NOTE: shell_check doesn't work on Mac yet
+
+BACKUP_FOLDER="$HOME/.dotfiles/.backup"
+
+# Functions
+shell_check(){
+    # Check if zsh is the shell, change if not
+    if [[ ! $SHELL == "/usr/bin/zsh" ]]; then
+        echo Changing your shell to ZSH. Enter the password.
+        chsh -s $(which zsh)
+        echo Successfully switched to ZSH. Don\'t forget to Restart your terminal.
+    fi
+}
+
+existing_files_check(){
+    arr=("$@")
+    for file in "${arr[@]}"; do
+        # Check if file exists and is not a symlink
+        if [[ -f $file && ! -h $file ]]; then
+            # Create a backup folder
+            mkdir -p ~/.dotfiles/.backup
+            echo Found existing $file
+            echo Moving $file to ~/.dotfiles/.backup
+            mv $file $BACKUP_FOLDER
+        fi
+    done
+}
 
 # Get the mode, default to normal
 if [[ -n $1 ]]; then
+    # Full installation
     if [[ $1 == "-f" || $1 == "--full" ]]; then
 
         # Create .vim/undodir for vim and .nvim/undodir for nvim
@@ -14,25 +39,14 @@ if [[ -n $1 ]]; then
 
         # Folders to stow
         STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
-        # Update the INSTALL_MODE variable
-        # NEW='INSTALL_MODE="full"'
 
-        # Check if zsh is the shell, change if not
-        if [[ ! $SHELL == "/usr/bin/zsh" ]]; then
-            echo Changing your shell to ZSH. Enter the password.;
-            chsh -s $(which zsh)
-            echo Successfully switched to ZSH. Don\'t forget to Restart your terminal.
-        fi
+        shell_check
 
         # Check if there are any old files that are not symlinks and delete them, so stow works
-        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc ~/.config/i3/config)
-        for file in ${DOTFS[@]}; do
-            # Check if file exists and is not a symlink
-            if [[ -f $file && ! -h $file ]]; then
-                echo removing old $file
-                rm $file
-            fi
-        done
+        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc ~/.config/i3 ~/.config/i3status)
+        existing_files_check "${DOTFS[@]}"
+
+    # Small installation
     elif [[ $1 == "-s" || $1 == "--small" ]]; then
 
         # Create .vim/undodir for vim
@@ -40,19 +54,13 @@ if [[ -n $1 ]]; then
 
         # Folders to stow
         STOW_FOLDERS="bin,bash,tmux,vim"
-        # Update the INSTALL_MODE variable
-        # NEW='INSTALL_MODE="small"'
 
         # Check if there are any old files that are not symlinks and delete them, so stow works
         DOTFS=(~/.bashrc ~/.tmux.conf ~/.vimrc)
-        for file in ${DOTFS[@]}; do
-            # Check if file exists and is not a symlink
-            if [[ -f $file && ! -h $file ]]; then
-                echo removing old $file
-                rm $file
-            fi
-        done
+        existing_files_check "${DOTFS[@]}"
     fi
+
+# Normal installation
 else
 
     # Create .nvim/undodir for nvim
@@ -60,25 +68,13 @@ else
 
     # Folders to stow
     STOW_FOLDERS="bin,i3,nvim,tmux,zsh"
-    # Update the INSTALL_MODE variable
-    # NEW='INSTALL_MODE="normal"'
 
-    # Check if zsh is the shell, change if not
-    if [[ ! $SHELL == "/usr/bin/zsh" ]]; then
-        echo Changing your shell to ZSH. Enter the password.;
-        chsh -s $(which zsh)
-        echo Successfully switched to ZSH. Don\'t forget to Restart your terminal.
-    fi
+    shell_check
 
     # Check if there are any old files that are not symlinks and delete them, so stow works
-    DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/i3/config)
-    for file in ${DOTFS[@]}; do
-        # Check if file exists and is not a symlink
-        if [[ -f $file && ! -h $file ]]; then
-            echo removing old $file
-            rm $file
-        fi
-    done
+    DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/i3 ~/.config/i3status)
+    existing_files_check "${DOTFS[@]}"
+
 fi
 
 
@@ -94,9 +90,6 @@ if [[ -n $DOTFILES ]]; then
     done
     echo Done
 
-    # Save INSTALL_MODE to uninstall -- deprecated
-    # sed -i -r "s/$ORIGIN/$NEW/" $FILE
-
     popd > /dev/null
 else
 
@@ -108,7 +101,5 @@ else
     done
     echo Done
 
-    # Save INSTALL_MODE to uninstall -- deprecated
-    # sed -i -r "s/$ORIGIN/$NEW/" $FILE
 fi
 
