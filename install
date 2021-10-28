@@ -13,7 +13,7 @@ if [[ -n $1 ]]; then
         mkdir -p ~/.vim/undodir
 
         # Folders to stow
-        # STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
+        STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
         # Update the INSTALL_MODE variable
         # NEW='INSTALL_MODE="full"'
 
@@ -39,7 +39,7 @@ if [[ -n $1 ]]; then
         mkdir -p ~/.vim/undodir
 
         # Folders to stow
-        # STOW_FOLDERS="bin,bash,tmux,vim"
+        STOW_FOLDERS="bin,bash,tmux,vim"
         # Update the INSTALL_MODE variable
         # NEW='INSTALL_MODE="small"'
 
@@ -59,7 +59,7 @@ else
     mkdir -p ~/.nvim/undodir
 
     # Folders to stow
-    # STOW_FOLDERS="bin,i3,nvim,tmux,zsh"
+    STOW_FOLDERS="bin,i3,nvim,tmux,zsh"
     # Update the INSTALL_MODE variable
     # NEW='INSTALL_MODE="normal"'
 
