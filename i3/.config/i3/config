@@ -178,4 +178,6 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
+        # font MesloLGS NF:style=Regular
+        # font FontAwesome:style=Regular
 }
