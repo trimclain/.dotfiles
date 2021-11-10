@@ -43,6 +43,7 @@ Plug 'tpope/vim-surround'               " easy surrounding, thanks tpope
 Plug 'mbbill/undotree'                  " see the undo history
 Plug 'dstein64/vim-startuptime'         " check the startuptime of plugins
 Plug 'jiangmiao/auto-pairs'             " automatically close brackets
+Plug 'ap/vim-css-color'                 " preview colors in vim
 " Plug 'preservim/nerdtree'               " nice file tree
 
 " Status Lines
