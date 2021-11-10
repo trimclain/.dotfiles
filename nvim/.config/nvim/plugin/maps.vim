@@ -43,6 +43,7 @@ nnoremap <leader>gf :diffget //2<CR>
 
 " Project View
 nnoremap <silent> <leader>pv :Ex<CR>
+" nnoremap <silent> <leader>pv :NERDTreeToggle<CR>
 " Undotree
 nnoremap <silent> <leader>u :UndotreeShow<CR>
 
