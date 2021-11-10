@@ -42,6 +42,7 @@ Plug 'tpope/vim-fugitive'               " vim git integration, thanks tpope
 Plug 'tpope/vim-surround'               " easy surrounding, thanks tpope
 Plug 'mbbill/undotree'                  " see the undo history
 Plug 'dstein64/vim-startuptime'         " check the startuptime of plugins
+Plug 'jiangmiao/auto-pairs'             " automatically close brackets
 " Plug 'preservim/nerdtree'               " nice file tree
 
 " Status Lines
