@@ -12,6 +12,18 @@
 "                                                                             "
 "#############################################################################"
 
+set path+=**                            " expand the search whe gf or :find
+set wildmenu                            " better command-line completion
+
+" Ignore files
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/ios/*
+set wildignore+=**/.git/*
+
 " Enable syntax and plugins
 syntax enable
 filetype plugin indent on
@@ -41,10 +53,10 @@ Plug 'tpope/vim-commentary'             " easy commenting, thanks tpope
 Plug 'tpope/vim-fugitive'               " vim git integration, thanks tpope
 Plug 'tpope/vim-surround'               " easy surrounding, thanks tpope
 Plug 'mbbill/undotree'                  " see the undo history
-Plug 'dstein64/vim-startuptime'         " check the startuptime of plugins
+Plug 'tweekmonster/startuptime.vim'     " check the startuptime of plugins
 Plug 'jiangmiao/auto-pairs'             " automatically close brackets
 Plug 'ap/vim-css-color'                 " preview colors in vim
-" Plug 'preservim/nerdtree'               " nice file tree
+" Plug 'preservim/nerdtree'               " nice file tree but little laggy
 
 " Status Lines
 Plug 'itchyny/lightline.vim'           " lightweight and cool
@@ -62,19 +74,23 @@ Plug 'gruvbox-community/gruvbox'        " pretty cool colorscheme, thanks prime
 
 " LSP
 Plug 'neovim/nvim-lspconfig'            " LSP configurations
-Plug 'kabouzeid/nvim-lspinstall'        " add LspInstall <language>
-Plug 'hrsh7th/nvim-compe'               " Autocomplete 1
-" Plug 'nvim-lua/completion-nvim'         " Autocomplete 2
-Plug 'glepnir/lspsaga.nvim'             " live error finder
+Plug 'williamboman/nvim-lsp-installer'  " add LspInstall <language>
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'                 " Sweet LSP Autocomplete
+" Plug 'glepnir/lspsaga.nvim'
+Plug 'onsails/lspkind-nvim'             " Add vscode-like pictograms to LSP
+
+" Snippets
+Plug 'L3MON4D3/LuaSnip'
 
 " Telescope
-Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Updating the parsers on update
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Initialize plugin system
 call plug#end()
@@ -123,7 +139,24 @@ highlight Normal ctermbg=NONE guibg=NONE
 lua require("trimclain")
 
 " Enable Treesitter
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+" lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+"   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+"   ignore_install = { "javascript" }, -- List of parsers to ignore installing
+"   highlight = {
+"     enable = true,              -- false will disable the whole extension
+"     disable = { "c", "rust" },  -- list of language that will be disabled
+"     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+"     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+"     -- Using this option may slow down your editor, and you may see some duplicate highlights.
+"     -- Instead of true it can also be a list of languages
+"     additional_vim_regex_highlighting = false,
+"   },
+" }
+" EOF
+
 
 " For ripgrep to find root directory correctly
 if executable('rg')
