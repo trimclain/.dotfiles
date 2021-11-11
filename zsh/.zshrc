@@ -156,5 +156,4 @@ elif [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# Changed n to .n in N_PREFIX
 export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).

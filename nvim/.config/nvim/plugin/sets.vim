@@ -2,11 +2,7 @@
 " Settings
 " #############################################################################
 
-set path+=**                            " expand the search whe gf or :find
-
-set nocompatible 			            " disable compatibility to vi
 set encoding=utf-8                      " pretty straight-forward
-set wildmenu                            " better command-line completion
 set showmatch				            " show matching brackets
 set nowrap				                " pretty clear
 set textwidth=0                         " disable breaking the long line of the paste
