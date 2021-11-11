@@ -1,13 +1,75 @@
--- LSP
-require'lspinstall'.setup()
+-- LspInstaller Beginning Part
+local lsp_installer = require("nvim-lsp-installer")
 
-local function on_attach()
-    -- TODO: TJ told Prime to do this and I should do because he is Telescopic
-    -- "Big Tech" "Cash Money" Johnson
-end
+-------------------------------------------------------------------------------
+-- Enable fun icons with lsp
+local lspkind = require("lspkind")
+require('lspkind').init({
+    with_text = true,
+})
+-------------------------------------------------------------------------------
+-- Setup nvim-cmp.
+local cmp = require'cmp'
 
-local servers = require'lspinstall'.installed_servers()
-for _, server in pairs(servers) do
-    require'lspconfig'[server].setup{on_attach=on_attach}
-    -- require'lspconfig'[server].setup{on_attach=require'completion'.on_attach} -- this line only if using nvim-completion
+cmp.setup({
+    snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+        end,
+    },
+    mapping = {
+        ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' })
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        --- { name = 'vsnip' }, -- For vsnip users.
+        { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'ultisnips' }, -- For ultisnips users.
+        -- { name = 'snippy' }, -- For snippy users.
+    }, {
+        { name = 'buffer' },
+    })
+})
+
+--[[
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
+    capabilities = capabilities
+}
+--]]
+
+local function config(_config)
+    return vim.tbl_deep_extend("force", {
+        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    }, _config or {})
 end
+-------------------------------------------------------------------------------
+
+-- LspInstaller End Part
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
+
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
+    server:setup(opts)
+end)
