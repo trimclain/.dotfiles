@@ -18,36 +18,36 @@ VIM="nvim"
 export PATH="$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
 
 # Path to my oh-my-zsh installation.
-export ZSH="/home/$USERNAME/.oh-my-zsh"
+# export ZSH="/home/$USERNAME/.oh-my-zsh"
 
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
 
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 
 ########################### A LITTLE TOO LAGGY ################################
 ###########################         |          ################################
 ###########################         v          ################################
 
 ###############################################################################
-# # Plugin Manager
-# source /$DOTFILES/antigen/antigen.zsh
+# Plugin Manager
+source /$DOTFILES/antigen/antigen.zsh
 
-# # Load the oh-my-zsh's library.
-# antigen use oh-my-zsh
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
 
-# # Bundles from the default repo (robbyrussell's oh-my-zsh).
-# antigen bundle git
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
 
-# # Syntax highlighting bundle and autosuggestions
-# # antigen bundle zsh-users/zsh-syntax-highlighting
-# antigen bundle zsh-users/zsh-autosuggestions
+# Syntax highlighting bundle and autosuggestions
+# antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
 
-# # Load the theme.
-# antigen theme robbyrussell
+# Load the theme.
+antigen theme robbyrussell
 
-# # Tell Antigen that you're done.
-# antigen apply
+# Tell Antigen that you're done.
+antigen apply
 ###############################################################################
 
 ###########################         ^          ################################
@@ -96,9 +96,9 @@ ZSH_THEME="robbyrussell"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-plugins=(git zsh-autosuggestions)
+# plugins=(git zsh-autosuggestions)
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
