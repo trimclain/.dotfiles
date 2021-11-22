@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
+new="$current"
+
+# Increase Brightness
+if [ "$1" = "--increase" ]
+then
+    new="$( echo $current+0.1 | bc )"
+
+    # don't got out of range
+    if [[ $new == 1.1 ]]; then
+        exit 0
+    fi
+fi
+
+# Decrease Brightness
+if [ "$1" = "--decrease" ]
+then
+    new="$( echo $current-0.1 | bc )"
+
+    # don't got out of range
+    if [[ $new == 0 ]]; then
+        exit 0
+    fi
+fi
+
+# Set Brightness
+xrandr --output eDP-1 --brightness $new
