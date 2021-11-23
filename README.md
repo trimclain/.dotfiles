@@ -8,26 +8,8 @@ NOTE: You can skip to [Installing Dotfiles](https://github.com/trimclain/.dotfil
 ### Build Neovim <br/>
 
 Source: https://github.com/neovim/neovim/wiki/Building-Neovim#first-step
-1. Install build prerequisites
-```
-sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl
 
-```
-2. Clone the Neovim Repository
-```
-git clone https://github.com/neovim/neovim
-
-```
-3. Go to the Neovim Folder and  if you want the stable release, change to Stable Branch, otherwise the nightly version will be installed:
-```
-cd neovim
-git checkout stable
-```
-4. Install Neovim:
-```
-sudo make install
-```
-5. Optional: Delete the Neovim Folder:
+Optional: Delete the Neovim Folder:
 ```
 sudo rm -rf neovim
 ```
