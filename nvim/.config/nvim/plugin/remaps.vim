@@ -1,11 +1,14 @@
 " #############################################################################
-" REMAPS
+" Remaps
 " #############################################################################
 
 " Disable Q coz useless
 nnoremap <silent> Q <nop>
 " Source init.vim
 nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+
+" Nice: disable higlighted text after done with search
+nnoremap <silent> <CR> :noh <CR>
 
 " Easier movement between vim windows
 " Can't use ALT+{h,j,k,l} to switch windows coz of i3 so back old movement
@@ -86,9 +89,11 @@ vnoremap <leader>d "_d
 
 " Esc is too far and I don't like <C-[>
 " Normal, Visual, Select, Operator-pending
-noremap <C-c> <esc>
+noremap <C-c> <Esc>
 " Insert, Command-line, Lang-Arg
-lnoremap <C-c> <esc>
+lnoremap <C-c> <Esc>
+" lnoremap didn't set this for insert mode so i have to
+inoremap <C-c> <Esc>
 
 if has('nvim')
     " Open terminal in right vertical split

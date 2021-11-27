@@ -1,6 +1,24 @@
 " #############################################################################
-" Settings
+" Sets & Lets
 " #############################################################################
+
+" Sometimes them fingers do be fat
+com! Q q
+com! W w
+com! X x
+
+set path+=**                            " expand the search whe gf or :find
+set wildmenu                            " better command-line completion
+
+" Ignore files
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/ios/*
+set wildignore+=**/.git/*
+
 
 set encoding=utf-8                      " pretty straight-forward
 set showmatch				            " show matching brackets
@@ -9,7 +27,7 @@ set textwidth=0                         " disable breaking the long line of the 
 set wrapmargin=0                        " simply don't wrap the text (distance from the right border = 0)
 set number				                " enable line numbering
 set relativenumber			            " show relative line numbers
-set nohlsearch				            " don't highlight search results
+" set nohlsearch				            " don't highlight search results
 set incsearch				            " go to search while typing #GOAT
 set ignorecase                          " use case insensitive search
 set smartcase                           " except when using capital letters
@@ -44,3 +62,6 @@ set noswapfile
 set nobackup
 set undodir=~/.nvim/undodir
 set undofile
+
+" Some Lets
+" let loaded_matchparen = 1                   " disable highlighting matching parentesis
