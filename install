@@ -28,6 +28,11 @@ existing_files_check(){
     done
 }
 
+install_fonts(){
+    # Copy fonts
+    cp ~/.dotfiles/fonts/* ~/.local/share/fonts/
+}
+
 # Get the mode, default to normal
 if [[ -n $1 ]]; then
     # Full installation
