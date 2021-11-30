@@ -94,6 +94,14 @@ let mapleader = " "
 " Autocommands
 " #############################################################################
 
+" Empty all Registers
+fun! EmptyRegisters()
+    let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+    for r in regs
+        call setreg(r, [])
+    endfor
+endfun
+
 " Delete useless spaces
 fun! TrimWhitespace()
     let l:save = winsaveview()
