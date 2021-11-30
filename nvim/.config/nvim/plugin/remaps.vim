@@ -11,16 +11,11 @@ nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <silent> <CR> :noh <CR>
 
 " Easier movement between vim windows
-" Can't use ALT+{h,j,k,l} to switch windows coz of i3 so back old movement
+" Can't use ALT+{h,j,k,l} to switch windows coz of i3 so back to old movement
 tnoremap <leader>h <C-\><C-N><C-w>h
 tnoremap <leader>j <C-\><C-N><C-w>j
 tnoremap <leader>k <C-\><C-N><C-w>k
 tnoremap <leader>l <C-\><C-N><C-w>l
-" Can't do that with leader keys
-" inoremap <leader>h <C-\><C-N><C-w>h
-" inoremap <leader>j <C-\><C-N><C-w>j
-" inoremap <leader>k <C-\><C-N><C-w>k
-" inoremap <leader>l <C-\><C-N><C-w>l
 nnoremap <leader>h <C-w>h
 nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
@@ -29,6 +24,37 @@ nnoremap <leader>l <C-w>l
 " Navigate buffers
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
+
+" QuickFixList Stuff - local ones not in use
+nnoremap <C-j> :cnext<CR>zz
+nnoremap <C-k> :cprev<CR>zz
+" nnoremap <leader>k :lnext<CR>zz
+" nnoremap <leader>j :lprev<CR>zz
+nnoremap <C-q> :call ToggleQFList(1)<CR>
+" nnoremap <leader>q :call ToggleQFList(0)<CR>
+
+let g:qflist_local = 0
+let g:qflist_global = 0
+
+fun! ToggleQFList(global)
+    if a:global
+        if g:qflist_global == 1
+            let g:qflist_global = 0
+            cclose
+        else
+            let g:qflist_global = 1
+            copen
+        end
+    else
+        if g:qflist_local == 1
+            let g:qflist_local = 0
+            lclose
+        else
+            let g:qflist_local = 1
+            lopen
+        end
+    endif
+endfun
 
 " Resizing
 " Use Ctrl + arrows to resize windows
