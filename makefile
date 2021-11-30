@@ -1,30 +1,64 @@
-help: ## Print help message
-	@echo "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s :)"
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install zsh nvim install sinstall finstall
 
-.PHONY: all zsh nvim build_reqs pyenv
+all: dirs
+	@echo "For help run 'make help'"
 
-all: zsh nvim
-	@echo "All done"
+help:
+	@# @echo "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s :)"
+	@echo "WIP..."
 
-zsh:
-	@echo "========================================"
-	@echo "Installing Zsh..."
-	sudo apt install zsh -y
-	chsh -s $(shell which zsh)
-	@echo "========================================"
+musthave:
+	@# Usefull tools
+	@echo "Installing some usefull programms..."
+	sudo apt-get install -y stow ripgrep fzf htop
 
 build_reqs:
-	@# Usefull tools
-	sudo apt-get install -y make git curl wget
 	@# Neovim prerequisites
+	@echo "========================================"
+	@echo "Installing Neovim build prerequisites..."
 	sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
 
 dirs:
+	@echo "Creating directories for undofiles for vim/neovim..."
 	mkdir -p ~/.nvim/undodir
 	mkdir -p ~/.vim/undodir
+	@echo "Done"
 
-nvim: dirs build_reqs
+vimdir:
+	@echo "Creating directory for undofiles for vim..."
+	mkdir -p ~/.vim/undodir
+	@echo "Done"
+
+nvimdir:
+	@echo "Creating directory for undofiles for vim..."
+	mkdir -p ~/.vim/undodir
+	@echo "Done"
+
+font_install:
+	cp ~/.dotfiles/fonts/* ~/.local/share/fonts/
+
+zsh:
+	@# Installing zsh
+	@if [ ! -f /usr/bin/zsh ]; then echo "Installing Zsh..." && sudo apt install zsh -y && echo "Done"; else echo "[zsh]: Zsh is already installed"; fi
+	@# Check if zsh is the shell, change if not
+	@if [ "$$(tail /etc/passwd -n1 | awk -F : '{print $$NF}')" != "/usr/bin/zsh" ]; then\
+		echo "Changing shell to ZSH" && chsh -s $(shell which zsh) &&\
+		echo "Successfully switched to ZSH. Don't forget to restart your terminal."; fi
+	@# Installing oh-my-zsh
+	@if [ ! -d ~/.oh-my-zsh ]; then echo "Installing Oh-My-Zsh" &&\
+		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc &&\
+		echo "Done"; else echo "[oh-my-zsh]: Oh-My-Zsh is already installed"; fi
+
+nvim: build_reqs
 	@echo "Installing Neovim..."
-	if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: neovim already found"; else git clone https://github.com/neovim/neovim; fi
-	if [ ! -f "/usr/local/bin/nvim" ]; then cd ~/neovim/ && make -j4 && sudo make install; fi
+	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
+		else git clone https://github.com/neovim/neovim && cd ~/neovim/ && make -j4 && sudo make install; fi
 
+install: musthave dirs font_install zsh nvim
+	./install
+
+sinstall: musthave vimdir
+	./install --small
+
+finstall: musthave dirs font_install zsh nvim
+	./install --full
