@@ -5,86 +5,70 @@ This repo contains my dotfiles and configs. Feel free to use and modify them if 
 ## Getting Started
 NOTE: You can skip to [Installing Dotfiles](https://github.com/trimclain/.dotfiles#Installing-Dotfiles) if you want to install the small version. Check below for more information about versions.
 
-### Build Neovim <br/>
-
-Source: https://github.com/neovim/neovim/wiki/Building-Neovim#first-step
-
-Optional: Delete the Neovim Folder:
-```
-sudo rm -rf neovim
-```
 
 ### Install the Latest Node
 
-It is generally a good practice to have latest stable npm and nodejs, since a lot of things depend on it, for example the pyright language server.<br/>
+It is generally a good practice to have latest stable npm and node, since a lot of things depend on it, for example some language servers for LSP.<br/>
 There are 2 great options to install them:<br/>
 - [This](https://github.com/mklement0/n-install) BANGER repo (thanks Prime)
 - Great [guide on freeCodeCamp](https://www.freecodecamp.org/news/how-to-install-node-js-on-ubuntu-and-update-npm-to-the-latest-version/)
 
 ## Installing Dotfiles
 
+1. Install git and make:
+```
+sudo apt install git make
+```
+2. Clone this repository to your $HOME directory:
+```
+git clone https://github.com/trimclain/.dotfiles
+```
+
 ### Small version
+
 This version installs bash, vim, tmux and bin<br/>
 
-1. Install git, stow, ripgrep and fzf coz why not:
-```
-sudo apt install git stow ripgrep fzf
-```
-2. Install tpm (tmux plugin manager)
-```
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
-3. Clone this repository to your $HOME directory:
-```
-git clone https://github.com/trimclain/.dotfiles.git
-```
-4. Go to .dotfiles folder and launch the script.<br/>
+3. Go to .dotfiles folder and launch the installation.
 ```
 cd .dotfiles
-./install --small
+make
+sudo make sinstall
 ```
-5. Restart the terminal
-6. Launch and close vim 2 times to let it automatically install vim-plug and plugins
-
+4. Restart the terminal
+5. Open and close vim 2 times to let it automatically install vim-plug and plugins
 
 ### Normal version
+
 This is the default option. It installs zsh, nvim, tmux and bin<br/>
 
-1. Install git, zsh, stow, ripgrep and fzf coz why not:
-```
-sudo apt install git zsh stow ripgrep fzf
-```
-2. Install tpm (tmux plugin manager)
-```
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
-3. Download and install the GOAT [MesloLGS NF Fonts](https://github.com/romkatv/powerlevel10k#manual-font-installation)<br/>
-Optionally you can download any [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) or [Powerline Fonts](https://github.com/powerline/fonts)
-4. Change your terminal fonts (On Windows switch to Windows Terminal \#MUSTHAVE)
-5. Clone this repository to your $HOME directory:
-```
-git clone https://github.com/trimclain/.dotfiles.git
-```
-6. Go to .dotfiles folder and launch the script.
+3. Go to .dotfiles folder and launch the script.
 ```
 cd .dotfiles
-./install
+make
+sudo make install
 ```
-7. Restart the terminal
-8. Launch and close neovim 2 times to let it automatically install vim-plug and plugins
+4. Change your terminal fonts (On Windows switch to Windows Terminal \#MUSTHAVE)
+5. Restart the terminal
+6. Open and close neovim 2 times to let it automatically install vim-plug and plugins
 
 ### Full version
 This option installs it all.<br/>
 
-Do everything as in Normal version, except in step 6 do:
+Do everything as in Normal version, except in step 3 do:
 ```
 cd .dotfiles
-./install --full
+make
+sudo make finstall
 ```
 
 NOTE: If you want to install dotfiles with a difference option, use the uninstall script first with `./uninstall`
 
 ## Additional information
+
+### Other Fonts to use
+- [MesloLGS NF Fonts](https://github.com/romkatv/powerlevel10k#manual-font-installation)
+- Any [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts)
+- Any [Powerline Fonts](https://github.com/powerline/fonts)
 
 ### How to uninstall Neovim
 
