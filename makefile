@@ -1,4 +1,4 @@
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install zsh nvim install sinstall finstall
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install zsh nvim uninstall_nvim install sinstall finstall
 
 all: dirs
 	@echo "For help run 'make help'"
@@ -52,7 +52,13 @@ zsh:
 nvim: build_reqs
 	@echo "Installing Neovim..."
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
-		else git clone https://github.com/neovim/neovim && cd ~/neovim/ && make -j4 && sudo make install; fi
+		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ && make -j4 && sudo make install; fi
+
+uninstall_nvim:
+	@echo "Uninstalling Neovim..."
+	sudo rm /usr/local/bin/nvim
+	sudo rm -r /usr/local/share/nvim/
+	@echo "Done"
 
 install: musthave dirs font_install zsh nvim
 	./install
