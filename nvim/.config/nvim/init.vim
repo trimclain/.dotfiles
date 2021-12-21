@@ -85,6 +85,7 @@ call plug#end()
 
 " Load all Lua Config Files
 lua require("trimclain")
+lua require("trimclain.autopairs")
 
 " SET LEADER KEY
 nnoremap <Space> <Nop>
