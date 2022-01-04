@@ -121,13 +121,10 @@ lnoremap <C-c> <Esc>
 " lnoremap didn't set this for insert mode so i have to
 inoremap <C-c> <Esc>
 
-if has('nvim')
-    " Open terminal in right vertical split
-    nnoremap <silent> <leader>tt <C-w>v<C-w>l :terminal <cr>
-    " Make esc leave terminal mode
-    tnoremap <leader><Esc> <C-\><C-n>
-    tnoremap <Esc><Esc> <C-\><C-n>
-endif
+" Open terminal in right vertical split
+nnoremap <silent> <leader>tt <C-w>v<C-w>l :terminal <cr>
+" Make esc leave terminal mode
+tnoremap <Esc> <C-\><C-n>
 
 " Check the filetype to know how to run the file
 if &filetype ==# "python"
