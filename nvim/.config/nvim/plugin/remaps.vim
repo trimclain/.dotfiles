@@ -12,10 +12,11 @@ nnoremap <silent> <CR> :noh <CR>
 
 " Easier movement between vim windows
 " Can't use ALT+{h,j,k,l} to switch windows coz of i3 so back to old movement
-tnoremap <leader>h <C-\><C-N><C-w>h
-tnoremap <leader>j <C-\><C-N><C-w>j
-tnoremap <leader>k <C-\><C-N><C-w>k
-tnoremap <leader>l <C-\><C-N><C-w>l
+" commented coz hate pauses in terminal when pressing space
+" tnoremap <leader>h <C-\><C-N><C-w>h
+" tnoremap <leader>j <C-\><C-N><C-w>j
+" tnoremap <leader>k <C-\><C-N><C-w>k
+" tnoremap <leader>l <C-\><C-N><C-w>l
 nnoremap <leader>h <C-w>h
 nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
