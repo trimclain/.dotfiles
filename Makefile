@@ -1,4 +1,4 @@
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install zsh nvim uninstall_nvim nodejs install sinstall finstall
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall
 
 all: dirs
 	@echo "For help run 'make help'"
@@ -35,14 +35,22 @@ nvimdir:
 	@echo "Done"
 
 font_install:
+	mkdir -p ~/.local/share/fonts/
 	cp ~/.dotfiles/fonts/* ~/.local/share/fonts/
 
+tmux:
+	@echo "Installing Tmux"
+	sudo apt install tmux -y
+
 zsh:
+	@# TODO: the way to check if zsh is selected is not consistent, gotta rethink
 	@# Installing zsh
 	@if [ ! -f /usr/bin/zsh ]; then echo "Installing Zsh..." && sudo apt install zsh -y && echo "Done"; else echo "[zsh]: Zsh is already installed"; fi
 	@# Check if zsh is the shell, change if not
+	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
+	@# Solution: hardcode zsh location, but it won't work on Mac
 	@if [ "$$(tail /etc/passwd -n1 | awk -F : '{print $$NF}')" != "/usr/bin/zsh" ]; then\
-		echo "Changing shell to ZSH" && chsh -s $(shell which zsh) &&\
+		echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
 		echo "Successfully switched to ZSH. Don't forget to restart your terminal."; fi
 	@# Installing oh-my-zsh
 	@if [ ! -d ~/.oh-my-zsh ]; then echo "Installing Oh-My-Zsh..." &&\
@@ -65,11 +73,11 @@ nodejs:
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y &&\
 		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
 
-install: musthave dirs font_install zsh nvim nodejs
+install: musthave dirs font_install tmux zsh nvim nodejs
 	./install
 
-sinstall: musthave vimdir
+sinstall: musthave vimdir tmux
 	./install --small
 
-finstall: musthave dirs font_install zsh nvim nodejs
+finstall: musthave dirs font_install tmux zsh nvim nodejs
 	./install --full

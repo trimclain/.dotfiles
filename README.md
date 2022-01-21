@@ -29,8 +29,8 @@ For a full installation do:
 ```
 make finstall
 ```
-4. Restart the terminal
-5. Open and close vim 2 times to let it automatically install vim-plug and plugins
+4. Change the font of the terminal and restart it.
+5. Open and close vim 2 times to let it automatically install vim-plug and plugins.
 
 NOTE: If you want to install dotfiles with a difference option, use the uninstall script first with `./uninstall`
 
