@@ -42,6 +42,7 @@ set signcolumn=yes                      " enable error-column
 " set laststatus=0                        " disable statusbar for airline
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
 set formatoptions="tcqjnr"              " type :h formatoptions to see the meaning of this option and this string
+set clipboard=unnamedplus               " use y and p with system clipboard (not on Windows)
 
 " Indentation settings
 set autoindent

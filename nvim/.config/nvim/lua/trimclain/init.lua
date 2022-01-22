@@ -1,1 +1,5 @@
+require("trimclain.telescope")
+require("trimclain.autopairs")
+require("trimclain.catppuccin")
+require("trimclain.lualine")
 require("trimclain.lsp")

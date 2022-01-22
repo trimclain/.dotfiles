@@ -1,4 +1,4 @@
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty alacritty_build_reqs
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty alacritty_build_reqs linux_install
 
 all: dirs
 	@echo "For help run 'make help'"
@@ -105,3 +105,6 @@ alacritty: alacritty_build_reqs
 	sudo mkdir -p /usr/local/share/man/man1
 	gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 	gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+linux_install: alacritty
+	@# Installing Linux only usefull tools: feh for images
+	sudo apt install -y feh

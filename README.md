@@ -19,9 +19,9 @@ git clone https://github.com/trimclain/.dotfiles
 cd .dotfiles
 make
 ```
-[On Linux:] Install alacritty with
+[On Linux:] Install Linux only tools, like alacritty, feh, etc. with
 ```
-make alacritty
+make linux_install
 ```
 For a small installation (bash, vim, tmux and bin) do:
 ```

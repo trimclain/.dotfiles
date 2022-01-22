@@ -37,10 +37,7 @@ cmp.setup({
         -- Order Matters! and sets priority
         { name = 'nvim_lsp' },
         { name = 'path' },
-        --- { name = 'vsnip' }, -- For vsnip users.
-        { name = 'luasnip' }, -- For luasnip users.
-        -- { name = 'ultisnips' }, -- For ultisnips users.
-        -- { name = 'snippy' }, -- For snippy users.
+        { name = 'luasnip' },
     }, {
         { name = 'buffer', keyword_length = 3 }, -- keyword_length specifies word length to start suggestions
     }),

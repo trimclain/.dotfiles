@@ -48,11 +48,14 @@ Plug 'google/vim-searchindex'           " show the number of matches
 Plug 'tweekmonster/startuptime.vim'     " check the startuptime of plugins
 
 " Status Line
-Plug 'itchyny/lightline.vim'            " lightweight and cool
-" Plug 'nvim-lua/lsp-status.nvim'         " TODO
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+" Plug 'kyazdani42/nvim-web-devicons'
 
 " Colorscheme
-Plug 'gruvbox-community/gruvbox'        " the goat
+Plug 'catppuccin/nvim', {'as': 'catppuccin'} " teej told bash so I'm trying
+" Plug 'sonph/onehalf', { 'rtp': 'vim' }    " like atoms one but 1/2
+" Plug 'gruvbox-community/gruvbox'        " prime
 " Plug 'arzg/vim-colors-xcode'            " xcode colorscheme
 " Plug 'dracula/vim', { 'as': 'dracula' } " dracula-theme
 " Plug 'rakr/vim-one'                     " one-dark theme from Atom
@@ -83,9 +86,8 @@ call plug#end()
 
 " #############################################################################
 
-" Load all Lua Config Files
+" Load all Lua Config Files through init.lua
 lua require("trimclain")
-lua require("trimclain.autopairs")
 
 " SET LEADER KEY
 nnoremap <Space> <Nop>
