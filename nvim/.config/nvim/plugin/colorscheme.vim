@@ -3,11 +3,17 @@
 " #############################################################################
 
 " ================== CHOOSE ONE ===================
+" catppuccin
+colorscheme catppuccin
+"
+" one-half
+" colorscheme onehalfdark
+"
 " gruvbox
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_invert_selection='0'
-colorscheme gruvbox
-set background=dark
+" let g:gruvbox_contrast_dark = 'hard'
+" let g:gruvbox_invert_selection='0'
+" colorscheme gruvbox
+" set background=dark
 
 " vim-colors-xcode
 " colorscheme xcodedarkhc
