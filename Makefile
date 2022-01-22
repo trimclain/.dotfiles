@@ -1,4 +1,4 @@
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty alacritty_build_reqs
 
 all: dirs
 	@echo "For help run 'make help'"
@@ -81,3 +81,27 @@ sinstall: musthave vimdir tmux
 
 finstall: musthave dirs font_install tmux zsh nvim nodejs
 	./install --full
+
+alacritty_build_reqs:
+	@# Installling rustup.rs
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	rustup override set stable
+	rustup update stable
+	@# Installing dependencies
+	sudo apt-get install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+
+alacritty: alacritty_build_reqs
+	@echo "Downloading Alacritty..."
+	git clone https://github.com/alacritty/alacritty.git && cd alacritty
+	@echo "Building Alacritty..."
+	cargo build --release
+	@# Post Build
+	@# Terminfo
+	sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+	@# Copy the binary to $PATH
+	sudo cp target/release/alacritty /usr/local/bin
+	sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
+	@# Add Manual Page
+	sudo mkdir -p /usr/local/share/man/man1
+	gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+	gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null

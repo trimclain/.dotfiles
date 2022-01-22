@@ -1,6 +1,8 @@
 # My Dotfiles
 
-This repo contains my dotfiles and configs. Feel free to use and modify them if you want. Shoutout to [Prime](https://github.com/ThePrimeagen) and [TJ](https://github.com/tjdevries). There is a lot here written with help of their dotfiles.
+This repo contains my dotfiles and configs. Feel free to use and modify them if you want.</br>
+Shoutout to [Prime](https://github.com/ThePrimeagen) and [TJ](https://github.com/tjdevries). There is a lot here written with help of their dotfiles.
+NOTE: Automatic installation with make is written for Debian-based system and was tested on Ubuntu.
 
 ## Installing Dotfiles
 
@@ -16,6 +18,10 @@ git clone https://github.com/trimclain/.dotfiles
 ```
 cd .dotfiles
 make
+```
+[On Linux:] Install alacritty with
+```
+make alacritty
 ```
 For a small installation (bash, vim, tmux and bin) do:
 ```
