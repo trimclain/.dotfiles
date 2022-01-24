@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "--first" ]; then
+    # Enable first monitor, turn off second one
+    xrandr --output eDP-1-1 --auto --output HDMI-1-1 --off
+elif [ "$1" = "--second" ]; then
+    # Enable second monitor and make it primary, disable first monitor
+    xrandr --output HDMI-1-1 --auto --primary --output eDP-1-1 --off
+elif [ "$1" = "--dual" ]; then
+    # Enable dual monitor setup, primary is the monitor, which was primary before
+    xrandr --output HDMI-1-1 --auto --right-of eDP-1-1 --output eDP-1-1 --auto
+fi
