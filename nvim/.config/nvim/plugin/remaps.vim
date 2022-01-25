@@ -114,6 +114,21 @@ nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 " END OF PRIME JUICERS
 
+" Thanks jessarcher
+"         |
+"         v
+" Reselect visual selection after indenting
+vnoremap < <gv
+vnoremap > >gv
+
+" Maintain the cursor position when yanking a visual selection
+" http://ddrscott.github.io/blog/2016/yank-without-jank/
+vnoremap y myy`y
+vnoremap Y myY`y
+"       ^
+"       |
+" Thanks jessarcher
+
 " Esc is too far and I don't like <C-[>
 " Normal, Visual, Select, Operator-pending
 noremap <C-c> <Esc>

@@ -128,10 +128,12 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+z split h
+bindsym $mod+pipe      split h
+bindsym $mod+backslash split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+underscore split v
+bindsym $mod+minus      split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -143,6 +145,7 @@ bindsym $mod+f fullscreen toggle
 
 # toggle tiling / floating
 # bindsym $mod+Shift+space floating toggle
+
 
 # change focus between tiling / floating windows
 # bindsym $mod+space focus mode_toggle
@@ -216,7 +219,7 @@ bindsym $mod+0 mode "$mode_system"
 
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
+mode "" {
     # These bindings trigger as soon as you enter the resize mode
 
     # Pressing left will shrink the window’s width.
@@ -238,7 +241,7 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode ""
 
 # choose monitor layout (default monitor, second monitor or dual setup)
 set $mode_monitor (f)irst monitor, (s)econd monitor or (d)ual setup
