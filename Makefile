@@ -124,10 +124,18 @@ brave:
 	sudo apt update
 	sudo apt install brave-browser
 
+obs-studio:
+	@# Install ffmpeg
+	sudo apt install ffmpeg -y
+	@# Install obs-studio
+	sudo add-apt-repository ppa:obsproject/obs-studio
+	sudo apt update
+	sudo apt install obs-studio -y
+
 # Things that I install manually yet: Discord
-linux_install: alacritty i3
+linux_install: alacritty i3 telegram brave obs-studio
 	@# Installing Linux only usefull tools:
 	@# feh for images, tree, dconf-editor,
 	sudo apt install -y feh tree dconf-editor
 
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 telegram brave linux_install
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 telegram brave obs-studio linux_install
