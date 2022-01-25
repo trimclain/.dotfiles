@@ -32,6 +32,17 @@ bindsym $mod+n border normal
 # font pango:MesloLGS NF Regular 10
 font pango:JetBrainsMono-Regular 11
 
+# Run on system start
+# Give me that Natural Scrolling
+exec_always --no-startup-id "xinput set-prop 'ETPS/2 Elantech Touchpad' 'libinput Natural Scrolling Enabled' 1"
+# Tapping is also very much welcome
+exec_always --no-startup-id "xinput set-prop 'ETPS/2 Elantech Touchpad' 'libinput Tapping Enabled' 1"
+#
+# Enable multiple languages together with alt-shift toggle
+exec_always --no-startup-id "setxkbmap -layout us,ru"
+# Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
+exec_always --no-startup-id "setxkbmap -option 'grp:win_space_toggle'"
+
 # start program launcher
 bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
 
@@ -73,8 +84,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use xrandr to adjust screen brightness
 # TODO: display current_brightness when changing it
 # set $current_brightness xrandr --verbose | awk '/Brightness/ { print $2; exit }'
-bindsym XF86MonBrightnessUp exec "display-brightness --increase; notify-send '🔆 ↑' -t 350"
-bindsym XF86MonBrightnessDown exec "display-brightness --decrease; notify-send '🔆 ↓' -t 350"
+bindsym XF86MonBrightnessUp exec --no-startup-id "display-brightness --increase; notify-send '🔆 ↑' -t 350"
+bindsym XF86MonBrightnessDown exec --no-startup-id "display-brightness --decrease; notify-send '🔆 ↓' -t 350"
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
@@ -232,9 +243,9 @@ bindsym $mod+r mode "resize"
 # choose monitor layout (default monitor, second monitor or dual setup)
 set $mode_monitor (f)irst monitor, (s)econd monitor or (d)ual setup
 mode "$mode_monitor" {
-    bindsym f exec "monitor-layout --first"
-    bindsym s exec "monitor-layout --second"
-    bindsym d exec "monitor-layout --dual"
+    bindsym f exec --no-startup-id "monitor-layout --first"
+    bindsym s exec --no-startup-id "monitor-layout --second"
+    bindsym d exec --no-startup-id "monitor-layout --dual"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
