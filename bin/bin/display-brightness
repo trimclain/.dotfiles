@@ -26,4 +26,4 @@ then
 fi
 
 # Set Brightness
-xrandr --output eDP-1 --brightness $new
+xrandr --output eDP-1-1 --brightness $new

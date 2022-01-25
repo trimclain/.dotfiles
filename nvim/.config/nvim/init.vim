@@ -49,7 +49,7 @@ Plug 'tweekmonster/startuptime.vim'     " check the startuptime of plugins
 
 " Status Line
 Plug 'nvim-lualine/lualine.nvim'
-" If you want to have icons in your statusline choose one of these
+" If you want to have icons in your statusline
 " Plug 'kyazdani42/nvim-web-devicons'
 
 " Colorscheme
@@ -78,8 +78,8 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " Treesitter (Install Languages with :TSInstall <languages>)
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 " Initialize plugin system
 call plug#end()
