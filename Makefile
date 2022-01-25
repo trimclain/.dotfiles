@@ -1,11 +1,10 @@
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty alacritty_build_reqs linux_install
-
 all: dirs
 	@echo "For help run 'make help'"
 
 help:
 	@# @echo "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s :)"
-	@echo "WIP..."
+	@echo "Run 'make install' to install it all"
+	@echo "Run 'make linux_install' to install all my linux stuff"
 
 musthave:
 	@# Usefull tools
@@ -43,13 +42,13 @@ tmux:
 	sudo apt install tmux -y
 
 zsh:
-	@# TODO: the way to check if zsh is selected is not consistent, gotta rethink
 	@# Installing zsh
-	@if [ ! -f /usr/bin/zsh ]; then echo "Installing Zsh..." && sudo apt install zsh -y && echo "Done"; else echo "[zsh]: Zsh is already installed"; fi
+	@if [ ! -f /usr/bin/zsh ]; then echo "Installing Zsh..." && sudo apt install zsh -y &&\
+		echo "Done"; else echo "[zsh]: Zsh is already installed"; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [ "$$(tail /etc/passwd -n1 | awk -F : '{print $$NF}')" != "/usr/bin/zsh" ]; then\
+	@if [ ! -n "`$$SHELL -c 'echo $$ZSH_VERSION'`" ]; then\
 		echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
 		echo "Successfully switched to ZSH. Don't forget to restart your terminal."; fi
 	@# Installing oh-my-zsh
@@ -60,7 +59,8 @@ zsh:
 nvim: build_reqs
 	@echo "Installing Neovim..."
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
-		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ && make -j4 && sudo make install; fi
+		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
+		make -j4 && sudo make install; fi
 
 uninstall_nvim:
 	@echo "Uninstalling Neovim..."
@@ -73,7 +73,7 @@ nodejs:
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y &&\
 		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
 
-install: musthave dirs font_install tmux zsh nvim nodejs
+install: musthave nvimdir font_install tmux zsh nvim nodejs
 	./install
 
 sinstall: musthave vimdir tmux
@@ -83,7 +83,7 @@ finstall: musthave dirs font_install tmux zsh nvim nodejs
 	./install --full
 
 alacritty_build_reqs:
-	@# Installling rustup.rs
+	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	rustup override set stable
 	rustup update stable
@@ -105,6 +105,29 @@ alacritty: alacritty_build_reqs
 	sudo mkdir -p /usr/local/share/man/man1
 	gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 	gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
-linux_install: alacritty
-	@# Installing Linux only usefull tools: feh for images
-	sudo apt install -y feh
+
+i3:
+	sudo apt install i3 -y
+
+telegram:
+	@echo "Installing Telegram Desktop"
+	@# Snap is a requirement
+	sudo apt install snapd -y
+	sudo snap install telegram-desktop
+
+brave:
+	sudo apt install apt-transport-https curl
+	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg\
+		https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64]\
+		https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	sudo apt update
+	sudo apt install brave-browser
+
+# Things that I install manually yet: Discord
+linux_install: alacritty i3
+	@# Installing Linux only usefull tools:
+	@# feh for images, tree, dconf-editor,
+	sudo apt install -y feh tree dconf-editor
+
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 telegram brave linux_install
