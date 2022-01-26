@@ -42,6 +42,8 @@ exec_always --no-startup-id "xinput set-prop 'ETPS/2 Elantech Touchpad' 'libinpu
 exec_always --no-startup-id "setxkbmap -layout us,ru"
 # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
 exec_always --no-startup-id "setxkbmap -option 'grp:win_space_toggle'"
+# Set the wallpaper and enable picom for transparency
+exec_always --no-startup-id "~/.fehbg && picom"
 
 # start program launcher
 bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
@@ -246,9 +248,10 @@ bindsym $mod+r mode ""
 # choose monitor layout (default monitor, second monitor or dual setup)
 set $mode_monitor (f)irst monitor, (s)econd monitor or (d)ual setup
 mode "$mode_monitor" {
-    bindsym f exec --no-startup-id "monitor-layout --first"
-    bindsym s exec --no-startup-id "monitor-layout --second"
-    bindsym d exec --no-startup-id "monitor-layout --dual"
+    # run ~/.fehbg to auto recize background image
+    bindsym f exec --no-startup-id "monitor-layout --first && ~/.fehbg"
+    bindsym s exec --no-startup-id "monitor-layout --second && ~/.fehbg"
+    bindsym d exec --no-startup-id "monitor-layout --dual && ~/.fehbg"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
