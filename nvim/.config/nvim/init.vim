@@ -46,7 +46,10 @@ Plug 'windwp/nvim-autopairs'            " automatically close brackets
 Plug 'google/vim-searchindex'           " show the number of matches
 Plug 'tweekmonster/startuptime.vim'     " check the startuptime of plugins
 Plug 'ap/vim-css-color'                 " preview colors in vim
-Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'} " Liveserver
+" To preview HTML, CSS and JS files in browser
+Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
+" To preview markdown files in browser
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " Status Line
 Plug 'nvim-lualine/lualine.nvim'
