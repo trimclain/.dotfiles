@@ -43,9 +43,10 @@ Plug 'tpope/vim-fugitive'               " vim git integration, thanks tpope
 Plug 'tpope/vim-surround'               " easy surrounding, thanks tpope
 Plug 'mbbill/undotree'                  " see the undo history
 Plug 'windwp/nvim-autopairs'            " automatically close brackets
-Plug 'ap/vim-css-color'                 " preview colors in vim
 Plug 'google/vim-searchindex'           " show the number of matches
 Plug 'tweekmonster/startuptime.vim'     " check the startuptime of plugins
+Plug 'ap/vim-css-color'                 " preview colors in vim
+Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'} " Liveserver
 
 " Status Line
 Plug 'nvim-lualine/lualine.nvim'
