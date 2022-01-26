@@ -24,6 +24,8 @@ order += "ethernet _first_"
 order += "battery all"
 # order += "disk /"
 # order += "load"
+order += "cpu_usage"
+order += "cpu_temperature 0"
 order += "memory"
 order += "volume master"
 order += "tztime local"
@@ -36,7 +38,7 @@ wireless _first_ {
 
 ethernet _first_ {
         # format_up = "E: %ip (%speed)"
-        format_up = "🅴 (%speed)"
+        format_up = "🅴  %ip (%speed)"
         format_down = "🅴 ⬇"
 }
 
@@ -47,8 +49,10 @@ battery all {
         threshold_type = time
         status_bat = 🔋
         status_chr = ⚡
-        status_unk = 🤔
-        status_full = 😃
+        # status_unk = 🤔
+        status_unk = 🗿
+        # status_full = 😃
+        status_full = 🟢
 }
 
 # disk "/" {
@@ -58,6 +62,17 @@ battery all {
 # load {
 #         format = "%1min"
 # }
+
+cpu_usage {
+    # format = "💻 at %usage ( 1: [%cpu0] 2: [%cpu1] 3: [%cpu2] 4: [%cpu3] )"
+    format = "💻 at %usage"
+}
+
+cpu_temperature 0 {
+        format = "🌡 %degrees °C"
+        max_threshold = 75
+        format_above_threshold = "⚠ Warning 📛: %degrees °C"
+}
 
 memory {
         format = "🆁 %used / %total (%percentage_used)"
