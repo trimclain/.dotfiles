@@ -132,9 +132,6 @@ bindkey -s ^u "Update\r"
 unsetopt BEEP
 
 # Aliases
-alias dotFileInstall="$DOTFILES/install"
-alias sdf="dotFileInstall && exec zsh"
-# alias sdf="dotFileInstall && source ~/.zshrc" doesn't work with antigen \_/
 alias szrc="exec zsh"
 # alias szrc="source ~/.zshrc" doesn't work with antigen \_/
 
