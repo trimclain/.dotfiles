@@ -2,7 +2,6 @@ all: dirs
 	@echo "For help run 'make help'"
 
 help:
-	@# @echo "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s :)"
 	@echo "Run 'make install' to install it all"
 	@echo "Run 'make linux_install' to install all my linux stuff"
 
@@ -16,12 +15,6 @@ build_reqs:
 	@echo "========================================"
 	@echo "Installing Neovim build prerequisites..."
 	sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
-
-dirs:
-	@echo "Creating directories for undofiles for vim/neovim..."
-	mkdir -p ~/.nvim/undodir
-	mkdir -p ~/.vim/undodir
-	@echo "Done"
 
 vimdir:
 	@echo "Creating directory for undofiles for vim..."
@@ -56,11 +49,11 @@ zsh:
 		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc &&\
 		echo "Done"; else echo "[oh-my-zsh]: Oh-My-Zsh is already installed"; fi
 
-nvim: build_reqs
+nvim: nvimdir build_reqs
 	@echo "Installing Neovim..."
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
 		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
-		make -j4 && sudo make install; fi
+		make -j4 && sudo make install && rm -rf ~/neovim; fi
 
 uninstall_nvim:
 	@echo "Uninstalling Neovim..."
@@ -73,14 +66,18 @@ nodejs:
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y &&\
 		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
 
-install: musthave nvimdir font_install tmux zsh nvim nodejs
+install: musthave font_install tmux zsh nvim nodejs
 	./install
 
 sinstall: musthave vimdir tmux
 	./install --small
 
-finstall: musthave dirs font_install tmux zsh nvim nodejs
+finstall: musthave vimdir font_install tmux zsh nvim nodejs
 	./install --full
+
+###############################################################################
+# Linux  Only Stuff
+###############################################################################
 
 alacritty_build_reqs:
 	@# Installing rustup.rs
@@ -92,7 +89,7 @@ alacritty_build_reqs:
 
 alacritty: alacritty_build_reqs
 	@echo "Downloading Alacritty..."
-	git clone https://github.com/alacritty/alacritty.git && cd alacritty
+	git clone https://github.com/alacritty/alacritty.git ~/alacritty && cd ~/alacritty
 	@echo "Building Alacritty..."
 	cargo build --release
 	@# Post Build
@@ -105,9 +102,22 @@ alacritty: alacritty_build_reqs
 	sudo mkdir -p /usr/local/share/man/man1
 	gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 	gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+	@# Delte the folder from github
+	rm -rf ~/alacritty
 
 i3:
 	sudo apt install i3 -y
+
+# Need this compositor for transparent terminal (alternative: compton)
+picom:
+	@# Install requirements
+	sudo apt install -y libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
+	@# Clone the project and go into it, update git submodule for whatever reason,
+	@# Use the meson build system (written in python), to make a ninja build and
+	@# Use the ninja build file to proceed and install picom
+	git clone https://github.com/yshui/picom ~/picom && cd ~/picom &&\
+		git submodule update --init --recursive && meson --buildtype=release . build &&\
+		sudo ninja -C build install
 
 telegram:
 	@echo "Installing Telegram Desktop"
@@ -133,9 +143,14 @@ obs-studio:
 	sudo apt install obs-studio -y
 
 # Things that I install manually yet: Discord
-linux_install: alacritty i3 telegram brave obs-studio
+# Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
+linux_install: musthave font_install tmux zsh nvim nodejs alacritty i3 picom telegram brave obs-studio
+	@# My ususal installation on Linux
+	./install --linux
 	@# Installing Linux only usefull tools:
 	@# feh for images, tree, dconf-editor,
 	sudo apt install -y feh tree dconf-editor
 
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 telegram brave obs-studio linux_install
+###############################################################################
+
+.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
