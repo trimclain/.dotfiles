@@ -1,10 +1,8 @@
 # My Dotfiles
 
-This repo contains my dotfiles and configs. Feel free to use and modify them if you want.</br>
-Shoutout to [Prime](https://github.com/ThePrimeagen) and [TJ](https://github.com/tjdevries). There is a lot here written with help of their dotfiles.
-NOTE: Automatic installation with make is written for Debian-based system and was tested on Ubuntu.
+NOTE: Automatic installation with `make` is written for Debian-based systems and was tested on Ubuntu 20.04.
 
-## Installing Dotfiles
+## How to install
 
 1. Install git and make:
 ```
@@ -14,44 +12,27 @@ sudo apt install git make
 ```
 git clone https://github.com/trimclain/.dotfiles
 ```
-3. Go to .dotfiles folder and launch the installation.
+3. Go to .dotfiles folder and install prerequisites:
 ```
-cd .dotfiles
-make
+cd .dotfiles && make
 ```
-[On Linux:] Install Linux only tools, like alacritty, feh, etc. with
+[On Linux:] Install Linux only tools, like alacritty, feh, i3, etc. with
 ```
 make linux_install
 ```
-For a small installation (bash, vim, tmux and bin) do:
+For a small installation (bash, vim, tmux and bin) run
 ```
 make sinstall
 ```
-For a normal installation (zsh, nvim, tmux and bin) do:
+For a normal installation (zsh, nvim, tmux and bin) run
 ```
 make install
 ```
-For a full installation do:
+For a full installation run
 ```
 make finstall
 ```
-4. Change the font of the terminal and restart it.
+4. Change the font of the terminal and restart it (not after linux_install)
 5. Open and close vim 2 times to let it automatically install vim-plug and plugins.
 
 NOTE: If you want to install dotfiles with a difference option, use the uninstall script first with `./uninstall`
-
-## Additional Information
-
-### Other great Fonts
-- [MesloLGS NF Fonts](https://github.com/romkatv/powerlevel10k#manual-font-installation)
-- Any [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts)
-- Any [Powerline Fonts](https://github.com/powerline/fonts)
-
-### How to uninstall Neovim
-
-Neovim can be uninstalled with following commands<br/>
-(if the installation location was left to default):
-```
-sudo rm /usr/local/bin/nvim
-sudo rm -r /usr/local/share/nvim/
-```
