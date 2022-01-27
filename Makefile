@@ -86,6 +86,8 @@ alacritty_build_reqs:
 	@echo "Installing Alacritty..."
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	@# Source bashrc to get rustup to PATH(maybe should check or $SHELL?)
+	source ~/.bashrc
 	rustup override set stable
 	rustup update stable
 	@# Installing dependencies
