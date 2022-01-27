@@ -1,5 +1,5 @@
-all: dirs
-	@echo "For help run 'make help'"
+all:
+	@# echo "For help run 'make help'"
 
 help:
 	@echo "Run 'make install' to install it all"
@@ -87,9 +87,7 @@ alacritty_build_reqs:
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	@# Source bashrc to get rustup to PATH(maybe should check or $SHELL?)
-	source ~/.bashrc
-	rustup override set stable
-	rustup update stable
+	exec bash && rustup override set stable && rustup update stable
 	@# Installing dependencies
 	sudo apt-get -y install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 
