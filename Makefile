@@ -1,9 +1,12 @@
-all: alacritty_build_reqs
+all:
 	@# echo "For help run 'make help'"
 	@echo "*************************"
-	@echo "This will install rustup"
+	@echo "This will install rustup and some usefull things"
 	@echo "When asked, choose 1 and press Enter"
 	@echo "*************************"
+	@# Usefull tools
+	@echo "Installing some usefull programms..."
+	sudo apt-get install -y stow ripgrep fzf htop curl
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	@echo "*************************"
@@ -13,11 +16,6 @@ all: alacritty_build_reqs
 help:
 	@echo "Run 'make install' to install it all"
 	@echo "Run 'make linux_install' to install all my linux stuff"
-
-musthave:
-	@# Usefull tools
-	@echo "Installing some usefull programms..."
-	sudo apt-get install -y stow ripgrep fzf htop
 
 vimdir:
 	@echo "Creating directory for undofiles for vim..."
@@ -77,13 +75,13 @@ nodejs:
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y &&\
 		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
 
-install: musthave font_install tmux zsh nvim nodejs
+install: font_install tmux zsh nvim nodejs
 	./install
 
-sinstall: musthave vimdir tmux
+sinstall: vimdir tmux
 	./install --small
 
-finstall: musthave vimdir font_install tmux zsh nvim nodejs
+finstall: vimdir font_install tmux zsh nvim nodejs
 	./install --full
 
 ###############################################################################
@@ -157,7 +155,7 @@ obs-studio:
 
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: musthave font_install tmux zsh nvim nodejs alacritty i3 picom telegram brave obs-studio
+linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom telegram brave obs-studio
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
@@ -168,4 +166,4 @@ linux_install: musthave font_install tmux zsh nvim nodejs alacritty i3 picom tel
 
 ###############################################################################
 
-.PHONY: all help musthave nvim_build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
+.PHONY: all help nvim_build_reqs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
