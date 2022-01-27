@@ -1,5 +1,14 @@
-all:
+all: alacritty_build_reqs
 	@# echo "For help run 'make help'"
+	@echo "*************************"
+	@echo "This will install rustup"
+	@echo "When asked, choose 1 and press Enter"
+	@echo "*************************"
+	@# Installing rustup.rs
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	@echo "*************************"
+	@echo "Now restart the Terminal and run 'make linux_install'"
+	@echo "*************************"
 
 help:
 	@echo "Run 'make install' to install it all"
@@ -84,15 +93,13 @@ finstall: musthave vimdir font_install tmux zsh nvim nodejs
 alacritty_build_reqs:
 	@echo "==================================================================="
 	@echo "Installing Alacritty..."
-	@# Installing rustup.rs
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	@# Source bashrc to get rustup to PATH(maybe should check or $SHELL?)
-	exec bash && rustup override set stable && rustup update stable
+	rustup override set stable
+	rustup update stable
 	@# Installing dependencies
 	sudo apt-get -y install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 
 alacritty: alacritty_build_reqs
-	@# Post Build, Terminfo, Copy the binary to $PATH,Add Manual Page
+	@# Download and build alacritty, Post Build, Terminfo, Copy the binary to $PATH,Add Manual Page
 	git clone https://github.com/alacritty/alacritty.git ~/alacritty && cd ~/alacritty &&\
 		cargo build --release && sudo tic -xe alacritty,alacritty-direct extra/alacritty.info &&\
 		sudo cp target/release/alacritty /usr/local/bin &&\

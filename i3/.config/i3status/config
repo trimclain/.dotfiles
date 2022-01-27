@@ -44,8 +44,8 @@ ethernet _first_ {
 
 battery all {
         # format = "%status %percentage %remaining (%emptytime %consumption)"
-        format = "%status %percentage (Left: %remaining)"
-        low_threshold = 20
+        format = "%status %percentage"
+        low_threshold = 30
         threshold_type = time
         status_bat = 🔋
         status_chr = ⚡
@@ -76,8 +76,8 @@ cpu_temperature 0 {
 
 memory {
         format = "🆁 %used / %total (%percentage_used)"
-        threshold_degraded = "1G"
-        format_degraded = "RAM < %available"
+        threshold_degraded = "20%"
+        format_degraded = "🆁  %available"
 }
 
 volume master {
