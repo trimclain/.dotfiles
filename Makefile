@@ -1,12 +1,12 @@
 all:
 	@# echo "For help run 'make help'"
-	@echo "*************************"
+	@echo "********************************************************************"
 	@echo "This will install rustup and some usefull things"
 	@echo "When asked, choose 1 and press Enter"
-	@echo "*************************"
+	@echo "********************************************************************"
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
-	sudo apt-get install -y stow ripgrep fzf htop curl
+	sudo apt-get install -y curl stow ripgrep fzf htop tree
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	@echo "*************************"
@@ -14,7 +14,9 @@ all:
 	@echo "*************************"
 
 help:
-	@echo "Run 'make install' to install it all"
+	@echo "Run 'make sinstall' foor a small installation (check README.md)"
+	@echo "Run 'make install' for a normal installation"
+	@echo "Run 'make finstall' for a full installation"
 	@echo "Run 'make linux_install' to install all my linux stuff"
 
 vimdir:
@@ -32,6 +34,7 @@ font_install:
 	cp ~/.dotfiles/fonts/* ~/.local/share/fonts/
 
 tmux:
+	@echo "==================================================================="
 	@echo "Installing Tmux"
 	sudo apt install tmux -y
 
@@ -58,6 +61,7 @@ nvim_build_reqs:
 	sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
 
 nvim: nvimdir nvim_build_reqs
+	@echo "==================================================================="
 	@echo "Installing Neovim..."
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
 		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
@@ -105,17 +109,18 @@ alacritty: alacritty_build_reqs
 		sudo mkdir -p /usr/local/share/man/man1 &&\
 		gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null &&\
 		gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
-	@# Delte the folder from github
+	@# Delete the folder from github
 	rm -rf ~/alacritty
 
 i3:
 	@echo "==================================================================="
+	@echo "Installing i3..."
 	sudo apt install i3 -y
 
 # Need this compositor for transparent terminal (alternative: compton)
 picom:
 	@echo "==================================================================="
-	@echo "Installing picom"
+	@echo "Installing picom..."
 	@# Install requirements
 	sudo apt install -y libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
 	@# Clone the project and go into it, update git submodule for whatever reason,
@@ -127,14 +132,14 @@ picom:
 
 telegram:
 	@echo "==================================================================="
-	@echo "Installing Telegram Desktop"
+	@echo "Installing Telegram Desktop..."
 	@# Snap is a requirement
 	sudo apt install snapd -y
 	sudo snap install telegram-desktop
 
 brave:
 	@echo "==================================================================="
-	@echo "Installing brave-browser"
+	@echo "Installing brave-browser..."
 	sudo apt install -y apt-transport-https curl
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg\
 		https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -145,11 +150,11 @@ brave:
 
 obs-studio:
 	@echo "==================================================================="
-	@echo "Installing OBS"
+	@echo "Installing OBS..."
 	@# Install ffmpeg
 	sudo apt install ffmpeg -y
 	@# Install obs-studio
-	sudo add-apt-repository ppa:obsproject/obs-studio
+	sudo add-apt-repository ppa:obsproject/obs-studio -y
 	sudo apt update
 	sudo apt install obs-studio -y
 
@@ -162,8 +167,8 @@ linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom telegram bra
 	@# Installing Linux only usefull tools:
 	@# feh for images, tree, dconf-editor,
 	@echo "==================================================================="
-	sudo apt install -y feh tree dconf-editor
+	sudo apt install -y feh dconf-editor
 
 ###############################################################################
 
-.PHONY: all help nvim_build_reqs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
+.PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
