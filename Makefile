@@ -10,12 +10,6 @@ musthave:
 	@echo "Installing some usefull programms..."
 	sudo apt-get install -y stow ripgrep fzf htop
 
-build_reqs:
-	@# Neovim prerequisites
-	@echo "========================================"
-	@echo "Installing Neovim build prerequisites..."
-	sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
-
 vimdir:
 	@echo "Creating directory for undofiles for vim..."
 	mkdir -p ~/.vim/undodir
@@ -36,6 +30,7 @@ tmux:
 
 zsh:
 	@# Installing zsh
+	@echo "==================================================================="
 	@if [ ! -f /usr/bin/zsh ]; then echo "Installing Zsh..." && sudo apt install zsh -y &&\
 		echo "Done"; else echo "[zsh]: Zsh is already installed"; fi
 	@# Check if zsh is the shell, change if not
@@ -49,7 +44,13 @@ zsh:
 		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc &&\
 		echo "Done"; else echo "[oh-my-zsh]: Oh-My-Zsh is already installed"; fi
 
-nvim: nvimdir build_reqs
+nvim_build_reqs:
+	@# Neovim prerequisites
+	@echo "==================================================================="
+	@echo "Installing Neovim build prerequisites..."
+	sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+
+nvim: nvimdir nvim_build_reqs
 	@echo "Installing Neovim..."
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
 		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
@@ -62,6 +63,7 @@ uninstall_nvim:
 	@echo "Done"
 
 nodejs:
+	@echo "==================================================================="
 	@if [ ! -d ~/.n ]; then echo "Installing n, nodejs version manager with latest stable node and npm versions..." &&\
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y &&\
 		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
@@ -80,36 +82,35 @@ finstall: musthave vimdir font_install tmux zsh nvim nodejs
 ###############################################################################
 
 alacritty_build_reqs:
+	@echo "==================================================================="
+	@echo "Installing Alacritty..."
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	rustup override set stable
 	rustup update stable
 	@# Installing dependencies
-	sudo apt-get install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+	sudo apt-get -y install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 
 alacritty: alacritty_build_reqs
-	@echo "Downloading Alacritty..."
-	git clone https://github.com/alacritty/alacritty.git ~/alacritty && cd ~/alacritty
-	@echo "Building Alacritty..."
-	cargo build --release
-	@# Post Build
-	@# Terminfo
-	sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
-	@# Copy the binary to $PATH
-	sudo cp target/release/alacritty /usr/local/bin
-	sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
-	@# Add Manual Page
-	sudo mkdir -p /usr/local/share/man/man1
-	gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
-	gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+	@# Post Build, Terminfo, Copy the binary to $PATH,Add Manual Page
+	git clone https://github.com/alacritty/alacritty.git ~/alacritty && cd ~/alacritty &&\
+		cargo build --release && sudo tic -xe alacritty,alacritty-direct extra/alacritty.info &&\
+		sudo cp target/release/alacritty /usr/local/bin &&\
+		sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg &&\
+		sudo mkdir -p /usr/local/share/man/man1 &&\
+		gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null &&\
+		gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
 	@# Delte the folder from github
 	rm -rf ~/alacritty
 
 i3:
+	@echo "==================================================================="
 	sudo apt install i3 -y
 
 # Need this compositor for transparent terminal (alternative: compton)
 picom:
+	@echo "==================================================================="
+	@echo "Installing picom"
 	@# Install requirements
 	sudo apt install -y libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
 	@# Clone the project and go into it, update git submodule for whatever reason,
@@ -120,21 +121,26 @@ picom:
 		sudo ninja -C build install
 
 telegram:
+	@echo "==================================================================="
 	@echo "Installing Telegram Desktop"
 	@# Snap is a requirement
 	sudo apt install snapd -y
 	sudo snap install telegram-desktop
 
 brave:
-	sudo apt install apt-transport-https curl
+	@echo "==================================================================="
+	@echo "Installing brave-browser"
+	sudo apt install -y apt-transport-https curl
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg\
 		https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64]\
 		https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 	sudo apt update
-	sudo apt install brave-browser
+	sudo apt install -y brave-browser
 
 obs-studio:
+	@echo "==================================================================="
+	@echo "Installing OBS"
 	@# Install ffmpeg
 	sudo apt install ffmpeg -y
 	@# Install obs-studio
@@ -146,11 +152,13 @@ obs-studio:
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
 linux_install: musthave font_install tmux zsh nvim nodejs alacritty i3 picom telegram brave obs-studio
 	@# My ususal installation on Linux
+	@echo "==================================================================="
 	./install --linux
 	@# Installing Linux only usefull tools:
 	@# feh for images, tree, dconf-editor,
+	@echo "==================================================================="
 	sudo apt install -y feh tree dconf-editor
 
 ###############################################################################
 
-.PHONY: all help musthave build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
+.PHONY: all help musthave nvim_build_reqs dirs vimdir nvimdir font_install tmux zsh nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
