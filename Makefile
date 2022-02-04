@@ -129,6 +129,8 @@ picom:
 	git clone https://github.com/yshui/picom ~/picom && cd ~/picom &&\
 		git submodule update --init --recursive && meson --buildtype=release . build &&\
 		sudo ninja -C build install
+	@# Delete the folder from github
+	rm -rf ~/picom
 
 telegram:
 	@echo "==================================================================="
