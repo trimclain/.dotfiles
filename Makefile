@@ -139,6 +139,13 @@ telegram:
 	sudo apt install snapd -y
 	sudo snap install telegram-desktop
 
+spotify:
+	@echo "==================================================================="
+	@echo "Installing Spotify..."
+	@# Snap is a requirement
+	sudo apt install snapd -y
+	sudo snap install spotify
+
 brave:
 	@echo "==================================================================="
 	@echo "Installing brave-browser..."
@@ -160,17 +167,25 @@ obs-studio:
 	sudo apt update
 	sudo apt install obs-studio -y
 
+kdenlive:
+	@echo "==================================================================="
+	@echo "Installing Kdenlive..."
+	sudo add-apt-repository ppa:kdenlive/kdenlive-stable
+	sudo apt update
+	sudo apt install kdenlive
+
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom telegram brave obs-studio
+linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
-	@# Installing Linux only usefull tools:
-	@# feh for images, tree, dconf-editor,
 	@echo "==================================================================="
-	sudo apt install -y feh dconf-editor
 
+linux_software: telegram spotify brave obs-studio kdenlive
+	@# Installing Linux only usefull tools:
+	@# feh for images, dconf-editor, flameshot for screenshots
+	sudo apt install -y feh dconf-editor flameshot
 ###############################################################################
 
-.PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram brave obs-studio linux_install
+.PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram spotify brave obs-studio kdenlive linux_install linux_software
