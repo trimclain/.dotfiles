@@ -130,7 +130,14 @@ picom:
 		git submodule update --init --recursive && meson --buildtype=release . build &&\
 		sudo ninja -C build install
 	@# Delete the folder from github
-	rm -rf ~/picom
+	sudo rm -rf ~/picom
+
+# Need this for $mod+d to work in i3
+rofi:
+	@echo
+	@echo "==================================================================="
+	@echo "Installing rofi..."
+	sudo apt install rofi -y
 
 telegram:
 	@echo "==================================================================="
@@ -170,13 +177,13 @@ obs-studio:
 kdenlive:
 	@echo "==================================================================="
 	@echo "Installing Kdenlive..."
-	sudo add-apt-repository ppa:kdenlive/kdenlive-stable
+	sudo add-apt-repository ppa:kdenlive/kdenlive-stable -y
 	sudo apt update
 	sudo apt install kdenlive
 
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom
+linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom rofi
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
@@ -186,6 +193,16 @@ linux_software: telegram spotify brave obs-studio kdenlive
 	@# Installing Linux only usefull tools:
 	@# feh for images, dconf-editor, flameshot for screenshots
 	sudo apt install -y feh dconf-editor flameshot
+
+###############################################################################
+python3_setup:
+	sudo apt install python3-pip python3-venv -y
+
+ubuntu_setup: python3_setup
+	echo "Done"
 ###############################################################################
 
-.PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs alacritty i3 picom telegram spotify brave obs-studio kdenlive linux_install linux_software
+.PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
+	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
+	alacritty i3 picom rofi telegram spotify brave obs-studio kdenlive \
+	linux_install linux_software python3_setup ubuntu_setup
