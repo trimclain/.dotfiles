@@ -1,12 +1,28 @@
 #!/usr/bin/env bash
 
+# get info from xrandr
+connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
+# activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+
+monitors=()
+for display in $connectedOutputs; do
+    monitors+=($display)
+done
+
+# Names: Dell(eDP-1-1,HDMI-1-1), Asus(edp, HDMI-1-0)
+intern=${monitors[0]}
+extern=${monitors[1]}
+
 if [ "$1" = "--first" ]; then
     # Enable first monitor, turn off second one
-    xrandr --output eDP-1-1 --auto --output HDMI-1-1 --off
+    xrandr --output "$intern" --auto --output "$extern" --off
 elif [ "$1" = "--second" ]; then
     # Enable second monitor and make it primary, disable first monitor
-    xrandr --output HDMI-1-1 --auto --primary --output eDP-1-1 --off
+    xrandr --output "$extern" --auto --primary --output "$intern" --off
 elif [ "$1" = "--dual" ]; then
     # Enable dual monitor setup, primary is the monitor, which was primary before
-    xrandr --output HDMI-1-1 --auto --right-of eDP-1-1 --output eDP-1-1 --auto
+    xrandr --output "$extern" --auto --right-of "$intern" --output "$intern" --auto
+elif [ "$1" = "--duplicate" ]; then
+    # Enable duplicate monitor setup
+    xrandr --output "$extern" --same-as "$intern" --auto
 fi

@@ -246,12 +246,13 @@ mode "" {
 bindsym $mod+r mode ""
 
 # choose monitor layout (default monitor, second monitor or dual setup)
-set $mode_monitor (f)irst monitor, (s)econd monitor or (d)ual setup
+set $mode_monitor (f)irst monitor, (s)econd monitor, (d)ual setup or du(p)licate
 mode "$mode_monitor" {
     # run ~/.fehbg to auto recize background image
     bindsym f exec --no-startup-id "monitor-layout --first && ~/.fehbg"
     bindsym s exec --no-startup-id "monitor-layout --second && ~/.fehbg"
     bindsym d exec --no-startup-id "monitor-layout --dual && ~/.fehbg"
+    bindsym p exec --no-startup-id "monitor-layout --duplicate && ~/.fehbg"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
