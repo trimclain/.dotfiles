@@ -127,6 +127,7 @@ bindkey '^ ' autosuggest-accept
 bindkey -s ^q "tmux-sessionizer $DOTFILES\r"
 
 bindkey -s ^u "Update\r"
+bindkey -s ^b "change-background\r"
 
 # Disable all ERROR sounds
 unsetopt BEEP
