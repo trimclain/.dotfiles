@@ -94,13 +94,17 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 " Plugin Installation
 " #############################################################################
 call plug#begin('~/.vim/plugged')
-Plug 'gruvbox-community/gruvbox'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-commentary'
-Plug 'itchyny/lightline.vim'
-Plug 'mbbill/undotree'
-Plug 'jremmen/vim-ripgrep'
-Plug 'ctrlpvim/ctrlp.vim'
+
+" Plug 'gruvbox-community/gruvbox'        " colorscheme
+Plug 'sonph/onehalf', { 'rtp': 'vim'  } " like atoms one but 1/2
+Plug 'tpope/vim-fugitive'               " to work with git
+Plug 'tpope/vim-commentary'             " fast comments
+Plug 'itchyny/lightline.vim'            " statusline
+Plug 'mbbill/undotree'                  " undo history
+Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
+Plug 'jiangmiao/auto-pairs'             " autoclose brackets
+Plug 'tweekmonster/startuptime.vim'     " check startuptime
+
 call plug#end()
 
 " #############################################################################
@@ -113,25 +117,22 @@ if exists('+termguicolors')
     let &t_8e = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_invert_selection='0'
-colorscheme gruvbox
-set background=dark
+" let g:gruvbox_contrast_dark = 'hard'
+" let g:gruvbox_invert_selection='0'
+" colorscheme gruvbox
+" set background=dark
+
+colorscheme onehalfdark
 
 " Make the background transparent
 highlight Normal ctermbg=NONE guibg=NONE
-
-" For ripgrep to find root directory correctly
-if executable('rg')
-    let g:rg_derive_root='true'
-endif
 
 " CtrlP configs
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 " Lightline
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'onehalfdark',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -140,9 +141,6 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
-
-" Other Lets
-let loaded_matchparen = 1                   " disable highlighting matching parentesis
 
 " #############################################################################
 " REMAPS
@@ -252,12 +250,6 @@ fun! TrimWhitespace()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
 endfun
-
-" highlight when yanking not working in vim coz no lua support
-" augroup highlight_yank
-"     autocmd!
-"     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
-" augroup END
 
 augroup trimclain
     autocmd!
