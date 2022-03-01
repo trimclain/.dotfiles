@@ -58,7 +58,10 @@ bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
 
 # the one from dracula
 # bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu:'"
-bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons
+
+# bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons
+bindsym $mod+e exec --no-startup-id rofi -show run
+bindsym $mod+d exec --no-startup-id rofi -show drun
 bindsym $mod+g exec --no-startup-id rofi -show window
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
