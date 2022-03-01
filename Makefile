@@ -181,6 +181,13 @@ kdenlive:
 	sudo apt update
 	sudo apt install kdenlive
 
+nomacs:
+	@# Top Image Viewer
+	@echo "==================================================================="
+	@echo "Installing Kdenlive..."
+	sudo apt install nomacs
+
+
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
 linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom rofi
@@ -189,7 +196,7 @@ linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom rofi
 	./install --linux
 	@echo "==================================================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive
+linux_software: telegram spotify brave obs-studio kdenlive nomacs
 	@# Installing Linux only usefull tools:
 	@# feh for images, dconf-editor, flameshot for screenshots
 	sudo apt install -y feh dconf-editor flameshot
@@ -205,4 +212,4 @@ ubuntu_setup: python3_setup
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
 	alacritty i3 picom rofi telegram spotify brave obs-studio kdenlive \
-	linux_install linux_software python3_setup ubuntu_setup
+	nomacs linux_install linux_software python3_setup ubuntu_setup
