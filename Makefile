@@ -184,7 +184,7 @@ kdenlive:
 nomacs:
 	@# Top Image Viewer
 	@echo "==================================================================="
-	@echo "Installing Kdenlive..."
+	@echo "Installing Nomacs..."
 	sudo apt install nomacs
 
 
