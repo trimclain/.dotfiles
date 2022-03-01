@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-feh --bg-scale ~/personal/images/anime/$(ls ~/personal/images/anime | fzf)
+images_folder=~/personal/images
+
+feh --bg-scale $(find $images_folder | grep .png | fzf)
