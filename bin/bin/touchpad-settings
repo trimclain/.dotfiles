@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# This script is to execute on startup by i3 to enable some touchpad features
+
+# Get touchpad name
+touchpad=$(xinput --list --name-only | grep Touchpad)
+
+# Give me that Natural Scrolling
+xinput set-prop "$touchpad" 'libinput Natural Scrolling Enabled' 1
+# Tapping is also very much welcome
+xinput set-prop "$touchpad" 'libinput Tapping Enabled' 1
