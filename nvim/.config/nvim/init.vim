@@ -72,7 +72,8 @@ Plug 'hrsh7th/nvim-cmp'                 " LSP Autocomplete Engine
 Plug 'hrsh7th/cmp-buffer'               " autocomplete from buffer
 Plug 'hrsh7th/cmp-path'                 " autocomplete path to files
 Plug 'hrsh7th/cmp-nvim-lsp'             " get autoimport on complete and more
-Plug 'L3MON4D3/LuaSnip'                 " snippets, needed for nvim-cmp to autocomplete
+Plug 'L3MON4D3/LuaSnip'                 " snippets engine
+Plug 'rafamadriz/friendly-snippets'     " get vscode-like snippets
 Plug 'onsails/lspkind-nvim'             " add vscode-like pictograms to LSP
 Plug 'williamboman/nvim-lsp-installer'  " add LspInstall <language>
 
