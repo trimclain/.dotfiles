@@ -118,6 +118,23 @@ i3:
 	@echo "Installing i3..."
 	sudo apt install i3 -y
 
+polybar:
+	@# Install better statusline for i3 (wait for Ubuntu 22.04)
+	@echo "==================================================================="
+	sudo apt install polybar -y
+
+# Building polybar doesn't work
+# @echo "Installing polybar build dependencies..."
+# sudo apt install -y cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python3-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev
+# @# Optional dependencies, needed in my case
+# sudo apt install -y libxcb-composite0-dev libjsoncpp-dev
+# sudo ln -s /usr/include/jsoncpp/json/ /usr/include/json
+# @echo "Installing polybar ..."
+# git clone --recursive https://github.com/polybar/polybar ~/polybar &&\
+# 	cd ~/polybar && ./build.sh
+# @# Delete the folder from github
+# rm -rf ~/polybar
+
 # Need this compositor for transparent terminal (alternative: compton)
 picom:
 	@echo "==================================================================="
@@ -207,5 +224,5 @@ ubuntu_setup: python3_setup
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
-	alacritty i3 picom rofi telegram spotify brave obs-studio kdenlive \
-	linux_install linux_software python3_setup ubuntu_setup
+	alacritty i3 polyba rpicom rofi telegram spotify brave obs-studio \
+	kdenlive linux_install linux_software python3_setup ubuntu_setup
