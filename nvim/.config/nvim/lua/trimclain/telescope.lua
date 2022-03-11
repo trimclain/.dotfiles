@@ -34,6 +34,7 @@ require('telescope').setup{
         winblend = 0,
         border = {},
         borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+        -- if no nerdfont:
         -- borderchars = { '-', '|', '-', '|', '$', '$', '$', '$' },
         color_devicons = true,
         use_less = true,
