@@ -2,6 +2,11 @@
 -- Sets & Lets
 -- ############################################################################
 
+-- TODO: do i still need these? If yes, rewrite in lua
+-- Enable syntax and plugins
+-- syntax enable
+-- filetype plugin indent on
+
 local options = {
     fileencoding = "utf-8",                 -- the encoding written to a file
     wrap = false,                           -- display lines as one long line
