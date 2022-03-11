@@ -12,10 +12,6 @@
 "                                                                             "
 "#############################################################################"
 
-" Enable syntax and plugins
-syntax enable
-filetype plugin indent on
-
 " #############################################################################
 " Vim Plug Installation
 " #############################################################################
@@ -91,43 +87,5 @@ call plug#end()
 
 " #############################################################################
 
-" Load all Lua Config Files through init.lua
+" Load all Lua Config Files through init.lua in lua/trimclain
 lua require("trimclain")
-
-" SET LEADER KEY
-nnoremap <Space> <Nop>
-let mapleader = " "
-
-" #############################################################################
-" Autocommands
-" #############################################################################
-
-" Empty all Registers
-fun! EmptyRegisters()
-    let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
-    for r in regs
-        call setreg(r, [])
-    endfor
-endfun
-
-" Delete useless spaces
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-
-" highlight when yanking
-augroup lua_highlight_yank
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank({
-        \ higroup = "Substitute",
-        \ timeout = 100,
-        \ on_macro = true
-        \ })
-augroup END
-
-augroup trimclain
-    autocmd!
-    autocmd BufWritePre * :call TrimWhitespace()
-augroup END
