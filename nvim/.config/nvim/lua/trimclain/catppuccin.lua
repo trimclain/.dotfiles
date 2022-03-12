@@ -1,4 +1,9 @@
-local catppuccin = require("catppuccin")
+-- Use a protected call so we don't error out on first use
+local status_ok, catppuccin = pcall(require, "catppuccin")
+if not status_ok then
+    vim.notify("catppuccin not found!")
+    return
+end
 
 -- configure it
 catppuccin.setup{
