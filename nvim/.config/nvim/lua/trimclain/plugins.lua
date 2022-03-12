@@ -26,7 +26,7 @@ vim.cmd [[
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
-  return
+    return
 end
 
 -- Have packer use a popup window
@@ -57,17 +57,21 @@ return require('packer').startup(function(use)
         as = "catppuccin"
     }
 
-    -- TODO:
+    -- Autocompletion
+    use "hrsh7th/nvim-cmp"                  -- The completion plugin
+    use "hrsh7th/cmp-buffer"                -- buffer completions
+    use "hrsh7th/cmp-path"                  -- path completions
+    use "hrsh7th/cmp-cmdline"               -- cmdline completions
+    use "saadparwaiz1/cmp_luasnip"          -- snippet completions
+
+    -- Snippets
+    use "L3MON4D3/LuaSnip"                  -- snippet engine
+    use "rafamadriz/friendly-snippets"      -- some vscode snippets to use
+
     -- LSP
     -- use 'neovim/nvim-lspconfig'             -- LSP configurations
     -- use 'williamboman/nvim-lsp-installer'   -- add LspInstall <language>
     -- use 'hrsh7th/cmp-nvim-lsp'              -- get autoimport on complete and more
-    -- use 'hrsh7th/cmp-buffer'                -- autocomplete from buffer
-    -- use 'hrsh7th/cmp-path'                  -- autocomplete path to files
-    -- use 'hrsh7th/cmp-cmdline'               -- autocomplete in command mode
-    -- use 'hrsh7th/nvim-cmp'                  -- LSP Autocomplete Engine
-    -- use 'L3MON4D3/LuaSnip'                  -- snippets engine
-    -- use 'rafamadriz/friendly-snippets'      -- get vscode-like snippets
     -- use 'onsails/lspkind-nvim'              -- add vscode-like pictograms to LSP
 
     -- Telescope
@@ -77,7 +81,6 @@ return require('packer').startup(function(use)
 
     -- Useful tools
     -- To preview markdown files in browser
-    -- TODO: fix markdown preview
     use {
         'iamcco/markdown-preview.nvim',
         run = 'npm install --global yarn && cd app && yarn install',

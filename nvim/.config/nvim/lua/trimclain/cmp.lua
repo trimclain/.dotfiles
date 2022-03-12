@@ -1,0 +1,128 @@
+-- Completion Enginge
+local cmp_status_ok, cmp = pcall(require, "cmp")
+if not cmp_status_ok then
+    vim.notify("CMP not found")
+    return
+end
+
+-- Snippets
+local snip_status_ok, luasnip = pcall(require, "luasnip")
+if not snip_status_ok then
+    vim.notify("Luasnip not found")
+    return
+end
+
+-- Load vscode snippets
+require("luasnip/loaders/from_vscode").lazy_load()
+
+-- Icons for autocomplete popups
+local lspkind_status_ok, lspkind = pcall(require, "lspkind")
+if not lspkind_status_ok then
+    vim.notify("LSPkind not found")
+    return
+end
+
+
+local check_backspace = function()
+    local col = vim.fn.col "." - 1
+    return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+end
+
+cmp.setup {
+
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body) -- For `luasnip` users.
+        end,
+    },
+
+    mapping = {
+        -- Same as <C-n> and <C-p>
+        -- ["<C-k>"] = cmp.mapping.select_prev_item(),
+        -- ["<C-j>"] = cmp.mapping.select_next_item(),
+        --
+        -- To scroll through a big popup windows
+        ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-2), { "i", "c" }),
+        ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(2), { "i", "c" }),
+        --
+        -- Show autocomplete options without typing anything
+        ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+        -- Not sure what this does
+        -- ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+        --
+        -- Close autocompletion popup window
+        ["<C-e>"] = cmp.mapping {
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        },
+        -- Accept currently selected item. If none selected, `select` first item.
+        -- Set `select` to `false` to only confirm explicitly selected items.
+        ["<CR>"] = cmp.mapping.confirm { select = true },
+        -- Make SuperTab
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expandable() then
+                luasnip.expand()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            elseif check_backspace() then
+                fallback()
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
+    },
+
+    formatting = {
+        fields = { "kind", "abbr", "menu" },
+        -- Enable fun icons with lsp
+        format = lspkind.cmp_format({
+            with_text = true,
+            -- maxwidth = 50,
+            menu = {
+                buffer = "[buf]",
+                -- nvim_lsp = "[LSP]",
+                path = "[path]",
+                luasnip = "[snip]",
+                cmdline = "[cmd]",
+            }
+        })
+    },
+
+    sources = cmp.config.sources({
+        -- the order sets priority
+        { name = 'luasnip' },
+        { name = 'path' },
+        { name = 'cmdline' },
+    }, {
+        { name = 'buffer', keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
+    }),
+
+    confirm_opts = {
+       behavior = cmp.ConfirmBehavior.Replace,
+       select = false,
+    },
+    documentation = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    },
+    experimental = {
+        ghost_text = false,
+        native_menu = false,
+    },
+}
