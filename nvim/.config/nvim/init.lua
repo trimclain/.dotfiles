@@ -12,19 +12,20 @@
 --
 --#############################################################################
 
-require("trimclain.settings")
-require("trimclain.remaps")
-require("trimclain.netrw")
-require("trimclain.plugins")
-require("trimclain.catppuccin")
-require("trimclain.colorscheme")
-require("trimclain.lualine")
-require("trimclain.autopairs")
-require("trimclain.telescope")
-require("trimclain.colorizer")
-require("trimclain.mdpreview")
-require("trimclain.bracey")
+require "trimclain.settings"
+require "trimclain.remaps"
+require "trimclain.netrw"
+require "trimclain.plugins"
+require "trimclain.catppuccin"
+require "trimclain.colorscheme"
+require "trimclain.lualine"
+require "trimclain.autopairs"
+require "trimclain.telescope"
+require "trimclain.colorizer"
+require "trimclain.mdpreview"
+require "trimclain.bracey"
+require "trimclain.cmp"
 -- require("trimclain.lsp")
 -- require("trimclain.luasnip")
 -- require("trimclain.treesitter")
-require("trimclain.autocmd")
+require "trimclain.autocmd"

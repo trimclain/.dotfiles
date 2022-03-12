@@ -9,6 +9,7 @@
 
 local options = {
     fileencoding = "utf-8",                 -- the encoding written to a file
+    termguicolors = true,                   -- set term gui colors (most terminals support this)
     wrap = false,                           -- display lines as one long line
     showmode = false,                       -- we don't need to see things like -- INSERT -- anymore
     showmatch = true,                       -- show matching brackets
