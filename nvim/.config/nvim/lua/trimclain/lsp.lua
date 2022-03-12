@@ -2,6 +2,10 @@
 -- LSP Setup
 -- #############################################################################
 
+-- Lsp Options
+vim.opt.completeopt = {"menu", "menuone", "noselect"} -- required by nvim-cmp
+vim.g.completion_matching_strategy_list = {"exact", "substring", "fuzzy"}
+
 -- nvim-autopairs part 1
 -- If you want insert `(` after select function or method item
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
@@ -91,3 +95,13 @@ lsp_installer.on_server_ready(function(server)
     -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md
     server:setup(opts)
 end)
+
+-- ############################################################################
+-- Lsp Remaps
+-- ############################################################################
+
+vim.keymap.set("n", "<leader>vd", vim.lsp.buf.definition, {buffer=0})
+vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, {buffer=0})
+vim.keymap.set("n", "<leader>vff", vim.lsp.buf.formatting, {buffer=0})
+vim.keymap.set("n", "<leader>vh", vim.lsp.buf.hover, {buffer=0})
+vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, {buffer=0})

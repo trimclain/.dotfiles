@@ -49,6 +49,7 @@ return require('packer').startup(function(use)
     use 'google/vim-searchindex'            -- show the number of matches
     -- TODO: make it toggle
     use 'mbbill/undotree'                   -- see the undo history
+    use 'norcalli/nvim-colorizer.lua'       -- preview colors in neovim
 
     -- Colorschemes
     use {
@@ -56,31 +57,43 @@ return require('packer').startup(function(use)
         as = "catppuccin"
     }
 
+    -- TODO:
     -- LSP
-    -- use 'neovim/nvim-lspconfig'            -- LSP configurations
-    -- use 'hrsh7th/nvim-cmp'                 -- LSP Autocomplete Engine
-    -- use 'hrsh7th/cmp-buffer'               -- autocomplete from buffer
-    -- use 'hrsh7th/cmp-path'                 -- autocomplete path to files
-    -- use 'hrsh7th/cmp-nvim-lsp'             -- get autoimport on complete and more
-    -- use 'L3MON4D3/LuaSnip'                 -- snippets engine
-    -- use 'rafamadriz/friendly-snippets'     -- get vscode-like snippets
-    -- use 'onsails/lspkind-nvim'             -- add vscode-like pictograms to LSP
-    -- use 'williamboman/nvim-lsp-installer'  -- add LspInstall <language>
+    -- use 'neovim/nvim-lspconfig'             -- LSP configurations
+    -- use 'williamboman/nvim-lsp-installer'   -- add LspInstall <language>
+    -- use 'hrsh7th/cmp-nvim-lsp'              -- get autoimport on complete and more
+    -- use 'hrsh7th/cmp-buffer'                -- autocomplete from buffer
+    -- use 'hrsh7th/cmp-path'                  -- autocomplete path to files
+    -- use 'hrsh7th/cmp-cmdline'               -- autocomplete in command mode
+    -- use 'hrsh7th/nvim-cmp'                  -- LSP Autocomplete Engine
+    -- use 'L3MON4D3/LuaSnip'                  -- snippets engine
+    -- use 'rafamadriz/friendly-snippets'      -- get vscode-like snippets
+    -- use 'onsails/lspkind-nvim'              -- add vscode-like pictograms to LSP
 
     -- Telescope
     use 'nvim-lua/plenary.nvim'
     use 'nvim-telescope/telescope.nvim'
     use 'nvim-telescope/telescope-fzy-native.nvim'
 
-    -- TODO: how to write this in packer?
-    -- To preview HTML, CSS and JS files in browser
-    -- use 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
+    -- Useful tools
     -- To preview markdown files in browser
-    -- use 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-    -- TODO: norcali's plugin is faster
-    -- use 'ap/vim-css-color'                  -- preview colors in vim
+    -- TODO: fix markdown preview
+    use {
+        'iamcco/markdown-preview.nvim',
+        run = 'npm install --global yarn && cd app && yarn install',
+        ft = { 'markdown' },
+        cmd = 'MarkdownPreview'
+    }
+    -- To preview HTML, CSS and JS in browser
+    use {
+        'turbio/bracey.vim',
+        run = 'npm install --prefix server',
+        cmd = 'Bracey'
+    }
+
     -- TODO: Treesitter
-    -- TODO: 'tpope/vim-surround'               " easy surrounding, thanks tpope
+    -- TODO: do I need this?
+    -- 'tpope/vim-surround'               " easy surrounding, thanks tpope
 
     use 'tweekmonster/startuptime.vim'      -- check the startuptime of plugins
 
