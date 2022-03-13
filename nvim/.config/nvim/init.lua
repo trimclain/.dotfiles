@@ -25,7 +25,7 @@ require "trimclain.telescope"
 require "trimclain.colorizer"
 require "trimclain.mdpreview"
 require "trimclain.bracey"
--- require("trimclain.lsp")
+require("trimclain.lsp")
 -- require("trimclain.luasnip")
 -- require("trimclain.treesitter")
 require "trimclain.autocmd"

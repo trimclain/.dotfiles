@@ -157,6 +157,7 @@ cmp.setup {
 
     sources = cmp.config.sources({
         -- the order sets priority
+        { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'cmdline' },
