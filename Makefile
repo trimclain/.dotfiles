@@ -32,7 +32,7 @@ nvimdir:
 
 font_install:
 	mkdir -p ~/.local/share/fonts/
-	cp ~/.dotfiles/fonts/* ~/.local/share/fonts/
+	cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
 
 tmux:
 	@echo "==================================================================="
