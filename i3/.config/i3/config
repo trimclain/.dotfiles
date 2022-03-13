@@ -37,14 +37,19 @@ font pango:JetBrainsMono-Regular 11
 exec_always --no-startup-id touchpad-settings
 #
 # Enable multiple languages together with alt-shift toggle
-exec_always --no-startup-id "setxkbmap -layout us,ru"
+# exec_always --no-startup-id "setxkbmap -layout us,ru"
 # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
-exec_always --no-startup-id "setxkbmap -option 'grp:win_space_toggle'"
+# TODO: this doesn' work
+# exec_always --no-startup-id "setxkbmap -option 'grp:win_space_toggle'"
+#
 # Set the wallpaper and enable picom for transparency
 exec_always --no-startup-id "~/.fehbg && picom"
 
 # start program launcher
+# bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons
 bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
+bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+g exec --no-startup-id rofi -show window
 
 # start dmenu (a program launcher)
 # default:
@@ -57,11 +62,6 @@ bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
 # the one from dracula
 # bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu:'"
 
-# bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons
-bindsym $mod+e exec --no-startup-id rofi -show run
-bindsym $mod+d exec --no-startup-id rofi -show drun
-bindsym $mod+g exec --no-startup-id rofi -show window
-
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
@@ -71,7 +71,7 @@ bindsym $mod+g exec --no-startup-id rofi -show window
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -87,8 +87,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use xrandr to adjust screen brightness
 # TODO: display current_brightness when changing it
 # set $current_brightness xrandr --verbose | awk '/Brightness/ { print $2; exit }'
-bindsym XF86MonBrightnessUp exec --no-startup-id "display-brightness --increase; notify-send '🔆 🔼' -t 350"
-bindsym XF86MonBrightnessDown exec --no-startup-id "display-brightness --decrease; notify-send '🔅 🔽' -t 350"
+bindsym XF86MonBrightnessUp exec --no-startup-id "display-brightness --increase"
+bindsym XF86MonBrightnessDown exec --no-startup-id "display-brightness --decrease"
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
