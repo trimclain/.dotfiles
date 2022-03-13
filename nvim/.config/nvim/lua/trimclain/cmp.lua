@@ -15,18 +15,68 @@ end
 -- Load vscode snippets
 require("luasnip/loaders/from_vscode").lazy_load()
 
--- Icons for autocomplete popups
-local lspkind_status_ok, lspkind = pcall(require, "lspkind")
-if not lspkind_status_ok then
-    vim.notify("LSPkind not found")
-    return
-end
-
-
 local check_backspace = function()
     local col = vim.fn.col "." - 1
     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
+
+--   פּ ﯟ   some other good icons
+-- local kind_icons = {
+--     Text = "",
+--     Method = "m",
+--     Function = "",
+--     Constructor = "",
+--     Field = "",
+--     Variable = "",
+--     Class = "",
+--     Interface = "",
+--     Module = "",
+--     Property = "",
+--     Unit = "",
+--     Value = "",
+--     Enum = "",
+--     Keyword = "",
+--     Snippet = "",
+--     Color = "",
+--     File = "",
+--     Reference = "",
+--     Folder = "",
+--     EnumMember = "",
+--     Constant = "",
+--     Struct = "",
+--     Event = "",
+--     Operator = "",
+--     TypeParameter = "",
+-- }
+
+local kind_icons = {
+    Text = "",
+    Method = "",
+    Function = "",
+    Constructor = "",
+    Field = "ﰠ",
+    Variable = "",
+    Class = "ﴯ",
+    Interface = "",
+    Module = "",
+    Property = "ﰠ",
+    Unit = "塞",
+    Value = "",
+    Enum = "",
+    Keyword = "",
+    Snippet = "",
+    Color = "",
+    File = "",
+    Reference = "",
+    Folder = "",
+    EnumMember = "",
+    Constant = "",
+    Struct = "פּ",
+    Event = "",
+    Operator = "",
+    TypeParameter = ""
+}
+-- find more here: https://www.nerdfonts.com/cheat-sheet
 
 cmp.setup {
 
@@ -91,18 +141,18 @@ cmp.setup {
 
     formatting = {
         fields = { "kind", "abbr", "menu" },
-        -- Enable fun icons with lsp
-        format = lspkind.cmp_format({
-            with_text = true,
-            -- maxwidth = 50,
-            menu = {
-                buffer = "[buf]",
-                -- nvim_lsp = "[LSP]",
-                path = "[path]",
+        format = function(entry, vim_item)
+            -- Kind icons
+            vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+            -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+            vim_item.menu = ({
+                nvim_lsp = "[LSP]",
                 luasnip = "[snip]",
-                cmdline = "[cmd]",
-            }
-        })
+                buffer = "[buf]",
+                path = "[path]",
+            })[entry.source.name]
+            return vim_item
+        end
     },
 
     sources = cmp.config.sources({

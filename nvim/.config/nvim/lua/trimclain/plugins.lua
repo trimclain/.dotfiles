@@ -72,7 +72,6 @@ return require('packer').startup(function(use)
     -- use 'neovim/nvim-lspconfig'             -- LSP configurations
     -- use 'williamboman/nvim-lsp-installer'   -- add LspInstall <language>
     -- use 'hrsh7th/cmp-nvim-lsp'              -- get autoimport on complete and more
-    -- use 'onsails/lspkind-nvim'              -- add vscode-like pictograms to LSP
 
     -- Telescope
     use 'nvim-lua/plenary.nvim'

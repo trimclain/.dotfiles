@@ -19,12 +19,12 @@ require "trimclain.plugins"
 require "trimclain.catppuccin"
 require "trimclain.colorscheme"
 require "trimclain.lualine"
+require "trimclain.cmp"
 require "trimclain.autopairs"
 require "trimclain.telescope"
 require "trimclain.colorizer"
 require "trimclain.mdpreview"
 require "trimclain.bracey"
-require "trimclain.cmp"
 -- require("trimclain.lsp")
 -- require("trimclain.luasnip")
 -- require("trimclain.treesitter")
