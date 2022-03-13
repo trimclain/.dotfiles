@@ -21,7 +21,7 @@ npairs.setup({
     map_c_h = false, -- Map the <C-h> key to delete a pair
     map_c_w = false, -- map <C-w> to delete a pair if possible
     fast_wrap = {
-        map = "<M-c>",
+        map = "<M-e>",
         chars = { "{", "[", "(", '"', "'" },
         pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
         offset = 0, -- Offset from pattern match

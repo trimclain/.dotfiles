@@ -151,6 +151,7 @@ cmp.setup {
                 luasnip = "[snip]",
                 buffer = "[buf]",
                 path = "[path]",
+                cmdline = "[cmdline]",
             })[entry.source.name]
             return vim_item
         end
