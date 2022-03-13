@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+mode="unknown"
+
 # get info from xrandr
 connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
 # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
@@ -18,6 +20,7 @@ new="$current"
 # Increase Brightness
 if [ "$1" = "--increase" ]
 then
+    mode="increase"
     new="$( echo $current+0.1 | bc )"
 
     # don't got out of range
@@ -29,6 +32,7 @@ fi
 # Decrease Brightness
 if [ "$1" = "--decrease" ]
 then
+    mode="decrease"
     new="$( echo $current-0.1 | bc )"
 
     # don't got out of range
@@ -39,3 +43,14 @@ fi
 
 # Set Brightness
 xrandr --output $intern --brightness $new
+
+
+# Send notification
+output=$( echo $new*100/1 | bc )
+if  [ "$mode" = "increase" ]; then
+    notify-send "🔆 $output %" -t 350
+elif [ "$mode" = "decrease" ]; then
+    notify-send "🔅 $output %" -t 350
+else
+    notify-send 'Error: something went wrong' -t 500
+fi

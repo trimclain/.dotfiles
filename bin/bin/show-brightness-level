@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+current_level=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
+output=$( echo $current_level*100/1 | bc )
+notify-send "Brightness: $output %"
