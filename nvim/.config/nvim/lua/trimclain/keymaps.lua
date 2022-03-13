@@ -87,6 +87,26 @@ keymap("v", "<leader>d", '"_d', opts)       -- blackhole buffer
 vim.cmd [[nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k']]
 vim.cmd [[nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j']]
 
+
+-- Telescope keybindings
+-- TODO: what is this next line
+-- vim.keymap.set("n", "<leader>pw", ":lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>")
+vim.keymap.set("n", "<leader>ps", ":lua require('telescope.builtin').live_grep()<CR>", opts)
+vim.keymap.set("n", "<C-p>", "<cmd>lua require('telescope.builtin').git_files()<CR>", opts)
+
+vim.keymap.set("n", "<leader>gh", ":lua require('telescope.builtin').help_tags()<CR>", opts)
+vim.keymap.set("n", "<leader>gk", ":lua require('telescope.builtin').keymaps()<CR>", opts)
+vim.keymap.set("n", "<leader>gl", ":lua require('telescope.builtin').git_commits()<CR>", opts)
+vim.keymap.set("n", "<leader>gb", ":lua require('telescope.builtin').git_branches()<CR>", opts)
+
+vim.keymap.set("n", "<leader>pf", ":Telescope find_files <cr>", opts)
+vim.keymap.set("n", "<leader>phf", ":Telescope find_files hidden=true <cr>", opts)
+vim.keymap.set("n", "<leader>pb", ":Telescope buffers <cr>", opts)
+
+vim.keymap.set("n", "<leader>vrc", ":Telescope git_files cwd=~/.dotfiles <cr>", opts)
+vim.keymap.set("n", "<leader>f;", ":Telescope commands <cr>", opts)
+
+
 -- Esc is too far and I don't like <C-[>, make <C-c> work as <Esc> in every mode
 keymap("", "<C-c>", "<Esc>", opts)      -- normal, visual, select, operator-pending modes
 keymap("l", "<C-c>", "<Esc>", opts)     -- insert, command-line, lang-arg modes
