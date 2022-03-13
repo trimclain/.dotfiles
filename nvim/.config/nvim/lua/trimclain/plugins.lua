@@ -1,14 +1,14 @@
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
 
 -- Automatically install packer
 if fn.empty(fn.glob(install_path)) > 0 then
     PACKER_BOOTSTRAP = fn.system({
-        'git',
-        'clone',
-        '--depth',
-        '1',
-        'https://github.com/wbthomason/packer.nvim',
+        "git",
+        "clone",
+        "--depth",
+        "1",
+        "https://github.com/wbthomason/packer.nvim",
         install_path
     })
     print "Installing packer, close and reopen Neovim..."
@@ -39,17 +39,17 @@ end
 -- }
 
 -- Install your plugins here
-return require('packer').startup(function(use)
+return packer.startup(function(use)
     use "wbthomason/packer.nvim"            -- packer can manage itself
-    use 'tpope/vim-commentary'              -- easy commenting, thanks tpope
-    use 'tpope/vim-fugitive'                -- vim git integration, thanks tpope
-    use 'windwp/nvim-autopairs'             -- automatically close brackets
-    use 'nvim-lualine/lualine.nvim'         -- great status line in lua
+    use "tpope/vim-commentary"              -- easy commenting, thanks tpope
+    use "tpope/vim-fugitive"                -- vim git integration, thanks tpope
+    use "windwp/nvim-autopairs"             -- automatically close brackets
+    use "nvim-lualine/lualine.nvim"         -- great status line in lua
     -- TODO: does it do anything?
-    use 'google/vim-searchindex'            -- show the number of matches
+    use "google/vim-searchindex"            -- show the number of matches
     -- TODO: make it toggle
-    use 'mbbill/undotree'                   -- see the undo history
-    use 'norcalli/nvim-colorizer.lua'       -- preview colors in neovim
+    use "mbbill/undotree"                   -- see the undo history
+    use "norcalli/nvim-colorizer.lua"       -- preview colors in neovim
 
     -- Colorschemes
     use {
@@ -57,51 +57,59 @@ return require('packer').startup(function(use)
         as = "catppuccin"
     }
 
-    -- Autocompletion
+    -- CMP plugins
     use "hrsh7th/nvim-cmp"                  -- The completion plugin
     use "hrsh7th/cmp-buffer"                -- buffer completions
     use "hrsh7th/cmp-path"                  -- path completions
     use "hrsh7th/cmp-cmdline"               -- cmdline completions
     use "saadparwaiz1/cmp_luasnip"          -- snippet completions
+    use "hrsh7th/cmp-nvim-lsp"              -- get the LSP completion
+    use "hrsh7th/cmp-nvim-lua"              -- get the LSP for lua in nvim config
 
     -- Snippets
     use "L3MON4D3/LuaSnip"                  -- snippet engine
     use "rafamadriz/friendly-snippets"      -- some vscode snippets to use
 
     -- LSP
-    use 'neovim/nvim-lspconfig'             -- LSP configurations
-    use 'williamboman/nvim-lsp-installer'   -- add LspInstall <language>
-    use 'hrsh7th/cmp-nvim-lsp'              -- get the LSP completion
+    use "neovim/nvim-lspconfig"             -- LSP configurations
+    use "williamboman/nvim-lsp-installer"   -- add LspInstall <language>
 
     -- Telescope
-    use 'nvim-lua/plenary.nvim'
-    use 'nvim-telescope/telescope.nvim'
-    use 'nvim-telescope/telescope-fzy-native.nvim'
+    use {
+        "nvim-telescope/telescope.nvim",
+        requires = { {"nvim-lua/plenary.nvim"} }
+    }
+    use "nvim-telescope/telescope-fzy-native.nvim"
+
+    -- Treesitter
+    use {
+        "nvim-treesitter/nvim-treesitter",
+        run = ":TSUpdate"
+    }
 
     -- Useful tools
     -- To preview markdown files in browser
     use {
-        'iamcco/markdown-preview.nvim',
-        run = 'npm install --global yarn && cd app && yarn install',
-        ft = { 'markdown' },
-        cmd = 'MarkdownPreview'
+        "iamcco/markdown-preview.nvim",
+        run = "npm install --global yarn && cd app && yarn install",
+        ft = { "markdown" },
+        cmd = "MarkdownPreview"
     }
     -- To preview HTML, CSS and JS in browser
     use {
-        'turbio/bracey.vim',
-        run = 'npm install --prefix server',
-        cmd = 'Bracey'
+        "turbio/bracey.vim",
+        run = "npm install --prefix server",
+        cmd = "Bracey"
     }
 
-    -- TODO: Treesitter
     -- TODO: do I need this?
-    -- 'tpope/vim-surround'               " easy surrounding, thanks tpope
+    -- "tpope/vim-surround"               " easy surrounding, thanks tpope
 
-    use 'tweekmonster/startuptime.vim'      -- check the startuptime of plugins
+    use "tweekmonster/startuptime.vim"      -- check the startuptime of plugins
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
-        require('packer').sync()
+        packer.sync()
     end
 end)

@@ -13,19 +13,18 @@
 --#############################################################################
 
 require "trimclain.settings"
-require "trimclain.remaps"
+require "trimclain.keymaps"
 require "trimclain.netrw"
 require "trimclain.plugins"
 require "trimclain.catppuccin"
 require "trimclain.colorscheme"
 require "trimclain.lualine"
 require "trimclain.cmp"
-require "trimclain.autopairs"
+require "trimclain.lsp"
 require "trimclain.telescope"
+require "trimclain.treesitter"
+require "trimclain.autopairs"
 require "trimclain.colorizer"
 require "trimclain.mdpreview"
 require "trimclain.bracey"
-require("trimclain.lsp")
--- require("trimclain.luasnip")
--- require("trimclain.treesitter")
 require "trimclain.autocmd"
