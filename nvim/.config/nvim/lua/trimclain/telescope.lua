@@ -2,7 +2,14 @@
 -- Telescope Setup
 -- #############################################################################
 
-require('telescope').setup{
+local status_ok, telescope = pcall(require, "telescope")
+if not status_ok then
+  return
+end
+
+local actions = require "telescope.actions"
+
+telescope.setup{
     defaults = {
         vimgrep_arguments = {
             'rg',
@@ -13,8 +20,8 @@ require('telescope').setup{
             '--column',
             '--smart-case'
         },
-        prompt_prefix = "> ",
-        selection_caret = "> ",
+        prompt_prefix = " ",
+        selection_caret = "  ",
         entry_prefix = "  ",
         initial_mode = "insert",
         selection_strategy = "reset",
@@ -45,7 +52,83 @@ require('telescope').setup{
         qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
 
         -- Developer configurations: Not meant for general override
-        buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+        buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
+
+        mappings = {
+            -- almost everything is default
+            i = {
+                -- ["<C-n>"] = actions.cycle_history_next,
+                -- ["<C-p>"] = actions.cycle_history_prev,
+
+                ["<C-n>"] = actions.move_selection_next,
+                ["<C-p>"] = actions.move_selection_previous,
+
+                ["<C-c>"] = actions.close,
+
+                ["<Down>"] = actions.move_selection_next,
+                ["<Up>"] = actions.move_selection_previous,
+
+                ["<CR>"] = actions.select_default,
+                ["<C-x>"] = actions.select_horizontal,
+                ["<C-v>"] = actions.select_vertical,
+                ["<C-t>"] = actions.select_tab,
+
+                ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-d>"] = actions.preview_scrolling_down,
+
+                ["<PageUp>"] = actions.results_scrolling_up,
+                ["<PageDown>"] = actions.results_scrolling_down,
+
+                ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                ["<C-l>"] = actions.complete_tag,
+                ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
+            },
+
+            n = {
+                ["<esc>"] = actions.close,
+                ["<CR>"] = actions.select_default,
+                ["<C-x>"] = actions.select_horizontal,
+                ["<C-v>"] = actions.select_vertical,
+                ["<C-t>"] = actions.select_tab,
+
+                ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+
+                ["j"] = actions.move_selection_next,
+                ["k"] = actions.move_selection_previous,
+                ["H"] = actions.move_to_top,
+                ["M"] = actions.move_to_middle,
+                ["L"] = actions.move_to_bottom,
+
+                ["<Down>"] = actions.move_selection_next,
+                ["<Up>"] = actions.move_selection_previous,
+                ["gg"] = actions.move_to_top,
+                ["G"] = actions.move_to_bottom,
+
+                ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-d>"] = actions.preview_scrolling_down,
+
+                ["<PageUp>"] = actions.results_scrolling_up,
+                ["<PageDown>"] = actions.results_scrolling_down,
+
+                ["?"] = actions.which_key,
+            },
+        },
+    },
+    pickers = {
+        find_files = {
+            theme = "dropdown",
+            previewer = false
+        },
+        git_files = {
+            theme = "dropdown",
+            previewer = false
+        }
     },
     extensions = {
         fzy_native = {
@@ -54,26 +137,5 @@ require('telescope').setup{
         },
     }
 }
-require('telescope').load_extension('fzy_native')
 
--- #############################################################################
--- Remaps
--- #############################################################################
-
-vim.keymap.set("n", "<leader>ps", ":lua require('telescope.builtin').grep_string({ search = vim.fn.input('Grep For > ')})<CR>")
--- TODO: what is this next line
--- vim.keymap.set("n", "<leader>pw", ":lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>")
--- vim.keymap.set("n", "<leader>ps", ":lua require('telescope.builtin').live_grep()<CR>")
-vim.keymap.set("n", "<C-p>", "<cmd>lua require('telescope.builtin').git_files()<CR>")
-
-vim.keymap.set("n", "<leader>gh", ":lua require('telescope.builtin').help_tags()<CR>")
-vim.keymap.set("n", "<leader>gk", ":lua require('telescope.builtin').keymaps()<CR>")
-vim.keymap.set("n", "<leader>gl", ":lua require('telescope.builtin').git_commits()<CR>")
-vim.keymap.set("n", "<leader>gb", ":lua require('telescope.builtin').git_branches()<CR>")
-
-vim.keymap.set("n", "<leader>pf", ":Telescope find_files <cr>")
-vim.keymap.set("n", "<leader>phf", ":Telescope find_files hidden=true <cr>")
-vim.keymap.set("n", "<leader>pb", ":Telescope buffers <cr>")
-
-vim.keymap.set("n", "<leader>vrc", ":Telescope git_files cwd=~/.dotfiles <cr>")
-vim.keymap.set("n", "<leader>f;", ":Telescope commands <cr>")
+telescope.load_extension('fzy_native')
