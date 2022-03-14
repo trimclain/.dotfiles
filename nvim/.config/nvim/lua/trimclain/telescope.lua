@@ -125,6 +125,20 @@ telescope.setup{
             theme = "dropdown",
             previewer = false
         },
+        live_grep = {
+            vimgrep_arguments = {
+                'rg',
+                '--color=never',
+                '--no-heading',
+                '--with-filename',
+                '--line-number',
+                '--column',
+                '--hidden',         -- search hidden files/directories
+                '--smart-case',
+            },
+            -- theme = "dropdown",
+            -- previewer = false
+        },
         git_files = {
             theme = "dropdown",
             previewer = false
