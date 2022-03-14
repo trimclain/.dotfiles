@@ -49,4 +49,5 @@ NOTE: If you want to install dotfiles with a different option, run `./uninstall`
     make linux_install
     ```
     and follow instructions.
-5. Open and close vim 2 times to let it automatically install vim-plug and the plugins.
+5. Open and close vim 2 times to let it automatically install vim-plug and the plugins. <br>
+   In Neovim run :PackerSync and restart.
