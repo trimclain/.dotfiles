@@ -14,7 +14,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- TODO: how to write this in lua (~ isn't recognized)
-vim.cmd "nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.vim<CR>"
+vim.cmd "nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.lua<CR>"
 
 -- Easier movement between vim windows
 keymap("n", "<leader>h", "<C-w>h", opts)
@@ -92,6 +92,7 @@ vim.cmd [[nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j']]
 -- TODO: what is this next line
 -- vim.keymap.set("n", "<leader>pw", ":lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>")
 vim.keymap.set("n", "<leader>ps", ":lua require('telescope.builtin').live_grep()<CR>", opts)
+vim.keymap.set("n", "<C-f>", ":lua require('trimclain.telescope').curr_buf_search()<CR>", opts)
 vim.keymap.set("n", "<C-p>", "<cmd>lua require('telescope.builtin').git_files()<CR>", opts)
 
 vim.keymap.set("n", "<leader>gh", ":lua require('telescope.builtin').help_tags()<CR>", opts)
