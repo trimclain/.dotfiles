@@ -73,7 +73,8 @@ end
 -- vim.opt.undodir = "~/.nvim/undodir" -- works weird
 vim.cmd "set undodir=~/.nvim/undodir"
 
--- " " Sometimes them fingers do be fat
+-- Sometimes them fingers do be fat
 vim.cmd [[com! Q q]]
+vim.cmd [[com! Qa qa]]
 vim.cmd "com! X x"
 vim.cmd "com! W w"
