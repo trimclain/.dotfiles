@@ -45,15 +45,16 @@ return packer.startup(function(use)
     use "tpope/vim-fugitive"                -- vim git integration, thanks tpope
     use "windwp/nvim-autopairs"             -- automatically close brackets
     use "nvim-lualine/lualine.nvim"         -- great status line in lua
-    -- TODO: does it do anything?
-    use "google/vim-searchindex"            -- show the number of matches
     -- TODO: make it toggle
     use "mbbill/undotree"                   -- see the undo history
     use "norcalli/nvim-colorizer.lua"       -- preview colors in neovim
+    -- TODO: do I need this?
+    -- "tpope/vim-surround"               " easy surrounding, thanks tpope
+
 
     -- Colorschemes
     use {
-        "catppuccin/nvim",
+        "catppuccin/nvim",                  -- nice colorscheme, thanks tj
         as = "catppuccin"
     }
 
@@ -75,11 +76,13 @@ return packer.startup(function(use)
     use "williamboman/nvim-lsp-installer"   -- add LspInstall <language>
 
     -- Telescope
+    use "nvim-lua/plenary.nvim"             -- useful lua functions used by many plugins
+    use "nvim-telescope/telescope.nvim"     -- the goat
     use {
-        "nvim-telescope/telescope.nvim",
-        requires = { {"nvim-lua/plenary.nvim"} }
+        'nvim-telescope/telescope-fzf-native.nvim', -- fzf for telescope
+        run = 'make'
     }
-    use "nvim-telescope/telescope-fzy-native.nvim"
+    use "nvim-telescope/telescope-file-browser.nvim" -- telescope file browser
 
     -- Treesitter
     use {
@@ -101,9 +104,6 @@ return packer.startup(function(use)
         run = "npm install --prefix server",
         cmd = "Bracey"
     }
-
-    -- TODO: do I need this?
-    -- "tpope/vim-surround"               " easy surrounding, thanks tpope
 
     use "tweekmonster/startuptime.vim"      -- check the startuptime of plugins
 
