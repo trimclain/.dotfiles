@@ -41,7 +41,9 @@ end
 -- Install your plugins here
 return packer.startup(function(use)
     use "wbthomason/packer.nvim"            -- packer can manage itself
-    use "tpope/vim-fugitive"                -- vim git integration, thanks tpope
+    use "nvim-lua/plenary.nvim"             -- useful lua functions from tj,
+                                            -- used by many plugins
+
     use "windwp/nvim-autopairs"             -- automatically close brackets
     use "nvim-lualine/lualine.nvim"         -- great status line in lua
     -- TODO: make it toggle
@@ -50,9 +52,13 @@ return packer.startup(function(use)
     -- TODO: do I need this?
     -- "tpope/vim-surround"               " easy surrounding, thanks tpope
 
+    -- Git
+    use "tpope/vim-fugitive"                -- vim git integration, thanks tpope
+    use "lewis6991/gitsigns.nvim"           -- super fast git decorations
+
     -- Comments
     use "numToStr/Comment.nvim"             -- easy comment written in lua
-    use 'JoosepAlviste/nvim-ts-context-commentstring' -- support jsx commenting
+    use "JoosepAlviste/nvim-ts-context-commentstring" -- support jsx commenting
 
     -- Colorschemes
     use {
@@ -78,7 +84,6 @@ return packer.startup(function(use)
     use "williamboman/nvim-lsp-installer"   -- add LspInstall <language>
 
     -- Telescope
-    use "nvim-lua/plenary.nvim"             -- useful lua functions used by many plugins
     use "nvim-telescope/telescope.nvim"     -- the goat
     use {
         'nvim-telescope/telescope-fzf-native.nvim', -- fzf for telescope
