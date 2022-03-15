@@ -50,6 +50,11 @@ configs.setup {
 		enable = true,
         disable = { "yaml" }
 	},
+    -- For ts-comments
+    context_commentstring = {
+        enable = true,
+        enable_autocmd = false,
+    }
 	-- incremental_selection = {
 	-- 	enable = true,
 	-- 	keymaps = {

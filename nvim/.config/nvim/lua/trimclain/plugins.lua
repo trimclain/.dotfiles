@@ -41,7 +41,6 @@ end
 -- Install your plugins here
 return packer.startup(function(use)
     use "wbthomason/packer.nvim"            -- packer can manage itself
-    use "numToStr/Comment.nvim"             -- easy commenting written in lua
     use "tpope/vim-fugitive"                -- vim git integration, thanks tpope
     use "windwp/nvim-autopairs"             -- automatically close brackets
     use "nvim-lualine/lualine.nvim"         -- great status line in lua
@@ -51,6 +50,9 @@ return packer.startup(function(use)
     -- TODO: do I need this?
     -- "tpope/vim-surround"               " easy surrounding, thanks tpope
 
+    -- Comments
+    use "numToStr/Comment.nvim"             -- easy comment written in lua
+    use 'JoosepAlviste/nvim-ts-context-commentstring' -- support jsx commenting
 
     -- Colorschemes
     use {
