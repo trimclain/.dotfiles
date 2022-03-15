@@ -80,6 +80,10 @@ local function lsp_keymaps(bufnr)
 		opts
 	)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
+    -- TODO: do i want these?
+    -- vim.keymap.set("n", "<leader>dj", vim.diagnostic.goto_next, {buffer=0})
+    -- vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_prev, {buffer=0})
+    -- vim.keymap.set("n", "<leader>dl", "<cmd>Telescope diagnostics<cr>", {buffer=0})
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 	vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end

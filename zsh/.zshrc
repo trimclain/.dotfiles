@@ -140,7 +140,7 @@ alias vim="$VIM"
 alias ebrc="$VIM $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
 alias ezrc="$VIM $DOTFILES/zsh/.zshrc --cmd \"cd $DOTFILES/zsh/\""
 alias evrc="$VIM $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
-alias enrc="$VIM $DOTFILES/nvim/.config/nvim/init.vim --cmd \"cd $DOTFILES/nvim/.config/nvim/\""
+alias enrc="$VIM $DOTFILES/nvim/.config/nvim/init.lua --cmd \"cd $DOTFILES/nvim/.config/nvim/\""
 
 alias py="python3"
 
