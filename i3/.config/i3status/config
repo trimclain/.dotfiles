@@ -65,12 +65,12 @@ battery all {
 
 cpu_usage {
     # format = "💻 at %usage ( 1: [%cpu0] 2: [%cpu1] 3: [%cpu2] 4: [%cpu3] )"
-    format = "💻 at %usage"
+    format = "💻 cpu: %usage"
 }
 
 cpu_temperature 0 {
         format = "🌡 %degrees °C"
-        max_threshold = 75
+        max_threshold = 80
         format_above_threshold = "⚠ Warning 📛: %degrees °C"
 }
 

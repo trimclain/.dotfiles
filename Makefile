@@ -210,8 +210,9 @@ linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom rofi
 linux_software: telegram spotify brave obs-studio kdenlive
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
-	@# feh & nomacs for images, dconf-editor, flameshot for screenshots
-	sudo apt install -y fd-find feh nomacs dconf-editor flameshot
+	@# feh & nomacs for images, dconf-editor, flameshot for screenshots,
+	@# gimp (paint foss)
+	sudo apt install -y fd-find feh nomacs dconf-editor flameshot gimp
 
 ###############################################################################
 python3_setup:
