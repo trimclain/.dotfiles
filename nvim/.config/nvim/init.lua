@@ -14,7 +14,6 @@
 
 require "trimclain.settings"
 require "trimclain.keymaps"
-require "trimclain.netrw"
 require "trimclain.plugins"
 require "trimclain.catppuccin"
 require "trimclain.colorscheme"
@@ -26,6 +25,8 @@ require "trimclain.treesitter"
 require "trimclain.autopairs"
 require "trimclain.comments"
 require "trimclain.gitsigns"
+require "trimclain.nvimtree" -- not sure I like this (adds +15-20ms startup time)
+-- require "trimclain.netrw"
 require "trimclain.colorizer"
 require "trimclain.mdpreview"
 require "trimclain.bracey"

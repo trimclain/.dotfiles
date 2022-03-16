@@ -52,6 +52,13 @@ return packer.startup(function(use)
     -- TODO: do I need this?
     -- "tpope/vim-surround"               " easy surrounding, thanks tpope
 
+    -- File Browser
+    use {
+        'kyazdani42/nvim-tree.lua',         -- Nerdtree 2.0 for neovim
+        requires = {
+            'kyazdani42/nvim-web-devicons', -- optional, for file icon
+        }
+    }
     -- Git
     use "tpope/vim-fugitive"                -- vim git integration, thanks tpope
     use "lewis6991/gitsigns.nvim"           -- super fast git decorations
@@ -89,7 +96,6 @@ return packer.startup(function(use)
         'nvim-telescope/telescope-fzf-native.nvim', -- fzf for telescope
         run = 'make'
     }
-    use "nvim-telescope/telescope-file-browser.nvim" -- telescope file browser
 
     -- Treesitter
     use {

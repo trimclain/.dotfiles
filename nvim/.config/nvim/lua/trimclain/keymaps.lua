@@ -39,8 +39,8 @@ keymap("n", "<leader>gs", ":G<cr>", opts)   -- git status
 -- keymap("n", "<leader>gf", ":diffget //2<cr>", opts)
 
 -- Project View (File Explorer)
--- keymap("n", "<leader>pv", ":Ex<cr>", opts)
-keymap("n", "<leader>pv", ":Lex 30<cr>", opts)
+-- keymap("n", "<leader>pv", ":Lex 30<cr>", opts)
+keymap("n", "<leader>pv", ":NvimTreeToggle<cr>", opts)
 
 -- Undotree
 keymap("n", "<leader>u", ":UndotreeShow<cr>", opts)
