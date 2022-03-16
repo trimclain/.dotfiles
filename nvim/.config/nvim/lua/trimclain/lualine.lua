@@ -1,17 +1,27 @@
-require('lualine').setup {
+local status_ok, lualine = pcall(require, "lualine")
+if not status_ok then
+	return
+end
+
+-- Show shiftwidth length
+local spaces = function()
+	return "tab:" .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+end
+
+lualine.setup {
   options = {
     icons_enabled = true,
     theme = 'auto',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
-    disabled_filetypes = {},
+    disabled_filetypes = { "dashboard", "NvimTree", "Outline" },
     always_divide_middle = true,
   },
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_x = {'encoding', spaces, 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
