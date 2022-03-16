@@ -43,7 +43,8 @@ ethernet _first_ {
         # format_up = "E: %ip (%speed)"
         format_up = "🅴 %ip (%speed)"
         # format_up = "  %ip (%speed)"
-        format_down = "🅴 ⬇"
+        # format_down = "🅴 ⬇"
+        format_down = "🅴 "
 }
 
 battery all {
@@ -102,5 +103,5 @@ volume master {
 
 tztime local {
         # format = "%Y-%m-%d %H:%M:%S"
-        format = "%a %d/%m/%Y %H:%M"
+        format = " %a %d/%m/%Y %H:%M"
 }
