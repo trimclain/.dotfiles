@@ -125,35 +125,37 @@ else
     keymap("n", "<C-b>", ":w <bar> :! ./%<cr>", opts)
 end
 
--- TODO: rewrite this in lua, also use https://rafaelleru.github.io/blog/quickfix-autocomands/
+-- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
+keymap("n", "<C-j>", ":cnext<CR>zz", opts)
+keymap("n", "<C-k>", ":cprev<CR>zz", opts)
+-- keymap("n", "<leader>j", ":lnext<CR>zz", opts)
+-- keymap("n", "<leader>k", ":lprev<CR>zz", opts)
+keymap("n", "<C-k>", ":cprev<CR>zz", opts)
+keymap("n", "<C-q>", "<cmd>lua require('trimclain.keymaps').ToggleQFList(1)<CR>", opts)
+-- keymap("n", "<leader>q", "<cmd>lua require('trimclain.keymaps').ToggleQFList(0)<CR>", opts)
 
--- " QuickFixList Stuff - local ones not in use
--- nnoremap <C-j> :cnext<CR>zz
--- nnoremap <C-k> :cprev<CR>zz
--- " nnoremap <leader>k :lnext<CR>zz
--- " nnoremap <leader>j :lprev<CR>zz
--- nnoremap <C-q> :call ToggleQFList(1)<CR>
--- " nnoremap <leader>q :call ToggleQFList(0)<CR>
+vim.g.qflist_local = 0
+vim.g.qflist_global = 0
 
--- let g:qflist_local = 0
--- let g:qflist_global = 0
+local M = {}
+M.ToggleQFList = function(global)
+    if global then
+        if vim.g.qflist_global == 1 then
+            vim.g.qflist_global = 0
+            vim.cmd "cclose"
+        else
+            vim.g.qflist_global = 1
+            vim.cmd "copen"
+        end
+    else
+        if vim.g.qflist_local == 1 then
+            vim.g.qflist_local = 0
+            vim.cmd "lclose"
+        else
+            vim.g.qflist_local = 1
+            vim.cmd "lopen"
+        end
+    end
+end
 
--- fun! ToggleQFList(global)
---     if a:global
---         if g:qflist_global == 1
---             let g:qflist_global = 0
---             cclose
---         else
---             let g:qflist_global = 1
---             copen
---         end
---     else
---         if g:qflist_local == 1
---             let g:qflist_local = 0
---             lclose
---         else
---             let g:qflist_local = 1
---             lopen
---         end
---     endif
--- endfun
+return M
