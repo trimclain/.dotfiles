@@ -219,12 +219,21 @@ python3_setup:
 	sudo apt install python3-pip python3-venv -y
 	@# Need pynvim for Bracey to work
 	pip3 install pynvim
+	@# Installing black (code formatter) and flake8 (diagnostics tool) for null-ls
+	pip3 install black flake8
 
-ubuntu_setup: python3_setup
+null_ls_tools:
+	@# Install stylua for lua formatting
+	cargo install stylua
+	@# Install prettier
+	npm install --global prettier
+
+ubuntu_setup: python3_setup null_ls_tools
 	echo "Done"
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
 	alacritty i3 polyba rpicom rofi telegram spotify brave obs-studio \
-	kdenlive linux_install linux_software python3_setup ubuntu_setup
+	kdenlive linux_install linux_software python3_setup null_ls_tool \
+	subuntu_setup

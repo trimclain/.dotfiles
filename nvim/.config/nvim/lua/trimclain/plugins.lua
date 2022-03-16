@@ -53,12 +53,9 @@ return packer.startup(function(use)
     -- "tpope/vim-surround"               " easy surrounding, thanks tpope
 
     -- File Browser
-    use {
-        'kyazdani42/nvim-tree.lua',         -- Nerdtree 2.0 for neovim
-        requires = {
-            'kyazdani42/nvim-web-devicons', -- optional, for file icon
-        }
-    }
+    use 'kyazdani42/nvim-tree.lua'          -- nerdtree 2.0 for neovim
+    use 'kyazdani42/nvim-web-devicons'      -- for icons almost everywhere
+
     -- Git
     use "tpope/vim-fugitive"                -- vim git integration, thanks tpope
     use "lewis6991/gitsigns.nvim"           -- super fast git decorations
@@ -74,7 +71,7 @@ return packer.startup(function(use)
     }
 
     -- CMP plugins
-    use "hrsh7th/nvim-cmp"                  -- The completion plugin
+    use "hrsh7th/nvim-cmp"                  -- the completion plugin
     use "hrsh7th/cmp-buffer"                -- buffer completions
     use "hrsh7th/cmp-path"                  -- path completions
     use "hrsh7th/cmp-cmdline"               -- cmdline completions
@@ -89,6 +86,7 @@ return packer.startup(function(use)
     -- LSP
     use "neovim/nvim-lspconfig"             -- LSP configurations
     use "williamboman/nvim-lsp-installer"   -- add LspInstall <language>
+    use "jose-elias-alvarez/null-ls.nvim"   -- code formatter (LSP diagnostics, code actions, and more)
 
     -- Telescope
     use "nvim-telescope/telescope.nvim"     -- the goat
