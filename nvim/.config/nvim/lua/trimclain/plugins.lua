@@ -41,14 +41,11 @@ end
 -- Install your plugins here
 return packer.startup(function(use)
     use 'wbthomason/packer.nvim'            -- packer can manage itself
-    use 'nvim-lua/plenary.nvim'             -- useful lua functions from tj,
-                                            -- used by many plugins
+    use 'nvim-lua/plenary.nvim'             -- made by tj, used by many plugins
+    use 'lewis6991/impatient.nvim'          -- speed up nvim startup (TODO: what is this)
 
     use 'windwp/nvim-autopairs'             -- automatically close brackets
-    -- TODO: make it toggle
     use 'mbbill/undotree'                   -- see the undo history
-    -- TODO: do I need this?
-    -- 'tpope/vim-surround'               " easy surrounding, thanks tpope
 
     -- File Browser
     use 'kyazdani42/nvim-tree.lua'          -- nerdtree 2.0 for neovim
@@ -71,6 +68,7 @@ return packer.startup(function(use)
         as = 'catppuccin'
     }
     use 'nvim-lualine/lualine.nvim'         -- great status line in lua
+    use 'lukas-reineke/indent-blankline.nvim' -- add indent guidelines
 
     -- CMP plugins
     use 'hrsh7th/nvim-cmp'                  -- the completion plugin
