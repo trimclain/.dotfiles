@@ -32,13 +32,17 @@ order += "tztime local"
 
 wireless _first_ {
         # format_up = "W: (%quality at %essid) (%bitrate / %frequency) %ip"
-        format_up = "🆆 %quality at %essid"
-        format_down = "🆆 ⬇"
+        # format_up = "🆆 %quality at %essid"
+        # format_up = "直 %quality at %essid"
+        format_up = "  %essid (%quality)"
+        # format_down = "🆆 ⬇"
+        format_down = "睊"
 }
 
 ethernet _first_ {
         # format_up = "E: %ip (%speed)"
-        format_up = "🅴  %ip (%speed)"
+        format_up = "🅴 %ip (%speed)"
+        # format_up = "  %ip (%speed)"
         format_down = "🅴 ⬇"
 }
 
@@ -47,12 +51,16 @@ battery all {
         format = "%status %percentage"
         low_threshold = 30
         threshold_type = time
-        status_bat = 🔋
-        status_chr = ⚡
+        # status_bat = 🔋
+        status_bat = 
+        # status_chr = ⚡
+        status_chr = 
         # status_unk = 🤔
-        status_unk = 🗿
+        # status_unk = 🗿
+        status_unk = 
         # status_full = 😃
-        status_full = 🟢
+        # status_full = 🟢
+        status_full = 
 }
 
 # disk "/" {
@@ -65,13 +73,15 @@ battery all {
 
 cpu_usage {
     # format = "💻 at %usage ( 1: [%cpu0] 2: [%cpu1] 3: [%cpu2] 4: [%cpu3] )"
-    format = "💻 cpu: %usage"
+    format = " cpu: %usage"
 }
 
 cpu_temperature 0 {
-        format = "🌡 %degrees °C"
+        # format = "🌡 %degrees °C"
+        format = " %degrees "
         max_threshold = 80
-        format_above_threshold = "⚠ Warning 📛: %degrees °C"
+        # format_above_threshold = "⚠ Warning 📛: %degrees °C"
+        format_above_threshold = " : %degrees "
 }
 
 memory {
@@ -81,8 +91,10 @@ memory {
 }
 
 volume master {
-        format = "🔊: %volume"
-        format_muted = "🔇 (%volume)"
+        # format = "🔊: %volume"
+        format = "墳 %volume"
+        # format_muted = "🔇 (%volume)"
+        format_muted = "婢 (%volume)"
         device = "default"
         mixer = "Master"
         mixer_idx = 0

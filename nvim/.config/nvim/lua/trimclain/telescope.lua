@@ -174,8 +174,8 @@ telescope.load_extension('fzf')
 -- My custom functions, which get imported with "require'trimclain.telescope.func_name()"
 local M = {}
 M.curr_buf_search = function()
-  local opt = require('telescope.themes').get_dropdown({height=10, previewer=false})
-  require('telescope.builtin').current_buffer_fuzzy_find(opt)
+    local opt = require('telescope.themes').get_dropdown({height=10, previewer=false})
+    require('telescope.builtin').current_buffer_fuzzy_find(opt)
 end
 
 return M
