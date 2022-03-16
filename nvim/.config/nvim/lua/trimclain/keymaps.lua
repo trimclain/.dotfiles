@@ -4,8 +4,6 @@
 
 local opts = { noremap = true, silent = true }
 
-local term_opts = { silent = true }
-
 local keymap = vim.api.nvim_set_keymap
 
 -- Remap space as a leader key
@@ -40,14 +38,11 @@ keymap("n", "<leader>gs", ":G<cr>", opts)   -- git status
 
 -- Project View (File Explorer)
 -- keymap("n", "<leader>pv", ":Lex 30<cr>", opts)
-keymap("n", "<leader>pv", ":NvimTreeToggle<cr>", opts)
+keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
 -- Undotree
-keymap("n", "<leader>u", ":UndotreeShow<cr>", opts)
+keymap("n", "<leader>u", ":UndotreeToggle<cr>", opts)
 
--- Terminal
-keymap("n", "<leader>tt", "<C-w>v<C-w>l :terminal<cr>", term_opts)  --in the right vsplit
-keymap("t", "<Esc>", "<C-\\><C-n>", term_opts)                      -- leave terminal mode with <Esc>
 
 -- QuickFixList Stuff - local ones not in use
 QFLIST_LOCAL = 0
@@ -60,6 +55,8 @@ QFLIST_GLOBAL = 0
 keymap("n", "Q", "", opts)                  -- disable Q coz useless
 keymap("n", "<cr>", ":noh<cr>", opts)       -- disable the higlighting of the searched text
 keymap("n", "Y", "y$", opts)                -- make Y work like C and D
+keymap("n", "<C-u>", "<C-u>zz", opts)       -- keep it centered
+keymap("n", "<C-d>", "<C-d>zz", opts)       -- keep it centered
 keymap("n", "n", "nzzzv", opts)             -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts)             -- and backwards
 keymap("n", "J", "mzJ`z", opts)             -- keep it centered when joining lines
