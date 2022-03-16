@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 
+
 import os
 import random
 import subprocess
 from pathlib import Path
 
+
 def main():
-    IMG_FOLDER = os.path.join(Path.home(),'personal/images/murzchnvok-wallpapers')
+    PATH2 = 'personal/images/murzchnvok-wallpapers'
+    IMG_FOLDER = os.path.join(Path.home(), PATH2)
     files = os.listdir(IMG_FOLDER)
     chosen_bg_image = random.choice(files)
     chosen_bg_image_path = os.path.join(IMG_FOLDER, chosen_bg_image)
     subprocess.run(['feh', '--bg-scale', chosen_bg_image_path])
+
 
 if __name__ == "__main__":
     main()
