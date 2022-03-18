@@ -199,6 +199,20 @@ kdenlive:
 	sudo apt update
 	sudo apt install kdenlive
 
+neovide:
+	@echo "==================================================================="
+	@echo "Installing Neovide..."
+	@# Install dependencies
+	sudo apt install -y curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
+	@# Install rust (done)
+	@# Clone the repo
+	git clone "https://github.com/neovide/neovide" ~/neovide
+	@# Build
+	cd ~/neovide && ~/.cargo/bin/cargo build --release
+	@# Copy the binary
+	cp ~/neovide/target/release/neovide ~/.local/bin/
+
+###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
 linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom rofi
@@ -235,5 +249,5 @@ ubuntu_setup: python3_setup null_ls_tools
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
 	alacritty i3 polyba rpicom rofi telegram spotify brave obs-studio \
-	kdenlive linux_install linux_software python3_setup null_ls_tool \
+	neovide kdenlive linux_install linux_software python3_setup null_ls_tool \
 	ubuntu_setup
