@@ -55,8 +55,8 @@ QFLIST_GLOBAL = 0
 keymap("n", "Q", "", opts)                  -- disable Q coz useless
 keymap("n", "<cr>", ":noh<cr>", opts)       -- disable the higlighting of the searched text
 keymap("n", "Y", "y$", opts)                -- make Y work like C and D
-keymap("n", "<C-u>", "<C-u>zz", opts)       -- keep it centered
-keymap("n", "<C-d>", "<C-d>zz", opts)       -- keep it centered
+keymap("n", "<C-u>", "<C-u>zz", opts)       -- keep it centered moving up
+keymap("n", "<C-d>", "<C-d>zz", opts)       -- and down half a page
 keymap("n", "n", "nzzzv", opts)             -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts)             -- and backwards
 keymap("n", "J", "mzJ`z", opts)             -- keep it centered when joining lines
@@ -86,8 +86,8 @@ vim.cmd [[nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j']]
 
 
 -- Telescope keybindings
--- TODO: what is this next line
--- vim.keymap.set("n", "<leader>pw", ":lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>")
+-- with next command search for the word under the cursor
+vim.keymap.set("n", "<leader>pw", ':lua require("telescope.builtin").grep_string { search = vim.fn.expand("<cword>") }<CR>')
 vim.keymap.set("n", "<leader>ps", ":lua require('telescope.builtin').live_grep()<CR>", opts)
 vim.keymap.set("n", "<C-f>", ":lua require('trimclain.telescope').curr_buf_search()<CR>", opts)
 vim.keymap.set("n", "<C-p>", "<cmd>lua require('telescope.builtin').git_files()<CR>", opts)
@@ -110,6 +110,7 @@ keymap("", "<C-c>", "<Esc>", opts)      -- normal, visual, select, operator-pend
 keymap("l", "<C-c>", "<Esc>", opts)     -- insert, command-line, lang-arg modes
 keymap("i", "<C-c>", "<Esc>", opts)     -- insert mode again, coz doesn't work above
 
+-- TODO: this should probably go to after/ftplugin
 -- Check the filetype to know how to run the file
 if vim.bo.filetype == "python" then
     -- if a python file

@@ -152,24 +152,10 @@ telescope.setup{
             case_mode = "smart_case",           -- or "ignore_case" or "respect_case"
                                                 -- the default case_mode is "smart_case"
         },
-        -- file_browser = {
-        --     theme = "ivy",
-        --     mappings = {
-        --         ["i"] = {
-        --             -- your custom insert mode mappings
-        --         },
-        --         ["n"] = {
-        --             -- your custom normal mode mappings
-        --             "<leader>fb"
-        --         },
-        --     },
-        -- },
     }
 }
 
 telescope.load_extension('fzf')
--- TODO: this doesn't work
--- telescope.load_extension "file_browser"
 
 -- My custom functions, which get imported with "require'trimclain.telescope.func_name()"
 local M = {}
