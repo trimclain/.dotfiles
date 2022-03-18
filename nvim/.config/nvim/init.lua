@@ -12,7 +12,7 @@
 --
 --#############################################################################
 
-require("trimclain.settings")
+require("trimclain.options")
 require("trimclain.keymaps")
 require("trimclain.plugins")
 require("trimclain.catppuccin")

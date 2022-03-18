@@ -19,15 +19,15 @@ local options = {
     relativenumber = true,                  -- set relative numbered lines
     numberwidth = 4,                        -- set number column width {default 4}
     hlsearch = true,                        -- highlight all matches on previous search pattern
-    incsearch = true,				        -- go to search while typing #GOAT
+    incsearch = true,                        -- go to search while typing #GOAT
     ignorecase = true,                      -- ignore case in search patterns
     smartcase = true,                       -- except when using capital letters
     hidden = true,                          -- allows to open multiple buffers
-    ruler = true,				            -- Show the line and column number of the cursor position in the bottom right
+    ruler = true,                            -- Show the line and column number of the cursor position in the bottom right
     scrolloff = 8,                          -- start scrolling when 8 lines away from the bottom
     sidescrolloff = 8,                      --  or  8 chars away from the sides
-    wildmenu = true,				        -- better command-line completion
-    showcmd = true,				            -- show partial commands in the last line of the screen
+    wildmenu = true,                        -- better command-line completion
+    showcmd = true,                         -- show partial commands in the last line of the screen
     colorcolumn = "80",                     -- vertical column to see 80 characters
     signcolumn = "yes",                     -- always show the sign column, otherwise it would shift the text each time
     updatetime = 50,                        -- faster completion (4000ms default)
@@ -42,7 +42,6 @@ local options = {
     backup = false,                         -- creates a backup file
     swapfile = false,                       -- creates a swapfile
     undofile = true,                        -- enable persistent undo
-    formatoptions = "tcqjnr",               -- type :h formatoptions to see the meaning of this option and this string
     conceallevel = 0,                       -- so that `` is visible in markdown files
     -- cmdheight = 2,                          -- more space in the neovim command line for displaying messages
     -- pumheight = 10,                         -- pop up menu height
@@ -67,8 +66,23 @@ local options = {
 
 
 for k, v in pairs(options) do
-  vim.opt[k] = v
+    vim.opt[k] = v
 end
+
+-- TODO: Is there even a point of setting formatoptions here, if they get overwritten
+-- by anyway? see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
+-- To see what the options are use :h fo-table
+vim.opt.formatoptions = vim.opt.formatoptions
+    - "a" -- Auto formatting is BAD.
+    - "t" -- Don't auto format my code. I got linters for that.
+    + "c" -- In general, I like it when comments respect textwidth
+    + "q" -- Allow formatting comments w/ gq
+    - "o" -- O and o, don't continue comments
+    + "r" -- But do continue when pressing enter.
+    + "n" -- Indent past the formatlistpat, not underneath it.
+    + "j" -- Auto-remove comments if possible.
+    - "2" -- I'm not in gradeschool anymore
+
 
 -- vim.opt.undodir = "~/.nvim/undodir" -- works weird
 vim.cmd "set undodir=~/.nvim/undodir"
