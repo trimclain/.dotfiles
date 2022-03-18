@@ -229,11 +229,11 @@ null_ls_tools:
 	npm install --global prettier
 
 ubuntu_setup: python3_setup null_ls_tools
-	echo "Done"
+	@echo "Done"
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
 	alacritty i3 polyba rpicom rofi telegram spotify brave obs-studio \
 	kdenlive linux_install linux_software python3_setup null_ls_tool \
-	subuntu_setup
+	ubuntu_setup
