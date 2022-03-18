@@ -5,6 +5,7 @@ if not status_ok then
     return
 end
 
+
 -- configure it
 catppuccin.setup{
     transparent_background = true,
@@ -41,7 +42,8 @@ catppuccin.setup{
         telescope = true,
         nvimtree = {
             enabled = true,
-            show_root = false,
+            show_root = false, -- makes the root folder not transparent
+            transparent_panel = true, -- make the panel transparent
         },
         which_key = false,
         indent_blankline = {
