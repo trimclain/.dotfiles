@@ -55,8 +55,8 @@ QFLIST_GLOBAL = 0
 keymap("n", "Q", "", opts)                  -- disable Q coz useless
 keymap("n", "<cr>", ":noh<cr>", opts)       -- disable the higlighting of the searched text
 keymap("n", "Y", "y$", opts)                -- make Y work like C and D
-keymap("n", "<C-u>", "<C-u>zz", opts)       -- keep it centered moving up
-keymap("n", "<C-d>", "<C-d>zz", opts)       -- and down half a page
+-- keymap("n", "<C-u>", "<C-u>zz", opts)       -- keep it centered moving up
+-- keymap("n", "<C-d>", "<C-d>zz", opts)       -- and down half a page
 keymap("n", "n", "nzzzv", opts)             -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts)             -- and backwards
 keymap("n", "J", "mzJ`z", opts)             -- keep it centered when joining lines

@@ -44,13 +44,13 @@ local options = {
     undofile = true,                        -- enable persistent undo
     conceallevel = 0,                       -- so that `` is visible in markdown files
     timeoutlen = 400,                       -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
+    guifont = "JetBrains Mono:h12",          -- the font used in graphical neovim applications
     -- cmdheight = 2,                          -- more space in the neovim command line for displaying messages
     -- pumheight = 10,                         -- pop up menu height
     -- showtabline = 2,                        -- always show tabs
     -- splitbelow = true,                      -- force all horizontal splits to go below current window
     -- splitright = true,                      -- force all vertical splits to go to the right of current window
     -- cursorline = true,                      -- highlight the current line
-    -- guifont = "monospace:h17",              -- the font used in graphical neovim applications
     -- writebackup = false,                    -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 }
 
