@@ -68,7 +68,7 @@ return packer.startup(function(use)
         as = 'catppuccin'
     }
     use 'nvim-lualine/lualine.nvim'         -- great status line in lua
-    use 'lukas-reineke/indent-blankline.nvim' -- add indent guidelines
+    use 'lukas-reineke/indent-blankline.nvim' -- add indent guides for Neovim
 
     -- CMP plugins
     use 'hrsh7th/nvim-cmp'                  -- the completion plugin
