@@ -211,6 +211,11 @@ neovide:
 	cd ~/neovide && ~/.cargo/bin/cargo build --release
 	@# Copy the binary
 	cp ~/neovide/target/release/neovide ~/.local/bin/
+	@# Uninstall the github repo
+	rm -rf ~/neovide
+
+uninstall_neovide:
+	rm ~/.local/bin/neovide
 
 ###############################################################################
 # Things that I install manually yet: Discord
@@ -249,5 +254,5 @@ ubuntu_setup: python3_setup null_ls_tools
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
 	alacritty i3 polyba rpicom rofi telegram spotify brave obs-studio \
-	neovide kdenlive linux_install linux_software python3_setup null_ls_tool \
-	ubuntu_setup
+	neovide uninstall_neovide kdenlive linux_install linux_software \
+	python3_setup null_ls_tool ubuntu_setup
