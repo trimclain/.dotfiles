@@ -44,7 +44,6 @@ local options = {
     undofile = true,                        -- enable persistent undo
     conceallevel = 0,                       -- so that `` is visible in markdown files
     timeoutlen = 400,                       -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
-    guifont = "JetBrains Mono:h12",          -- the font used in graphical neovim applications
     -- cmdheight = 2,                          -- more space in the neovim command line for displaying messages
     -- pumheight = 10,                         -- pop up menu height
     -- showtabline = 2,                        -- always show tabs
@@ -68,6 +67,11 @@ local options = {
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
+
+-- Settings for Neovide
+vim.opt.guifont = "JetBrains Mono:h12"          -- set the font
+-- vim.opt.mouse = "a"                             -- enable the mouse
+vim.g.neovide_transparency = 0.6                -- make it transparent
 
 -- TODO: Is there even a point of setting formatoptions here, if they get overwritten
 -- by anyway? see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
