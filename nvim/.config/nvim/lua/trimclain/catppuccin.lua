@@ -12,10 +12,13 @@ catppuccin.setup{
     term_colors = false,
     styles = {
         comments = "italic",
-        functions = "italic",
-        keywords = "italic",
+        -- functions = "italic",
+        functions = "NONE",
+        -- keywords = "italic",
+        keywords = "NONE",
         strings = "NONE",
-        variables = "italic",
+        -- variables = "italic",
+        variables = "NONE",
     },
     integrations = {
         treesitter = true,
