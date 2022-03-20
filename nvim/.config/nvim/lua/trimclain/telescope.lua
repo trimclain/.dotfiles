@@ -164,4 +164,11 @@ M.curr_buf_search = function()
     require('telescope.builtin').current_buffer_fuzzy_find(opt)
 end
 
+-- TODO: make a function, which will work like * in normal mode, but open telescope
+-- M.curr_word_curr_buf_search = function()
+--     -- local opt = require('telescope.themes').get_dropdown({height=10, previewer=false})
+--     local opt = vim.fn.expand("<cword>")
+--     require('telescope.builtin').current_buffer_fuzzy_find(opt)
+-- end
+
 return M
