@@ -44,7 +44,8 @@ antigen bundle git
 antigen bundle zsh-users/zsh-autosuggestions
 
 # Load the theme.
-antigen theme robbyrussell
+# antigen theme robbyrussell
+antigen theme spaceship-prompt/spaceship-prompt
 
 # Tell Antigen that you're done.
 antigen apply
@@ -122,6 +123,68 @@ antigen apply
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
+###############################################################################
+# spaceship-prompt settings
+###############################################################################
+# TODO: move to a separate file
+#
+# # Prefix
+if [ $IS_SSH ]; then
+    # Prompt replacement symbols
+    export SPACESHIP_PROMPT_DEFAULT_PREFIX='/ '
+    export SPACESHIP_CHAR_SYMBOL='-> '
+
+    # Git replacement symbols
+    export SPACESHIP_GIT_SYMBOL='git:'
+
+    export SPACESHIP_GIT_STATUS_UNTRACKED='?'
+    export SPACESHIP_GIT_STATUS_AHEAD='^'
+    export SPACESHIP_GIT_STATUS_BEHIND='v'
+    export SPACESHIP_GIT_STATUS_DIVERGED='<diverged>'
+
+    # Pyenv
+    SPACESHIP_PYENV_SYMBOL="pyenv:"
+else
+    export SPACESHIP_PROMPT_DEFAULT_PREFIX='❯ '
+    export SPACESHIP_CHAR_SYMBOL='❯ '
+fi
+
+# Time
+export SPACESHIP_TIME_SHOW=true
+
+
+SPACESHIP_PROMPT_ORDER=(
+    user
+    dir
+    git
+    aws
+    pyenv
+    exec_time
+    line_sep
+    vi_mode
+    exit_code
+    char
+)
+
+
+# Hacks to get RPOMPT on top line :)
+function spaceship_rprompt_prefix() {
+    echo -n '%{'$'\e[1A''%}'
+}
+
+function spaceship_rprompt_suffix() {
+    echo -n '%{'$'\e[1B''%}'
+}
+
+# RPROMPT
+SPACESHIP_RPROMPT_ORDER=(
+    rprompt_prefix
+    time
+    rprompt_suffix
+)
+
+###############################################################################
+
 # Keybinds
 bindkey '^ ' autosuggest-accept
 bindkey -s ^q "tmux-sessionizer $DOTFILES\r"
@@ -146,6 +209,28 @@ alias py="python3"
 
 alias la="ls -A --group-directories-first"
 alias l="ls -lhA --group-directories-first"
+
+# Extract Stuff
+extract () {
+     if [ -f $1 ] ; then
+         case $1 in
+             *.tar.bz2)   tar xjf $1        ;;
+             *.tar.gz)    tar xzf $1        ;;
+             *.bz2)       bunzip2 $1        ;;
+             *.rar)       rar x $1          ;;
+             *.gz)        gunzip $1         ;;
+             *.tar)       tar xf $1         ;;
+             *.tbz2)      tar xjf $1        ;;
+             *.tgz)       tar xzf $1        ;;
+             *.zip)       unzip $1          ;;
+             *.Z)         uncompress $1     ;;
+             *.7z)        7z x $1           ;;
+             *)           echo "'$1' cannot be extracted via extract()" ;;
+         esac
+     else
+         echo "'$1' is not a valid file"
+     fi
+}
 
 # Load aliases from .bash_aliases or .zsh_aliases if they exists
 if [ -f ~/.zsh_aliases ]; then
