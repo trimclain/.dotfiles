@@ -12,6 +12,7 @@
 --
 --#############################################################################
 
+require "trimclain.impatient" -- must load first to get that juicy speedup
 require "trimclain.options"
 require "trimclain.keymaps"
 require "trimclain.plugins"
@@ -28,7 +29,6 @@ require "trimclain.comments"
 require "trimclain.gitsigns"
 require "trimclain.nvim-tree" -- not sure I like this (adds +15-20ms startup time)
 require "trimclain.toggleterm"
-require "trimclain.impatient"
 -- require ("trimclain.netrw")
 require "trimclain.colorizer"
 require "trimclain.markdown-preview"

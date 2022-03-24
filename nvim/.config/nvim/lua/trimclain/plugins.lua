@@ -34,7 +34,7 @@ end
 return packer.startup(function(use)
     use "wbthomason/packer.nvim" -- packer can manage itself
     use "nvim-lua/plenary.nvim" -- made by tj, used by many plugins
-    use "lewis6991/impatient.nvim" -- speed up nvim startup (TODO: what is this)
+    use "lewis6991/impatient.nvim" -- speed up nvim startup
 
     use "windwp/nvim-autopairs" -- automatically close brackets
     use "mbbill/undotree" -- see the undo history
