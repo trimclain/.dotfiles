@@ -1,13 +1,12 @@
 -- Use a protected call so we don't error out on first use
 local status_ok, catppuccin = pcall(require, "catppuccin")
 if not status_ok then
-    vim.notify("catppuccin not found!")
+    vim.notify "catppuccin not found!"
     return
 end
 
-
 -- configure it
-catppuccin.setup{
+catppuccin.setup {
     transparent_background = true,
     term_colors = false,
     styles = {
@@ -65,5 +64,5 @@ catppuccin.setup{
         hop = false,
         notify = true,
         telekasten = true,
-    }
+    },
 }

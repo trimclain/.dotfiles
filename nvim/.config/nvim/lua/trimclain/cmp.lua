@@ -1,14 +1,14 @@
 -- Completion Enginge
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
-    vim.notify("CMP not found")
+    vim.notify "CMP not found"
     return
 end
 
 -- Snippets
 local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
-    vim.notify("Luasnip not found")
+    vim.notify "Luasnip not found"
     return
 end
 
@@ -74,7 +74,7 @@ local kind_icons = {
     Struct = "פּ",
     Event = "",
     Operator = "",
-    TypeParameter = ""
+    TypeParameter = "",
 }
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
@@ -147,30 +147,30 @@ cmp.setup {
             -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
             vim_item.menu = ({
                 nvim_lsp = "[LSP]",
-                nvim_lua = "[nvim_lua]",
+                nvim_lua = "[lua]",
                 luasnip = "[snip]",
                 buffer = "[buf]",
                 path = "[path]",
                 cmdline = "[cmdline]",
             })[entry.source.name]
             return vim_item
-        end
+        end,
     },
 
     sources = cmp.config.sources({
         -- the order sets priority
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lua' },
-        { name = 'luasnip' },
-        { name = 'path' },
-        { name = 'cmdline' },
+        { name = "nvim_lsp" },
+        { name = "nvim_lua" },
+        { name = "luasnip" },
+        { name = "path" },
+        { name = "cmdline" },
     }, {
-        { name = 'buffer', keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
+        { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
     }),
 
     confirm_opts = {
-       behavior = cmp.ConfirmBehavior.Replace,
-       select = false,
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = false,
     },
     documentation = {
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },

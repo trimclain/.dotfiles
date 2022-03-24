@@ -1,24 +1,20 @@
--- #############################################################################
--- Telescope Setup
--- #############################################################################
-
 local status_ok, telescope = pcall(require, "telescope")
 if not status_ok then
-  return
+    return
 end
 
 local actions = require "telescope.actions"
 
-telescope.setup{
+telescope.setup {
     defaults = {
         vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case'
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
         },
         prompt_prefix = " ",
         selection_caret = "  ",
@@ -35,24 +31,24 @@ telescope.setup{
                 mirror = false,
             },
         },
-        file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-        file_ignore_patterns = { 'node_modules', '.git' }, -- ignore these folders
-        generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
+        file_sorter = require("telescope.sorters").get_fuzzy_file,
+        file_ignore_patterns = { "node_modules", ".git" }, -- ignore these folders
+        generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
         winblend = 0,
         border = {},
-        borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         -- if no nerdfont:
         -- borderchars = { '-', '|', '-', '|', '$', '$', '$', '$' },
         color_devicons = true,
         use_less = true,
         path_display = {},
-        set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-        file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-        grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-        qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+        set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+        grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+        qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
         -- Developer configurations: Not meant for general override
-        buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
+        buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
 
         mappings = {
             -- almost everything is default
@@ -123,45 +119,45 @@ telescope.setup{
     pickers = {
         find_files = {
             theme = "dropdown",
-            previewer = false
+            previewer = false,
         },
         live_grep = {
             vimgrep_arguments = {
-                'rg',
-                '--color=never',
-                '--no-heading',
-                '--with-filename',
-                '--line-number',
-                '--column',
-                '--hidden',         -- search hidden files/directories
-                '--smart-case',
+                "rg",
+                "--color=never",
+                "--no-heading",
+                "--with-filename",
+                "--line-number",
+                "--column",
+                "--hidden", -- search hidden files/directories
+                "--smart-case",
             },
             -- theme = "dropdown",
             -- previewer = false
         },
         git_files = {
             theme = "dropdown",
-            previewer = false
-        }
+            previewer = false,
+        },
     },
     extensions = {
         fzf = {
-            fuzzy = true,                       -- false will only do exact matching
-            override_generic_sorter = true,     -- override the generic sorter
-            override_file_sorter = true,        -- override the file sorter
-            case_mode = "smart_case",           -- or "ignore_case" or "respect_case"
-                                                -- the default case_mode is "smart_case"
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
         },
-    }
+    },
 }
 
-telescope.load_extension('fzf')
+telescope.load_extension "fzf"
 
 -- My custom functions, which get imported with "require'trimclain.telescope.func_name()"
 local M = {}
 M.curr_buf_search = function()
-    local opt = require('telescope.themes').get_dropdown({height=10, previewer=false})
-    require('telescope.builtin').current_buffer_fuzzy_find(opt)
+    local opt = require("telescope.themes").get_dropdown { height = 10, previewer = false }
+    require("telescope.builtin").current_buffer_fuzzy_find(opt)
 end
 
 -- TODO: make a function, which will work like * in normal mode, but open telescope
