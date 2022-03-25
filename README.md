@@ -1,6 +1,8 @@
 # My Dotfiles
 
-NOTE: Automatic installation with `make` is written for Debian-based systems and was tested on Ubuntu 20.04.
+NOTES:
+- Installation with `make` is written for Debian-based systems and was tested on Ubuntu 20.04.
+- For my neovim config the latest neovim nightly is required. Use `make nvim` to get it installled.
 
 ## How to install
 
