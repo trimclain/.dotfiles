@@ -14,20 +14,18 @@
 
 VIM="nvim"
 
-# Update $PATH.
-export PATH="$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
-
-# Path to my oh-my-zsh installation.
-# export ZSH="/home/$USERNAME/.oh-my-zsh"
-
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
 
-# ZSH_THEME="robbyrussell"
+# Useful variables to set
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$XDG_CONFIG_HOME/.local/share"
+export XDG_CACHE_HOME="$XDG_CONFIG_HOME/.cache"
 
-########################### A LITTLE TOO LAGGY ################################
-###########################         |          ################################
-###########################         v          ################################
+export N_PREFIX="$HOME/.n"
+
+# To keep zsh config in ~/.config/zsh
+# export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 ###############################################################################
 # Plugin Manager
@@ -40,7 +38,7 @@ antigen use oh-my-zsh
 antigen bundle git
 
 # Syntax highlighting bundle and autosuggestions
-# antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 
 # Load the theme.
@@ -51,35 +49,14 @@ antigen theme spaceship-prompt/spaceship-prompt
 antigen apply
 ###############################################################################
 
-###########################         ^          ################################
-###########################         |          ################################
-########################### A LITTLE TOO LAGGY ################################
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -94,13 +71,6 @@ antigen apply
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# plugins=(git zsh-autosuggestions)
-
-# source $ZSH/oh-my-zsh.sh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -109,19 +79,14 @@ antigen apply
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+else
+    export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
 
 ###############################################################################
 # spaceship-prompt settings
@@ -211,7 +176,7 @@ alias la="ls -A --group-directories-first"
 alias l="ls -lhA --group-directories-first"
 
 # Extract Stuff
-extract () {
+extract() {
      if [ -f $1 ] ; then
          case $1 in
              *.tar.bz2)   tar xjf $1        ;;
@@ -232,12 +197,25 @@ extract () {
      fi
 }
 
+# fucntion to add folders to the end of $PATH
+addToPATH() {
+    if [[ ! :$PATH: == *":$1:"* ]]; then
+        PATH+=":$1"
+    fi
+}
+
+
+# Make sure ~/bin, ~/.local/bin and /usr/local/bin are in $PATH.
+addToPATH "$HOME/bin"
+addToPATH "/usr/local/bin"
+addToPATH "$HOME/.local/bin"
+
+addToPATH "$N_PREFIX/bin" # n-insall for node versions
+addToPATH "$HOME/.cargo/bin" # rust btw
+
 # Load aliases from .bash_aliases or .zsh_aliases if they exists
 if [ -f ~/.zsh_aliases ]; then
     . ~/.zsh_aliases
 elif [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
-export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
-PATH+=":$HOME/.cargo/bin" # Added for rustup and cargo to install Alacritty
