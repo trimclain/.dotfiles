@@ -210,12 +210,12 @@ neovide:
 	@# Build
 	cd ~/neovide && ~/.cargo/bin/cargo build --release
 	@# Copy the binary
-	cp ~/neovide/target/release/neovide ~/.local/bin/
+	sudo cp ~/neovide/target/release/neovide /usr/local/bin/
 	@# Uninstall the github repo
 	rm -rf ~/neovide
 
 uninstall_neovide:
-	rm ~/.local/bin/neovide
+	sudo rm /usr/local/bin/neovide
 
 ###############################################################################
 # Things that I install manually yet: Discord
