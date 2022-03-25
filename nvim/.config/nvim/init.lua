@@ -13,6 +13,7 @@
 --#############################################################################
 
 require "trimclain.impatient" -- must load first to get that juicy speedup
+require "trimclain.disable-builtins"
 require "trimclain.options"
 require "trimclain.keymaps"
 require "trimclain.plugins"
