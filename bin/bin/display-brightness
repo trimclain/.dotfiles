@@ -35,8 +35,8 @@ then
     mode="decrease"
     new="$( echo $current-0.1 | bc )"
 
-    # don't got out of range
-    if [[ $new == 0 ]]; then
+    # don't got out of range, but allow 0
+    if [[ $new == -.1 ]]; then
         exit 0
     fi
 fi
