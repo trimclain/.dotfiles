@@ -66,7 +66,7 @@ end
 -- Settings for Neovide
 vim.opt.guifont = "JetBrains Mono:h12" -- set the font
 -- vim.opt.mouse = "a" -- enable the mouse
-vim.g.neovide_transparency = 0.6 -- make it transparent
+-- vim.g.neovide_transparency = 0.6 -- make it transparent
 
 -- TODO: Is there even a point of setting formatoptions here, if they get overwritten
 -- by anyway? see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
