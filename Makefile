@@ -211,6 +211,10 @@ neovide:
 	cd ~/neovide && ~/.cargo/bin/cargo build --release
 	@# Copy the binary
 	sudo cp ~/neovide/target/release/neovide /usr/local/bin/
+	@# Copy .desktop entry to make it visible for apps in rofi
+	sudo cp ~/neovide/assets/neovide.desktop /usr/share/applications/
+	@# Copy the icon (jeez I have to do their work)
+	sudo cp ~/neovide/assets/neovide-256x256.png /usr/local/share/icons/hicolor/256x256/apps/neovide.png
 	@# Uninstall the github repo
 	rm -rf ~/neovide
 
