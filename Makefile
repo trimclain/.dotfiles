@@ -113,6 +113,25 @@ alacritty: alacritty_build_reqs
 	@# Delete the folder from github
 	rm -rf ~/alacritty
 
+kitty:
+	@# Installing kitty
+	@echo "==================================================================="
+	@echo "Installing Kitty..."
+	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+	@# Creating a symlink to /usr/bin to add kitty to PATH
+	sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin
+	@# Place the kitty.desktop file somewhere it can be found by the OS
+	sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/share/applications/
+	@# If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
+	@# cp ~/.local/kitty.app/share/applications/kitty-open.desktop /usr/share/applications/
+	@# Update the path to the kitty icon in the kitty.desktop file(s)
+	sudo sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/share/applications/kitty*.desktop
+
+uninstall_kitty:
+	sudo rm /usr/loca/bin/kitty
+	sudo rm /usr/share/applications/kitty.desktop
+	rm -rf .local/kitty.app
+
 i3:
 	@echo "==================================================================="
 	@echo "Installing i3..."

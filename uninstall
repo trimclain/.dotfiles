@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Unstow it all coz no error when symlink doesn't exist
-STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh"
+STOW_FOLDERS="bin,bash,i3,nvim,tmux,vim,zsh,kitty,alacritty,rofi,picom"
 
 # Unstowing Everything
 echo Removing all symlinks...

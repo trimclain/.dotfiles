@@ -104,7 +104,8 @@ floating_modifier $mod
 # start a terminal
 # set $myTerm i3-sensible-terminal
 # set $myTerm mate-terminal
-set $myTerm alacritty
+# set $myTerm alacritty
+set $myTerm kitty
 bindsym $mod+Return exec $myTerm
 
 # kill focused window
