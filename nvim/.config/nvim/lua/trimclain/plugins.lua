@@ -108,6 +108,7 @@ return packer.startup(function(use)
         cmd = "Bracey",
     }
     use "norcalli/nvim-colorizer.lua" -- preview colors in neovim
+    use "KabbAmine/vCoolor.vim" -- get a color picker
 
     use "tweekmonster/startuptime.vim" -- check the startuptime of plugins
 

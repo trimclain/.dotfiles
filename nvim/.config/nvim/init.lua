@@ -28,10 +28,10 @@ require "trimclain.treesitter"
 require "trimclain.autopairs"
 require "trimclain.comments"
 require "trimclain.gitsigns"
-require "trimclain.nvim-tree" -- not sure I like this (adds +15-20ms startup time)
+require "trimclain.nvim-tree"
 require "trimclain.toggleterm"
--- require ("trimclain.netrw")
 require "trimclain.colorizer"
+require "trimclain.colorpicker"
 require "trimclain.markdown-preview"
 require "trimclain.bracey"
 require "trimclain.autocmd"
