@@ -46,7 +46,6 @@ nvim_tree.setup {
         "dashboard",
         "alpha",
     },
-    auto_close = true,
     auto_reload_on_write = true,
     open_on_tab = false,
     hijack_cursor = true,
