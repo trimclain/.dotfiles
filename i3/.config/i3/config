@@ -15,6 +15,10 @@ set $mod Mod1
 # Set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
 
+# Set window focus not to follow mouse movements as the mouse crosses window
+# borders
+focus_follows_mouse no
+
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 new_window pixel 1
 new_float normal
