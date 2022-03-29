@@ -46,9 +46,11 @@ NOTE: If you want to install dotfiles with a different option, run `./uninstall`
     ```
     make finstall
     ```
-- For a complete setup of the environment on Ubuntu (or any Debian-based Distro) run:
+- What I do on my system (Debian-based):
     ```
     make linux_install
+    make linux_software
+    make ubuntu_setup
     ```
     and follow instructions.
 5. Open and close vim 2 times to let it automatically install vim-plug and the plugins. <br>

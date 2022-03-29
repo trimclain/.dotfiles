@@ -113,6 +113,10 @@ alacritty: alacritty_build_reqs
 	@# Delete the folder from github
 	rm -rf ~/alacritty
 
+uninstall_alacritty:
+	sudo rm /usr/local/bin/alacritty
+	sudo rm /usr/share/pixmaps/Alacritty.svg
+
 kitty:
 	@# Installing kitty
 	@echo "==================================================================="
@@ -243,7 +247,7 @@ uninstall_neovide:
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs alacritty i3 picom rofi
+linux_install: font_install tmux zsh nvim nodejs kitty i3 picom rofi
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
@@ -276,6 +280,6 @@ ubuntu_setup: python3_setup null_ls_tools
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
-	alacritty i3 polyba rpicom rofi telegram spotify brave obs-studio \
-	neovide uninstall_neovide kdenlive linux_install linux_software \
-	python3_setup null_ls_tool ubuntu_setup
+	alacritty uninstall_alacritty kitty uninstall_kitty i3 polybar picom \
+	rofi telegram spotify brave obs-studio neovide uninstall_neovide \
+	kdenlive linux_install linux_software python3_setup null_ls_tool ubuntu_setup
