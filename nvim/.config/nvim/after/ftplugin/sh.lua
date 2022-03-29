@@ -6,3 +6,9 @@
 -- vim.bo.shiftwidth = 2
 
 vim.opt.formatoptions = vim.opt.formatoptions - "o"
+
+
+local opts = { noremap = true, silent = true }
+local keymap = vim.api.nvim_set_keymap
+-- bash, shell, zsh -> all will run in bash coz why not
+keymap("n", "<C-b>", ":w <bar> :! bash %<cr>", opts)

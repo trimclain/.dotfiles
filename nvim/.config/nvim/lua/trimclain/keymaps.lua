@@ -109,18 +109,8 @@ keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending m
 keymap("l", "<C-c>", "<Esc>", opts) -- insert, command-line, lang-arg modes
 keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 
--- TODO: this should probably go to after/ftplugin
--- Check the filetype to know how to run the file
-if vim.bo.filetype == "python" then
-    -- if a python file
-    keymap("n", "<C-b>", ":w <bar> :! python3 %<cr>", opts)
-elseif vim.bo.filetype == "sh" then
-    -- bash, shell, zsh -> all will run in bash coz why not
-    keymap("n", "<C-b>", ":w <bar> :! bash %<cr>", opts)
-else
-    -- other executable files
-    keymap("n", "<C-b>", ":w <bar> :! ./%<cr>", opts)
-end
+-- Run a file
+keymap("n", "<C-b>", ":w <bar> :! ./%<cr>", opts)
 
 -- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
 keymap("n", "<C-j>", ":cnext<CR>zz", opts)
