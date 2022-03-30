@@ -117,7 +117,6 @@ keymap("n", "<C-j>", ":cnext<CR>zz", opts)
 keymap("n", "<C-k>", ":cprev<CR>zz", opts)
 -- keymap("n", "<leader>j", ":lnext<CR>zz", opts)
 -- keymap("n", "<leader>k", ":lprev<CR>zz", opts)
-keymap("n", "<C-k>", ":cprev<CR>zz", opts)
 keymap("n", "<C-q>", "<cmd>lua require('trimclain.keymaps').ToggleQFList(1)<CR>", opts)
 -- keymap("n", "<leader>q", "<cmd>lua require('trimclain.keymaps').ToggleQFList(0)<CR>", opts)
 
