@@ -1,8 +1,3 @@
--- TODO: do i still need these? If yes, rewrite in lua
--- Enable syntax and plugins
--- syntax enable
--- filetype plugin indent on
-
 local options = {
     fileencoding = "utf-8", -- the encoding written to a file
     termguicolors = true, -- set term gui colors (most terminals support this)
@@ -40,6 +35,8 @@ local options = {
     undofile = true, -- enable persistent undo
     conceallevel = 0, -- so that `` is visible in markdown files
     timeoutlen = 400, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
+    -- TODO: Is there even a point of setting laststatus here, if it gets overwritten
+    laststatus = 3, -- have a global statusline at the bottom instead of one for each window (new feature in nightly)
     -- cmdheight = 2, -- more space in the neovim command line for displaying messages
     -- pumheight = 10, -- pop up menu height
     -- showtabline = 2, -- always show tabs
@@ -69,7 +66,7 @@ vim.opt.guifont = "JetBrains Mono:h12" -- set the font
 vim.g.neovide_transparency = 0.85 -- make it transparent
 
 -- TODO: Is there even a point of setting formatoptions here, if they get overwritten
--- by anyway? see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
+-- anyway? see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
 -- To see what the options are use :h fo-table
 vim.opt.formatoptions = vim.opt.formatoptions
     - "a" -- Auto formatting is BAD.
@@ -85,6 +82,7 @@ vim.opt.formatoptions = vim.opt.formatoptions
 -- vim.opt.undodir = "~/.nvim/undodir" -- works weird
 vim.cmd "set undodir=~/.nvim/undodir"
 
+-- TODO: can I do this in lua?
 -- Sometimes them fingers do be fat
 vim.cmd [[com! Q q]]
 vim.cmd [[com! Qa qa]]
