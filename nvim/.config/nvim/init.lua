@@ -14,24 +14,34 @@
 
 require "trimclain.impatient" -- must load first to get that juicy speedup
 require "trimclain.disable-builtins"
+
 require "trimclain.options"
 require "trimclain.keymaps"
+
 require "trimclain.plugins"
-require "trimclain.catppuccin"
+
+-- require "trimclain.catppuccin"
+require "trimclain.tokyonight"
 require "trimclain.colorscheme"
+
 require "trimclain.lualine"
 require "trimclain.indentline"
+
 require "trimclain.cmp"
 require "trimclain.lsp"
 require "trimclain.telescope"
+require "trimclain.harpoon"
 require "trimclain.treesitter"
 require "trimclain.autopairs"
 require "trimclain.comments"
+require "trimclain.todo-comments"
 require "trimclain.gitsigns"
 require "trimclain.nvim-tree"
 require "trimclain.toggleterm"
 require "trimclain.colorizer"
 require "trimclain.colorpicker"
+
 require "trimclain.markdown-preview"
 require "trimclain.bracey"
+
 require "trimclain.autocmd"

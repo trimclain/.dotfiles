@@ -53,12 +53,14 @@ return packer.startup(function(use)
     -- Comments
     use "numToStr/Comment.nvim" -- easy comment written in lua
     use "JoosepAlviste/nvim-ts-context-commentstring" -- support jsx commenting
+    use "folke/todo-comments.nvim" -- highlight todo comments in different styles
 
     -- Colorschemes & Statuslines
     use {
         "catppuccin/nvim", -- nice colorscheme, thanks tj
         as = "catppuccin",
     }
+    use "folke/tokyonight.nvim" -- trying this one out
     use "nvim-lualine/lualine.nvim" -- great status line in lua
     use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
 
@@ -86,6 +88,9 @@ return packer.startup(function(use)
         "nvim-telescope/telescope-fzf-native.nvim", -- fzf for telescope
         run = "make",
     }
+
+    -- Harpoon
+    use "ThePrimeagen/harpoon" -- thanks Prime
 
     -- Treesitter
     use {
