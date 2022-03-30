@@ -113,8 +113,8 @@ keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 keymap("n", "<C-b>", ":w <bar> :! ./%<cr>", opts)
 
 -- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
-keymap("n", "<C-j>", ":cnext<CR>zz", opts)
-keymap("n", "<C-k>", ":cprev<CR>zz", opts)
+keymap("n", "<leader>qj", ":cnext<CR>zz", opts)
+keymap("n", "<leader>qk", ":cprev<CR>zz", opts)
 -- keymap("n", "<leader>j", ":lnext<CR>zz", opts)
 -- keymap("n", "<leader>k", ":lprev<CR>zz", opts)
 keymap("n", "<C-q>", "<cmd>lua require('trimclain.keymaps').ToggleQFList(1)<CR>", opts)
