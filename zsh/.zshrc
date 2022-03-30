@@ -180,6 +180,7 @@ SPACESHIP_RPROMPT_ORDER=(
 # Keybinds
 bindkey '^ ' autosuggest-accept
 bindkey -s ^q "tmux-sessionizer $DOTFILES\r"
+bindkey -s ^t "tmux-sessionizer\r"
 
 bindkey -s ^u "Update\r"
 bindkey -s ^b "change-background\r"
