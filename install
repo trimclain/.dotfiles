@@ -31,7 +31,7 @@ if [[ -n $1 ]]; then
     if [[ $1 == "-f" || $1 == "--full" ]]; then
 
         # Folders to stow
-        STOW_FOLDERS="bin,bash,nvim,tmux,vim,zsh"
+        STOW_FOLDERS="bin,bash,nvim,chtsh,tmux,vim,zsh"
 
         # Check if there are any old files that are not symlinks and move them to backup, so stow works
         DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc ~/.config/nvim)
@@ -41,7 +41,7 @@ if [[ -n $1 ]]; then
     elif [[ $1 == "-s" || $1 == "--small" ]]; then
 
         # Folders to stow
-        STOW_FOLDERS="bin,bash,tmux,vim"
+        STOW_FOLDERS="bin,bash,chtsh,tmux,vim"
 
         # Check if there are any old files that are not symlinks and move them
         DOTFS=(~/.bashrc ~/.tmux.conf ~/.vimrc)
@@ -50,7 +50,7 @@ if [[ -n $1 ]]; then
     elif [[ $1 == "-l" || $1 == "--linux" ]]; then
 
         # Folders to stow (picom not added yet)
-        STOW_FOLDERS="bin,nvim,tmux,zsh,i3,alacritty,kitty,picom,rofi"
+        STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh,i3,alacritty,kitty,picom,rofi"
 
         # Check if there are any old files that are not symlinks and move them (picom will be added)
         DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim ~/.config/i3 ~/.config/alacritty)
@@ -61,7 +61,7 @@ if [[ -n $1 ]]; then
 else
 
     # Folders to stow
-    STOW_FOLDERS="bin,nvim,tmux,zsh"
+    STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh"
 
     # Check if there are any old files that are not symlinks and delete them, so stow works
     DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim)
