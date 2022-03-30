@@ -2,4 +2,10 @@
 
 images_folder=~/personal/images
 
-feh --bg-scale $(find $images_folder | grep '.png\|.jpg\|.jpeg' | fzf)
+selected=$(find $images_folder | grep '.png\|.jpg\|.jpeg' | fzf)
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+feh --bg-scale $selected
