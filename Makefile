@@ -117,7 +117,7 @@ uninstall_alacritty:
 	sudo rm /usr/local/bin/alacritty
 	sudo rm /usr/share/pixmaps/Alacritty.svg
 
-kitty:
+kitty: imagemagick
 	@# Installing kitty
 	@echo "==================================================================="
 	@echo "Installing Kitty..."
@@ -135,6 +135,11 @@ uninstall_kitty:
 	sudo rm /usr/loca/bin/kitty
 	sudo rm /usr/share/applications/kitty.desktop
 	rm -rf .local/kitty.app
+
+imagemagick:
+	@# This is required to view images in kitty
+	@# Building from source:
+	sudo apt install imagemagick -y
 
 i3:
 	@echo "==================================================================="
@@ -280,6 +285,6 @@ ubuntu_setup: python3_setup null_ls_tools
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
-	alacritty uninstall_alacritty kitty uninstall_kitty i3 polybar picom \
-	rofi telegram spotify brave obs-studio neovide uninstall_neovide \
+	alacritty uninstall_alacritty kitty uninstall_kitty imagemagick i3 polybar \
+	picom rofi telegram spotify brave obs-studio neovide uninstall_neovide \
 	kdenlive linux_install linux_software python3_setup null_ls_tool ubuntu_setup

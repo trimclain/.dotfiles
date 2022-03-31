@@ -190,6 +190,7 @@ unsetopt BEEP
 
 # Aliases
 alias szrc="exec zsh"
+alias icat="kitty +kitten icat" # preview images in kitty
 # alias szrc="source ~/.zshrc" doesn't work with antigen \_/
 
 alias vim="$VIM"
