@@ -43,7 +43,7 @@ configs.setup {
     },
     -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
     indent = {
-        enable = true,
+        enable = false, -- this one breaks my python indentation, so disabled for now
         disable = { "yaml" },
     },
     -- For ts-comments
