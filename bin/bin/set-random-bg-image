@@ -12,7 +12,10 @@ def main():
     IMG_FOLDER = os.path.join(Path.home(), REL_PATH)
     subfolder = os.listdir(IMG_FOLDER)
     FOLDER = os.path.join(IMG_FOLDER, subfolder[0])
-    files = os.listdir(FOLDER)
+    suffix = ('.png', '.jpg', '.jpeg')
+    files = [
+        file for file in os.listdir(FOLDER) if file.endswith(suffix)
+    ]
     chosen_bg_image = random.choice(files)
     chosen_bg_image_path = os.path.join(FOLDER, chosen_bg_image)
     subprocess.run(['feh', '--bg-scale', chosen_bg_image_path])
