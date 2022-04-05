@@ -49,11 +49,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-local reload_packer = vim.api.nvim_create_augroup("packer_user_config", {
-    clear = true,
-})
-vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = "plugins.lua",
-    command = "source <afile> | PackerSync",
-    group = reload_packer,
-})
+-- local reload_packer = vim.api.nvim_create_augroup("packer_user_config", {
+--     clear = true,
+-- })
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+--     pattern = "plugins.lua",
+--     command = "source <afile> | PackerSync",
+--     group = reload_packer,
+-- })
