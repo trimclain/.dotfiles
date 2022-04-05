@@ -26,8 +26,8 @@ vimdir:
 	@echo "Done"
 
 nvimdir:
-	@echo "Creating directory for undofiles for vim..."
-	mkdir -p ~/.vim/undodir
+	@echo "Creating directory for undofiles for nvim..."
+	mkdir -p ~/.nvim/undodir
 	@echo "Done"
 
 font_install:
