@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# got this from github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/bin/tmux-sessionizer
+# thanks to github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/bin/tmux-sessionizer
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find $PERSONAL_PROJECTS/ $PERSONAL_PROJECTS/bots -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find $PERSONAL_PROJECTS/ $PERSONAL_PROJECTS/bots -mindepth 1\
+        -maxdepth 1 -type d -not -path $PERSONAL_PROJECTS/bots | fzf)
 fi
 
 if [[ -z $selected ]]; then
