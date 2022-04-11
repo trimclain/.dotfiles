@@ -133,6 +133,7 @@ fi
 
 alias py="python3"
 alias activate="source venv/bin/activate"
+alias rest="./stop && ./start"
 
 # Load aliases from .zsh_aliases or .bash_aliases if they exist
 if [ -f ~/.zsh_aliases ]; then
