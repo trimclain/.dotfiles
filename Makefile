@@ -132,7 +132,7 @@ kitty: imagemagick
 	sudo sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/share/applications/kitty*.desktop
 
 uninstall_kitty:
-	sudo rm /usr/loca/bin/kitty
+	sudo rm /usr/local/bin/kitty
 	sudo rm /usr/share/applications/kitty.desktop
 	rm -rf .local/kitty.app
 
