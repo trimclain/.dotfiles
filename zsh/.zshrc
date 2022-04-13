@@ -22,7 +22,10 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$XDG_CONFIG_HOME/.local/share"
 export XDG_CACHE_HOME="$XDG_CONFIG_HOME/.cache"
 
+export CARGO="$HOME/.cargo/bin"
 export N_PREFIX="$HOME/.n"
+export GOROOT="$HOME/.golang"
+export GOPATH="$HOME/.go"
 
 # To keep zsh config in ~/.config/zsh
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
@@ -192,7 +195,10 @@ bindkey -s ^b "change-background\r"
 # Disable all ERROR sounds
 unsetopt BEEP
 
-# Aliases
+# ---> Aliases <---
+
+unalias g # remove this alias for g-install, coz cmon, who is lazy enough not to type git?!!
+
 alias szrc="exec zsh"
 alias icat="kitty +kitten icat" # preview images in kitty
 # alias szrc="source ~/.zshrc" doesn't work with antigen \_/
@@ -244,7 +250,9 @@ addToPATH "/usr/local/bin"
 addToPATH "$HOME/.local/bin"
 
 addToPATH "$N_PREFIX/bin" # n-insall for node versions
-addToPATH "$HOME/.cargo/bin" # rust btw
+addToPATH "$CARGO" # rust btw
+addToPATH "$GOROOT/bin" # golang
+addToPATH "$GOPATH/bin" # also golang
 
 # Load aliases from .bash_aliases or .zsh_aliases if they exists
 if [ -f ~/.zsh_aliases ]; then
