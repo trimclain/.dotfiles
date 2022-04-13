@@ -80,13 +80,20 @@ nodejs:
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y &&\
 		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
 
-install: font_install tmux zsh nvim nodejs
+golang:
+	@echo "==================================================================="
+	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
+		export GOROOT="$HOME/.golang" && export GOPATH="$HOME/.go" && \
+		curl -sSL https://git.io/g-install | sh -s &&\
+		echo "Done"; else echo "[golang]: Latest golang version is already installed"; fi
+
+install: font_install tmux zsh nvim nodejs golang
 	./install
 
 sinstall: vimdir tmux
 	./install --small
 
-finstall: vimdir font_install tmux zsh nvim nodejs
+finstall: vimdir font_install tmux zsh nvim nodejs golang
 	./install --full
 
 ###############################################################################
@@ -249,16 +256,30 @@ neovide:
 uninstall_neovide:
 	sudo rm /usr/local/bin/neovide
 
+pomo:
+	@echo "==================================================================="
+	@echo "Installing pomo (simple CLI for Pomodoro)..."
+	@# Clone the repo
+	git clone https://github.com/kevinschoon/pomo.git ~/pomo
+	cd ~/pomo && make
+	@# copy pomo somewhere on your $PATH
+	cp ~/pomo/bin/pomo ~/.local/bin/
+	@# Uninstall the github repo
+	rm -rf ~/pomo
+
+uninstall_pomo:
+	rm ~/.local/bin/pomo
+
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs kitty i3 picom rofi
+linux_install: font_install tmux zsh nvim nodejs golang kitty i3 picom rofi
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
 	@echo "==================================================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive
+linux_software: telegram spotify brave obs-studio kdenlive pomo
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
 	@# feh & nomacs for images, dconf-editor, flameshot for screenshots,
@@ -284,7 +305,8 @@ ubuntu_setup: python3_setup null_ls_tools
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
-	uninstall_nvim nodejs install sinstall finstall alacritty_build_reqs \
+	uninstall_nvim nodejs golang install sinstall finstall alacritty_build_reqs \
 	alacritty uninstall_alacritty kitty uninstall_kitty imagemagick i3 polybar \
 	picom rofi telegram spotify brave obs-studio neovide uninstall_neovide \
-	kdenlive linux_install linux_software python3_setup null_ls_tool ubuntu_setup
+	kdenlive pomo uninstall_pomo linux_install linux_software python3_setup \
+	null_ls_tool ubuntu_setup
