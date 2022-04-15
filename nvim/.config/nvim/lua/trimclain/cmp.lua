@@ -86,6 +86,11 @@ cmp.setup {
         end,
     },
 
+    window = {
+        -- completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+
     mapping = {
         -- Same as <C-n> and <C-p>
         -- ["<C-k>"] = cmp.mapping.select_prev_item(),
@@ -151,7 +156,7 @@ cmp.setup {
                 luasnip = "[snip]",
                 buffer = "[buf]",
                 path = "[path]",
-                cmdline = "[cmdline]",
+                cmdline = "[cmd]",
             })[entry.source.name]
             return vim_item
         end,
@@ -163,7 +168,7 @@ cmp.setup {
         { name = "nvim_lua" },
         { name = "luasnip" },
         { name = "path" },
-        { name = "cmdline" },
+        { name = "cmdline" }, -- TODO: does this work?
     }, {
         { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
     }),
@@ -172,11 +177,36 @@ cmp.setup {
         behavior = cmp.ConfirmBehavior.Replace,
         select = false,
     },
-    documentation = {
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    },
+
     experimental = {
         ghost_text = false,
         native_menu = false,
     },
 }
+
+-- Set configuration for specific filetype.
+-- cmp.setup.filetype('gitcommit', {
+--     sources = cmp.config.sources({
+--         { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+--     }, {
+--         { name = 'buffer' },
+--     })
+-- })
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    })
+})
