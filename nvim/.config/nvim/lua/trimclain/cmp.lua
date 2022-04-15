@@ -168,7 +168,7 @@ cmp.setup {
         { name = "nvim_lua" },
         { name = "luasnip" },
         { name = "path" },
-        { name = "cmdline" }, -- TODO: does this work?
+        -- { name = "cmdline" }, -- not sure this does anything
     }, {
         { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
     }),
@@ -194,19 +194,19 @@ cmp.setup {
 -- })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
+cmp.setup.cmdline("/", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
-        { name = 'buffer' }
-    }
+        { name = "buffer" },
+    },
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
+cmp.setup.cmdline(":", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-        { name = 'path' }
+        { name = "path" },
     }, {
-        { name = 'cmdline' }
-    })
+        { name = "cmdline", keyword_length = 2 }, -- otherwise too much info
+    }),
 })

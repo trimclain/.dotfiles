@@ -8,6 +8,6 @@
 vim.opt.formatoptions = vim.opt.formatoptions - "o"
 
 local opts = { noremap = true, silent = true }
-local keymap = vim.api.nvim_set_keymap
+local keymap = vim.keymap.set
 -- run a javascript file with node
 keymap("n", "<C-b>", ":w <bar> :! node %<cr>", opts)
