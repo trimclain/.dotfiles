@@ -270,6 +270,14 @@ pomo:
 uninstall_pomo:
 	rm ~/.local/bin/pomo
 
+inkscape:
+	@echo "==================================================================="
+	@echo "Installing Incscape (Better Paint)..."
+	@# Add the ppa and install inkscape
+	sudo add-apt-repository ppa:inkscape.dev/stable -y
+	sudo apt update
+	sudo apt install inkscape -y
+
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
@@ -279,7 +287,7 @@ linux_install: font_install tmux zsh nvim nodejs golang kitty i3 picom rofi
 	./install --linux
 	@echo "==================================================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive pomo
+linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
 	@# feh & nomacs for images, dconf-editor, flameshot for screenshots,
@@ -308,5 +316,5 @@ ubuntu_setup: python3_setup null_ls_tools
 	uninstall_nvim nodejs golang install sinstall finstall alacritty_build_reqs \
 	alacritty uninstall_alacritty kitty uninstall_kitty imagemagick i3 polybar \
 	picom rofi telegram spotify brave obs-studio neovide uninstall_neovide \
-	kdenlive pomo uninstall_pomo linux_install linux_software python3_setup \
-	null_ls_tool ubuntu_setup
+	kdenlive pomo inkscape uninstall_pomo linux_install linux_software \
+	python3_setup null_ls_tool ubuntu_setup
