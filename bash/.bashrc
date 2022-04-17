@@ -16,7 +16,18 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
+
+# Useful variables to set
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$XDG_CONFIG_HOME/.local/share"
+export XDG_CACHE_HOME="$XDG_CONFIG_HOME/.cache"
+
+export CARGO="$HOME/.cargo/bin"
+export N_PREFIX="$HOME/.n"
+export GOROOT="$HOME/.golang"
+export GOPATH="$HOME/.go"
 
 # If not running interactively, don't do anything
 case $- in
@@ -53,7 +64,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    xterm-color|*-256color|xterm-kitty) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -109,6 +120,10 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 bind '"\C-u": "Update\r"'
 
+
+# Disable annoying error sound in terminal
+bind 'set bell-style none'
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -153,11 +168,20 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Add custom folders to PATH variable
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
+# fucntion to add folders to the end of $PATH
+addToPATH() {
+    if [[ ! :$PATH: == *":$1:"* ]]; then
+        PATH+=":$1"
+    fi
+}
 
-# Disable annoying error sound in terminal
-bind 'set bell-style none'
 
-# Changed n to .n in N_PREFIX
-export N_PREFIX="$HOME/.n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+# Make sure ~/bin, ~/.local/bin and /usr/local/bin are in $PATH.
+addToPATH "$HOME/bin"
+addToPATH "/usr/local/bin"
+addToPATH "$HOME/.local/bin"
+
+addToPATH "$N_PREFIX/bin" # n-insall for node versions
+addToPATH "$CARGO" # rust btw
+addToPATH "$GOROOT/bin" # golang
+addToPATH "$GOPATH/bin" # also golang
