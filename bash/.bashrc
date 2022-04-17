@@ -18,6 +18,7 @@
 
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
+export EDITOR="/usr/bin/vim"
 
 # Useful variables to set
 export XDG_CONFIG_HOME="$HOME/.config"
