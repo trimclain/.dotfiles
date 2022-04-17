@@ -87,10 +87,18 @@ golang:
 		curl -sSL https://git.io/g-install | sh -s &&\
 		echo "Done"; else echo "[golang]: Latest golang version is already installed"; fi
 
+########################## On server ##########################################
 pm2:
 	@echo "==================================================================="
 	@echo "Installing pm2 (daemon process manager for node.js)..."
 	npm install --global pm2
+
+ufw:
+	@echo "==================================================================="
+	@echo "Installing UFW (Uncomplicated Firewall)..."
+	sudo apt install -y ufw
+
+###############################################################################
 
 install: font_install tmux zsh nvim nodejs golang
 	./install
@@ -318,7 +326,7 @@ ubuntu_setup: python3_setup null_ls_tools
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
-	uninstall_nvim nodejs golang pm2 install sinstall finstall \
+	uninstall_nvim nodejs golang pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
 	imagemagick i3 polybar picom rofi telegram spotify brave obs-studio \
 	neovide uninstall_neovide kdenlive pomo inkscape uninstall_pomo \
