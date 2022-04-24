@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 all:
 	@# echo "For help run 'make help'"
 	@echo "********************************************************************"
@@ -6,19 +8,16 @@ all:
 	@echo "********************************************************************"
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
-	sudo apt-get install -y curl stow ripgrep fzf htop tree
+	sudo apt-get install -y curl stow ripgrep fzf htop tree xclip
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	@echo "*************************"
 	@echo "Now restart the Terminal and run 'make linux_install'"
 	@echo "*************************"
 
-help:
-	@echo "Run 'make sinstall' foor a small installation (check README.md)"
-	@echo "Run 'make install' for a normal installation"
-	@echo "Run 'make finstall' for a full installation"
-	@echo "Run 'make linux_install' to install all my linux stuff"
-	@echo "Run 'make linux_software' to install some extra linux software"
+help: ## print this help menu
+	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 vimdir:
 	@echo "Creating directory for undofiles for vim..."
@@ -77,7 +76,7 @@ uninstall_nvim:
 nodejs:
 	@echo "==================================================================="
 	@if [ ! -d ~/.n ]; then echo "Installing n, nodejs version manager with latest stable node and npm versions..." &&\
-		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y &&\
+		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n &&\
 		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
 
 golang:
@@ -100,13 +99,13 @@ ufw:
 
 ###############################################################################
 
-install: font_install tmux zsh nvim nodejs golang
+install: font_install tmux zsh nvim nodejs golang ## install fonts, tmux, zsh, nvim, nodejs, golang and my config for nvim, tmux and zsh
 	./install
 
-sinstall: vimdir tmux
+sinstall: vimdir tmux ## install tmux and my config for bash, tmux and vim
 	./install --small
 
-finstall: vimdir font_install tmux zsh nvim nodejs golang
+finstall: vimdir font_install tmux zsh nvim nodejs golang ## combine "make sinstall" and "make install"
 	./install --full
 
 ###############################################################################
@@ -294,18 +293,18 @@ inkscape:
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs golang kitty i3 picom rofi
+linux_install: font_install tmux zsh nvim nodejs golang kitty i3 picom rofi ## in addition to "make install" install kitty, i3, picom, rofi and my config for these
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
 	@echo "==================================================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape
+linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, pomo, inkscape, fd-find, feh, nomacs, flameshot, gimp, vlc
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
-	@# feh & nomacs for images, dconf-editor, flameshot for screenshots,
-	@# gimp (paint foss), xclip as a clipboard tool
-	sudo apt install -y fd-find feh nomacs dconf-editor flameshot gimp vlc xclip
+	@# feh & nomacs for images, flameshot for screenshots,
+	@# gimp, xclip as a clipboard tool
+	sudo apt install -y fd-find feh nomacs dconf-editor flameshot gimp vlc
 
 ###############################################################################
 python3_setup:
@@ -321,7 +320,7 @@ null_ls_tools:
 	@# Install prettier
 	npm install --global prettier
 
-ubuntu_setup: python3_setup null_ls_tools
+ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, stylua and prettier
 	@echo "Done"
 ###############################################################################
 
