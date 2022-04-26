@@ -18,7 +18,6 @@ null_ls.setup {
                 "--skip-string-normalization", -- don't normalize string quotes (don't change single to double) or prefixes
             },
         },
-        -- formatting.yapf,
         formatting.stylua,
         diagnostics.flake8,
     },
