@@ -29,6 +29,7 @@ require "trimclain.indentline"
 
 require "trimclain.cmp"
 require "trimclain.lsp"
+require "trimclain.luasnip"
 require "trimclain.telescope"
 require "trimclain.harpoon"
 require "trimclain.treesitter"
