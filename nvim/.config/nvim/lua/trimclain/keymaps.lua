@@ -3,52 +3,50 @@ local opts = { noremap = true, silent = true }
 -- local keymap = vim.api.nvim_set_keymap
 local keymap = vim.keymap.set
 
-
 -- Remap space as a leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-
 -- TODO: how to write this in lua (~ isn't recognized)
 vim.cmd "nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.lua<CR>"
 
-
+--
 -- Easier movement between vim windows
 keymap("n", "<leader>h", "<C-w>h", opts)
 keymap("n", "<leader>j", "<C-w>j", opts)
 keymap("n", "<leader>k", "<C-w>k", opts)
 keymap("n", "<leader>l", "<C-w>l", opts)
 
-
+--
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<cr>", opts)
 keymap("n", "<S-h>", ":bprevious<cr>", opts)
 
-
+--
 -- Resizing: Use Ctrl + arrows to resize windows
 keymap("n", "<C-Up>", ":resize -5<cr>", opts)
 keymap("n", "<C-Down>", ":resize +5<cr>", opts)
 keymap("n", "<C-Left>", ":vertical resize -5<cr>", opts)
 keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 
-
+--
 -- Vim-fugitive
 keymap("n", "<leader>gs", ":G<cr>", opts) -- git status
 -- resolve conflicts when mergin branches (not used)
 -- keymap("n", "<leader>gj", ":diffget //3<cr>", opts)
 -- keymap("n", "<leader>gf", ":diffget //2<cr>", opts)
 
-
+--
 -- Project View (File Explorer)
 -- keymap("n", "<leader>pv", ":Lex 30<cr>", opts)
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
-
+--
 -- Undotree
 keymap("n", "<leader>u", ":UndotreeToggle<cr>", opts)
 
-
+--
 -- Very Useful Stuff
 keymap("n", "Q", "", opts) -- disable Q coz useless
 -- next one disabled coz nvim has builtin <C-l> for this
@@ -76,7 +74,10 @@ keymap("v", "<leader>y", '"+y', opts) -- the registers
 keymap("n", "<leader>d", '"_d', opts) -- delete into
 keymap("v", "<leader>d", '"_d', opts) -- blackhole buffer
 
+-- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
+keymap("n", "<leader>wtu", ":update <cr> :e ++ff=dos <cr> :setlocal ff=unix <cr> :w <cr>", opts)
 
+--
 -- Jumplist mutations: when you do 15j in normal mode and than C-o, it wouldn't
 -- do 15k for you. With next remaps you modify your Jumplist (used by C-o and C-i)
 -- to add break points every time you jump more than 5 lines up or down.
@@ -112,17 +113,16 @@ keymap("n", "<leader>of", ":Telescope oldfiles<cr>", opts)
 keymap("n", "<leader>vrc", ":Telescope git_files cwd=~/.dotfiles<cr>", opts)
 keymap("n", "<leader>f;", ":Telescope commands<cr>", opts)
 
-
 -- Esc is too far and I don't like <C-[>, make <C-c> work as <Esc> in every mode
 keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending modes
 keymap("l", "<C-c>", "<Esc>", opts) -- insert, command-line, lang-arg modes
 keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 
-
+--
 -- Run a file
 keymap("n", "<C-b>", ":w <bar> :! ./%<cr>", opts)
 
-
+--
 -- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
 keymap("n", "<leader>qj", ":cnext<CR>zz", opts)
 keymap("n", "<leader>qk", ":cprev<CR>zz", opts)
@@ -131,7 +131,7 @@ keymap("n", "<leader>qk", ":cprev<CR>zz", opts)
 keymap("n", "<C-q>", "<cmd>lua require('trimclain.keymaps').ToggleQFList(1)<CR>", opts)
 -- keymap("n", "<leader>q", "<cmd>lua require('trimclain.keymaps').ToggleQFList(0)<CR>", opts)
 
-
+--
 vim.g.qflist_local = 0
 vim.g.qflist_global = 0
 
