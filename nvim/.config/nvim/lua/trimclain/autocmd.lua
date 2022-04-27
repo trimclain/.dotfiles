@@ -31,11 +31,11 @@ vim.api.nvim_create_autocmd(
     }
 )
 -- Autocmd for lsp formatting on save
--- vim.api.nvim_create_autocmd("BufWritePre", {
---     pattern = { "*.js", "*.ts", "*.jsx", "*.lua" },
---     callback = vim.lsp.buf.formatting_sync,
---     group = on_save_group,
--- })
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { "*.js", "*.ts", "*.jsx", "*.lua" },
+    callback = vim.lsp.buf.formatting_sync,
+    group = on_save_group,
+})
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("lua_highlight_yank", {
