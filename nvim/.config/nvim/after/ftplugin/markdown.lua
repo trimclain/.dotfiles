@@ -8,7 +8,7 @@
 -- " setlocal formatoptions-=o
 
 -- set vertical line to see 100 characters locally
-vim.wo.colorcolumn = "100" -- vim.wo and not vim.wo coz colorcolumn is a window option
+vim.opt_local.colorcolumn = "100" -- vim.wo and not vim.bo coz colorcolumn is a window option
 
 local opts = { noremap = true, silent = true }
 
