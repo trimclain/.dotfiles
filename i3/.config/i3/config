@@ -299,6 +299,7 @@ client.background       #2B2C2B
 
 ############################
 # Gruvbox Colors
+# set primary gruvbox colorscheme colors
 set $bg #282828
 set $red #cc241d
 set $green #98971a
@@ -311,9 +312,26 @@ set $darkgray #1d2021
 set $lightgray #bdae93
 
 # class                 border|backgr|text|indicator|child_border
-client.focused          $lightgray $lightgray $bg $purple $darkgray
-client.focused_inactive $darkgray $darkgray $lightgray $purple $darkgray
-client.unfocused        $darkgray $darkgray $lightgray $purple $darkgray
+# client.focused          $lightgray $lightgray $bg $purple $darkgray
+# client.focused_inactive $darkgray $darkgray $lightgray $purple $darkgray
+# client.unfocused        $darkgray $darkgray $lightgray $purple $darkgray
+# client.urgent           $red $red $white $red $red
+############################
+
+############################
+# Gruvbox 2 Colors
+# green gruvbox
+# class                 border|backgr|text|indicator|child_border
+#client.focused          $green $green $darkgray $purple $darkgray
+#client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+#client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+#client.urgent           $red $red $white $red $red
+
+# blue gruvbox
+# class                 border|backgr|text|indicator|child_border
+client.focused          $blue $blue $darkgray $purple $darkgray
+client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 client.urgent           $red $red $white $red $red
 ############################
 
@@ -338,16 +356,30 @@ bar {
     # }
     ############################
     # Gruvbox
+    # colors {
+    #     # bar background color
+    #     background $bg
+    #     # text color used for blocks that do not have a color specified.
+    #     statusline $lightgray
+    #     # workspaces section
+    #     #                    border  backgr. text
+    #     focused_workspace    $lightgray $lightgray $bg
+    #     inactive_workspace   $darkgray $darkgray $lightgray
+    #     active_workspace     $darkgray $darkgray $lightgray
+    #     urgent_workspace     $red $red $bg
+    # }
+    ############################
+    # Gruvbox 2
     colors {
         # bar background color
         background $bg
         # text color used for blocks that do not have a color specified.
-        statusline $lightgray
+        statusline $yellow
         # workspaces section
         #                    border  backgr. text
-        focused_workspace    $lightgray $lightgray $bg
-        inactive_workspace   $darkgray $darkgray $lightgray
-        active_workspace     $darkgray $darkgray $lightgray
+        focused_workspace    $aqua $aqua $darkgray
+        inactive_workspace   $darkgray $darkgray $yellow
+        active_workspace     $darkgray $darkgray $yellow
         urgent_workspace     $red $red $bg
     }
     ############################
