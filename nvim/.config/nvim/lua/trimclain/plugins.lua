@@ -56,11 +56,12 @@ return packer.startup(function(use)
     use "folke/todo-comments.nvim" -- highlight todo comments in different styles
 
     -- Colorschemes & Statuslines
-    use {
-        "catppuccin/nvim", -- nice colorscheme, thanks tj
-        as = "catppuccin",
-    }
-    use "folke/tokyonight.nvim" -- trying this one out
+    -- use {
+    --     "catppuccin/nvim", -- nice colorscheme, thanks tj
+    --     as = "catppuccin",
+    -- }
+    -- use "folke/tokyonight.nvim" -- trying this one out
+    use "christianchiarulli/nvcode-color-schemes.vim"
     use "nvim-lualine/lualine.nvim" -- great status line in lua
     use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
 
