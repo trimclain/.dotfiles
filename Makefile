@@ -65,7 +65,7 @@ nvim: nvimdir nvim_build_reqs
 	@echo "Installing Neovim..."
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
 		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
-		make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install && rm -rf ~/neovim; fi
+		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim; fi
 
 uninstall_nvim:
 	@echo "Uninstalling Neovim..."
