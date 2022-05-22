@@ -7,6 +7,6 @@ if not status_ok then
 	return
 end
 
-require"trimclain.lsp.lsp-installer"
+require"trimclain.lsp.configs"
 require("trimclain.lsp.handlers").setup()
 require "trimclain.lsp.null-ls"

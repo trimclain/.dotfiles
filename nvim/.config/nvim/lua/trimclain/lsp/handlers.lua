@@ -80,14 +80,16 @@ local function lsp_keymaps(bufnr)
         opts
     )
     vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ff", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ff", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
     -- vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 end
 
 M.on_attach = function(client, bufnr)
+    -- TODO: there is a better way at https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
     -- to disable popus to choose the server when using formatting, add it here
     if client.name == "tsserver" or client.name == "sumneko_lua" then
-        client.resolved_capabilities.document_formatting = false
+        -- client.server_capabilities.document_formatting = false -- 0.7 and earlier
+        client.server_capabilities.documentFormattingProvider = false -- 0.8 and hopefully later
     end
     lsp_keymaps(bufnr)
     -- lsp_highlight_document(client)
