@@ -55,6 +55,35 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     group = highlight_group,
 })
 
+local filetype_group = vim.api.nvim_create_augroup("filetype_group", {
+    clear = true,
+})
+-- Close these filetypes with a single keypress instead of :q
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { --[[ "qf", ]]
+        "help",
+        "lspinfo",
+        "null-ls-info",
+    },
+    callback = function()
+        vim.cmd [[
+            nnoremap <silent> <buffer> q :close<CR>
+            set nobuflisted
+        ]]
+    end,
+    group = filetype_group,
+})
+
+-- local winbar_group = vim.api.nvim_create_augroup("winbar_group", {
+--     clear = true,
+-- })
+-- vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost" }, {
+--     callback = function()
+--         require("user.winbar").get_winbar()
+--     end,
+--     group = winbar_group,
+-- })
+
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 -- local reload_packer = vim.api.nvim_create_augroup("packer_user_config", {
 --     clear = true,
