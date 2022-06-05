@@ -74,15 +74,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     group = filetype_group,
 })
 
--- local winbar_group = vim.api.nvim_create_augroup("winbar_group", {
---     clear = true,
--- })
--- vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost" }, {
---     callback = function()
---         require("user.winbar").get_winbar()
---     end,
---     group = winbar_group,
--- })
+-- Enable winbar
+local winbar_group = vim.api.nvim_create_augroup("winbar_group", {
+    clear = true,
+})
+vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost" }, {
+    callback = function()
+        require("trimclain.winbar").get_winbar()
+    end,
+    group = winbar_group,
+})
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 -- local reload_packer = vim.api.nvim_create_augroup("packer_user_config", {

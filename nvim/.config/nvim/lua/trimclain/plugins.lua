@@ -55,6 +55,7 @@ return packer.startup(function(use)
     use "JoosepAlviste/nvim-ts-context-commentstring" -- support jsx commenting
     use "folke/todo-comments.nvim" -- highlight todo comments in different styles
 
+    -- Visuals
     -- Colorschemes & Statuslines
     -- use {
     --     "catppuccin/nvim", -- nice colorscheme, thanks tj
@@ -64,6 +65,11 @@ return packer.startup(function(use)
     use "christianchiarulli/nvcode-color-schemes.vim"
     use "nvim-lualine/lualine.nvim" -- great status line in lua
     use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
+    -- use "SmiteshP/nvim-gps" -- show context of the current cursor position in file
+    use {
+        "christianchiarulli/nvim-gps", -- gps but with color support
+        branch = "text_hl",
+    }
 
     -- CMP plugins
     use "hrsh7th/nvim-cmp" -- the completion plugin
