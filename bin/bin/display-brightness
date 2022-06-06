@@ -30,10 +30,8 @@ then
         notify-send "🔆 $output %" -t 350
         exit 0
     fi
-fi
-
 # Decrease Brightness
-if [ "$1" = "--decrease" ]
+elif [ "$1" = "--decrease" ]
 then
     mode="decrease"
     new="$( echo $current-0.1 | bc )"
@@ -45,6 +43,18 @@ then
         notify-send "🔅 $output %" -t 350
         exit 0
     fi
+elif [ "$1" = "--full" ]
+then
+    mode="full"
+    new=1
+elif [ "$1" = "--zero" ]
+then
+    mode="zero"
+    new=0
+elif [ "$1" = "--half" ]
+then
+    mode="half"
+    new=0.5
 fi
 
 # Set Brightness
@@ -53,9 +63,9 @@ xrandr --output $intern --brightness $new
 
 # Send notification
 output=$( echo $new*100/1 | bc )
-if  [ "$mode" = "increase" ]; then
+if  [ "$mode" = "increase" ] || [ "$mode" = "full" ] || [ "$mode" = "half" ]; then
     notify-send "🔆 $output %" -t 350
-elif [ "$mode" = "decrease" ]; then
+elif [ "$mode" = "decrease" ] || [ "$mode" = "zero" ]; then
     notify-send "🔅 $output %" -t 350
 else
     notify-send 'Error: something went wrong' -t 500
