@@ -75,7 +75,8 @@ keymap("n", "<leader>d", '"_d', opts) -- delete into
 keymap("v", "<leader>d", '"_d', opts) -- blackhole buffer
 
 -- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
-keymap("n", "<leader>wtu", ":update <cr> :e ++ff=dos <cr> :setlocal ff=unix <cr> :w <cr>", opts)
+keymap("n", "<leader>wtu", ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>", opts)
+keymap("n", "<leader>cr", ":ColorizerReloadAllBuffers<cr>", opts)
 
 --
 -- Jumplist mutations: when you do 15j in normal mode and than C-o, it wouldn't
