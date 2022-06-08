@@ -8,6 +8,7 @@ all:
 	@echo "********************************************************************"
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
+	@# stow to symplink files, xclip as a clipboard tool
 	sudo apt-get install -y curl stow ripgrep fzf htop tree xclip
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -299,12 +300,12 @@ linux_install: font_install tmux zsh nvim nodejs golang kitty i3 picom rofi ## i
 	./install --linux
 	@echo "==================================================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, pomo, inkscape, fd-find, feh, nomacs, flameshot, gimp, vlc
+linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, pomo, inkscape, fd-find, feh, nomacs, flameshot, gimp, smplayer
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
 	@# feh & nomacs for images, flameshot for screenshots,
-	@# gimp, xclip as a clipboard tool
-	sudo apt install -y fd-find feh nomacs dconf-editor flameshot gimp vlc
+	@# gimp, smplayer for videos
+	sudo apt install -y fd-find feh nomacs dconf-editor flameshot gimp smplayer
 
 ###############################################################################
 python3_setup:
