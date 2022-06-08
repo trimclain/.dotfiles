@@ -55,15 +55,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     group = highlight_group,
 })
 
+-- Close these filetypes with a single keypress instead of :q
 local filetype_group = vim.api.nvim_create_augroup("filetype_group", {
     clear = true,
 })
--- Close these filetypes with a single keypress instead of :q
 vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = { --[[ "qf", ]]
         "help",
         "lspinfo",
         "null-ls-info",
+        "startuptime",
     },
     callback = function()
         vim.cmd [[

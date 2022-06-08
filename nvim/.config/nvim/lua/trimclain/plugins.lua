@@ -122,7 +122,8 @@ return packer.startup(function(use)
     use "norcalli/nvim-colorizer.lua" -- preview colors in neovim
     use "KabbAmine/vCoolor.vim" -- get a color picker
 
-    use "tweekmonster/startuptime.vim" -- check the startuptime of plugins
+    use "dstein64/vim-startuptime" -- check the startuptime of plugins
+    -- use "tweekmonster/startuptime.vim"
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
