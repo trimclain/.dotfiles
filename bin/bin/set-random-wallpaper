@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+wallpapers="$HOME/personal/images/wallpapers"
+nitrogen --set-auto --random $wallpapers

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+wallpapers="$HOME/personal/images"
+
+nitrogen $wallpapers
