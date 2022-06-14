@@ -7,7 +7,7 @@ end
 
 -- configure it
 catppuccin.setup {
-    transparent_background = true,
+    transparent_background = false,
     term_colors = false,
     styles = {
         comments = "italic",
@@ -44,15 +44,15 @@ catppuccin.setup {
         telescope = true,
         nvimtree = {
             enabled = true,
-            show_root = false, -- makes the root folder not transparent
-            transparent_panel = true, -- make the panel transparent
+            show_root = true, -- makes the root folder not transparent
+            transparent_panel = false, -- make the panel transparent
         },
         which_key = false,
         indent_blankline = {
             enabled = true,
             colored_indent_levels = false,
         },
-        dashboard = true,
+        dashboard = false,
         neogit = false,
         vim_sneak = false,
         fern = false,
