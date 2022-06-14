@@ -166,6 +166,13 @@ i3:
 	@echo "Installing i3..."
 	sudo apt install i3 -y
 
+awesome:
+	@echo "==================================================================="
+	@echo "Installing awesome window manager..."
+	@# dependencies: sudo apt install unclutter
+	@# librewolf -- i got better, and slock and dmenu -- were there
+	sudo apt install awesome -y
+
 polybar:
 	@# Install better statusline for i3 (wait for Ubuntu 22.04)
 	@echo "==================================================================="
@@ -294,18 +301,18 @@ inkscape:
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs golang kitty i3 picom rofi ## in addition to "make install" install kitty, i3, picom, rofi and my config for these
+linux_install: font_install tmux zsh nvim nodejs golang kitty awesome picom rofi ## in addition to "make install" install kitty, awesome, picom, rofi and my config for these
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
 	@echo "==================================================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, pomo, inkscape, fd-find, feh, nomacs, flameshot, gimp, smplayer
+linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, pomo, inkscape, fd-find, nitrogen, nomacs, flameshot, gimp, smplayer
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
-	@# feh & nomacs for images, flameshot for screenshots,
+	@# nitrogen for background images & nomacs image viewer, flameshot for screenshots,
 	@# gimp, smplayer for videos
-	sudo apt install -y fd-find feh nomacs dconf-editor flameshot gimp smplayer
+	sudo apt install -y fd-find nitrogen nomacs dconf-editor flameshot gimp smplayer
 
 ###############################################################################
 python3_setup:
@@ -328,6 +335,6 @@ ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs golang pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
-	imagemagick i3 polybar picom rofi telegram spotify brave obs-studio \
+	imagemagick i3 awesome polybar picom rofi telegram spotify brave obs-studio \
 	neovide uninstall_neovide kdenlive pomo inkscape uninstall_pomo \
 	linux_install linux_software python3_setup null_ls_tool ubuntu_setup
