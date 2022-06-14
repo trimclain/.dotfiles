@@ -1,43 +1,3 @@
-vim.cmd [[
-    " Empty all Registers
-    fun! EmptyRegisters()
-        let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
-        for r in regs
-            call setreg(r, [])
-        endfor
-    endfun
-
-    " Delete useless spaces
-    fun! TrimWhitespace()
-        let l:save = winsaveview()
-        keeppatterns %s/\s\+$//e
-        call winrestview(l:save)
-    endfun
-]]
-
--- Example: how to write autocommands in lua
-local on_save_group = vim.api.nvim_create_augroup( -- create augroup
-    "trimclain", -- set augroup name
-    {
-        clear = true, -- clear previous autocmds from this group (autocmd!)
-    }
-)
--- Autocommand which call my function TrimWhitespace
-vim.api.nvim_create_autocmd(
-    "BufWritePre", -- set the event for autocmd (:h events)
-    {
-        callback = "TrimWhitespace", -- pass the function
-        group = on_save_group, -- assign to the augroup
-    }
-)
--- Autocmd for lsp formatting on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.js", "*.ts", "*.jsx", "*.lua" },
-    -- TODO: formatting_sync is deprecated
-    callback = vim.lsp.buf.formatting_sync,
-    group = on_save_group,
-})
-
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("lua_highlight_yank", {
     clear = true,
@@ -104,3 +64,37 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "Inse
 --     command = "PackerSync",
 --     group = buf_enter_group,
 -- })
+
+-- TODO: rewrite in lua
+vim.cmd [[
+    " Empty all Registers
+    fun! EmptyRegisters()
+        let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+        for r in regs
+            call setreg(r, [])
+        endfor
+    endfun
+
+    " Delete useless spaces
+    fun! TrimWhitespace()
+        let l:save = winsaveview()
+        keeppatterns %s/\s\+$//e
+        call winrestview(l:save)
+    endfun
+]]
+
+-- Example: how to write autocommands in lua
+local on_save_group = vim.api.nvim_create_augroup( -- create augroup
+    "trimclain", -- set augroup name
+    {
+        clear = true, -- clear previous autocmds from this group (autocmd!)
+    }
+)
+-- Autocommand which call my function TrimWhitespace
+vim.api.nvim_create_autocmd(
+    "BufWritePre", -- set the event for autocmd (:h events)
+    {
+        callback = "TrimWhitespace", -- pass the function
+        group = on_save_group, -- assign to the augroup
+    }
+)
