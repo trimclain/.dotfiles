@@ -8,8 +8,8 @@ keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- TODO: how to write this in lua (~ isn't recognized)
-vim.cmd "nnoremap <silent> <Leader><CR> :so ~/.config/nvim/init.lua<CR>"
+-- Source current file
+keymap("n", "<Leader><CR>", ":source %<CR>", opts)
 
 --
 -- Easier movement between vim windows
@@ -33,13 +33,12 @@ keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 --
 -- Vim-fugitive
 keymap("n", "<leader>gs", ":G<cr>", opts) -- git status
--- resolve conflicts when mergin branches (not used)
+-- resolve conflicts when merging branches (not used)
 -- keymap("n", "<leader>gj", ":diffget //3<cr>", opts)
 -- keymap("n", "<leader>gf", ":diffget //2<cr>", opts)
 
 --
 -- Project View (File Explorer)
--- keymap("n", "<leader>pv", ":Lex 30<cr>", opts)
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
 --
@@ -49,11 +48,7 @@ keymap("n", "<leader>u", ":UndotreeToggle<cr>", opts)
 --
 -- Very Useful Stuff
 keymap("n", "Q", "", opts) -- disable Q coz useless
--- next one disabled coz nvim has builtin <C-l> for this
--- keymap("n", "<cr>", ":noh<cr>", opts) -- disable the higlighting of the searched text
-keymap("n", "Y", "y$", opts) -- make Y work like C and D
--- keymap("n", "<C-u>", "<C-u>zz", opts)       -- keep it centered moving up
--- keymap("n", "<C-d>", "<C-d>zz", opts)       -- and down half a page
+keymap("n", "<leader>q", ":Bdelete<cr>", opts) -- close current buffer
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts) -- and backwards
 keymap("n", "J", "mzJ`z", opts) -- keep it centered when joining lines
@@ -76,7 +71,7 @@ keymap("v", "<leader>d", '"_d', opts) -- blackhole buffer
 
 -- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
 keymap("n", "<leader>wtu", ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>", opts)
-keymap("n", "<leader>cr", ":ColorizerReloadAllBuffers<cr>", opts)
+keymap("n", "<leader>cr", ":ColorizerReloadAllBuffers<cr>", opts) -- reload colorizer
 
 --
 -- Jumplist mutations: when you do 15j in normal mode and than C-o, it wouldn't
@@ -125,8 +120,8 @@ keymap("n", "<C-b>", ":w <bar> :! ./%<cr>", opts)
 
 --
 -- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
-keymap("n", "<leader>qj", ":cnext<CR>zz", opts)
-keymap("n", "<leader>qk", ":cprev<CR>zz", opts)
+keymap("n", "<leader><leader>j", ":cnext<CR>zz", opts)
+keymap("n", "<leader><leader>k", ":cprev<CR>zz", opts)
 -- keymap("n", "<leader>j", ":lnext<CR>zz", opts)
 -- keymap("n", "<leader>k", ":lprev<CR>zz", opts)
 keymap("n", "<C-q>", "<cmd>lua require('trimclain.keymaps').ToggleQFList(1)<CR>", opts)

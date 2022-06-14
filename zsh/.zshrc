@@ -190,7 +190,7 @@ bindkey -s ^t "tmux-sessionizer\r"
 bindkey -s ^h "tmux-cht.sh\r"
 
 bindkey -s ^u "Update\r"
-bindkey -s ^b "change-background\r"
+bindkey -s ^b "change-wallpaper\r"
 
 # Disable all ERROR sounds
 unsetopt BEEP
