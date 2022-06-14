@@ -55,16 +55,27 @@ return packer.startup(function(use)
     use "JoosepAlviste/nvim-ts-context-commentstring" -- support jsx commenting
     use "folke/todo-comments.nvim" -- highlight todo comments in different styles
 
-    -- Visuals
-    -- Colorschemes & Statuslines
-    -- use {
-    --     "catppuccin/nvim", -- nice colorscheme, thanks tj
-    --     as = "catppuccin",
-    -- }
-    -- use "folke/tokyonight.nvim" -- trying this one out
-    use "christianchiarulli/nvcode-color-schemes.vim"
+    -- Colorschemes
+    use {
+        "catppuccin/nvim", -- nice colorscheme, thanks tj
+        as = "catppuccin",
+    }
+    use {
+        "dracula/vim",
+        as = "dracula",
+    }
+    use "arzg/vim-colors-xcode" -- xcode 11's colorscheme
+    use "folke/tokyonight.nvim" -- trying this one out
+    -- use "christianchiarulli/nvcode-color-schemes.vim" -- nice collection
+    use "LunarVim/Colorschemes" -- another colorscheme collection from chris
+    use "gruvbox-community/gruvbox"
+    -- use "luisiacc/gruvbox-baby"
+
+    -- Statusline & other visuals
     use "nvim-lualine/lualine.nvim" -- great status line in lua
     use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
+    use "akinsho/bufferline.nvim" -- add bufferline to show open buffers
+    use "famiu/bufdelete.nvim" -- properly close a buffer and don't ruin my layout
     -- use "SmiteshP/nvim-gps" -- show context of the current cursor position in file
     use {
         "christianchiarulli/nvim-gps", -- gps but with color support

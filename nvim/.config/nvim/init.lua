@@ -20,12 +20,13 @@ require "trimclain.keymaps"
 
 require "trimclain.plugins"
 
--- require "trimclain.catppuccin"
--- require "trimclain.tokyonight"
+require "trimclain.catppuccin"
+require "trimclain.tokyonight"
 require "trimclain.colorscheme"
 
 require "trimclain.lualine"
 require "trimclain.indentline"
+require "trimclain.bufferline"
 
 require "trimclain.cmp"
 require "trimclain.lsp"
