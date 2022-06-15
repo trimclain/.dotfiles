@@ -58,10 +58,14 @@ theme.layout_max = theme.dir .. "/icons/max.png"
 theme.layout_fullscreen = theme.dir .. "/icons/fullscreen.png"
 theme.layout_magnifier = theme.dir .. "/icons/magnifier.png"
 theme.layout_floating = theme.dir .. "/icons/floating.png"
-theme.widget_ac = theme.dir .. "/icons/ac.png"
-theme.widget_battery = theme.dir .. "/icons/battery.png"
-theme.widget_battery_low = theme.dir .. "/icons/battery_low.png"
-theme.widget_battery_empty = theme.dir .. "/icons/battery_empty.png"
+theme.widget_ac = theme.dir .. "/icons/bat-charged.png"
+-- theme.widget_ac = theme.dir .. "/icons/ac.png"
+theme.widget_battery = theme.dir .. "/icons/bat-080.png"
+-- theme.widget_battery = theme.dir .. "/icons/battery.png"
+theme.widget_battery_low = theme.dir .. "/icons/bat-020.png"
+-- theme.widget_battery_low = theme.dir .. "/icons/battery_low.png"
+theme.widget_battery_empty = theme.dir .. "/icons/bat-000.png"
+-- theme.widget_battery_empty = theme.dir .. "/icons/battery_empty.png"
 theme.widget_mem = theme.dir .. "/icons/mem.png"
 theme.widget_cpu = theme.dir .. "/icons/cpu.png"
 theme.widget_temp = theme.dir .. "/icons/temp.png"
@@ -75,11 +79,11 @@ theme.widget_vol = theme.dir .. "/icons/vol.png"
 theme.widget_vol_low = theme.dir .. "/icons/vol_low.png"
 theme.widget_vol_no = theme.dir .. "/icons/vol_no.png"
 theme.widget_vol_mute = theme.dir .. "/icons/vol_mute.png"
-theme.widget_mail = theme.dir .. "/icons/mail.png"
-theme.widget_mail_on = theme.dir .. "/icons/mail_on.png"
-theme.widget_task = theme.dir .. "/icons/task.png"
-theme.widget_scissors = theme.dir .. "/icons/scissors.png"
-theme.widget_weather = theme.dir .. "/icons/dish.png"
+-- theme.widget_mail = theme.dir .. "/icons/mail.png"
+-- theme.widget_mail_on = theme.dir .. "/icons/mail_on.png"
+-- theme.widget_task = theme.dir .. "/icons/task.png"
+-- theme.widget_scissors = theme.dir .. "/icons/scissors.png"
+-- theme.widget_weather = theme.dir .. "/icons/dish.png"
 theme.tasklist_plain_task_name = true
 theme.tasklist_disable_icon = true
 theme.useless_gap = 4
@@ -161,10 +165,10 @@ theme.mail = lain.widget.imap({
 -- ############################################################################
 -- Pulse Volume
 -- ############################################################################
-theme.volume = lain.widget.pulsebar({
-    --togglechannel = "IEC958,3",
-    notification_preset = { font = theme.font, fg = theme.fg_normal },
-})
+-- theme.volume = lain.widget.pulsebar({
+--     --togglechannel = "IEC958,3",
+--     notification_preset = { font = theme.font, fg = theme.fg_normal },
+-- })
 
 -- ############################################################################
 -- MPD
@@ -312,25 +316,25 @@ local bat = lain.widget.bat({
     end,
 })
 
--- ############################################################################
--- Pulse Volume
--- ############################################################################
-local volicon = wibox.widget.imagebox(theme.widget_vol)
-theme.volume = lain.widget.pulse({
-    settings = function()
-        -- if volume_now.status == "off" then
-        --     volicon:set_image(theme.widget_vol_mute)
-        -- elseif tonumber(volume_now.level) == 0 then
-        --     volicon:set_image(theme.widget_vol_no)
-        -- elseif tonumber(volume_now.level) <= 50 then
-        --     volicon:set_image(theme.widget_vol_low)
-        -- else
-        --     volicon:set_image(theme.widget_vol)
-        -- end
-
-        -- widget:set_markup(markup.font(theme.font, " " .. volume_now.level .. "% "))
-    end,
-})
+-- -- ############################################################################
+-- -- Pulse Volume
+-- -- ############################################################################
+-- local volicon = wibox.widget.imagebox(theme.widget_vol)
+-- theme.volume = lain.widget.pulse({
+--     settings = function()
+--         if volume_now.status == "off" then
+--             volicon:set_image(theme.widget_vol_mute)
+--         elseif tonumber(volume_now.level) == 0 then
+--             volicon:set_image(theme.widget_vol_no)
+--         elseif tonumber(volume_now.level) <= 50 then
+--             volicon:set_image(theme.widget_vol_low)
+--         else
+--             volicon:set_image(theme.widget_vol)
+--         end
+--
+--         widget:set_markup(markup.font(theme.font, " " .. volume_now.level .. "% "))
+--     end,
+-- })
 
 -- ############################################################################
 -- Network
@@ -471,19 +475,19 @@ function theme.at_screen_connect(s)
             -- ################################################################
             -- VOLUME
             -- ################################################################
-            arrow("alpha", purple_color),
-            wibox.container.background(
-                wibox.container.margin(
-                    wibox.widget({ volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }),
-                    2,
-                    3
-                ),
-                purple_color
-            ),
+            -- arrow("alpha", purple_color),
+            -- wibox.container.background(
+            --     wibox.container.margin(
+            --         wibox.widget({ volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }),
+            --         2,
+            --         3
+            --     ),
+            --     purple_color
+            -- ),
             -- ################################################################
             -- RAM USAGE
             -- ################################################################
-            arrow(purple_color, blue_color),
+            arrow("alpha", blue_color),
             wibox.container.background(
                 wibox.container.margin(
                     wibox.widget({ memicon, mem.widget, layout = wibox.layout.align.horizontal }),

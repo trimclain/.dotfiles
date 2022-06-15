@@ -345,7 +345,7 @@ local globalkeys = mytable.join(
     end, { description = "view  previous nonempty", group = "tag" }),
 
     -- On-the-fly useless gaps change
-    awful.key({ altkey, "Control" }, "+", function()
+    awful.key({ altkey, "Control" }, "=", function()
         lain.util.useless_gaps_resize(1)
     end, { description = "increment useless gaps", group = "tag" }),
     awful.key({ altkey, "Control" }, "-", function()
@@ -552,50 +552,21 @@ local globalkeys = mytable.join(
 
     -- ########################## WIDGETS GROUP ###############################
     -- Widgets popups
-    awful.key({ altkey }, "c", function()
-        if beautiful.cal then
-            beautiful.cal.show(7)
-        end
-    end, { description = "show calendar", group = "widgets" }),
-    awful.key({ altkey }, "h", function()
-        if beautiful.fs then
-            beautiful.fs.show(7)
-        end
-    end, { description = "show filesystem", group = "widgets" }),
-    awful.key({ altkey }, "w", function()
-        if beautiful.weather then
-            beautiful.weather.show(7)
-        end
-    end, { description = "show weather", group = "widgets" }),
-
-    -- MPD control
-    -- awful.key({ altkey, "Control" }, "Up", function()
-    --     awful.spawn.with_shell("mpc toggle")
-    --     beautiful.mpd.update()
-    -- end, { description = "mpc toggle", group = "widgets" }),
-    -- awful.key({ altkey, "Control" }, "Down", function()
-    --     awful.spawn.with_shell("mpc stop")
-    --     beautiful.mpd.update()
-    -- end, { description = "mpc stop", group = "widgets" }),
-    -- awful.key({ altkey, "Control" }, "Left", function()
-    --     awful.spawn.with_shell("mpc prev")
-    --     beautiful.mpd.update()
-    -- end, { description = "mpc prev", group = "widgets" }),
-    -- awful.key({ altkey, "Control" }, "Right", function()
-    --     awful.spawn.with_shell("mpc next")
-    --     beautiful.mpd.update()
-    -- end, { description = "mpc next", group = "widgets" }),
-    -- awful.key({ altkey }, "0", function()
-    --     local common = { text = "MPD widget ", position = "top_middle", timeout = 2 }
-    --     if beautiful.mpd.timer.started then
-    --         beautiful.mpd.timer:stop()
-    --         common.text = common.text .. lain.util.markup.bold("OFF")
-    --     else
-    --         beautiful.mpd.timer:start()
-    --         common.text = common.text .. lain.util.markup.bold("ON")
+    -- awful.key({ altkey }, "c", function()
+    --     if beautiful.cal then
+    --         beautiful.cal.show(7)
     --     end
-    --     naughty.notify(common)
-    -- end, { description = "mpc on/off", group = "widgets" }),
+    -- end, { description = "show calendar", group = "widgets" }),
+    -- awful.key({ altkey }, "h", function()
+    --     if beautiful.fs then
+    --         beautiful.fs.show(7)
+    --     end
+    -- end, { description = "show filesystem", group = "widgets" }),
+    -- awful.key({ altkey }, "w", function()
+    --     if beautiful.weather then
+    --         beautiful.weather.show(7)
+    --     end
+    -- end, { description = "show weather", group = "widgets" }),
     -- ########################################################################
 
     -- ########################## HOTKEYS GROUP ###############################
@@ -619,24 +590,24 @@ local globalkeys = mytable.join(
     -- Use xrandr to adjust screen brightness
     awful.key({}, "XF86MonBrightnessUp", function()
         awful.spawn.with_shell("display-brightness --increase")
-    end, { description = "+10%", group = "hotkeys" }),
+    end, { description = "brightness +10%", group = "hotkeys" }),
     awful.key({}, "XF86MonBrightnessDown", function()
         awful.spawn.with_shell("display-brightness --decrease")
-    end, { description = "-10%", group = "hotkeys" }),
+    end, { description = "brightness -10%", group = "hotkeys" }),
 
     -- Use pactl to adjust volume in PulseAudio.
     awful.key({}, "XF86AudioRaiseVolume", function()
-        awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send '' -t 350")
-        beautiful.volume.update()
-    end, { description = "volume up", group = "hotkeys" }),
+        awful.spawn.with_shell("volume-control --increase")
+        -- beautiful.volume.update()
+    end, { description = "volume +5%", group = "hotkeys" }),
     awful.key({}, "XF86AudioLowerVolume", function()
-        awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send '奔' -t 350")
-        beautiful.volume.update()
-    end, { description = "volume down", group = "hotkeys" }),
+        awful.spawn.with_shell("volume-control --decrease")
+        -- beautiful.volume.update()
+    end, { description = "volume -5%", group = "hotkeys" }),
     awful.key({}, "XF86AudioMute", function()
         awful.spawn.with_shell("pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send '婢' -t 350")
         beautiful.volume.update()
-    end, { description = "toggle mute", group = "hotkeys" })
+    end, { description = "toggle mute volume", group = "hotkeys" })
 
     -- Copy primary to clipboard (terminals to gtk) -- !replace xsel with xclip!
     -- awful.key({ modkey }, "c", function()
