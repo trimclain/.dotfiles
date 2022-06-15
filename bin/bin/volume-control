@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+mode="unknown"
+
+# Increase Volume
+if [ "$1" = "--increase" ]
+then
+    mode="increase"
+    # Set Volume
+    pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+# Decrease Volume
+elif [ "$1" = "--decrease" ]
+then
+    mode="decrease"
+    # Set Volume
+    pactl set-sink-volume @DEFAULT_SINK@ -5%
+# elif [ "$1" = "--full" ]
+# then
+#     mode="full"
+#     new=1
+# elif [ "$1" = "--zero" ]
+# then
+#     mode="zero"
+#     new=0
+# elif [ "$1" = "--half" ]
+# then
+#     mode="half"
+#     new=0.5
+fi
+
+
+# Send notification
+output=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+if  [ "$mode" = "increase" ] || [ "$mode" = "full" ] || [ "$mode" = "half" ]; then
+    notify-send " $output %" -t 350
+elif [ "$mode" = "decrease" ] || [ "$mode" = "zero" ]; then
+    notify-send "奔 $output %" -t 350
+else
+    notify-send 'Error: something went wrong' -t 500
+fi
