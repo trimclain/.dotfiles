@@ -219,12 +219,12 @@ local function factory(args)
                 end
                 fullnotification = false
             -- Disable for now coz keeps popping up?
-            elseif bat_now.status == "Full" and full_notify == "on" and not fullnotification then
-                bat.id = naughty.notify({
-                    preset = bat_notification_charged_preset,
-                    replaces_id = bat.id
-                }).id
-                fullnotification = true
+            -- elseif bat_now.status == "Full" and full_notify == "on" and not fullnotification then
+            --     bat.id = naughty.notify({
+            --         preset = bat_notification_charged_preset,
+            --         replaces_id = bat.id
+            --     }).id
+            --     fullnotification = true
             end
         end
     end
