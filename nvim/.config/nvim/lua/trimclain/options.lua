@@ -33,6 +33,7 @@ local options = {
     backup = false, -- creates a backup file
     swapfile = false, -- creates a swapfile
     undofile = true, -- enable persistent undo
+    undodir = os.getenv("HOME") .. "/.nvim/undodir", -- set the undodirectory
     conceallevel = 0, -- so that `` is visible in markdown files
     timeoutlen = 400, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
     -- TODO: Is there even a point of setting laststatus here, if it gets overwritten
@@ -65,8 +66,8 @@ vim.opt.guifont = "JetBrains Mono:h12" -- set the font
 vim.opt.mouse = "a" -- enable the mouse
 vim.g.neovide_transparency = 0.85 -- make it transparent
 
--- TODO: Is there even a point of setting formatoptions here, if they get overwritten
--- anyway? see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
+-- TODO: Is there even a point of setting formatoptions here, if they get overwritten anyway?
+-- see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
 -- To see what the options are use :h fo-table
 vim.opt.formatoptions = vim.opt.formatoptions
     - "a" -- Auto formatting is BAD.
@@ -78,9 +79,6 @@ vim.opt.formatoptions = vim.opt.formatoptions
     + "n" -- Indent past the formatlistpat, not underneath it.
     + "j" -- Auto-remove comments if possible.
     - "2" -- I'm not in gradeschool anymore
-
--- vim.opt.undodir = "~/.nvim/undodir" -- works weird
-vim.cmd "set undodir=~/.nvim/undodir"
 
 -- TODO: can I do this in lua?
 -- Sometimes them fingers do be fat
