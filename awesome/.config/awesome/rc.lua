@@ -331,17 +331,17 @@ local globalkeys = mytable.join(
 
     -- ########################## TAG GROUP ###############################
     -- Tag browsing
-    awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
-    awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
-    awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
+    -- awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
+    -- awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
+    -- awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
 
     -- Non-empty tag browsing
-    awful.key({ altkey }, "Left", function()
-        lain.util.tag_view_nonempty(-1)
-    end, { description = "view  previous nonempty", group = "tag" }),
-    awful.key({ altkey }, "Right", function()
-        lain.util.tag_view_nonempty(1)
-    end, { description = "view  previous nonempty", group = "tag" }),
+    -- awful.key({ altkey }, "Left", function()
+    --     lain.util.tag_view_nonempty(-1)
+    -- end, { description = "view  previous nonempty", group = "tag" }),
+    -- awful.key({ altkey }, "Right", function()
+    --     lain.util.tag_view_nonempty(1)
+    -- end, { description = "view  previous nonempty", group = "tag" }),
 
     -- On-the-fly useless gaps change
     awful.key({ altkey, "Control" }, "=", function()
@@ -351,22 +351,23 @@ local globalkeys = mytable.join(
         lain.util.useless_gaps_resize(-1)
     end, { description = "decrement useless gaps", group = "tag" }),
 
+    -- I could use this someday
     -- Dynamic tagging
-    awful.key({ modkey, "Shift" }, "n", function()
-        lain.util.add_tag()
-    end, { description = "add new tag", group = "tag" }),
-    awful.key({ modkey, "Control" }, "r", function()
-        lain.util.rename_tag()
-    end, { description = "rename tag", group = "tag" }),
-    awful.key({ modkey, "Shift" }, "Left", function()
-        lain.util.move_tag(-1)
-    end, { description = "move tag to the left", group = "tag" }),
-    awful.key({ modkey, "Shift" }, "Right", function()
-        lain.util.move_tag(1)
-    end, { description = "move tag to the right", group = "tag" }),
-    awful.key({ modkey, "Shift" }, "d", function()
-        lain.util.delete_tag()
-    end, { description = "delete tag", group = "tag" }),
+    -- awful.key({ modkey, "Shift" }, "n", function()
+    --     lain.util.add_tag()
+    -- end, { description = "add new tag", group = "tag" }),
+    -- awful.key({ modkey, "Control" }, "r", function()
+    --     lain.util.rename_tag()
+    -- end, { description = "rename tag", group = "tag" }),
+    -- awful.key({ modkey, "Shift" }, "Left", function()
+    --     lain.util.move_tag(-1)
+    -- end, { description = "move tag to the left", group = "tag" }),
+    -- awful.key({ modkey, "Shift" }, "Right", function()
+    --     lain.util.move_tag(1)
+    -- end, { description = "move tag to the right", group = "tag" }),
+    -- awful.key({ modkey, "Shift" }, "d", function()
+    --     lain.util.delete_tag()
+    -- end, { description = "delete tag", group = "tag" }),
     -- ########################################################################
 
     -- ########################## AWESOME GROUP ###############################
@@ -402,12 +403,12 @@ local globalkeys = mytable.join(
 
     -- ########################## CLIENT GROUP ################################
     -- Default client focus
-    awful.key({ altkey }, "j", function()
-        awful.client.focus.byidx(1)
-    end, { description = "focus next by index", group = "client" }),
-    awful.key({ altkey }, "k", function()
-        awful.client.focus.byidx(-1)
-    end, { description = "focus previous by index", group = "client" }),
+    -- awful.key({ altkey }, "j", function()
+    --     awful.client.focus.byidx(1)
+    -- end, { description = "focus next by index", group = "client" }),
+    -- awful.key({ altkey }, "k", function()
+    --     awful.client.focus.byidx(-1)
+    -- end, { description = "focus previous by index", group = "client" }),
 
     -- By-direction client focus
     awful.key({ modkey }, "j", function()
@@ -435,21 +436,48 @@ local globalkeys = mytable.join(
         end
     end, { description = "focus right", group = "client" }),
 
-    awful.key({ modkey, "Control" }, "n", function()
-        local c = awful.client.restore()
-        -- Focus restored client
-        if c then
-            c:emit_signal("request::activate", "key.unminimize", { raise = true })
-        end
-    end, { description = "restore minimized", group = "client" }),
+    -- awful.key({ modkey, "Control" }, "n", function()
+    --     local c = awful.client.restore()
+    --     -- Focus restored client
+    --     if c then
+    --         c:emit_signal("request::activate", "key.unminimize", { raise = true })
+    --     end
+    -- end, { description = "restore minimized", group = "client" }),
 
     -- Layout manipulation
+    -- Default client swap
+    -- awful.key({ modkey, "Shift" }, "j", function()
+    --     awful.client.swap.byidx(1)
+    -- end, { description = "swap with next client by index", group = "client" }),
+    -- awful.key({ modkey, "Shift" }, "k", function()
+    --     awful.client.swap.byidx(-1)
+    -- end, { description = "swap with previous client by index", group = "client" }),
+
+    -- By-direction client swap
     awful.key({ modkey, "Shift" }, "j", function()
-        awful.client.swap.byidx(1)
-    end, { description = "swap with next client by index", group = "client" }),
+        awful.client.swap.global_bydirection("down")
+        -- if client.focus then
+        --     client.focus:raise()
+        -- end
+    end, { description = "swap with down client", group = "client" }),
     awful.key({ modkey, "Shift" }, "k", function()
-        awful.client.swap.byidx(-1)
-    end, { description = "swap with previous client by index", group = "client" }),
+        awful.client.swap.global_bydirection("up")
+        -- if client.focus then
+        --     client.focus:raise()
+        -- end
+    end, { description = "swap with up client", group = "client" }),
+    awful.key({ modkey, "Shift" }, "h", function()
+        awful.client.swap.global_bydirection("left")
+        -- if client.focus then
+        --     client.focus:raise()
+        -- end
+    end, { description = "swap with left client", group = "client" }),
+    awful.key({ modkey, "Shift" }, "l", function()
+        awful.client.swap.global_bydirection("right")
+        -- if client.focus then
+        --     client.focus:raise()
+        -- end
+    end, { description = "swap with right client", group = "client" }),
 
     awful.key({ modkey }, "u", awful.client.urgent.jumpto, { description = "jump to urgent client", group = "client" }),
     awful.key({ modkey }, "Tab", function()
@@ -515,30 +543,33 @@ local globalkeys = mytable.join(
     -- ########################################################################
 
     -- ########################## LAYOUT GROUP ################################
-    awful.key({ modkey, altkey }, "l", function()
+    awful.key({ modkey, "Control" }, "l", function()
         awful.tag.incmwfact(0.05)
     end, { description = "increase master width factor", group = "layout" }),
-    awful.key({ modkey, altkey }, "h", function()
+    awful.key({ modkey, "Control" }, "h", function()
         awful.tag.incmwfact(-0.05)
     end, { description = "decrease master width factor", group = "layout" }),
-    awful.key({ modkey, "Shift" }, "h", function()
-        awful.tag.incnmaster(1, nil, true)
-    end, { description = "increase the number of master clients", group = "layout" }),
-    awful.key({ modkey, "Shift" }, "l", function()
-        awful.tag.incnmaster(-1, nil, true)
-    end, { description = "decrease the number of master clients", group = "layout" }),
-    awful.key({ modkey, "Control" }, "h", function()
+
+    -- awful.key({ modkey, "Shift" }, "h", function()
+    --     awful.tag.incnmaster(1, nil, true)
+    -- end, { description = "increase the number of master clients", group = "layout" }),
+    -- awful.key({ modkey, "Shift" }, "l", function()
+    --     awful.tag.incnmaster(-1, nil, true)
+    -- end, { description = "decrease the number of master clients", group = "layout" }),
+
+    awful.key({ modkey, altkey }, "h", function()
         awful.tag.incncol(1, nil, true)
     end, { description = "increase the number of columns", group = "layout" }),
-    awful.key({ modkey, "Control" }, "l", function()
+    awful.key({ modkey, altkey }, "l", function()
         awful.tag.incncol(-1, nil, true)
     end, { description = "decrease the number of columns", group = "layout" }),
+
     awful.key({ modkey }, "space", function()
         awful.layout.inc(1)
-    end, { description = "select next", group = "layout" }),
+    end, { description = "select next layout", group = "layout" }),
     awful.key({ modkey, "Shift" }, "space", function()
         awful.layout.inc(-1)
-    end, { description = "select previous", group = "layout" }),
+    end, { description = "select previous layout", group = "layout" }),
     -- ########################################################################
 
     -- ########################## SCREEN GROUP ################################
@@ -595,7 +626,7 @@ local globalkeys = mytable.join(
         awful.spawn.with_shell("display-brightness --decrease")
     end, { description = "brightness -10%", group = "hotkeys" }),
 
-    -- Use pactl to adjust volume in PulseAudio.
+    -- Use pactl and pacmd to adjust volume with PulseAudio.
     awful.key({}, "XF86AudioRaiseVolume", function()
         awful.spawn.with_shell("volume-control --increase")
         -- beautiful.volume.update()
@@ -621,7 +652,7 @@ local globalkeys = mytable.join(
 )
 
 local clientkeys = mytable.join(
-    awful.key({ altkey, "Shift" }, "m", lain.util.magnify_client, { description = "magnify client", group = "client" }),
+    -- awful.key({ altkey, "Shift" }, "m", lain.util.magnify_client, { description = "magnify client", group = "client" }),
     awful.key({ modkey }, "f", function(c)
         c.fullscreen = not c.fullscreen
         c:raise()
@@ -635,32 +666,32 @@ local clientkeys = mytable.join(
         awful.client.floating.toggle,
         { description = "toggle floating", group = "client" }
     ),
-    awful.key({ modkey, "Control" }, "Return", function(c)
-        c:swap(awful.client.getmaster())
-    end, { description = "move to master", group = "client" }),
-    awful.key({ modkey }, "o", function(c)
-        c:move_to_screen()
-    end, { description = "move to screen", group = "client" }),
+    -- awful.key({ modkey, "Control" }, "Return", function(c)
+    --     c:swap(awful.client.getmaster())
+    -- end, { description = "move to master", group = "client" }),
+    -- awful.key({ modkey }, "o", function(c)
+    --     c:move_to_screen()
+    -- end, { description = "move to screen", group = "client" }),
     awful.key({ modkey }, "t", function(c)
         c.ontop = not c.ontop
-    end, { description = "toggle keep on top", group = "client" }),
-    awful.key({ modkey }, "n", function(c)
-        -- The client currently has the input focus, so it cannot be
-        -- minimized, since minimized clients can't have the focus.
-        c.minimized = true
-    end, { description = "minimize", group = "client" }),
-    awful.key({ modkey }, "m", function(c)
-        c.maximized = not c.maximized
-        c:raise()
-    end, { description = "(un)maximize", group = "client" }),
-    awful.key({ modkey, "Control" }, "m", function(c)
-        c.maximized_vertical = not c.maximized_vertical
-        c:raise()
-    end, { description = "(un)maximize vertically", group = "client" }),
-    awful.key({ modkey, "Shift" }, "m", function(c)
-        c.maximized_horizontal = not c.maximized_horizontal
-        c:raise()
-    end, { description = "(un)maximize horizontally", group = "client" })
+    end, { description = "toggle keep on top", group = "client" })
+    -- awful.key({ modkey }, "n", function(c)
+    --     -- The client currently has the input focus, so it cannot be
+    --     -- minimized, since minimized clients can't have the focus.
+    --     c.minimized = true
+    -- end, { description = "minimize", group = "client" }),
+    -- awful.key({ modkey }, "m", function(c)
+    --     c.maximized = not c.maximized
+    --     c:raise()
+    -- end, { description = "(un)maximize", group = "client" }),
+    -- awful.key({ modkey, "Control" }, "m", function(c)
+    --     c.maximized_vertical = not c.maximized_vertical
+    --     c:raise()
+    -- end, { description = "(un)maximize vertically", group = "client" }),
+    -- awful.key({ modkey, "Shift" }, "m", function(c)
+    --     c.maximized_horizontal = not c.maximized_horizontal
+    --     c:raise()
+    -- end, { description = "(un)maximize horizontally", group = "client" })
 )
 
 -- Bind all key numbers to tags.
