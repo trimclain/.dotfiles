@@ -313,6 +313,7 @@ end)
 
 -- ############################################################################
 -- {{{ Mouse bindings
+-- 1 is leftclick, 2 is middleclick, 3 is rightclick, 4 is wheel up, 5 is wheel down
 -- ############################################################################
 
 root.buttons(mytable.join(
