@@ -1,7 +1,6 @@
 --[[
 
      My Powerarrow Awesome WM theme
-     github.com/lcpz
 
 --]]
 
@@ -10,18 +9,14 @@ local lain = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
 
--- TODO:
--- PulseAudio control
--- local apw = require("apw/widget")
-
 local math, string, os = math, string, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme = {}
 theme.dir = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-custom"
 -- theme.wallpaper = theme.dir .. "/starwars.jpg"
-theme.font = "JetBrainsMono-Regular 9"
-theme.taglist_font = "JetBrainsMono-Regular 7"
+theme.font = "JetBrainsMono-Regular 10"
+theme.taglist_font = "JetBrainsMono-Regular 9"
 theme.fg_normal = "#ffffff"
 theme.fg_focus = "#A77AC4"
 theme.fg_urgent = "#b74822"
@@ -75,10 +70,10 @@ theme.widget_hdd = theme.dir .. "/icons/hdd.png"
 -- theme.widget_music_on = theme.dir .. "/icons/note.png"
 -- theme.widget_music_pause = theme.dir .. "/icons/pause.png"
 -- theme.widget_music_stop = theme.dir .. "/icons/stop.png"
-theme.widget_vol = theme.dir .. "/icons/vol.png"
-theme.widget_vol_low = theme.dir .. "/icons/vol_low.png"
-theme.widget_vol_no = theme.dir .. "/icons/vol_no.png"
-theme.widget_vol_mute = theme.dir .. "/icons/vol_mute.png"
+-- theme.widget_vol = theme.dir .. "/icons/vol.png"
+-- theme.widget_vol_low = theme.dir .. "/icons/vol_low.png"
+-- theme.widget_vol_no = theme.dir .. "/icons/vol_no.png"
+-- theme.widget_vol_mute = theme.dir .. "/icons/vol_mute.png"
 -- theme.widget_mail = theme.dir .. "/icons/mail.png"
 -- theme.widget_mail_on = theme.dir .. "/icons/mail_on.png"
 -- theme.widget_task = theme.dir .. "/icons/task.png"

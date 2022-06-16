@@ -328,9 +328,8 @@ root.buttons(mytable.join(
 -- {{{ Key bindings
 -- ############################################################################
 local globalkeys = mytable.join(
-    -- ########################## HOTKEYS GROUP ###############################
-    -- ########################################################################
 
+    -- ########################## TAG GROUP ###############################
     -- Tag browsing
     awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
     awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
@@ -368,6 +367,7 @@ local globalkeys = mytable.join(
     awful.key({ modkey, "Shift" }, "d", function()
         lain.util.delete_tag()
     end, { description = "delete tag", group = "tag" }),
+    -- ########################################################################
 
     -- ########################## AWESOME GROUP ###############################
     awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
@@ -605,8 +605,8 @@ local globalkeys = mytable.join(
         -- beautiful.volume.update()
     end, { description = "volume -5%", group = "hotkeys" }),
     awful.key({}, "XF86AudioMute", function()
-        awful.spawn.with_shell("pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send '婢' -t 350")
-        beautiful.volume.update()
+        awful.spawn.with_shell("volume-control --toggle-mute")
+        -- beautiful.volume.update()
     end, { description = "toggle mute volume", group = "hotkeys" })
 
     -- Copy primary to clipboard (terminals to gtk) -- !replace xsel with xclip!
