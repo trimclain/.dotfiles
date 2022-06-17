@@ -24,6 +24,24 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 -- }}}
 
+-- {{{ Modalbind Config
+-- This module helps to add i3-like keybinding modes
+local modalbind = require("modalbind")
+modalbind.init()
+
+modalbind.default_keys = {
+    { "separator", "Mode Control:" },
+    { "Escape", modalbind.close_box, "Close Modal" },
+    { "Return", modalbind.close_box, "Close Modal" },
+    { "separator", "Keybindings:" },
+}
+modalbind.set_location("bottom_left") -- options: top_left, top_right, bottom_left, bottom_right, left, right, top, bottom, centered, center_vertical, center_horizontal
+modalbind.set_x_offset(10) -- move the wibox the given amount of pixels to the right
+modalbind.set_y_offset(-10) -- move the wibox the given amount of pixels to the bottom
+modalbind.set_opacity(0.95) -- change the opacity of the box with float between 0.0 and 1.0
+modalbind.hide_default_options() -- hide that esc or return exits the box
+-- }}}
+
 -- ############################################################################
 -- {{{ Some Configs
 -- ############################################################################
@@ -326,9 +344,51 @@ root.buttons(mytable.join(
 -- }}}
 
 -- ############################################################################
+-- {{{ Keybinding Modes
+-- ############################################################################
+local sysmap = {
+    {
+        "e",
+        function()
+            awesome.quit()
+        end,
+        "Logout",
+    },
+    {
+        "s",
+        function()
+            awful.spawn.with_shell("systemctl suspend")
+        end,
+        "Suspend",
+    },
+    {
+        "r",
+        function()
+            awful.spawn.with_shell("systemctl reboot")
+        end,
+        "Restart",
+    },
+    {
+        "S",
+        function()
+            awful.spawn.with_shell("systemctl poweroff")
+        end,
+        "Shutdown",
+    },
+}
+
+-- }}}
+
+-- ############################################################################
 -- {{{ Key bindings
 -- ############################################################################
 local globalkeys = mytable.join(
+    -- ########################## MODES GROUP ###############################
+
+    awful.key({ modkey }, "0", function()
+        modalbind.grab({ keymap = sysmap, name = "System", stay_in_mode = false })
+    end, { description = "enter system mode", group = "modes" }),
+    -- ########################################################################
 
     -- ########################## TAG GROUP ###############################
     -- Tag browsing
@@ -911,3 +971,4 @@ awful.spawn.with_shell("touchpad-settings")
 -- NetworkManager is the most popular way to manage wireless networks on Linux,
 -- and nm-applet is a desktop environment-independent system tray GUI for it.
 awful.spawn.with_shell("nm-applet")
+-- }}}

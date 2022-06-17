@@ -101,6 +101,16 @@ theme.titlebar_maximized_button_normal_active = theme.dir .. "/icons/titlebar/ma
 theme.titlebar_maximized_button_focus_inactive = theme.dir .. "/icons/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/maximized_normal_inactive.png"
 
+-- ######################## Modalbind Config ##################################
+-- TODO: make this work
+-- theme.modalbind_font = "JetBrainsMono-Regular 20" -- font
+-- theme.modebox_fg = "#AABBCC"         -- foreground
+-- -- theme.modebox_bg = "#DDEEFF"         -- background
+-- theme.modebox_bg = "#317C31"         -- background
+-- theme.modebox_border = "#112233"     -- border color
+-- theme.modebox_border_width = 1       -- border width
+-- ############################################################################
+
 local markup = lain.util.markup
 local separators = lain.util.separators
 
