@@ -346,6 +346,7 @@ root.buttons(mytable.join(
 -- ############################################################################
 -- {{{ Keybinding Modes
 -- ############################################################################
+-- System Mode
 local sysmap = {
     {
         "e",
@@ -377,6 +378,63 @@ local sysmap = {
     },
 }
 
+-- Brightness Mode
+local brightmap = {
+    {
+        "0",
+        function()
+            awful.spawn.with_shell("display-brightness --zero")
+        end,
+        "0%",
+    },
+    {
+        "5",
+        function()
+            awful.spawn.with_shell("display-brightness --half")
+        end,
+        "50%",
+    },
+    {
+        "1",
+        function()
+            awful.spawn.with_shell("display-brightness --full")
+        end,
+        "100%",
+    },
+}
+
+-- Monitor Mode
+local monimap = {
+    {
+        "f",
+        function()
+            awful.spawn.with_shell("monitor-layout --first")
+        end,
+        "First",
+    },
+    {
+        "s",
+        function()
+            awful.spawn.with_shell("monitor-layout --second")
+        end,
+        "Second",
+    },
+    {
+        "d",
+        function()
+            awful.spawn.with_shell("monitor-layout --dual")
+        end,
+        "Dual",
+    },
+    {
+        "p",
+        function()
+            awful.spawn.with_shell("monitor-layout --duplicate")
+        end,
+        "Duplicate",
+    },
+}
+
 -- }}}
 
 -- ############################################################################
@@ -388,6 +446,14 @@ local globalkeys = mytable.join(
     awful.key({ modkey }, "0", function()
         modalbind.grab({ keymap = sysmap, name = "System", stay_in_mode = false })
     end, { description = "enter system mode", group = "modes" }),
+
+    awful.key({ modkey }, "b", function()
+        modalbind.grab({ keymap = brightmap, name = "Brightness", stay_in_mode = false })
+    end, { description = "enter brightness mode", group = "modes" }),
+
+    awful.key({ modkey }, "m", function()
+        modalbind.grab({ keymap = monimap, name = "Monitor Layout", stay_in_mode = false })
+    end, { description = "enter monitor mode", group = "modes" }),
     -- ########################################################################
 
     -- ########################## TAG GROUP ###############################
