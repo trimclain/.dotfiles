@@ -20,11 +20,13 @@ local filetype_group = vim.api.nvim_create_augroup("filetype_group", {
     clear = true,
 })
 vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = { --[[ "qf", ]]
+    pattern = {
+        -- "qf",
         "help",
         "lspinfo",
         "null-ls-info",
         "startuptime",
+        "fugitive",
     },
     callback = function()
         vim.cmd [[
