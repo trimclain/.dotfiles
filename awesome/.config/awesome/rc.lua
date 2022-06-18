@@ -767,6 +767,13 @@ local globalkeys = mytable.join(
         -- beautiful.volume.update()
     end, { description = "toggle mute volume", group = "hotkeys" })
 
+    -- TODO:
+    -- Command to toggle mute microphone
+    -- pacmd list-sources | \
+    --     grep -oP 'index: \d+' | \
+    --     awk '{ print $2 }' | \
+    --     xargs -I{} pactl set-source-mute {} toggle
+
     -- Copy primary to clipboard (terminals to gtk) -- !replace xsel with xclip!
     -- awful.key({ modkey }, "c", function()
     --     awful.spawn.with_shell("xsel | xsel -i -b")
@@ -1034,7 +1041,8 @@ awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell("picom")
 -- Give me that Natural Scrolling
 awful.spawn.with_shell("touchpad-settings")
--- NetworkManager is the most popular way to manage wireless networks on Linux,
--- and nm-applet is a desktop environment-independent system tray GUI for it.
+-- Set my keyboard layout
+awful.spawn.with_shell("keyboard-layout --default")
+-- NetworkManager is the most popular way to manage wireless networks on Linux, and nm-applet is a desktop environment-independent system tray GUI for it.
 awful.spawn.with_shell("nm-applet")
 -- }}}
