@@ -50,7 +50,7 @@ if [[ -n $1 ]]; then
     elif [[ $1 == "-l" || $1 == "--linux" ]]; then
 
         # Folders to stow (picom not added yet)
-        STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh,i3,alacritty,kitty,picom,rofi"
+        STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh,awesome,alacritty,kitty,rofi"
 
         # Check if there are any old files that are not symlinks and move them (picom will be added)
         DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim ~/.config/i3 ~/.config/alacritty)
