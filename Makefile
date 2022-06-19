@@ -275,6 +275,8 @@ neovide:
 
 uninstall_neovide:
 	sudo rm /usr/local/bin/neovide
+	sudo rm /usr/share/applications/neovide.desktop
+	sudo rm /usr/local/share/icons/hicolor/256x256/apps/neovide.png
 
 pomo:
 	@echo "==================================================================="
