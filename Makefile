@@ -1,14 +1,13 @@
 SHELL := /bin/bash
 
 all:
-	@# echo "For help run 'make help'"
 	@echo "********************************************************************"
 	@echo "This will install rustup and some usefull things"
 	@echo "When asked, choose 1 and press Enter"
 	@echo "********************************************************************"
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
-	@# stow to symplink files, xclip as a clipboard tool
+	@# stow to symlink files, xclip as a clipboard tool
 	sudo apt-get install -y curl stow ripgrep fzf htop tree xclip
 	@# Installing rustup.rs
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -173,22 +172,16 @@ awesome:
 	@# librewolf -- i got better, and slock and dmenu -- were there
 	sudo apt install awesome -y
 
-polybar:
-	@# Install better statusline for i3 (wait for Ubuntu 22.04)
+nitrogen:
 	@echo "==================================================================="
-	sudo apt install polybar -y
+	@echo "Installing nitrogen..."
+	sudo apt install nitrogen -y
 
-# Building polybar doesn't work
-# @echo "Installing polybar build dependencies..."
-# sudo apt install -y cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python3-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev
-# @# Optional dependencies, needed in my case
-# sudo apt install -y libxcb-composite0-dev libjsoncpp-dev
-# sudo ln -s /usr/include/jsoncpp/json/ /usr/include/json
-# @echo "Installing polybar ..."
-# git clone --recursive https://github.com/polybar/polybar ~/polybar &&\
-# 	cd ~/polybar && ./build.sh
-# @# Delete the folder from github
-# rm -rf ~/polybar
+polybar:
+	@# Install better winbar
+	@echo "==================================================================="
+	@echo "Installing polybar..."
+	sudo apt install polybar -y
 
 # Need this compositor for transparent terminal (alternative: compton)
 picom:
@@ -252,7 +245,7 @@ kdenlive:
 	@echo "Installing Kdenlive..."
 	sudo add-apt-repository ppa:kdenlive/kdenlive-stable -y
 	sudo apt update
-	sudo apt install kdenlive
+	sudo apt install kdenlive -y
 
 neovide:
 	@echo "==================================================================="
@@ -303,7 +296,7 @@ inkscape:
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs golang kitty awesome picom rofi ## in addition to "make install" install kitty, awesome, picom, rofi and my config for these
+linux_install: font_install tmux zsh nvim nodejs golang kitty awesome nitrogen polybar picom rofi ## in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
@@ -312,9 +305,8 @@ linux_install: font_install tmux zsh nvim nodejs golang kitty awesome picom rofi
 linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, pomo, inkscape, fd-find, nitrogen, nomacs, flameshot, gimp, smplayer
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
-	@# nitrogen for background images & nomacs image viewer, flameshot for screenshots,
-	@# gimp, smplayer for videos
-	sudo apt install -y fd-find nitrogen nomacs dconf-editor flameshot gimp smplayer
+	@# nomacs image viewer, flameshot for screenshots, gimp, smplayer for videos
+	sudo apt install -y fd-find nomacs dconf-editor flameshot gimp smplayer
 
 ###############################################################################
 python3_setup:
@@ -337,6 +329,6 @@ ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs golang pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
-	imagemagick i3 awesome polybar picom rofi telegram spotify brave obs-studio \
-	neovide uninstall_neovide kdenlive pomo inkscape uninstall_pomo \
+	imagemagick i3 awesome nitrogen polybar picom rofi telegram spotify brave \
+	obs-studio kdenlive neovide uninstall_neovide pomo uninstall_pomo inkscape \
 	linux_install linux_software python3_setup null_ls_tool ubuntu_setup
