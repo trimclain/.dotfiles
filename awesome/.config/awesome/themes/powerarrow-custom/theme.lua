@@ -15,8 +15,8 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local theme = {}
 theme.dir = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-custom"
 -- theme.wallpaper = theme.dir .. "/starwars.jpg"
-theme.font = "JetBrainsMono-Regular 10"
-theme.taglist_font = "JetBrainsMono-Regular 9"
+theme.font = "JetBrainsMono-Regular 11"
+theme.taglist_font = "JetBrainsMono-Regular 10"
 theme.fg_normal = "#ffffff"
 theme.fg_focus = "#A77AC4"
 theme.fg_urgent = "#b74822"
@@ -66,6 +66,7 @@ theme.widget_cpu = theme.dir .. "/icons/cpu.png"
 theme.widget_temp = theme.dir .. "/icons/temp.png"
 theme.widget_net = theme.dir .. "/icons/net.png"
 theme.widget_hdd = theme.dir .. "/icons/hdd.png"
+theme.widget_keyboard = theme.dir .. "/icons/keyboard-icon.png"
 -- theme.widget_music = theme.dir .. "/icons/note.png"
 -- theme.widget_music_on = theme.dir .. "/icons/note.png"
 -- theme.widget_music_pause = theme.dir .. "/icons/pause.png"
@@ -128,7 +129,7 @@ end)
 theme.cal = lain.widget.cal({
     attach_to = { clock },
     notification_preset = {
-        font = "JetBrainsMono-Regular 11",
+        font = theme.font,
         fg = theme.fg_normal,
         bg = theme.bg_normal,
     },
@@ -217,6 +218,19 @@ theme.mail = lain.widget.imap({
 --         end
 --     end,
 -- })
+
+-- ############################################################################
+-- Keyboard Layout
+-- ############################################################################
+-- this function will increase the font size of the widget
+function keyboardlayout_with_font(font)
+    local result = awful.widget.keyboardlayout()
+    result.widget.font = font
+    return result
+end
+
+local keyboard_icon = wibox.widget.imagebox(theme.widget_keyboard)
+local keyboard_layout = keyboardlayout_with_font(theme.font)
 
 -- ############################################################################
 -- Ram Usage
@@ -490,9 +504,21 @@ function theme.at_screen_connect(s)
             --     purple_color
             -- ),
             -- ################################################################
+            -- KEYBOARD LAYOUT
+            -- ################################################################
+            arrow("alpha", purple_color),
+            wibox.container.background(
+                wibox.container.margin(
+                    wibox.widget({ keyboard_icon, keyboard_layout, layout = wibox.layout.align.horizontal }),
+                    2,
+                    3
+                ),
+                purple_color
+            ),
+            -- ################################################################
             -- RAM USAGE
             -- ################################################################
-            arrow("alpha", blue_color),
+            arrow(purple_color, blue_color),
             wibox.container.background(
                 wibox.container.margin(
                     wibox.widget({ memicon, mem.widget, layout = wibox.layout.align.horizontal }),
