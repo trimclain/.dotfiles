@@ -1043,6 +1043,8 @@ awful.spawn.with_shell("picom")
 awful.spawn.with_shell("touchpad-settings")
 -- Set my keyboard layout
 awful.spawn.with_shell("keyboard-layout --default")
+-- Enable popular
+-- awful.spawn.with_shell("$HOME/.config/polybar/launch.sh")
 -- NetworkManager is the most popular way to manage wireless networks on Linux, and nm-applet is a desktop environment-independent system tray GUI for it.
 awful.spawn.with_shell("nm-applet")
 -- }}}
