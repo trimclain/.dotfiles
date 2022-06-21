@@ -18,15 +18,25 @@
 ;==========================================================
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #222
-background-alt = #444
-;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
+; 1
+; background = #222
+; background-alt = #444
+; foreground = #dfdfdf
+; foreground-alt = #555
+; primary = #ffb52a
+; secondary = #e60053
+; alert = #bd2c40
+; disabled = #707880
+
+; 2
+background = #282A2E
+background-alt = #373B41
+foreground = #C5C8C6
 foreground-alt = #555
-primary = #ffb52a
-secondary = #e60053
-alert = #bd2c40
+primary = #F0C674
+secondary = #8ABEB7
+alert = #A54242
+disabled = #707880
 
 [bar/mainbar]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -34,7 +44,8 @@ width = 100%
 height = 27
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+; radius = 6.0
+radius = 0.0
 fixed-center = false
 
 background = ${colors.background}
@@ -43,7 +54,8 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 4
+border-size = 0
+; border-size = 4
 border-color = #00000000
 
 padding-left = 0
@@ -52,19 +64,21 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = JetBrainsMono-Regular;2
-; font-0 = fixed:pixelsize=10;1
+; font-0 = JetBrainsMono-Regular;2
+font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
 modules-left = xworkspaces
 ; modules-left = bspwm i3
 ; modules-center =
-modules-right = pulseaudio xkeyboard memory cpu temperature wlan eth battery date
+modules-right = pulseaudio xkeyboard memory cpu temperature battery date
 
 tray-position = right
 tray-padding = 2
 ;tray-background = #0063ff
+; tray-detached = false
+; tray-scale = 1.0
 
 ;wm-restack = bspwm
 ;wm-restack = i3
@@ -107,7 +121,7 @@ label = %title:0:30:...%
 type = internal/xkeyboard
 blacklist-0 = num lock
 
-format-prefix = " "
+format-prefix = "LAYOUT: "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
@@ -192,7 +206,7 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
+format-prefix = "CPU: "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
 label = %percentage:2%%
@@ -200,7 +214,7 @@ label = %percentage:2%%
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
+format-prefix = "RAM: "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 label = %percentage_used%%
@@ -220,12 +234,12 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
+; ramp-signal-0 = 
+; ramp-signal-1 = 
+; ramp-signal-2 = 
+; ramp-signal-3 = 
+; ramp-signal-4 = 
+; ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
@@ -253,7 +267,7 @@ date-alt = " %Y-%m-%d"
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-prefix = 
+format-prefix =
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
@@ -293,7 +307,7 @@ format-volume = <label-volume> <bar-volume>
 label-volume = VOL
 label-volume-foreground = ${root.foreground}
 
-format-muted-prefix = " "
+format-muted-prefix = "🔇 "
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 
@@ -361,9 +375,9 @@ label = %temperature-c%
 label-warn = %temperature-c%
 label-warn-foreground = ${colors.secondary}
 
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
+ramp-0 =
+ramp-1 =
+ramp-2 =
 ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
@@ -373,9 +387,9 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = 
+label-open = POW
 label-open-foreground = ${colors.secondary}
-label-close =  cancel
+label-close = X cancel
 label-close-foreground = ${colors.secondary}
 label-separator = |
 label-separator-foreground = ${colors.foreground-alt}
