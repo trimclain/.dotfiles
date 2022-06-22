@@ -86,6 +86,19 @@ golang:
 		curl -sSL https://git.io/g-install | sh -s &&\
 		echo "Done"; else echo "[golang]: Latest golang version is already installed"; fi
 
+julia:
+	@echo "==================================================================="
+	@# julia version is hardcoded, maybe fix someday
+	@if [ ! -d ~/.julia ]; then echo "Installing latest stable julia version..." &&\
+		git clone https://github.com/JuliaLang/julia.git ~/.julia && cd ~/.julia &&\
+		git checkout v1.7.3 && make && ln -s ~/.julia/usr/bin/julia ~/.local/bin/julia &&\
+		echo "Done"; else echo "[julia]: Latest julia version is already installed"; fi
+
+uninstall_julia:
+	rm ~/.local/bin/julia
+	rm -rf ~/.julia
+
+
 ########################## On server ##########################################
 pm2:
 	@echo "==================================================================="
@@ -327,8 +340,9 @@ ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
-	uninstall_nvim nodejs golang pm2 ufw install sinstall finstall \
-	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
-	imagemagick i3 awesome nitrogen polybar picom rofi telegram spotify brave \
-	obs-studio kdenlive neovide uninstall_neovide pomo uninstall_pomo inkscape \
-	linux_install linux_software python3_setup null_ls_tool ubuntu_setup
+	uninstall_nvim nodejs golang julia uninstall_julia pm2 ufw install \
+	sinstall finstall alacritty_build_reqs alacritty uninstall_alacritty \
+	kitty uninstall_kitty imagemagick i3 awesome nitrogen polybar picom \
+	rofi telegram spotify brave obs-studio kdenlive neovide uninstall_neovide\
+	pomo uninstall_pomo inkscape linux_install linux_software python3_setup \
+	null_ls_tool ubuntu_setup
