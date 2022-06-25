@@ -13,6 +13,7 @@ local math, string, os = math, string, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme = {}
+theme.enable_wibar = false
 theme.dir = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-custom"
 -- theme.wallpaper = theme.dir .. "/starwars.jpg"
 theme.font = "JetBrainsMono-Regular 11"
@@ -433,173 +434,175 @@ function theme.at_screen_connect(s)
     -- Create a tasklist widget (the one showing the name of open apps to the right of taglists)
     -- s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
-    -- Create the wibox and choose it's position
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = 20, bg = theme.bg_normal, fg = theme.fg_normal })
+    if theme.enable_wibar then
+        -- Create the wibox and choose it's position
+        s.mywibox = awful.wibar({ position = "top", screen = s, height = 20, bg = theme.bg_normal, fg = theme.fg_normal })
 
-    -- Variables
-    local blue_color = "#7197E7"
-    local purple_color = "#A77AC4"
+        -- Variables
+        local blue_color = "#7197E7"
+        local purple_color = "#A77AC4"
 
-    -- Add widgets to the wibox
-    s.mywibox:setup({
-        layout = wibox.layout.align.horizontal,
-        { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
-            --spr,
-            s.mytaglist,
-            s.mypromptbox,
-            spr,
-        },
-        s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
-            --[[ using shapes
-            pl(wibox.widget { mpdicon, theme.mpd.widget, layout = wibox.layout.align.horizontal }, "#343434"),
-            pl(task, "#343434"),
-            --pl(wibox.widget { mailicon, mail and mail.widget, layout = wibox.layout.align.horizontal }, "#343434"),
-            pl(wibox.widget { memicon, mem.widget, layout = wibox.layout.align.horizontal }, "#777E76"),
-            pl(wibox.widget { cpuicon, cpu.widget, layout = wibox.layout.align.horizontal }, "#4B696D"),
-            pl(wibox.widget { tempicon, temp.widget, layout = wibox.layout.align.horizontal }, "#4B3B51"),
-            pl(wibox.widget { fsicon, theme.fs.widget, layout = wibox.layout.align.horizontal }, "#CB755B"),
-            pl(wibox.widget { baticon, bat.widget, layout = wibox.layout.align.horizontal }, "#8DAA9A"),
-            pl(wibox.widget { neticon, net.widget, layout = wibox.layout.align.horizontal }, "#C0C0A2"),
-            pl(binclock.widget, "#777E76"),
-            --]]
-            -- using separators
-            -- ################################################################
-            -- EMAIL
-            -- ################################################################
-            -- arrow(theme.bg_normal, "#343434"),
-            -- wibox.container.background(
-            --     wibox.container.margin(
-            --         wibox.widget({ mailicon, mail and mail.widget, layout = wibox.layout.align.horizontal }),
-            --         4,
-            --         7
-            --     ),
-            --     "#343434"
-            -- ),
-            -- ################################################################
-            -- MPD media player
-            -- ################################################################
-            -- arrow("alpha", blue_color),
-            -- wibox.container.background(
-            --     wibox.container.margin(
-            --         wibox.widget({ mpdicon, theme.mpd.widget, layout = wibox.layout.align.horizontal }),
-            --         3,
-            --         6
-            --     ),
-            --     blue_color
-            -- ),
-            -- ################################################################
-            -- VOLUME
-            -- ################################################################
-            -- arrow("alpha", purple_color),
-            -- wibox.container.background(
-            --     wibox.container.margin(
-            --         wibox.widget({ volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }),
-            --         2,
-            --         3
-            --     ),
-            --     purple_color
-            -- ),
-            -- ################################################################
-            -- KEYBOARD LAYOUT
-            -- ################################################################
-            arrow("alpha", purple_color),
-            wibox.container.background(
-                wibox.container.margin(
-                    wibox.widget({ keyboard_icon, keyboard_layout, layout = wibox.layout.align.horizontal }),
-                    2,
-                    3
+        -- Add widgets to the wibox
+        s.mywibox:setup({
+            layout = wibox.layout.align.horizontal,
+            { -- Left widgets
+                layout = wibox.layout.fixed.horizontal,
+                --spr,
+                s.mytaglist,
+                s.mypromptbox,
+                spr,
+            },
+            s.mytasklist, -- Middle widget
+            { -- Right widgets
+                layout = wibox.layout.fixed.horizontal,
+                wibox.widget.systray(),
+                --[[ using shapes
+                pl(wibox.widget { mpdicon, theme.mpd.widget, layout = wibox.layout.align.horizontal }, "#343434"),
+                pl(task, "#343434"),
+                --pl(wibox.widget { mailicon, mail and mail.widget, layout = wibox.layout.align.horizontal }, "#343434"),
+                pl(wibox.widget { memicon, mem.widget, layout = wibox.layout.align.horizontal }, "#777E76"),
+                pl(wibox.widget { cpuicon, cpu.widget, layout = wibox.layout.align.horizontal }, "#4B696D"),
+                pl(wibox.widget { tempicon, temp.widget, layout = wibox.layout.align.horizontal }, "#4B3B51"),
+                pl(wibox.widget { fsicon, theme.fs.widget, layout = wibox.layout.align.horizontal }, "#CB755B"),
+                pl(wibox.widget { baticon, bat.widget, layout = wibox.layout.align.horizontal }, "#8DAA9A"),
+                pl(wibox.widget { neticon, net.widget, layout = wibox.layout.align.horizontal }, "#C0C0A2"),
+                pl(binclock.widget, "#777E76"),
+                --]]
+                -- using separators
+                -- ################################################################
+                -- EMAIL
+                -- ################################################################
+                -- arrow(theme.bg_normal, "#343434"),
+                -- wibox.container.background(
+                --     wibox.container.margin(
+                --         wibox.widget({ mailicon, mail and mail.widget, layout = wibox.layout.align.horizontal }),
+                --         4,
+                --         7
+                --     ),
+                --     "#343434"
+                -- ),
+                -- ################################################################
+                -- MPD media player
+                -- ################################################################
+                -- arrow("alpha", blue_color),
+                -- wibox.container.background(
+                --     wibox.container.margin(
+                --         wibox.widget({ mpdicon, theme.mpd.widget, layout = wibox.layout.align.horizontal }),
+                --         3,
+                --         6
+                --     ),
+                --     blue_color
+                -- ),
+                -- ################################################################
+                -- VOLUME
+                -- ################################################################
+                -- arrow("alpha", purple_color),
+                -- wibox.container.background(
+                --     wibox.container.margin(
+                --         wibox.widget({ volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }),
+                --         2,
+                --         3
+                --     ),
+                --     purple_color
+                -- ),
+                -- ################################################################
+                -- KEYBOARD LAYOUT
+                -- ################################################################
+                arrow("alpha", purple_color),
+                wibox.container.background(
+                    wibox.container.margin(
+                        wibox.widget({ keyboard_icon, keyboard_layout, layout = wibox.layout.align.horizontal }),
+                        2,
+                        3
+                    ),
+                    purple_color
                 ),
-                purple_color
-            ),
-            -- ################################################################
-            -- RAM USAGE
-            -- ################################################################
-            arrow(purple_color, blue_color),
-            wibox.container.background(
-                wibox.container.margin(
-                    wibox.widget({ memicon, mem.widget, layout = wibox.layout.align.horizontal }),
-                    2,
-                    3
+                -- ################################################################
+                -- RAM USAGE
+                -- ################################################################
+                arrow(purple_color, blue_color),
+                wibox.container.background(
+                    wibox.container.margin(
+                        wibox.widget({ memicon, mem.widget, layout = wibox.layout.align.horizontal }),
+                        2,
+                        3
+                    ),
+                    blue_color
                 ),
-                blue_color
-            ),
-            -- ################################################################
-            -- CPU USAGE
-            -- ################################################################
-            arrow(blue_color, purple_color),
-            wibox.container.background(
-                wibox.container.margin(
-                    wibox.widget({ cpuicon, cpu.widget, layout = wibox.layout.align.horizontal }),
-                    3,
-                    4
+                -- ################################################################
+                -- CPU USAGE
+                -- ################################################################
+                arrow(blue_color, purple_color),
+                wibox.container.background(
+                    wibox.container.margin(
+                        wibox.widget({ cpuicon, cpu.widget, layout = wibox.layout.align.horizontal }),
+                        3,
+                        4
+                    ),
+                    purple_color
                 ),
-                purple_color
-            ),
-            -- ################################################################
-            -- CPU TEMPERATURE
-            -- ################################################################
-            arrow(purple_color, blue_color),
-            wibox.container.background(
-                wibox.container.margin(
-                    wibox.widget({ tempicon, temp.widget, layout = wibox.layout.align.horizontal }),
-                    4,
-                    4
+                -- ################################################################
+                -- CPU TEMPERATURE
+                -- ################################################################
+                arrow(purple_color, blue_color),
+                wibox.container.background(
+                    wibox.container.margin(
+                        wibox.widget({ tempicon, temp.widget, layout = wibox.layout.align.horizontal }),
+                        4,
+                        4
+                    ),
+                    blue_color
                 ),
-                blue_color
-            ),
-            -- ################################################################
-            -- WEATHER
-            -- ################################################################
-            -- arrow(blue_color, purple_color),
-            -- wibox.container.background(
-            --     wibox.container.margin(
-            --         wibox.widget({ weathericon, theme.weather.widget, layout = wibox.layout.align.horizontal }),
-            --         3,
-            --         3
-            --     ),
-            --     purple_color
-            -- ),
-            -- ################################################################
-            -- NETWORK
-            -- ################################################################
-            arrow(blue_color, purple_color),
-            wibox.container.background(
-                wibox.container.margin(
-                    wibox.widget({ nil, neticon, net.widget, layout = wibox.layout.align.horizontal }),
-                    3,
-                    3
+                -- ################################################################
+                -- WEATHER
+                -- ################################################################
+                -- arrow(blue_color, purple_color),
+                -- wibox.container.background(
+                --     wibox.container.margin(
+                --         wibox.widget({ weathericon, theme.weather.widget, layout = wibox.layout.align.horizontal }),
+                --         3,
+                --         3
+                --     ),
+                --     purple_color
+                -- ),
+                -- ################################################################
+                -- NETWORK
+                -- ################################################################
+                arrow(blue_color, purple_color),
+                wibox.container.background(
+                    wibox.container.margin(
+                        wibox.widget({ nil, neticon, net.widget, layout = wibox.layout.align.horizontal }),
+                        3,
+                        3
+                    ),
+                    purple_color
                 ),
-                purple_color
-            ),
-            -- ################################################################
-            -- BATTERY
-            -- ################################################################
-            arrow(purple_color, blue_color),
-            wibox.container.background(
-                wibox.container.margin(
-                    wibox.widget({ baticon, bat.widget, layout = wibox.layout.align.horizontal }),
-                    3,
-                    3
+                -- ################################################################
+                -- BATTERY
+                -- ################################################################
+                arrow(purple_color, blue_color),
+                wibox.container.background(
+                    wibox.container.margin(
+                        wibox.widget({ baticon, bat.widget, layout = wibox.layout.align.horizontal }),
+                        3,
+                        3
+                    ),
+                    blue_color
                 ),
-                blue_color
-            ),
-            -- ################################################################
-            -- TEXTCLOCK
-            -- ################################################################
-            arrow(blue_color, purple_color),
-            wibox.container.background(wibox.container.margin(clock, 4, 8), purple_color),
-            arrow(purple_color, "alpha"),
-            --]]
-            -- ################################################################
-            -- LAYOUT BOX
-            -- ################################################################
-            s.mylayoutbox,
-        },
-    })
+                -- ################################################################
+                -- TEXTCLOCK
+                -- ################################################################
+                arrow(blue_color, purple_color),
+                wibox.container.background(wibox.container.margin(clock, 4, 8), purple_color),
+                arrow(purple_color, "alpha"),
+                --]]
+                -- ################################################################
+                -- LAYOUT BOX
+                -- ################################################################
+                s.mylayoutbox,
+            },
+        })
+    end
 end
 
 return theme
