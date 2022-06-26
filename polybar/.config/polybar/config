@@ -29,14 +29,60 @@
 ; disabled = #707880
 
 ; 2
-background = #282A2E
-background-alt = #373B41
-foreground = #C5C8C6
-foreground-alt = #555
-primary = #F0C674
-secondary = #8ABEB7
-alert = #A54242
+; background = #282A2E
+; background-alt = #373B41
+; foreground = #C5C8C6
+; foreground-alt = #555
+; primary = #F0C674
+; secondary = #8ABEB7
+; alert = #A54242
+; disabled = #707880
+
+; My Nord theme =========
+background = #2E3440
+background-alt = #4c566a
+foreground = #ECEFF4
+foreground-alt = #D8DEE9
+; nord7 = #8FBCBB
+primary = #88C0D0
+; nord9 = #81A1C1
+secondary = #BF616A
+alert = #D08770
+; notify = #EBCB8B
+; success = #A3BE8C
+; function = #B48EAD
 disabled = #707880
+
+; UNDERLINE COLORS
+emwh-urgent = #9b0a20
+keyboard = #BF616A
+cpu = #f90000
+ram = #4bffdc
+wifi = #9f78e1
+ethernet = #55aa55
+date = #0a6cf5
+volume = #B48EAD
+battery = #ffb52a
+temperature = #f50a4d
+uptime = #C15D3E
+
+; Nord theme ============
+; background = #282c34
+; foreground = #abb2bf
+; alert = #bd2c40
+; volume-min = #a3be8c
+; volume-med = #ebcb8b
+; volume-max = #bf616a
+; =======================
+
+; Gotham theme ==========
+; background = #0a0f14
+; foreground = #99d1ce
+; alert = #d26937
+; volume-min = #2aa889
+; volume-med = #edb443
+; volume-max = #c23127
+; =======================
 
 [bar/mainbar]
 ; Use either of the following command to list available outputs:
@@ -148,7 +194,8 @@ padding-right = 2
 ; Individual side values can be defined using:
 ;   module-margin-{left,right}
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 1
+; module-margin-right = 2
 
 ; Fonts are defined using <font-name>;<vertical-offset>
 ; Font names are specified using a fontconfig pattern.
@@ -163,12 +210,15 @@ font-2 = fixed:pixelsize=10;1
 ; font-3 = unifont:fontformat=truetype:size=8:antialias=false;0
 ; font-4 = siji:pixelsize=10;1
 
+; ############# MODULES ##############
 ; Modules are added to one of the available blocks
 ;   modules-left = cpu ram
 ;   modules-center = xwindow xbacklight
 ;   modules-right = ipc clock
-modules-left = xworkspaces
+
+modules-left = ewmh
 modules-center = date
+; modules-right = arrow1 pulseaudio arrow2 xkeyboard arrow3 wlan eth arrow2 memory arrow3 cpu arrow2 temperature arrow3 battery
 modules-right = pulseaudio xkeyboard wlan eth memory cpu temperature battery
 
 ; The separator will be inserted between the output of each module
@@ -293,9 +343,52 @@ double-click-right =
 cursor-click = pointer
 cursor-scroll = ns-resize
 
+###############################################################################
+###############################################################################
+############                    MODULES ARROWS                     ############
+###############################################################################
+###############################################################################
+
+
+[module/arrow1]
+; grey to Blue
+type = custom/text
+content = "%{T2} %{T-}"
+content-font = 2
+content-foreground = #8d62a9
+content-background = #292d3e
+
+[module/arrow2]
+; grey to Blue
+type = custom/text
+content = "%{T2} %{T-}"
+content-font = 2
+content-foreground = #668bd7
+content-background = #8d62a9
+
+[module/arrow3]
+; grey to Blue
+type = custom/text
+content = "%{T2} %{T-}"
+content-font = 2
+content-foreground = #8b62a9
+content-background = #668bd7
+
+###############################################################################
+###############################################################################
+############                       MODULES                          ###########
+###############################################################################
+###############################################################################
+
 ; Awailable Modules: https://github.com/polybar/polybar/wiki
 
-[module/xworkspaces]
+;extra icons to choose from
+;http://fontawesome.io/cheatsheet/
+;       v     
+
+################################################################################
+
+[module/ewmh]
 type = internal/xworkspaces
 
 ; Only show workspaces defined on the same output as the bar
@@ -385,6 +478,8 @@ label-empty = %name%
 label-empty-foreground = ${colors.disabled}
 label-empty-padding = 1
 
+################################################################################
+
 [module/xkeyboard]
 type = internal/xkeyboard
 ; List of indicators to ignore
@@ -399,7 +494,7 @@ format-spacing = 0
 
 format-prefix = "⌨ "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-prefix-underline = ${colors.secondary}
+format-prefix-underline = ${colors.keyboard}
 
 ; Available tokens:
 ;   %layout%
@@ -412,7 +507,7 @@ label-layout = %layout%
 label-layout-padding = 0
 ; label-layout-background = #bc99ed
 ; label-layout-foreground = #000
-; label-layout-underline = ${colors.secondary}
+label-layout-underline = ${colors.keyboard}
 
 ; Available tokens:
 ;   %name%
@@ -474,6 +569,8 @@ label-indicator-off-numlock =
 label-indicator-on-scrolllock =
 label-indicator-off-scrolllock =
 
+################################################################################
+
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
@@ -510,6 +607,8 @@ label-urgent-padding = 2
 
 ; Separator in between workspaces
 ; label-separator = |
+
+################################################################################
 
 [module/backlight]
 type = internal/backlight
@@ -558,6 +657,8 @@ bar-indicator = |
 bar-fill = ─
 bar-empty = ─
 
+################################################################################
+
 [module/cpu]
 type = internal/cpu
 
@@ -576,9 +677,12 @@ interval = 2
 format = <label>
 ; format = <label> <ramp-coreload>
 
-format-prefix = "CPU: "
+;   
+format-prefix = " "
+; format-prefix = " "
+; format-prefix = "CPU: "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #f90000
+format-underline = ${colors.cpu}
 
 ; Format used when average CPU load (same as %percentage%) reaches warn-percentage
 ; If not defined, format is used instead.
@@ -616,6 +720,8 @@ ramp-coreload-5 = ▆
 ramp-coreload-6 = ▇
 ramp-coreload-7 = █
 
+################################################################################
+
 [module/memory]
 type = internal/memory
 
@@ -639,9 +745,11 @@ interval = 2
 format = <label>
 ; format = <label> <bar-used>
 
-format-prefix = "RAM: "
+
+format-prefix = " "
+; format-prefix = "RAM: "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #4bffdc
+format-underline = ${colors.ram}
 
 ; Format used when RAM reaches warn-percentage
 ; If not defined, format is used instead.
@@ -741,6 +849,8 @@ ramp-free-5 = ▆
 ramp-free-6 = ▇
 ramp-free-7 = █
 
+################################################################################
+
 [module/wlan]
 type = internal/network
 ; Name of the network interface to display. You can get the names of the
@@ -769,9 +879,9 @@ interval = 3.0
 ;   <label-connected> (default)
 ;   <ramp-signal>
 format-connected = <label-connected>
-format-connected-prefix = "WiFi: "
+format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
-; format-connected-underline = #9f78e1
+format-connected-underline = ${colors.wifi}
 
 ; Available tags:
 ;   <label-disconnected> (default)
@@ -827,15 +937,18 @@ label-disconnected-foreground = ${colors.foreground-alt}
 ; Framerate in milliseconds
 ; animation-packetloss-framerate = 500
 
+################################################################################
+
 [module/eth]
 type = internal/network
 interface = enp2s0
 ; interface-type = wired
 interval = 3.0
 
-; format-connected-underline = #55aa55
-format-connected-prefix = "ETH: "
+format-connected-prefix = " "
+; format-connected-prefix = "ETH: "
 format-connected-prefix-foreground = ${colors.foreground-alt}
+format-connected-underline = ${colors.ethernet}
 label-connected = %local_ip%
 
 format-disconnected = <label-disconnected>
@@ -843,6 +956,8 @@ format-disconnected = <label-disconnected>
 label-disconnected =
 ; label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.foreground-alt}
+
+################################################################################
 
 [module/date]
 type = internal/date
@@ -873,7 +988,7 @@ time-alt = %H:%M:%S
 format-prefix = " "
 ; format-prefix = "🕓 "
 format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #0a6cf5
+format-underline = ${colors.date}
 
 ; Available tokens:
 ;   %date%
@@ -882,6 +997,8 @@ format-prefix-foreground = ${colors.foreground-alt}
 label = %date% %time%
 label-font = 3
 ; label-foreground = #9A32DB
+
+################################################################################
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -902,8 +1019,7 @@ interval = 5
 ;   <label-volume> (default)
 ;   <ramp-volume>
 ;   <bar-volume>
-format-volume = <label-volume>
-; format-volume = <ramp-volume> <label-volume>
+format-volume = <ramp-volume> <label-volume>
 ; format-volume = <label-volume> <bar-volume>
 
 ; Available tags:
@@ -916,7 +1032,7 @@ format-volume = <label-volume>
 ;   %percentage% (default)
 ;   %decibels%
 ; label-volume = %percentage%%
-label-volume = 墳 %percentage%%
+label-volume = %percentage%%
 ; label-volume-foreground = ${root.foreground}
 
 ; Available tokens:
@@ -924,13 +1040,19 @@ label-volume = 墳 %percentage%%
 ;   %decibels%
 label-muted = 婢
 ; label-muted = 婢 muted
-; label-muted = 🔇 muted
 label-muted-foreground = #666
 
+; Underlines
+format-volume-underline = ${colors.volume}
+format-muted-underline = ${colors.volume}
+
+
 ; Only applies if <ramp-volume> is used
-ramp-volume-0 = 🔈
-ramp-volume-1 = 🔉
-ramp-volume-2 = 🔊
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 墳
+ramp-volume-3 = 
+ramp-volume-foreground = ${colors.foreground-alt}
 
 ; Right and Middle click
 ; click-right = pavucontrol
@@ -952,6 +1074,8 @@ ramp-volume-2 = 🔊
 ; bar-volume-empty = ─
 ; bar-volume-empty-font = 2
 ; bar-volume-empty-foreground = ${colors.foreground-alt}
+
+################################################################################
 
 [module/battery]
 type = internal/battery
@@ -992,7 +1116,7 @@ time-format = %H:%M
 ;   <ramp-capacity>
 ;   <animation-charging>
 format-charging = <animation-charging> <label-charging>
-; format-charging-underline = #ffb52a
+format-charging-underline = ${colors.battery}
 
 ; Available tags:
 ;   <label-discharging> (default)
@@ -1001,7 +1125,7 @@ format-charging = <animation-charging> <label-charging>
 ;   <animation-discharging>
 format-discharging = <ramp-capacity> <label-discharging>
 ; format-discharging = <animation-discharging> <label-discharging>
-; format-discharging-underline = ${self.format-charging-underline}
+format-discharging-underline = ${self.format-charging-underline}
 
 ; Available tags:
 ;   <label-full> (default)
@@ -1012,7 +1136,7 @@ format-full = <ramp-capacity> <label-full>
 ; old stuff:
 ; format-full-prefix = " "
 ; format-full-prefix-foreground = ${colors.foreground-alt}
-; format-full-underline = ${self.format-charging-underline}
+format-full-underline = ${self.format-charging-underline}
 
 ; Format used when battery level drops to low-at
 ; If not defined, format-discharging is used instead.
@@ -1088,6 +1212,8 @@ animation-discharging-framerate = 500
 ; animation-low-1 =
 ; animation-low-framerate = 200
 
+################################################################################
+
 [module/temperature]
 type = internal/temperature
 
@@ -1114,7 +1240,7 @@ base-temperature = 20
 
 ; Threshold temperature to display warning label (in degrees celsius)
 ; Default: 80
-warn-temperature = 60
+warn-temperature = 80
 
 ; Whether or not to show units next to the temperature tokens (°C, °F)
 ; Default: true
@@ -1124,13 +1250,13 @@ units = true
 ;   <label> (default)
 ;   <ramp>
 format = <ramp> <label>
-; format-underline = #f50a4d
+format-underline = ${colors.temperature}
 
 ; Available tags:
 ;   <label-warn> (default)
 ;   <ramp>
 format-warn = <ramp> <label-warn>
-; format-warn-underline = ${self.format-underline}
+format-warn-underline = ${self.format-underline}
 
 ; Available tokens:
 ;   %temperature% (deprecated)
@@ -1142,8 +1268,8 @@ label = %temperature-c%
 ;   %temperature% (deprecated)
 ;   %temperature-c%   (default, temperature in °C)
 ;   %temperature-f%   (temperature in °F)
-label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
+label-warn =  %temperature-c%
+label-warn-foreground = ${colors.alert}
 
 ; Requires the <ramp> tag
 ; The icon selection will range from `base-temperature` to `warn-temperature`,
@@ -1156,6 +1282,23 @@ ramp-2 = 
 ramp-3 = 
 ramp-4 = 
 ramp-foreground = ${colors.foreground-alt}
+
+################################################################################
+
+[module/uptime]
+;https://github.com/jaagr/polybar/wiki/User-contributed-modules#uptime
+type = custom/script
+exec = uptime | awk -F, '{sub(".*up ",x,$1);print $1}'
+interval = 100
+label = Uptime : %output%
+
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+format-prefix = " "
+format-prefix-foreground = ${colors.uptime}
+format-underline = ${colors.uptime}
+
+################################################################################
 
 [module/powermenu]
 type = custom/menu
@@ -1197,13 +1340,15 @@ screenchange-reload = false
 
 ; Compositing operators
 ; @see: https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-operator-t
-; compositing-background = source
+; compositing-background = over
 ; compositing-foreground = over
 ; compositing-overline = over
 ; compositing-underline = over
 ; compositing-border = over
 
 ; Define fallback values used by all module formats
+; format-foreground = #FF0000
+; format-background = #00FF00
 format-foreground =
 format-background =
 format-underline =
