@@ -195,6 +195,9 @@ polybar:
 	@echo "==================================================================="
 	@echo "Installing polybar..."
 	sudo apt install polybar -y
+	@# For using my fonts I need to install them globally
+	@echo "Installing JetBrainsMono fonts for all users..."
+	@ sudo mkdir /usr/share/fonts/custom/ && sudo cp -r ~/.dotfiles/fonts/JetBrainsMono/ /usr/share/fonts/custom/
 
 # Need this compositor for transparent terminal (alternative: compton)
 picom:
