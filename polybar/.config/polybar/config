@@ -18,6 +18,53 @@
 ;==========================================================
 
 [colors]
+; colors xcodedark: normal | bright
+; #414453	#7f8c98
+; #ff8170	#ff8170
+; #78c2b3	#acf2e4
+; #d9c97c	#ffa14f
+; #4eb0cc	#6bdfff
+; #ff7ab2	#ff7ab2
+; #b281eb	#dabaff
+; #dfdfe0	#dfdfe0
+; Foreground	#dfdfe0
+; Background	#292a30
+;
+; colors xcodewwdc: normal | bright
+; #494d5c	#7f869e
+; #bb383a	#bb383a
+; #94c66e	#94c66e
+; #d28e5d	#d28e5d
+; #8884c5	#8884c5
+; #b73999	#b73999
+; #00aba4	#00aba4
+; #e7e8eb	#e7e8eb
+; Foreground	#e7e8eb
+; Background	#292c36
+;
+; My Theme =========
+background = #292a30
+background-alt = #414453
+foreground = #dfdfe0
+foreground-alt = #e7e8eb
+primary = #ff7ab2
+secondary = #b73999
+alert = #bb383a
+disabled = #7f8c98
+
+; UNDERLINE COLORS
+emwh-urgent = #9b0a20
+date = #0a6cf5
+volume = #b73999
+keyboard = #00aba4
+wifi = #94c66e
+ethernet = #94c66e
+ram = #b73999
+cpu = #00aba4
+temperature = #b73999
+battery = #00aba4
+uptime = #C15D3E
+;
 ; 1
 ; background = #222
 ; background-alt = #444
@@ -38,33 +85,34 @@
 ; alert = #A54242
 ; disabled = #707880
 
-; My Nord theme =========
-background = #2E3440
-background-alt = #4c566a
-foreground = #ECEFF4
-foreground-alt = #D8DEE9
+; My Nord Theme =========
+; background = #2E3440
+; background-alt = #4c566a
+; foreground = #ECEFF4
+; foreground-alt = #D8DEE9
 ; nord7 = #8FBCBB
-primary = #88C0D0
+; primary = #88C0D0
 ; nord9 = #81A1C1
-secondary = #BF616A
-alert = #D08770
+; secondary = #BF616A
+; alert = #D08770
 ; notify = #EBCB8B
 ; success = #A3BE8C
 ; function = #B48EAD
-disabled = #707880
+; disabled = #707880
 
 ; UNDERLINE COLORS
-emwh-urgent = #9b0a20
-keyboard = #BF616A
-cpu = #f90000
-ram = #4bffdc
-wifi = #9f78e1
-ethernet = #55aa55
-date = #0a6cf5
-volume = #B48EAD
-battery = #ffb52a
-temperature = #f50a4d
-uptime = #C15D3E
+; emwh-urgent = #9b0a20
+; keyboard = #BF616A
+; cpu = #f90000
+; ram = #4bffdc
+; wifi = #9f78e1
+; ethernet = #55aa55
+; date = #0a6cf5
+; volume = #B48EAD
+; battery = #ffb52a
+; temperature = #f50a4d
+; uptime = #C15D3E
+; =======================
 
 ; Nord theme ============
 ; background = #282c34
@@ -464,8 +512,8 @@ label-occupied-padding = 1
 ; Default: %icon% %name%
 label-urgent = %name%
 ; label-urgent-foreground = #000000
-label-urgent-background = ${colors.alert}
-; label-urgent-underline = #9b0a20
+label-urgent-background = ${colors.emwh-urgent}
+; label-urgent-underline = ${colors.emwh-urgent}
 label-urgent-padding = 1
 
 ; Available tokens:

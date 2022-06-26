@@ -1,6 +1,7 @@
 -- local colorscheme = "catppuccin"
 -- local colorscheme = "dracula"
 local colorscheme = "xcodedark"
+-- local colorscheme = "xcodewwdc"
 -- local colorscheme = "tokyonight"
 -- local colorscheme = "gruvbox-baby"
 
