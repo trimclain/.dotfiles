@@ -180,9 +180,9 @@ font-3 = fixed:pixelsize=10;3
 ;   modules-center = xwindow xbacklight
 ;   modules-right = ipc clock
 
-modules-left = ewmh
+modules-left = launcher ewmh
 modules-center = date
-modules-right = volume xkeyboard wlan eth memory cpu temperature battery powermenu
+modules-right = volume brightness xkeyboard wlan eth memory cpu temperature battery powermenu
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
@@ -283,7 +283,7 @@ tray-scale = 1.0
 
 ; Enable support for inter-process messaging
 ; See the Messaging wiki page for more details.
-enable-ipc = false
+enable-ipc = true
 
 ; Fallback click handlers that will be called if
 ; there's no matching module handler found.
