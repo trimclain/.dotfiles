@@ -60,9 +60,11 @@ fi
 # Set Brightness
 xrandr --output $intern --brightness $new
 
+# Write new brightness to a file so it can be read easily without calling xrandr
+output=$( echo $new*100/1 | bc )
+echo $output% > ~/.actual_brightness
 
 # Send notification
-output=$( echo $new*100/1 | bc )
 if  [ "$mode" = "increase" ] || [ "$mode" = "full" ] || [ "$mode" = "half" ]; then
     notify-send "🔆 $output %" -t 350
 elif [ "$mode" = "decrease" ] || [ "$mode" = "zero" ]; then
