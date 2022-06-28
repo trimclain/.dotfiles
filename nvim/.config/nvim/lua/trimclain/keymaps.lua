@@ -10,6 +10,11 @@ vim.g.maplocalleader = " "
 
 -- Source current file
 keymap("n", "<Leader><CR>", ":source %<CR>", opts)
+-- Make current file executable
+keymap("n", "<Leader>mx", ":w <bar> :!chmod +x %<CR>", opts)
+-- Run a file
+keymap("n", "<C-b>", ":w <bar> :!./%<cr>", opts)
+
 
 --
 -- Easier movement between vim windows
@@ -113,10 +118,6 @@ keymap("n", "<leader>f;", ":Telescope commands<cr>", opts)
 keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending modes
 keymap("l", "<C-c>", "<Esc>", opts) -- insert, command-line, lang-arg modes
 keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
-
---
--- Run a file
-keymap("n", "<C-b>", ":w <bar> :! ./%<cr>", opts)
 
 --
 -- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
