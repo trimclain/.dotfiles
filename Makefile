@@ -173,12 +173,18 @@ imagemagick:
 	@# Building from source:
 	sudo apt install imagemagick -y
 
-i3:
+screensaver:
+	@# To be able to lock the screen
+	@echo "==================================================================="
+	@echo "Installing gnome-screensaver..."
+	sudo apt install gnome-screensaver -y
+
+i3: screensaver
 	@echo "==================================================================="
 	@echo "Installing i3..."
 	sudo apt install i3 -y
 
-awesome:
+awesome: screensaver
 	@echo "==================================================================="
 	@echo "Installing awesome window manager..."
 	@# dependencies: sudo apt install unclutter
@@ -345,7 +351,7 @@ ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs golang julia uninstall_julia pm2 ufw install \
 	sinstall finstall alacritty_build_reqs alacritty uninstall_alacritty \
-	kitty uninstall_kitty imagemagick i3 awesome nitrogen polybar picom \
-	rofi telegram spotify brave obs-studio kdenlive neovide uninstall_neovide\
-	pomo uninstall_pomo inkscape linux_install linux_software python3_setup \
-	null_ls_tool ubuntu_setup
+	kitty uninstall_kitty imagemagick screensaver i3 awesome nitrogen \
+	polybar picom rofi telegram spotify brave obs-studio kdenlive neovide \
+	uninstall_neovide pomo uninstall_pomo inkscape linux_install \
+	linux_software python3_setup null_ls_tool ubuntu_setup
