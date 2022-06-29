@@ -4,7 +4,7 @@ RDIR="$HOME/.config/rofi"
 SDIR="$HOME/.config/polybar/scripts/color"
 
 # Launch Rofi
-MENU="$(rofi -no-config -no-lazy-grab -sep "|" -dmenu -i -p 'Theme' \
+MENU="$(rofi -no-config -no-lazy-grab -sep "|" -dmenu -i -p '   Theme ' \
 -theme $RDIR/config.rasi \
 <<< " amber| blue| blue-gray| brown| cyan| deep-orange|\
  deep-purple| green| gray| indigo| blue-light| green-light|\
