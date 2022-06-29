@@ -1046,7 +1046,7 @@ awful.spawn.with_shell("touchpad-settings")
 -- Set my keyboard layout
 awful.spawn.with_shell("keyboard-layout --default")
 -- Update current brightness for my custom script
-awful.spawn.with_shell("get-brightness-on-startup.sh")
+awful.spawn.with_shell("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar
 awful.spawn.with_shell("$HOME/.config/polybar/launch.sh")
 -- NetworkManager is the most popular way to manage wireless networks on Linux, and nm-applet is a desktop environment-independent system tray GUI for it.

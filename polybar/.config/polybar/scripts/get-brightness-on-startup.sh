@@ -4,3 +4,4 @@
 current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
 output=$( echo $current*100/1 | bc )
 echo $output% > ~/.actual_brightness
+# echo 100% > ~/.actual_brightness
