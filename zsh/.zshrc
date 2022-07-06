@@ -26,6 +26,7 @@ export CARGO="$HOME/.cargo/bin"
 export N_PREFIX="$HOME/.n"
 export GOROOT="$HOME/.golang"
 export GOPATH="$HOME/.go"
+export SDKMAN_DIR="$HOME/.sdkman"
 
 # To keep zsh config in ~/.config/zsh
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
@@ -262,7 +263,6 @@ elif [ -f ~/.bash_aliases ]; then
 fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
 if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi

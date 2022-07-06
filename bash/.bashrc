@@ -29,6 +29,7 @@ export CARGO="$HOME/.cargo/bin"
 export N_PREFIX="$HOME/.n"
 export GOROOT="$HOME/.golang"
 export GOPATH="$HOME/.go"
+export SDKMAN_DIR="$HOME/.sdkman"
 
 # If not running interactively, don't do anything
 case $- in
@@ -188,7 +189,6 @@ addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
 if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
