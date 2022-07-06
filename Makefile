@@ -98,6 +98,15 @@ uninstall_julia:
 	rm ~/.local/bin/julia
 	rm -rf ~/.julia
 
+sdkman:
+	@echo "==================================================================="
+	@# Install sdkman to install Java, Groovy, Kotlin etc.
+	@if [ ! -d ~/.sdkman ]; then echo "Installing the Software Development Kit Manager..." &&\
+		curl -s https://get.sdkman.io | bash && \
+		echo "Done"; else echo "[sdkman]: Latest sdkman is already installed"; fi
+
+uninstall_sdkman:
+	rm -rf ~/.sdkman
 
 ########################## On server ##########################################
 pm2:
@@ -350,9 +359,9 @@ ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
-	uninstall_nvim nodejs golang julia uninstall_julia pm2 ufw install \
-	sinstall finstall alacritty_build_reqs alacritty uninstall_alacritty \
-	kitty uninstall_kitty imagemagick screensaver i3 awesome nitrogen \
-	polybar picom rofi telegram spotify brave obs-studio kdenlive neovide \
-	uninstall_neovide pomo uninstall_pomo inkscape linux_install \
-	linux_software python3_setup null_ls_tool ubuntu_setup
+	uninstall_nvim nodejs golang julia uninstall_julia sdkman uninstall_sdkman \
+	pm2 ufw install sinstall finstall alacritty_build_reqs alacritty \
+	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver i3 \
+	awesome nitrogen polybar picom rofi telegram spotify brave obs-studio \
+	kdenlive neovide uninstall_neovide pomo uninstall_pomo inkscape \
+	linux_install linux_software python3_setup null_ls_tool ubuntu_setup

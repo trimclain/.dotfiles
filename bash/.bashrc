@@ -186,3 +186,7 @@ addToPATH "$N_PREFIX/bin" # n-insall for node versions
 addToPATH "$CARGO" # rust btw
 addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
