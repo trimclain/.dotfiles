@@ -68,10 +68,9 @@ nvim: nvimdir nvim_build_reqs
 		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim; fi
 
 uninstall_nvim:
-	@echo "Uninstalling Neovim..."
-	sudo rm /usr/local/bin/nvim
-	sudo rm -r /usr/local/share/nvim/
-	@echo "Done"
+	@if [ -f "/usr/local/bin/nvim" ]; then echo "Uninstalling Neovim..." &&\
+		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
+		@echo "Done"; fi
 
 nodejs:
 	@echo "==================================================================="
@@ -95,8 +94,8 @@ julia:
 		echo "Done"; else echo "[julia]: Latest julia version is already installed"; fi
 
 uninstall_julia:
-	rm ~/.local/bin/julia
-	rm -rf ~/.julia
+	@if [ -d "~/.julia" ]; then echo "Uninstalling julia..." &&\
+		rm -f ~/.local/bin/julia && rm -rf ~/.julia && @echo "Done"; fi
 
 sdkman:
 	@echo "==================================================================="
@@ -106,7 +105,8 @@ sdkman:
 		echo "Done"; else echo "[sdkman]: Latest sdkman is already installed"; fi
 
 uninstall_sdkman:
-	rm -rf ~/.sdkman
+	@if [ -d "~/.sdkman" ]; then echo "Uninstalling sdkman..." &&\
+		rm -rf ~/.sdkman && @echo "Done"; fi
 
 ########################## On server ##########################################
 pm2:
@@ -155,8 +155,8 @@ alacritty: alacritty_build_reqs
 	rm -rf ~/alacritty
 
 uninstall_alacritty:
-	sudo rm /usr/local/bin/alacritty
-	sudo rm /usr/share/pixmaps/Alacritty.svg
+	sudo rm -f /usr/local/bin/alacritty
+	sudo rm -f /usr/share/pixmaps/Alacritty.svg
 
 kitty: imagemagick
 	@# Installing kitty
@@ -173,8 +173,8 @@ kitty: imagemagick
 	sudo sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/share/applications/kitty*.desktop
 
 uninstall_kitty:
-	sudo rm /usr/local/bin/kitty
-	sudo rm /usr/share/applications/kitty.desktop
+	sudo rm -f /usr/local/bin/kitty
+	sudo rm -f /usr/share/applications/kitty.desktop
 	rm -rf .local/kitty.app
 
 imagemagick:
@@ -299,9 +299,9 @@ neovide:
 	rm -rf ~/neovide
 
 uninstall_neovide:
-	sudo rm /usr/local/bin/neovide
-	sudo rm /usr/share/applications/neovide.desktop
-	sudo rm /usr/local/share/icons/hicolor/256x256/apps/neovide.png
+	sudo rm -f /usr/local/bin/neovide
+	sudo rm -f /usr/share/applications/neovide.desktop
+	sudo rm -f /usr/local/share/icons/hicolor/256x256/apps/neovide.png
 
 pomo:
 	@echo "==================================================================="
@@ -315,7 +315,7 @@ pomo:
 	rm -rf ~/pomo
 
 uninstall_pomo:
-	rm ~/.local/bin/pomo
+	rm -f ~/.local/bin/pomo
 
 inkscape:
 	@echo "==================================================================="
