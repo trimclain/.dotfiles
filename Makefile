@@ -1,19 +1,10 @@
 SHELL := /bin/bash
 
 all:
-	@echo "********************************************************************"
-	@echo "This will install rustup and some usefull things"
-	@echo "When asked, choose 1 and press Enter"
-	@echo "********************************************************************"
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, xclip as a clipboard tool
 	sudo apt-get install -y curl stow ripgrep fzf htop tree xclip
-	@# Installing rustup.rs
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	@echo "*************************"
-	@echo "Now restart the Terminal and run 'make linux_install'"
-	@echo "*************************"
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
@@ -94,8 +85,8 @@ julia:
 		echo "Done"; else echo "[julia]: Latest julia version is already installed"; fi
 
 uninstall_julia:
-	@if [ -d "~/.julia" ]; then echo "Uninstalling julia..." &&\
-		rm -f ~/.local/bin/julia && rm -rf ~/.julia && @echo "Done"; fi
+	@if [ -d ~/.julia ]; then echo "Uninstalling julia..." &&\
+		rm -f ~/.local/bin/julia && rm -rf ~/.julia && echo "Done"; fi
 
 sdkman:
 	@echo "==================================================================="
@@ -105,8 +96,19 @@ sdkman:
 		echo "Done"; else echo "[sdkman]: Latest sdkman is already installed"; fi
 
 uninstall_sdkman:
-	@if [ -d "~/.sdkman" ]; then echo "Uninstalling sdkman..." &&\
-		rm -rf ~/.sdkman && @echo "Done"; fi
+	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\
+		rm -rf ~/.sdkman && echo "Done"; fi
+
+rust:
+	@echo "==================================================================="
+	@# Installing rustup
+	@if [ ! -d ~/.rustup ]; then echo "Installing Rustup..." &&\
+		curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y && \
+		echo "Done"; else echo "[rust]: Latest rustup is already installed"; fi
+
+uninstall_rust:
+	@if [ -d ~/.rustup ]; then echo "Uninstalling rust..." &&\
+		rustup self uninstall -y && echo "Done"; fi
 
 ########################## On server ##########################################
 pm2:
@@ -121,13 +123,13 @@ ufw:
 
 ###############################################################################
 
-install: font_install tmux zsh nvim nodejs golang ## install fonts, tmux, zsh, nvim, nodejs, golang and my config for nvim, tmux and zsh
+install: font_install tmux zsh nvim nodejs golang rust ## install fonts, tmux, zsh, nvim, nodejs, golang, rust and my config for nvim, tmux and zsh
 	./install
 
 sinstall: vimdir tmux ## install tmux and my config for bash, tmux and vim
 	./install --small
 
-finstall: vimdir font_install tmux zsh nvim nodejs golang ## combine "make sinstall" and "make install"
+finstall: vimdir font_install tmux zsh nvim nodejs golang rust ## combine "make sinstall" and "make install"
 	./install --full
 
 ###############################################################################
@@ -328,7 +330,7 @@ inkscape:
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs golang kitty awesome nitrogen polybar picom rofi ## in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these
+linux_install: font_install tmux zsh nvim nodejs golang rust kitty awesome nitrogen polybar picom rofi ## in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these
 	@# My ususal installation on Linux
 	@echo "==================================================================="
 	./install --linux
@@ -360,8 +362,8 @@ ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 
 .PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
 	uninstall_nvim nodejs golang julia uninstall_julia sdkman uninstall_sdkman \
-	pm2 ufw install sinstall finstall alacritty_build_reqs alacritty \
-	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver i3 \
-	awesome nitrogen polybar picom rofi telegram spotify brave obs-studio \
+	rust uninstall_rust pm2 ufw install sinstall finstall alacritty_build_reqs \
+	alacritty uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
+	i3 awesome nitrogen polybar picom rofi telegram spotify brave obs-studio \
 	kdenlive neovide uninstall_neovide pomo uninstall_pomo inkscape \
 	linux_install linux_software python3_setup null_ls_tool ubuntu_setup
