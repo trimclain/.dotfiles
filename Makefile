@@ -232,8 +232,8 @@ picom:
 	@# Delete the folder from github
 	sudo rm -rf ~/picom
 
-# Need this for $mod+d to work in i3
 rofi:
+	@# Better dmenu
 	@echo
 	@echo "==================================================================="
 	@echo "Installing rofi..."
@@ -332,11 +332,9 @@ inkscape:
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
 linux_install: font_install tmux zsh nvim nodejs golang rust kitty awesome nitrogen polybar picom rofi ## in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these
 	@# My ususal installation on Linux
-	@echo "==================================================================="
-	./install --linux
-	@echo "==================================================================="
+	@echo "========================== DONE ==================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive pomo inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, pomo, inkscape, fd-find, nitrogen, nomacs, flameshot, gimp, smplayer
+linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, inkscape, fd-find, nitrogen, nomacs, flameshot, gimp, smplayer
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
 	@# nomacs image viewer, flameshot for screenshots, gimp, smplayer for videos
@@ -347,16 +345,16 @@ python3_setup:
 	sudo apt install python3-pip python3-venv -y
 	@# Need pynvim for Bracey to work
 	pip3 install pynvim
-	@# Installing black (code formatter) and flake8 (diagnostics tool) for null-ls
-	pip3 install black flake8
 
 null_ls_tools:
+	@# Installing black (code formatter) and flake8 (diagnostics tool) for null-ls
+	pip3 install black flake8
 	@# Install stylua for lua formatting
 	cargo install stylua
 	@# Install prettier
 	npm install --global prettier
 
-ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, stylua and prettier
+finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, stylua and prettier
 	@echo "Done"
 ###############################################################################
 
@@ -366,4 +364,4 @@ ubuntu_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	alacritty uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
 	i3 awesome nitrogen polybar picom rofi telegram spotify brave obs-studio \
 	kdenlive neovide uninstall_neovide pomo uninstall_pomo inkscape \
-	linux_install linux_software python3_setup null_ls_tool ubuntu_setup
+	linux_install linux_software python3_setup null_ls_tool finish_setup
