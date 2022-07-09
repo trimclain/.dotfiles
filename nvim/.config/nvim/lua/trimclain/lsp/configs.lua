@@ -18,7 +18,7 @@ local servers = {
     "tsserver",
     "vimls",
     "yamlls",
-    "julials",
+    -- "julials",
 }
 
 lsp_installer.setup {
