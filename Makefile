@@ -242,15 +242,17 @@ rofi:
 telegram:
 	@echo "==================================================================="
 	@echo "Installing Telegram Desktop..."
-	@# Snap is a requirement
-	sudo apt install snapd -y
+	@# Check if snap is installed
+	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
+		sudo apt install snapd -y; fi
 	sudo snap install telegram-desktop
 
 spotify:
 	@echo "==================================================================="
 	@echo "Installing Spotify..."
-	@# Snap is a requirement
-	sudo apt install snapd -y
+	@# Check if snap is installed
+	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
+		sudo apt install snapd -y; fi
 	sudo snap install spotify
 
 brave:
