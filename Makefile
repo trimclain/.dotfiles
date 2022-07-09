@@ -72,8 +72,8 @@ nodejs:
 golang:
 	@echo "==================================================================="
 	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
-		export GOROOT="$HOME/.golang" && export GOPATH="$HOME/.go" && \
-		curl -sSL https://git.io/g-install | sh -s &&\
+		export GOROOT="$$HOME/.golang" && export GOPATH="$$HOME/.go" && \
+		curl -sSL https://git.io/g-install | sh -s -- -y &&\
 		echo "Done"; else echo "[golang]: Latest golang version is already installed"; fi
 
 julia:
@@ -172,7 +172,7 @@ kitty: imagemagick
 	@# If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
 	@# cp ~/.local/kitty.app/share/applications/kitty-open.desktop /usr/share/applications/
 	@# Update the path to the kitty icon in the kitty.desktop file(s)
-	sudo sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/share/applications/kitty*.desktop
+	sudo sed -i "s|Icon=kitty|Icon=/home/$$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/share/applications/kitty*.desktop
 
 uninstall_kitty:
 	sudo rm -f /usr/local/bin/kitty
