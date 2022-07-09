@@ -1,8 +1,8 @@
 # My Dotfiles
 
 NOTES:
-- Installation with `make` is written for Debian-based systems and was tested on Ubuntu 20.04.
-- For my neovim config the latest neovim nightly is required. Use `make nvim` to get it installled.
+- Installation with `make` is written for Debian-based systems and was tested on Ubuntu 22.04.
+- For my neovim config the latest neovim nightly is required. Use `make nvim` to install it.
 
 ## How to install
 
@@ -46,12 +46,41 @@ NOTE: If you want to install dotfiles with a different option, run `./uninstall`
     ```
     make finstall
     ```
-- What I do on my system (Debian-based):
-    ```
-    make linux_install
-    make linux_software
-    make ubuntu_setup
-    ```
-    and follow instructions.
-5. Open and close vim 2 times to let it automatically install vim-plug and the plugins. <br>
-   In Neovim run :PackerSync and restart.
+5. Open and close vim/nvim 2 times to let it automatically install pugin manager and plugins. <br>
+
+## How I install my dotfiles
+
+1. Install git and make:
+```
+sudo apt install git make
+```
+2. Clone this repository to $HOME:
+```
+git clone https://github.com/trimclain/.dotfiles ~/.dotfiles
+```
+3. Go to .dotfiles folder and run make:
+```
+cd ~/.dotfiles && make
+```
+4. Install my dotfiles
+```
+./install --linux
+```
+4. Install my desktop software
+```
+make linux_install
+```
+5. Install some apps I use
+```
+make linux_software
+```
+6. Restart and boot using the awesome window manager
+7. Open and close nvim to let it automatically install packer and my plugins
+8. Symlink my git config
+```
+stow gitconf
+```
+8. Finish the setup by installing pip, venv, pynvim, black, flake8, stylua and prettier
+```
+make finish_setup
+```
