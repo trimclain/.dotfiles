@@ -234,10 +234,15 @@ picom:
 
 rofi:
 	@# Better dmenu
-	@echo
 	@echo "==================================================================="
 	@echo "Installing rofi..."
 	sudo apt install rofi -y
+
+lf:
+	@echo "==================================================================="
+	@if [ -f /home/trimclain/.golang/bin/go ]; then echo "Installing lf, a terminal file manager..." &&\
+		env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest;\
+		else echo "[lf]: Install golang first by using \"make golang\""; fi
 
 telegram:
 	@echo "==================================================================="
@@ -364,6 +369,6 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	uninstall_nvim nodejs golang julia uninstall_julia sdkman uninstall_sdkman \
 	rust uninstall_rust pm2 ufw install sinstall finstall alacritty_build_reqs \
 	alacritty uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
-	i3 awesome nitrogen polybar picom rofi telegram spotify brave obs-studio \
+	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave obs-studio \
 	kdenlive neovide uninstall_neovide pomo uninstall_pomo inkscape \
 	linux_install linux_software python3_setup null_ls_tool finish_setup

@@ -14,6 +14,7 @@ existing_files_check(){
             echo Moving $file to ~/.dotfiles/.backup
             mv $file $BACKUP_FOLDER
         # check for folders aswell
+        # TODO: write this properly and/or add a feature
         elif [[ -d $file && ! -h $file ]]; then
             # Create a backup folder
             mkdir -p ~/.dotfiles/.backup
@@ -50,9 +51,9 @@ if [[ -n $1 ]]; then
     elif [[ $1 == "-l" || $1 == "--linux" ]]; then
 
         # Folders to stow (picom not added yet)
-        STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh,awesome,polybar,kitty,rofi"
+        STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh,awesome,polybar,kitty,rofi,lf"
 
-        # Check if there are any old files that are not symlinks and move them (picom will be added)
+        # Check if there are any old files that are not symlinks and move them
         DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim ~/.config/awesome ~/.config/kitty)
         existing_files_check "${DOTFS[@]}"
     fi
