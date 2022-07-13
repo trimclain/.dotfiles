@@ -181,17 +181,28 @@ SPACESHIP_RPROMPT_ORDER=(
 
 ###############################################################################
 
-# Keybinds
+# ---> Keybinds <---
 bindkey '^ ' autosuggest-accept
 # edit dotfiles
-bindkey -s ^q "tmux-sessionizer $DOTFILES\r"
+bindkey -s ^q "^utmux-sessionizer $DOTFILES\n"
 # start tmux-sessionizer
-bindkey -s ^t "tmux-sessionizer\r"
+bindkey -s ^t "^utmux-sessionizer\n"
 # get help from cht.sh in tmux
-bindkey -s ^h "tmux-cht.sh\r"
+bindkey -s ^h "^utmux-cht.sh\n"
 
-bindkey -s ^u "Update\r"
-bindkey -s ^b "change-wallpaper\r"
+bindkey -s ^b "^uchange-wallpaper\n"
+
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+bindkey -s '^o' '^ulfcd\n'
 
 # Disable all ERROR sounds
 unsetopt BEEP
@@ -201,8 +212,8 @@ unsetopt BEEP
 unalias g # remove this alias for g-install, coz cmon, who is lazy enough not to type git?!!
 
 alias szrc="exec zsh"
-alias icat="kitty +kitten icat" # preview images in kitty
 # alias szrc="source ~/.zshrc" doesn't work with antigen \_/
+alias icat="kitty +kitten icat" # preview images in kitty
 
 alias vim="$VIM"
 alias ebrc="$VIM $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
