@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# TODO: switch to /bin/sh
 # get info from xrandr
 connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
 # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")

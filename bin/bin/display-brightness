@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# TODO: switch to /bin/sh
 mode="unknown"
 
 # get info from xrandr
