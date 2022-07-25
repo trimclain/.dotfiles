@@ -24,9 +24,14 @@ font_install:
 	mkdir -p ~/.local/share/fonts/
 	cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
 
+ansible:
+	@echo "==================================================================="
+	@echo "Installing ansible..."
+	sudo apt install ansible -y
+
 tmux:
 	@echo "==================================================================="
-	@echo "Installing Tmux"
+	@echo "Installing Tmux..."
 	sudo apt install tmux -y
 
 zsh:
@@ -365,10 +370,11 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	@echo "Done"
 ###############################################################################
 
-.PHONY: all help vimdir nvimdir font_install tmux zsh nvim_build_reqs nvim \
-	uninstall_nvim nodejs golang julia uninstall_julia sdkman uninstall_sdkman \
-	rust uninstall_rust pm2 ufw install sinstall finstall alacritty_build_reqs \
-	alacritty uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
-	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave obs-studio \
-	kdenlive neovide uninstall_neovide pomo uninstall_pomo inkscape \
-	linux_install linux_software python3_setup null_ls_tool finish_setup
+.PHONY: all help vimdir nvimdir font_install ansible tmux zsh nvim_build_reqs \
+	nvim uninstall_nvim nodejs golang julia uninstall_julia sdkman \
+	uninstall_sdkman rust uninstall_rust pm2 ufw install sinstall finstall \
+	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
+	imagemagick screensaver i3 awesome nitrogen polybar picom rofi lf telegram \
+	spotify brave obs-studio kdenlive neovide uninstall_neovide pomo \
+	uninstall_pomo inkscape linux_install linux_software python3_setup \
+	null_ls_tool finish_setup
