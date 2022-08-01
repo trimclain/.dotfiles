@@ -72,14 +72,14 @@ nodejs:
 	@echo "==================================================================="
 	@if [ ! -d ~/.n ]; then echo "Installing n, nodejs version manager with latest stable node and npm versions..." &&\
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n &&\
-		echo "Done"; else echo "[nodejs]: Latest node and npm versions are already installed"; fi
+		echo "Done"; else echo "[nodejs]: Node and npm are already installed"; fi
 
 golang:
 	@echo "==================================================================="
 	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
 		export GOROOT="$$HOME/.golang" && export GOPATH="$$HOME/.go" && \
 		curl -sSL https://git.io/g-install | sh -s -- -y &&\
-		echo "Done"; else echo "[golang]: Latest golang version is already installed"; fi
+		echo "Done"; else echo "[golang]: Golang is already installed"; fi
 
 julia:
 	@echo "==================================================================="
@@ -87,7 +87,7 @@ julia:
 	@if [ ! -d ~/.julia ]; then echo "Installing latest stable julia version..." &&\
 		git clone https://github.com/JuliaLang/julia.git ~/.julia && cd ~/.julia &&\
 		git checkout v1.7.3 && make && ln -s ~/.julia/usr/bin/julia ~/.local/bin/julia &&\
-		echo "Done"; else echo "[julia]: Latest julia version is already installed"; fi
+		echo "Done"; else echo "[julia]: Julia is already installed"; fi
 
 uninstall_julia:
 	@if [ -d ~/.julia ]; then echo "Uninstalling julia..." &&\
@@ -98,7 +98,7 @@ sdkman:
 	@# Install sdkman to install Java, Groovy, Kotlin etc.
 	@if [ ! -d ~/.sdkman ]; then echo "Installing the Software Development Kit Manager..." &&\
 		curl -s https://get.sdkman.io | bash && \
-		echo "Done"; else echo "[sdkman]: Latest sdkman is already installed"; fi
+		echo "Done"; else echo "[sdkman]: SDKMan is already installed"; fi
 
 uninstall_sdkman:
 	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\
@@ -109,11 +109,28 @@ rust:
 	@# Installing rustup
 	@if [ ! -d ~/.rustup ]; then echo "Installing Rustup..." &&\
 		curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y && \
-		echo "Done"; else echo "[rust]: Latest rustup is already installed"; fi
+		echo "Done"; else echo "[rust]: Rustup is already installed"; fi
 
 uninstall_rust:
 	@if [ -d ~/.rustup ]; then echo "Uninstalling rust..." &&\
 		rustup self uninstall -y && echo "Done"; fi
+
+docker:
+	@echo "==================================================================="
+	@# Installing docker
+	@if [ ! -f /usr/bin/docker ]; then echo "Installing Docker..." &&\
+		sudo apt install docker.io -y && echo "Done";\
+		else echo "[docker]: Docker is already installed"; fi
+
+uninstall_docker:
+	@if [ -f /usr/bin/docker ]; then echo "Uninstalling docker..." &&\
+		sudo apt purge -y docker-engine docker docker.io docker-ce docker-ce-cli &&\
+		sudo apt autoremove -y --purge docker-engine docker docker.io docker-ce &&\
+		sudo rm -rf /var/lib/docker /etc/docker &&\
+		sudo rm /etc/apparmor.d/docker &&\
+		sudo groupdel docker &&\
+		sudo rm -rf /var/run/docker.sock && echo "Done"; fi
+
 
 ########################## On server ##########################################
 pm2:
@@ -372,9 +389,9 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 
 .PHONY: all help vimdir nvimdir font_install ansible tmux zsh nvim_build_reqs \
 	nvim uninstall_nvim nodejs golang julia uninstall_julia sdkman \
-	uninstall_sdkman rust uninstall_rust pm2 ufw install sinstall finstall \
-	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
-	imagemagick screensaver i3 awesome nitrogen polybar picom rofi lf telegram \
-	spotify brave obs-studio kdenlive neovide uninstall_neovide pomo \
-	uninstall_pomo inkscape linux_install linux_software python3_setup \
-	null_ls_tool finish_setup
+	uninstall_sdkman rust uninstall_rust docker uninstall_docker pm2 ufw \
+	install sinstall finstall alacritty_build_reqs alacritty \
+	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
+	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave \
+	obs-studio kdenlive neovide uninstall_neovide pomo uninstall_pomo \
+	inkscape linux_install linux_software python3_setup null_ls_tool finish_setup
