@@ -1,5 +1,8 @@
 SHELL := /bin/bash
 
+# TODO: add a way to check OS
+# if [[ "$(lsb_release -d)" == *"Ubuntu"* ]]; then echo yes; else echo $(lsb_release -d); fi
+
 all:
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
@@ -26,19 +29,19 @@ font_install:
 
 ansible:
 	@echo "==================================================================="
-	@echo "Installing ansible..."
-	sudo apt install ansible -y
+	@if [ -f /usr/bin/ansible ]; then echo "[ansible]: Already installed";\
+		else echo "Installing ansible..." && sudo apt install ansible -y; fi
 
 tmux:
 	@echo "==================================================================="
-	@echo "Installing Tmux..."
-	sudo apt install tmux -y
+	@if [ -f /usr/bin/tmux ]; then echo "[tmux]: Already installed";\
+		else echo "Installing tmux..." && sudo apt install tmux -y; fi
 
 zsh:
 	@# Installing zsh
 	@echo "==================================================================="
 	@if [ ! -f /usr/bin/zsh ]; then echo "Installing Zsh..." && sudo apt install zsh -y &&\
-		echo "Done"; else echo "[zsh]: Zsh is already installed"; fi
+		echo "Done"; else echo "[zsh]: Already installed"; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
@@ -48,7 +51,7 @@ zsh:
 	@# Installing oh-my-zsh
 	@if [ ! -d ~/.oh-my-zsh ]; then echo "Installing Oh-My-Zsh..." &&\
 		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc &&\
-		echo "Done"; else echo "[oh-my-zsh]: Oh-My-Zsh is already installed"; fi
+		echo "Done"; else echo "[oh-my-zsh]: Already installed"; fi
 
 nvim_build_reqs:
 	@# Neovim prerequisites
@@ -59,7 +62,7 @@ nvim_build_reqs:
 nvim: nvimdir nvim_build_reqs
 	@echo "==================================================================="
 	@echo "Installing Neovim..."
-	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Neovim already installed";\
+	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
 		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
 		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim; fi
 
@@ -72,14 +75,14 @@ nodejs:
 	@echo "==================================================================="
 	@if [ ! -d ~/.n ]; then echo "Installing n, nodejs version manager with latest stable node and npm versions..." &&\
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n &&\
-		echo "Done"; else echo "[nodejs]: Node and npm are already installed"; fi
+		echo "Done"; else echo "[nodejs]: Already installed"; fi
 
 golang:
 	@echo "==================================================================="
 	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
 		export GOROOT="$$HOME/.golang" && export GOPATH="$$HOME/.go" && \
 		curl -sSL https://git.io/g-install | sh -s -- -y &&\
-		echo "Done"; else echo "[golang]: Golang is already installed"; fi
+		echo "Done"; else echo "[golang]: Already installed"; fi
 
 julia:
 	@echo "==================================================================="
@@ -87,7 +90,7 @@ julia:
 	@if [ ! -d ~/.julia ]; then echo "Installing latest stable julia version..." &&\
 		git clone https://github.com/JuliaLang/julia.git ~/.julia && cd ~/.julia &&\
 		git checkout v1.7.3 && make && ln -s ~/.julia/usr/bin/julia ~/.local/bin/julia &&\
-		echo "Done"; else echo "[julia]: Julia is already installed"; fi
+		echo "Done"; else echo "[julia]: Already installed"; fi
 
 uninstall_julia:
 	@if [ -d ~/.julia ]; then echo "Uninstalling julia..." &&\
@@ -98,7 +101,7 @@ sdkman:
 	@# Install sdkman to install Java, Groovy, Kotlin etc.
 	@if [ ! -d ~/.sdkman ]; then echo "Installing the Software Development Kit Manager..." &&\
 		curl -s https://get.sdkman.io | bash && \
-		echo "Done"; else echo "[sdkman]: SDKMan is already installed"; fi
+		echo "Done"; else echo "[sdkman]: Already installed"; fi
 
 uninstall_sdkman:
 	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\
@@ -109,7 +112,7 @@ rust:
 	@# Installing rustup
 	@if [ ! -d ~/.rustup ]; then echo "Installing Rustup..." &&\
 		curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y && \
-		echo "Done"; else echo "[rust]: Rustup is already installed"; fi
+		echo "Done"; else echo "[rust]: Already installed"; fi
 
 uninstall_rust:
 	@if [ -d ~/.rustup ]; then echo "Uninstalling rust..." &&\
@@ -120,7 +123,7 @@ docker:
 	@# Installing docker
 	@if [ ! -f /usr/bin/docker ]; then echo "Installing Docker..." &&\
 		sudo apt install docker.io -y && echo "Done";\
-		else echo "[docker]: Docker is already installed"; fi
+		else echo "[docker]: Already installed"; fi
 
 uninstall_docker:
 	@if [ -f /usr/bin/docker ]; then echo "Uninstalling docker..." &&\
