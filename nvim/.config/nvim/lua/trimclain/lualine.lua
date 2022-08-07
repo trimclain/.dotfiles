@@ -3,10 +3,10 @@ if not lualine_status_ok then
     return
 end
 
-local gps_status_ok, gps = pcall(require, "nvim-gps")
-if not gps_status_ok then
-    return
-end
+-- local gps_status_ok, gps = pcall(require, "nvim-gps")
+-- if not gps_status_ok then
+--     return
+-- end
 
 -- Show shiftwidth length
 local spaces = function()
@@ -17,8 +17,12 @@ lualine.setup {
     options = {
         icons_enabled = true,
         theme = "auto",
-        component_separators = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
+        -- component_separators = { left = "", right = "" },
+        -- section_separators = { left = "", right = "" },
+        -- section_separators = { left = '', right = '' },
+        -- component_separators = { left = '', right = '' },
+        component_separators = { " ", " " },
+        section_separators = { left = "", right = "" },
         disabled_filetypes = { "dashboard" },
         always_divide_middle = true,
     },
