@@ -68,8 +68,11 @@ return packer.startup(function(use)
     use "folke/tokyonight.nvim" -- trying this one out
     -- use "christianchiarulli/nvcode-color-schemes.vim" -- nice collection
     use "LunarVim/Colorschemes" -- another colorscheme collection from chris
-    use "gruvbox-community/gruvbox"
+    -- use "gruvbox-community/gruvbox"
     -- use "luisiacc/gruvbox-baby"
+    -- Testing Colorschemes
+    use "sainnhe/sonokai"
+    use "EdenEast/nightfox.nvim"
 
     -- Statusline & other visuals
     use "nvim-lualine/lualine.nvim" -- great status line in lua
