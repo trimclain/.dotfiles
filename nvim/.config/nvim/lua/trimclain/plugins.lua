@@ -73,6 +73,7 @@ return packer.startup(function(use)
     -- Testing Colorschemes
     use "sainnhe/sonokai"
     use "EdenEast/nightfox.nvim"
+    use "glepnir/zephyr-nvim"
 
     -- Statusline & other visuals
     use "nvim-lualine/lualine.nvim" -- great status line in lua

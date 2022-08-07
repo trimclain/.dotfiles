@@ -13,6 +13,7 @@ require "trimclain.colorscheme.nightfox"
 -- local colorscheme = "gruvbox-baby"
 
 -- local colorscheme = "sonokai"
+local colorscheme = "zephyr"
 
 -- Nightfox bundle
 -- local colorscheme = "nightfox"
@@ -20,22 +21,22 @@ require "trimclain.colorscheme.nightfox"
 -- local colorscheme = "nordfox"
 -- local colorscheme = "terafox"
 
--- From Chris:
+-- From ChristianChiarulli/nvcode-color-schemes.vim:
 -- local colorscheme = "nvcode"
+-- local colorscheme = "onedark"
 -- local colorscheme = "nord"
--- local colorscheme = "xoria"
+-- local colorscheme = "aurora"
+-- local colorscheme = "gruvbox"
 -- local colorscheme = "palenight"
 -- local colorscheme = "snazzy"
--- local colorscheme = "metanoia"
--- local colorscheme = "gruvbox"
--- local colorscheme = "dracula"
+-- local colorscheme = "xoria"
 
 -- Lunarvim colorschemes
 -- local colorscheme = "aurora"
 -- local colorscheme = "codemonkey"
 -- local colorscheme = "darkplus"
 -- local colorscheme = "ferrum"
-local colorscheme = "lunar"
+-- local colorscheme = "lunar"
 -- local colorscheme = "onedark"
 -- local colorscheme = "onedarker"
 -- local colorscheme = "onedarkest"
