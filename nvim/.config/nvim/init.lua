@@ -20,8 +20,6 @@ require "trimclain.keymaps"
 
 require "trimclain.plugins"
 
-require "trimclain.catppuccin"
-require "trimclain.tokyonight"
 require "trimclain.colorscheme"
 
 require "trimclain.lualine"

@@ -1,3 +1,8 @@
+-- Load colorscheme configs
+require "trimclain.colorscheme.catppuccin"
+require "trimclain.colorscheme.tokyonight"
+
+-- Set the colorscheme
 -- local colorscheme = "catppuccin"
 -- local colorscheme = "dracula"
 local colorscheme = "xcodedark"
