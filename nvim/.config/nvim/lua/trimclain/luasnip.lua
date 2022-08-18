@@ -30,6 +30,7 @@ luasnip.config.set_config {
 
 luasnip.filetype_extend("javascript", { "javascriptreact", "html" }) -- add jsx and html snippets to js
 luasnip.filetype_extend("javascriptreact", { "javascript", "html" }) -- add js and html snippets to jsx
+luasnip.filetype_extend("typescriptreact", { "javascript", "html" }) -- add js and html snippets to tsx
 
 -- <c-k> is my expansion key
 -- this will expand the current item or jump to the next item within the snippet.

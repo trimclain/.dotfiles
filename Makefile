@@ -77,6 +77,11 @@ nodejs:
 		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n &&\
 		echo "Done"; else echo "[nodejs]: Already installed"; fi
 
+typescript:
+	@echo "==================================================================="
+	@# Install tsc and ts-node
+	@npm install -g typescript ts-node
+
 golang:
 	@echo "==================================================================="
 	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
@@ -391,7 +396,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install ansible tmux zsh nvim_build_reqs \
-	nvim uninstall_nvim nodejs golang julia uninstall_julia sdkman \
+	nvim uninstall_nvim nodejs typescript golang julia uninstall_julia sdkman \
 	uninstall_sdkman rust uninstall_rust docker uninstall_docker pm2 ufw \
 	install sinstall finstall alacritty_build_reqs alacritty \
 	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
