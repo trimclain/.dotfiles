@@ -61,7 +61,7 @@ local format_on_save = vim.api.nvim_create_augroup( -- create augroup
 
 function M.enable_format_on_save()
     vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.js", "*.ts", "*.jsx", "*.lua" },
+        pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.html", "*.lua", "*.py" },
         callback = function()
             vim.lsp.buf.format()
         end,
