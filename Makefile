@@ -127,7 +127,7 @@ docker:
 	@echo "==================================================================="
 	@# Installing docker
 	@if [ ! -f /usr/bin/docker ]; then echo "Installing Docker..." &&\
-		sudo apt install docker.io -y && echo "Done";\
+		sudo apt install docker.io -y && sudo usermod -aG docker $$USER && echo "Done";\
 		else echo "[docker]: Already installed"; fi
 
 uninstall_docker:
