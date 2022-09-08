@@ -9,8 +9,11 @@ configs.setup {
         "python",
         "html",
         "css",
+        "scss",
         "javascript",
         "typescript",
+        "tsx",
+        "vue",
         "lua",
         "bash",
         "vim",
@@ -19,11 +22,13 @@ configs.setup {
         "make",
         "json",
         "rasi", -- rofi config syntax highlighting
-        "json",
         "latex",
         "julia",
         "java",
         "kotlin",
+        "dockerfile",
+        "graphql",
+        "sql",
     },
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
     ignore_install = { "" }, -- List of parsers to ignore installing

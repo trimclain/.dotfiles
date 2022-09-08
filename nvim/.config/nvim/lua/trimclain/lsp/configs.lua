@@ -9,16 +9,21 @@ if not lspconfig_status_ok then
 end
 
 local servers = {
-    "jsonls",
-    "bashls",
-    "cssls",
-    "html",
     "pyright",
-    "sumneko_lua",
+    "html",
+    "cssls",
+    "cssmodules_ls",
+    -- "tailwindcss",
     "tsserver",
+    "jsonls",
+    "sumneko_lua",
+    "bashls",
     "vimls",
     "yamlls",
-    -- "julials",
+    "graphql",
+    "julials",
+    "ansiblels",
+    "dockerls",
 }
 
 lsp_installer.setup {
