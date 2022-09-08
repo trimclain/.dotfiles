@@ -65,15 +65,21 @@ local function lsp_keymaps(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ff", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
 end
 
+
+-- to fix the error of connecting to multiple servers on a buffer I add my own global variable
+-- TODO: jsx and tsx still don't have it working
+vim.g.navic_is_attached = false
+
 local function attach_navic(client, bufnr)
-    -- vim.g.navic_silence = false
-    -- TODO: fix the errors of attaching nvim-navic to servers that don't support documentSymbol or are attaching navic to multiple servers for a single buffer
-    vim.g.navic_silence = true
+    vim.g.navic_silence = false
     local navic_status_ok, navic = pcall(require, "nvim-navic")
     if not navic_status_ok then
         return
     end
-    navic.attach(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider and not vim.g.navic_is_attached then
+        navic.attach(client, bufnr)
+        vim.g.navic_is_attached = true
+    end
 end
 
 M.on_attach = function(client, bufnr)
