@@ -13,9 +13,11 @@ M.winbar_filetype_exclude = {
     "Outline",
     "spectre_panel",
     "toggleterm",
+    "harpoon",
+    "Markdown",
 }
 
-local get_filename = function()
+M.get_filename = function()
     local filename = vim.fn.expand "%:t"
     local extension = vim.fn.expand "%:e"
     local f = require "trimclain.functions"
@@ -40,7 +42,7 @@ local get_filename = function()
 end
 
 local get_gps = function()
-    local status_gps_ok, gps = pcall(require, "nvim-gps")
+    local status_gps_ok, gps = pcall(require, "nvim-navic")
     if not status_gps_ok then
         return ""
     end
@@ -74,7 +76,7 @@ M.get_winbar = function()
         return
     end
     local f = require "trimclain.functions"
-    local value = get_filename()
+    local value = M.get_filename()
 
     local gps_added = false
     if not f.isempty(value) then
@@ -86,7 +88,7 @@ M.get_winbar = function()
     end
 
     if not f.isempty(value) and f.get_buf_option "mod" then
-        local mod = "%#LineNr#" .. require("trimclain.icons").ui.Circle .. "%*"
+        local mod = "%#LspCodeLens#" .. require("trimclain.icons").ui.Circle .. "%*"
         if gps_added then
             value = value .. " " .. mod
         else
@@ -94,10 +96,39 @@ M.get_winbar = function()
         end
     end
 
+    -- What does this do?
+    -- local num_tabs = #vim.api.nvim_list_tabpages()
+    --
+    -- if num_tabs > 1 and not f.isempty(value) then
+    --     local tabpage_number = tostring(vim.api.nvim_tabpage_get_number(0))
+    --     value = value .. "%=" .. tabpage_number .. "/" .. tostring(num_tabs)
+    -- end
+
     local status_ok, _ = pcall(vim.api.nvim_set_option_value, "winbar", value, { scope = "local" })
     if not status_ok then
         return
     end
 end
+
+-- Enable winbar
+M.create_winbar = function()
+    local winbar_group = vim.api.nvim_create_augroup("winbar_group", { clear = true })
+    if vim.fn.has "nvim-0.8" == 1 then
+        vim.api.nvim_create_autocmd(
+            { "CursorMoved", "CursorHold", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost", "TabClosed" },
+            {
+                group = winbar_group,
+                callback = function()
+                    local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
+                    if not status_ok then
+                        require("trimclain.winbar").get_winbar()
+                    end
+                end,
+            }
+        )
+    end
+end
+
+M.create_winbar()
 
 return M

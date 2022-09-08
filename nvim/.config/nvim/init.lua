@@ -12,7 +12,7 @@
 --
 --#############################################################################
 
-require "trimclain.impatient" -- must load first to get that juicy speedup
+require "trimclain.impatient"
 require "trimclain.disable-builtins"
 
 require "trimclain.options"
@@ -32,9 +32,13 @@ require "trimclain.luasnip"
 require "trimclain.telescope"
 require "trimclain.harpoon"
 require "trimclain.treesitter"
-require "trimclain.gps"
+
+require "trimclain.navic"
+-- require "trimclain.gps"
 require "trimclain.winbar"
+
 require "trimclain.autopairs"
+require "trimclain.autotags"
 require "trimclain.comments"
 require "trimclain.todo-comments"
 require "trimclain.gitsigns"
