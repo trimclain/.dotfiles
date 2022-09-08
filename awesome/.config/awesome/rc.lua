@@ -609,16 +609,16 @@ local globalkeys = mytable.join(
     end, { description = "swap with right client", group = "client" }),
 
     awful.key({ modkey }, "u", awful.client.urgent.jumpto, { description = "jump to urgent client", group = "client" }),
-    awful.key({ modkey }, "Tab", function()
-        if cycle_prev then
-            awful.client.focus.history.previous()
-        else
-            awful.client.focus.byidx(-1)
-        end
-        if client.focus then
-            client.focus:raise()
-        end
-    end, { description = "cycle with previous/go back", group = "client" }),
+    -- awful.key({ modkey }, "Tab", function()
+    --     if cycle_prev then
+    --         awful.client.focus.history.previous()
+    --     else
+    --         awful.client.focus.byidx(-1)
+    --     end
+    --     if client.focus then
+    --         client.focus:raise()
+    --     end
+    -- end, { description = "cycle with previous/go back", group = "client" }),
     -- ########################################################################
 
     -- ########################## LAUNCHER GROUP ###############################
