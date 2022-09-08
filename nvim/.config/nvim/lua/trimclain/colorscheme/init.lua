@@ -5,7 +5,9 @@ require "trimclain.colorscheme.sonokai"
 require "trimclain.colorscheme.nightfox"
 
 -- Set the colorscheme
--- local colorscheme = "catppuccin" -- broken
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+local colorscheme = "catppuccin"
+
 -- local colorscheme = "dracula"
 -- local colorscheme = "xcodedark"
 -- local colorscheme = "xcodewwdc"
@@ -13,7 +15,7 @@ require "trimclain.colorscheme.nightfox"
 -- local colorscheme = "gruvbox-baby"
 
 -- local colorscheme = "sonokai"
-local colorscheme = "zephyr"
+-- local colorscheme = "zephyr"
 
 -- Nightfox bundle
 -- local colorscheme = "nightfox"
