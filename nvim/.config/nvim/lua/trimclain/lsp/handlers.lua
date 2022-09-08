@@ -66,7 +66,9 @@ local function lsp_keymaps(bufnr)
 end
 
 local function attach_navic(client, bufnr)
-    vim.g.navic_silence = false
+    -- vim.g.navic_silence = false
+    -- TODO: fix the errors of attaching nvim-navic to servers that don't support documentSymbol or are attaching navic to multiple servers for a single buffer
+    vim.g.navic_silence = true
     local navic_status_ok, navic = pcall(require, "nvim-navic")
     if not navic_status_ok then
         return
