@@ -115,6 +115,12 @@ keymap("n", "<leader>of", ":Telescope oldfiles<cr>", opts)
 keymap("n", "<leader>vrc", ":Telescope git_files cwd=~/.dotfiles<cr>", opts)
 keymap("n", "<leader>f;", ":Telescope commands<cr>", opts)
 
+-- hop.nvim keybindings
+keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
+keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+
 -- Esc is too far and I don't like <C-[>, make <C-c> work as <Esc> in every mode
 keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending modes
 keymap("l", "<C-c>", "<Esc>", opts) -- insert, command-line, lang-arg modes

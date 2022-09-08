@@ -26,6 +26,9 @@ require "trimclain.lualine"
 require "trimclain.indentline"
 require "trimclain.bufferline"
 
+require "trimclain.hop"
+require "trimclain.neoscroll"
+
 require "trimclain.cmp"
 require "trimclain.lsp"
 require "trimclain.luasnip"

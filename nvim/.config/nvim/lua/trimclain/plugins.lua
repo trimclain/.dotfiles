@@ -40,6 +40,16 @@ return packer.startup(function(use)
     use "windwp/nvim-ts-autotag" -- autoclose and autorename html tags
     use "mbbill/undotree" -- see the undo history
 
+    -- Testing
+    use {
+        "phaazon/hop.nvim",
+        branch = "v2", -- optional but strongly recommended
+        config = function()
+            -- you can configure Hop the way you like here; see :h hop-config
+            require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
+        end,
+    }
+
     -- File Browser
     use "kyazdani42/nvim-tree.lua" -- nerdtree 2.0 for neovim
     use "kyazdani42/nvim-web-devicons" -- for icons almost everywhere
