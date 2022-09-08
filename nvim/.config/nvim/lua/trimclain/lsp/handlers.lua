@@ -65,7 +65,6 @@ local function lsp_keymaps(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ff", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
 end
 
-
 -- to fix the error of connecting to multiple servers on a buffer I add my own global variable
 -- TODO: jsx and tsx still don't have it working
 vim.g.navic_is_attached = false

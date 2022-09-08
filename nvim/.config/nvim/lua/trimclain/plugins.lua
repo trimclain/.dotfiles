@@ -41,13 +41,10 @@ return packer.startup(function(use)
     use "mbbill/undotree" -- see the undo history
 
     -- Testing
+    use "karb94/neoscroll.nvim" -- smooth scrolling
     use {
-        "phaazon/hop.nvim",
+        "phaazon/hop.nvim", -- easier jumps with f,F,t,T
         branch = "v2", -- optional but strongly recommended
-        config = function()
-            -- you can configure Hop the way you like here; see :h hop-config
-            require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
-        end,
     }
 
     -- File Browser
