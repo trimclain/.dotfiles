@@ -36,7 +36,8 @@ return packer.startup(function(use)
     use "nvim-lua/plenary.nvim" -- made by tj, used by many plugins
     use "lewis6991/impatient.nvim" -- speed up nvim startup
 
-    use "windwp/nvim-autopairs" -- automatically close brackets
+    use "windwp/nvim-autopairs" -- autoclose brackets
+    use "windwp/nvim-ts-autotag" -- autoclose and autorename html tags
     use "mbbill/undotree" -- see the undo history
 
     -- File Browser
@@ -78,13 +79,13 @@ return packer.startup(function(use)
     -- Statusline & other visuals
     use "nvim-lualine/lualine.nvim" -- great status line in lua
     use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
-    use "akinsho/bufferline.nvim" -- add bufferline to show open buffers
+    use { "akinsho/bufferline.nvim", tag = "v2.*" } -- add bufferline to show open buffers
     use "famiu/bufdelete.nvim" -- properly close a buffer and don't ruin my layout
-    -- use "SmiteshP/nvim-gps" -- show context of the current cursor position in file
-    use {
-        "christianchiarulli/nvim-gps", -- gps but with color support
-        branch = "text_hl",
-    }
+    use "SmiteshP/nvim-navic" -- show context of the current cursor position in file
+    -- use {
+    --     "christianchiarulli/nvim-gps", -- gps but with color support
+    --     branch = "text_hl",
+    -- }
 
     -- CMP plugins
     use "hrsh7th/nvim-cmp" -- the completion plugin
