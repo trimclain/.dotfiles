@@ -88,3 +88,7 @@ vim.api.nvim_create_autocmd(
         group = on_save_group, -- assign to the augroup
     }
 )
+
+-- Formatting
+-- vim.g.autoformat_status = ''
+require("trimclain.functions").enable_format_on_save()
