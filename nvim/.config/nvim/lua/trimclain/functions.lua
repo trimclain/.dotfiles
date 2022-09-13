@@ -67,13 +67,16 @@ function M.enable_format_on_save()
         end,
         group = format_on_save,
     })
-    vim.g.autoformat_status = ""
+    -- vim.g.autoformat_status = ""
+    vim.g.autoformat_status = ""
     vim.notify "Enabled format on save"
 end
 
 function M.disable_format_on_save()
     M.remove_augroup "format_on_save"
-    vim.g.autoformat_status = ""
+    -- vim.g.autoformat_status = ""
+    -- vim.g.autoformat_status = ""
+    vim.g.autoformat_status = ""
     vim.notify "Disabled format on save"
 end
 

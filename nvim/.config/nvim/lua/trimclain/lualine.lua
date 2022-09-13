@@ -36,7 +36,7 @@ lualine.setup {
         lualine_b = { "branch", "diff", "diagnostics" },
         -- lualine_c = { "%=", "filename" },
         lualine_c = {},
-        lualine_x = { "encoding", spaces, autoformat, "fileformat", "filetype" },
+        lualine_x = { "encoding", spaces, "fileformat", "filetype", autoformat },
         lualine_y = { "progress" },
         lualine_z = { "location" },
     },
