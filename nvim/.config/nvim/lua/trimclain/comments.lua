@@ -3,6 +3,17 @@ if not status_ok then
     return
 end
 
+-- this function will determine if there's a word react in the first line of the buffer
+local foundReact = function()
+    if vim.bo.filetype == "javascript" or vim.bo.filetype == "typescript" then
+        local buf_firstline = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+        if string.find(buf_firstline, "react") then
+            return true
+        end
+    end
+    return false
+end
+
 comment.setup {
 
     -- LHS of operator-pending mapping in NORMAL + VISUAL mode
@@ -51,8 +62,14 @@ comment.setup {
     -- NOTE: The example below is a proper integration and it is RECOMMENDED.
     -- @param ctx Ctx
     pre_hook = function(ctx)
-        -- Only calculate commentstring for tsx filetypes
-        if vim.bo.filetype == "typescriptreact" or vim.bo.filetype == "javascriptreact" then
+        -- Problem: I don't want to lose javascript // comments, so can't jumst
+        --          enable react comments on every js filetypes
+        -- Solution: Check if there's a word 'react' in the first line of the
+        --          buffer, implemented in my foundReact function
+
+        -- Only calculate commentstring for js, ts, jsx and tsx filetypes
+
+        if foundReact() or vim.bo.filetype == "typescriptreact" or vim.bo.filetype == "javascriptreact" then
             local U = require "Comment.utils"
 
             -- Detemine whether to use linewise or blockwise commentstring
