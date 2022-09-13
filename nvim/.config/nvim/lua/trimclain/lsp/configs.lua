@@ -13,6 +13,7 @@ local servers = {
     "html",
     "cssls",
     "cssmodules_ls",
+    "emmet_ls",
     -- "tailwindcss",
     "tsserver",
     "jsonls",

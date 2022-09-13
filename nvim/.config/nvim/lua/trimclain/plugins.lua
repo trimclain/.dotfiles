@@ -88,11 +88,12 @@ return packer.startup(function(use)
     use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
     use { "akinsho/bufferline.nvim", tag = "v2.*" } -- add bufferline to show open buffers
     use "famiu/bufdelete.nvim" -- properly close a buffer and don't ruin my layout
-    use "SmiteshP/nvim-navic" -- show context of the current cursor position in file
-    -- use {
-    --     "christianchiarulli/nvim-gps", -- gps but with color support
-    --     branch = "text_hl",
-    -- }
+    -- TODO: navic is very alpha right now, wait until it's usable
+    -- use "SmiteshP/nvim-navic" -- show context of the current cursor position in file
+    use {
+        "christianchiarulli/nvim-gps", -- gps but with color support
+        branch = "text_hl",
+    }
 
     -- CMP plugins
     use "hrsh7th/nvim-cmp" -- the completion plugin

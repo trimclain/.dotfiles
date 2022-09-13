@@ -65,21 +65,21 @@ local function lsp_keymaps(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ff", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
 end
 
+-- for nvim-navic
 -- to fix the error of connecting to multiple servers on a buffer I add my own global variable
--- TODO: jsx and tsx still don't have it working
-vim.g.navic_is_attached = false
+-- vim.g.navic_is_attached = false
 
-local function attach_navic(client, bufnr)
-    vim.g.navic_silence = false
-    local navic_status_ok, navic = pcall(require, "nvim-navic")
-    if not navic_status_ok then
-        return
-    end
-    if client.server_capabilities.documentSymbolProvider and not vim.g.navic_is_attached then
-        navic.attach(client, bufnr)
-        vim.g.navic_is_attached = true
-    end
-end
+-- local function attach_navic(client, bufnr)
+--     vim.g.navic_silence = false
+--     local navic_status_ok, navic = pcall(require, "nvim-navic")
+--     if not navic_status_ok then
+--         return
+--     end
+--     if client.server_capabilities.documentSymbolProvider and not vim.g.navic_is_attached then
+--         navic.attach(client, bufnr)
+--         vim.g.navic_is_attached = true
+--     end
+-- end
 
 M.on_attach = function(client, bufnr)
     -- TODO: there is a better way at https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
@@ -89,7 +89,7 @@ M.on_attach = function(client, bufnr)
         client.server_capabilities.documentFormattingProvider = false -- 0.8 and hopefully later
     end
     lsp_keymaps(bufnr)
-    attach_navic(client, bufnr)
+    -- attach_navic(client, bufnr) -- for nvim-navic
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()

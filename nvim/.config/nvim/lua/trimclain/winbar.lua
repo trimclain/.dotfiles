@@ -42,7 +42,8 @@ M.get_filename = function()
 end
 
 local get_gps = function()
-    local status_gps_ok, gps = pcall(require, "nvim-navic")
+    local status_gps_ok, gps = pcall(require, "nvim-gps")
+    -- local status_gps_ok, gps = pcall(require, "nvim-navic")  -- for nvim-navic
     if not status_gps_ok then
         return ""
     end
@@ -88,7 +89,8 @@ M.get_winbar = function()
     end
 
     if not f.isempty(value) and f.get_buf_option "mod" then
-        local mod = "%#LspCodeLens#" .. require("trimclain.icons").ui.Circle .. "%*"
+        local mod = "%#LineNr#" .. require("trimclain.icons").ui.Circle .. "%*"
+        -- local mod = "%#LspCodeLens#" .. require("trimclain.icons").ui.Circle .. "%*" -- for nvim-navic
         if gps_added then
             value = value .. " " .. mod
         else

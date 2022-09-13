@@ -36,8 +36,8 @@ require "trimclain.telescope"
 require "trimclain.harpoon"
 require "trimclain.treesitter"
 
-require "trimclain.navic"
--- require "trimclain.gps"
+require "trimclain.gps"
+-- require "trimclain.navic" -- for nvim-navic
 require "trimclain.winbar"
 
 require "trimclain.autopairs"
