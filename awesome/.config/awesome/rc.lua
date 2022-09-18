@@ -959,6 +959,9 @@ awful.rules.rules = {
     -- Set Evince to always map on the tag named "2"
     { rule = { class = "Evince" }, properties = { tag = "2" } },
 
+    -- Set Anki to always map on the tag named "2"
+    { rule = { class = "Anki" }, properties = { tag = "2" } },
+
     -- Set Chrome to always map on the tag named "3"
     { rule = { class = "Google-chrome" }, properties = { tag = "3" } },
 }
