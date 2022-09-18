@@ -739,7 +739,12 @@ local globalkeys = mytable.join(
     -- https://github.com/lcpz/dots/blob/master/bin/screenshot
     awful.key({ modkey }, "p", function()
         awful.spawn.with_shell("flameshot screen -c")
-    end, { description = "take a screenshot", group = "hotkeys" }),
+    end, { description = "take a screenshot of a full screen to clipboard", group = "hotkeys" }),
+
+    -- TODO: maybe there's a better button for this. Ideas: o, z, g
+    awful.key({ modkey }, "o", function()
+        awful.spawn.with_shell("flameshot gui -c")
+    end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
     -- X screen locker
     -- TODO:?
