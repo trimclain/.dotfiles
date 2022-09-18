@@ -364,6 +364,24 @@ inkscape:
 	sudo apt update
 	sudo apt install inkscape -y
 
+anki:
+	@echo "==================================================================="
+	@echo "Installing Anki..."
+	@# Requirements
+	sudo apt install libxcb-xinerama0 -y
+	@# If no zstd found install it with 'sudo apt install zstd'
+	@# Install a hardcoded version
+	wget https://github.com/ankitects/anki/releases/download/2.1.54/anki-2.1.54-linux-qt6.tar.zst
+	@# Unpack it
+	tar xaf ./anki-2.1.54-linux-qt6.tar.zst
+	@# Run the installation script
+	cd ./anki-2.1.54-linux-qt6 && sudo ./install.sh
+	@# Delete the folder and the archive
+	rm -r ./anki-2.1.54-linux-qt6.tar.zst ./anki-2.1.54-linux-qt6
+
+uninstall_anki:
+	cd /usr/local/share/anki/ && sudo ./uninstall.sh
+
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
@@ -402,4 +420,5 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
 	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide pomo uninstall_pomo \
-	inkscape linux_install linux_software python3_setup null_ls_tool finish_setup
+	inkscape anki uninstall_anki linux_install linux_software python3_setup \
+	null_ls_tool finish_setup
