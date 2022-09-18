@@ -59,23 +59,55 @@ local format_on_save = vim.api.nvim_create_augroup( -- create augroup
     }
 )
 
-function M.enable_format_on_save()
+local pattern_list = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.html", "*.lua", "*.py" }
+
+function M.update_autoformat_status()
+    -- check for filetype
+    local pattern = "*." .. vim.fn.expand "%:e"
+    if vim.tbl_contains(pattern_list, pattern) then
+        -- check for existing autocmd
+        if vim.fn.exists "#format_on_save#BufWritePre" == 0 then
+            -- vim.g.autoformat_status = ""
+            -- vim.g.autoformat_status = ""
+            vim.g.autoformat_status = ""
+        else
+            -- vim.g.autoformat_status = ""
+            vim.g.autoformat_status = ""
+        end
+    else
+        vim.g.autoformat_status = ""
+    end
+end
+
+function M.init_format_on_save()
     vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.html", "*.lua", "*.py" },
+        pattern = pattern_list,
         callback = function()
             vim.lsp.buf.format()
         end,
         group = format_on_save,
     })
-    -- vim.g.autoformat_status = ""
-    vim.g.autoformat_status = ""
-    vim.notify "Enabled format on save"
+end
+
+function M.enable_format_on_save()
+    local pattern = "*." .. vim.fn.expand "%:e"
+    if vim.tbl_contains(pattern_list, pattern) then
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = pattern_list,
+            callback = function()
+                vim.lsp.buf.format()
+            end,
+            group = format_on_save,
+        })
+        vim.g.autoformat_status = ""
+        vim.notify "Enabled format on save"
+    else
+        vim.notify "No formmatting is available for this filetype"
+    end
 end
 
 function M.disable_format_on_save()
     M.remove_augroup "format_on_save"
-    -- vim.g.autoformat_status = ""
-    -- vim.g.autoformat_status = ""
     vim.g.autoformat_status = ""
     vim.notify "Disabled format on save"
 end

@@ -90,5 +90,17 @@ vim.api.nvim_create_autocmd(
 )
 
 -- Formatting
--- vim.g.autoformat_status = ''
-require("trimclain.functions").enable_format_on_save()
+require("trimclain.functions").init_format_on_save()
+
+local format_on_save_status = vim.api.nvim_create_augroup( -- create augroup
+    "format_on_save_status", -- set augroup name
+    {
+        clear = true, -- clear previous autocmds from this group (autocmd!)
+    }
+)
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        require("trimclain.functions").update_autoformat_status()
+    end,
+    group = format_on_save_status,
+})
