@@ -40,7 +40,6 @@ return packer.startup(function(use)
     use "windwp/nvim-ts-autotag" -- autoclose and autorename html tags
     use "mbbill/undotree" -- see the undo history
 
-    -- Testing
     use "karb94/neoscroll.nvim" -- smooth scrolling
     use {
         "phaazon/hop.nvim", -- easier jumps with f,F,t,T
@@ -55,6 +54,7 @@ return packer.startup(function(use)
     use "akinsho/toggleterm.nvim" -- toggle terminal from neovim
 
     -- Git
+    -- TODO: checkout neogit to go full lua
     use "tpope/vim-fugitive" -- vim git integration, thanks tpope
     use "lewis6991/gitsigns.nvim" -- super fast git decorations
 
@@ -88,6 +88,8 @@ return packer.startup(function(use)
     use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
     use { "akinsho/bufferline.nvim", tag = "v2.*" } -- add bufferline to show open buffers
     use "famiu/bufdelete.nvim" -- properly close a buffer and don't ruin my layout
+    use "j-hui/fidget.nvim" -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
+
     -- TODO: navic is very alpha right now, wait until it's usable
     -- use "SmiteshP/nvim-navic" -- show context of the current cursor position in file
     use {
@@ -110,6 +112,7 @@ return packer.startup(function(use)
 
     -- LSP
     use "neovim/nvim-lspconfig" -- LSP configurations
+    -- TODO: switch to mason.nvim
     use "williamboman/nvim-lsp-installer" -- add LspInstall <language>
     use "jose-elias-alvarez/null-ls.nvim" -- code formatter (LSP diagnostics, code actions, and more)
 
