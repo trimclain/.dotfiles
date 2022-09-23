@@ -73,9 +73,21 @@ uninstall_nvim:
 
 nodejs:
 	@echo "==================================================================="
+	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
 	@if [ ! -d ~/.n ]; then echo "Installing n, nodejs version manager with latest stable node and npm versions..." &&\
-		curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n &&\
+		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash; else curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n; fi &&\
 		echo "Done"; else echo "[nodejs]: Already installed"; fi
+
+uninstall_nodejs:
+	n-uninstall
+
+export_node_modules:
+	@echo "Exporting global node modules to .npm_modules"
+	npm list --global --parseable --depth=0 | sed '1d' | awk '{gsub(/\/.*\//,"",$1); print}' > .npm_modules
+
+import_node_modules:
+	@if [ -f .npm_modules ]; then echo "Installing global node modules from .npm_modules" &&\
+		xargs npm install --global < .npm_modules; else echo "[node modules]: .npm_modules file not found"; fi
 
 typescript:
 	@echo "==================================================================="
@@ -414,7 +426,8 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install ansible tmux zsh nvim_build_reqs \
-	nvim uninstall_nvim nodejs typescript golang julia uninstall_julia sdkman \
+	nvim uninstall_nvim nodejs uninstall_nodejs export_node_modules \
+	import_node_modules typescript golang julia uninstall_julia sdkman \
 	uninstall_sdkman rust uninstall_rust docker uninstall_docker pm2 ufw \
 	install sinstall finstall alacritty_build_reqs alacritty \
 	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
