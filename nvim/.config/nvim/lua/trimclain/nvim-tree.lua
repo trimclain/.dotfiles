@@ -47,15 +47,21 @@ nvim_tree.setup {
     open_on_setup = false,
     open_on_setup_file = false,
     open_on_tab = false,
+    focus_empty_on_setup = false,
+    ignore_buf_on_tab_change = {},
     sort_by = "name",
-    update_cwd = true, -- default: false
+    root_dirs = {},
+    prefer_startup_root = false,
+    sync_root_with_cwd = true, -- default: false
     reload_on_bufenter = false,
     respect_buf_cwd = false,
+    on_attach = "disable",
+    remove_keymaps = false,
+    select_prompts = false,
     view = {
         adaptive_size = false,
         centralize_selection = false,
         width = 30,
-        height = 30,
         hide_root_folder = false,
         side = "left",
         preserve_window_proportions = false,
@@ -70,6 +76,17 @@ nvim_tree.setup {
                 { key = "v", cb = tree_cb "vsplit" },
             },
         },
+        float = {
+            enable = false,
+            open_win_config = {
+                relative = "editor",
+                border = "rounded",
+                width = 30,
+                height = 30,
+                row = 1,
+                col = 1,
+            },
+        },
     },
     renderer = {
         add_trailing = false,
@@ -78,12 +95,15 @@ nvim_tree.setup {
         full_name = false,
         highlight_opened_files = "none",
         root_folder_modifier = ":~",
+        indent_width = 2,
         indent_markers = {
             enable = false,
+            inline_arrows = true,
             icons = {
                 corner = "└ ",
                 edge = "│ ",
                 item = "│ ",
+                bottom = "─",
                 none = "  ",
             },
         },
@@ -101,6 +121,7 @@ nvim_tree.setup {
             glyphs = {
                 default = "",
                 symlink = "",
+                bookmark = "",
                 folder = {
                     arrow_closed = "",
                     arrow_open = "",
@@ -123,6 +144,7 @@ nvim_tree.setup {
             },
         },
         special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+        symlink_destination = true,
     },
     hijack_directories = {
         enable = true,
@@ -130,7 +152,7 @@ nvim_tree.setup {
     },
     update_focused_file = {
         enable = true, -- default: false
-        update_cwd = true, -- default: false
+        update_root = true, -- default: false
         ignore_list = {},
     },
     ignore_ft_on_setup = {
@@ -145,6 +167,7 @@ nvim_tree.setup {
     diagnostics = {
         enable = false,
         show_on_dirs = false,
+        debounce_delay = 50,
         icons = {
             hint = "",
             info = "",
@@ -158,12 +181,13 @@ nvim_tree.setup {
         exclude = {},
     },
     filesystem_watchers = {
-        enable = false,
-        debounce_delay = 100,
+        enable = false, -- default: true
+        debounce_delay = 100, -- default: 50
     },
     git = {
         enable = true,
         ignore = true,
+        show_on_dirs = true,
         timeout = 400,
     },
     actions = {
@@ -175,6 +199,16 @@ nvim_tree.setup {
         },
         expand_all = {
             max_folder_discovery = 300,
+            exclude = {},
+        },
+        file_popup = {
+            open_win_config = {
+                col = 1,
+                row = 1,
+                relative = "cursor",
+                border = "shadow",
+                style = "minimal",
+            },
         },
         open_file = {
             quit_on_open = true, -- default: false
@@ -207,6 +241,7 @@ nvim_tree.setup {
             all = false,
             config = false,
             copy_paste = false,
+            dev = false,
             diagnostics = false,
             git = false,
             profile = false,
