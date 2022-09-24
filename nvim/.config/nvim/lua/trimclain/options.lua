@@ -33,11 +33,9 @@ local options = {
     backup = false, -- creates a backup file
     swapfile = false, -- creates a swapfile
     undofile = true, -- enable persistent undo
-    undodir = os.getenv("HOME") .. "/.nvim/undodir", -- set the undodirectory
+    undodir = os.getenv "HOME" .. "/.nvim/undodir", -- set the undodirectory
     conceallevel = 0, -- so that `` is visible in markdown files
     timeoutlen = 400, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
-    -- TODO: Is there even a point of setting laststatus here, if it gets overwritten
-    laststatus = 3, -- have a global statusline at the bottom instead of one for each window (new feature in nightly)
     -- cmdheight = 2, -- more space in the neovim command line for displaying messages
     -- pumheight = 10, -- pop up menu height
     -- showtabline = 2, -- always show tabs
@@ -46,16 +44,6 @@ local options = {
     -- cursorline = true, -- highlight the current line
     -- writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 }
-
--- " set path+=**                            " expand the search whe gf or :find
--- " Ignore files
--- set wildignore+=*.pyc
--- set wildignore+=*_build/*
--- set wildignore+=**/coverage/*
--- set wildignore+=**/node_modules/*
--- set wildignore+=**/android/*
--- set wildignore+=**/ios/*
--- set wildignore+=**/.git/*
 
 for k, v in pairs(options) do
     vim.opt[k] = v

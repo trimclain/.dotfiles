@@ -1,3 +1,3 @@
--- For some reason settings this option in lua/trimclain/options.lua doesn't work.
--- Something overwrites it, and I don't know why
+-- Have a global statusline at the bottom instead of one for each window
+-- For some reason setting this option in options.lua doesn't work
 vim.opt.laststatus = 3

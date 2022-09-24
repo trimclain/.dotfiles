@@ -5,13 +5,15 @@ local highlight_group = vim.api.nvim_create_augroup("lua_highlight_yank", {
 vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()
         vim.highlight.on_yank {
-            -- higroup = "hl-IncSearch",
-            higroup = "Substitute",
+            -- higroup = "IncSearch",
+            -- higroup = "Substitute",
+            higroup = "Search",
             timeout = 100,
             on_macro = true,
             on_visual = true,
         }
     end,
+    desc = "Highlight text on yank",
     group = highlight_group,
 })
 
@@ -36,6 +38,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     end,
     group = filetype_group,
 })
+
+-- TODO: add autosource the config file on save: WIP in functions
+-- TODO: add a way to autoinstall lsp server when a new filetype is open (with some filtering of course)
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 -- local reload_packer = vim.api.nvim_create_augroup("packer_user_config", {
@@ -65,13 +70,6 @@ vim.cmd [[
             call setreg(r, [])
         endfor
     endfun
-
-    " Delete useless spaces
-    fun! TrimWhitespace()
-        let l:save = winsaveview()
-        keeppatterns %s/\s\+$//e
-        call winrestview(l:save)
-    endfun
 ]]
 
 local on_save_group = vim.api.nvim_create_augroup( -- create augroup
@@ -80,11 +78,12 @@ local on_save_group = vim.api.nvim_create_augroup( -- create augroup
         clear = true, -- clear previous autocmds from this group (autocmd!)
     }
 )
--- Autocommand which calls my function TrimWhitespace
+-- Autocommand to trim whitespaces
 vim.api.nvim_create_autocmd(
     "BufWritePre", -- set the event for autocmd (:h events)
     {
-        callback = "TrimWhitespace", -- pass the function
+        pattern = "*",
+        command = "%s/\\s\\+$//e", -- pass a command or a function
         group = on_save_group, -- assign to the augroup
     }
 )
