@@ -15,7 +15,6 @@ keymap("n", "<Leader>mx", ":w <bar> :!chmod +x %<CR>", opts)
 -- Run a file
 keymap("n", "<C-b>", ":w <bar> :!./%<cr>", opts)
 
-
 --
 -- Easier movement between vim windows
 keymap("n", "<leader>h", "<C-w>h", opts)
@@ -95,7 +94,7 @@ keymap("n", "<leader>s", ":PackerSync<cr>", opts)
 keymap(
     "n",
     "<leader>pw",
-    ':lua require("telescope.builtin").grep_string { search = vim.fn.expand("<cword>") }<CR>',
+    ':lua require("telescope.builtin").grep_string { search = vim.fn.expand("<cword>"), grep_open_files = true }<CR>',
     opts
 )
 keymap("n", "<leader>ps", ":lua require('telescope.builtin').live_grep()<CR>", opts)
@@ -109,17 +108,37 @@ keymap("n", "<leader>gb", ":lua require('telescope.builtin').git_branches()<CR>"
 
 keymap("n", "<leader>pf", ":Telescope find_files<cr>", opts)
 keymap("n", "<leader>phf", ":Telescope find_files hidden=true<cr>", opts)
-keymap("n", "<leader>pb", ":Telescope buffers<cr>", opts)
+keymap("n", "<leader>b", ":Telescope buffers<cr>", opts)
 keymap("n", "<leader>of", ":Telescope oldfiles<cr>", opts)
 
 keymap("n", "<leader>vrc", ":Telescope git_files cwd=~/.dotfiles<cr>", opts)
 keymap("n", "<leader>f;", ":Telescope commands<cr>", opts)
 
 -- hop.nvim keybindings
-keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
-keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
-keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+keymap(
+    "",
+    "f",
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
+    {}
+)
+keymap(
+    "",
+    "F",
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
+    {}
+)
+keymap(
+    "",
+    "t",
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>",
+    {}
+)
+keymap(
+    "",
+    "T",
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>",
+    {}
+)
 
 -- Esc is too far and I don't like <C-[>, make <C-c> work as <Esc> in every mode
 keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending modes

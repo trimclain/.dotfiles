@@ -53,11 +53,11 @@ telescope.setup {
         mappings = {
             -- almost everything is default
             i = {
-                -- ["<C-n>"] = actions.cycle_history_next,
-                -- ["<C-p>"] = actions.cycle_history_prev,
-
                 ["<C-n>"] = actions.move_selection_next,
                 ["<C-p>"] = actions.move_selection_previous,
+
+                ["<C-j>"] = actions.cycle_history_next,
+                ["<C-k>"] = actions.cycle_history_prev,
 
                 ["<C-c>"] = actions.close,
 
@@ -69,8 +69,7 @@ telescope.setup {
                 ["<C-v>"] = actions.select_vertical,
                 ["<C-t>"] = actions.select_tab,
 
-                ["<C-u>"] = actions.preview_scrolling_up,
-                ["<C-d>"] = actions.preview_scrolling_down,
+                ["<C-d>"] = actions.delete_buffer,
 
                 ["<PageUp>"] = actions.results_scrolling_up,
                 ["<PageDown>"] = actions.results_scrolling_down,
@@ -85,10 +84,14 @@ telescope.setup {
 
             n = {
                 ["<esc>"] = actions.close,
+                ["<C-c>"] = actions.close, -- thanks prime now I do it too
                 ["<CR>"] = actions.select_default,
                 ["<C-x>"] = actions.select_horizontal,
                 ["<C-v>"] = actions.select_vertical,
                 ["<C-t>"] = actions.select_tab,
+
+                -- mainly for :Telescope buffers
+                ["dd"] = actions.delete_buffer,
 
                 ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
                 ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
@@ -136,8 +139,17 @@ telescope.setup {
             -- previewer = false
         },
         git_files = {
+            -- theme = "ivy",
+            theme = "dropdown",
+            -- theme = "cursor",
+            previewer = false,
+            show_untracked = true,
+        },
+        buffers = {
             theme = "dropdown",
             previewer = false,
+            initial_mode = "normal",
+            -- initial_mode = "insert" -- or "normal"
         },
     },
     extensions = {
@@ -159,12 +171,5 @@ M.curr_buf_search = function()
     local opt = require("telescope.themes").get_dropdown { height = 10, previewer = false }
     require("telescope.builtin").current_buffer_fuzzy_find(opt)
 end
-
--- TODO: make a function, which will work like * in normal mode, but open telescope
--- M.curr_word_curr_buf_search = function()
---     -- local opt = require('telescope.themes').get_dropdown({height=10, previewer=false})
---     local opt = vim.fn.expand("<cword>")
---     require('telescope.builtin').current_buffer_fuzzy_find(opt)
--- end
 
 return M
