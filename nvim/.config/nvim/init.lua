@@ -38,7 +38,7 @@ require "trimclain.treesitter"
 require "trimclain.fidget"
 
 require "trimclain.gps"
--- require "trimclain.navic" -- for nvim-navic
+-- require "trimclain.navic" -- waiting for color support
 require "trimclain.winbar"
 
 require "trimclain.autopairs"
@@ -51,7 +51,7 @@ require "trimclain.toggleterm"
 require "trimclain.colorizer"
 require "trimclain.colorpicker"
 
--- require "trimclain.lab" -- FIX: doesn't work
+require "trimclain.lab"
 require "trimclain.markdown-preview"
 require "trimclain.bracey"
 
