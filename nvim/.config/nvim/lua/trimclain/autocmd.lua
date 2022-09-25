@@ -39,9 +39,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     group = filetype_group,
 })
 
--- TODO: add autosource the config file on save: WIP in functions
--- TODO: add a way to autoinstall lsp server when a new filetype is open (with some filtering of course)
-
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 -- local reload_packer = vim.api.nvim_create_augroup("packer_user_config", {
 --     clear = true,

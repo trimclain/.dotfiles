@@ -127,8 +127,37 @@ function M.remove_augroup(name)
 end
 
 vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.functions").toggle_format_on_save()' ]]
+
 -- ############################################################################
 
+-- local uv = vim.loop
+-- TODO: implement this for every path I use
+-- local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/" -- interesting if I wanna cover windows
+
+---Join path segments that were passed as input
+---@return string
+-- function M.join_paths(...)
+--     local result = table.concat({ ... }, path_sep)
+--     return result
+-- end
+
+---Get the full path to nvim config
+---@return string
+-- function M.get_config_dir()
+--     return vim.call("stdpath", "config")
+-- end
+--
+-- local user_config_dir = M.get_config_dir()
+-- local user_config_file = M.join_paths(user_config_dir, "config.lua")
+
+-- TODO: can I implement this, since I have multiple files to source unlike lunarvim?
+---Get the full path to the user configuration file
+---@return string
+-- function M:get_user_config_path()
+--     return user_config_file
+-- end
+
+-- ############################################################################
 -- function M.smart_quit()
 --     local bufnr = vim.api.nvim_get_current_buf()
 --     local modified = vim.api.nvim_buf_get_option(bufnr, "modified")
