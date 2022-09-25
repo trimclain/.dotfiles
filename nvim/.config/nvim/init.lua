@@ -35,7 +35,7 @@ require "trimclain.luasnip"
 require "trimclain.telescope"
 require "trimclain.harpoon"
 require "trimclain.treesitter"
-require "trimclain.figet"
+require "trimclain.fidget"
 
 require "trimclain.gps"
 -- require "trimclain.navic" -- for nvim-navic
