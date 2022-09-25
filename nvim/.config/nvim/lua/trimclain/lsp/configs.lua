@@ -22,8 +22,8 @@ local servers = {
     "vimls",
     "yamlls",
     "graphql",
-    "julials",
-    "ansiblels",
+    -- "julials",
+    -- "ansiblels",
     "dockerls",
 }
 
