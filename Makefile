@@ -354,6 +354,15 @@ uninstall_neovide:
 	sudo rm -f /usr/share/applications/neovide.desktop
 	sudo rm -f /usr/local/share/icons/hicolor/256x256/apps/neovide.png
 
+# Lol
+vscodium:
+	@echo "==================================================================="
+	@echo "Installing VSCodium..."
+	@# Check if snap is installed
+	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
+		sudo apt install snapd -y; fi
+	sudo snap install codium --classic
+
 pomo:
 	@echo "==================================================================="
 	@echo "Installing pomo (simple CLI for Pomodoro)..."
@@ -432,6 +441,6 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	install sinstall finstall alacritty_build_reqs alacritty \
 	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
 	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave \
-	obs-studio kdenlive neovide uninstall_neovide pomo uninstall_pomo \
+	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki linux_install linux_software python3_setup \
 	null_ls_tool finish_setup
