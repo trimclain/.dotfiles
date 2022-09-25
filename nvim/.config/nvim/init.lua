@@ -51,6 +51,7 @@ require "trimclain.toggleterm"
 require "trimclain.colorizer"
 require "trimclain.colorpicker"
 
+-- require "trimclain.lab" -- FIX: doesn't work
 require "trimclain.markdown-preview"
 require "trimclain.bracey"
 

@@ -12,6 +12,7 @@ vim.g.maplocalleader = " "
 keymap("n", "<Leader><CR>", ":source %<CR>", opts)
 -- Make current file executable
 keymap("n", "<Leader>mx", ":w <bar> :!chmod +x %<CR>", opts)
+-- TODO: only if the file is executable
 -- Run a file
 keymap("n", "<C-b>", ":w <bar> :!./%<cr>", opts)
 
@@ -139,6 +140,11 @@ keymap(
     "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>",
     {}
 )
+
+-- lab.nvim (d is the super key)
+-- keymap("n", "<d-1>", ":Lab code run<cr>", opts)
+-- keymap("n", "<d-2>", ":Lab code stop<cr>", opts)
+-- keymap("n", "<d-3>", ":Lab code panel<cr>", opts)
 
 -- Esc is too far and I don't like <C-[>, make <C-c> work as <Esc> in every mode
 keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending modes

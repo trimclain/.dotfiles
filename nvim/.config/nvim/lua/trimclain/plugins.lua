@@ -133,6 +133,12 @@ return packer.startup(function(use)
     }
 
     -- Useful tools
+    -- To preview print statement outputs in neovim (for JS, TS, Python and Lua)
+    use {
+        "0x100101/lab.nvim",
+        run = "cd js && npm ci",
+    }
+
     -- To preview markdown files in browser
     use {
         "iamcco/markdown-preview.nvim",
