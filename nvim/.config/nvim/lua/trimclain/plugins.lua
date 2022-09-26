@@ -113,9 +113,14 @@ return packer.startup(function(use)
 
     -- LSP
     use "neovim/nvim-lspconfig" -- LSP configurations
-    -- TODO: switch to mason.nvim
-    use "williamboman/nvim-lsp-installer" -- add LspInstall <language>
+    use "williamboman/mason.nvim" -- manage external editor tooling such as LSP servers, DAP servers, linters, and formatters
+    use "williamboman/mason-lspconfig.nvim" -- bridge mason.nvim with the lspconfig
+    -- use "williamboman/nvim-lsp-installer" -- add LspInstall <language>
     use "jose-elias-alvarez/null-ls.nvim" -- code formatter (LSP diagnostics, code actions, and more)
+    -- TODO: do I want these?
+    -- use "jayp0521/mason-null-ls.nvim" -- bridge mason.nvim with the null-ls
+    -- use "RubixDev/mason-update-all" -- easily update all Mason packages with one command
+    use "ray-x/lsp_signature.nvim" -- show function signature when you type
 
     -- Telescope
     use "nvim-telescope/telescope.nvim" -- the goat
