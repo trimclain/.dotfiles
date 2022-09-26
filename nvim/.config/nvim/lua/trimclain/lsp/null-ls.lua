@@ -11,7 +11,10 @@ local diagnostics = null_ls.builtins.diagnostics
 null_ls.setup {
     debug = false,
     sources = {
-        formatting.prettier.with { extra_args = { "--tab-width=4", "--single-quote", "--jsx-single-quote" } }, -- , "--no-semi"
+        formatting.prettier.with {
+            extra_args = { "--tab-width=4", "--single-quote", "--jsx-single-quote" }, -- , "--no-semi"
+            extra_filetypes = { "toml" },
+        },
         formatting.black.with {
             extra_args = {
                 "--fast", -- if --fast given, skip temporary sanity checks [default: --safe]
@@ -19,6 +22,9 @@ null_ls.setup {
             },
         },
         formatting.stylua,
+        -- formatting.shfmt,
+
         diagnostics.flake8,
+        -- diagnostics.shellcheck,
     },
 }

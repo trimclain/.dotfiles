@@ -105,8 +105,9 @@ local mappings = {
         ["1"] = { "Code run" },
         ["2"] = { "Code stop" },
         ["3"] = { "Code panel" },
-        j = { "Go to next quickfixlist location" },
-        k = { "Go to previous quickfixlist location" },
+        j = { "Go to next quickfix location" },
+        k = { "Go to previous quickfix location" },
+        s = { "Souce luasnip.lua" },
     },
 
     c = {
@@ -146,7 +147,6 @@ local mappings = {
         s = { "Search" },
         f = { "Files" },
         h = { "Hidden Files" },
-        y = { "Open Python3 Console" },
     },
 
     v = {
