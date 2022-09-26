@@ -36,6 +36,7 @@ require "trimclain.telescope"
 require "trimclain.harpoon"
 require "trimclain.treesitter"
 require "trimclain.fidget"
+require "trimclain.whichkey"
 
 require "trimclain.gps"
 -- require "trimclain.navic" -- waiting for color support

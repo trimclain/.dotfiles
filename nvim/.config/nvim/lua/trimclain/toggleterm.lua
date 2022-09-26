@@ -38,8 +38,9 @@ end
 
 vim.cmd "autocmd! TermOpen term://* lua set_terminal_keymaps()"
 
+-- TODO: this doesn't work
 -- Keymaps for specific terminal apps
-vim.api.nvim_buf_set_keymap(0, "n", "<leader>py", [[:lua _PYTHON_TOGGLE()<cr>]], opts)
+-- vim.api.nvim_buf_set_keymap(0, "n", "<leader>py", [[:lua _PYTHON_TOGGLE()<cr>]], opts)
 
 local Terminal = require("toggleterm.terminal").Terminal
 -- local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })

@@ -24,17 +24,3 @@ harpoon.setup {
         mark_branch = false,
     },
 }
-
--- Keymaps
-
-local opts = { noremap = true, silent = true }
-local keymap = vim.api.nvim_set_keymap
-
-keymap("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", opts)
-keymap("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opts)
-
--- NOTE: ideally jkl; should be used with ctrl
-keymap("n", "<C-j>", ":lua require('harpoon.ui').nav_file(1)<CR>", opts)
-keymap("n", "<C-k>", ":lua require('harpoon.ui').nav_file(2)<CR>", opts)
--- keymap("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", opts)
--- keymap("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", opts)

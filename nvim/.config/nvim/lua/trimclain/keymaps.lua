@@ -14,10 +14,10 @@ keymap("n", "<Leader><CR>", ":source %<CR>", opts)
 keymap("n", "<Leader>mx", ":w <bar> :!chmod +x %<CR>", opts)
 -- TODO: only if the file is executable
 -- Run a file
-keymap("n", "<C-b>", ":w <bar> :!./%<cr>", opts)
+-- keymap("n", "<C-b>", ":w <bar> :!./%<cr>", opts)
 
 --
--- Easier movement between vim windows
+-- Easier movement between buffers
 keymap("n", "<leader>h", "<C-w>h", opts)
 keymap("n", "<leader>j", "<C-w>j", opts)
 keymap("n", "<leader>k", "<C-w>k", opts)
@@ -29,7 +29,7 @@ keymap("n", "<S-l>", ":bnext<cr>", opts)
 keymap("n", "<S-h>", ":bprevious<cr>", opts)
 
 --
--- Resizing: Use Ctrl + arrows to resize windows
+-- Resizing: Use Ctrl + arrows to resize buffers
 keymap("n", "<C-Up>", ":resize -5<cr>", opts)
 keymap("n", "<C-Down>", ":resize +5<cr>", opts)
 keymap("n", "<C-Left>", ":vertical resize -5<cr>", opts)
@@ -69,8 +69,8 @@ keymap("v", "y", "myy`y", opts) -- Maintain the cursor position
 keymap("v", "Y", "myy`y", opts) -- when yanking a visual selection
 keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank it
 keymap("n", "<leader>Y", 'gg"+yG', opts) -- yank whole file
-keymap("n", "<leader>y", '"+y', opts) -- yank not hurting
-keymap("v", "<leader>y", '"+y', opts) -- the registers
+-- keymap("n", "<leader>y", '"+y', opts) -- yank into
+-- keymap("v", "<leader>y", '"+y', opts) -- system clipboard (no need since I'm clipboardplus)
 keymap("n", "<leader>d", '"_d', opts) -- delete into
 keymap("v", "<leader>d", '"_d', opts) -- blackhole buffer
 
@@ -108,12 +108,22 @@ keymap("n", "<leader>gl", ":lua require('telescope.builtin').git_commits()<CR>",
 keymap("n", "<leader>gb", ":lua require('telescope.builtin').git_branches()<CR>", opts)
 
 keymap("n", "<leader>pf", ":Telescope find_files<cr>", opts)
-keymap("n", "<leader>phf", ":Telescope find_files hidden=true<cr>", opts)
+keymap("n", "<leader>ph", ":Telescope find_files hidden=true<cr>", opts)
 keymap("n", "<leader>b", ":Telescope buffers<cr>", opts)
 keymap("n", "<leader>of", ":Telescope oldfiles<cr>", opts)
 
 keymap("n", "<leader>vrc", ":Telescope git_files cwd=~/.dotfiles<cr>", opts)
 keymap("n", "<leader>f;", ":Telescope commands<cr>", opts)
+
+-- Harpoon
+keymap("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", opts)
+keymap("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opts)
+
+-- NOTE: ideally jkl; should be used with ctrl
+keymap("n", "<C-j>", ":lua require('harpoon.ui').nav_file(1)<CR>", opts)
+keymap("n", "<C-k>", ":lua require('harpoon.ui').nav_file(2)<CR>", opts)
+-- keymap("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", opts)
+-- keymap("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", opts)
 
 -- hop.nvim keybindings
 keymap(

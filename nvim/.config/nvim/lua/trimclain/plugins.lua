@@ -89,6 +89,7 @@ return packer.startup(function(use)
     use { "akinsho/bufferline.nvim", tag = "v2.*" } -- add bufferline to show open buffers
     use "famiu/bufdelete.nvim" -- properly close a buffer and don't ruin my layout
     use "j-hui/fidget.nvim" -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
+    use "folke/which-key.nvim" -- displays a popup with possible key bindings of the command you started typing
 
     -- TODO: navic is very alpha right now, wait until it's usable
     -- use "SmiteshP/nvim-navic" -- show context of the current cursor position in file
