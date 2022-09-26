@@ -1,11 +1,20 @@
 local M = {}
 
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+local cmp_status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not cmp_status_ok then
+    return
+end
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+
 M.setup = function()
+    local icons = require "trimclain.icons"
     local signs = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
+        { name = "DiagnosticSignError", text = icons.diagnostics.Error },
+        { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
+        { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
+        { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
     }
 
     for _, sign in ipairs(signs) do
@@ -13,7 +22,9 @@ M.setup = function()
     end
 
     local config = {
+        -- If I'm tired of lsp telling me I'm wrong and want to use `gl` only, come here and make both false
         -- enable/disable virtual text (errors on the right)
+        -- virtual_lines = false,
         virtual_text = true,
         -- show signs
         signs = {
@@ -26,7 +37,7 @@ M.setup = function()
             focusable = false,
             style = "minimal",
             border = "rounded",
-            source = "always",
+            source = "always", -- or "if_many"
             header = "",
             prefix = "",
         },
@@ -91,14 +102,5 @@ M.on_attach = function(client, bufnr)
     lsp_keymaps(bufnr)
     -- attach_navic(client, bufnr) -- for nvim-navic
 end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-local cmp_status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not cmp_status_ok then
-    return
-end
-
-M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
 return M
