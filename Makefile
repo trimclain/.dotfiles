@@ -7,7 +7,7 @@ all:
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, xclip as a clipboard tool
-	sudo apt-get install -y curl stow ripgrep fzf htop tree xclip
+	sudo apt-get install -y curl stow ripgrep fzf htop btop tree xclip
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
