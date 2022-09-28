@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set the keyboard layout
-if [[ -n $1 ]]; then
+if [ -n $1 ]; then
     if [ $1 = "--default" ]; then
         setxkbmap -layout us,ru,de
         # Enable multiple languages together with alt-shift toggle
