@@ -1,7 +1,7 @@
+-- vim:fileencoding=utf-8:foldmethod=marker
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
 
--- ############################################################################
 -- {{{ Required libraries
 -- ############################################################################
 
@@ -25,6 +25,7 @@ local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 -- }}}
 
 -- {{{ Modalbind Config
+-- ############################################################################
 -- This module helps to add i3-like keybinding modes
 local modalbind = require("modalbind")
 modalbind.init()
@@ -42,18 +43,16 @@ modalbind.set_opacity(0.95) -- change the opacity of the box with float between 
 modalbind.hide_default_options() -- hide that esc or return exits the box
 -- }}}
 
--- ############################################################################
--- {{{ Some Configs
+-- {{{ Some Extra Configs
 -- ############################################################################
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 -- require("awful.hotkeys_popup.keys")
--- }}}
 
 -- Load Debian menu entries
 -- local debian = require("debian.menu")
+-- }}}
 
--- ############################################################################
 -- {{{ Error handling
 -- ############################################################################
 
@@ -86,7 +85,6 @@ do
 end
 -- }}}
 
--- ############################################################################
 -- {{{ Autostart windowless processes
 -- ############################################################################
 
@@ -111,7 +109,6 @@ awful.spawn.with_shell(
 --]]
 -- }}}
 
--- ############################################################################
 -- {{{ Variable definitions
 -- ############################################################################
 
@@ -224,7 +221,6 @@ awful.util.tasklist_buttons = mytable.join(
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 -- }}}
 
--- ############################################################################
 -- {{{ Menu
 -- ############################################################################
 -- Create a launcher widget and a main menu
@@ -295,7 +291,6 @@ end)
 --menubar.utils.terminal = terminal
 -- }}}
 
--- ############################################################################
 -- {{{ Screen
 -- ############################################################################
 
@@ -330,10 +325,9 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 -- }}}
 
--- ############################################################################
 -- {{{ Mouse bindings
--- 1 is leftclick, 2 is middleclick, 3 is rightclick, 4 is wheel up, 5 is wheel down
 -- ############################################################################
+-- 1 is leftclick, 2 is middleclick, 3 is rightclick, 4 is wheel up, 5 is wheel down
 
 root.buttons(mytable.join(
     awful.button({}, 3, function()
@@ -345,7 +339,6 @@ root.buttons(mytable.join(
 ))
 -- }}}
 
--- ############################################################################
 -- {{{ Keybinding Modes
 -- ############################################################################
 -- System Mode
@@ -439,7 +432,6 @@ local monimap = {
 
 -- }}}
 
--- ############################################################################
 -- {{{ Key bindings
 -- ############################################################################
 local globalkeys = mytable.join(
@@ -896,7 +888,6 @@ local clientbuttons = mytable.join(
 root.keys(globalkeys)
 -- }}}
 
--- ############################################################################
 -- {{{ Rules
 -- ############################################################################
 -- Rules to apply to new clients (through the "manage" signal).
@@ -972,7 +963,6 @@ awful.rules.rules = {
 }
 -- }}}
 
--- ############################################################################
 -- {{{ Signals
 -- ############################################################################
 
@@ -1055,17 +1045,16 @@ client.connect_signal("unfocus", function(c)
 end)
 -- }}}
 
--- ############################################################################
 -- {{{ Autostart Programs
 -- ############################################################################
 -- Set the wallpaper
 awful.spawn.with_shell("nitrogen --restore")
 -- Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
-awful.spawn.with_shell("picom")
+-- awful.spawn.with_shell("picom")
 -- Give me that Natural Scrolling
 awful.spawn.with_shell("touchpad-settings")
 -- Set my keyboard layout
-awful.spawn.with_shell("keyboard-layout --default")
+awful.spawn.with_shell("keyboard-layout --no-german")
 -- Update current brightness for my custom script
 awful.spawn.with_shell("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar
