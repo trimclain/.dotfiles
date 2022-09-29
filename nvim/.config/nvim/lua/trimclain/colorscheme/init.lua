@@ -1,8 +1,8 @@
 -- Load colorscheme configs
-require "trimclain.colorscheme.catppuccin"
-require "trimclain.colorscheme.tokyonight"
-require "trimclain.colorscheme.sonokai"
-require "trimclain.colorscheme.nightfox"
+-- require "trimclain.colorscheme.catppuccin"
+-- require "trimclain.colorscheme.tokyonight"
+-- require "trimclain.colorscheme.sonokai"
+-- require "trimclain.colorscheme.nightfox"
 require "trimclain.colorscheme.rose-pine"
 
 -- Set the colorscheme
