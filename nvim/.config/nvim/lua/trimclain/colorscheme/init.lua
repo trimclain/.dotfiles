@@ -3,16 +3,19 @@ require "trimclain.colorscheme.catppuccin"
 require "trimclain.colorscheme.tokyonight"
 require "trimclain.colorscheme.sonokai"
 require "trimclain.colorscheme.nightfox"
+require "trimclain.colorscheme.rose-pine"
 
 -- Set the colorscheme
-vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-local colorscheme = "catppuccin"
+-- vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+-- local colorscheme = "catppuccin"
 
+-- local colorscheme = "tokyonight"
 -- local colorscheme = "dracula"
 -- local colorscheme = "xcodedark"
 -- local colorscheme = "xcodewwdc"
--- local colorscheme = "tokyonight"
--- local colorscheme = "gruvbox-baby"
+
+local colorscheme = "rose-pine"
+-- local colorscheme = "omni"
 
 -- local colorscheme = "sonokai"
 -- local colorscheme = "zephyr"

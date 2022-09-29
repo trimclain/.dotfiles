@@ -22,6 +22,7 @@ require "trimclain.plugins"
 
 require "trimclain.colorscheme"
 
+-- waiting for the fix https://github.com/nvim-lualine/lualine.nvim/issues/773
 require "trimclain.lualine"
 require "trimclain.indentline"
 require "trimclain.bufferline"
@@ -40,11 +41,13 @@ require "trimclain.whichkey"
 
 require "trimclain.gps"
 -- require "trimclain.navic" -- waiting for color support
+-- waiting for the fix https://github.com/nvim-lualine/lualine.nvim/issues/773
 require "trimclain.winbar"
 
 require "trimclain.autopairs"
 require "trimclain.autotags"
 require "trimclain.comments"
+-- waiting for the fix https://github.com/nvim-lualine/lualine.nvim/issues/773
 require "trimclain.todo-comments"
 require "trimclain.gitsigns"
 require "trimclain.nvim-tree"

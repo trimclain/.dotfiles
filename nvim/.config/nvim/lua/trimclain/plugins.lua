@@ -63,6 +63,7 @@ return packer.startup(function(use)
     use "JoosepAlviste/nvim-ts-context-commentstring" -- support jsx commenting
     use "folke/todo-comments.nvim" -- highlight todo comments in different styles
 
+    ---------------------------------------------------------------------------
     -- Colorschemes
     use {
         "catppuccin/nvim", -- nice colorscheme, thanks tj
@@ -72,16 +73,23 @@ return packer.startup(function(use)
         "dracula/vim",
         as = "dracula",
     }
-    use "arzg/vim-colors-xcode" -- xcode 11's colorscheme
     use "folke/tokyonight.nvim" -- trying this one out
-    -- use "christianchiarulli/nvcode-color-schemes.vim" -- nice collection
-    use "LunarVim/Colorschemes" -- another colorscheme collection from chris
+    use "LunarVim/Colorschemes" -- nice colorscheme collection from chris
     -- use "gruvbox-community/gruvbox"
-    -- use "luisiacc/gruvbox-baby"
+
     -- Testing Colorschemes
+    use "arzg/vim-colors-xcode" -- xcode 11's colorscheme
     use "sainnhe/sonokai"
     use "EdenEast/nightfox.nvim"
     use "glepnir/zephyr-nvim"
+
+    use {
+        "rose-pine/neovim",
+        as = "rose-pine",
+    }
+    use "getomni/neovim"
+    -- use "B4mbus/oxocarbon-lua.nvim" -- this has some failing colors (f.e. bufferline, whichkey)
+    ---------------------------------------------------------------------------
 
     -- Statusline & other visuals
     use "nvim-lualine/lualine.nvim" -- great status line in lua
