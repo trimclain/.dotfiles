@@ -6,8 +6,8 @@ SHELL := /bin/bash
 all:
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
-	@# stow to symlink files, xclip as a clipboard tool
-	sudo apt-get install -y curl stow ripgrep fzf htop btop tree xclip
+	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives
+	sudo apt-get install -y curl stow ripgrep fzf htop btop tree xclip p7zip-full p7zip-rar
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \

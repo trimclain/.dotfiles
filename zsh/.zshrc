@@ -227,13 +227,14 @@ alias la="ls -A --group-directories-first"
 alias l="ls -lhA --group-directories-first"
 
 # Extract Stuff
+# INFO: `7z x $1` can be used for everything
 extract() {
      if [ -f $1 ] ; then
          case $1 in
              *.tar.bz2)   tar xjf $1        ;;
              *.tar.gz)    tar xzf $1        ;;
              *.bz2)       bunzip2 $1        ;;
-             *.rar)       rar x $1          ;;
+             *.rar)       7z x $1           ;;
              *.gz)        gunzip $1         ;;
              *.tar)       tar xf $1         ;;
              *.tbz2)      tar xjf $1        ;;
@@ -242,6 +243,7 @@ extract() {
              *.Z)         uncompress $1     ;;
              *.7z)        7z x $1           ;;
              *)           echo "'$1' cannot be extracted via extract()" ;;
+             # *)           if [ -f /usr/bin/7z ]; then 7z x $1; else echo "'$1' cannot be extracted via extract()"; fi;;
          esac
      else
          echo "'$1' is not a valid file"
