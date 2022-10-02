@@ -157,6 +157,13 @@ keymap("n", "<leader><leader>1", ":Lab code run<cr>", opts)
 keymap("n", "<leader><leader>2", ":Lab code stop<cr>", opts)
 keymap("n", "<leader><leader>3", ":Lab code panel<cr>", opts)
 
+
+-- neogen.nvim
+keymap("n", "<leader>ng", ":lua require('neogen').generate()<cr>", opts)
+keymap("n", "<leader>nc", ":lua require('neogen').generate({type = 'class'})<cr>", opts)
+keymap("n", "<leader>nt", ":lua require('neogen').generate({type = 'type'})<cr>", opts)
+keymap("n", "<leader>nf", ":lua require('neogen').generate({type = 'file'})<cr>", opts)
+
 -- Esc is too far and I don't like <C-[>, make <C-c> work as <Esc> in every mode
 keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending modes
 keymap("l", "<C-c>", "<Esc>", opts) -- insert, command-line, lang-arg modes

@@ -136,9 +136,12 @@ local mappings = {
         x = "Executable",
     },
 
-    r = {
-        name = "Do",
-        n = { "Rename" },
+    n = {
+        name = "Neogen",
+        g = { "Generate annotations for current function" },
+        c = { "Generate annotations for current class" },
+        t = { "Generate annotations for current type" },
+        f = { "Generate annotations for current file" },
     },
 
     p = {
@@ -147,6 +150,11 @@ local mappings = {
         s = { "Search" },
         f = { "Files" },
         h = { "Hidden Files" },
+    },
+
+    r = {
+        name = "Do",
+        n = { "Rename" },
     },
 
     v = {
