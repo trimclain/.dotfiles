@@ -11,12 +11,10 @@ require "trimclain.colorscheme.rose-pine"
 
 -- local colorscheme = "tokyonight"
 -- local colorscheme = "dracula"
--- local colorscheme = "xcodedark"
--- local colorscheme = "xcodewwdc"
 
 local colorscheme = "rose-pine"
--- local colorscheme = "omni"
 
+-- local colorscheme = "omni"
 -- local colorscheme = "sonokai"
 -- local colorscheme = "zephyr"
 
@@ -25,16 +23,6 @@ local colorscheme = "rose-pine"
 -- local colorscheme = "duskfox"
 -- local colorscheme = "nordfox"
 -- local colorscheme = "terafox"
-
--- From ChristianChiarulli/nvcode-color-schemes.vim:
--- local colorscheme = "nvcode"
--- local colorscheme = "onedark"
--- local colorscheme = "nord"
--- local colorscheme = "aurora"
--- local colorscheme = "gruvbox"
--- local colorscheme = "palenight"
--- local colorscheme = "snazzy"
--- local colorscheme = "xoria"
 
 -- Lunarvim colorschemes
 -- local colorscheme = "aurora"
