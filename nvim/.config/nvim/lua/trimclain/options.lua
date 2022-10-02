@@ -36,10 +36,11 @@ local options = {
     backup = false, -- creates a backup file
     swapfile = false, -- creates a swapfile
     undofile = true, -- enable persistent undo
-    undodir = join_paths(os.getenv "HOME", ".nvim", "undodir"), -- set the undodirectory
+    undodir = join_paths(os.getenv "HOME", ".nvim", "undodir"), -- set the undo directory
     conceallevel = 0, -- so that `` is visible in markdown files
     timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
     splitright = true, -- force all vertical splits to go to the right of current window
+    mouse = "a", -- enable the mouse
     -- splitbelow = true, -- force all horizontal splits to go below current window
     -- writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
     -- cmdheight = 2, -- more space in the neovim command line for displaying messages
@@ -53,9 +54,12 @@ for k, v in pairs(options) do
 end
 
 -- Settings for Neovide
-vim.opt.guifont = "JetBrains Mono:h12" -- set the font
-vim.opt.mouse = "a" -- enable the mouse
--- vim.g.neovide_transparency = 0.85 -- make it transparent
+if vim.g.neovide then
+    vim.opt.guifont = "JetBrains Mono:h12" -- set the font
+    -- vim.g.neovide_transparency = 0.85 -- make it transparent
+    -- vim.g.neovide_cursor_trail_legnth = 0
+    -- vim.g.neovide_cursor_animation_length = 0
+end
 
 -- TODO: Is there even a point of setting formatoptions here, if they get overwritten anyway?
 -- see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored

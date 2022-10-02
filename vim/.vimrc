@@ -47,7 +47,7 @@ set signcolumn=yes                      " enable error-column
 set clipboard+=unnamedplus              " allows vim to access the system clipboard
 set laststatus=2                        " No statusbar because airline but now lightline so 2 and not 0
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
-set formatoptions="tcqjnr"              " type :h formatoptions to see the meaning of this option and this string
+set formatoptions=tcqjnr                " type :h formatoptions to see the meaning of this option and this string
 
 " Indentation settings
 set autoindent
@@ -98,6 +98,7 @@ call plug#begin('~/.vim/plugged')
 
 " Plug 'gruvbox-community/gruvbox'        " colorscheme
 Plug 'sonph/onehalf', { 'rtp': 'vim'  } " like atoms one but 1/2
+" Plug 'sainnhe/sonokai'                  " new colorscheme to try
 Plug 'tpope/vim-fugitive'               " to work with git
 Plug 'tpope/vim-commentary'             " fast comments
 Plug 'itchyny/lightline.vim'            " statusline
@@ -183,10 +184,10 @@ nnoremap <silent> <leader>gs :G<CR>
 " nnoremap <leader>gj :diffget //3<CR>
 " nnoremap <leader>gf :diffget //2<CR>
 
-" Project View
-nnoremap <silent> <leader>pv :Ex<CR>
+" Explorer
+nnoremap <silent> <leader>e :Ex<CR>
 " Open Undotree
-nnoremap <leader>u :UndotreeToggle<CR>
+nnoremap <silent> <leader>u :UndotreeToggle<CR>
 
 " Start a Project Search
 nnoremap <leader>ps :Rg<SPACE>
