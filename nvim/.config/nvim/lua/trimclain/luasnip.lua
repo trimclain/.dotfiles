@@ -58,5 +58,10 @@ end)
 
 -- vim.keymap.set("i", "<c-u>", require "luasnip.extras.select_choice")
 
+local join_paths = require("trimclain.functions").join_paths
 -- shorcut to source my luasnips file again, which will reload my snippets
-vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/trimclain/luasnip.lua<CR>")
+vim.keymap.set(
+    "n",
+    "<leader><leader>s",
+    "<cmd>source " .. join_paths(os.getenv "HOME", ".config", "nvim", "lua", "trimclain", "luasnip.lua") .. "<CR>"
+)

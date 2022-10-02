@@ -49,6 +49,33 @@ function M.get_buf_option(opt)
     end
 end
 
+local uv = vim.loop
+-- TODO: implement this for every path I use
+local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
+
+---Join path segments that were passed as input
+---@return string
+function M.join_paths(...)
+    local result = table.concat({ ... }, path_sep)
+    return result
+end
+
+-- Nice Stuff from TJ
+-- local has = function(x)
+--     return vim.fn.has(x) == 1
+-- end
+--
+-- local executable = function(x)
+--     return vim.fn.executable(x) == 1
+-- end
+--
+-- local is_wsl = (function()
+--     local output = vim.fn.systemlist "uname -r"
+--     return not not string.find(output[1] or "", "WSL")
+-- end)()
+-- local is_mac = has "macunix"
+-- local is_linux = not is_wsl and not is_mac
+
 -- ############################################################################
 -- FORMATTING
 -- ############################################################################
@@ -129,17 +156,6 @@ end
 vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.functions").toggle_format_on_save()' ]]
 
 -- ############################################################################
-
--- local uv = vim.loop
--- TODO: implement this for every path I use
--- local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/" -- interesting if I wanna cover windows
-
----Join path segments that were passed as input
----@return string
--- function M.join_paths(...)
---     local result = table.concat({ ... }, path_sep)
---     return result
--- end
 
 ---Get the full path to nvim config
 ---@return string

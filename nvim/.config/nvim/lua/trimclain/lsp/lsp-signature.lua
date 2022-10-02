@@ -4,10 +4,11 @@ if not status_ok then
 end
 
 -- local icons = require "user.icons" -- if I wanna swap out the Panda
+local join_paths = require("trimclain.functions").join_paths
 
 local cfg = {
     debug = false, -- set to true to enable debug logging
-    log_path = vim.fn.stdpath "cache" .. "/lsp_signature.log", -- log dir when debug is on
+    log_path = join_paths(vim.fn.stdpath "cache", "lsp_signature.log"), -- log dir when debug is on
     -- default is  ~/.cache/nvim/lsp_signature.log
     verbose = false, -- show debug line number
 

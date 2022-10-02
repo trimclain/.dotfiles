@@ -112,7 +112,8 @@ keymap("n", "<leader>ph", ":Telescope find_files hidden=true<cr>", opts)
 keymap("n", "<leader>b", ":Telescope buffers<cr>", opts)
 keymap("n", "<leader>of", ":Telescope oldfiles<cr>", opts)
 
-keymap("n", "<leader>vrc", ":Telescope git_files cwd=~/.dotfiles<cr>", opts)
+local join_paths = require("trimclain.functions").join_paths
+keymap("n", "<leader>vrc", ":Telescope git_files cwd=" .. join_paths(os.getenv "HOME", ".dotfiles") .. "<cr>", opts)
 keymap("n", "<leader>f;", ":Telescope commands<cr>", opts)
 
 -- Harpoon

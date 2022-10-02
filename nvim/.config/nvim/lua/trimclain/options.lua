@@ -1,3 +1,5 @@
+local join_paths = require("trimclain.functions").join_paths
+
 local options = {
     fileencoding = "utf-8", -- the encoding written to a file
     completeopt = { "menu", "menuone", "noselect" }, -- required by nvim-cmp
@@ -34,15 +36,15 @@ local options = {
     backup = false, -- creates a backup file
     swapfile = false, -- creates a swapfile
     undofile = true, -- enable persistent undo
-    undodir = os.getenv "HOME" .. "/.nvim/undodir", -- set the undodirectory
+    undodir = join_paths(os.getenv "HOME", ".nvim", "undodir"), -- set the undodirectory
     conceallevel = 0, -- so that `` is visible in markdown files
     timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
+    splitright = true, -- force all vertical splits to go to the right of current window
+    -- splitbelow = true, -- force all horizontal splits to go below current window
     -- writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
     -- cmdheight = 2, -- more space in the neovim command line for displaying messages
     -- pumheight = 10, -- pop up menu height
     -- showtabline = 2, -- always show tabs
-    -- splitbelow = true, -- force all horizontal splits to go below current window
-    -- splitright = true, -- force all vertical splits to go to the right of current window
     -- cursorline = true, -- highlight the current line
 }
 
