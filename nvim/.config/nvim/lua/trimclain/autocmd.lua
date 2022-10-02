@@ -25,10 +25,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = {
         -- "qf",
         "help",
-        "lspinfo",
+        -- "lspinfo",
         "null-ls-info",
         "startuptime",
         "fugitive",
+        "Jaq",
     },
     callback = function()
         vim.cmd [[

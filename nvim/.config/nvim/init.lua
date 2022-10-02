@@ -57,6 +57,7 @@ require "trimclain.colorizer"
 require "trimclain.colorpicker"
 
 require "trimclain.numb"
+require "trimclain.jaq"
 require "trimclain.lab"
 require "trimclain.markdown-preview"
 require "trimclain.bracey"

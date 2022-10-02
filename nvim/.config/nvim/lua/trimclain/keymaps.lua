@@ -12,9 +12,6 @@ vim.g.maplocalleader = " "
 keymap("n", "<Leader><CR>", ":source %<CR>", opts)
 -- Make current file executable
 keymap("n", "<Leader>mx", ":w <bar> :!chmod +x %<CR>", opts)
--- TODO: only if the file is executable
--- Run a file
--- keymap("n", "<C-b>", ":w <bar> :!./%<cr>", opts)
 
 --
 -- Easier movement between buffers
@@ -152,11 +149,13 @@ keymap(
     {}
 )
 
--- lab.nvim (d is the super key)
+-- lab.nvim
 keymap("n", "<leader><leader>1", ":Lab code run<cr>", opts)
 keymap("n", "<leader><leader>2", ":Lab code stop<cr>", opts)
 keymap("n", "<leader><leader>3", ":Lab code panel<cr>", opts)
 
+-- jaq.nvim
+keymap("n", "<C-b>", ":w <bar> :Jaq<cr>", opts)
 
 -- neogen.nvim
 keymap("n", "<leader>ng", ":lua require('neogen').generate()<cr>", opts)
