@@ -155,7 +155,7 @@ keymap("n", "<leader><leader>2", ":Lab code stop<cr>", opts)
 keymap("n", "<leader><leader>3", ":Lab code panel<cr>", opts)
 
 -- jaq.nvim
-keymap("n", "<C-b>", ":w <bar> :Jaq<cr>", opts)
+keymap("n", "<C-b>", ":Jaq<cr>", opts)
 
 -- neogen.nvim
 keymap("n", "<leader>ng", ":lua require('neogen').generate()<cr>", opts)

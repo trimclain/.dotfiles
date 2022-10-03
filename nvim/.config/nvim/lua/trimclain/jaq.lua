@@ -36,7 +36,7 @@ jaq_nvim.setup {
         wincmd = false,
 
         -- Auto-save files
-        autosave = false,
+        autosave = true,
     },
 
     ui = {
