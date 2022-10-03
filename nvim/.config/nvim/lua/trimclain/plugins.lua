@@ -23,14 +23,15 @@ end
 -- Install your plugins here
 return packer.startup {
     function(use)
-        -- Use local plugins
-        local local_use = function(plug_path, opts)
-            local full_plug_path = os.getenv "PLUGINS" .. plug_path
-            if vim.fn.isdirectory(vim.fn.expand(full_plug_path)) == 1 then
-                if opts ~= nil then
-                    use { full_plug_path, opts }
-                end
-                use(full_plug_path)
+        --- Use local packages
+        ---@param plug_name string the name of the local plugin
+        ---@param opts table options to pass to packer (default: {})
+        local local_use = function(plug_name, opts)
+            opts = opts or {}
+            local plug_path = join_paths(os.getenv "PLUGINS", plug_name)
+            local plugin = vim.tbl_extend("keep", { plug_path }, opts)
+            if vim.fn.isdirectory(vim.fn.expand(plug_path)) == 1 then
+                use(plugin)
             end
         end
 
@@ -149,7 +150,13 @@ return packer.startup {
 
         ---------------------------------------------------------------------------
         -- Useful tools
-        use "is0n/jaq-nvim"
+        -- use "is0n/jaq-nvim"
+        use {
+            "trimclain/jaq-nvim",
+            branch = "better-internal-behavior",
+        }
+        -- local_use("jaq-nvim", { branch = "better-internal-behavior" })
+
         -- To preview print statement outputs in neovim (for JS, TS, Python and Lua)
         use {
             "0x100101/lab.nvim",
