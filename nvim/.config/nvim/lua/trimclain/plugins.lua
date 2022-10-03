@@ -49,8 +49,10 @@ return packer.startup {
             branch = "v2", -- optional but strongly recommended
         }
         use "nacro90/numb.nvim" -- peeks lines of the buffer when doing with :linenum
-        -- If I ever need an extended increment/decrement plugin
-        -- use "monaqa/dial.nvim"
+
+        -- TODO: do i want these?
+        -- use "monaqa/dial.nvim" -- If I ever need an extended increment/decrement plugin
+        -- use "windwp/nvim-spectre" -- advanced search and replace in the project
 
         -- File Browser
         use "kyazdani42/nvim-tree.lua" -- nerdtree 2.0 for neovim
@@ -73,26 +75,25 @@ return packer.startup {
         ---------------------------------------------------------------------------
         -- Colorschemes
         use {
-            "catppuccin/nvim", -- nice colorscheme, thanks tj
+            "catppuccin/nvim",
             as = "catppuccin",
         }
         use {
             "dracula/vim",
             as = "dracula",
         }
-        use "folke/tokyonight.nvim" -- trying this one out
-        use "LunarVim/Colorschemes" -- nice colorscheme collection from chris
+        use "folke/tokyonight.nvim"
+        use "LunarVim/Colorschemes"
         -- use "gruvbox-community/gruvbox"
+        use {
+            "rose-pine/neovim",
+            as = "rose-pine",
+        }
 
         -- Testing Colorschemes
         use "sainnhe/sonokai"
         use "EdenEast/nightfox.nvim"
         use "glepnir/zephyr-nvim"
-
-        use {
-            "rose-pine/neovim",
-            as = "rose-pine",
-        }
         use "getomni/neovim"
         ---------------------------------------------------------------------------
 
