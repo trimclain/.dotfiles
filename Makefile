@@ -71,6 +71,13 @@ uninstall_nvim:
 		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
 		@echo "Done"; fi
 
+purge_nvim: uninstall_nvim
+	@echo "Uninstalling Neovim Leftovers..."
+	rm -rf ~/.config/nvim
+	rm -rf ~/.local/share/nvim
+	rm -rf ~/.cache/nvim
+	@echo "Done"
+
 nodejs:
 	@echo "==================================================================="
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
@@ -435,7 +442,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install ansible tmux zsh nvim_build_reqs \
-	nvim uninstall_nvim nodejs uninstall_nodejs export_node_modules \
+	nvim uninstall_nvim purge_nvim nodejs uninstall_nodejs export_node_modules \
 	import_node_modules typescript golang julia uninstall_julia sdkman \
 	uninstall_sdkman rust uninstall_rust docker uninstall_docker pm2 ufw \
 	install sinstall finstall alacritty_build_reqs alacritty \
