@@ -141,6 +141,7 @@ return packer.startup {
         -- use "jayp0521/mason-null-ls.nvim" -- bridge mason.nvim with the null-ls
         -- use "RubixDev/mason-update-all" -- easily update all Mason packages with one command
         use "ray-x/lsp_signature.nvim" -- show function signature when you type
+        -- use "lvimuser/lsp-inlayhints.nvim" -- partial implementation of LSP inlay hint.
 
         -- Telescope
         use "nvim-telescope/telescope.nvim" -- the goat
@@ -211,5 +212,6 @@ return packer.startup {
                 return require("packer.util").float { border = "rounded" }
             end,
         },
+        autoremove = true, -- don't ask me just do it
     },
 }

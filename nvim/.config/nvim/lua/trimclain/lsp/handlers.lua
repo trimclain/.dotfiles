@@ -93,6 +93,7 @@ M.on_attach = function(client, bufnr)
     if client.name == "tsserver" or client.name == "sumneko_lua" then
         -- client.server_capabilities.document_formatting = false -- 0.7 and earlier
         client.server_capabilities.documentFormattingProvider = false -- 0.8 and hopefully later
+        -- require("lsp-inlayhints").on_attach(client, bufnr)
     end
     lsp_keymaps(bufnr)
     -- attach_navic(client, bufnr) -- for nvim-navic

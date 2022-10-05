@@ -49,6 +49,14 @@ comment.setup {
     ---Function to call before (un)comment
     --    Can be used to determine the commentstring value
     pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+    -- pre_hook = function(ctx)
+    --     -- For inlay hints
+    --     local line_start = (ctx.srow or ctx.range.srow) - 1
+    --     local line_end = ctx.erow or ctx.range.erow
+    --     require("lsp-inlayhints.core").clear(0, line_start, line_end)
+
+    --     require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+    -- end,
 
     ---Function to call after (un)comment
     --    Can be used to alter any formatting / newlines / etc. after commenting
