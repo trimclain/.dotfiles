@@ -177,7 +177,7 @@ return packer.startup {
             run = "npm install --prefix server",
             cmd = "Bracey",
         }
-        use "norcalli/nvim-colorizer.lua" -- preview colors in neovim
+        use "NvChad/nvim-colorizer.lua" -- preview colors in neovim
         use "KabbAmine/vCoolor.vim" -- get a color picker
 
         use "dstein64/vim-startuptime" -- check the startuptime of plugins
