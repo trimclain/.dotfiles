@@ -32,7 +32,7 @@ local setup = {
         -- override the label used to display some keys. It doesn't effect WK in any other way.
         -- For example:
         -- ["<space>"] = "SPC",
-        ["<leader>"] = "SPC",
+        ["<leader>"] = "Space",
         -- ["<cr>"] = "RET",
         -- ["<tab>"] = "TAB",
     },
@@ -88,125 +88,144 @@ local opts = {
 }
 
 local mappings = {
-    ["<CR>"] = { "Source Buffer" },
-    a = { "Add Harpoon Mark" },
-    b = { "Buffers" },
-    d = { "Delete, don't cut" },
-    e = { "Explorer" },
-    h = { "Left Buffer" },
-    j = { "Bottom Buffer" },
-    k = { "Top Buffer" },
-    l = { "Right Buffer" },
-    q = { "Close Buffer" },
-    s = { "Packer Sync" },
-    u = { "UndoTree" },
-    Y = { "Yank Whole File" },
+    ["<CR>"] = { "<cmd>source %<CR>", "Source Buffer" },
+    a = { "<cmd>lua require('harpoon.mark').add_file()<CR>", "Add Harpoon Mark" },
+    b = { "<cmd>Telescope buffers<cr>", "Buffers" },
+    d = { '"_d', "Delete, don't cut" },
+    e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+    q = { "<cmd>Bdelete<cr>", "Close Buffer" },
+    u = { "<cmd>UndotreeToggle<cr>", "UndoTree" },
+    Y = { 'gg"+yG', "Yank Whole File" },
 
     ["<leader>"] = {
         name = "Lab",
-        ["1"] = { "Code run" },
-        ["2"] = { "Code stop" },
-        ["3"] = { "Code panel" },
-        j = { "Go to next quickfix location" },
-        k = { "Go to previous quickfix location" },
-        s = { "Souce luasnip.lua" },
+        ["1"] = { "<cmd>Lab code run<cr>", "Code run" },
+        ["2"] = { "<cmd>Lab code stop<cr>", "Code stop" },
+        ["3"] = { "<cmd>Lab code panel<cr>", "Code panel" },
     },
 
     c = {
         name = "Colorizer",
-        r = { "Reload" },
+        r = { "<cmd>ColorizerReloadAllBuffers<cr>", "Reload" },
+    },
+
+    p = {
+        name = "Packer",
+        c = { "<cmd>PackerCompile<cr>", "Compile" },
+        i = { "<cmd>PackerInstall<cr>", "Install" },
+        s = { "<cmd>PackerSync<cr>", "Sync" },
+        S = { "<cmd>PackerStatus<cr>", "Status" },
+        u = { "<cmd>PackerUpdate<cr>", "Update" },
     },
 
     f = {
-        name = "File",
-        f = { "Format the file" },
-        t = { "Toggle Formatting" },
-        [";"] = { "Show Telescope Commands" },
+        name = "Find",
+        b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+        c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+        d = { "<cmd>Telescope git_files cwd=" .. join_paths(os.getenv "HOME", ".dotfiles") .. "<cr>", "Dotfiles" },
+        f = { "<cmd>Telescope find_files hidden=true<cr>", "Find Files" },
+        s = { "<cmd>Telescope live_grep<cr>", "Find String" },
+        w = { "<cmd>Telescope grep_string<cr>", "Find Word" },
+        h = { "<cmd>Telescope help_tags<cr>", "Help" },
+        H = { "<cmd>Telescope highlights<cr>", "Highlights" },
+        l = { "<cmd>Telescope resume<cr>", "Last Search" },
+        M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+        r = { "<cmd>Telescope oldfiles<cr>", "Recent File" },
+        R = { "<cmd>Telescope registers<cr>", "Registers" },
+        k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+        C = { "<cmd>Telescope commands<cr>", "Telescope Commands" },
     },
 
     g = {
-        name = "Get",
-        b = { "Branches" },
-        h = { "Help" },
-        k = { "Keymaps" },
-        l = { "Commits" },
-        s = { "Git Status" },
+        name = "Git",
+        b = { "<cmd>lua require('telescope.builtin').git_branches()<CR>", "Branches" },
+        l = { "<cmd>lua require('telescope.builtin').git_commits()<CR>", "Commits" },
+        s = { "<cmd>G<cr>", "Status" },
+    },
+
+    l = {
+        name = "LSP",
+        a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+        f = { "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", "Format" },
+        F = { "<cmd>FormattingToggle<cr>", "Toggle Autoformat" },
+        i = { "<cmd>LspInfo<cr>", "Info" },
+        m = { "<cmd>Mason<cr>", "Mason" },
+        j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>", "Next Diagnostic" },
+        k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "Prev Diagnostic" },
+        r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+        R = { "<cmd>lua vim.lsp.buf.references()<cr>", "References" },
+        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+        S = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols" },
     },
 
     m = {
         name = "Make",
-        x = "Executable",
+        x = { "<cmd>w <bar> <cmd>!chmod +x %<CR>", "Executable" },
     },
 
     n = {
         name = "Neogen",
-        g = { "Generate annotations for current function" },
-        c = { "Generate annotations for current class" },
-        t = { "Generate annotations for current type" },
-        f = { "Generate annotations for current file" },
-    },
-
-    p = {
-        name = "Project",
-        w = { "Word" },
-        s = { "Search" },
-        f = { "Files" },
-        h = { "Hidden Files" },
+        g = { "<cmd>lua require('neogen').generate()<cr>", "Generate annotations for current function" },
+        c = { "<cmd>lua require('neogen').generate({type = 'class'})<cr>", "Generate annotations for current class" },
+        t = { "<cmd>lua require('neogen').generate({type = 'type'})<cr>", "Generate annotations for current type" },
+        f = { "<cmd>lua require('neogen').generate({type = 'file'})<cr>", "Generate annotations for current file" },
     },
 
     r = {
-        name = "Do",
-        n = { "Rename" },
+        name = "Replace",
+        r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
+        w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
+        f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Replace Buffer" },
+    },
+
+    s = {
+        name = "Snippets",
+        s = {
+            "<cmd>source "
+                .. join_paths(os.getenv "HOME", ".config", "nvim", "lua", "trimclain", "luasnip.lua")
+                .. "<CR>",
+            "Source luasnip.lua",
+        },
     },
 
     v = {
         name = "Vim",
-        r = {
-            name = "Run Commands",
-            c = { "Open .dotfiles in Telescope" },
-        },
+        r = { "<cmd>lua require('trimclain.utils').restart()<cr>", "Restart" },
     },
 
     w = {
         name = "Windows",
         t = {
             name = "To",
-            u = { "Change fileformat from dos to unix" },
+            -- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
+            u = { ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>", "Change fileformat from dos to unix" },
         },
     },
 
     o = {
-        name = "Open",
-        f = { "Old Files" },
+        name = "Options",
+        w = { '<cmd>lua require("trimclain.utils").toggle_option("wrap")<cr>', "Wrap" },
+        r = { '<cmd>lua require("trimclain.utils").toggle_option("relativenumber")<cr>', "Relative" },
+        l = { '<cmd>lua require("trimclain.utils").toggle_option("cursorline")<cr>', "Cursorline" },
+        s = { '<cmd>lua require("trimclain.utils").toggle_option("spell")<cr>', "Spell" },
+        t = { '<cmd>lua require("trimclain.utils").toggle_shiftwidth()<cr>', "Shiftwidth" },
     },
-
-    -- o = {
-    --     name = "Options",
-    --     c = { "<cmd>lua vim.g.cmp_active=false<cr>", "Completion off" },
-    --     C = { "<cmd>lua vim.g.cmp_active=true<cr>", "Completion on" },
-    --     w = { '<cmd>lua require("user.functions").toggle_option("wrap")<cr>', "Wrap" },
-    --     r = { '<cmd>lua require("user.functions").toggle_option("relativenumber")<cr>', "Relative" },
-    --     l = { '<cmd>lua require("user.functions").toggle_option("cursorline")<cr>', "Cursorline" },
-    --     s = { '<cmd>lua require("user.functions").toggle_option("spell")<cr>', "Spell" },
-    --     t = { '<cmd>lua require("user.functions").toggle_tabline()<cr>', "Tabline" },
-    -- },
 }
 
-local vopts = {
-    mode = "v", -- VISUAL mode
-    prefix = "<leader>",
-    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-    silent = true, -- use `silent` when creating keymaps
-    noremap = true, -- use `noremap` when creating keymaps
-    nowait = true, -- use `nowait` when creating keymaps
-}
-local vmappings = {
-    d = { "Delete, don't cut" },
-    --     ["/"] = { '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', "Comment" },
-    --     s = { "<esc><cmd>'<,'>SnipRun<cr>", "Run range" },
-    --     -- z = { "<cmd>TZNarrow<cr>", "Narrow" },
-}
+-- local vopts = {
+--     mode = "v", -- VISUAL mode
+--     prefix = "<leader>",
+--     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+--     silent = true, -- use `silent` when creating keymaps
+--     noremap = true, -- use `noremap` when creating keymaps
+--     nowait = true, -- use `nowait` when creating keymaps
+-- }
+-- local vmappings = {
+--         ["/"] = { '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', "Comment" },
+--         s = { "<esc><cmd>'<,'>SnipRun<cr>", "Run range" },
+--         -- z = { "<cmd>TZNarrow<cr>", "Narrow" },
+-- }
 
 which_key.setup(setup)
 which_key.register(mappings, opts)
-which_key.register(vmappings, vopts)
+-- which_key.register(vmappings, vopts)

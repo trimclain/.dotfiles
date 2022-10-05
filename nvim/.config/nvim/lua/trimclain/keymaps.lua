@@ -8,17 +8,12 @@ keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Source current file
-keymap("n", "<Leader><CR>", ":source %<CR>", opts)
--- Make current file executable
-keymap("n", "<Leader>mx", ":w <bar> :!chmod +x %<CR>", opts)
-
 --
--- Easier movement between buffers
-keymap("n", "<leader>h", "<C-w>h", opts)
-keymap("n", "<leader>j", "<C-w>j", opts)
-keymap("n", "<leader>k", "<C-w>k", opts)
-keymap("n", "<leader>l", "<C-w>l", opts)
+-- Easier movement between buffers (I'm fine with arrows and <C-w>jk for now -> more keys for whichkey)
+keymap("n", "<left>", "<C-w>h", opts)
+keymap("n", "<right>", "<C-w>l", opts)
+-- keymap("n", "<leader>j", "<C-w>j", opts)
+-- keymap("n", "<leader>k", "<C-w>k", opts)
 
 --
 -- Navigate buffers
@@ -34,23 +29,13 @@ keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 
 --
 -- Vim-fugitive
-keymap("n", "<leader>gs", ":G<cr>", opts) -- git status
 -- resolve conflicts when merging branches (not used)
 -- keymap("n", "<leader>gj", ":diffget //3<cr>", opts)
 -- keymap("n", "<leader>gf", ":diffget //2<cr>", opts)
 
 --
--- Project View (File Explorer)
-keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
-
---
--- Undotree
-keymap("n", "<leader>u", ":UndotreeToggle<cr>", opts)
-
---
 -- Very Useful Stuff
 keymap("n", "Q", "", opts) -- disable Q coz useless
-keymap("n", "<leader>q", ":Bdelete<cr>", opts) -- close current buffer
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts) -- and backwards
 keymap("n", "J", "mzJ`z", opts) -- keep it centered when joining lines
@@ -65,16 +50,8 @@ keymap("v", ">", ">gv", opts) -- stay in indent mode
 keymap("v", "y", "myy`y", opts) -- Maintain the cursor position
 keymap("v", "Y", "myy`y", opts) -- when yanking a visual selection
 keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank it
-keymap("n", "<leader>Y", 'gg"+yG', opts) -- yank whole file
 -- keymap("n", "<leader>y", '"+y', opts) -- yank into
--- keymap("v", "<leader>y", '"+y', opts) -- system clipboard (no need since I'm clipboardplus)
-keymap("n", "<leader>d", '"_d', opts) -- delete into
-keymap("v", "<leader>d", '"_d', opts) -- blackhole buffer
-
--- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
-keymap("n", "<leader>wtu", ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>", opts)
-keymap("n", "<leader>cr", ":ColorizerReloadAllBuffers<cr>", opts) -- reload colorizer
-keymap("n", "<leader>ft", ":FormattingToggle<cr>", opts) -- toggle formatting on save
+-- keymap("v", "<leader>y", '"+y', opts) -- system clipboard (no need since I'm using clipboardplus)
 
 --
 -- Jumplist mutations: when you do 15j in normal mode and than C-o, it wouldn't
@@ -84,37 +61,11 @@ keymap("n", "<leader>ft", ":FormattingToggle<cr>", opts) -- toggle formatting on
 vim.cmd [[nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k']]
 vim.cmd [[nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j']]
 
--- PackerSync remap
-keymap("n", "<leader>s", ":PackerSync<cr>", opts)
-
 -- Telescope keybindings
--- with next command search for the word under the cursor
-keymap(
-    "n",
-    "<leader>pw",
-    ':lua require("telescope.builtin").grep_string { search = vim.fn.expand("<cword>"), grep_open_files = true }<CR>',
-    opts
-)
-keymap("n", "<leader>ps", ":lua require('telescope.builtin').live_grep()<CR>", opts)
 keymap("n", "<C-f>", ":lua require('trimclain.telescope').curr_buf_search()<CR>", opts)
 keymap("n", "<C-p>", "<cmd>lua require('telescope.builtin').git_files()<CR>", opts)
 
-keymap("n", "<leader>gh", ":lua require('telescope.builtin').help_tags()<CR>", opts)
-keymap("n", "<leader>gk", ":lua require('telescope.builtin').keymaps()<CR>", opts)
-keymap("n", "<leader>gl", ":lua require('telescope.builtin').git_commits()<CR>", opts)
-keymap("n", "<leader>gb", ":lua require('telescope.builtin').git_branches()<CR>", opts)
-
-keymap("n", "<leader>pf", ":Telescope find_files<cr>", opts)
-keymap("n", "<leader>ph", ":Telescope find_files hidden=true<cr>", opts)
-keymap("n", "<leader>b", ":Telescope buffers<cr>", opts)
-keymap("n", "<leader>of", ":Telescope oldfiles<cr>", opts)
-
-local join_paths = require("trimclain.functions").join_paths
-keymap("n", "<leader>vrc", ":Telescope git_files cwd=" .. join_paths(os.getenv "HOME", ".dotfiles") .. "<cr>", opts)
-keymap("n", "<leader>f;", ":Telescope commands<cr>", opts)
-
 -- Harpoon
-keymap("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", opts)
 keymap("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opts)
 
 -- NOTE: ideally jkl; should be used with ctrl
@@ -128,40 +79,29 @@ keymap(
     "",
     "f",
     "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
-    {}
+    opts
 )
 keymap(
     "",
     "F",
     "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
-    {}
+    opts
 )
 keymap(
     "",
     "t",
     "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>",
-    {}
+    opts
 )
 keymap(
     "",
     "T",
     "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>",
-    {}
+    opts
 )
-
--- lab.nvim
-keymap("n", "<leader><leader>1", ":Lab code run<cr>", opts)
-keymap("n", "<leader><leader>2", ":Lab code stop<cr>", opts)
-keymap("n", "<leader><leader>3", ":Lab code panel<cr>", opts)
 
 -- jaq.nvim
 keymap("n", "<C-b>", ":Jaq<cr>", opts)
-
--- neogen.nvim
-keymap("n", "<leader>ng", ":lua require('neogen').generate()<cr>", opts)
-keymap("n", "<leader>nc", ":lua require('neogen').generate({type = 'class'})<cr>", opts)
-keymap("n", "<leader>nt", ":lua require('neogen').generate({type = 'type'})<cr>", opts)
-keymap("n", "<leader>nf", ":lua require('neogen').generate({type = 'file'})<cr>", opts)
 
 -- Esc is too far and I don't like <C-[>, make <C-c> work as <Esc> in every mode
 keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending modes
@@ -170,8 +110,8 @@ keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 
 --
 -- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
-keymap("n", "<leader><leader>j", ":cnext<CR>zz", opts)
-keymap("n", "<leader><leader>k", ":cprev<CR>zz", opts)
+keymap("n", "<up>", ":cprev<CR>zz", opts)
+keymap("n", "<down>", ":cnext<CR>zz", opts)
 -- keymap("n", "<leader>j", ":lnext<CR>zz", opts)
 -- keymap("n", "<leader>k", ":lprev<CR>zz", opts)
 keymap("n", "<C-q>", "<cmd>lua require('trimclain.keymaps').ToggleQFList(1)<CR>", opts)
