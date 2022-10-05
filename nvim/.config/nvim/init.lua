@@ -53,6 +53,7 @@ require "trimclain.todo-comments"
 require "trimclain.gitsigns"
 require "trimclain.nvim-tree"
 require "trimclain.toggleterm"
+require "trimclain.notify"
 require "trimclain.colorizer"
 require "trimclain.colorpicker"
 

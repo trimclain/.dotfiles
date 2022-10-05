@@ -50,10 +50,10 @@ return packer.startup {
         }
         use "nacro90/numb.nvim" -- incsearch for :linenum<cr>
         use "nvim-pack/nvim-spectre" -- advanced search and replace in the project
+        use "rcarriga/nvim-notify" -- fancy notifications
 
         -- TODO: do i want these?
         -- use "monaqa/dial.nvim" -- if I ever need an extended increment/decrement plugin
-        -- use "rcarriga/nvim-notify" if I ever want fancy notifications
 
         -- File Browser
         use "kyazdani42/nvim-tree.lua" -- nerdtree 2.0 for neovim
