@@ -52,14 +52,19 @@ keymap("v", "Y", "myy`y", opts) -- when yanking a visual selection
 keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank it
 -- keymap("n", "<leader>y", '"+y', opts) -- yank into
 -- keymap("v", "<leader>y", '"+y', opts) -- system clipboard (no need since I'm using clipboardplus)
+keymap("i", "<C-r>", "<C-r>+", { noremap = true }) -- paste from clipboard in insert mode
+keymap("c", "<C-r>", "<C-r>+", { noremap = true }) -- paste from clipboard in command mode
+
+-- https://github.com/trimclain
+-- Thx JoosepAlviste
+-- Open the file under the cursor with the default file handler for that file type (e.g., Firefox for `http` links, etc.)
+-- This mapping normally comes from `netrw`, but we disabled that for nvim-tree
+keymap('n', 'gx', [[:call HandleURL()<cr>]], { silent = true })
 
 --
--- Jumplist mutations: when you do 15j in normal mode and than C-o, it wouldn't
--- do 15k for you. With next remaps you modify your Jumplist (used by C-o and C-i)
--- to add break points every time you jump more than 5 lines up or down.
--- Maybe I'll rewrite this in lua someday
-vim.cmd [[nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k']]
-vim.cmd [[nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j']]
+-- Store relative line number jumps in the jumplist if they exceed a threshold.
+keymap("n", "k", '(v:count > 5 ? "m\'" . v:count : "") . "k"', { expr = true })
+keymap("n", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
 
 -- Telescope keybindings
 keymap("n", "<C-f>", ":lua require('trimclain.telescope').curr_buf_search()<CR>", opts)
@@ -67,8 +72,6 @@ keymap("n", "<C-p>", "<cmd>lua require('telescope.builtin').git_files()<CR>", op
 
 -- Harpoon
 keymap("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", opts)
-
--- NOTE: ideally jkl; should be used with ctrl
 keymap("n", "<C-j>", ":lua require('harpoon.ui').nav_file(1)<CR>", opts)
 keymap("n", "<C-k>", ":lua require('harpoon.ui').nav_file(2)<CR>", opts)
 -- keymap("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", opts)

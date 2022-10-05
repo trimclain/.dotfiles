@@ -96,6 +96,7 @@ local mappings = {
     q = { "<cmd>Bdelete<cr>", "Close Buffer" },
     u = { "<cmd>UndotreeToggle<cr>", "UndoTree" },
     Y = { 'gg"+yG', "Yank Whole File" },
+    w = { ":w<cr>", "Save File" },
 
     ["<leader>"] = {
         name = "Lab",
@@ -176,6 +177,7 @@ local mappings = {
         r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
         w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
         f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Replace Buffer" },
+        ["."] = { ":%s/\\<<c-r><c-w>\\>/", "Replace Word Vim Style" },
     },
 
     s = {
@@ -191,15 +193,8 @@ local mappings = {
     v = {
         name = "Vim",
         r = { "<cmd>lua require('trimclain.utils').restart()<cr>", "Restart" },
-    },
-
-    w = {
-        name = "Windows",
-        t = {
-            name = "To",
-            -- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
-            u = { ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>", "Change fileformat from dos to unix" },
-        },
+        -- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
+        u = { ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>", "Change fileformat from dos to unix" },
     },
 
     o = {
