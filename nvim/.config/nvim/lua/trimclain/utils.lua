@@ -23,6 +23,16 @@ function M.isempty(s)
     return s == nil or s == ""
 end
 
+--- Check if a file exists
+---@param name string path to the file
+function M.file_exists(name)
+    local f = io.open(name, "r")
+    if f then
+        f:close()
+    end
+    return f ~= nil
+end
+
 --- Get the value of option current for current buffer
 ---@param opt string vim.opt.optionname
 function M.get_buf_option(opt)
@@ -181,6 +191,8 @@ vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.utils").tog
 -- end
 
 -- ############################################################################
+-- RESTARTING VIM
+-- ############################################################################
 
 -- Credit to JoosepAlviste
 
@@ -222,18 +234,56 @@ function M.restart()
     vim.cmd.doautocmd "VimEnter"
 end
 
--- Useful function for debugging
--- Print the given items
--- function _G.P(...)
---     local objects = vim.tbl_map(vim.inspect, { ... })
---     print(objects)
--- end
+-- ############################################################################
 
--- Useful function for debugging
+--- Execute `PackerSync` every day automatically so that we are always up to date!
+--- The last saved date is saved into `XDG_CACHE_HOME/nvim/.plugins_updated_at`.
+function M.update_plugins_every_day()
+    local plugin_updated_at_filename = M.join_paths(vim.env.XDG_CACHE_HOME, "nvim", ".plugins_updated_at")
+    if not M.file_exists(plugin_updated_at_filename) then
+        vim.fn.writefile({}, plugin_updated_at_filename)
+    end
+
+    local today = os.date "%Y-%m-%d"
+
+    local file = io.open(plugin_updated_at_filename)
+    local contents = file:read "*a"
+    if contents ~= today then
+        vim.fn.execute "PackerSync"
+        file = io.open(plugin_updated_at_filename, "w")
+        file:write(today)
+    end
+
+    file:close()
+end
+
+-- TODO: rewrite in lua
+vim.cmd [[
+    " Empty all Registers
+    fun! EmptyRegisters()
+        let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+        for r in regs
+            call setreg(r, [])
+        endfor
+    endfun
+]]
+
+vim.cmd [[
+    function! HandleURL()
+        let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;)]*')
+        echo s:uri
+        if s:uri != ""
+            silent exec "!xdg-open '".s:uri."'"
+        else
+            echo "No URI found in line."
+        endif
+    endfunction
+]]
+
 --- Print the given table
+---@param tbl table
 function _G.P(tbl)
     print(vim.inspect(tbl))
 end
-
 
 return M
