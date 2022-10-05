@@ -85,6 +85,7 @@ return packer.startup {
         use "folke/tokyonight.nvim"
         use "LunarVim/Colorschemes"
         -- use "gruvbox-community/gruvbox"
+        use "rebelot/kanagawa.nvim"
         use {
             "rose-pine/neovim",
             as = "rose-pine",

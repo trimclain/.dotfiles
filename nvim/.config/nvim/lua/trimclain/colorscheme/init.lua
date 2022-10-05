@@ -3,7 +3,8 @@
 -- require "trimclain.colorscheme.tokyonight"
 -- require "trimclain.colorscheme.sonokai"
 -- require "trimclain.colorscheme.nightfox"
-require "trimclain.colorscheme.rose-pine"
+require "trimclain.colorscheme.kanagawa"
+-- require "trimclain.colorscheme.rose-pine"
 
 -- Set the colorscheme
 -- vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
@@ -12,7 +13,8 @@ require "trimclain.colorscheme.rose-pine"
 -- local colorscheme = "tokyonight"
 -- local colorscheme = "dracula"
 
-local colorscheme = "rose-pine"
+local colorscheme = "kanagawa"
+-- local colorscheme = "rose-pine"
 
 -- local colorscheme = "omni"
 -- local colorscheme = "sonokai"
