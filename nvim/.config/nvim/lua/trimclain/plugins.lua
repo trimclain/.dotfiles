@@ -43,14 +43,15 @@ return packer.startup {
         use "windwp/nvim-ts-autotag" -- autoclose and autorename html tags
         use "mbbill/undotree" -- see the undo history
 
+        use "nvim-pack/nvim-spectre" -- advanced search and replace in the project
+
+        -- Movement
         use "karb94/neoscroll.nvim" -- smooth scrolling
         use {
             "phaazon/hop.nvim", -- easier jumps with f,F,t,T
             branch = "v2", -- optional but strongly recommended
         }
         use "nacro90/numb.nvim" -- incsearch for :linenum<cr>
-        use "nvim-pack/nvim-spectre" -- advanced search and replace in the project
-        use "rcarriga/nvim-notify" -- fancy notifications
 
         -- TODO: do i want these?
         -- use "monaqa/dial.nvim" -- if I ever need an extended increment/decrement plugin
@@ -108,6 +109,7 @@ return packer.startup {
         use "famiu/bufdelete.nvim" -- properly close a buffer and don't ruin my layout
         use "j-hui/fidget.nvim" -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
         use "folke/which-key.nvim" -- displays a popup with possible key bindings of the command you started typing
+        use "rcarriga/nvim-notify" -- fancy notifications
         -- TODO: navic is very alpha right now, wait until it's usable
         -- use "SmiteshP/nvim-navic" -- show context of the current cursor position in file
         use {
@@ -145,8 +147,9 @@ return packer.startup {
             "nvim-telescope/telescope-fzf-native.nvim", -- fzf for telescope
             run = "make",
         }
-        -- Harpoon
-        use "ThePrimeagen/harpoon" -- thanks Prime
+        -- Prime
+        use "ThePrimeagen/harpoon" -- thanks
+        -- use "ThePrimeagen/refactoring.nvim" -- Prime
         -- Treesitter
         use {
             "nvim-treesitter/nvim-treesitter",
