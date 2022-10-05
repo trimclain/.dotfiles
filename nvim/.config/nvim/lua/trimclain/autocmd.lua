@@ -25,15 +25,21 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = {
         -- "qf",
         "help",
-        -- "lspinfo",
+        "man",
         "null-ls-info",
         "startuptime",
         "fugitive",
         "Jaq",
+        "spectre_panel",
+        -- "lir",
+        -- "DressingSelect",
+        -- "tsplayground",
+        -- "Markdown",
     },
     callback = function()
         vim.cmd [[
             nnoremap <silent> <buffer> q :close<CR>
+            nnoremap <silent> <buffer> <esc> :close<CR>
             set nobuflisted
         ]]
     end,
@@ -87,7 +93,7 @@ vim.api.nvim_create_autocmd(
 )
 
 -- Formatting
-require("trimclain.functions").init_format_on_save()
+require("trimclain.utils").init_format_on_save()
 
 local format_on_save_status = vim.api.nvim_create_augroup( -- create augroup
     "format_on_save_status", -- set augroup name
@@ -97,7 +103,7 @@ local format_on_save_status = vim.api.nvim_create_augroup( -- create augroup
 )
 vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()
-        require("trimclain.functions").update_autoformat_status()
+        require("trimclain.utils").update_autoformat_status()
     end,
     group = format_on_save_status,
 })

@@ -56,6 +56,7 @@ require "trimclain.toggleterm"
 require "trimclain.colorizer"
 require "trimclain.colorpicker"
 
+require "trimclain.spectre"
 require "trimclain.numb"
 require "trimclain.jaq"
 require "trimclain.lab"

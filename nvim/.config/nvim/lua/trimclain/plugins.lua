@@ -48,11 +48,12 @@ return packer.startup {
             "phaazon/hop.nvim", -- easier jumps with f,F,t,T
             branch = "v2", -- optional but strongly recommended
         }
-        use "nacro90/numb.nvim" -- peeks lines of the buffer when doing with :linenum
+        use "nacro90/numb.nvim" -- incsearch for :linenum<cr>
+        use "nvim-pack/nvim-spectre" -- advanced search and replace in the project
 
         -- TODO: do i want these?
-        -- use "monaqa/dial.nvim" -- If I ever need an extended increment/decrement plugin
-        -- use "windwp/nvim-spectre" -- advanced search and replace in the project
+        -- use "monaqa/dial.nvim" -- if I ever need an extended increment/decrement plugin
+        -- use "rcarriga/nvim-notify" if I ever want fancy notifications
 
         -- File Browser
         use "kyazdani42/nvim-tree.lua" -- nerdtree 2.0 for neovim
@@ -62,7 +63,6 @@ return packer.startup {
         use "akinsho/toggleterm.nvim" -- toggle terminal from neovim
 
         -- Git
-        -- TODO: checkout neogit to go full lua
         use "tpope/vim-fugitive" -- vim git integration, thanks tpope
         use "lewis6991/gitsigns.nvim" -- super fast git decorations
 
@@ -100,7 +100,10 @@ return packer.startup {
         -- Statusline & other visuals
         use "nvim-lualine/lualine.nvim" -- great status line in lua
         use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
-        use { "akinsho/bufferline.nvim", tag = "v2.*" } -- add bufferline to show open buffers
+        use {
+            "akinsho/bufferline.nvim", -- add bufferline to show open buffers
+            tag = "v2.*",
+        }
         use "famiu/bufdelete.nvim" -- properly close a buffer and don't ruin my layout
         use "j-hui/fidget.nvim" -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
         use "folke/which-key.nvim" -- displays a popup with possible key bindings of the command you started typing
@@ -163,6 +166,12 @@ return packer.startup {
             "0x100101/lab.nvim",
             run = "cd js && npm ci",
         }
+
+        -- Plugin for automated bullet lists
+        -- use "dkarter/bullets.vim"
+
+        -- Plugin to generate table of contents for Markdown files
+        -- use "mzlogin/vim-markdown-toc"
 
         -- To preview markdown files in browser
         use {
