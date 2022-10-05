@@ -64,13 +64,13 @@ function M.toggle_shiftwidth()
     vim.notify("shiftwidth" .. " set to " .. tostring(value))
 end
 
-local uv = vim.loop
-local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
-
 --- Joing path segments that were passed as input
 ---@vararg string folder or file names
 ---@return string result full path to the file or folder
 function M.join_paths(...)
+    local uv = vim.loop
+    local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
+
     local result = table.concat({ ... }, path_sep)
     return result
 end
@@ -173,25 +173,41 @@ end
 vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.utils").toggle_format_on_save()' ]]
 
 -- ############################################################################
+-- AUTOSOURCE CONFIG
+-- ############################################################################
 
----Get the full path to nvim config
+--- Get the full path to nvim config
 ---@return string
--- function M.get_config_dir()
---     return vim.call("stdpath", "config")
--- end
---
--- local user_config_dir = M.get_config_dir()
--- local user_config_file = M.join_paths(user_config_dir, "config.lua")
+function M.get_config_dir()
+    return vim.call("stdpath", "config")
+end
 
--- TODO: can I implement this, since I have multiple files to source unlike lunarvim?
----Get the full path to the user configuration file
----@return string
--- function M:get_user_config_path()
---     return user_config_file
--- end
+--- Get the list of every file in my nvim config
+---@return table config_files list of config files
+function M.get_list_of_config_files()
+    local config_dir = M.get_config_dir()
+    local lua_config_dir = M.join_paths(config_dir, "lua", "trimclain")
+    local lsp_settings_dir = M.join_paths(lua_config_dir, "lsp", "settings")
+    local stylua_conf = M.join_paths(config_dir, "stylua.toml")
+    local packer_compiled_conf = M.join_paths(config_dir, "plugin", "packer_compiled.lua")
+    local command = "find "
+        .. config_dir
+        .. "/ "
+        .. lua_config_dir
+        .. "/ "
+        .. lsp_settings_dir
+        .. "/ -mindepth 1 -maxdepth 2 -type f -not \\( -path "
+        .. stylua_conf
+        .. " -o -path "
+        .. packer_compiled_conf
+        .. ' \\) -printf "%f\n"'
+
+    local config_files = vim.fn.systemlist(command)
+    return config_files
+end
 
 -- ############################################################################
--- RESTARTING VIM
+-- RESTART NEOVIM
 -- ############################################################################
 
 -- Credit to JoosepAlviste
@@ -239,7 +255,7 @@ end
 --- Execute `PackerSync` every day automatically so that we are always up to date!
 --- The last saved date is saved into `XDG_CACHE_HOME/nvim/.plugins_updated_at`.
 function M.update_plugins_every_day()
-    local plugin_updated_at_filename = M.join_paths(vim.env.XDG_CACHE_HOME, "nvim", ".plugins_updated_at")
+    local plugin_updated_at_filename = M.join_paths(vim.call("stdpath", "cache"), ".plugins_updated_at")
     if not M.file_exists(plugin_updated_at_filename) then
         vim.fn.writefile({}, plugin_updated_at_filename)
     end

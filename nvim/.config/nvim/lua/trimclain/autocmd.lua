@@ -43,8 +43,18 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     group = filetype_group,
 })
 
+-- TODO: What's the problem here?
+-- Autocommand to source every config file I save
+-- local source_config = vim.api.nvim_create_augroup("source_config_on_save", { clear = true })
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+--     pattern = require("trimclain.utils").get_list_of_config_files(),
+--     command = "source <afile>",
+--     desc = "Source config files on save",
+--     group = source_config,
+-- })
+
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-local reload_packer = vim.api.nvim_create_augroup("packer_user_config", { clear = true, })
+local reload_packer = vim.api.nvim_create_augroup("packer_user_config", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = "plugins.lua",
     command = "source <afile> | PackerSync",
