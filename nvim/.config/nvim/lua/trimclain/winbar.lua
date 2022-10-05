@@ -20,7 +20,7 @@ M.winbar_filetype_exclude = {
 M.get_filename = function()
     local filename = vim.fn.expand "%:t"
     local extension = vim.fn.expand "%:e"
-    local f = require "trimclain.functions"
+    local f = require "trimclain.utils"
 
     if not f.isempty(filename) then
         local file_icon, file_icon_color = require("nvim-web-devicons").get_icon_color(
@@ -57,7 +57,7 @@ local get_gps = function()
         return ""
     end
 
-    if not require("trimclain.functions").isempty(gps_location) then
+    if not require("trimclain.utils").isempty(gps_location) then
         return require("trimclain.icons").ui.ChevronRight .. " " .. gps_location
     else
         return ""
@@ -76,7 +76,7 @@ M.get_winbar = function()
     if excludes() then
         return
     end
-    local f = require "trimclain.functions"
+    local f = require "trimclain.utils"
     local value = M.get_filename()
 
     local gps_added = false

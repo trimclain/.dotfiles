@@ -1,4 +1,4 @@
-local join_paths = require("trimclain.functions").join_paths
+local join_paths = require("trimclain.utils").join_paths
 
 local options = {
     fileencoding = "utf-8", -- the encoding written to a file
@@ -13,7 +13,7 @@ local options = {
     relativenumber = true, -- set relative numbered lines
     numberwidth = 4, -- set number column width {default 4}
     hlsearch = true, -- highlight all matches on previous search pattern
-    incsearch = true, -- go to search while typing #GOAT
+    incsearch = true, -- go to search while typing
     ignorecase = true, -- ignore case in search patterns
     smartcase = true, -- except when using capital letters
     hidden = true, -- allows to open multiple buffers

@@ -6,26 +6,6 @@ local M = {}
 --     return #word
 -- end
 
--- function M.toggle_option(option)
---     local value = not vim.api.nvim_get_option_value(option, {})
---     vim.opt[option] = value
---     vim.notify(option .. " set to " .. tostring(value))
--- end
---
--- function M.toggle_tabline()
---     local value = vim.api.nvim_get_option_value("showtabline", {})
---
---         if value == 2 then
---         value = 0
---     else
---         value = 2
---     end
---
---         vim.opt.showtabline = value
---
---         vim.notify("showtabline" .. " set to " .. tostring(value))
--- end
-
 -- local diagnostics_active = true
 -- function M.toggle_diagnostics()
 --     diagnostics_active = not diagnostics_active
@@ -36,10 +16,15 @@ local M = {}
 --     end
 -- end
 
+--- Return true if s is either "" or nil
+---@param s string | table
+---@return boolean
 function M.isempty(s)
     return s == nil or s == ""
 end
 
+--- Get the value of option current for current buffer
+---@param opt string vim.opt.optionname
 function M.get_buf_option(opt)
     local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
     if not status_ok then
@@ -49,15 +34,43 @@ function M.get_buf_option(opt)
     end
 end
 
+--- Toggle the value of vim option
+---@param option string vim.opt.optioname
+function M.toggle_option(option)
+    local value = not vim.api.nvim_get_option_value(option, {})
+    vim.opt[option] = value
+    vim.notify(option .. " set to " .. tostring(value))
+end
+
+--- Change current shiftwidth value between 2 and 4
+function M.toggle_shiftwidth()
+    local value = vim.api.nvim_get_option_value("shiftwidth", {})
+    if value == 4 then
+        value = 2
+    else
+        value = 4
+    end
+    vim.opt.shiftwidth = value
+    vim.notify("shiftwidth" .. " set to " .. tostring(value))
+end
+
 local uv = vim.loop
--- TODO: implement this for every path I use
 local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
 
----Join path segments that were passed as input
----@return string
+--- Joing path segments that were passed as input
+---@vararg string folder or file names
+---@return string result full path to the file or folder
 function M.join_paths(...)
     local result = table.concat({ ... }, path_sep)
     return result
+end
+
+--- Remove existing autogroup to disable autocommand
+---@param name string the name of the existing autogroup
+function M.remove_augroup(name)
+    if vim.fn.exists("#" .. name) == 1 then
+        vim.cmd("au! " .. name)
+    end
 end
 
 -- Nice Stuff from TJ
@@ -147,13 +160,7 @@ function M.toggle_format_on_save()
     end
 end
 
-function M.remove_augroup(name)
-    if vim.fn.exists("#" .. name) == 1 then
-        vim.cmd("au! " .. name)
-    end
-end
-
-vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.functions").toggle_format_on_save()' ]]
+vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.utils").toggle_format_on_save()' ]]
 
 -- ############################################################################
 
@@ -174,20 +181,59 @@ vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.functions")
 -- end
 
 -- ############################################################################
--- function M.smart_quit()
---     local bufnr = vim.api.nvim_get_current_buf()
---     local modified = vim.api.nvim_buf_get_option(bufnr, "modified")
---     if modified then
---         vim.ui.input({
---             prompt = "You have unsaved changes. Quit anyway? (y/n) ",
---         }, function(input)
---             if input == "y" then
---                 vim.cmd "q!"
---             end
---         end)
---     else
---         vim.cmd "q!"
---     end
+
+-- Credit to JoosepAlviste
+
+--- Bust the cache of all required Lua files. After running this, each require() would re-run the file.
+local function unload_all_modules()
+    -- Lua patterns for the modules to unload
+    local unload_modules = {
+        "^j.",
+    }
+
+    for k, _ in pairs(package.loaded) do
+        for _, v in ipairs(unload_modules) do
+            if k:match(v) then
+                package.loaded[k] = nil
+                break
+            end
+        end
+    end
+end
+
+--- Reload all vim modules
+function M.reload()
+    -- Stop LSP
+    vim.cmd.LspStop()
+
+    -- Unload all already loaded modules
+    unload_all_modules()
+
+    -- Source init.lua
+    vim.cmd.luafile(M.join_paths(os.getenv "HOME", ".config", "nvim", "init.lua"))
+end
+
+--- Restart Vim without having to close and run again
+function M.restart()
+    -- Reload config
+    M.reload()
+
+    -- Manually run VimEnter autocmd to emulate a new run of Vim
+    vim.cmd.doautocmd "VimEnter"
+end
+
+-- Useful function for debugging
+-- Print the given items
+-- function _G.P(...)
+--     local objects = vim.tbl_map(vim.inspect, { ... })
+--     print(objects)
 -- end
+
+-- Useful function for debugging
+--- Print the given table
+function _G.P(tbl)
+    print(vim.inspect(tbl))
+end
+
 
 return M

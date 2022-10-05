@@ -3,6 +3,8 @@ if not status_ok then
     return
 end
 
+local join_paths = require("trimclain.utils").join_paths
+
 local setup = {
     plugins = {
         marks = true, -- shows a list of your marks on ' and `

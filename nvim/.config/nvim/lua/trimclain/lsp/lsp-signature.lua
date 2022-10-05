@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 -- local icons = require "user.icons" -- if I wanna swap out the Panda
-local join_paths = require("trimclain.functions").join_paths
+local join_paths = require("trimclain.utils").join_paths
 
 local cfg = {
     debug = false, -- set to true to enable debug logging

@@ -1,4 +1,4 @@
-local join_paths = require("trimclain.functions").join_paths
+local join_paths = require("trimclain.utils").join_paths
 
 -- Automatically install packer
 local ensure_packer = function()
