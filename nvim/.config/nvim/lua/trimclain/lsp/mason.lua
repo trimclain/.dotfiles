@@ -106,6 +106,29 @@ if not lspconfig_status_ok then
     return
 end
 
+-- TODO: make this work
+-- local lua_dev_status_ok, lua_dev = pcall(require, "lua-dev")
+-- if not lua_dev_status_ok then
+--     return
+-- end
+-- lua_dev.setup {
+--     -- add any options here, or leave empty to use the default settings
+--     library = {
+--         enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
+--         -- these settings will be used for your Neovim config directory
+--         runtime = true, -- runtime path
+--         types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+--         plugins = true, -- installed opt or start plugins in packpath
+--         -- you can also specify the list of plugins to make available as a workspace library
+--         -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
+--     },
+--     setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
+--     -- for your Neovim config directory, the config.library settings will be used as is
+--     -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
+--     -- for any other directory, config.library.enabled will be set to false
+--     override = function(root_dir, options) end,
+-- }
+
 for _, server in pairs(servers) do
     local opts = {
         on_attach = require("trimclain.lsp.handlers").on_attach,
@@ -116,5 +139,15 @@ for _, server in pairs(servers) do
     if has_custom_opts then
         opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
     end
+
+    -- if server == "sumneko_lua" then
+    --     -- local sumneko_opts = require "trimclain.lsp.settings.sumneko_lua"
+    --     -- opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
+    --     -- opts = vim.tbl_deep_extend("force", require("lua-dev").setup(), opts)
+    --     lspconfig.sumneko_lua.setup(luadev)
+    --     goto continue
+    -- end
+
     lspconfig[server].setup(opts)
+    -- ::continue::
 end

@@ -125,6 +125,7 @@ return packer.startup {
         use "saadparwaiz1/cmp_luasnip" -- snippet completions
         use "hrsh7th/cmp-nvim-lsp" -- get the LSP completion
         use "hrsh7th/cmp-nvim-lua" -- get the LSP for lua in nvim config
+        -- use "folke/lua-dev.nvim" -- get the dev setup for init.lua and plugin development with full signature help, docs and completion for the nvim lua API
 
         -- Snippets
         use "L3MON4D3/LuaSnip" -- snippet engine
