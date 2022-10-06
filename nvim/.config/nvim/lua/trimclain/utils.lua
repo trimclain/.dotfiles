@@ -102,31 +102,30 @@ end
 -- ############################################################################
 -- FORMATTING
 -- ############################################################################
-local format_on_save = vim.api.nvim_create_augroup( -- create augroup
-    "format_on_save", -- set augroup name
-    {
-        clear = true, -- clear previous autocmds from this group (autocmd!)
-    }
-)
+local format_on_save = vim.api.nvim_create_augroup("format_on_save", { clear = true })
 
 local pattern_list = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.html", "*.lua", "*.py" }
 
 function M.update_autoformat_status()
-    -- check for filetype
+    -- check for filetype to be in the pattern_list
     local pattern = "*." .. vim.fn.expand "%:e"
-    if vim.tbl_contains(pattern_list, pattern) then
-        -- check for existing autocmd
-        if vim.fn.exists "#format_on_save#BufWritePre" == 0 then
-            -- vim.g.autoformat_status = ""
-            -- vim.g.autoformat_status = ""
-            vim.g.autoformat_status = ""
-        else
-            -- vim.g.autoformat_status = ""
-            vim.g.autoformat_status = ""
-        end
-    else
+    if not vim.tbl_contains(pattern_list, pattern) then
         vim.g.autoformat_status = ""
+        return
     end
+
+    -- filter out floating windows: vim.api.nvim_win_get_config(0).relative == ""
+
+    -- check for existing autocmd
+    if vim.fn.exists "#format_on_save#BufWritePre" == 0 then
+        -- vim.g.autoformat_status = ""
+        -- vim.g.autoformat_status = ""
+        vim.g.autoformat_status = ""
+        return
+    end
+
+    -- vim.g.autoformat_status = ""
+    vim.g.autoformat_status = ""
 end
 
 function M.init_format_on_save()

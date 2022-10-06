@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Formatting
 require("trimclain.utils").init_format_on_save()
 vim.api.nvim_create_augroup("format_on_save_status", { clear = true })
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved", "CursorMovedI" }, {
     callback = function()
         require("trimclain.utils").update_autoformat_status()
     end,
