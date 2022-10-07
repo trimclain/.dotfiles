@@ -272,6 +272,14 @@ function M.update_plugins_every_day()
     file:close()
 end
 
+M.ToggleQFList = function()
+    if vim.g.qflist_global == 1 then
+        vim.cmd.cclose()
+    else
+        vim.cmd.copen()
+    end
+end
+
 -- TODO: rewrite in lua
 vim.cmd [[
     " Empty all Registers

@@ -59,7 +59,7 @@ keymap("c", "<C-r>", "<C-r>+", { noremap = true }) -- paste from clipboard in co
 -- Thx JoosepAlviste
 -- Open the file under the cursor with the default file handler for that file type (e.g., Firefox for `http` links, etc.)
 -- This mapping normally comes from `netrw`, but we disabled that for nvim-tree
-keymap('n', 'gx', [[:call HandleURL()<cr>]], { silent = true })
+keymap("n", "gx", [[:call HandleURL()<cr>]], { silent = true })
 
 --
 -- Store relative line number jumps in the jumplist if they exceed a threshold.
@@ -112,37 +112,7 @@ keymap("l", "<C-c>", "<Esc>", opts) -- insert, command-line, lang-arg modes
 keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 
 --
--- " QuickFixList Stuff (from Prime, rewritten in lua) - local ones not in use
+-- " QuickFixList Stuff
 keymap("n", "<up>", ":cprev<CR>zz", opts)
 keymap("n", "<down>", ":cnext<CR>zz", opts)
--- keymap("n", "<leader>j", ":lnext<CR>zz", opts)
--- keymap("n", "<leader>k", ":lprev<CR>zz", opts)
-keymap("n", "<C-q>", "<cmd>lua require('trimclain.keymaps').ToggleQFList(1)<CR>", opts)
--- keymap("n", "<leader>q", "<cmd>lua require('trimclain.keymaps').ToggleQFList(0)<CR>", opts)
-
---
-vim.g.qflist_local = 0
-vim.g.qflist_global = 0
-
-local M = {}
-M.ToggleQFList = function(global)
-    if global then
-        if vim.g.qflist_global == 1 then
-            vim.g.qflist_global = 0
-            vim.cmd "cclose"
-        else
-            vim.g.qflist_global = 1
-            vim.cmd "copen"
-        end
-    else
-        if vim.g.qflist_local == 1 then
-            vim.g.qflist_local = 0
-            vim.cmd "lclose"
-        else
-            vim.g.qflist_local = 1
-            vim.cmd "lopen"
-        end
-    end
-end
-
-return M
+keymap("n", "<C-q>", "<cmd>lua require('trimclain.utils').ToggleQFList()<CR>", opts)

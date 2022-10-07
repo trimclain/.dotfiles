@@ -19,7 +19,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 local filetype_group = vim.api.nvim_create_augroup("filetype_group", { clear = true })
 vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = {
-        -- "qf",
+        "qf",
         "help",
         "man",
         "null-ls-info",
@@ -104,4 +104,23 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end,
     desc = "Return to last known cursor position",
     group = "RestoreCursorPosition",
+})
+
+-- Autocommands for QuickFixList
+local quickfix_toggle = vim.api.nvim_create_augroup("quickfix_toggle", { clear = true })
+vim.api.nvim_create_autocmd("BufWinEnter", {
+    pattern = "quickfix",
+    callback = function()
+        vim.g.qflist_global = 1
+    end,
+    desc = "Update quickfixlist status variable on open",
+    group = quickfix_toggle,
+})
+vim.api.nvim_create_autocmd("BufWinLeave", {
+    pattern = "*",
+    callback = function()
+        vim.g.qflist_global = 0
+    end,
+    desc = "Update quickfixlist status variable on close",
+    group = quickfix_toggle,
 })
