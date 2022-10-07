@@ -463,7 +463,7 @@ local globalkeys = mytable.join(
         modalbind.grab({ keymap = brightmap, name = "Brightness", stay_in_mode = false })
     end, { description = "enter brightness mode", group = "modes" }),
 
-    awful.key({ modkey }, "l", function()
+    awful.key({ modkey }, "o", function()
         modalbind.grab({ keymap = layoutmap, name = "Layout", stay_in_mode = false })
     end, { description = "enter keyboard layout mode", group = "modes" }),
 
@@ -756,7 +756,7 @@ local globalkeys = mytable.join(
     end, { description = "take a screenshot of a full screen to clipboard", group = "hotkeys" }),
 
     -- TODO: maybe there's a better button for this. Ideas: o, z, g
-    awful.key({ modkey }, "o", function()
+    awful.key({ modkey }, "z", function()
         awful.spawn.with_shell("flameshot gui -c")
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
