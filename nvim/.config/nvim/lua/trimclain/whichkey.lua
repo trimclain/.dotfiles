@@ -191,6 +191,14 @@ local mappings = {
         },
     },
 
+    t = {
+        name = "Terminal",
+        p = { "<cmd>lua _PYTHON_TOGGLE()<CR>", "Python" },
+        n = { "<cmd>lua _NODE_TOGGLE()<CR>", "Node" },
+        h = { "<cmd>lua _HTOP_TOGGLE()<CR>", "HTOP" },
+        b = { "<cmd>lua _BTOP_TOGGLE()<CR>", "BTOP" },
+    },
+
     v = {
         name = "Vim",
         r = { "<cmd>lua require('trimclain.utils').restart()<cr>", "Restart" },
