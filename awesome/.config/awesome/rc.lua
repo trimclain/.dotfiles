@@ -977,6 +977,9 @@ awful.rules.rules = {
     -- Set Evince to always map on the tag named "2"
     { rule = { class = "Evince" }, properties = { tag = "2" } },
 
+    -- Set Okular to always map on the tag named "2"
+    { rule = { class = "Okular" }, properties = { tag = "2" } },
+
     -- Set Anki to always map on the tag named "2"
     { rule = { class = "Anki" }, properties = { tag = "2" } },
 
