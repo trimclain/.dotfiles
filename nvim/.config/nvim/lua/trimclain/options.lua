@@ -75,7 +75,6 @@ vim.opt.formatoptions = vim.opt.formatoptions
     + "j" -- Auto-remove comments if possible.
     - "2" -- I'm not in gradeschool anymore
 
--- TODO: can I do this in lua?
 -- Sometimes them fingers do be fat
 vim.cmd [[com! Q q]]
 vim.cmd [[com! Qa qa]]

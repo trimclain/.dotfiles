@@ -11,7 +11,6 @@ local spaces = function()
 end
 
 -- Show if formatting on save is enabled
--- TODO: after closing S-k popup it doesn't update back to enabled (add new event?)
 local autoformat = function()
     return vim.g.autoformat_status
 end

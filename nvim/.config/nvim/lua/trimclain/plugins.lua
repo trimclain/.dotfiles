@@ -53,9 +53,6 @@ return packer.startup {
         }
         use "nacro90/numb.nvim" -- incsearch for :linenum<cr>
 
-        -- TODO: do i want these?
-        -- use "monaqa/dial.nvim" -- if I ever need an extended increment/decrement plugin
-
         -- File Browser
         use "kyazdani42/nvim-tree.lua" -- nerdtree 2.0 for neovim
         use "kyazdani42/nvim-web-devicons" -- for icons almost everywhere
