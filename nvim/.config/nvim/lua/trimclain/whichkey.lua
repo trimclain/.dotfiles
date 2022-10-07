@@ -94,6 +94,7 @@ local mappings = {
     d = { '"_d', "Delete, don't cut" },
     e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
     q = { "<cmd>Bdelete<cr>", "Close Buffer" },
+    Q = { "<cmd>qa<cr>", "Close Buffer" },
     u = { "<cmd>UndotreeToggle<cr>", "UndoTree" },
     Y = { 'gg"+yG', "Yank Whole File" },
     w = { ":w<cr>", "Save File" },
