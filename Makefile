@@ -410,6 +410,9 @@ anki:
 uninstall_anki:
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
+okular:
+	sudo apt install okular -y
+
 ###############################################################################
 # Things that I install manually yet: Discord
 # Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
@@ -449,5 +452,5 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
 	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
-	inkscape anki uninstall_anki linux_install linux_software python3_setup \
+	inkscape anki uninstall_anki okular linux_install linux_software python3_setup \
 	null_ls_tool finish_setup
