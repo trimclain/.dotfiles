@@ -398,6 +398,24 @@ local brightmap = {
     },
 }
 
+-- Keyboard Layout Mode
+local layoutmap = {
+    {
+        "g",
+        function()
+            awful.spawn.with_shell("keyboard-layout --default")
+        end,
+        "us, de, ru",
+    },
+    {
+        "n",
+        function()
+            awful.spawn.with_shell("keyboard-layout --no-german")
+        end,
+        "us, ru",
+    },
+}
+
 -- Monitor Mode
 local monimap = {
     {
@@ -444,6 +462,10 @@ local globalkeys = mytable.join(
     awful.key({ modkey }, "b", function()
         modalbind.grab({ keymap = brightmap, name = "Brightness", stay_in_mode = false })
     end, { description = "enter brightness mode", group = "modes" }),
+
+    awful.key({ modkey }, "l", function()
+        modalbind.grab({ keymap = layoutmap, name = "Layout", stay_in_mode = false })
+    end, { description = "enter keyboard layout mode", group = "modes" }),
 
     awful.key({ modkey }, "m", function()
         modalbind.grab({ keymap = monimap, name = "Monitor Layout", stay_in_mode = false })
@@ -960,6 +982,12 @@ awful.rules.rules = {
 
     -- Set Chrome to always map on the tag named "3"
     { rule = { class = "Google-chrome" }, properties = { tag = "3" } },
+
+    -- Make polybar borders normal
+    -- {
+    -- rule = { class = "Polybar" },
+    -- properties = { shape = gears.partially_rounded_rect(0, 70, 70, true, true, true, true, 30) },
+    -- },
 }
 -- }}}
 
@@ -978,7 +1006,7 @@ client.connect_signal("manage", function(c)
     end
 
     -- Make corners round
-    c.shape = gears.shape.rounded_rect
+    -- c.shape = gears.shape.rounded_rect
     -- or if I want to change border radius
     -- c.shape = function(cr,w,h)
     --     gears.shape.rounded_rect(cr,w,h,5)
