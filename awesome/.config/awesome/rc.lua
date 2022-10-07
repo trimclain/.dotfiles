@@ -1,4 +1,19 @@
 -- vim:fileencoding=utf-8:foldmethod=marker
+
+--#############################################################################
+--        ______ ___    __ __   ___    ____  __     __     __  __   __
+--       /_  __//   \  / //  \ /   |  / __/ / /    /  |   / / /  \ / /
+--        / /  /   _/ / // /\\/ /| | / /   / /    /   |  / / / /\\/ /
+--       / /  / /\ \ / // / \/_/ | |/ /__ / /___ / _  | / / / / \/ /
+--      /_/  /_/ \_\/_//_/       |_|\___//_____//_/ \_|/_/ /_/  /_/
+--
+--
+--       Arthur McLain (trimclain)
+--       mclain.it@gmail.com
+--       https://github.com/trimclain
+--
+--#############################################################################
+
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
 
