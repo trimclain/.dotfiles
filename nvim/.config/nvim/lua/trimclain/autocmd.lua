@@ -63,14 +63,14 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 })
 
 -- Autocmd for PackerSync everyday
-vim.api.nvim_create_augroup("packersync_on_startup", { clear = true })
-vim.api.nvim_create_autocmd("VimEnter", {
-    callback = function()
-        require("trimclain.utils").update_plugins_every_day()
-    end,
-    desc = "Daily update plugins on startup",
-    group = "packersync_on_startup",
-})
+-- vim.api.nvim_create_augroup("packersync_on_startup", { clear = true })
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--     callback = function()
+--         require("trimclain.utils").update_plugins_every_day()
+--     end,
+--     desc = "Daily update plugins on startup",
+--     group = "packersync_on_startup",
+-- })
 
 -- Autocommand to trim whitespaces
 vim.api.nvim_create_augroup("TrimWhitespacesOnSave", { clear = true })
