@@ -401,7 +401,7 @@ local brightmap = {
 -- Keyboard Layout Mode
 local layoutmap = {
     {
-        "g",
+        "d",
         function()
             awful.spawn.with_shell("keyboard-layout --default")
         end,
