@@ -13,9 +13,11 @@ require "trimclain.colorscheme.kanagawa"
 -- local colorscheme = "tokyonight"
 -- local colorscheme = "dracula"
 
+-- My favorites right now:
 local colorscheme = "kanagawa"
 -- local colorscheme = "rose-pine"
 
+-- Others
 -- local colorscheme = "omni"
 -- local colorscheme = "sonokai"
 -- local colorscheme = "zephyr"
