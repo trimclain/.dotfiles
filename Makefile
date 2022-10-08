@@ -69,7 +69,7 @@ nvim: nvimdir nvim_build_reqs
 uninstall_nvim:
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "Uninstalling Neovim..." &&\
 		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
-		@echo "Done"; fi
+		echo "Done"; fi
 
 purge_nvim: uninstall_nvim
 	@echo "Uninstalling Neovim Leftovers..."
