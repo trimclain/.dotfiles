@@ -53,6 +53,22 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 --     group = source_config,
 -- })
 
+-- If I use cursorline someday
+-- Hide cursorline in insert mode
+-- vim.api.nvim_create_augroup("cursorline_toggle", { clear = true })
+-- vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+--     pattern = "*",
+--     command = "set cursorline",
+--     desc = "Enable cursorline in normal mode",
+--     group = "cursorline_toggle",
+-- })
+-- vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+--     pattern = "*",
+--     command = "set nocursorline",
+--     desc = "Disable cursorline in insert mode",
+--     group = "cursorline_toggle",
+-- })
+
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 local reload_packer = vim.api.nvim_create_augroup("packer_user_config", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
