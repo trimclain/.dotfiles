@@ -1,20 +1,8 @@
 local M = {}
 
--- get length of current word
--- function M.get_word_length()
---     local word = vim.fn.expand "<cword>"
---     return #word
--- end
-
--- local diagnostics_active = true
--- function M.toggle_diagnostics()
---     diagnostics_active = not diagnostics_active
---     if diagnostics_active then
---         vim.diagnostic.show()
---     else
---         vim.diagnostic.hide()
---     end
--- end
+-- ############################################################################
+-- NICE TO HAVE
+-- ############################################################################
 
 --- Return true if s is either "" or nil
 ---@param s string | table
@@ -42,26 +30,6 @@ function M.get_buf_option(opt)
     else
         return buf_option
     end
-end
-
---- Toggle the value of vim option
----@param option string vim.opt.optioname
-function M.toggle_option(option)
-    local value = not vim.api.nvim_get_option_value(option, {})
-    vim.opt[option] = value
-    vim.notify(option .. " set to " .. tostring(value))
-end
-
---- Change current shiftwidth value between 2 and 4
-function M.toggle_shiftwidth()
-    local value = vim.api.nvim_get_option_value("shiftwidth", {})
-    if value == 4 then
-        value = 2
-    else
-        value = 4
-    end
-    vim.opt.shiftwidth = value
-    vim.notify("shiftwidth" .. " set to " .. tostring(value))
 end
 
 --- Joing path segments that were passed as input
@@ -98,6 +66,80 @@ end
 -- end)()
 -- local is_mac = has "macunix"
 -- local is_linux = not is_wsl and not is_mac
+
+-- Someday?
+-- get length of current word
+-- function M.get_word_length()
+--     local word = vim.fn.expand "<cword>"
+--     return #word
+-- end
+
+-- local diagnostics_active = true
+-- function M.toggle_diagnostics()
+--     diagnostics_active = not diagnostics_active
+--     if diagnostics_active then
+--         vim.diagnostic.show()
+--     else
+--         vim.diagnostic.hide()
+--     end
+-- end
+
+-- ############################################################################
+-- SMART QUIT
+-- ############################################################################
+
+-- PROBLEM: This doesn't work when it is passed to a keymap (always returns 1). Maybe will be fixed someday.
+--- Return the number of open buffers (credit to tj and telescope)
+---@return integer bufnum number of open buffer
+-- function M.get_num_of_open_bufs()
+--     local buffers = {}
+--     local bufnrs = vim.tbl_filter(function(b)
+--         if 1 ~= vim.fn.buflisted(b) then
+--             return false
+--         end
+--         return true
+--     end, vim.api.nvim_list_bufs())
+--     if not next(bufnrs) then
+--         return 0
+--     end
+--     return #bufnrs
+-- end
+
+--- Quit neovim if the last open buffer is empty or from the filetypes table
+---@return string cmd command to run on smart quit
+-- function M.smart_quit()
+--     local num = M.get_num_of_open_bufs()
+--     if num == 1 then
+--         -- return "<cmd>qa<cr>"
+--         return '<cmd>echo "ACTUALLY ' .. tostring(num) .. ' QUTTING"<cr>'
+--     end
+--     return '<cmd>echo "NOT QUTTING YET..."<cr>'
+--     -- return "<cmd>Bdelete<cr>"
+-- end
+
+-- ############################################################################
+-- OPTION CHANGE
+-- ############################################################################
+
+--- Toggle the value of vim option
+---@param option string vim.opt.optioname
+function M.toggle_option(option)
+    local value = not vim.api.nvim_get_option_value(option, {})
+    vim.opt[option] = value
+    vim.notify(option .. " set to " .. tostring(value))
+end
+
+--- Change current shiftwidth value between 2 and 4
+function M.toggle_shiftwidth()
+    local value = vim.api.nvim_get_option_value("shiftwidth", {})
+    if value == 4 then
+        value = 2
+    else
+        value = 4
+    end
+    vim.opt.shiftwidth = value
+    vim.notify("shiftwidth" .. " set to " .. tostring(value))
+end
 
 -- ############################################################################
 -- FORMATTING
@@ -169,7 +211,8 @@ function M.toggle_format_on_save()
     end
 end
 
-vim.cmd [[ command! FormattingToggle execute 'lua require("trimclain.utils").toggle_format_on_save()' ]]
+-- bang is used to tell nvim to redefine the command if it already exists
+vim.api.nvim_create_user_command("FormattingToggle", M.toggle_format_on_save, { bang = true })
 
 -- ############################################################################
 -- AUTOSOURCE CONFIG
@@ -291,6 +334,11 @@ vim.cmd [[
     endfun
 ]]
 
+-- local check_backspace = function()
+--     local col = vim.fn.col "." - 1
+--     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+-- end
+-- vim.fn.getline()
 vim.cmd [[
     function! HandleURL()
         let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;)]*')
@@ -303,10 +351,10 @@ vim.cmd [[
     endfunction
 ]]
 
---- Print the given table
----@param tbl table
-function _G.P(tbl)
-    print(vim.inspect(tbl))
+--- Print the given object
+---@param obj table | string | integer
+function _G.P(obj)
+    print(vim.inspect(obj))
 end
 
 return M

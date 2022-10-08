@@ -117,11 +117,11 @@ cmp.setup {
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
-            -- I have my own keybinds for this in luasnip config
-            -- elseif luasnip.expandable() then
-            --     luasnip.expand()
-            -- elseif luasnip.expand_or_jumpable() then
-            --     luasnip.expand_or_jump()
+                -- I have my own keybinds for this in luasnip config
+                -- elseif luasnip.expandable() then
+                --     luasnip.expand()
+                -- elseif luasnip.expand_or_jumpable() then
+                --     luasnip.expand_or_jump()
             elseif check_backspace() then
                 fallback()
             else
@@ -134,9 +134,9 @@ cmp.setup {
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
-            -- I have my own keybinds for this in luasnip config
-            -- elseif luasnip.jumpable(-1) then
-            --     luasnip.jump(-1)
+                -- I have my own keybinds for this in luasnip config
+                -- elseif luasnip.jumpable(-1) then
+                --     luasnip.jump(-1)
             else
                 fallback()
             end
@@ -170,7 +170,7 @@ cmp.setup {
         { name = "nvim_lua" },
         { name = "luasnip" },
         { name = "path" },
-        -- { name = "cmdline" }, -- not sure this does anything
+        { name = "cmdline" },
     }, {
         { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
     }),
@@ -195,8 +195,8 @@ cmp.setup {
 --     })
 -- })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline("/", {
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
         { name = "buffer" },
