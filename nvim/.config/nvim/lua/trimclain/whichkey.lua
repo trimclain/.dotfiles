@@ -91,13 +91,12 @@ local mappings = {
     ["<CR>"] = { "<cmd>source %<CR>", "Source Buffer" },
     a = { "<cmd>lua require('harpoon.mark').add_file()<CR>", "Add Harpoon Mark" },
     b = { "<cmd>Telescope buffers<cr>", "Buffers" },
-    d = { '"_d', "Delete, don't cut" },
+    d = { '"_d', "Delete to black hole" },
     e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
     q = { "<cmd>Bdelete<cr>", "Close Buffer" },
-    Q = { "<cmd>qa<cr>", "Close Buffer" },
     u = { "<cmd>UndotreeToggle<cr>", "UndoTree" },
     Y = { 'gg"+yG', "Yank Whole File" },
-    w = { ":w<cr>", "Save File" },
+    w = { "<cmd>w<cr>", "Save File" },
 
     ["<leader>"] = {
         name = "Lab",

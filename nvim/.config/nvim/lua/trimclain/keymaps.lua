@@ -35,7 +35,7 @@ keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 
 --
 -- Very Useful Stuff
-keymap("n", "Q", "", opts) -- disable Q coz useless
+keymap("n", "Q", "<cmd>qa<cr>", opts) -- remap Q to :qa
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts) -- and backwards
 keymap("n", "J", "mzJ`z", opts) -- keep it centered when joining lines
