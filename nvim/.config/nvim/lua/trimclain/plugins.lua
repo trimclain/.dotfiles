@@ -63,6 +63,8 @@ return packer.startup {
         -- Git
         use "tpope/vim-fugitive" -- vim git integration, thanks tpope
         use "lewis6991/gitsigns.nvim" -- super fast git decorations
+        -- TODO: checkout someday
+        -- use "sindrets/diffview.nvim" -- cycle through diffs for all modified files
 
         -- Comments
         use "numToStr/Comment.nvim" -- easy comment written in lua
@@ -70,8 +72,9 @@ return packer.startup {
         use "folke/todo-comments.nvim" -- highlight todo comments in different styles
         use "danymat/neogen" -- a better annotation generator
 
-        ---------------------------------------------------------------------------
+        ---------------------------------------------------------------------------------------------------------------
         -- Colorschemes
+        ---------------------------------------------------------------------------------------------------------------
         use {
             "catppuccin/nvim",
             as = "catppuccin",
@@ -94,9 +97,10 @@ return packer.startup {
         use "EdenEast/nightfox.nvim"
         use "glepnir/zephyr-nvim"
         use "getomni/neovim"
-        ---------------------------------------------------------------------------
 
+        ---------------------------------------------------------------------------------------------------------------
         -- Statusline & other visuals
+        ---------------------------------------------------------------------------------------------------------------
         use "nvim-lualine/lualine.nvim" -- great status line in lua
         use "lukas-reineke/indent-blankline.nvim" -- add indent guides for Neovim
         use {
@@ -114,7 +118,9 @@ return packer.startup {
             branch = "text_hl",
         }
 
+        ---------------------------------------------------------------------------------------------------------------
         -- CMP plugins
+        ---------------------------------------------------------------------------------------------------------------
         use "hrsh7th/nvim-cmp" -- the completion plugin
         use "hrsh7th/cmp-buffer" -- buffer completions
         use "hrsh7th/cmp-path" -- path completions
@@ -123,31 +129,48 @@ return packer.startup {
         use "hrsh7th/cmp-nvim-lsp" -- get the LSP completion
         use "hrsh7th/cmp-nvim-lua" -- get the LSP for lua in nvim config
         -- use "folke/lua-dev.nvim" -- get the dev setup for init.lua and plugin development with full signature help, docs and completion for the nvim lua API
+        -- use "lukas-reineke/cmp-rg" -- source for using ripgrep
+        -- use "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig
+        -- use "ray-x/cmp-treesitter" -- source for treesitter nodes
+        -- use "KadoBOT/cmp-plugins" -- source for Neovim plugins
+        -- use "jcha0713/cmp-tw2css" -- source to convert tailwindcss classes to pure css
 
+        ---------------------------------------------------------------------------------------------------------------
         -- Snippets
+        ---------------------------------------------------------------------------------------------------------------
         use "L3MON4D3/LuaSnip" -- snippet engine
         use "rafamadriz/friendly-snippets" -- some vscode snippets to use
 
+        ---------------------------------------------------------------------------------------------------------------
         -- LSP
+        ---------------------------------------------------------------------------------------------------------------
         use "neovim/nvim-lspconfig" -- LSP configurations
         use "williamboman/mason.nvim" -- manage external editor tooling such as LSP servers, DAP servers, linters, and formatters
         use "williamboman/mason-lspconfig.nvim" -- bridge mason.nvim with the lspconfig
-        -- use "williamboman/nvim-lsp-installer" -- add LspInstall <language>
         use "jose-elias-alvarez/null-ls.nvim" -- code formatter (LSP diagnostics, code actions, and more)
         -- TODO: do I want these?
         -- use "jayp0521/mason-null-ls.nvim" -- bridge mason.nvim with the null-ls
         -- use "RubixDev/mason-update-all" -- easily update all Mason packages with one command
         use "ray-x/lsp_signature.nvim" -- show function signature when you type
+        -- TODO?: try this instead
+        -- use "hrsh7th/cmp-nvim-lsp-signature-help"
+
         -- use "lvimuser/lsp-inlayhints.nvim" -- partial implementation of LSP inlay hint.
 
+        ---------------------------------------------------------------------------------------------------------------
         -- Telescope
+        ---------------------------------------------------------------------------------------------------------------
         use "nvim-telescope/telescope.nvim" -- the goat
         use {
             "nvim-telescope/telescope-fzf-native.nvim", -- fzf for telescope
             run = "make",
         }
+
+        ---------------------------------------------------------------------------------------------------------------
         -- Prime
+        ---------------------------------------------------------------------------------------------------------------
         use "ThePrimeagen/harpoon" -- thanks
+        -- TODO: checkout someday
         -- use "ThePrimeagen/refactoring.nvim" -- Prime
         -- Treesitter
         use {
@@ -155,8 +178,9 @@ return packer.startup {
             run = ":TSUpdate",
         }
 
-        ---------------------------------------------------------------------------
+        ---------------------------------------------------------------------------------------------------------------
         -- Useful tools
+        ---------------------------------------------------------------------------------------------------------------
         -- use "is0n/jaq-nvim"
         use {
             "trimclain/jaq-nvim",
@@ -194,7 +218,7 @@ return packer.startup {
 
         use "dstein64/vim-startuptime" -- check the startuptime of plugins
         -- use "tweekmonster/startuptime.vim"
-        ---------------------------------------------------------------------------
+        ---------------------------------------------------------------------------------------------------------------
 
         -- Automatically set up your configuration after cloning packer.nvim
         -- Put this at the end after all plugins
