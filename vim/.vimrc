@@ -99,8 +99,9 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.vim/plugged')
 
 " Plug 'gruvbox-community/gruvbox'        " colorscheme
+" Plug 'sainnhe/sonokai'                  " other colorscheme
 Plug 'sonph/onehalf', { 'rtp': 'vim'  } " like atoms one but 1/2
-" Plug 'sainnhe/sonokai'                  " new colorscheme to try
+
 Plug 'tpope/vim-fugitive'               " to work with git
 Plug 'tpope/vim-commentary'             " fast comments
 Plug 'itchyny/lightline.vim'            " statusline
@@ -124,15 +125,13 @@ endif
 " let g:gruvbox_contrast_dark = 'hard'
 " let g:gruvbox_invert_selection='0'
 " colorscheme gruvbox
-" set background=dark
 
+set background=dark
 colorscheme onehalfdark
+" colorscheme sonokai
 
 " Make the background transparent
 highlight Normal ctermbg=NONE guibg=NONE
-
-" CtrlP configs
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 " Lightline
 let g:lightline = {
