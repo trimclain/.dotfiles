@@ -160,10 +160,15 @@ let g:AutoPairsMapBS=0          " disable BS remap
 " SET LEADER KEY
 let mapleader = " "
 
-" Disable Q coz useless
-nnoremap <silent> Q <nop>
+" To exit vim and save files faster
+nnoremap <silent> Q :qa<cr>
+nnoremap <silent> <leader>w :w<cr>
+
+" Please disable hlsearch on redraw like neovim
+nnoremap <c-l> :nohlsearch<cr><c-l>
+
 " Source .vimrc
-nnoremap <silent> <Leader><CR> :so ~/.vimrc<CR>
+nnoremap <silent> <leader><cr> :so ~/.vimrc<cr>
 
 " Easier movement between vim windows
 nnoremap <leader>h <C-w>h
@@ -176,30 +181,49 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Navigate buffers
-nnoremap <silent> <S-l> :bnext<CR>
-nnoremap <silent> <S-h> :bprevious<CR>
+nnoremap <silent> <S-l> :bnext<cr>
+nnoremap <silent> <S-h> :bprevious<cr>
 
 " Resizing
 " Use Ctrl + arrows to resize windows
-nnoremap <silent> <C-Up> :resize -5<CR>
-nnoremap <silent> <C-Down> :resize +5<CR>
-nnoremap <silent> <C-Left> :vertical resize -5<CR>
-nnoremap <silent> <C-Right> :vertical resize +5<CR>
+nnoremap <silent> <C-Up> :resize -5<cr>
+nnoremap <silent> <C-Down> :resize +5<cr>
+nnoremap <silent> <C-Left> :vertical resize -5<cr>
+nnoremap <silent> <C-Right> :vertical resize +5<cr>
 
 " Vim-fugitive remaps
 " git status
-nnoremap <silent> <leader>gs :G<CR>
+nnoremap <silent> <leader>gs :G<cr>
 " resolve conflicts when merging branches
-" nnoremap <leader>gj :diffget //3<CR>
-" nnoremap <leader>gf :diffget //2<CR>
+" nnoremap <leader>gj :diffget //3<cr>
+" nnoremap <leader>gf :diffget //2<cr>
 
-" Explorer
-nnoremap <silent> <leader>e :Ex<CR>
+" Delete useless spaces
+function! NetrwToggle()
+    if tabpagewinnr(tabpagenr(), '$') >= 2
+        " switch to the most left split
+        execute 'wincmd H'
+        if &filetype ==# 'netrw'
+            " close it if it's netrw
+            execute 'close'
+        else
+            execute '30vsplit'
+            execute 'Ex'
+        endif
+    else
+        execute '30vsplit'
+        execute 'Ex'
+    endif
+endfunction
+
+
+" Explorer (make it toggle)
+nnoremap <silent> <leader>e :call NetrwToggle()<cr>
 " Open Undotree
-nnoremap <silent> <leader>u :UndotreeToggle<CR>
+nnoremap <silent> <leader>u :UndotreeToggle<cr>
 
 " Start a Project Search
-nnoremap <leader>ps :Rg<SPACE>
+nnoremap <leader>fs :Rg<space>
 
 " Make Y work like C and D
 nnoremap Y y$
@@ -217,8 +241,8 @@ inoremap ! !<c-g>u
 inoremap ? ?<c-g>u
 
 " Move higlighted lines up and down a line
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<cr>gv=gv
+vnoremap K :m '<-2<cr>gv=gv
 
 " Yank not hurting registry
 nnoremap <leader>y "+y
@@ -245,31 +269,51 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" IDE STUFF
-" Check the filetype to know how to run the file
-if &filetype ==# "python"
-    " python
-    nnoremap <silent> <C-b> :w <bar> :! python3 % <cr>
-elseif &filetype ==# "sh"
-    " bash, shell, zsh -> all will run in bash coz why not
-    nnoremap <silent> <C-b> :w <bar> :! bash % <cr>
-else
-    " other executables
-    nnoremap <silent> <C-b> :w <bar> :! ./% <cr>
-endif
-
 " #############################################################################
 " Autocommands
 " #############################################################################
 
 " Delete useless spaces
-fun! TrimWhitespace()
+function! TrimWhitespace()
     let l:save = winsaveview()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
-endfun
+endfunction
+
+" Check the filetype to know how to run the file
+function! UpdateRunCommand()
+    if &filetype ==# 'python'
+        " python
+        nnoremap <silent> <C-b> :w<bar> :!python3 %<cr>
+    elseif &filetype ==# 'sh'
+        " bash, shell, zsh -> all will run in bash coz why not
+        nnoremap <silent> <C-b> :w<cr> :!bash %<cr>
+    elseif &filetype ==# 'vim'
+        " vim
+        nnoremap <silent> <C-b> :w<cr> :source %<cr>
+    else
+        " other filetypes, need to be executable (TODO: write the check)
+        nnoremap <silent> <C-b> :w <bar> :! ./% <cr>
+    endif
+endfunction
+
+" Close these filetypes with a single keypress instead of :q
+function! UnlistBuffers()
+    nnoremap <silent> <buffer> q :close<cr>
+    nnoremap <silent> <buffer> <esc> :close<cr>
+    set nobuflisted
+endfunction
 
 augroup trimclain
     autocmd!
     autocmd BufWritePre * :call TrimWhitespace()
+    autocmd BufEnter * :call UpdateRunCommand()
+    autocmd FileType qf,help,netrw,fugitive :call UnlistBuffers()
+augroup END
+
+augroup autopairs
+    autocmd!
+    " disable most of the stuff for vim files
+    au Filetype vim let b:AutoPairs = {"(": ")"}
+    au FileType php let b:AutoPairs = AutoPairsDefine({'<?' : '?>', '<?php': '?>'})
 augroup END
