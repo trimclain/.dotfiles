@@ -26,13 +26,13 @@ set nocompatible                        " disable compatibility to vi
 set encoding=utf-8                      " pretty straight-forward
 
 set wildmenu                            " better command-line completion
-set showmatch                           " show matching brackets
+" set showmatch                           " show matching brackets
 set nowrap                              " pretty clear
 set textwidth=0                         " disable breaking the long line of the paste
 set wrapmargin=0                        " simply don't wrap the text (distance from the right border = 0)
 set number                              " enable line numbering
 set relativenumber                      " show relative line numbers
-set nohlsearch                          " don't highlight search results
+set hlsearch                          " don't highlight search results
 set incsearch                           " go to search while typing #GOAT
 set ignorecase                          " use case insensitive search
 set smartcase                           " except when using capital letters
@@ -45,7 +45,7 @@ set showcmd                             " show partial commands in the last line
 set colorcolumn=80                      " vertical column to see 80 characters
 set signcolumn=yes                      " enable error-column
 set clipboard+=unnamedplus              " allows vim to access the system clipboard
-set laststatus=2                        " No statusbar because airline but now lightline so 2 and not 0
+set laststatus=2                        " No statusbar because lightline so 2 and not 0
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
 set formatoptions=tcqjnr                " type :h formatoptions to see the meaning of this option and this string
 
@@ -70,11 +70,13 @@ set undodir=~/.vim/undodir
 set undofile
 
 " NetRW sets
-let g:netrw_browse_split=0              " open in same window
-let g:netrw_banner=0                    " disable annoying banner
+let g:netrw_altfile=1                   " CTRL-^ will return to the last edited file
 let g:netrw_altv=1                      " open splits to the right
-let g:netrw_winsize=75                  " when pressing v/t have the new split be 75% of the whole screen
-let g:newrw_localrmdir='rm -r'
+let g:netrw_banner=0                    " disable annoying banner
+let g:netrw_browse_split=4              " act like 'P' (ie. open previous window)
+let g:netrw_hide=0                      " show all files
+let g:netrw_sizestyle='h'               " show human-readable size (1000 base)
+let g:newrw_localrmdir='rm -r'          " remove directory command (default was rmdir)
 
 " #############################################################################
 " Vim Plug Installation
@@ -143,6 +145,14 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
+
+" CtrlP configs
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+
+" AutoPairs configs
+" The default pairs is {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+" You could also define multibyte pairs such as <!-- -->, <% %> and so on
+let g:AutoPairsMapBS=0          " disable BS remap
 
 " #############################################################################
 " REMAPS
