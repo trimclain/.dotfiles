@@ -110,6 +110,7 @@ Plug 'tpope/vim-fugitive'                " git
 Plug 'tpope/vim-commentary'              " comments
 Plug 'itchyny/lightline.vim'             " statusline
 Plug 'mengelbrecht/lightline-bufferline' " bufferline
+Plug 'moll/vim-bbye'                     " delete buffers and close files without closing your windows
 Plug 'mbbill/undotree'                   " undo history
 Plug 'ctrlpvim/ctrlp.vim'                " fuzzy finder
 Plug 'jiangmiao/auto-pairs'              " autoclose brackets
@@ -177,6 +178,7 @@ let mapleader = " "
 
 " To exit vim and save files faster
 nnoremap <silent> Q :qa<cr>
+nnoremap <silent> <leader>q :Bdelete<cr>
 nnoremap <silent> <leader>w :w<cr>
 
 " Please disable hlsearch on redraw like neovim
