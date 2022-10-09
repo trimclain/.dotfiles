@@ -7,7 +7,7 @@ local join_paths = require("trimclain.utils").join_paths
 
 local setup = {
     plugins = {
-        marks = true, -- shows a list of your marks on ' and `
+        marks = false, -- shows a list of your marks on ' and `
         registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
         spelling = {
             enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions

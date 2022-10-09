@@ -170,7 +170,6 @@ cmp.setup {
         { name = "nvim_lua" },
         { name = "luasnip" },
         { name = "path" },
-        { name = "cmdline" },
     }, {
         { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
     }),
