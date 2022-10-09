@@ -12,7 +12,14 @@
 #                                                                             #
 ###############################################################################
 
-VIM="nvim"
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+    VIM="vim"
+else
+    export EDITOR='nvim'
+    VIM="nvim"
+fi
 
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
@@ -83,13 +90,6 @@ antigen apply
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
-else
-    export EDITOR='nvim'
-fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -158,7 +158,7 @@ SPACESHIP_PROMPT_ORDER=(
     exec_time     # Execution time
     line_sep      # Line break
     # battery       # Battery level and status
-    vi_mode       # Vi-mode indicator
+    # vi_mode       # Vi-mode indicator
     # jobs          # Background jobs indicator
     exit_code     # Exit code section
     char          # Prompt character
