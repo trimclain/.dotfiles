@@ -26,7 +26,6 @@ set nocompatible                        " disable compatibility to vi
 set encoding=utf-8                      " pretty straight-forward
 
 set wildmenu                            " better command-line completion
-" set showmatch                           " show matching brackets
 set nowrap                              " pretty clear
 set textwidth=0                         " disable breaking the long line of the paste
 set wrapmargin=0                        " simply don't wrap the text (distance from the right border = 0)
@@ -68,6 +67,10 @@ set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
 set undofile
+
+" This will rarely work since I use autopairs
+" set showmatch                           " when you enter a close-bracket, the cursor briefly jumps to the matching open-bracket
+let loaded_matchparen = 1               " if the cursor is over a bracket, its matching partner is highlighted
 
 " NetRW sets
 let g:netrw_altfile=1                   " CTRL-^ will return to the last edited file
