@@ -47,6 +47,7 @@ if [[ -n $1 ]]; then
         # Check if there are any old files that are not symlinks and move them
         DOTFS=(~/.bashrc ~/.tmux.conf ~/.vimrc)
         existing_files_check "${DOTFS[@]}"
+
     # Linux installation
     elif [[ $1 == "-l" || $1 == "--linux" ]]; then
 
@@ -55,6 +56,16 @@ if [[ -n $1 ]]; then
 
         # Check if there are any old files that are not symlinks and move them
         DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim ~/.config/awesome ~/.config/kitty)
+        existing_files_check "${DOTFS[@]}"
+
+    # Remote server installation
+    elif [[ $1 == "--server" ]]; then
+
+        # Folders to stow (picom not added yet)
+        STOW_FOLDERS="bin,tmux,zsh,vim"
+
+        # Check if there are any old files that are not symlinks and move them
+        DOTFS=(~/.zshrc ~/.tmux.conf ~/.vimrc)
         existing_files_check "${DOTFS[@]}"
     fi
 
