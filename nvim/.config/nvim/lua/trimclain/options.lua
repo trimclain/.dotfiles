@@ -46,7 +46,7 @@ local options = {
     -- cmdheight = 2, -- more space in the neovim command line for displaying messages
     -- pumheight = 10, -- pop up menu height
     -- showtabline = 2, -- always show tabs
-    -- cursorline = true, -- highlight the current line
+    -- cursorline = true, -- highlight current line
 }
 
 for k, v in pairs(options) do
