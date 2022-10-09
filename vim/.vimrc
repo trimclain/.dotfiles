@@ -47,6 +47,7 @@ set clipboard+=unnamedplus              " allows vim to access the system clipbo
 set laststatus=2                        " No statusbar because lightline so 2 and not 0
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
 set formatoptions=tcqjnr                " type :h formatoptions to see the meaning of this option and this string
+set showtabline=2                       " enable tabline to see buffers using plugins
 
 " Indentation settings
 set autoindent
@@ -105,13 +106,14 @@ call plug#begin('~/.vim/plugged')
 " Plug 'sainnhe/sonokai'                  " other colorscheme
 Plug 'sonph/onehalf', { 'rtp': 'vim'  } " like atoms one but 1/2
 
-Plug 'tpope/vim-fugitive'               " to work with git
-Plug 'tpope/vim-commentary'             " fast comments
-Plug 'itchyny/lightline.vim'            " statusline
-Plug 'mbbill/undotree'                  " undo history
-Plug 'ctrlpvim/ctrlp.vim'               " fuzzy finder
-Plug 'jiangmiao/auto-pairs'             " autoclose brackets
-Plug 'tweekmonster/startuptime.vim'     " check startuptime
+Plug 'tpope/vim-fugitive'                " git
+Plug 'tpope/vim-commentary'              " comments
+Plug 'itchyny/lightline.vim'             " statusline
+Plug 'mengelbrecht/lightline-bufferline' " bufferline
+Plug 'mbbill/undotree'                   " undo history
+Plug 'ctrlpvim/ctrlp.vim'                " fuzzy finder
+Plug 'jiangmiao/auto-pairs'              " autoclose brackets
+Plug 'tweekmonster/startuptime.vim'      " check startuptime
 
 call plug#end()
 
@@ -142,6 +144,16 @@ let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'tabline': {
+      \   'left': [ ['buffers'] ],
+      \   'right': [ ['close'] ]
+      \ },
+      \ 'component_expand': {
+      \   'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'component_type': {
+      \   'buffers': 'tabsel'
       \ },
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead'
