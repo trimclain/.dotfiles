@@ -60,11 +60,23 @@ nvim_build_reqs:
 	sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
 
 nvim: nvimdir nvim_build_reqs
+	@# Install neovim by building it
 	@echo "==================================================================="
-	@echo "Installing Neovim..."
+	@echo "Installing Neovim by building it..."
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
 		else git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
 		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim; fi
+
+neovim: nvimdir
+	@# Install neovim using ppa
+	@# Get add-apt-repository command
+	@echo "==================================================================="
+	@echo "Installing Neovim using ppa..."
+	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
+		else sudo apt install -y software-properties-common &&\
+		sudo add-apt-repository -y ppa:neovim-ppa/unstable &&\
+		sudo apt update && sudo apt install -y neovim; fi
+
 
 uninstall_nvim:
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "Uninstalling Neovim..." &&\
@@ -445,7 +457,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir nvimdir font_install ansible tmux zsh nvim_build_reqs \
-	nvim uninstall_nvim purge_nvim nodejs uninstall_nodejs export_node_modules \
+	nvim neovim uninstall_nvim purge_nvim nodejs uninstall_nodejs export_node_modules \
 	import_node_modules typescript golang julia uninstall_julia sdkman \
 	uninstall_sdkman rust uninstall_rust docker uninstall_docker pm2 ufw \
 	install sinstall finstall alacritty_build_reqs alacritty \
