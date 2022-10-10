@@ -1,106 +1,173 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
 
-BACKUP_FOLDER="$HOME/.dotfiles/.backup"
+import os
+from pathlib import Path
+import subprocess
+import sys
 
-# Functions
-existing_files_check(){
-    arr=("$@")
-    for file in "${arr[@]}"; do
-        # Check if file exists and is not a symlink
-        if [[ -f $file && ! -h $file ]]; then
-            # Create a backup folder
-            mkdir -p ~/.dotfiles/.backup
-            echo Found existing $file
-            echo Moving $file to ~/.dotfiles/.backup
-            mv $file $BACKUP_FOLDER
-        # check for folders aswell
-        # TODO: write this properly and/or add a feature
-        elif [[ -d $file && ! -h $file ]]; then
-            # Create a backup folder
-            mkdir -p ~/.dotfiles/.backup
-            echo Found existing $file
-            echo Moving $file to ~/.dotfiles/.backup
-            mv $file $BACKUP_FOLDER
-        fi
-    done
-}
+CWD = os.path.join(Path.home(), '.dotfiles')
+BACKUP_FOLDER = os.path.join(CWD, '.backup')
 
+STOW_FOLDERS = [
+    'bin',
+    'bash',
+    'i3',
+    'awesome',
+    'polybar',
+    'nvim',
+    'chtsh',
+    'tmux',
+    'vim',
+    'zsh',
+    'kitty',
+    'alacritty',
+    'rofi',
+    'picom',
+    'lf',
+    'stylua',
+]
+
+STOW_CONFIGS = [
+    '',
+    '.bashrc',
+    '.config/i3',
+    '.config/awesome',
+    '.config/polybar',
+    '.config/nvim',
+    '',
+    '.tmux.conf',
+    '.vimrc',
+    '.zshrc',
+    '.config/kitty',
+    '.config/alacritty',
+    '.config/rofi',
+    '.config/picom',
+    '.config/lf',
+    '.config/.stylua.toml',
+]
 
 # Get the mode, default to normal
-if [[ -n $1 ]]; then
+if len(sys.argv) == 1:
+    MODE = '--normal'
+elif len(sys.argv) == 2:
+    MODE = sys.argv[1]
+else:
+    print('Too many arguments! Try again.')
+    sys.exit()
+
+
+def exists(path: str) -> bool:
+    """Check if a given path exists
+
+    Args:
+        path (str): path to a file or a folder
+
+    Returns:
+        True if the path exists
+    """
+    return os.path.isfile(path) or os.path.isdir(path)
+
+
+def backup(location: str) -> None:
+    """Create a backup of an existing config
+
+    Args:
+        location (str): path to the config
+
+    Returns:
+        None if location is empty
+    """
+    # filter empty strings
+    if not location:
+        return
+    fullpath = os.path.join(Path.home(), location)
+    if exists(fullpath) and not os.path.islink(fullpath):
+        subprocess.run(['mkdir', '-p', BACKUP_FOLDER])
+        print('Found existing', location)
+        print('Moving', location, 'to', BACKUP_FOLDER)
+        subprocess.run(['mv', location, BACKUP_FOLDER])
+
+
+def get_config_names() -> list[str]:
+    """Get the names of configs to install
+
+    Returns:
+        List of names
+    """
+    names = []
     # Full installation
-    if [[ $1 == "-f" || $1 == "--full" ]]; then
-
-        # Folders to stow
-        STOW_FOLDERS="bin,bash,nvim,chtsh,tmux,vim,zsh"
-
-        # Check if there are any old files that are not symlinks and move them to backup, so stow works
-        DOTFS=(~/.bashrc ~/.zshrc ~/.tmux.conf ~/.vimrc ~/.config/nvim)
-        existing_files_check "${DOTFS[@]}"
+    if MODE == '-f' or MODE == '--full':
+        # indexex of folders to stow
+        to_stow = [0, 1, 5, 6, 7, 8, 9]
+        # check for existing files to backup
+        for ind in to_stow:
+            backup(STOW_CONFIGS[ind])
+            names.append(STOW_FOLDERS[ind])
+        return names
 
     # Small installation
-    elif [[ $1 == "-s" || $1 == "--small" ]]; then
-
-        # Folders to stow
-        STOW_FOLDERS="bin,bash,chtsh,tmux,vim"
-
-        # Check if there are any old files that are not symlinks and move them
-        DOTFS=(~/.bashrc ~/.tmux.conf ~/.vimrc)
-        existing_files_check "${DOTFS[@]}"
+    if MODE == '-s' or MODE == '--small':
+        # indexex of folders to stow
+        to_stow = [0, 1, 6, 7, 8]
+        # check for existing files to backup
+        for ind in to_stow:
+            backup(STOW_CONFIGS[ind])
+            names.append(STOW_FOLDERS[ind])
+        return names
 
     # Linux installation
-    elif [[ $1 == "-l" || $1 == "--linux" ]]; then
-
-        # Folders to stow (picom not added yet)
-        STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh,awesome,polybar,kitty,rofi,lf,stylua"
-
-        # Check if there are any old files that are not symlinks and move them
-        DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim ~/.config/awesome ~/.config/kitty)
-        existing_files_check "${DOTFS[@]}"
+    if MODE == '-l' or MODE == '--linux':
+        # indexex of folders to stow
+        to_stow = [0, 3, 4, 5, 6, 7, 9, 10, 12, 14, 15]
+        # check for existing files to backup
+        for ind in to_stow:
+            backup(STOW_CONFIGS[ind])
+            names.append(STOW_FOLDERS[ind])
+        return names
 
     # Remote server installation
-    elif [[ $1 == "--server" ]]; then
+    if MODE == '--server':
+        # indexex of folders to stow
+        to_stow = [0, 7, 8, 9]
+        # check for existing files to backup
+        for ind in to_stow:
+            backup(STOW_CONFIGS[ind])
+            names.append(STOW_FOLDERS[ind])
+        return names
 
-        # Folders to stow (picom not added yet)
-        STOW_FOLDERS="bin,tmux,zsh,vim"
+    # Normal mode
+    if MODE == '--normal':
+        # indexex of folders to stow
+        to_stow = [0, 5, 6, 7, 9]
+        # check for existing files to backup
+        for ind in to_stow:
+            backup(STOW_CONFIGS[ind])
+            names.append(STOW_FOLDERS[ind])
+        return names
 
-        # Check if there are any old files that are not symlinks and move them
-        DOTFS=(~/.zshrc ~/.tmux.conf ~/.vimrc)
-        existing_files_check "${DOTFS[@]}"
-    fi
-
-# Normal installation
-else
-
-    # Folders to stow
-    STOW_FOLDERS="bin,nvim,chtsh,tmux,zsh"
-
-    # Check if there are any old files that are not symlinks and delete them, so stow works
-    DOTFS=(~/.zshrc ~/.tmux.conf ~/.config/nvim)
-    existing_files_check "${DOTFS[@]}"
-
-fi
+    else:
+        print('ERROR:', MODE, 'argument doesn\'t exist')
+        sys.exit()
 
 
-# Stow Time
-if [[ -n $DOTFILES ]]; then
-    pushd $DOTFILES > /dev/null
+def install():
+    # Check if stow exists
+    if not os.path.isfile('/usr/bin/stow'):
+        print('Stow not found! Install stow and relaunch the script.')
+        sys.exit()
 
-    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
-    do
-        stow -R $folder
-        echo "Adding symlink to" $folder
-    done
-    echo Done
+    # For now check if in .dotfiles; TODO: Check if $DOTFILES exists
+    if os.getcwd() != CWD:
+        print('ERROR: You\'re not in', CWD)
+        sys.exit()
 
-    popd > /dev/null
-else
+    # Stow
+    names = get_config_names()
+    for name in names:
+        subprocess.run(['stow', '-R', name])
+        print('Adding symlink to', name)
+    print('Done')
 
-    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
-    do
-        stow -R $folder
-        echo "Adding symlink to" $folder
-    done
-    echo Done
 
-fi
+if __name__ == "__main__":
+    install()
