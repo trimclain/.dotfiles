@@ -432,11 +432,11 @@ linux_install: font_install tmux zsh nvim nodejs golang rust kitty awesome nitro
 	@# My ususal installation on Linux
 	@echo "========================== DONE ==================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, inkscape, fd-find, nitrogen, nomacs, flameshot, gimp, smplayer
+linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, inkscape, fd-find, nomacs, flameshot, gimp, smplayer
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
 	@# nomacs image viewer, flameshot for screenshots, gimp, smplayer for videos
-	sudo apt install -y fd-find nomacs dconf-editor flameshot gimp smplayer
+	sudo apt install -y fd-find nomacs flameshot gimp smplayer
 
 ###############################################################################
 python3_setup:
