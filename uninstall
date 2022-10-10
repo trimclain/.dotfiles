@@ -5,42 +5,42 @@ from pathlib import Path
 import subprocess
 
 STOW_FOLDERS = [
-        'bin',
-        'bash',
-        'i3',
-        'awesome',
-        'polybar',
-        'nvim',
-        'chtsh',
-        'tmux',
-        'vim',
-        'zsh',
-        'kitty',
-        'alacritty',
-        'rofi',
-        'picom',
-        'lf',
-        'stylua',
-        ]
+    'bin',
+    'bash',
+    'i3',
+    'awesome',
+    'polybar',
+    'nvim',
+    'chtsh',
+    'tmux',
+    'vim',
+    'zsh',
+    'kitty',
+    'alacritty',
+    'rofi',
+    'picom',
+    'lf',
+    'stylua',
+]
 
 STOW_CONFIGS = [
-        '',
-        '.bashrc',
-        '.config/i3',
-        '.config/awesome',
-        '.config/polybar',
-        '.config/nvim',
-        '',
-        '.tmux.conf',
-        '.vimrc',
-        '.zshrc',
-        '.config/kitty',
-        '.config/alacritty',
-        '.config/picom',
-        '.config/rofi',
-        '.config/lf',
-        '.config/.stylua.toml',
-        ]
+    '',
+    '.bashrc',
+    '.config/i3',
+    '.config/awesome',
+    '.config/polybar',
+    '.config/nvim',
+    '',
+    '.tmux.conf',
+    '.vimrc',
+    '.zshrc',
+    '.config/kitty',
+    '.config/alacritty',
+    '.config/rofi',
+    '.config/picom',
+    '.config/lf',
+    '.config/.stylua.toml',
+]
 
 STOW_ARRAY = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
 
@@ -51,6 +51,7 @@ STOW_ARRAY = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
 
 # TODO: handle the ones with no configs
 
+
 def unstow():
     did_smth = False
     for folder, config in STOW_ARRAY.items():
@@ -58,12 +59,13 @@ def unstow():
         # check if file/foldr exists and is a symlink
         if os.path.islink(configpath):
             subprocess.run(['stow', '-D', folder])
-            print('Unlinking ' + folder)
+            print('Removing symlink to', folder)
             did_smth = True
     if did_smth:
         print('Done')
     else:
         print('There are no jobs')
+
 
 if __name__ == '__main__':
     unstow()
