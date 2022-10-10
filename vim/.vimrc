@@ -316,7 +316,7 @@ endfunction
 function! UpdateRunCommand()
     if &filetype ==# 'python'
         " python
-        nnoremap <silent> <C-b> :w<bar> :!python3 %<cr>
+        nnoremap <silent> <C-b> :w<cr> :!python3 %<cr>
     elseif &filetype ==# 'sh'
         " bash, shell, zsh -> all will run in bash coz why not
         nnoremap <silent> <C-b> :w<cr> :!bash %<cr>
@@ -325,7 +325,7 @@ function! UpdateRunCommand()
         nnoremap <silent> <C-b> :w<cr> :source %<cr>
     else
         " other filetypes, need to be executable (TODO: write the check)
-        nnoremap <silent> <C-b> :w <bar> :! ./% <cr>
+        nnoremap <silent> <C-b> :w <cr> :!./% <cr>
     endif
 endfunction
 
