@@ -1,8 +1,25 @@
 # My Dotfiles
 
+![screenshot](https://user-images.githubusercontent.com/84108846/194804318-319eac9f-f69d-45dc-a4c1-fbd396bcef59.png)
+
+My current configuration:
+* Editor - [Neovim](https://neovim.io)
+    * Configured in Lua
+    * See [`plugins.lua`](./nvim/.config/nvim/lua/trimclain/plugins.lua) for used plugins
+    * Neovim's built-in LSP client
+    * [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter/) 
+      for highlighting
+    * [`telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) for 
+      navigation
+* Terminal - [Kitty](https://sw.kovidgoyal.net/kitty)
+* Shell - [Zsh](https://www.zsh.org)
+* Window Manager - [Awesome](https://awesomewm.org/)
+* Status Bar - [Polybar](https://polybar.github.io/)
+
 NOTES:
 - Installation with `make` is written for Debian-based systems and was tested on Ubuntu 22.04.
 - For my neovim config the latest neovim nightly is required. Use `make nvim` to install it.
+- Use `make help` to see available installation options.
 
 ## How to install
 
@@ -14,7 +31,7 @@ sudo apt install git make
 ```
 git clone https://github.com/trimclain/.dotfiles ~/.dotfiles
 ```
-3. Go to .dotfiles folder and install prerequisites:
+3. Go to ~/.dotfiles and install prerequisites:
 ```
 cd ~/.dotfiles && make
 ```
@@ -34,15 +51,15 @@ cd ~/.dotfiles && make
     ```
 NOTE: If you want to install dotfiles with a different option, run `./uninstall` first.
 - If you want to install the apps together with the dotfiles:
-    - for a small installation (bash, vim, tmux and bin) run
+    - small installation (bash, vim, tmux and bin)
     ```
     make sinstall
     ```
-    - for a normal installation (zsh, nvim, tmux and bin) run
+    - normal installation (fonts, tmux, zsh, nvim, nodejs, golang, rust and my config for nvim, tmux and zsh)
     ```
     make install
     ```
-    - for a full installation (bash, zsh, vim, nvim, tmux, and bin) run
+    - full installation (combine previous two options)
     ```
     make finstall
     ```
@@ -62,11 +79,11 @@ git clone https://github.com/trimclain/.dotfiles ~/.dotfiles
 ```
 cd ~/.dotfiles && make
 ```
-4. Install my dotfiles
+4. Install my dotfiles (in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these)
 ```
 ./install --linux
 ```
-4. Install my desktop software
+4. Install my desktop software (telegram, spotify, brave, obs-studio, kdenlive, inkscape, fd-find, nomacs, flameshot, gimp, smplayer)
 ```
 make linux_install
 ```
