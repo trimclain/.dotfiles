@@ -48,7 +48,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- local source_config = vim.api.nvim_create_augroup("source_config_on_save", { clear = true })
 -- vim.api.nvim_create_autocmd("BufWritePost", {
 --     pattern = require("trimclain.utils").get_list_of_config_files(),
---     command = "source <afile>",
+--     command = "source <afile>", -- this is wrong (:h expand)
 --     desc = "Source config files on save",
 --     group = source_config,
 -- })
@@ -104,7 +104,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved", "CursorMovedI" }, {
     callback = function()
         require("trimclain.utils").update_autoformat_status()
     end,
-    desc = "Enable AutoFormatting",
+    desc = "Update formatting status icon",
     group = "format_on_save_status",
 })
 

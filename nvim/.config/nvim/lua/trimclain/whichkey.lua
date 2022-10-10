@@ -161,7 +161,7 @@ local mappings = {
 
     m = {
         name = "Make",
-        x = { "<cmd>w <bar> <cmd>!chmod +x %<CR>", "Executable" },
+        x = { "<cmd>w <cr> <cmd>!chmod +x %<CR>", "Executable" },
     },
 
     n = {
