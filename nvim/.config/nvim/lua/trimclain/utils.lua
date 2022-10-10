@@ -146,12 +146,21 @@ end
 -- ############################################################################
 local format_on_save = vim.api.nvim_create_augroup("format_on_save", { clear = true })
 
-local pattern_list = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.html", "*.lua", "*.py" }
+local filetype_table = {
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "css",
+    "html",
+    "lua",
+    "python",
+}
 
 function M.update_autoformat_status()
-    -- check for filetype to be in the pattern_list
-    local pattern = "*." .. vim.fn.expand "%:e"
-    if not vim.tbl_contains(pattern_list, pattern) then
+    -- check for filetype to be in the filetype_table
+    local pattern = vim.bo.filetype
+    if not vim.tbl_contains(filetype_table, pattern) then
         vim.g.autoformat_status = ""
         return
     end
@@ -172,7 +181,7 @@ end
 
 function M.init_format_on_save()
     vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = pattern_list,
+        pattern = filetype_table,
         callback = function()
             vim.lsp.buf.format()
         end,
@@ -181,10 +190,10 @@ function M.init_format_on_save()
 end
 
 function M.enable_format_on_save()
-    local pattern = "*." .. vim.fn.expand "%:e"
-    if vim.tbl_contains(pattern_list, pattern) then
+    local pattern = vim.bo.filetype
+    if vim.tbl_contains(filetype_table, pattern) then
         vim.api.nvim_create_autocmd("BufWritePre", {
-            pattern = pattern_list,
+            pattern = filetype_table,
             callback = function()
                 vim.lsp.buf.format()
             end,
