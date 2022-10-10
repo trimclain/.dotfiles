@@ -1,26 +1,69 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
 
-# Unstow it all coz no error when symlink doesn't exist
-STOW_FOLDERS="bin,bash,i3,awesome,polybar,nvim,chtsh,tmux,vim,zsh,kitty,alacritty,rofi,picom,lf,stylua"
+import os
+from pathlib import Path
+import subprocess
 
-# Unstowing Everything
-echo Removing all symlinks...
+STOW_FOLDERS = [
+        'bin',
+        'bash',
+        'i3',
+        'awesome',
+        'polybar',
+        'nvim',
+        'chtsh',
+        'tmux',
+        'vim',
+        'zsh',
+        'kitty',
+        'alacritty',
+        'rofi',
+        'picom',
+        'lf',
+        'stylua',
+        ]
 
-if [[ -n $DOTFILES ]]; then
-    pushd $DOTFILES > /dev/null
+STOW_CONFIGS = [
+        '',
+        '.bashrc',
+        '.config/i3',
+        '.config/awesome',
+        '.config/polybar',
+        '.config/nvim',
+        '',
+        '.tmux.conf',
+        '.vimrc',
+        '.zshrc',
+        '.config/kitty',
+        '.config/alacritty',
+        '.config/picom',
+        '.config/rofi',
+        '.config/lf',
+        '.config/.stylua.toml',
+        ]
 
-    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
-        stow -D $folder
-    done
+STOW_ARRAY = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
 
-    echo Done
-    popd > /dev/null
-else
 
-    for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
-        stow -D $folder
-    done
+# TODO: do I want this?
+# if [[ -n $DOTFILES ]]; then
+# if os.getenv('DOTFILES')
 
-    echo Done
+# TODO: handle the ones with no configs
 
-fi
+def unstow():
+    did_smth = False
+    for folder, config in STOW_ARRAY.items():
+        configpath = os.path.join(Path.home(), config)
+        # check if file/foldr exists and is a symlink
+        if os.path.islink(configpath):
+            subprocess.run(['stow', '-D', folder])
+            print('Unlinking ' + folder)
+            did_smth = True
+    if did_smth:
+        print('Done')
+    else:
+        print('There are no jobs')
+
+if __name__ == '__main__':
+    unstow()
