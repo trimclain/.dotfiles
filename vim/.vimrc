@@ -61,10 +61,10 @@ set noswapfile                          " creates a swapfile
 set undofile                            " enables persistent undo
 set undodir=~/.vim/undodir              " set the undo directory
 set conceallevel=0                      " so that `` is visible in markdown files (default: 0)
-set splitright                          " force all vertical splits to go to the right of current window
-" set mouse=a                             " enable the mouse
 set laststatus=2                        " no statusbar because lightline
 set showtabline=2                       " enable tabline to see buffers using plugins
+" set splitright                          " force all vertical splits to go to the right of current window
+" set mouse=a                             " enable the mouse
 " set cursorline                          " highlight current line
 
 " Disable ALL sounds and errorbells
@@ -258,6 +258,8 @@ inoremap , ,<c-g>u
 inoremap . .<c-g>u
 inoremap ! !<c-g>u
 inoremap ? ?<c-g>u
+inoremap = =<c-g>u
+inoremap : :<c-g>u
 
 " Move higlighted lines up and down a line
 vnoremap J :m '>+1<cr>gv=gv
