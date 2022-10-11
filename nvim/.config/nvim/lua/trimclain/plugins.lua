@@ -181,11 +181,7 @@ return packer.startup {
         ---------------------------------------------------------------------------------------------------------------
         -- Useful tools
         ---------------------------------------------------------------------------------------------------------------
-        -- use "is0n/jaq-nvim"
-        use {
-            "trimclain/jaq-nvim",
-            branch = "better-internal-behavior",
-        }
+        use "is0n/jaq-nvim"
         -- local_use("jaq-nvim", { branch = "better-internal-behavior" })
 
         -- To preview print statement outputs in neovim (for JS, TS, Python and Lua)
