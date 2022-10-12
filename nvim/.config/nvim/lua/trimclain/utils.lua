@@ -129,7 +129,7 @@ function M.toggle_option(option)
     vim.notify(option .. " set to " .. tostring(value))
 end
 
---- Change current shiftwidth value between 2 and 4
+--- Change current tabstop, softtabstop and shiftwidth values between 2 and 4
 function M.toggle_shiftwidth()
     local value = vim.api.nvim_get_option_value("shiftwidth", {})
     if value == 4 then
@@ -137,8 +137,10 @@ function M.toggle_shiftwidth()
     else
         value = 4
     end
-    vim.opt.shiftwidth = value
-    vim.notify("shiftwidth" .. " set to " .. tostring(value))
+    vim.opt.tabstop = value -- insert 2 spaces for \t
+    vim.opt.softtabstop = value -- insert 2 spaces for <Tab> and <BS> keypresses
+    vim.opt.shiftwidth = value -- the number of spaces inserted for each indentation level
+    vim.notify("tabstop, softtabstop and shiftwidth are set to " .. tostring(value))
 end
 
 -- ############################################################################
