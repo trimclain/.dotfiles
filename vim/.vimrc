@@ -67,6 +67,9 @@ set showtabline=2                       " enable tabline to see buffers using pl
 " set mouse=a                             " enable the mouse
 " set cursorline                          " highlight current line
 
+" Enable completions using omnifunc
+set omnifunc=syntaxcomplete#Complete
+
 " Disable ALL sounds and errorbells
 set noerrorbells
 set visualbell
@@ -115,6 +118,7 @@ Plug 'mengelbrecht/lightline-bufferline' " bufferline
 Plug 'moll/vim-bbye'                     " delete buffers and close files without closing your windows
 Plug 'mbbill/undotree'                   " undo history
 Plug 'ctrlpvim/ctrlp.vim'                " fuzzy finder
+Plug 'vim-scripts/AutoComplPop'          " the easiest to install autocomple
 Plug 'jiangmiao/auto-pairs'              " autoclose brackets
 Plug 'tweekmonster/startuptime.vim'      " check startuptime
 
@@ -209,6 +213,13 @@ nnoremap <silent> <C-Up> :resize -5<cr>
 nnoremap <silent> <C-Down> :resize +5<cr>
 nnoremap <silent> <C-Left> :vertical resize -5<cr>
 nnoremap <silent> <C-Right> :vertical resize +5<cr>
+
+" Use Ctrl + Space to open completion menu
+inoremap <C-@> <C-x><C-o>
+
+" Use tab to scroll throug completion options only when a popup windwo is open
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 " Vim-fugitive remaps
 " git status
@@ -365,3 +376,9 @@ augroup filetypeoptions
     autocmd!
     autocmd FileType * :setlocal formatoptions=cqrnj
 augroup END
+
+" InsertChange or CursorMovedI
+" augroup completion
+"     autocmd!
+"     autocmd CursorMovedI * startinsert | call feedkeys("\<C-x>\<C-o>")
+" augroup END
