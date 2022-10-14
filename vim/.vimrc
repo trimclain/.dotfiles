@@ -228,21 +228,13 @@ nnoremap <silent> <leader>gs :G<cr>
 " nnoremap <leader>gj :diffget //3<cr>
 " nnoremap <leader>gf :diffget //2<cr>
 
-" Delete useless spaces
+" Toggle Netrw
 function! NetrwToggle()
-    if tabpagewinnr(tabpagenr(), '$') >= 2
-        " switch to the most left split
-        execute 'wincmd H'
-        if &filetype ==# 'netrw'
-            " close it if it's netrw
-            execute 'close'
-        else
-            execute '30vsplit'
-            execute 'Ex'
-        endif
-    else
+    if g:netrw_opened == 0
         execute '30vsplit'
         execute 'Ex'
+    else
+        execute 'close'
     endif
 endfunction
 
@@ -375,6 +367,12 @@ augroup END
 augroup filetypeoptions
     autocmd!
     autocmd FileType * :setlocal formatoptions=cqrnj
+augroup END
+
+augroup netrw_toggle
+    autocmd!
+    autocmd BufWinEnter netrw :let g:netrw_opened = 1
+    autocmd BufWinLeave * :let g:netrw_opened = 0
 augroup END
 
 " InsertChange or CursorMovedI
