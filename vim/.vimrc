@@ -229,12 +229,16 @@ nnoremap <silent> <leader>gs :G<cr>
 " nnoremap <leader>gf :diffget //2<cr>
 
 " Toggle Netrw
+let g:netrw_opened = 0
 function! NetrwToggle()
-    if g:netrw_opened == 0
-        execute '30vsplit'
-        execute 'Ex'
-    else
+    if g:netrw_opened == 1
+        " get the amount of opened splits and move this much to left
+        " hoping this would work
+        " TODO:
+        " execute 'wincmd ' . (tabpagewinnr(tabpagenr(), '$') - 1) . 'h'
         execute 'close'
+    else
+        execute '15Vex'
     endif
 endfunction
 
@@ -371,8 +375,9 @@ augroup END
 
 augroup netrw_toggle
     autocmd!
-    autocmd BufWinEnter netrw :let g:netrw_opened = 1
-    autocmd BufWinLeave * :let g:netrw_opened = 0
+    autocmd FileType netrw let g:netrw_opened = 1
+    autocmd FileType netrw autocmd BufWinEnter <buffer> let g:netrw_opened = 1
+    autocmd FileType netrw autocmd BufWinLeave <buffer> let g:netrw_opened = 0
 augroup END
 
 " InsertChange or CursorMovedI
