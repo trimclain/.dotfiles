@@ -143,7 +143,7 @@ local mappings = {
         name = "Git",
         b = { "<cmd>lua require('telescope.builtin').git_branches()<CR>", "Branches" },
         l = { "<cmd>lua require('telescope.builtin').git_commits()<CR>", "Commits" },
-        s = { "<cmd>G<cr>", "Status" },
+        s = { "<cmd>Neogit<cr>", "Status" },
     },
 
     l = {

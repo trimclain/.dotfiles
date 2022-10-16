@@ -50,6 +50,7 @@ require "trimclain.autopairs"
 require "trimclain.autotags"
 require "trimclain.comments"
 require "trimclain.neogen"
+require "trimclain.neogit"
 -- waiting for the fix https://github.com/nvim-lualine/lualine.nvim/issues/773
 require "trimclain.todo-comments"
 require "trimclain.gitsigns"
