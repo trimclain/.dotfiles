@@ -6,7 +6,9 @@ if not cmp_status_ok then
     return
 end
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
-M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+-- TODO: what is this? why is there no docs on nvim-cmp github or anywhere else about this
+-- M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 M.setup = function()
     local icons = require "trimclain.icons"
