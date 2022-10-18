@@ -61,10 +61,8 @@ return packer.startup {
         use "akinsho/toggleterm.nvim" -- toggle terminal from neovim
 
         -- Git
-        use "tpope/vim-fugitive" -- vim git integration, thanks tpope
+        use "TimUntersberger/neogit" -- magit for neovim
         use "lewis6991/gitsigns.nvim" -- super fast git decorations
-        -- TODO: checkout someday
-        -- use "sindrets/diffview.nvim" -- cycle through diffs for all modified files
 
         -- Comments
         use "numToStr/Comment.nvim" -- easy comment written in lua
@@ -170,8 +168,11 @@ return packer.startup {
         -- Prime
         ---------------------------------------------------------------------------------------------------------------
         use "ThePrimeagen/harpoon" -- thanks
-        -- TODO: checkout someday
-        -- use "ThePrimeagen/refactoring.nvim" -- Prime
+        use "ThePrimeagen/refactoring.nvim" -- Prime
+
+        ---------------------------------------------------------------------------------------------------------------
+        -- Treesitter
+        ---------------------------------------------------------------------------------------------------------------
         -- Treesitter
         use {
             "nvim-treesitter/nvim-treesitter",
@@ -181,8 +182,8 @@ return packer.startup {
         ---------------------------------------------------------------------------------------------------------------
         -- Useful tools
         ---------------------------------------------------------------------------------------------------------------
-        use "is0n/jaq-nvim"
-        -- local_use("jaq-nvim", { branch = "better-internal-behavior" })
+        -- use "is0n/jaq-nvim"
+        local_use("jaq-nvim", { branch = "find-json-in-root" })
 
         -- To preview print statement outputs in neovim (for JS, TS, Python and Lua)
         use {

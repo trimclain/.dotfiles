@@ -59,7 +59,7 @@ local setup = {
         align = "center", -- align columns left, center or right
     },
     ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
-    hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
+    hidden = { "<silent>", "<cmd>", "<Cmd>", "<cr>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
     show_help = false, -- show help message on the command line when the popup is visible
     -- triggers = "auto", -- automatically setup triggers
     -- triggers = {"<leader>"} -- or specify a list manually
@@ -88,8 +88,8 @@ local opts = {
 }
 
 local mappings = {
-    ["<CR>"] = { "<cmd>source %<CR>", "Source Buffer" },
-    a = { "<cmd>lua require('harpoon.mark').add_file()<CR>", "Add Harpoon Mark" },
+    ["<cr>"] = { "<cmd>source %<cr>", "Source Buffer" },
+    a = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "Add Harpoon Mark" },
     b = { "<cmd>Telescope buffers<cr>", "Buffers" },
     d = { '"_d', "Delete to black hole" },
     e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
@@ -141,8 +141,8 @@ local mappings = {
 
     g = {
         name = "Git",
-        b = { "<cmd>lua require('telescope.builtin').git_branches()<CR>", "Branches" },
-        l = { "<cmd>lua require('telescope.builtin').git_commits()<CR>", "Commits" },
+        b = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "Branches" },
+        l = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Commits" },
         s = { "<cmd>Neogit<cr>", "Status" },
     },
 
@@ -153,7 +153,7 @@ local mappings = {
         F = { "<cmd>FormattingToggle<cr>", "Toggle Autoformat" },
         i = { "<cmd>LspInfo<cr>", "Info" },
         m = { "<cmd>Mason<cr>", "Mason" },
-        j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>", "Next Diagnostic" },
+        j = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", "Next Diagnostic" },
         k = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", "Prev Diagnostic" },
         r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
         R = { "<cmd>lua vim.lsp.buf.references()<cr>", "References" },
@@ -163,7 +163,7 @@ local mappings = {
 
     m = {
         name = "Make",
-        x = { "<cmd>w <cr> <cmd>!chmod +x %<CR>", "Executable" },
+        x = { "<cmd>w <cr> <cmd>!chmod +x %<cr>", "Executable" },
     },
 
     n = {
@@ -175,11 +175,18 @@ local mappings = {
     },
 
     r = {
-        name = "Replace",
+        name = "Replace/Refactor",
         r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
         w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
         f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Replace Buffer" },
         ["."] = { ":%s/\\<<c-r><c-w>\\>/", "Replace Word Vim Style" },
+
+        b = { "<cmd>lua require('refactoring').refactor('Extract Block')<cr>", "Extract Block" },
+        B = { "<cmd>lua require('refactoring').refactor('Extract Block To File')<cr>", "Extract Block To File" },
+        i = {
+            "<cmd>lua require('refactoring').refactor('Inline Variable')<cr>",
+            "Extract Inline Variable under cursor",
+        },
     },
 
     s = {
@@ -187,17 +194,17 @@ local mappings = {
         s = {
             "<cmd>source "
                 .. join_paths(os.getenv "HOME", ".config", "nvim", "lua", "trimclain", "luasnip.lua")
-                .. "<CR>",
+                .. "<cr>",
             "Source luasnip.lua",
         },
     },
 
     t = {
         name = "Terminal",
-        p = { "<cmd>lua _PYTHON_TOGGLE()<CR>", "Python" },
-        n = { "<cmd>lua _NODE_TOGGLE()<CR>", "Node" },
-        h = { "<cmd>lua _HTOP_TOGGLE()<CR>", "HTOP" },
-        b = { "<cmd>lua _BTOP_TOGGLE()<CR>", "BTOP" },
+        p = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
+        n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
+        h = { "<cmd>lua _HTOP_TOGGLE()<cr>", "HTOP" },
+        b = { "<cmd>lua _BTOP_TOGGLE()<cr>", "BTOP" },
     },
 
     v = {
@@ -217,20 +224,24 @@ local mappings = {
     },
 }
 
--- local vopts = {
---     mode = "v", -- VISUAL mode
---     prefix = "<leader>",
---     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
---     silent = true, -- use `silent` when creating keymaps
---     noremap = true, -- use `noremap` when creating keymaps
---     nowait = true, -- use `nowait` when creating keymaps
--- }
--- local vmappings = {
---         ["/"] = { '<ESC><CMD>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', "Comment" },
---         s = { "<esc><cmd>'<,'>SnipRun<cr>", "Run range" },
---         -- z = { "<cmd>TZNarrow<cr>", "Narrow" },
--- }
+local vopts = {
+    mode = "v", -- VISUAL mode
+    prefix = "<leader>",
+    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+    silent = true, -- use `silent` when creating keymaps
+    noremap = true, -- use `noremap` when creating keymaps
+    nowait = true, -- use `nowait` when creating keymaps
+}
+local vmappings = {
+    r = {
+        name = "Refactor",
+        f = { "<cmd>lua require('refactoring').refactor('Extract Function')<cr>", "Extract Function" },
+        F = { "<cmd>lua require('refactoring').refactor('Extract Function To File')<cr>", "Extract Function To File" },
+        v = { "<cmd>lua require('refactoring').refactor('Extract Variable')<cr>", "Extract Variable" },
+        i = { "<cmd>lua require('refactoring').refactor('Inline Variable')<cr>", "Extract Inline Variable" },
+    },
+}
 
 which_key.setup(setup)
 which_key.register(mappings, opts)
--- which_key.register(vmappings, vopts)
+which_key.register(vmappings, vopts)
