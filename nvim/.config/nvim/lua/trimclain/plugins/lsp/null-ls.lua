@@ -12,13 +12,13 @@ null_ls.setup {
     debug = false,
     sources = {
         formatting.prettier.with {
-            extra_args = { "--tab-width=4", "--single-quote", "--jsx-single-quote" }, -- , "--no-semi"
+            extra_args = { "--tab-width=4", "--jsx-single-quote" }, -- , "--no-semi", "--single-quote",
             extra_filetypes = { "toml" },
         },
         formatting.black.with {
             extra_args = {
                 "--fast", -- if --fast given, skip temporary sanity checks [default: --safe]
-                "--skip-string-normalization", -- don't normalize string quotes (don't change single to double) or prefixes
+                -- "--skip-string-normalization", -- don't normalize string quotes (don't change single to double) or prefixes
             },
         },
         formatting.stylua,
