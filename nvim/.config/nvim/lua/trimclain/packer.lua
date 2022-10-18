@@ -126,6 +126,7 @@ return packer.startup {
         use "saadparwaiz1/cmp_luasnip" -- snippet completions
         use "hrsh7th/cmp-nvim-lsp" -- get the LSP completion
         use "hrsh7th/cmp-nvim-lua" -- get the LSP for lua in nvim config
+        use "f3fora/cmp-spell" -- spell source for nvim-cmp based on vim's spellsuggest
         -- use "folke/lua-dev.nvim" -- get the dev setup for init.lua and plugin development with full signature help, docs and completion for the nvim lua API
         -- use "lukas-reineke/cmp-rg" -- source for using ripgrep
         -- use "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig

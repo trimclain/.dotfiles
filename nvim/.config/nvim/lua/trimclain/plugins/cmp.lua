@@ -159,6 +159,7 @@ cmp.setup {
                 buffer = "[buf]",
                 path = "[path]",
                 cmdline = "[cmd]",
+                spell = "[spell]",
             })[entry.source.name]
             return vim_item
         end,
@@ -170,6 +171,15 @@ cmp.setup {
         { name = "nvim_lua" },
         { name = "luasnip" },
         { name = "path" },
+        {
+            name = "spell",
+            option = {
+                keep_all_entries = false,
+                enable_in_context = function()
+                    return true
+                end,
+            },
+        },
     }, {
         { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
     }),

@@ -43,15 +43,15 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     group = filetype_group,
 })
 
--- TODO: What's the problem here?
--- Autocommand to source every config file I save
--- local source_config = vim.api.nvim_create_augroup("source_config_on_save", { clear = true })
--- vim.api.nvim_create_autocmd("BufWritePost", {
---     pattern = require("trimclain.utils").get_list_of_config_files(),
---     command = "source <afile>", -- this is wrong (:h expand)
---     desc = "Source config files on save",
---     group = source_config,
--- })
+-- Enable spell in following filetypes
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "markdown", "NeogitCommitMessage" },
+    callback = function()
+        vim.opt_local.spell = true
+    end,
+    desc = "Enable builin spellcheck in following filetypes",
+    group = filetype_group,
+})
 
 -- If I use cursorline someday
 -- Hide cursorline in insert mode
@@ -70,13 +70,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- })
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-local reload_packer = vim.api.nvim_create_augroup("packer_user_config", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = "plugins.lua",
-    command = "source <afile> | PackerSync",
-    desc = "Run PackerSync after saving plugins.lua",
-    group = reload_packer,
-})
+-- local reload_packer = vim.api.nvim_create_augroup("packer_user_config", { clear = true })
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+--     pattern = "packer.lua",
+--     command = "source <afile> | PackerSync",
+--     desc = "Run PackerSync after saving plugins.lua",
+--     group = reload_packer,
+-- })
 
 -- Autocmd for PackerSync everyday
 -- vim.api.nvim_create_augroup("packersync_on_startup", { clear = true })
