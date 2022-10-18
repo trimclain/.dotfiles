@@ -4,6 +4,9 @@ SHELL := /bin/bash
 # if [[ "$(lsb_release -d)" == *"Ubuntu"* ]]; then echo yes; else echo $(lsb_release -d); fi
 
 all:
+	@# Create required folders
+	@echo "Making sure ~/.local/bin and ~/.config exist"
+	mkdir -p ~/.local/bin ~/.config
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives
