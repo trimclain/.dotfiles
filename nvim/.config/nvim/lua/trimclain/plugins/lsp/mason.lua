@@ -131,17 +131,17 @@ end
 
 for _, server in pairs(servers) do
     local opts = {
-        on_attach = require("trimclain.lsp.handlers").on_attach,
-        capabilities = require("trimclain.lsp.handlers").capabilities,
+        on_attach = require("trimclain.plugins.lsp.handlers").on_attach,
+        capabilities = require("trimclain.plugins.lsp.handlers").capabilities,
     }
 
-    local has_custom_opts, server_custom_opts = pcall(require, "trimclain.lsp.settings." .. server)
+    local has_custom_opts, server_custom_opts = pcall(require, "trimclain.plugins.lsp.settings." .. server)
     if has_custom_opts then
         opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
     end
 
     -- if server == "sumneko_lua" then
-    --     -- local sumneko_opts = require "trimclain.lsp.settings.sumneko_lua"
+    --     -- local sumneko_opts = require "trimclain.plugins.lsp.settings.sumneko_lua"
     --     -- opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
     --     -- opts = vim.tbl_deep_extend("force", require("lua-dev").setup(), opts)
     --     lspconfig.sumneko_lua.setup(luadev)

@@ -6,7 +6,7 @@ end
 -- Lsp Options
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
-require "trimclain.lsp.lsp-signature"
-require "trimclain.lsp.mason"
-require("trimclain.lsp.handlers").setup()
-require "trimclain.lsp.null-ls"
+require "trimclain.plugins.lsp.lsp-signature"
+require "trimclain.plugins.lsp.mason"
+require("trimclain.plugins.lsp.handlers").setup()
+require "trimclain.plugins.lsp.null-ls"
