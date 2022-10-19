@@ -259,8 +259,7 @@ addToPATH() {
 }
 
 
-# Make sure ~/bin, ~/.local/bin and /usr/local/bin are in $PATH.
-addToPATH "$HOME/bin"
+# Make sure ~/.local/bin and /usr/local/bin are in $PATH.
 addToPATH "/usr/local/bin"
 addToPATH "$HOME/.local/bin"
 
