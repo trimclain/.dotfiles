@@ -45,7 +45,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- Enable spell in following filetypes
 vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = { "markdown", "NeogitCommitMessage" },
+    pattern = { "markdown", "NeogitCommitMessage", "text" },
     callback = function()
         vim.opt_local.spell = true
     end,
