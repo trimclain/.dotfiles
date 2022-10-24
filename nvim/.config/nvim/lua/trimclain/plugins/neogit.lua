@@ -79,6 +79,7 @@ neogit.setup {
             ["3"] = "Depth3",
             ["4"] = "Depth4",
             ["<tab>"] = "Toggle",
+            ["="] = "Toggle", -- fugitive habbit
             ["x"] = "Discard",
             ["s"] = "Stage",
             -- ["a"] = "StageUnstaged",
