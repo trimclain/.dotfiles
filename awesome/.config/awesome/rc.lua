@@ -418,7 +418,7 @@ local layoutmap = {
     {
         "d",
         function()
-            awful.spawn.with_shell("keyboard-layout --default")
+            awful.spawn.with_shell("keyboard-layout --german")
         end,
         "us, de, ru",
     },
