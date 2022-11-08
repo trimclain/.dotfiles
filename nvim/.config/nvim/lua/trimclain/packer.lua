@@ -170,6 +170,8 @@ return packer.startup {
         ---------------------------------------------------------------------------------------------------------------
         use "ThePrimeagen/harpoon" -- thanks
         use "ThePrimeagen/refactoring.nvim" -- Prime
+        -- TODO:
+        -- use "ThePrimeagen/vim-be-good"
 
         ---------------------------------------------------------------------------------------------------------------
         -- Treesitter
