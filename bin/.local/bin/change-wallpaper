@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-wallpapers="$HOME/personal/images"
+wallpapers="$HOME/personal/images/wallpapers"
 
 nitrogen $wallpapers
