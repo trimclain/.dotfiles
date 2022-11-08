@@ -9,41 +9,41 @@ CWD = os.path.join(Path.home(), '.dotfiles')
 BACKUP_FOLDER = os.path.join(CWD, '.backup')
 
 STOW_FOLDERS = [
-    'bin',
-    'bash',
-    'i3',
-    'awesome',
-    'polybar',
-    'nvim',
-    'chtsh',
-    'tmux',
-    'vim',
-    'zsh',
-    'kitty',
-    'alacritty',
-    'rofi',
-    'picom',
-    'lf',
-    'stylua',
+    'bin',          # 0
+    'bash',         # 1
+    'i3',           # 2
+    'awesome',      # 3
+    'polybar',      # 4
+    'nvim',         # 5
+    'chtsh',        # 6
+    'tmux',         # 7
+    'vim',          # 8
+    'zsh',          # 9
+    'kitty',        # 10
+    'alacritty',    # 11
+    'rofi',         # 12
+    'picom',        # 13
+    'lf',           # 14
+    'stylua',       # 15
 ]
 
 STOW_CONFIGS = [
-    '',
-    '.bashrc',
-    '.config/i3',
-    '.config/awesome',
-    '.config/polybar',
-    '.config/nvim',
-    '',
-    '.tmux.conf',
-    '.vimrc',
-    '.zshrc',
-    '.config/kitty',
-    '.config/alacritty',
-    '.config/rofi',
-    '.config/picom',
-    '.config/lf',
-    '.config/.stylua.toml',
+    '',                         # 0
+    '.bashrc',                  # 1
+    '.config/i3',               # 1
+    '.config/awesome',          # 2
+    '.config/polybar',          # 3
+    '.config/nvim',             # 4
+    '',                         # 5
+    '.tmux.conf',               # 6
+    '.vimrc',                   # 7
+    '.zshrc',                   # 8
+    '.config/kitty',            # 9
+    '.config/alacritty',        # 10
+    '.config/rofi',             # 11
+    '.config/picom',            # 12
+    '.config/lf',               # 13
+    '.config/.stylua.toml',     # 14
 ]
 
 # Get the mode, default to normal

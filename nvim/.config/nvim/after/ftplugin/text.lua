@@ -1,4 +1,5 @@
 vim.opt_local.colorcolumn = "100"
+vim.opt_local.textwidth = 100
 
 local opts = { noremap = true, silent = true }
 
