@@ -5,7 +5,7 @@ local opts = { noremap = true, silent = true }
 vim.g.is_todo_list = false
 local toggle_todo_list = function()
     if vim.g.is_todo_list == false then
-        vim.keymap.set("i", "<cr>", "<cr>- [ ] ", opts)
+        vim.keymap.set("i", "<cr>", "<cr>-   [ ] ", opts)
         vim.g.is_todo_list = true
         vim.notify "Enabled TODO List"
     else
