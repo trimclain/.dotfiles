@@ -68,6 +68,16 @@ def exists(path: str) -> bool:
     return os.path.isfile(path) or os.path.isdir(path)
 
 
+def fullpath(location: str) -> str:
+    """Add $HOME to the beginning of given path
+        location (str): path to file/folder
+
+    Returns:
+        Full path to file/folder
+    """
+    return os.path.join(Path.home(), location)
+
+
 def backup(location: str) -> None:
     """Create a backup of an existing config
 
@@ -80,8 +90,8 @@ def backup(location: str) -> None:
     # filter empty strings
     if not location:
         return
-    fullpath = os.path.join(Path.home(), location)
-    if exists(fullpath) and not os.path.islink(fullpath):
+    full_path = fullpath(location)
+    if exists(full_path) and not os.path.islink(full_path):
         subprocess.run(['mkdir', '-p', BACKUP_FOLDER])
         print('Found existing', location)
         print('Moving', location, 'to', BACKUP_FOLDER)
@@ -146,7 +156,7 @@ def get_config_names() -> list[str]:
         return names
 
     else:
-        print('ERROR:', MODE, 'argument doesn\'t exist')
+        print('ERROR:', MODE, "argument doesn't exist")
         sys.exit()
 
 
@@ -158,7 +168,7 @@ def install():
 
     # For now check if in .dotfiles; TODO: Check if $DOTFILES exists
     if os.getcwd() != CWD:
-        print('ERROR: You\'re not in', CWD)
+        print("ERROR: You're not in", CWD)
         sys.exit()
 
     # Stow
@@ -169,5 +179,57 @@ def install():
     print('Done')
 
 
+def unixpool_install():
+    # Install tmux-sessionizer, bash, vim, tmux, i3
+    pairs = [
+        (
+            '.dotfiles/bin/.local/bin/tmux-sessionizer',
+            '.local/bin/tmux-sessionizer'
+        ),
+        (
+            '.dotfiles/bash/.bashrc',
+            '.bashrc'
+        ),
+        (
+            '.dotfiles/vim/.vimrc',
+            '.vimrc'
+        ),
+        (
+            '.dotfiles/tmux/.tmux.conf',
+            '.tmux.conf'
+        ),
+        (
+            '.dotfiles/i3/.config/i3',
+            '.config/i3'
+        ),
+        (
+            '.dotfiles/i3/.config/i3status',
+            '.config/i3status'
+        ),
+    ]
+    names = [
+        '.bashrc',
+        '.vimrc',
+        '.tmux.conf',
+        '.config/i3',
+        '.config/i3status'
+    ]
+
+    for name in names:
+        backup(fullpath(name))
+    for pair in pairs:
+        subprocess.run(
+            [
+                'ln',
+                '-s',
+                fullpath(pair[0]),
+                fullpath(pair[1]),
+            ]
+        )
+
+
 if __name__ == "__main__":
-    install()
+    if MODE == '--unixpool':
+        unixpool_install()
+    else:
+        install()
