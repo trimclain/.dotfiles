@@ -10,9 +10,9 @@ export WLAN_INTERFACE=$(ip link | grep default | awk '{print $2}' | awk -F ':' '
 export ETH_INTERFACE=$(ip link | grep default | awk '{print $2}' | awk -F ':' '{print $1}' | grep en)
 
 # Launch the correct bar depending on display dimensions
-if [[ $(xdpyinfo | awk '/dimensions/{print $2}') == "1920x1080" ]]; then
+if [[ $(xdpyinfo | awk '/dimensions/{print $2}') == "1366x768" ]]; then
     # Launch Polybar, using default config location ~/.config/polybar/config.ini
-    polybar mainbar 2>&1 | tee -a /tmp/polybar.log & disown
-else
     polybar minibar 2>&1 | tee -a /tmp/polybar.log & disown
+else
+    polybar mainbar 2>&1 | tee -a /tmp/polybar.log & disown
 fi
