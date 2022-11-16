@@ -255,6 +255,10 @@ extract() {
         extension="${filename##*.}"
         filename="${filename%.*}"
         if [[ $extension == "zip" ]]; then
+            # TODO: if there's only 1 entry in an archive, no need to extract it to new folder
+            # if [[ $(zipinfo $1 | awk '/entries/{print $NF}') == 1 ]]; then
+            #     echo yes
+            # fi
             unzip $1 -d $filename
             rm $1
         else
@@ -269,8 +273,29 @@ extract() {
         echo "Error: Need an archive to extract";
     fi
 }
-
 alias ex=extract
+
+archive() {
+    if [[ -f $1 ]]; then
+        filename=$(basename -- "$1")
+        extension="${filename##*.}"
+        filename="${filename%.*}"
+        if [ -f /usr/bin/7z ]; then
+            7z a -tzip $filename.zip $1
+        else
+            zip -r $filename.zip $1
+        fi
+    elif [[ -d $1 ]]; then
+        if [ -f /usr/bin/7z ]; then
+            7z a -tzip $1.zip $1
+        else
+            zip -r $1.zip $1
+        fi
+    else
+        echo "Error: Need a file/folder to archive";
+    fi
+}
+alias ar=archive
 
 # fucntion to add folders to the end of $PATH
 addToPATH() {
