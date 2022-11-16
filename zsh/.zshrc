@@ -228,28 +228,49 @@ alias la="ls -A --group-directories-first"
 alias l="ls -lhA --group-directories-first"
 
 # Extract Stuff
-# INFO: `7z x $1` can be used for everything
+# extract() {
+#      if [ -f $1 ] ; then
+#          case $1 in
+#              *.tar.bz2)   tar xjf $1        ;;
+#              *.tar.gz)    tar xzf $1        ;;
+#              *.bz2)       bunzip2 $1        ;;
+#              *.rar)       7z x $1           ;;
+#              *.gz)        gunzip $1         ;;
+#              *.tar)       tar xf $1         ;;
+#              *.tbz2)      tar xjf $1        ;;
+#              *.tgz)       tar xzf $1        ;;
+#              *.zip)       unzip $1          ;;
+#              *.Z)         uncompress $1     ;;
+#              *.7z)        7z x $1           ;;
+#              *)           echo "'$1' cannot be extracted via extract()" ;;
+#          esac
+#      else
+#          echo "'$1' is not a valid file"
+#      fi
+# }
+
 extract() {
-     if [ -f $1 ] ; then
-         case $1 in
-             *.tar.bz2)   tar xjf $1        ;;
-             *.tar.gz)    tar xzf $1        ;;
-             *.bz2)       bunzip2 $1        ;;
-             *.rar)       7z x $1           ;;
-             *.gz)        gunzip $1         ;;
-             *.tar)       tar xf $1         ;;
-             *.tbz2)      tar xjf $1        ;;
-             *.tgz)       tar xzf $1        ;;
-             *.zip)       unzip $1          ;;
-             *.Z)         uncompress $1     ;;
-             *.7z)        7z x $1           ;;
-             *)           echo "'$1' cannot be extracted via extract()" ;;
-             # *)           if [ -f /usr/bin/7z ]; then 7z x $1; else echo "'$1' cannot be extracted via extract()"; fi;;
-         esac
-     else
-         echo "'$1' is not a valid file"
-     fi
+    if [[ -f $1 ]]; then
+        filename=$(basename -- "$1")
+        extension="${filename##*.}"
+        filename="${filename%.*}"
+        if [[ $extension == "zip" ]]; then
+            unzip $1 -d $filename
+            rm $1
+        else
+            if [ -f /usr/bin/7z ]; then
+                7z x $1 -o$filename
+                rm $1
+            else
+                echo "Error: 7z not found";
+            fi
+        fi
+    else
+        echo "Error: Need an archive to extract";
+    fi
 }
+
+alias ex=extract
 
 # fucntion to add folders to the end of $PATH
 addToPATH() {
@@ -257,7 +278,6 @@ addToPATH() {
         PATH+=":$1"
     fi
 }
-
 
 # Make sure ~/.local/bin and /usr/local/bin are in $PATH.
 addToPATH "/usr/local/bin"
