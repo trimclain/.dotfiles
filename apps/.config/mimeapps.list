@@ -5,7 +5,9 @@ x-scheme-handler/https=brave-browser.desktop
 x-scheme-handler/about=brave-browser.desktop
 x-scheme-handler/unknown=brave-browser.desktop
 application/pdf=okularApplication_pdf.desktop
+video/mp4=smplayer.desktop;
 
 [Added Associations]
-image/jpeg=gimp.desktop;
 application/pdf=okularApplication_pdf.desktop;
+image/jpeg=gimp.desktop;
+video/mp4=smplayer.desktop;
