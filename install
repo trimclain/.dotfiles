@@ -70,6 +70,8 @@ def exists(path: str) -> bool:
 
 def fullpath(location: str) -> str:
     """Add $HOME to the beginning of given path
+
+    Args:
         location (str): path to file/folder
 
     Returns:
@@ -85,7 +87,7 @@ def backup(location: str) -> None:
         location (str): path to the config
 
     Returns:
-        None if location is empty
+        None
     """
     # filter empty strings
     if not location:
@@ -93,9 +95,11 @@ def backup(location: str) -> None:
     full_path = fullpath(location)
     if exists(full_path) and not os.path.islink(full_path):
         subprocess.run(['mkdir', '-p', BACKUP_FOLDER])
-        print('Found existing', location)
-        print('Moving', location, 'to', BACKUP_FOLDER)
-        subprocess.run(['mv', location, BACKUP_FOLDER])
+        print('Found existing', location, '-> Moving it to', BACKUP_FOLDER)
+        subprocess.run(['mv', full_path, BACKUP_FOLDER])
+    elif exists(full_path) and os.path.islink(full_path):
+        print('Found symlink at', full_path, '-> Deleting it')
+        subprocess.run(['rm', '-r', full_path])
 
 
 def get_config_names() -> list[str]:
@@ -207,17 +211,9 @@ def unixpool_install():
             '.config/i3status'
         ),
     ]
-    names = [
-        '.bashrc',
-        '.vimrc',
-        '.tmux.conf',
-        '.config/i3',
-        '.config/i3status'
-    ]
 
-    for name in names:
-        backup(fullpath(name))
     for pair in pairs:
+        backup(pair[1])
         subprocess.run(
             [
                 'ln',

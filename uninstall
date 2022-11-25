@@ -68,4 +68,8 @@ def unstow():
 
 
 if __name__ == '__main__':
+    # TODO: handle the case with no stow
+    # if not os.path.isfile('/usr/bin/stow'):
+    #     print('Stow not found! Install stow and relaunch the script.')
+    #     sys.exit()
     unstow()
