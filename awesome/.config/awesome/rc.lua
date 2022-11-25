@@ -416,18 +416,18 @@ local brightmap = {
 -- Keyboard Layout Mode
 local layoutmap = {
     {
-        "d",
-        function()
-            awful.spawn.with_shell("keyboard-layout --german")
-        end,
-        "us, de, ru",
-    },
-    {
-        "n",
+        "1",
         function()
             awful.spawn.with_shell("keyboard-layout --no-german")
         end,
         "us, ru",
+    },
+    {
+        "2",
+        function()
+            awful.spawn.with_shell("keyboard-layout --german")
+        end,
+        "us, de, ru",
     },
 }
 
