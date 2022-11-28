@@ -323,7 +323,7 @@ client.urgent           $red $red $white $red $red
 ############################
 
 bar {
-    # position top
+    position top
     status_command i3status
     # font MesloLGS NF:style=Regular
     # font FontAwesome:style=Regular
