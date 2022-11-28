@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
 
-wallpapers="$HOME/personal/images/wallpapers"
-nitrogen --set-auto --random $wallpapers
+if [[ -d $HOME/personal/images/wallpapers ]]; then
+    wallpapers="$HOME/personal/images/wallpapers"
+elif [[ -d $HOME/wallpapers/ ]]; then
+    wallpapers="$HOME/wallpapers"
+else
+    echo "Error: wallpapers not found"
+    exit 0
+fi
+
+if [[ -f /usr/bin/nitrogen ]]; then
+    nitrogen --set-auto --random $wallpapers
+else
+    ls $wallpapers |sort -R |tail -1 |while read selected; do
+    # Something involving $file, or you can leave
+    # off the while to just get the filenames
+    feh --bg-scale $wallpapers/$selected
+    done
+fi

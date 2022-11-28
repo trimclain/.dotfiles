@@ -201,6 +201,10 @@ def unixpool_install():
             '.local/bin/tmux-sessionizer'
         ),
         (
+            '.dotfiles/bin/.local/bin/set-random-wallpaper',
+            '.local/bin/set-random-wallpaper'
+        ),
+        (
             '.dotfiles/bash/.bashrc',
             '.bashrc'
         ),

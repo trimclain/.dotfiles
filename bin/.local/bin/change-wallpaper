@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
-wallpapers="$HOME/personal/images/wallpapers"
+if [[ -f /usr/bin/nitrogen ]]; then
+    wallpapers="$HOME/personal/images/wallpapers"
+    nitrogen $wallpapers
+# elif [[ -f /usr/bin/feh ]]; then
+#     images_folder=~/personal/images
 
-nitrogen $wallpapers
+#     selected=$(find $images_folder | grep '.png\|.jpg\|.jpeg' | fzf)
+
+#     if [[ -z $selected ]]; then
+#         exit 0
+#     fi
+
+#     feh --bg-scale $selected
+else
+    echo "Error: neither nitrogen nor feh found"
+fi
+
+
