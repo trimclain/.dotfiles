@@ -185,6 +185,16 @@ ufw:
 	@echo "Installing UFW (Uncomplicated Firewall)..."
 	sudo apt install -y ufw
 
+server: ## install everything I need for my server
+	@echo "Making sure ~/.local/bin and ~/.config exist"
+	mkdir -p ~/.local/bin ~/.config
+	@# Usefull tools
+	@echo "Installing some usefull programms..."
+	@# stow to symlink files, 7zip for extracting archives
+	sudo apt-get install -y curl stow ripgrep fzf htop btop tree p7zip-full
+	./install --server
+
+
 ###############################################################################
 
 install: font_install tmux zsh nvim nodejs golang rust ## install fonts, tmux, zsh, nvim, nodejs, golang, rust and my config for nvim, tmux and zsh
