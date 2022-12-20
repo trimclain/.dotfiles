@@ -102,7 +102,7 @@ def backup(location: str) -> None:
         subprocess.run(['rm', '-r', full_path])
 
 
-def get_config_names(): # -> list[str]: -- not supported in 3.7
+def get_config_names():  # -> list[str]: -- not supported in 3.7
     """Get the names of configs to install
 
     Returns:
@@ -142,7 +142,7 @@ def get_config_names(): # -> list[str]: -- not supported in 3.7
     # Remote server installation
     if MODE == '--server':
         # indexex of folders to stow
-        to_stow = [0, 7, 8, 9]
+        to_stow = [0, 1, 7, 8]
         # check for existing files to backup
         for ind in to_stow:
             backup(STOW_CONFIGS[ind])
