@@ -224,8 +224,9 @@ alias enrc="$VIM $DOTFILES/nvim/.config/nvim/init.lua --cmd \"cd $DOTFILES/nvim/
 
 alias py="python3"
 
-alias la="ls -A --group-directories-first"
-alias l="ls -lhA --group-directories-first"
+alias ls="ls --color=tty --group-directories-first"
+alias la="ls -A"
+alias l="ls -lhA"
 
 # Extract Stuff
 # extract() {
@@ -275,6 +276,7 @@ extract() {
 }
 alias ex=extract
 
+# Create a zip archive
 archive() {
     if [[ -f $1 ]]; then
         filename=$(basename -- "$1")
