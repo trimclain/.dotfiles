@@ -8,3 +8,4 @@ vim.keymap.set("i", "<space>", "<space><c-g>u", opts)
 
 vim.keymap.set("n", "<leader>md", "<cmd>setlocal spelllang=de<cr>", opts)
 vim.keymap.set("n", "<leader>me", "<cmd>setlocal spelllang=en<cr>", opts)
+vim.keymap.set("i", "--", "—", { noremap = true })

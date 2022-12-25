@@ -16,3 +16,4 @@ local toggle_todo_list = function()
 end
 
 vim.keymap.set("n", "<leader>td", toggle_todo_list, opts)
+vim.keymap.set("i", "--", "—", { noremap = true })
