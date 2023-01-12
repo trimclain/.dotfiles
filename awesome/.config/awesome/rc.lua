@@ -482,7 +482,7 @@ local globalkeys = mytable.join(
         modalbind.grab({ keymap = layoutmap, name = "Layout", stay_in_mode = false })
     end, { description = "enter keyboard layout mode", group = "modes" }),
 
-    awful.key({ modkey }, "m", function()
+    awful.key({ altkey }, "m", function()
         modalbind.grab({ keymap = monimap, name = "Monitor Layout", stay_in_mode = false })
     end, { description = "enter monitor mode", group = "modes" }),
     -- ########################################################################
@@ -829,7 +829,7 @@ local clientkeys = mytable.join(
     end, { description = "toggle fullscreen", group = "client" }),
     awful.key({ modkey, "Shift" }, "q", function(c)
         c:kill()
-    end, { description = "close", group = "client" }),
+    end, { description = "close the client", group = "client" }),
     awful.key(
         { modkey, "Control" },
         "space",
@@ -844,16 +844,16 @@ local clientkeys = mytable.join(
     -- end, { description = "move to screen", group = "client" }),
     awful.key({ modkey }, "t", function(c)
         c.ontop = not c.ontop
-    end, { description = "toggle keep on top", group = "client" })
+    end, { description = "toggle keep on top", group = "client" }),
     -- awful.key({ modkey }, "n", function(c)
     --     -- The client currently has the input focus, so it cannot be
     --     -- minimized, since minimized clients can't have the focus.
     --     c.minimized = true
     -- end, { description = "minimize", group = "client" }),
-    -- awful.key({ modkey }, "m", function(c)
-    --     c.maximized = not c.maximized
-    --     c:raise()
-    -- end, { description = "(un)maximize", group = "client" }),
+    awful.key({ modkey }, "m", function(c)
+        c.maximized = not c.maximized
+        c:raise()
+    end, { description = "(un)maximize", group = "client" })
     -- awful.key({ modkey, "Control" }, "m", function(c)
     --     c.maximized_vertical = not c.maximized_vertical
     --     c:raise()
