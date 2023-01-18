@@ -434,14 +434,14 @@ local layoutmap = {
 -- Monitor Mode
 local monimap = {
     {
-        "f",
+        "1",
         function()
             awful.spawn.with_shell("monitor-layout --first")
         end,
         "First",
     },
     {
-        "s",
+        "2",
         function()
             awful.spawn.with_shell("monitor-layout --second")
         end,
@@ -929,6 +929,18 @@ root.keys(globalkeys)
 -- ############################################################################
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
+
+    -- TODO: Find a better solution
+    -- Make Telegram Media Viewer floating by default
+    {
+        rule = { class = "TelegramDesktop" }, -- , instance = "Media viewer"
+        properties = { floating = true },
+        -- properties = {},
+        -- callback = function(c)
+        --     c.floating = true
+        -- end
+    },
+
     -- All clients will match this rule.
     {
         rule = {},
