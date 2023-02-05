@@ -16,6 +16,7 @@ local servers = {
     "emmet_ls",
     -- "tailwindcss",
     "tsserver",
+    "volar", -- vue-language-server
     "jsonls",
     "sumneko_lua",
     "bashls",
