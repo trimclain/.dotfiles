@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# TODO: fixt this
+
+# Source: https://wiki.archlinux.org/title/Cursor_themes#Configuration
+
+# fifo="/tmp/themes_script.fifo"
+# mkfifo "$fifo"
+
+# declare -a themes
+# find /usr/share/icons -maxdepth 2 -type d  -name "cursors" -printf "%P\n" > "$fifo" &
+# if [[ -d ~/.icons ]]; then
+#     find ~/.icons -maxdepth 2 -type d  -name "cursors" -printf "%P\n" >> "$fifo" &
+# fi
+
+# while IFS= read -r line
+# do
+#     themes+=("${line%/*}")
+# done < "$fifo"
+# rm "$fifo"
+# echo ${themes[@]}
+
+# # current_theme=$(gsettings get org.gnome.desktop.interface cursor-theme)
+# # echo "Current Theme: $current_theme"
+# echo ">>> Please enter the number of new theme for cursor"
+# select opt in "${themes[@]}"
+# do
+#      if [ $REPLY -le ${#themes} ]
+#      then
+#           # gsettings set org.gnome.desktop.interface cursor-theme  \'$opt\' &&
+#           echo \'$opt\'
+#           exit 0
+#      else
+#           echo \'$opt\'
+#           echo $REPLY
+#           echo ${#themes}
+#           echo "Error :(" > /dev/stderr
+#           exit 1
+#      fi
+# done
+# END TODO
+
+
+default_icons=~/.icons/default
+gtk3_config=~/.config/gtk-3.0
+if [[ $1 == "-d" ]]; then
+    if [[ -f $default_icons/index.theme ]]; then
+        rm $default_icons/index.theme
+        echo "Deleted $default_icons/index.theme"
+    fi
+    if [[ -f $default_icons/index.theme.old ]]; then
+        rm $default_icons/index.theme.old
+        echo "Deleted $default_icons/index.theme.old"
+    fi
+    if [[ -f $gtk3_config/settings.ini ]]; then
+        rm $gtk3_config/settings.ini
+        echo "Deleted $gtk3_config/settings.ini"
+    fi
+    if [[ -f $gtk3_config/settings.ini.old ]]; then
+        rm $gtk3_config/settings.ini.old
+        echo "Deleted $gtk3_config/settings.ini.old"
+    fi
+else
+    # https://wiki.archlinux.org/title/Cursor_themes#XDG_specification
+
+    cursor_theme_name="macOS"
+    # 1. Create ~/.icons/default/index.theme
+    mkdir -p $default_icons
+
+    # 2. Add following lines to it: "[icon theme]\nInherits=$cursor_theme_name"
+    if [[ -f $default_icons/index.theme ]]; then
+        mv $default_icons/index.theme $default_icons/index.theme.old
+        echo "Found existing $default_icons/index.theme, renamed it to $default_icons/index.theme.old"
+    fi
+    echo -e "[icon theme]\nInherits=$cursor_theme_name" > $default_icons/index.theme
+    echo "Created $default_icons/index.theme and set current cursor theme to $cursor_theme_name"
+
+    # 3. Create ~/.config/gtk-3.0/settings.ini
+    mkdir -p $gtk3_config
+
+    # 4. Add following lines to it: "[Settings]\ngtk-cursor-theme-name=$cursor_theme_name"
+    if [[ -f $gtk3_config/settings.ini ]]; then
+        mv $gtk3_config/settings.ini $gtk3_config/settings.ini.old
+        echo "Found existing $gtk3_config/settings.ini, renamed it to $gtk3_config/settings.ini.old"
+    fi
+    echo -e "[Settings]\ngtk-cursor-theme-name=$cursor_theme_name" > $gtk3_config/settings.ini
+    echo "Created $gtk3_config/settings.ini and set current cursor theme to $cursor_theme_name"
+fi

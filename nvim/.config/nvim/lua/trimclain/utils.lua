@@ -84,6 +84,9 @@ end
 --     end
 -- end
 
+-- TODO: switch from horizontal split to vertical and back
+-- https://stackoverflow.com/questions/1269603/to-switch-from-vertical-split-to-horizontal-split-fast-in-vim
+
 -- ############################################################################
 -- SMART QUIT
 -- ############################################################################
