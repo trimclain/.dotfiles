@@ -42,9 +42,6 @@ nvim_tree.setup {
     hijack_cursor = true, -- default: false
     hijack_netrw = true,
     hijack_unnamed_buffer_when_opening = false,
-    ignore_buffer_on_setup = false,
-    open_on_setup = false,
-    open_on_setup_file = false,
     root_dirs = {},
     prefer_startup_root = false,
     sync_root_with_cwd = true, -- default: false
@@ -109,7 +106,6 @@ nvim_tree.setup {
         icons = {
             webdev_colors = true,
             git_placement = "before",
-            modfied_placement = "after",
             padding = " ",
             symlink_arrow = " ➛ ",
             show = {
@@ -155,11 +151,6 @@ nvim_tree.setup {
         enable = true, -- default: false
         update_root = true, -- default: false
         ignore_list = {},
-    },
-    ignore_ft_on_setup = {
-        "startify",
-        "dashboard",
-        "alpha",
     },
     system_open = {
         cmd = "",

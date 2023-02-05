@@ -26,14 +26,14 @@ return packer.startup {
         --- Use local packages
         ---@param plug_name string the name of the local plugin
         ---@param opts table options to pass to packer (default: {})
-        local local_use = function(plug_name, opts)
-            opts = opts or {}
-            local plug_path = join_paths(os.getenv "PLUGINS", plug_name)
-            local plugin = vim.tbl_extend("keep", { plug_path }, opts)
-            if vim.fn.isdirectory(vim.fn.expand(plug_path)) == 1 then
-                use(plugin)
-            end
-        end
+        -- local local_use = function(plug_name, opts)
+        --     opts = opts or {}
+        --     local plug_path = join_paths(os.getenv "PLUGINS", plug_name)
+        --     local plugin = vim.tbl_extend("keep", { plug_path }, opts)
+        --     if vim.fn.isdirectory(vim.fn.expand(plug_path)) == 1 then
+        --         use(plugin)
+        --     end
+        -- end
 
         use "wbthomason/packer.nvim" -- packer can manage itself
         use "nvim-lua/plenary.nvim" -- made by tj, used by many plugins
@@ -186,7 +186,7 @@ return packer.startup {
         -- Useful tools
         ---------------------------------------------------------------------------------------------------------------
         -- use "is0n/jaq-nvim"
-        local_use("jaq-nvim", { branch = "find-json-in-root" })
+        -- local_use("jaq-nvim", { branch = "find-json-in-root" })
 
         -- To preview print statement outputs in neovim (for JS, TS, Python and Lua)
         use {
