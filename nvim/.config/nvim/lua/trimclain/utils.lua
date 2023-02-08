@@ -4,6 +4,24 @@ local M = {}
 -- NICE TO HAVE
 -- ############################################################################
 
+--- Print the given object
+---@param obj table | string | integer
+function _G.P(obj)
+    print(vim.inspect(obj))
+end
+
+--- Concatenate 2 lua tables
+---@param a table
+---@param b table
+---@return table
+function M.tbl_concat(a, b)
+    local result = vim.deepcopy(a)
+    for _, value in ipairs(b) do
+        table.insert(result, value)
+    end
+    return result
+end
+
 --- Return true if s is either "" or nil
 ---@param s string | table
 ---@return boolean
@@ -366,7 +384,7 @@ vim.cmd [[
 vim.cmd [[
     function! HandleURL()
         let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;)]*')
-        echo s:uri
+        echo "Opened ".s:uri
         if s:uri != ""
             silent exec "!xdg-open '".s:uri."'"
         else
@@ -374,11 +392,5 @@ vim.cmd [[
         endif
     endfunction
 ]]
-
---- Print the given object
----@param obj table | string | integer
-function _G.P(obj)
-    print(vim.inspect(obj))
-end
 
 return M
