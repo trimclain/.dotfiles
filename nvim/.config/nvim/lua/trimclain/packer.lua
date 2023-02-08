@@ -26,14 +26,19 @@ return packer.startup {
         --- Use local packages
         ---@param plug_name string the name of the local plugin
         ---@param opts table options to pass to packer (default: {})
-        -- local local_use = function(plug_name, opts)
-        --     opts = opts or {}
-        --     local plug_path = join_paths(os.getenv "PLUGINS", plug_name)
-        --     local plugin = vim.tbl_extend("keep", { plug_path }, opts)
-        --     if vim.fn.isdirectory(vim.fn.expand(plug_path)) == 1 then
-        --         use(plugin)
-        --     end
-        -- end
+        local local_use = function(plug_name, opts)
+            local local_plugins = os.getenv "PLUGINS"
+            if not local_plugins then
+                vim.notify "Error: No local plugin folder"
+                return
+            end
+            opts = opts or {}
+            local plug_path = join_paths(local_plugins, plug_name)
+            local plugin = vim.tbl_extend("keep", { plug_path }, opts)
+            if vim.fn.isdirectory(vim.fn.expand(plug_path)) == 1 then
+                use(plugin)
+            end
+        end
 
         use "wbthomason/packer.nvim" -- packer can manage itself
         use "nvim-lua/plenary.nvim" -- made by tj, used by many plugins
@@ -83,7 +88,6 @@ return packer.startup {
         }
         use "folke/tokyonight.nvim"
         use "LunarVim/Colorschemes"
-        -- use "gruvbox-community/gruvbox"
         use "rebelot/kanagawa.nvim"
         use {
             "rose-pine/neovim",
@@ -127,7 +131,9 @@ return packer.startup {
         use "hrsh7th/cmp-nvim-lsp" -- get the LSP completion
         use "hrsh7th/cmp-nvim-lua" -- get the LSP for lua in nvim config
         use "f3fora/cmp-spell" -- spell source for nvim-cmp based on vim's spellsuggest
+        -- TODO: https://github.com/folke/neodev.nvim
         -- use "folke/lua-dev.nvim" -- get the dev setup for init.lua and plugin development with full signature help, docs and completion for the nvim lua API
+
         -- use "lukas-reineke/cmp-rg" -- source for using ripgrep
         -- use "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig
         -- use "ray-x/cmp-treesitter" -- source for treesitter nodes
@@ -146,10 +152,8 @@ return packer.startup {
         use "neovim/nvim-lspconfig" -- LSP configurations
         use "williamboman/mason.nvim" -- manage external editor tooling such as LSP servers, DAP servers, linters, and formatters
         use "williamboman/mason-lspconfig.nvim" -- bridge mason.nvim with the lspconfig
-        use "jose-elias-alvarez/null-ls.nvim" -- code formatter (LSP diagnostics, code actions, and more)
-        -- TODO: do I want these?
-        -- use "jayp0521/mason-null-ls.nvim" -- bridge mason.nvim with the null-ls
-        -- use "RubixDev/mason-update-all" -- easily update all Mason packages with one command
+        use "jose-elias-alvarez/null-ls.nvim" -- linter and code formatter (LSP diagnostics, code actions, and more)
+        use "jay-babu/mason-null-ls.nvim" -- bridge mason.nvim with the null-ls
         use "ray-x/lsp_signature.nvim" -- show function signature when you type
         -- TODO?: try this instead
         -- use "hrsh7th/cmp-nvim-lsp-signature-help"
@@ -185,7 +189,7 @@ return packer.startup {
         ---------------------------------------------------------------------------------------------------------------
         -- Useful tools
         ---------------------------------------------------------------------------------------------------------------
-        -- use "is0n/jaq-nvim"
+        use "is0n/jaq-nvim"
         -- local_use("jaq-nvim", { branch = "find-json-in-root" })
 
         -- To preview print statement outputs in neovim (for JS, TS, Python and Lua)
