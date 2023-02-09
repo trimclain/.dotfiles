@@ -10,17 +10,15 @@ function _G.P(obj)
     print(vim.inspect(obj))
 end
 
+-- INFO: use table.concat
 --- Concatenate 2 lua tables
----@param a table
----@param b table
----@return table
-function M.tbl_concat(a, b)
-    local result = vim.deepcopy(a)
-    for _, value in ipairs(b) do
-        table.insert(result, value)
-    end
-    return result
-end
+-- function M.tbl_concat(a, b)
+--     local result = vim.deepcopy(a)
+--     for _, value in ipairs(b) do
+--         table.insert(result, value)
+--     end
+--     return result
+-- end
 
 --- Return true if s is either "" or nil
 ---@param s string | table
@@ -29,14 +27,26 @@ function M.isempty(s)
     return s == nil or s == ""
 end
 
---- Check if a file exists
----@param name string path to the file
-function M.file_exists(name)
-    local f = io.open(name, "r")
-    if f then
-        f:close()
+--- Check if a directory exists in this path
+---@param file string path to the file
+---@return boolean
+function M.exists(file)
+    local ok, _, code = os.rename(file, file)
+    if not ok then
+        if code == 13 then
+            -- Permission denied, but it exists
+            return true
+        end
     end
-    return f ~= nil
+    return ok == true
+end
+
+--- Check if a directory exists in this path
+---@param path string path to the file
+---@return boolean
+function M.isdir(path)
+    -- "/" works on both Unix and Windows
+    return M.exists(path .. "/")
 end
 
 --- Get the value of option current for current buffer
@@ -50,12 +60,23 @@ function M.get_buf_option(opt)
     end
 end
 
---- Joing path segments that were passed as input
+--- Join path segments to a full path
 ---@vararg string folder or file names
 ---@return string result full path to the file or folder
 function M.join_paths(...)
     local uv = vim.loop
     local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
+    local args = {...}
+
+    -- Check if every given file or folder exists
+    local tmp_path = args[1]
+    table.remove(args, 1)
+    for _, v in ipairs(args) do
+        tmp_path = tmp_path .. path_sep .. tostring(v)
+        if not M.exists(tmp_path) then
+            print("Error: " .. tmp_path .. " doesn't exists")
+        end
+    end
 
     local result = table.concat({ ... }, path_sep)
     return result
@@ -268,27 +289,27 @@ end
 
 --- Get the list of every file in my nvim config
 ---@return table config_files list of config files
-function M.get_list_of_config_files()
-    local config_dir = M.get_config_dir()
-    local lua_config_dir = M.join_paths(config_dir, "lua", "trimclain")
-    local lsp_settings_dir = M.join_paths(lua_config_dir, "lsp", "settings")
-    local stylua_conf = M.join_paths(config_dir, "stylua.toml")
-    local packer_compiled_conf = M.join_paths(config_dir, "plugin", "packer_compiled.lua")
-    local command = "find "
-        .. config_dir
-        .. "/ "
-        .. lua_config_dir
-        .. "/ "
-        .. lsp_settings_dir
-        .. "/ -mindepth 1 -maxdepth 2 -type f -not \\( -path "
-        .. stylua_conf
-        .. " -o -path "
-        .. packer_compiled_conf
-        .. ' \\) -printf "%f\n"'
+-- function M.get_list_of_config_files()
+--     local config_dir = M.get_config_dir()
+--     local lua_config_dir = M.join_paths(config_dir, "lua", "trimclain")
+--     local lsp_settings_dir = M.join_paths(lua_config_dir, "lsp", "settings")
+--     local stylua_conf = M.join_paths(config_dir, "stylua.toml")
+--     local packer_compiled_conf = M.join_paths(config_dir, "plugin", "packer_compiled.lua")
+--     local command = "find "
+--         .. config_dir
+--         .. "/ "
+--         .. lua_config_dir
+--         .. "/ "
+--         .. lsp_settings_dir
+--         .. "/ -mindepth 1 -maxdepth 2 -type f -not \\( -path "
+--         .. stylua_conf
+--         .. " -o -path "
+--         .. packer_compiled_conf
+--         .. ' \\) -printf "%f\n"'
 
-    local config_files = vim.fn.systemlist(command)
-    return config_files
-end
+--     local config_files = vim.fn.systemlist(command)
+--     return config_files
+-- end
 
 -- ############################################################################
 -- RESTART NEOVIM
@@ -340,7 +361,7 @@ end
 --- The last saved date is saved into `XDG_CACHE_HOME/nvim/.plugins_updated_at`.
 function M.update_plugins_every_day()
     local plugin_updated_at_filename = M.join_paths(vim.call("stdpath", "cache"), ".plugins_updated_at")
-    if not M.file_exists(plugin_updated_at_filename) then
+    if not M.exists(plugin_updated_at_filename) then
         vim.fn.writefile({}, plugin_updated_at_filename)
     end
 
@@ -365,7 +386,6 @@ M.ToggleQFList = function()
     end
 end
 
--- TODO: rewrite in lua
 vim.cmd [[
     " Empty all Registers
     fun! EmptyRegisters()

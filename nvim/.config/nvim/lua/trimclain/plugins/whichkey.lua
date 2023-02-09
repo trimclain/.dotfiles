@@ -193,7 +193,7 @@ local mappings = {
         name = "Snippets",
         s = {
             "<cmd>source "
-                .. join_paths(os.getenv "HOME", ".config", "nvim", "lua", "trimclain", "luasnip.lua")
+                .. join_paths(os.getenv "HOME", ".config", "nvim", "lua", "trimclain", "plugins", "luasnip.lua")
                 .. "<cr>",
             "Source luasnip.lua",
         },
