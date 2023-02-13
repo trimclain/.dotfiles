@@ -25,6 +25,10 @@ fi
 export DOTFILES="$HOME/.dotfiles"
 
 # Useful variables to set
+# xterm-kitty is a terrible name (ask ssh)
+[[ -z $TMUX ]] && export TERM="xterm-256color"
+export HISTORY_IGNORE="(ls|la|l|cd|cd -|cd ..|history|vim)"
+
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -40,9 +44,13 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 ###############################################################################
+# TODO: try zap-zsh
+#
 # Plugin Manager
 source /$DOTFILES/antigen/antigen.zsh
 
+# TODO: get rid of this
+#
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
@@ -188,10 +196,9 @@ bindkey '^ ' autosuggest-accept
 bindkey -s ^q "^utmux-sessionizer $DOTFILES\n"
 # start tmux-sessionizer
 bindkey -s ^t "^utmux-sessionizer\n"
-# get help from cht.sh in tmux
-bindkey -s ^h "^utmux-cht.sh\n"
-
-bindkey -s ^b "^uchange-wallpaper\n"
+# TODO: get help from cht.sh in tmux
+# bindkey -s ^h "^utmux-cht.sh\n"
+# bindkey -s ^b "^uchange-wallpaper\n"
 
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
