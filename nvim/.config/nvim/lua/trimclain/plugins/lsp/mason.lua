@@ -23,7 +23,7 @@ local servers = {
     "tsserver",
     "volar", -- vue-language-server
     "jsonls",
-    "sumneko_lua",
+    "lua_ls",
     "bashls",
     "vimls",
     "yamlls",
