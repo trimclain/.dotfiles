@@ -1001,7 +1001,7 @@ awful.rules.rules = {
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
 
-    -- Get classname using xprop and use second entry of wm_class
+    -- Get classname using `xprop WM_CLASS | awk -F, '{print $2}'`
     -- https://www.reddit.com/r/awesomewm/comments/2kxmph/where_do_you_get_the_instance_name_of_a_client/
 
     -- Set Evince to always map on the tag named "2"
@@ -1009,6 +1009,9 @@ awful.rules.rules = {
 
     -- Set Okular to always map on the tag named "2"
     { rule = { class = "okular" }, properties = { tag = "2" } },
+
+    -- Set Foxit Reader to always map on the tag named "2"
+    { rule = { class = "Foxit Reader" }, properties = { tag = "2" } },
 
     -- Set Anki to always map on the tag named "2"
     { rule = { class = "Anki" }, properties = { tag = "2" } },
