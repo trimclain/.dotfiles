@@ -1109,17 +1109,15 @@ end)
 -- {{{ Autostart Programs
 -- ############################################################################
 -- Set the wallpaper
+-- TODO: add ifs to every spawn to avoid errors if command doesn't exist
 awful.spawn.with_shell("nitrogen --restore")
 -- Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
 -- awful.spawn.with_shell("picom")
--- Give me that Natural Scrolling
-awful.spawn.with_shell("touchpad-settings")
+awful.spawn.with_shell("$HOME/.local/bin/touchpad-settings")
 -- Set my keyboard layout
-awful.spawn.with_shell("keyboard-layout --no-german")
+awful.spawn.with_shell("$HOME/.local/bin/keyboard-layout --no-german")
 -- Update current brightness for my custom script
 awful.spawn.with_shell("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar
 awful.spawn.with_shell("$HOME/.config/polybar/launch.sh")
--- NetworkManager is the most popular way to manage wireless networks on Linux, and nm-applet is a desktop environment-independent system tray GUI for it.
--- awful.spawn.with_shell("nm-applet")
 -- }}}
