@@ -17,10 +17,14 @@ null_ls.setup {
     debug = false,
     sources = {
         -- Formatters
-        formatting.prettier.with {
+        formatting.prettierd.with {
             extra_args = { "--tab-width=4" }, -- , "--jsx-single-quote", "--no-semi", "--single-quote",
             extra_filetypes = { "toml" },
         },
+        -- formatting.prettier.with {
+        --     extra_args = { "--tab-width=4" }, -- , "--jsx-single-quote", "--no-semi", "--single-quote",
+        --     extra_filetypes = { "toml" },
+        -- },
         formatting.black.with {
             extra_args = {
                 "--fast", -- if --fast given, skip temporary sanity checks [default: --safe]
