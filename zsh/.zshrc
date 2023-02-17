@@ -235,76 +235,13 @@ alias ls="ls --color=tty --group-directories-first"
 alias la="ls -A"
 alias l="ls -lhA"
 
-# Extract Stuff
-# extract() {
-#      if [ -f $1 ] ; then
-#          case $1 in
-#              *.tar.bz2)   tar xjf $1        ;;
-#              *.tar.gz)    tar xzf $1        ;;
-#              *.bz2)       bunzip2 $1        ;;
-#              *.rar)       7z x $1           ;;
-#              *.gz)        gunzip $1         ;;
-#              *.tar)       tar xf $1         ;;
-#              *.tbz2)      tar xjf $1        ;;
-#              *.tgz)       tar xzf $1        ;;
-#              *.zip)       unzip $1          ;;
-#              *.Z)         uncompress $1     ;;
-#              *.7z)        7z x $1           ;;
-#              *)           echo "'$1' cannot be extracted via extract()" ;;
-#          esac
-#      else
-#          echo "'$1' is not a valid file"
-#      fi
-# }
+if [[ -f ~/.local/bin/extract ]]; then
+    alias ex=extract
+fi
 
-extract() {
-    if [[ -f $1 ]]; then
-        filename=$(basename -- "$1")
-        extension="${filename##*.}"
-        filename="${filename%.*}"
-        if [[ $extension == "zip" ]]; then
-            # TODO: if there's only 1 entry in an archive, no need to extract it to new folder
-            # if [[ $(zipinfo $1 | awk '/entries/{print $NF}') == 1 ]]; then
-            #     echo yes
-            # fi
-            unzip $1 -d $filename
-            rm $1
-        else
-            if [ -f /usr/bin/7z ]; then
-                7z x $1 -o$filename
-                rm $1
-            else
-                echo "Error: 7z not found";
-            fi
-        fi
-    else
-        echo "Error: Need an archive to extract";
-    fi
-}
-alias ex=extract
-
-# Create a zip archive
-archive() {
-    if [[ -f $1 ]]; then
-        filename=$(basename -- "$1")
-        extension="${filename##*.}"
-        filename="${filename%.*}"
-        if [ -f /usr/bin/7z ]; then
-            7z a -tzip $filename.zip $1
-        else
-            zip -r $filename.zip $1
-        fi
-    elif [[ -d $1 ]]; then
-        if [ -f /usr/bin/7z ]; then
-            7z a -tzip $1.zip $1
-        else
-            zip -r $1.zip $1
-        fi
-    else
-        echo "Error: Need a file/folder to archive";
-    fi
-}
-alias ar=archive
+if [[ -f ~/.local/bin/archive ]]; then
+    alias ar=archive
+fi
 
 # fucntion to add folders to the end of $PATH
 addToPATH() {

@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+# Extract Stuff from TJ
+# extract() {
+#      if [ -f $1 ] ; then
+#          case $1 in
+#              *.tar.bz2)   tar xjf $1        ;;
+#              *.tar.gz)    tar xzf $1        ;;
+#              *.bz2)       bunzip2 $1        ;;
+#              *.rar)       7z x $1           ;;
+#              *.gz)        gunzip $1         ;;
+#              *.tar)       tar xf $1         ;;
+#              *.tbz2)      tar xjf $1        ;;
+#              *.tgz)       tar xzf $1        ;;
+#              *.zip)       unzip $1          ;;
+#              *.Z)         uncompress $1     ;;
+#              *.7z)        7z x $1           ;;
+#              *)           echo "'$1' cannot be extracted via extract()" ;;
+#          esac
+#      else
+#          echo "'$1' is not a valid file"
+#      fi
+# }
+
+if [[ -z $1 ]]; then
+    echo "Error: Need an archive to extract";
+    exit 1
+elif [[ ! -f $1 ]]; then
+    echo "Error: $1 not found";
+    exit 1
+fi
+
+filename=$(basename -- "$1")
+extension="${filename##*.}"
+filename="${filename%.*}"
+if [[ $extension == "zip" ]]; then
+    # if there's 1 folder containing every other file in an archive
+    # don't create new folder
+    array=($(zipinfo $1 \* | awk '{print $NF}'))
+    first="${array[0]}"
+    # tmp=$(mktemp)
+    # zipinfo $1 \* > $tmp
+    # array=($(awk 'ORS=" "{print $NF}' $tmp))
+    # rm -f $tmp
+    # echo "Array is ${array[*]}"
+    first="${array[0]}"
+    # echo "First is $first"
+    needfolder=false
+    for element in "${array[@]}";
+    do
+        # echo "Element is $element"
+        if [[ "$element" != "$first"* ]]; then
+            # echo "$element does not start with $first"
+            needfolder=true
+            break
+        fi
+    done
+    if $needfolder; then
+        # echo "NEED FOLDER"
+        echo -n "Extracting files from $1 into $filename ..."
+        unzip "$1" -d "$filename" > /dev/null
+        echo "Done"
+    else
+        # echo "DONT NEED FOLDER"
+        echo -n "Extracting files from $1 ..."
+        unzip "$1" > /dev/null
+        echo "Done"
+    fi
+    rm "$1"
+else
+    # let 7zip handle every other archive format
+    if [[ -f /usr/bin/7z ]]; then
+        echo -n "Extracting files from $1 into $filename ..."
+        7z x "$1" -o"$filename" > /dev/null
+        rm "$1"
+        echo "Done"
+    else
+        echo "Error: 7z not found";
+    fi
+fi
