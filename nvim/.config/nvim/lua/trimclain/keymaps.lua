@@ -45,6 +45,8 @@ keymap("v", "K", ":m '<-2<cr>gv=gv", opts) -- move higlighted lines up a line
 keymap("v", "J", ":m '>+1<cr>gv=gv", opts) -- and down a line
 keymap("v", "<", "<gv", opts) -- stay in indent mode
 keymap("v", ">", ">gv", opts) -- stay in indent mode
+keymap("v", "<S-h>", "<gv", opts) -- feels natural
+keymap("v", "<S-l>", ">gv", opts) -- feels natural
 keymap("v", "y", "myy`y", opts) -- Maintain the cursor position
 keymap("v", "Y", "myy`y", opts) -- when yanking a visual selection
 keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank it

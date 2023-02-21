@@ -253,13 +253,6 @@ imagemagick:
 	@# Building from source:
 	sudo apt install imagemagick -y
 
-screensaver:
-	@# TODO: make this work or find an alternative
-	@# To be able to lock the screen
-	@echo "==================================================================="
-	@echo "Installing gnome-screensaver..."
-	sudo apt install gnome-screensaver -y
-
 i3:
 	@echo "==================================================================="
 	@echo "Installing i3..."

@@ -9,5 +9,5 @@ video/mp4=smplayer.desktop;
 
 [Added Associations]
 application/pdf=okularApplication_pdf.desktop;
-image/jpeg=gimp.desktop;
+image/jpeg=nomacs.desktop;
 video/mp4=smplayer.desktop;
