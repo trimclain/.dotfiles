@@ -1,30 +1,41 @@
 #!/bin/sh
 
+## Functions
+check_if_command_exists() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
+        exit 1
+    fi
+}
+## End Functions
+
+check_if_command_exists notify-send
+check_if_command_exists pactl
+
 mode="unknown"
 
 # Increase Volume
-if [ "$1" = "--increase" ]
-then
+if [ "$1" = "--increase" ]; then
     mode="increase"
     # Set Volume
     pactl set-sink-volume @DEFAULT_SINK@ +5%
 
 # Decrease Volume
-elif [ "$1" = "--decrease" ]
-then
+elif [ "$1" = "--decrease" ]; then
     mode="decrease"
     # Set Volume
     pactl set-sink-volume @DEFAULT_SINK@ -5%
-elif [ "$1" = "--toggle-mute" ]
-then
+elif [ "$1" = "--toggle-mute" ]; then
     # Toggle Mute Volume
+    if ! command -v pacmd > /dev/null; then
+        notify-send "Error: pacmd not found"
+        exit 1
+    fi
     pactl set-sink-mute @DEFAULT_SINK@ toggle
     status=$(pacmd list-sinks | awk '/muted/ { print $2 }')
-    if [ "$status" = "no" ]
-    then
+    if [ "$status" = "no" ]; then
         mode="unmuted"
-    elif [ "$status" = "yes" ]
-    then
+    elif [ "$status" = "yes" ]; then
         mode="muted"
     fi
 fi

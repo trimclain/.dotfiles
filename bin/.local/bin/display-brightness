@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
-# TODO: switch to /bin/sh
+## Functions
+check_if_command_exists() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
+        exit 1
+    fi
+}
+## End Functions
+
+check_if_command_exists xrandr
+check_if_command_exists bc
+check_if_command_exists notify-send
+
 mode="unknown"
 
 # get info from xrandr
@@ -19,8 +31,7 @@ current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
 new="$current"
 
 # Increase Brightness
-if [ "$1" = "--increase" ]
-then
+if [ "$1" = "--increase" ]; then
     mode="increase"
     new="$( echo $current+0.1 | bc )"
 
@@ -32,8 +43,7 @@ then
         exit 0
     fi
 # Decrease Brightness
-elif [ "$1" = "--decrease" ]
-then
+elif [ "$1" = "--decrease" ]; then
     mode="decrease"
     new="$( echo $current-0.1 | bc )"
 
@@ -44,16 +54,13 @@ then
         notify-send "🔅 $output %" -t 350
         exit 0
     fi
-elif [ "$1" = "--full" ]
-then
+elif [ "$1" = "--full" ]; then
     mode="full"
     new=1
-elif [ "$1" = "--zero" ]
-then
+elif [ "$1" = "--zero" ]; then
     mode="zero"
     new=0
-elif [ "$1" = "--half" ]
-then
+elif [ "$1" = "--half" ]; then
     mode="half"
     new=0.5
 fi
@@ -63,7 +70,7 @@ xrandr --output $intern --brightness $new
 
 # Write new brightness to a file so it can be read easily without calling xrandr
 output=$( echo $new*100/1 | bc )
-echo $output% > ~/.actual_brightness
+echo "$output%" > ~/.actual_brightness
 
 # Send notification
 if  [ "$mode" = "increase" ] || [ "$mode" = "full" ] || [ "$mode" = "half" ]; then
