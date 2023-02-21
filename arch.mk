@@ -1,17 +1,11 @@
-# all:
-# 	@# Create required folders
-# 	@echo "Making sure ~/.local/bin and ~/.config exist"
-# 	mkdir -p ~/.local/bin ~/.config
-# 	@# Usefull tools
-# 	@echo "Installing some usefull programms..."
-# 	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives
-# 	sudo apt-get install -y curl stow ripgrep fzf htop btop tree xclip p7zip-full p7zip-rar
-
-# TODO: Maybe use paru since no more need for sudo
 INSTALL = sudo pacman -S --noconfirm --needed
+FLATINSTALL = flatpak install -y --or-update
 
 all:
-	@echo "hello from arch.mk"
+	@# Make sure these folders exist
+	@mkdir -p ~/.local/bin ~/.config
+	@echo "Installing tools I can't live without..."
+	@$(INSTALL) curl wget stow ripgrep fzf htop tree p7zip
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
@@ -22,16 +16,17 @@ vimdir:
 	@mkdir -p ~/.vim/undodir
 	@echo "Done"
 
-nvimdir:
-	@echo "Creating directory for undofiles for nvim..."
-	@mkdir -p ~/.nvim/undodir
-	@echo "Done"
-
 fonts:
 	@echo "Installing fonts..."
 	@mkdir -p ~/.local/share/fonts/
 	@cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
 	@echo "Done"
+
+del_fonts:
+	@echo "Deleting fonts from ~/.local/share/fonts/"
+	@rm -r ~/.local/share/fonts/
+
+clean_fonts: del_fonts fonts
 
 wallpapers:
 	@echo "Installing wallpapers..."
@@ -40,52 +35,24 @@ wallpapers:
 	@echo "Done"
 
 ###################################################################################################
-# Software
+# Languages
 ###################################################################################################
 
-paru: ## Install paru (the AUR helper)
-	@echo "==================================================================="
-	@if [ -f "/usr/bin/paru" ]; then echo "[paru]: Already installed";\
-		else echo "Installing paru..." && $(INSTALL) base-devel &&\
-		git clone https://aur.archlinux.org/paru.git ~/paru && cd ~/paru &&\
-		makepkg -si && rm -rf ~/paru && echo "Done"; fi
-
-nvim_build_reqs:
-	@# Neovim prerequisites
-	@echo "==================================================================="
-	@echo "Installing Neovim build prerequisites..."
-	@$(INSTALL) base-devel cmake unzip ninja tree-sitter curl
-
-nvim: nvimdir nvim_build_reqs ## Install neovim by building it from github
-	@# Install neovim by building it
-	@echo "==================================================================="
-	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
-		else echo "Installing Neovim..." &&\
-		git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
-		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim &&\
-		echo "Done"; fi
-
-uninstall_nvim:
-	@if [ -f "/usr/local/bin/nvim" ]; then echo "Uninstalling Neovim..." &&\
-		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
-		echo "Done"; fi
-
-purge_nvim: uninstall_nvim
-	@echo "Uninstalling Neovim Leftovers..."
-	rm -rf ~/.config/nvim
-	rm -rf ~/.local/share/nvim
-	rm -rf ~/.cache/nvim
-	@echo "Done"
+# SOMEDAY: switch to pyenv for version control
+python: ## Install python3, pip, venv
+	$(INSTALL) python python-pip
+	pip install venv
 
 n: ## Install n, the node version manager
 	@echo "==================================================================="
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
 	@if [ ! -d ~/.n ]; then echo "Installing n (nodejs version manager) with latest stable node and npm versions..." &&\
-		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash; else curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n; fi &&\
+		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash;\
+		else curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n; fi &&\
 		echo "Done"; else echo "[n]: Already installed"; fi
 
 uninstall_n:
-	n-uninstall
+	@n-uninstall
 
 export_node_modules:
 	@echo "Exporting global node modules to .npm_modules"
@@ -100,5 +67,75 @@ typescript:
 	@# Install tsc and ts-node
 	@npm install -g typescript ts-node
 
-.PHONY: all help vimdir nvimdir fonts wallpapers paru nvim_build_reqs nvim uninstall_nvim \
-	purge_nvim n uninstall_n export_node_modules import_node_modules typescript
+###################################################################################################
+# Software
+###################################################################################################
+
+paru: ## Install paru (the AUR helper)
+	@echo "==================================================================="
+	@if [ -f "/usr/bin/paru" ]; then echo "[paru]: Already installed";\
+		else echo "Installing paru..." && $(INSTALL) base-devel &&\
+		git clone https://aur.archlinux.org/paru.git ~/paru && cd ~/paru &&\
+		makepkg -si && rm -rf ~/paru && echo "Done"; fi
+
+flatpak: ## Install flatpak
+	@$(INSTALL) flatpak
+
+#========================================= Neovim =================================================
+nvimdir:
+	@echo "Creating directory for undofiles for nvim..."
+	@mkdir -p ~/.nvim/undodir
+	@echo "Done"
+
+nvim_reqs:
+	@# Things my neovim needs
+	@echo "Installing things for Neovim..."
+	@# Need yad or zenity for the color picker plugin, xclipt for clipboard+
+	@$(INSTALL) yad xclip
+	@# Install what :checkhealth recommends
+	@# Need pynvim for Bracey
+	@pip install pynvim
+	@npm install -g neovim
+
+nvim_build_reqs: nvimdir
+	@# Neovim build prerequisites
+	@echo "Installing Neovim build prerequisites..."
+	@$(INSTALL) base-devel cmake unzip ninja tree-sitter curl
+
+nvim: ## Install neovim by building it from source
+	@echo "==================================================================="
+	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
+		else make nvim_build_reqs && echo "Installing Neovim..." &&\
+		git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
+		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim &&\
+		make nvim_reqs && echo "Done"; fi
+
+uninstall_nvim:
+	@if command -v nvim > /dev/null; then echo "Uninstalling Neovim..." &&\
+		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
+		echo "Done"; fi
+
+purge_nvim: uninstall_nvim
+	@echo "Uninstalling Neovim Leftovers..."
+	@rm -rf ~/.config/nvim
+	@rm -rf ~/.local/share/nvim
+	@rm -rf ~/.cache/nvim
+	@echo "Done"
+
+#======================================== Awesome =================================================
+# TODO: awesome_reqs: global_fonts, commands
+
+
+#==================================================================================================
+telegram: ## Install Telegram Desktop using flatpak
+	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
+		else $(FLATINSTALL) flathub org.telegram.desktop; fi
+#==================================================================================================
+
+apps: ## Install btop, xscreensaver, okular
+	@$(INSTALL) btop xscreensaver okular
+
+.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts wallpapers\
+	n uninstall_n export_node_modules import_node_modules typescript\
+	paru flatpak nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
+	telegram apps
