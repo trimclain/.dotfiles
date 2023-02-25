@@ -97,19 +97,16 @@ local mappings = {
     u = { "<cmd>UndotreeToggle<cr>", "UndoTree" },
     Y = { 'gg"+yG', "Yank Whole File" },
     w = { "<cmd>w<cr>", "Save File" },
-
     ["<leader>"] = {
         name = "Lab",
         ["1"] = { "<cmd>Lab code run<cr>", "Code run" },
         ["2"] = { "<cmd>Lab code stop<cr>", "Code stop" },
         ["3"] = { "<cmd>Lab code panel<cr>", "Code panel" },
     },
-
     c = {
         name = "Colorizer",
         r = { "<cmd>ColorizerReloadAllBuffers<cr>", "Reload" },
     },
-
     p = {
         name = "Packer",
         c = { "<cmd>PackerCompile<cr>", "Compile" },
@@ -118,7 +115,6 @@ local mappings = {
         S = { "<cmd>PackerStatus<cr>", "Status" },
         u = { "<cmd>PackerUpdate<cr>", "Update" },
     },
-
     f = {
         name = "Find",
         b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
@@ -138,14 +134,12 @@ local mappings = {
         k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
         C = { "<cmd>Telescope commands<cr>", "Telescope Commands" },
     },
-
     g = {
         name = "Git",
         b = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "Branches" },
         l = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Commits" },
         s = { "<cmd>Neogit<cr>", "Status" },
     },
-
     l = {
         name = "LSP",
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
@@ -160,12 +154,10 @@ local mappings = {
         s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
         S = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols" },
     },
-
     m = {
         name = "Make",
         x = { "<cmd>w <cr> <cmd>!chmod +x %<cr>", "Executable" },
     },
-
     n = {
         name = "Neogen",
         g = { "<cmd>lua require('neogen').generate()<cr>", "Generate annotations for current function" },
@@ -173,7 +165,6 @@ local mappings = {
         t = { "<cmd>lua require('neogen').generate({type = 'type'})<cr>", "Generate annotations for current type" },
         f = { "<cmd>lua require('neogen').generate({type = 'file'})<cr>", "Generate annotations for current file" },
     },
-
     r = {
         name = "Replace/Refactor",
         r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
@@ -188,17 +179,13 @@ local mappings = {
             "Extract Inline Variable under cursor",
         },
     },
-
     s = {
-        name = "Snippets",
-        s = {
-            "<cmd>source "
-                .. join_paths(os.getenv "HOME", ".config", "nvim", "lua", "trimclain", "plugins", "luasnip.lua")
-                .. "<cr>",
-            "Source luasnip.lua",
-        },
+        name = "Splits",
+        v = { "<cmd>lua require('trimclain.utils').split_vertically()<cr>", "Open a vertical split" },
+        h = { "<cmd>lua require('trimclain.utils').split_horizontally()<cr>", "Open a horizontal split" },
+        o = { "<cmd>lua require('trimclain.utils').remove_splits()<cr>", "Remove all split" },
+        s = { "<cmd>lua require('trimclain.utils').swap_split_direction()<cr>", "Swap split direction" },
     },
-
     t = {
         name = "Terminal",
         p = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
@@ -206,21 +193,19 @@ local mappings = {
         h = { "<cmd>lua _HTOP_TOGGLE()<cr>", "HTOP" },
         b = { "<cmd>lua _BTOP_TOGGLE()<cr>", "BTOP" },
     },
-
     v = {
         name = "Vim",
         r = { "<cmd>lua require('trimclain.utils').restart()<cr>", "Restart" },
         -- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
         u = { ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>", "Change fileformat from dos to unix" },
     },
-
     o = {
         name = "Options",
-        w = { '<cmd>lua require("trimclain.utils").toggle_option("wrap")<cr>', "Wrap" },
-        r = { '<cmd>lua require("trimclain.utils").toggle_option("relativenumber")<cr>', "Relative" },
-        l = { '<cmd>lua require("trimclain.utils").toggle_option("cursorline")<cr>', "Cursorline" },
-        s = { '<cmd>lua require("trimclain.utils").toggle_option("spell")<cr>', "Spell" },
-        t = { '<cmd>lua require("trimclain.utils").toggle_shiftwidth()<cr>', "Shiftwidth" },
+        w = { "<cmd>lua require('trimclain.utils').toggle_option('wrap')<cr>", "Wrap" },
+        r = { "<cmd>lua require('trimclain.utils').toggle_option('relativenumber')<cr>", "Relative" },
+        l = { "<cmd>lua require('trimclain.utils').toggle_option('cursorline')<cr>", "Cursorline" },
+        s = { "<cmd>lua require('trimclain.utils').toggle_option('spell')<cr>", "Spell" },
+        t = { "<cmd>lua require('trimclain.utils').toggle_shiftwidth()<cr>", "Shiftwidth" },
     },
 }
 

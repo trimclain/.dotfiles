@@ -8,8 +8,8 @@ vim.g.maplocalleader = " "
 
 --
 -- Easier movement between buffers (I'm fine with arrows and <C-w>jk for now -> more keys for whichkey)
-keymap("n", "<left>", "<C-w>h", opts)
-keymap("n", "<right>", "<C-w>l", opts)
+-- keymap("n", "<left>", "<C-w>h", opts)
+-- keymap("n", "<right>", "<C-w>l", opts)
 -- keymap("n", "<leader>j", "<C-w>j", opts)
 -- keymap("n", "<leader>k", "<C-w>k", opts)
 

@@ -66,7 +66,7 @@ end
 function M.join_paths(...)
     local uv = vim.loop
     local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
-    local args = {...}
+    local args = { ... }
 
     -- Check if every given file or folder exists
     local tmp_path = args[1]
@@ -123,8 +123,51 @@ end
 --     end
 -- end
 
--- TODO: switch from horizontal split to vertical and back
--- https://stackoverflow.com/questions/1269603/to-switch-from-vertical-split-to-horizontal-split-fast-in-vim
+-- ############################################################################
+-- HANDLE SPLITS
+-- ############################################################################
+
+--- <c-w>v
+function M.split_vertically()
+    -- create a vertical split
+    vim.g.current_split = "vertical"
+    vim.fn.execute "wincmd v"
+end
+
+--- <c-w>s
+function M.split_horizontally()
+    -- create a horizontal split
+    vim.g.current_split = "horizontal"
+    vim.fn.execute "wincmd s"
+end
+
+--- <c-w>o
+function M.remove_splits()
+    -- remove all splits
+    vim.g.current_split = nil
+    vim.fn.execute "wincmd o"
+end
+
+--- If a there's a vertical split, make it horizontal, and if horizontal, make it vertical.
+--- If there's no split, do nothing
+function M.swap_split_direction()
+    -- local split_amount = #vim.api.nvim_tabpage_list_wins(0)
+    if vim.g.current_split == nil then
+        return
+    end
+    if vim.g.current_split == "vertical" then
+        vim.g.current_split = "horizontal"
+        vim.fn.execute "wincmd t"
+        vim.fn.execute "wincmd K"
+        return
+    end
+    if vim.g.current_split == "horizontal" then
+        vim.g.current_split = "vertical"
+        vim.fn.execute "wincmd t"
+        vim.fn.execute "wincmd H"
+        return
+    end
+end
 
 -- ############################################################################
 -- SMART QUIT
