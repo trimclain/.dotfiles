@@ -8,9 +8,9 @@ if not mnls_status_ok then
     return
 end
 
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+-- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+-- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
 local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup {
@@ -37,20 +37,12 @@ null_ls.setup {
         -- Linters
         diagnostics.flake8,
         diagnostics.shellcheck,
+        diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
+                              -- This is normal and not related to null-ls.
+                              -- You can stop it by running eslint_d stop from the command line.
+
     },
 }
-
--- https://github.com/jay-babu/mason-null-ls.nvim#available-null-ls-sources
--- local tools = {
---     -- Formatters
---     'stylua',
---     'prettier',
---     'black',
-
---     -- Linters
---     'shellcheck',
---     -- 'flake8',
--- }
 
 mason_null_ls.setup {
     -- A list of sources to install if they're not already installed.

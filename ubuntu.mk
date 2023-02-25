@@ -25,6 +25,12 @@ fonts:
 	mkdir -p ~/.local/share/fonts/
 	cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
 
+del_fonts:
+	@echo "Deleting fonts from ~/.local/share/fonts/"
+	@rm -r ~/.local/share/fonts/
+
+clean_fonts: del_fonts fonts
+
 ansible:
 	@echo "==================================================================="
 	@if [ -f /usr/bin/ansible ]; then echo "[ansible]: Already installed";\
@@ -457,7 +463,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	@echo "Done"
 ###############################################################################
 
-.PHONY: all help vimdir nvimdir fonts ansible tmux zsh nvim_build_reqs \
+.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts ansible tmux zsh nvim_build_reqs \
 	nvim neovim uninstall_nvim purge_nvim nodejs uninstall_nodejs export_node_modules \
 	import_node_modules typescript golang julia uninstall_julia sdkman \
 	uninstall_sdkman rust uninstall_rust docker uninstall_docker pm2 ufw \
