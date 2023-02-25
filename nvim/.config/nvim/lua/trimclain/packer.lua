@@ -220,6 +220,8 @@ return packer.startup {
         use "NvChad/nvim-colorizer.lua" -- preview colors in neovim
         use "KabbAmine/vCoolor.vim" -- get a color picker
 
+        use "fladson/vim-kitty" -- get colors in kitty.conf
+
         use "dstein64/vim-startuptime" -- check the startuptime of plugins
         -- use "tweekmonster/startuptime.vim"
         ---------------------------------------------------------------------------------------------------------------
