@@ -1,6 +1,6 @@
 vim.opt_local.colorcolumn = "120"
 
--- TODO: make this work
+-- TODO: can I make this buffer specific and not filetype specific?
 
 -- local opts = { noremap = true, silent = true }
 -- local bufnr = vim.fn.bufnr()
@@ -19,4 +19,5 @@ vim.opt_local.colorcolumn = "120"
 -- end
 
 -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>td", toggle_todo_list, opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "i", "--", "—", { noremap = true })
+
+vim.api.nvim_buf_set_keymap(0, "i", "--", "—", { noremap = true })

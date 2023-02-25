@@ -8,5 +8,5 @@ vim.keymap.set("i", "<space>", "<space><c-g>u", opts)
 
 vim.keymap.set("n", "<leader>md", "<cmd>setlocal spelllang=de<cr>", opts)
 vim.keymap.set("n", "<leader>me", "<cmd>setlocal spelllang=en<cr>", opts)
--- TODO: fix this like in markdown.lua
--- vim.keymap.set("i", "--", "—", { noremap = true })
+
+vim.api.nvim_buf_set_keymap(0, "i", "--", "—", { noremap = true })
