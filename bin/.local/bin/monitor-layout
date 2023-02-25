@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+# TODO: settings second monitor as primary need to reload awesome config,
+# resolution changed, awesome didn't notice
+
+# TODO: when first and second monitor have different resolutions, don't use auto,
+# use their resolution instead
+
+# TODO: when duplicating monitors with different resolutions, using auto also
+# doesn't work.
+
+# TODO: if detected connected monitor, automatically make it the main one (or
+# other options when I fix them)
+
 ## Functions
 check_if_command_exists() {
     if ! command -v "$1" > /dev/null; then
