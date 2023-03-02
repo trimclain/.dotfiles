@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: settings second monitor as primary need to reload awesome config,
-# resolution changed, awesome didn't notice
-
-# TODO: when first and second monitor have different resolutions, don't use auto,
-# use their resolution instead
-
-# TODO: when duplicating monitors with different resolutions, using auto also
-# doesn't work.
-
-# TODO: if detected connected monitor, automatically make it the main one (or
-# other options when I fix them)
-
 ## Functions
 check_if_command_exists() {
     if ! command -v "$1" > /dev/null; then
@@ -35,16 +23,39 @@ done
 intern=${monitors[0]}
 extern=${monitors[1]}
 
+# TODO: does it not break when I have extern is empty?
 if [ "$1" = "--first" ]; then
     # Enable first monitor, turn off second one
     xrandr --output "$intern" --auto --output "$extern" --off
+
 elif [ "$1" = "--second" ]; then
     # Enable second monitor and make it primary, disable first monitor
-    xrandr --output "$extern" --auto --primary --output "$intern" --off
+    if [[ -n $extern ]]; then
+        xrandr --output "$extern" --auto --primary --output "$intern" --off
+    else
+        echo "Error: no external monitor found"
+        exit 1
+    fi
+
+# TODO: when first and second monitor have different resolutions, don't use auto,
+# use their resolution instead
 elif [ "$1" = "--dual" ]; then
     # Enable dual monitor setup, primary is the monitor, which was primary before
     xrandr --output "$extern" --auto --right-of "$intern" --output "$intern" --auto
+
+# TODO: when duplicating monitors with different resolutions, using auto also
+# doesn't work.
 elif [ "$1" = "--duplicate" ]; then
     # Enable duplicate monitor setup
     xrandr --output "$extern" --same-as "$intern" --auto
+
+elif [ "$1" = "--startup" ]; then
+    # If there's a connected hmdi output, make --second
+    if [[ -n $extern ]]; then
+        xrandr --output "$extern" --auto --primary --output "$intern" --off
+        # Reload awesome, if it's currently runnings
+        if [[ $DESKTOP_SESSION == "awesome" ]]; then
+            awesome-client 'awesome.restart()' > /dev/null
+        fi
+    fi
 fi
