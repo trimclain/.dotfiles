@@ -1,59 +1,67 @@
 #!/usr/bin/env python3
 
+# TODO: update for arch
+
 import os
 from pathlib import Path
+from shutil import which
 import subprocess
 import sys
 
-CWD = os.path.join(Path.home(), '.dotfiles')
-BACKUP_FOLDER = os.path.join(CWD, '.backup')
+CWD = os.path.join(Path.home(), ".dotfiles")
+BACKUP_FOLDER = os.path.join(CWD, ".backup")
 
 STOW_FOLDERS = [
-    'bin',          # 0
-    'bash',         # 1
-    'i3',           # 2
-    'awesome',      # 3
-    'polybar',      # 4
-    'nvim',         # 5
-    'chtsh',        # 6
-    'tmux',         # 7
-    'vim',          # 8
-    'zsh',          # 9
-    'kitty',        # 10
-    'alacritty',    # 11
-    'rofi',         # 12
-    'picom',        # 13
-    'lf',           # 14
-    'stylua',       # 15
+    "bin",  # 0
+    "bash",  # 1
+    "i3",  # 2
+    "awesome",  # 3
+    "polybar",  # 4
+    "nvim",  # 5
+    "chtsh",  # 6
+    "tmux",  # 7
+    "vim",  # 8
+    "zsh",  # 9
+    "kitty",  # 10
+    "alacritty",  # 11
+    "rofi",  # 12
+    "picom",  # 13
+    "lf",  # 14
+    "stylua",  # 15
 ]
 
 STOW_CONFIGS = [
-    '',                         # 0
-    '.bashrc',                  # 1
-    '.config/i3',               # 1
-    '.config/awesome',          # 2
-    '.config/polybar',          # 3
-    '.config/nvim',             # 4
-    '',                         # 5
-    '.tmux.conf',               # 6
-    '.vimrc',                   # 7
-    '.zshrc',                   # 8
-    '.config/kitty',            # 9
-    '.config/alacritty',        # 10
-    '.config/rofi',             # 11
-    '.config/picom',            # 12
-    '.config/lf',               # 13
-    '.config/.stylua.toml',     # 14
+    "",  # 0
+    ".bashrc",  # 1
+    ".config/i3",  # 1
+    ".config/awesome",  # 2
+    ".config/polybar",  # 3
+    ".config/nvim",  # 4
+    "",  # 5
+    ".tmux.conf",  # 6
+    ".vimrc",  # 7
+    ".zshrc",  # 8
+    ".config/kitty",  # 9
+    ".config/alacritty",  # 10
+    ".config/rofi",  # 11
+    ".config/picom",  # 12
+    ".config/lf",  # 13
+    ".config/.stylua.toml",  # 14
 ]
 
 # Get the mode, default to normal
 if len(sys.argv) == 1:
-    MODE = '--normal'
+    MODE = "--normal"
 elif len(sys.argv) == 2:
     MODE = sys.argv[1]
 else:
-    print('Too many arguments! Try again.')
-    sys.exit()
+    print("Too many arguments! Try again.")
+    sys.exit(1)
+
+
+def is_tool(name):
+    """Check whether `name` is in PATH and marked as executable."""
+    return which(name) is not None
 
 
 def exists(path: str) -> bool:
@@ -94,12 +102,15 @@ def backup(location: str) -> None:
         return
     full_path = fullpath(location)
     if exists(full_path) and not os.path.islink(full_path):
-        subprocess.run(['mkdir', '-p', BACKUP_FOLDER])
-        print('Found existing', location, '-> Moving it to', BACKUP_FOLDER)
-        subprocess.run(['mv', full_path, BACKUP_FOLDER])
-    elif exists(full_path) and os.path.islink(full_path):
-        print('Found symlink at', full_path, '-> Deleting it')
-        subprocess.run(['rm', '-r', full_path])
+        subprocess.run(["mkdir", "-p", BACKUP_FOLDER])
+        print("Found existing", location, "-> Moving it to", BACKUP_FOLDER)
+        subprocess.run(["mv", full_path, BACKUP_FOLDER])
+
+    # Next part is useless if links are controlled by stowself.
+    # If not, uncomment \_/ this.
+    # elif exists(full_path) and os.path.islink(full_path):
+    #     print("Found symlink at", full_path, "-> Deleting it")
+    #     subprocess.run(["rm", "-r", full_path])
 
 
 def get_config_names():  # -> list[str]: -- not supported in 3.7
@@ -109,143 +120,98 @@ def get_config_names():  # -> list[str]: -- not supported in 3.7
         List of names
     """
     names = []
+    to_stow = []
     # Full installation
-    if MODE == '-f' or MODE == '--full':
+    if MODE == "-f" or MODE == "--full":
         # indexex of folders to stow
         to_stow = [0, 1, 5, 6, 7, 8, 9]
-        # check for existing files to backup
-        for ind in to_stow:
-            backup(STOW_CONFIGS[ind])
-            names.append(STOW_FOLDERS[ind])
-        return names
-
     # Small installation
-    if MODE == '-s' or MODE == '--small':
+    elif MODE == "-s" or MODE == "--small":
         # indexex of folders to stow
         to_stow = [0, 1, 6, 7, 8]
-        # check for existing files to backup
-        for ind in to_stow:
-            backup(STOW_CONFIGS[ind])
-            names.append(STOW_FOLDERS[ind])
-        return names
-
     # Linux installation
-    if MODE == '-l' or MODE == '--linux':
+    elif MODE == "-l" or MODE == "--linux":
         # indexex of folders to stow
         to_stow = [0, 3, 4, 5, 6, 7, 9, 10, 12, 14, 15]
-        # check for existing files to backup
-        for ind in to_stow:
-            backup(STOW_CONFIGS[ind])
-            names.append(STOW_FOLDERS[ind])
-        return names
-
     # Remote server installation
-    if MODE == '--server':
+    elif MODE == "--server":
         # indexex of folders to stow
         to_stow = [0, 1, 7, 8]
-        # check for existing files to backup
-        for ind in to_stow:
-            backup(STOW_CONFIGS[ind])
-            names.append(STOW_FOLDERS[ind])
-        return names
-
     # Normal mode
-    if MODE == '--normal':
+    elif MODE == "--normal":
         # indexex of folders to stow
         to_stow = [0, 5, 6, 7, 9]
+    else:
+        print("Error:", MODE, "argument doesn't exist")
+        sys.exit(1)
+    if to_stow:
         # check for existing files to backup
         for ind in to_stow:
             backup(STOW_CONFIGS[ind])
             names.append(STOW_FOLDERS[ind])
         return names
-
-    else:
-        print('ERROR:', MODE, "argument doesn't exist")
-        sys.exit()
 
 
 def install():
-    # Check if stow exists
-    if not os.path.isfile('/usr/bin/stow'):
-        print('Stow not found! Install stow and relaunch the script.')
-        sys.exit()
+    # Check if stow is installed
+    if not is_tool("stow"):
+        print("Error: stow not found")
+        sys.exit(1)
 
-    # For now check if in .dotfiles; TODO: Check if $DOTFILES exists
+    # Check if in ~/.dotfiles
     if os.getcwd() != CWD:
-        print("ERROR: You're not in", CWD)
-        sys.exit()
+        print("Error: not in", CWD)
+        sys.exit(1)
 
     # Stow
     names = get_config_names()
     for name in names:
-        subprocess.run(['stow', '-R', name])
-        print('Adding symlink to', name)
-    print('Done')
+        subprocess.run(["stow", "-vR", name])
+    # print("Done")
 
 
 def unixpool_install():
     # Install tmux-sessionizer, bash, vim, tmux, i3
     subprocess.run(
         [
-            'mkdir',
-            '-p',
-            fullpath('.local/bin'),
-            fullpath('.config'),
-            fullpath('.config/i3'),
-            fullpath('.config/i3status'),
+            "mkdir",
+            "-p",
+            fullpath(".local/bin"),
+            fullpath(".config"),
+            fullpath(".config/i3"),
+            fullpath(".config/i3status"),
         ]
     )
     pairs = [
+        (".dotfiles/bin/.local/bin/tmux-sessionizer", ".local/bin/tmux-sessionizer"),
         (
-            '.dotfiles/bin/.local/bin/tmux-sessionizer',
-            '.local/bin/tmux-sessionizer'
+            ".dotfiles/bin/.local/bin/set-random-wallpaper",
+            ".local/bin/set-random-wallpaper",
         ),
-        (
-            '.dotfiles/bin/.local/bin/set-random-wallpaper',
-            '.local/bin/set-random-wallpaper'
-        ),
-        (
-            '.dotfiles/bash/.bashrc',
-            '.bashrc'
-        ),
-        (
-            '.dotfiles/bash/.bash_profile',
-            '.bash_profile'
-        ),
-        (
-            '.dotfiles/vim/.vimrc',
-            '.vimrc'
-        ),
-        (
-            '.dotfiles/tmux/.tmux.conf',
-            '.tmux.conf'
-        ),
-        (
-            '.dotfiles/i3/.config/i3/config.alt',
-            '.config/i3/config'
-        ),
-        (
-            '.dotfiles/i3/.config/i3status/config.alt',
-            '.config/i3status/config'
-        ),
+        (".dotfiles/bash/.bashrc", ".bashrc"),
+        (".dotfiles/bash/.bash_profile", ".bash_profile"),
+        (".dotfiles/vim/.vimrc", ".vimrc"),
+        (".dotfiles/tmux/.tmux.conf", ".tmux.conf"),
+        (".dotfiles/i3/.config/i3/config.alt", ".config/i3/config"),
+        (".dotfiles/i3/.config/i3status/config.alt", ".config/i3status/config"),
     ]
 
     for pair in pairs:
         backup(pair[1])
         subprocess.run(
             [
-                'ln',
-                '-s',
+                "ln",
+                "-s",
                 fullpath(pair[0]),
                 fullpath(pair[1]),
             ]
         )
-        print('Adding symlink to', pair[1])
-    print('Done')
+        print("Adding symlink to", pair[1])
+    # print("Done")
 
 
 if __name__ == "__main__":
-    if MODE == '--unixpool':
+    if MODE == "--unixpool":
         unixpool_install()
     else:
         install()

@@ -2,74 +2,80 @@
 
 import os
 from pathlib import Path
+from shutil import which
 import subprocess
 
 STOW_FOLDERS = [
-    'bin',
-    'bash',
-    'i3',
-    'awesome',
-    'polybar',
-    'nvim',
-    'chtsh',
-    'tmux',
-    'vim',
-    'zsh',
-    'kitty',
-    'alacritty',
-    'rofi',
-    'picom',
-    'lf',
-    'stylua',
+    "bin",
+    "bash",
+    "i3",
+    "awesome",
+    "polybar",
+    "nvim",
+    "chtsh",
+    "tmux",
+    "vim",
+    "zsh",
+    "kitty",
+    "alacritty",
+    "rofi",
+    "picom",
+    "lf",
+    "stylua",
 ]
 
 STOW_CONFIGS = [
-    '',
-    '.bashrc',
-    '.config/i3',
-    '.config/awesome',
-    '.config/polybar',
-    '.config/nvim',
-    '',
-    '.tmux.conf',
-    '.vimrc',
-    '.zshrc',
-    '.config/kitty',
-    '.config/alacritty',
-    '.config/rofi',
-    '.config/picom',
-    '.config/lf',
-    '.config/.stylua.toml',
+    "",
+    ".bashrc",
+    ".config/i3",
+    ".config/awesome",
+    ".config/polybar",
+    ".config/nvim",
+    "",
+    ".tmux.conf",
+    ".vimrc",
+    ".zshrc",
+    ".config/kitty",
+    ".config/alacritty",
+    ".config/rofi",
+    ".config/picom",
+    ".config/lf",
+    ".config/.stylua.toml",
 ]
 
-STOW_ARRAY = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
+STOW_DICT = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
+NO_CONFIG_FOLDERS = [
+    STOW_FOLDERS[i] for i in range(len(STOW_FOLDERS)) if not STOW_CONFIGS[i]
+]
 
 
-# TODO: do I want this?
-# if [[ -n $DOTFILES ]]; then
-# if os.getenv('DOTFILES')
-
-# TODO: handle the ones with no configs
+def is_tool(name):
+    """Check whether `name` is in PATH and marked as executable."""
+    return which(name) is not None
 
 
-def unstow():
+def main():
     did_smth = False
-    for folder, config in STOW_ARRAY.items():
+    for folder, config in STOW_DICT.items():
         configpath = os.path.join(Path.home(), config)
-        # check if file/foldr exists and is a symlink
+        # check if file/folder exists and is a symlink
         if os.path.islink(configpath):
-            subprocess.run(['stow', '-D', folder])
-            print('Removing symlink to', folder)
+            if is_tool("stow"):
+                subprocess.run(["stow", "-vD", folder])
+            else:
+                subprocess.run(["rm", "-r", configpath])
+                print("Removing symlink to", folder)
             did_smth = True
+    # bin and chtsh (have to use stow)
+    for folder in NO_CONFIG_FOLDERS:
+        if is_tool("stow"):
+            subprocess.run(["stow", "-vD", folder])
     if did_smth:
-        print('Done')
+        pass
+        # print("Done")
     else:
-        print('There are no jobs')
+        print("There are no jobs")
 
 
-if __name__ == '__main__':
-    # TODO: handle the case with no stow
-    # if not os.path.isfile('/usr/bin/stow'):
-    #     print('Stow not found! Install stow and relaunch the script.')
-    #     sys.exit()
-    unstow()
+if __name__ == "__main__":
+    main()

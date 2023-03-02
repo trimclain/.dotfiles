@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+# TODO: need a quality update
 selected=`cat ~/.tmux-cht-languages ~/.tmux-cht-command | fzf`
 if [[ -z $selected ]]; then
     exit 0
