@@ -55,7 +55,8 @@ elif [ "$1" = "--startup" ]; then
         xrandr --output "$extern" --auto --primary --output "$intern" --off
         # Reload awesome, if it's currently runnings
         if [[ $DESKTOP_SESSION == "awesome" ]]; then
-            awesome-client 'awesome.restart()' > /dev/null
+            awesome-client 'awesome.restart()' &> /dev/null
+            exit 0
         fi
     fi
 fi
