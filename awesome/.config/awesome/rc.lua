@@ -1124,6 +1124,10 @@ end)
 
 -- {{{ Autostart Programs
 -- ############################################################################
+-- FIX: on restart awesome sources this file -> endless loop
+-- Setup monitor layout
+-- spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--startup")
+
 -- Set the wallpaper
 spawn_terminal_command("nitrogen", "--restore")
 -- Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
