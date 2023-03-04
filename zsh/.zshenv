@@ -6,7 +6,3 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 # To keep zsh config in ~/.config/zsh
 export ZDOTDIR="$HOME/.config/zsh"
-# export HISTFILE="$XDG_STATE_HOME/zsh/history"
-
-# Can be removed as soon as I switch to arch
-. "$HOME/.cargo/env"

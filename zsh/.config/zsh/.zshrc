@@ -87,34 +87,17 @@ export DOTFILES="$HOME/.dotfiles"
 
 # History
 export HISTFILE=$HOME/.zsh_history
+# export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export HISTSIZE=10000
 export SAVEHIST=10000
 export HISTORY_IGNORE="(ls|la|l|cd|cd -|cd ..|history|vim)"
 setopt sharehistory
 
-export CARGO="$HOME/.cargo/bin"
+export CARGO="$HOME/.cargo"
 export N_PREFIX="$HOME/.n"
 export GOROOT="$HOME/.golang"
 export GOPATH="$HOME/.go"
 export SDKMAN_DIR="$HOME/.sdkman"
-
-###############################################################################
-# Plugins
-###############################################################################
-
-source "$ZDOTDIR/functions.zsh"
-
-# Git aliases
-plug "git"
-
-# Syntax highlighting bundle and autosuggestions
-plug "zsh-users/zsh-autosuggestions"
-plug "zsh-users/zsh-syntax-highlighting"
-
-# Load the theme.
-source "$ZDOTDIR/plugins/colors/spaceship.zsh"
-plug "spaceship-prompt/spaceship-prompt" "spaceship"
-# plug "zap-zsh/zap-prompt"
 
 ###############################################################################
 # Keybinds
@@ -237,7 +220,7 @@ fi
 # fucntion to add folders to the end of $PATH
 addToPATH() {
     if [[ ! :$PATH: == *":$1:"* ]]; then
-        PATH+=":$1"
+        export PATH="$1:$PATH"
     fi
 }
 
@@ -246,7 +229,7 @@ addToPATH "/usr/local/bin"
 addToPATH "$HOME/.local/bin"
 
 addToPATH "$N_PREFIX/bin" # n-insall for node versions
-addToPATH "$CARGO" # rust btw
+addToPATH "$CARGO/bin" # rust btw
 addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
 
@@ -261,3 +244,23 @@ fi
 if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
+
+###############################################################################
+# Plugins
+###############################################################################
+
+source "$ZDOTDIR/functions.zsh"
+
+# Load the theme.
+source "$ZDOTDIR/plugins/colors/spaceship.zsh"
+plug "spaceship-prompt/spaceship-prompt" "spaceship"
+# plug "zap-zsh/zap-prompt"
+
+# Git aliases
+plug "git"
+
+# Autosuggestions
+plug "zsh-users/zsh-autosuggestions"
+
+# Syntax highlighting (should be last one)
+plug "zsh-users/zsh-syntax-highlighting"
