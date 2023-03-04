@@ -42,20 +42,14 @@ tmux:
 		else echo "Installing tmux..." && sudo apt install tmux -y; fi
 
 zsh:
-	@# Installing zsh
 	@echo "==================================================================="
-	@if [ ! -f /usr/bin/zsh ]; then echo "Installing Zsh..." && sudo apt install zsh -y &&\
-		echo "Done"; else echo "[zsh]: Already installed"; fi
+	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
+		else echo "Installing Zsh..." && sudo apt install -y zsh && echo "Done"; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [ ! -n "`$$SHELL -c 'echo $$ZSH_VERSION'`" ]; then\
-		echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
-		echo "Successfully switched to ZSH. Don't forget to restart your terminal."; fi
-	@# Installing oh-my-zsh
-	@if [ ! -d ~/.oh-my-zsh ]; then echo "Installing Oh-My-Zsh..." &&\
-		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc &&\
-		echo "Done"; else echo "[oh-my-zsh]: Already installed"; fi
+	@if [ -z "$$ZSH_VERSION" ]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
+		echo "Successfully switched to ZSH."; fi
 
 nvim_build_reqs:
 	@# Neovim prerequisites
@@ -463,11 +457,11 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	@echo "Done"
 ###############################################################################
 
-.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts ansible tmux zsh nvim_build_reqs \
-	nvim neovim uninstall_nvim purge_nvim nodejs uninstall_nodejs export_node_modules \
-	import_node_modules typescript golang julia uninstall_julia sdkman \
-	uninstall_sdkman rust uninstall_rust docker uninstall_docker pm2 ufw \
-	install sinstall finstall alacritty_build_reqs alacritty \
+.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts ansible tmux zsh \
+	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim nodejs \
+	uninstall_nodejs export_node_modules import_node_modules typescript \
+	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
+	docker uninstall_docker pm2 ufw install sinstall finstall alacritty_build_reqs alacritty \
 	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
 	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \

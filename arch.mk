@@ -122,6 +122,17 @@ purge_nvim: uninstall_nvim
 	@rm -rf ~/.cache/nvim
 	@echo "Done"
 
+#========================================== Zsh ===================================================
+zsh: ## Install zsh
+	@echo "==================================================================="
+	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
+		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done"; fi
+	@# Check if zsh is the shell, change if not
+	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
+	@# Solution: hardcode zsh location, but it won't work on Mac
+	@if [ -z "$$ZSH_VERSION" ]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
+		echo "Successfully switched to ZSH."; fi
+
 #======================================== Awesome =================================================
 # TODO: awesome_reqs: global_fonts, commands
 
@@ -137,5 +148,5 @@ apps: ## Install btop, xscreensaver, okular
 
 .PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts wallpapers\
 	n uninstall_n export_node_modules import_node_modules typescript\
-	paru flatpak nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
+	paru flatpak nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim zsh\
 	telegram apps
