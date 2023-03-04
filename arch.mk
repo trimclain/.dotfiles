@@ -4,7 +4,7 @@ FLATINSTALL = flatpak install -y --or-update
 all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config
-	@echo "Installing tools I can't live without..."
+	@echo "Installing some basic tools..."
 	@$(INSTALL) curl wget stow ripgrep fzf htop tree p7zip
 
 help: ## print this help menu
@@ -44,7 +44,6 @@ python: ## Install python3, pip, venv
 	pip install venv
 
 n: ## Install n, the node version manager
-	@echo "==================================================================="
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
 	@if [ ! -d ~/.n ]; then echo "Installing n (nodejs version manager) with latest stable node and npm versions..." &&\
 		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash;\
@@ -63,7 +62,6 @@ import_node_modules:
 		xargs npm install --global < .npm_modules; else echo "[node modules]: .npm_modules file not found"; fi
 
 typescript:
-	@echo "==================================================================="
 	@# Install tsc and ts-node
 	@npm install -g typescript ts-node
 
@@ -72,7 +70,6 @@ typescript:
 ###################################################################################################
 
 paru: ## Install paru (the AUR helper)
-	@echo "==================================================================="
 	@if [ -f "/usr/bin/paru" ]; then echo "[paru]: Already installed";\
 		else echo "Installing paru..." && $(INSTALL) base-devel &&\
 		git clone https://aur.archlinux.org/paru.git ~/paru && cd ~/paru &&\
@@ -103,7 +100,6 @@ nvim_build_reqs: nvimdir
 	@$(INSTALL) base-devel cmake unzip ninja tree-sitter curl
 
 nvim: ## Install neovim by building it from source
-	@echo "==================================================================="
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
 		else make nvim_build_reqs && echo "Installing Neovim..." &&\
 		git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
@@ -124,7 +120,6 @@ purge_nvim: uninstall_nvim
 
 #========================================== Zsh ===================================================
 zsh: ## Install zsh
-	@echo "==================================================================="
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
 		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done"; fi
 	@# Check if zsh is the shell, change if not
@@ -146,7 +141,18 @@ telegram: ## Install Telegram Desktop using flatpak
 apps: ## Install btop, xscreensaver, okular
 	@$(INSTALL) btop xscreensaver okular
 
+#==================================================================================================
+# TODO:
+install: ## Setup arch the way I want it
+	@echo "==================================================================="
+	@echo Installing everything...
+	@echo "==================================================================="
+	@make
+	@echo "==================================================================="
+#==================================================================================================
+
 .PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts wallpapers\
 	n uninstall_n export_node_modules import_node_modules typescript\
 	paru flatpak nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim zsh\
-	telegram apps
+	telegram apps\
+	install
