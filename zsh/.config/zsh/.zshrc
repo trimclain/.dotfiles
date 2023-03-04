@@ -49,6 +49,10 @@ setopt interactive_comments
 # Disable highlighting on paste
 zle_highlight=('paste:none')
 
+# Completion
+# Highlight seleceted options on <Tab>
+zstyle ':completion:*' menu select
+
 # Disable all error sounds
 unsetopt BEEP
 
