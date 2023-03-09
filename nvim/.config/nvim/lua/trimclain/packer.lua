@@ -40,9 +40,12 @@ return packer.startup {
             end
         end
 
+        -- TODO: https://github.com/folke/lazy.nvim
         use "wbthomason/packer.nvim" -- packer can manage itself
         use "nvim-lua/plenary.nvim" -- made by tj, used by many plugins
         use "lewis6991/impatient.nvim" -- speed up nvim startup
+
+        -- TODO: https://github.com/NTBBloodbath/cheovim to easily change between other nvim configs
 
         use "windwp/nvim-autopairs" -- autoclose brackets
         use "windwp/nvim-ts-autotag" -- autoclose and autorename html tags
@@ -59,8 +62,9 @@ return packer.startup {
         use "nacro90/numb.nvim" -- incsearch for :linenum<cr>
 
         -- File Browser
-        use "kyazdani42/nvim-tree.lua" -- nerdtree 2.0 for neovim
-        use "kyazdani42/nvim-web-devicons" -- for icons almost everywhere
+        -- TODO: https://github.com/nvim-neo-tree/neo-tree.nvim
+        use "nvim-tree/nvim-tree.lua" -- nerdtree 2.0 for neovim
+        use "nvim-tree/nvim-web-devicons" -- for icons almost everywhere
 
         -- Toggleterm
         use "akinsho/toggleterm.nvim" -- toggle terminal from neovim
