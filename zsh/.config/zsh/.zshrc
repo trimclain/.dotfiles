@@ -59,12 +59,12 @@ unsetopt BEEP
 # Disable ctrl-s to freeze and ctrl-q to unfreeze terminal
 stty start undef stop undef
 
-# TODO: this didn't work, it still creates .zcompdump near .zshrc (maybe plugins fault)
 # Change the location of .zcompdump (https://unix.stackexchange.com/questions/391641/separate-path-for-zcompdump-files)
-# __ZCOMPDUMPDIR="$XDG_CACHE_HOME/zsh/"
-# export ZSH_COMPDUMP=$__ZCOMPDUMPDIR/zcompdump-$ZSH_VERSION
-# [[ -d $__ZCOMPDUMPDIR ]] || mkdir -p $__ZCOMPDUMPDIR
-# compinit -d "$ZSH_COMPDUMP"
+autoload -Uz compinit
+__ZCOMPDUMPDIR="$XDG_CACHE_HOME/zsh/"
+[[ -d $__ZCOMPDUMPDIR ]] || mkdir -p $__ZCOMPDUMPDIR
+export ZSH_COMPDUMP=$__ZCOMPDUMPDIR/zcompdump-$ZSH_VERSION
+compinit -d "$ZSH_COMPDUMP"
 
 ###############################################################################
 # Exports
