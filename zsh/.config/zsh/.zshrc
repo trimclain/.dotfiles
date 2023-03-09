@@ -238,13 +238,8 @@ alias ls="ls --color=tty --group-directories-first"
 alias la="ls -A"
 alias l="ls -lhA"
 
-if [[ -f ~/.local/bin/extract ]]; then
-    alias ex=extract
-fi
-
-if [[ -f ~/.local/bin/archive ]]; then
-    alias ar=archive
-fi
+[[ -f ~/.local/bin/extract ]] && alias ex=extract
+[[ -f ~/.local/bin/archive ]] && alias ar=archive
 
 ###############################################################################
 # Path
@@ -267,9 +262,9 @@ addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
 
 # Load aliases from .bash_aliases or .zsh_aliases if they exists
-if [ -f ~/.zsh_aliases ]; then
+if [[ -f ~/.zsh_aliases ]]; then
     . ~/.zsh_aliases
-elif [ -f ~/.bash_aliases ]; then
+elif [[ -f ~/.bash_aliases ]]; then
     . ~/.bash_aliases
 fi
 
