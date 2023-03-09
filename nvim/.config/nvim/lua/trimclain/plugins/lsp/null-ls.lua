@@ -21,10 +21,6 @@ null_ls.setup {
             extra_args = { "--tab-width=4" }, -- , "--jsx-single-quote", "--no-semi", "--single-quote",
             extra_filetypes = { "toml" },
         },
-        -- formatting.prettier.with {
-        --     extra_args = { "--tab-width=4" }, -- , "--jsx-single-quote", "--no-semi", "--single-quote",
-        --     extra_filetypes = { "toml" },
-        -- },
         formatting.black.with {
             extra_args = {
                 "--fast", -- if --fast given, skip temporary sanity checks [default: --safe]
@@ -32,7 +28,7 @@ null_ls.setup {
             },
         },
         formatting.stylua,
-        -- formatting.shfmt,
+        formatting.beautysh,
 
         -- Linters
         diagnostics.flake8,
