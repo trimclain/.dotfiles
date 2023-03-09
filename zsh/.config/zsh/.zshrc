@@ -285,7 +285,7 @@ plug "spaceship-prompt/spaceship-prompt" "spaceship"
 # plug "zap-zsh/zap-prompt"
 
 # Git aliases
-plug "git"
+plug "git-aliases"
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
