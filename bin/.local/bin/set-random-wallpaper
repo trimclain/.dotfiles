@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if [[ -d $HOME/personal/images/wallpapers ]]; then
-    wallpapers="$HOME/personal/images/wallpapers"
+if [[ -d $HOME/personal/media/wallpapers ]]; then
+    wallpapers="$HOME/personal/media/wallpapers"
 elif [[ -d $HOME/wallpapers/ ]]; then
     wallpapers="$HOME/wallpapers"
 else
     echo "Error: wallpapers not found"
-    exit 0
+    exit 2
 fi
 
 if [[ -f /usr/bin/nitrogen ]]; then
