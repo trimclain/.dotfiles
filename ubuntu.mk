@@ -44,12 +44,17 @@ tmux:
 zsh:
 	@echo "==================================================================="
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
-		else echo "Installing Zsh..." && sudo apt install -y zsh && echo "Done"; fi
+		else echo "Installing Zsh..." && sudo apt install -y zsh && echo "Done" && make zap; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [ -z "$$ZSH_VERSION" ]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
+	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
 		echo "Successfully switched to ZSH."; fi
+
+zap:
+	@if [[ -d ~/.local/share/zap ]]; then echo "[zap-zsh]: Already installed";\
+		else echo "Installing zap-zsh..." && git clone https://github.com/zap-zsh/zap ~/.local/share/zap;\
+		echo "Done"; fi
 
 nvim_build_reqs:
 	@# Neovim prerequisites
@@ -457,7 +462,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	@echo "Done"
 ###############################################################################
 
-.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts ansible tmux zsh \
+.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
 	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim nodejs \
 	uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \

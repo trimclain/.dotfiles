@@ -277,15 +277,15 @@ fi
 # Plugins
 ###############################################################################
 
-source "$ZDOTDIR/functions.zsh"
+[ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
 
 # Load the theme.
 source "$ZDOTDIR/plugins/colors/spaceship.zsh"
-plug "spaceship-prompt/spaceship-prompt" "spaceship"
+plug "spaceship-prompt/spaceship-prompt"
 # plug "zap-zsh/zap-prompt"
 
 # Git aliases
-plug "git-aliases"
+plug "$HOME/.config/zsh/plugins/git-aliases"
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"

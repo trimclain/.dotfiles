@@ -39,9 +39,10 @@ wallpapers:
 ###################################################################################################
 
 # SOMEDAY: switch to pyenv for version control
-python: ## Install python3, pip, venv
-	$(INSTALL) python python-pip
-	pip install venv
+# SOMEDAY: switch to virtualenv (venv comes built-in, but has less features)
+python: ## Install python3, pip
+	@echo "Installing python3 with pip"
+	@$(INSTALL) python python-pip
 
 n: ## Install n, the node version manager
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
@@ -121,12 +122,18 @@ purge_nvim: uninstall_nvim
 #========================================== Zsh ===================================================
 zsh: ## Install zsh
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
-		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done"; fi
+		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done" && make zap; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [ -z "$$ZSH_VERSION" ]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
-		echo "Successfully switched to ZSH."; fi
+	@# TODO: why is one $ ok for [[]] but not ok anywhere else?
+	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
+		echo "Successfully switched to ZSH."; else echo "[zsh]: Already in use"; fi
+
+zap:
+	@if [[ -d ~/.local/share/zap ]]; then echo "[zap-zsh]: Already installed";\
+		else echo "Installing zap-zsh..." && git clone https://github.com/zap-zsh/zap ~/.local/share/zap;\
+		echo "Done"; fi
 
 #======================================== Awesome =================================================
 # TODO: awesome_reqs: global_fonts, commands
@@ -153,6 +160,6 @@ install: ## Setup arch the way I want it
 
 .PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts wallpapers\
 	n uninstall_n export_node_modules import_node_modules typescript\
-	paru flatpak nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim zsh\
+	paru flatpak nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim zsh zap\
 	telegram apps\
 	install
