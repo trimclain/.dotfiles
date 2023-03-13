@@ -70,17 +70,8 @@ compinit -d "$ZSH_COMPDUMP"
 # Exports
 ###############################################################################
 
-# Enable zap
-# [ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh" || echo "Error: zap-zsh not found. Dont forget to delete ~/.antigen"
-
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='vim'
-    VIM="vim"
-else
-    export EDITOR='nvim'
-    VIM="nvim"
-fi
+[[ -n $SSH_CONNECTION ]] && export EDITOR='/usr/bin/vim' || export EDITOR='/usr/local/bin/nvim'
 
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
@@ -173,9 +164,11 @@ key[Shift-Tab]="${terminfo[kcbt]}"
 key[Control-Left]="${terminfo[kLFT5]}"
 key[Control-Right]="${terminfo[kRIT5]}"
 
-# TODO: jump to / if possible
 [[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
 [[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
+
+# Delete word on Ctrl + Backspace (yeah, C-h is for some reason same as C-B)
+bindkey '^H' backward-kill-word
 
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
@@ -191,14 +184,15 @@ fi
 
 bindkey '^ ' autosuggest-accept
 
-# open dotfiles in tmux
+# open dotfiles in tmux (use -s with bindkey when binding to custom command)
 bindkey -s ^q "^utmux-sessionizer $DOTFILES\n"
 # start tmux-sessionizer
 bindkey -s ^t "^utmux-sessionizer\n"
-# TODO: get help from cht.sh in tmux
-# bindkey -s ^h "^utmux-cht.sh\n"
+# get help from cht.sh in tmux on Ctrl+?
+bindkey -s ^_ "^utmux-chtsh\n"
 # bindkey -s ^b "^uchange-wallpaper\n"
 
+# TODO:
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
     tmp="$(mktemp)"
@@ -218,19 +212,19 @@ bindkey -s '^o' '^ulfcd\n'
 # source this config
 alias szrc="exec zsh"
 
-# preview images in kitty
-alias icat="kitty +kitten icat"
-
+# Kittens
 if [[ $TERM == "xterm-kitty" ]]; then
     alias ssh="kitty +kitten ssh"
+    # preview images in kitty
+    alias icat="kitty +kitten icat"
 fi
 
 
-alias vim="$VIM"
-alias ebrc="$VIM $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
-alias ezrc="$VIM $DOTFILES/zsh/.zshrc --cmd \"cd $DOTFILES/zsh/\""
-alias evrc="$VIM $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
-alias enrc="$VIM $DOTFILES/nvim/.config/nvim/init.lua --cmd \"cd $DOTFILES/nvim/.config/nvim/\""
+alias vim="$EDITOR"
+alias ebrc="$EDITOR $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
+alias ezrc="$EDITOR $DOTFILES/zsh/.config/zsh/.zshrc --cmd \"cd $DOTFILES/zsh/\""
+alias evrc="$EDITOR $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
+alias enrc="$EDITOR $DOTFILES/nvim/.config/nvim/ --cmd \"cd $DOTFILES/nvim/.config/nvim/\""
 
 alias py="python3"
 
@@ -277,6 +271,7 @@ fi
 # Plugins
 ###############################################################################
 
+# Enable zap
 [ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
 
 # Load the theme.

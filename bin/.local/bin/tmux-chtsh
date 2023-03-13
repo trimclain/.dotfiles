@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+###############################################################################
+# Use https://cht.sh/ to get help
+###############################################################################
+
+chtsh_langs=~/.dotfiles/chtsh/.tmux-cht-languages
+chtsh_commands=~/.dotfiles/chtsh/.tmux-cht-commands
+
+selected=$(cat $chtsh_langs $chtsh_commands | fzf)
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+read -p "Enter Query: " query
+
+# Check if a language was selected; grep -q for quiet and -s for no messages
+if grep -qs "$selected" $chtsh_langs; then
+    query=$(echo "$query" | tr ' ' '+')
+    # Check if in tmux
+    if [ -n "$TMUX" ]; then
+        tmux neww bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query & while [ : ]; do sleep 1; done"
+    else
+        bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query"
+    fi
+else
+    if [ -n "$TMUX" ]; then
+        tmux neww bash -c "curl -s cht.sh/$selected~$query | less -R"
+    else
+        bash -c "curl -s cht.sh/$selected~$query | less -R"
+    fi
+fi
