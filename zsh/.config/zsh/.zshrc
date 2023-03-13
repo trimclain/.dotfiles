@@ -192,15 +192,15 @@ bindkey -s ^t "^utmux-sessionizer\n"
 bindkey -s ^_ "^utmux-chtsh\n"
 # bindkey -s ^b "^uchange-wallpaper\n"
 
-# TODO:
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
     tmp="$(mktemp)"
-    lf -last-dir-path="$tmp" "$@"
+    # `command` is needed in case `lfcd` is aliased to `lf`
+    command lf -last-dir-path="$tmp" "$@"
     if [ -f "$tmp" ]; then
         dir="$(cat "$tmp")"
         rm -f "$tmp"
-        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return 0
     fi
 }
 bindkey -s '^o' '^ulfcd\n'
