@@ -25,14 +25,20 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
+# make selected back to fullpath after line 19
+selected=$HOME/$selected
 selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s "$selected_name" -c "$selected"
+# Tmux not running or detached:
+# the -A flag makes new-session behave like attach-session if session-name
+# already exists
+if [[ -z $TMUX ]]; then
+    tmux new-session -A -s "$selected_name" -c "$selected"
     exit 0
 fi
 
+# the -d flag makes tmux detach from a session and then creates new one with
+# the name given after -s flag
 if ! tmux has-session -t="$selected_name" 2> /dev/null; then
     tmux new-session -ds "$selected_name" -c "$selected"
 fi
