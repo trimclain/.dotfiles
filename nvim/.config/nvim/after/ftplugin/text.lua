@@ -1,12 +1,14 @@
 vim.opt_local.colorcolumn = "100"
 vim.opt_local.textwidth = 100
 
-local opts = { noremap = true, silent = true }
+
+local opts = { noremap = true, silent = true, buffer = true }
 
 -- set a break point for undo after Space
 vim.keymap.set("i", "<space>", "<space><c-g>u", opts)
 
+-- change the spellcheck language
 vim.keymap.set("n", "<leader>md", "<cmd>setlocal spelllang=de<cr>", opts)
 vim.keymap.set("n", "<leader>me", "<cmd>setlocal spelllang=en<cr>", opts)
 
-vim.api.nvim_buf_set_keymap(0, "i", "--", "—", { noremap = true })
+vim.keymap.set("i", "--", "—", opts)
