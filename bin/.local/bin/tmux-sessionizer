@@ -11,7 +11,7 @@ else
             "$PERSONAL_PROJECTS/bots" \
             -mindepth 1 -maxdepth 1 -type d \
             -not -path "$PERSONAL_PROJECTS/bots" \
-            -not -path "$LOCAL_PLUGINS" | \
+            -not -path "$LOCAL_PLUGINS" 2> /dev/null | \
             sed "s|$HOME/\(.*\)|\1|" | \
             fzf
     )
