@@ -1126,17 +1126,21 @@ end)
 -- ############################################################################
 -- FIX: on restart awesome sources this file -> endless loop
 -- Setup monitor layout
+-- IDEA: Move this to initrc
 -- spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--startup")
 
+-- Enable Xscreensaver
+spawn_terminal_command("xscreensaver", "--no-splash")
 -- Set the wallpaper
 spawn_terminal_command("nitrogen", "--restore")
 -- Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
 -- spawn_terminal_command("picom")
-spawn_terminal_command("$HOME/.local/bin/touchpad-settings")
 -- Set my keyboard layout
 spawn_terminal_command("$HOME/.local/bin/keyboard-layout", "--no-german")
 -- Update current brightness for my custom script
 spawn_terminal_command("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar
 spawn_terminal_command("$HOME/.config/polybar/launch.sh")
+-- Configure touchpad
+spawn_terminal_command("$HOME/.local/bin/touchpad-settings")
 -- }}}
