@@ -26,7 +26,10 @@ if [[ -z $selected ]]; then
 fi
 
 # make selected back to fullpath after line 19
-selected=$HOME/$selected
+# if [[ ! -d $selected ]]; then
+if [[ ! $selected == $HOME/* ]]; then
+    selected=$HOME/$selected
+fi
 selected_name=$(basename "$selected" | tr . _)
 
 # Tmux not running or detached:
