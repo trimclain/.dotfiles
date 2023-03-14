@@ -21,6 +21,7 @@ jaq_nvim.setup {
             -- cpp = "g++ % -o $fileBase && ./$fileBase",
             go = "go run %",
             sh = "bash %",
+            zsh = "zsh %",
             julia = "julia %",
         },
     },
