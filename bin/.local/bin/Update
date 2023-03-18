@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
-sudo apt update
-sudo apt upgrade -y
-sudo apt autoremove -y
+
+OS=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
+
+if [[ $OS == arch ]]; then
+    if command -v paru &> /dev/null; then
+        paru -Syu
+    else
+        pacman -Syu
+    fi
+else
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt autoremove -y
+fi
+
