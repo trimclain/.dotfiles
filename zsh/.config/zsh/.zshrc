@@ -15,14 +15,14 @@
 ###############################################################################
 # Description:
 # Since zsh searches for $HOME/.zshenv, put all necessary exports like $ZDOTDIR
-# there. That way zsh know the new location of my config, which is following
+# there. That way zsh knows the new location of my config, which is following
 # the XDG standarts (https://wiki.archlinux.org/title/XDG_Base_Directory)
-# and is set to $XDG_CONFIG_HOME/zsh
+# set to $XDG_CONFIG_HOME/zsh
 #
 # There are 2 folder for plugins. The first one is $ZDOTDIR/plugins. It contains
 # small plugins mostly containing aliases. Those plugins will have to be updated
-# manually if needed. The second folder is $XDG_DATA_HOME/zsh/plugins. Plugins
-# are installed to that folder using custom functions from $ZDOTDIR/functions.zsh
+# manually if needed. The second folder is $XDG_DATA_HOME/zap/plugins. Plugins
+# in that folder are managed by zap.
 ###############################################################################
 
 ###############################################################################
