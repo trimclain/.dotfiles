@@ -280,7 +280,7 @@ plug "spaceship-prompt/spaceship-prompt"
 # plug "zap-zsh/zap-prompt"
 
 # Git aliases
-plug "$HOME/.config/zsh/plugins/git-aliases"
+plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
