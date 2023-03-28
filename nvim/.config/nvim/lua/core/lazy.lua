@@ -1,3 +1,5 @@
+-- Great explanation of what lazy.nvim can do: https://github.com/folke/lazy.nvim#examples
+
 -- Install lazy.nvim if needed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

@@ -388,7 +388,6 @@ return {
           -- spacing = 3, -- spacing between columns
           align = "center", -- align columns left, center or right
       },
-      -- ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
       show_help = false, -- show help message on the command line when the popup is visible
     },
     config = function(_, opts)
@@ -398,14 +397,16 @@ return {
         mode = { "n", "v" },
         ["g"] = { name = "+goto" },
         -- ["gz"] = { name = "+surround" },
-        -- ["]"] = { name = "+next" },
-        -- ["["] = { name = "+prev" },
+        ["]"] = { name = "+next" },
+        ["["] = { name = "+prev" },
         -- ["<leader><tab>"] = { name = "+tabs" },
         -- ["<leader>b"] = { name = "+buffer" },
         -- ["<leader>c"] = { name = "+code" },
         ["<leader>f"] = { name = "+find" },
-        ["<leader>p"] = { name = "+plugins" },
         ["<leader>g"] = { name = "+git" },
+        ["<leader>m"] = { name = "+make" },
+        ["<leader>p"] = { name = "+plugins" },
+        ["<leader>r"] = { name = "+replace/refactor" },
         -- ["<leader>gh"] = { name = "+hunks" },
         -- ["<leader>q"] = { name = "+quit/session" },
         -- ["<leader>s"] = { name = "+search" },
@@ -421,14 +422,17 @@ return {
   },
 
   -- search/replace in multiple files
-  -- {
-  --   "windwp/nvim-spectre",
-  --   -- stylua: ignore
-  --   keys = {
-  --     { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-  --   },
-  -- },
+  {
+    "nvim-pack/nvim-spectre",
+    -- stylua: ignore
+    keys = {
+      { "<leader>rr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+      { "<leader>rw", function() require("spectre").open_visual({ select_word = true }) end, desc = "Replace Word (Spectre)" },
+      { "<leader>rf", function() require("spectre").open_file_search() end, desc = "Replace Buffer (Spectre)" },
+    },
+  },
 
+  -- TODO: will I use this?
   -- easily jump to any location and enhanced f/t motions for Leap
   -- {
   --   "ggandor/flit.nvim",
@@ -461,41 +465,45 @@ return {
   -- },
 
   -- git signs
-  -- {
-  --   "lewis6991/gitsigns.nvim",
-  --   event = { "BufReadPre", "BufNewFile" },
-  --   opts = {
-  --     signs = {
-  --       add = { text = "▎" },
-  --       change = { text = "▎" },
-  --       delete = { text = "" },
-  --       topdelete = { text = "" },
-  --       changedelete = { text = "▎" },
-  --       untracked = { text = "▎" },
-  --     },
-  --     on_attach = function(buffer)
-  --       local gs = package.loaded.gitsigns
-  --
-  --       local function map(mode, l, r, desc)
-  --         vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-  --       end
-  --
-  --       -- stylua: ignore start
-  --       map("n", "]h", gs.next_hunk, "Next Hunk")
-  --       map("n", "[h", gs.prev_hunk, "Prev Hunk")
-  --       map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-  --       map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-  --       map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-  --       map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-  --       map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-  --       map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
-  --       map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
-  --       map("n", "<leader>ghd", gs.diffthis, "Diff This")
-  --       map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-  --       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-  --     end,
-  --   },
-  -- },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      signs = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "" },
+        topdelete = { text = "" },
+        changedelete = { text = "▎" },
+        untracked = { text = "▎" },
+      },
+      on_attach = function(buffer)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+        end
+
+        -- TODO: will I use these
+        -- stylua: ignore
+        -- -- Navigation
+        -- map("n", "]h", gs.next_hunk, "Next Hunk")
+        -- map("n", "[h", gs.prev_hunk, "Prev Hunk")
+        -- -- Actions
+        -- map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+        -- map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        -- map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
+        -- map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
+        -- map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
+        -- map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
+        -- map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
+        -- map("n", "<leader>ghd", gs.diffthis, "Diff This")
+        -- map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
+        -- -- Text object
+        -- map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+      end,
+    },
+  },
 
   -- references
   -- {
@@ -529,16 +537,17 @@ return {
   --   },
   -- },
 
-  -- buffer remove
-  -- {
-  --   "echasnovski/mini.bufremove",
-  --   -- stylua: ignore
-  --   keys = {
-  --     { "<leader>bd", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-  --     { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
-  --   },
-  -- },
+  -- buffer remove (other options: https://github.com/famiu/bufdelete.nvim)
+  {
+    "echasnovski/mini.bufremove",
+    -- stylua: ignore
+    keys = {
+      { "<leader>q", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+      -- { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
+    },
+  },
 
+  -- TODO: will I use this?
   -- better diagnostics list and others
   -- {
   --   "folke/trouble.nvim",
@@ -575,18 +584,35 @@ return {
   -- },
 
   -- todo comments
-  -- {
-  --   "folke/todo-comments.nvim",
-  --   cmd = { "TodoTrouble", "TodoTelescope" },
-  --   event = { "BufReadPost", "BufNewFile" },
-  --   config = true,
-  --   -- stylua: ignore
-  --   keys = {
-  --     { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-  --     { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-  --     { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-  --     { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-  --     { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-  --   },
-  -- },
+  {
+    "folke/todo-comments.nvim",
+    cmd = { "TodoTrouble", "TodoTelescope" },
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+        -- keywords recognized as todo comments
+        keywords = {
+            FIX = {
+                icon = " ", -- icon used for the sign, and in search results
+                color = "error", -- can be a hex color, or a named color (see below)
+                alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+                -- signs = false, -- configure signs for some keywords individually
+            },
+            TODO = { icon = " ", color = "info" },
+            HACK = { icon = " ", color = "warning" },
+            WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+            PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+            NOTE = { icon = " ", color = "hint", alt = { "INFO", "IDEA" } },
+            TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+
+        },
+    },
+    -- stylua: ignore
+    keys = {
+      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
+      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
+      -- { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
+      -- { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
+      -- { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+    },
+  },
 }

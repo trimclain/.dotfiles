@@ -57,7 +57,8 @@ keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank i
 keymap("n", "<leader>d", '"_d', add_desc("Delete to black hole"))
 keymap("i", "<C-r>", "<C-r>+", opts) -- paste from clipboard in insert mode
 keymap("c", "<C-r>", "<C-r>+", opts) -- paste from clipboard in command mode
-keymap("n", "<leader>mx", "<cmd>w <cr> <cmd>!chmod +x %<cr>", opts) -- make executable
+keymap("n", "<leader>mx", "<cmd>w <cr> <cmd>!chmod +x %<cr>", add_desc("executable"))
+keymap("n", "<leader>r.", ":%s/\\<<c-r><c-w>\\>/", add_desc("Replace Word Vim Style"))
 keymap("n", "<leader>Y", 'gg"+yG', add_desc("Yank Whole File"))
 keymap("n", "<leader>w", "<cmd>w<cr>", add_desc("Save File"))
 
@@ -93,13 +94,6 @@ if Util.has_plugin("harpoon") then
     keymap("n", "<C-k>", "<cmd>lua require('harpoon.ui').nav_file(2)<CR>", opts)
     -- keymap("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", opts)
     -- keymap("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", opts)
-end
-
--- Bufdelete
-if Util.has_plugin("bufdelete.nvim") then
-    keymap("n", "<leader>q", "<cmd>Bdelete<cr>", add_desc("Close Buffer"))
-else
-    keymap("n", "<leader>q", "<cmd>bdelete<cr>", add_desc("Close Buffer"))
 end
 
 -- UndoTree
