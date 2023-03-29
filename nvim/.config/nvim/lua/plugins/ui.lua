@@ -1,6 +1,5 @@
 return {
-    --
-    -- Better `vim.notify()`
+  -- Better `vim.notify()`
   {
     "rcarriga/nvim-notify",
     -- keys = {
@@ -25,9 +24,9 @@ return {
       -- when noice is not enabled, install notify on VeryLazy
       local Util = require("core.util")
       if not Util.has_plugin("noice.nvim") then
-        -- Util.on_very_lazy(function()
-        vim.notify = require("notify")
-        -- end)
+        Util.on_very_lazy(function()
+          vim.notify = require("notify")
+        end)
       end
     end,
   },
@@ -42,9 +41,6 @@ return {
     -- },
     opts = {
       options = {
-        -- TODO: after installing Bdelete
-        -- close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
-        -- right_mouse_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
         show_close_icon = false, --default: true
         separator_style = "slant", -- | "thick" | "slant" | default: "thin" | "padded_slant"  | { 'any', 'any' }
         -- enforce_regular_tabs = true, -- default: false

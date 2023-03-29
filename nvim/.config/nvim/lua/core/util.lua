@@ -80,6 +80,17 @@ end
 --     end
 -- end
 
+---@param on_attach function(client, buffer)
+function M.on_attach(on_attach)
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local buffer = args.buf
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      on_attach(client, buffer)
+    end,
+  })
+end
+
 --- Check if a plugin is installed and enabled
 ---@param plugin string
 function M.has_plugin(plugin)
@@ -87,15 +98,25 @@ function M.has_plugin(plugin)
 end
 
 --- Execute command on VeryLazy event from lazy.nvim
----@param fn fun()
--- function M.on_very_lazy(fn)
---   vim.api.nvim_create_autocmd("User", {
---     pattern = "VeryLazy",
---     callback = function()
---       fn()
---     end,
---   })
--- end
+---@param fn function
+function M.on_very_lazy(fn)
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    callback = function()
+      fn()
+    end,
+  })
+end
+
+---@param name string
+function M.opts(name)
+  local plugin = require("lazy.core.config").plugins[name]
+  if not plugin then
+    return {}
+  end
+  local Plugin = require("lazy.core.plugin")
+  return Plugin.values(plugin, "opts", false)
+end
 
 -- Nice Stuff from TJ
 -- local has = function(x)

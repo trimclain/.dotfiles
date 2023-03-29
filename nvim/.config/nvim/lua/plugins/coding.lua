@@ -5,6 +5,7 @@ return {
     -- build = (not jit.os:find("Windows"))
     --     and "echo -e 'NOTE: jsregexp is optional, so not a big deal if it fails to build\n'; make install_jsregexp"
     --   or nil,
+    -- TODO: does this solve my not knowing where to put stuff?
     dependencies = {
       "rafamadriz/friendly-snippets",
       config = function()
@@ -24,7 +25,7 @@ return {
     keys = {
       {
 
-          "<c-k>",
+          "<c-n>",
           function()
               if require("luasnip").expand_or_jumpable() then
                   require("luasnip").expand_or_jump()
@@ -33,7 +34,7 @@ return {
           silent = true, mode = { "i", "s" }
       },
       {
-          "<c-j>",
+          "<c-p>",
           function()
               if require("luasnip").jumpable(-1) then
                   require("luasnip").jump(-1)
@@ -257,20 +258,99 @@ return {
       },
   },
 
-  -- comments
-  -- { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+  -- auto pairs
   {
-    "echasnovski/mini.comment",
-    event = "VeryLazy",
-    opts = {
-      -- hooks = {
-        -- pre = function()
-          -- require("ts_context_commentstring.internal").update_commentstring({})
-        -- end,
-      -- },
-    },
-    config = function(_, opts)
-      require("mini.comment").setup(opts)
-    end,
+      "windwp/nvim-autopairs",
+      event = "VeryLazy",
+      opts = {
+          -- TODO: enable this after installing treesitter
+          -- check_ts = true, -- work with treesitter
+          -- ts_config = {
+          --     lua = {'string'},-- it will not add a pair on that treesitter node
+          --     javascript = {'template_string'},
+          --     java = false,-- don't check treesitter on java
+          -- },
+          disable_filetype = { "TelescopePrompt", "spectre_panel", "vim", "text" },
+          disable_in_macro = true,  -- disable when recording or executing a macro
+          -- fast_wrap = {
+          --     map = '<M-e>',
+          --     chars = { '{', '[', '(', '"', "'" },
+          --     pattern = [=[[%'%"%>%]%)%}%,]]=],
+          --     end_key = '$',
+          --     keys = 'qwertyuiopzxcvbnmasdfghjkl',
+          --     check_comma = true,
+          --     highlight = 'Search',
+          --     highlight_grey='Comment'
+          -- },
+      },
   },
+  -- TODO: where do I put the rules for autopairs?
+  -- local npairs = require'nvim-autopairs'
+  -- local Rule   = require'nvim-autopairs.rule'
+  --
+  -- local brackets = { { '(', ')' }, { '[', ']' }, { '{', '}' } }
+  -- npairs.add_rules {
+  --     Rule(' ', ' ')
+  --     :with_pair(function (opts)
+  --         local pair = opts.line:sub(opts.col - 1, opts.col)
+  --         return vim.tbl_contains({
+  --             brackets[1][1]..brackets[1][2],
+  --             brackets[2][1]..brackets[2][2],
+  --             brackets[3][1]..brackets[3][2],
+  --         }, pair)
+  --     end)
+  -- }
+  -- for _,bracket in pairs(brackets) do
+  --     npairs.add_rules {
+  --         Rule(bracket[1]..' ', ' '..bracket[2])
+  --         :with_pair(function() return false end)
+  --         :with_move(function(opts)
+  --             return opts.prev_char:match('.%'..bracket[2]) ~= nil
+  --         end)
+  --         :use_key(bracket[2])
+  --     }
+  -- end
+
+    -- comments
+    -- FIX: make pre_hook work
+    -- { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        -- dependencies = {
+        --     "JoosepAlviste/nvim-ts-context-commentstring",
+        -- },
+        opts = {
+            ignore = "^$", -- ignores empty lines
+            -- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+            -- pre_hook = function()
+            --     require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+            -- end,
+        },
+        config = function(_, opts)
+            require("Comment").setup(opts)
+        end,
+    },
+    -- comments
+    -- { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+    -- {
+    --     "echasnovski/mini.comment",
+    --     event = "VeryLazy",
+    --     opts = {
+    --         hooks = {
+    --             pre = function()
+    --                 require("ts_context_commentstring.internal").update_commentstring({})
+    --             end,
+    --         },
+    --     },
+    --     config = function(_, opts)
+    --         require("mini.comment").setup(opts)
+    --     end,
+    -- },
+
+  -- TODO
+  -- Manually set filetype comments
+  -- local comment_ft = require "Comment.ft"
+  -- comment_ft.set("lua", { "--%s", "--[[%s]]" })
+  -- comment_ft.set("markdown", { "[//]:%s", "<!--%s-->" })
 }
