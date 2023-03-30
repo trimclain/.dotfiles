@@ -83,7 +83,6 @@ keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>", add_desc("Lazy Profile"))
 -- TODO
 -- if Util.has_plugin("telescope.nvim") then
 --     keymap("n", "<C-f>", ":lua require('trimclain.plugins.telescope').curr_buf_search()<CR>", opts)
---     keymap("n", "<C-p>", "<cmd>lua require('telescope.builtin').git_files()<CR>", opts)
 -- end
 
 -- Harpoon
