@@ -1,4 +1,4 @@
--- local Util = require("core.util")
+local Util = require("core.util")
 
 return {
 
@@ -69,12 +69,10 @@ return {
 		version = false, -- telescope did only one release, so use HEAD for now
 		keys = {
 			-- find
-			{ "<leader>ff", "<cmd>Telescope find_files hidden=true<cr>", desc = "Find Files (root dir)" },
+			{ "<C-p>", Util.telescope("files"), desc = "Find Files (root dir)" },
+            { "<C-f>", function() Util.curr_buf_search() end, desc = "Fzf Buffer"},
 			-- TODO:
-			-- { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
-			-- { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
 			-- { "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
-			-- { "<leader><space>", Util.telescope("files"), desc = "Find Files (root dir)" },
 			-- fd = { "<cmd>Telescope git_files cwd=" .. join_paths(os.getenv "HOME", ".dotfiles") .. "<cr>", "Dotfiles" },
 			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
 			{ "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find String" },

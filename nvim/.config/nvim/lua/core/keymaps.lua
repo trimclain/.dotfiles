@@ -6,7 +6,7 @@ local keymap = vim.keymap.set
 --- Extend opts by adding a description, so the keymap appears in which-key
 ---@param desc string
 ---@return table
-local add_desc = function (desc)
+local add_desc = function(desc)
     return vim.tbl_extend("error", opts, { desc = desc })
 end
 
@@ -36,7 +36,7 @@ keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 
 --
 -- Very Useful Stuff
-keymap("n", "<leader><cr>",  "<cmd>source %<cr>", add_desc("Source Buffer"))
+keymap("n", "<leader><cr>", "<cmd>source %<cr>", add_desc("Source Buffer"))
 keymap("n", "Q", "<cmd>qa<cr>", opts) -- remap Q to :qa
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts) -- and backwards
@@ -78,12 +78,6 @@ keymap("n", "gx", [[:call HandleURL()<cr>]], { silent = true })
 keymap("n", "<leader>pl", "<cmd>Lazy home<cr>", add_desc("Open Lazy"))
 keymap("n", "<leader>ps", "<cmd>Lazy sync<cr>", add_desc("Lazy Sync"))
 keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>", add_desc("Lazy Profile"))
-
--- Telescope
--- TODO
--- if Util.has_plugin("telescope.nvim") then
---     keymap("n", "<C-f>", ":lua require('trimclain.plugins.telescope').curr_buf_search()<CR>", opts)
--- end
 
 -- Harpoon
 if Util.has_plugin("harpoon") then

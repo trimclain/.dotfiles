@@ -10,35 +10,6 @@ function _G.P(obj)
     print(vim.inspect(obj))
 end
 
--- --- Return true if s is either "" or nil
--- ---@param s string | table
--- ---@return boolean
--- function M.isempty(s)
---     return s == nil or s == ""
--- end
---
--- --- Check if a directory exists in this path
--- ---@param file string path to the file
--- ---@return boolean
--- function M.exists(file)
---     local ok, _, code = os.rename(file, file)
---     if not ok then
---         if code == 13 then
---             -- Permission denied, but it exists
---             return true
---         end
---     end
---     return ok == true
--- end
---
--- --- Check if a directory exists in this path
--- ---@param path string path to the file
--- ---@return boolean
--- function M.isdir(path)
---     -- "/" works on both Unix and Windows
---     return M.exists(path .. "/")
--- end
---
 -- --- Get the value of option current for current buffer
 -- ---@param opt string vim.opt.optionname
 -- function M.get_buf_option(opt)
@@ -80,66 +51,80 @@ end
 --     end
 -- end
 
+-------------------------------------------------------------------------------
+-- From lazyvim.util.init.lua
+-------------------------------------------------------------------------------
 ---@param on_attach function(client, buffer)
 function M.on_attach(on_attach)
-  vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-      local buffer = args.buf
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      on_attach(client, buffer)
-    end,
-  })
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            local buffer = args.buf
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            on_attach(client, buffer)
+        end,
+    })
 end
 
 --- Check if a plugin is installed and enabled
 ---@param plugin string
 function M.has_plugin(plugin)
-  return require("lazy.core.config").plugins[plugin] ~= nil
+    return require("lazy.core.config").plugins[plugin] ~= nil
 end
 
 --- Execute command on VeryLazy event from lazy.nvim
 ---@param fn function
 function M.on_very_lazy(fn)
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "VeryLazy",
-    callback = function()
-      fn()
-    end,
-  })
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "VeryLazy",
+        callback = function()
+            fn()
+        end,
+    })
 end
 
+--- List options passed to a plugin, if the plugin is used
 ---@param name string
 function M.opts(name)
-  local plugin = require("lazy.core.config").plugins[name]
-  if not plugin then
-    return {}
-  end
-  local Plugin = require("lazy.core.plugin")
-  return Plugin.values(plugin, "opts", false)
+    local plugin = require("lazy.core.config").plugins[name]
+    if not plugin then
+        return {}
+    end
+    local Plugin = require("lazy.core.plugin")
+    return Plugin.values(plugin, "opts", false)
 end
 
--- Nice Stuff from TJ
--- local has = function(x)
---     return vim.fn.has(x) == 1
--- end
---
--- local executable = function(x)
---     return vim.fn.executable(x) == 1
--- end
---
--- local is_wsl = (function()
---     local output = vim.fn.systemlist "uname -r"
---     return not not string.find(output[1] or "", "WSL")
--- end)()
--- local is_mac = has "macunix"
--- local is_linux = not is_wsl and not is_mac
+-- this will return a function that calls telescope.
+-- cwd will default to core.util.get_root
+-- for `files`, git_files or find_files will be chosen depending on .git
+function M.telescope(builtin, opts)
+    local params = { builtin = builtin, opts = opts }
+    return function()
+        builtin = params.builtin
+        opts = params.opts or {}
+        -- opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
+        if builtin == "files" then
+            -- Thank you telescope, this is the way to fix above
+            local in_worktree = require("telescope.utils").get_os_command_output(
+                { "git", "rev-parse", "--is-inside-work-tree" },
+                vim.loop.cwd()
+            )
+            if in_worktree[1] == "true" then
+                -- if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
+                opts.show_untracked = true
+                builtin = "git_files"
+            else
+                opts.hidden = true
+                builtin = "find_files"
+            end
+        end
+        require("telescope.builtin")[builtin](opts)
+    end
+end
 
--- Someday?
--- get length of current word
--- function M.get_word_length()
---     local word = vim.fn.expand "<cword>"
---     return #word
--- end
+M.curr_buf_search = function()
+    local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
+    require("telescope.builtin").current_buffer_fuzzy_find(opt)
+end
 
 -- local diagnostics_active = true
 -- function M.toggle_diagnostics()
@@ -150,6 +135,7 @@ end
 --         vim.diagnostic.hide()
 --     end
 -- end
+-------------------------------------------------------------------------------
 
 -- -- ############################################################################
 -- -- HANDLE SPLITS
@@ -316,50 +302,6 @@ end
 -- vim.api.nvim_create_user_command("FormattingToggle", M.toggle_format_on_save, { bang = true })
 --
 -- -- ############################################################################
--- -- RESTART NEOVIM
--- -- ############################################################################
---
--- -- Credit to JoosepAlviste
---
--- --- Bust the cache of all required Lua files. After running this, each require() would re-run the file.
--- local function unload_all_modules()
---     -- Lua patterns for the modules to unload
---     local unload_modules = {
---         "^j.",
---     }
---
---     for k, _ in pairs(package.loaded) do
---         for _, v in ipairs(unload_modules) do
---             if k:match(v) then
---                 package.loaded[k] = nil
---                 break
---             end
---         end
---     end
--- end
---
--- --- Reload all vim modules
--- function M.reload()
---     -- Stop LSP
---     vim.cmd.LspStop()
---
---     -- Unload all already loaded modules
---     unload_all_modules()
---
---     -- Source init.lua
---     vim.cmd.luafile(M.join_paths(os.getenv "HOME", ".config", "nvim", "init.lua"))
--- end
---
--- --- Restart Vim without having to close and run again
--- function M.restart()
---     -- Reload config
---     M.reload()
---
---     -- Manually run VimEnter autocmd to emulate a new run of Vim
---     vim.cmd.doautocmd "VimEnter"
--- end
---
--- -- ############################################################################
 --
 -- M.ToggleQFList = function()
 --     if vim.g.qflist_global == 1 then
@@ -369,7 +311,7 @@ end
 --     end
 -- end
 
-vim.cmd [[
+vim.cmd([[
     " Empty all Registers
     fun! EmptyRegisters()
         let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
@@ -377,14 +319,9 @@ vim.cmd [[
             call setreg(r, [])
         endfor
     endfun
-]]
+]])
 
--- local check_backspace = function()
---     local col = vim.fn.col "." - 1
---     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
--- end
--- vim.fn.getline()
-vim.cmd [[
+vim.cmd([[
     function! HandleURL()
         let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;)]*')
         echo "Opened ".s:uri
@@ -394,18 +331,6 @@ vim.cmd [[
             echo "No URI found in line."
         endif
     endfunction
-]]
-
--- TODO: set this up
--- local status_ok, telescope = pcall(require, "telescope")
--- if not status_ok then
---     return
--- end
---
--- -- My custom functions, which get imported with "require'core.telescope.func_name()"
--- M.curr_buf_search = function()
---     local opt = require("telescope.themes").get_dropdown { height = 10, previewer = false }
---     require("telescope.builtin").current_buffer_fuzzy_find(opt)
--- end
+]])
 
 return M
