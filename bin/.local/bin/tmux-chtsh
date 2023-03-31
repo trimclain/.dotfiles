@@ -19,13 +19,16 @@ if grep -qs "$selected" $chtsh_langs; then
     query=$(echo "$query" | tr ' ' '+')
     # Check if in tmux
     if [ -n "$TMUX" ]; then
-        tmux neww bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query & while [ : ]; do sleep 1; done"
+        # tmux neww bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query & while [ : ]; do sleep 1; done"
+        tmux split-window -h bash -c "curl cht.sh/$selected/$query | less -R"
     else
-        bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query"
+        # bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query"
+        bash -c "curl cht.sh/$selected/$query | less -R"
     fi
 else
     if [ -n "$TMUX" ]; then
-        tmux neww bash -c "curl -s cht.sh/$selected~$query | less -R"
+        # tmux neww bash -c "curl -s cht.sh/$selected~$query | less -R"
+        tmux split-window -h bash -c "curl -s cht.sh/$selected~$query | less -R"
     else
         bash -c "curl -s cht.sh/$selected~$query | less -R"
     fi
