@@ -89,11 +89,6 @@ if Util.has_plugin("harpoon") then
     -- keymap("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", opts)
 end
 
--- UndoTree
-if Util.has_plugin("undotree") then
-    keymap("n", "<leader>u", "<cmd>UndotreeToggle<cr>", add_desc("UndoTree"))
-end
-
 -- hop.nvim keybindings
 -- if Util.has_plugin("hop.nvim") then
 --     keymap(

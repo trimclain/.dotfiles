@@ -25,7 +25,7 @@ return {
     keys = {
       {
 
-          "<c-n>",
+          "<c-k>",
           function()
               if require("luasnip").expand_or_jumpable() then
                   require("luasnip").expand_or_jump()
@@ -34,7 +34,7 @@ return {
           silent = true, mode = { "i", "s" }
       },
       {
-          "<c-p>",
+          "<c-j>",
           function()
               if require("luasnip").jumpable(-1) then
                   require("luasnip").jump(-1)
@@ -208,57 +208,6 @@ return {
     --     }),
     -- })
 
-    {
-        "TimUntersberger/neogit",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-        opts = {
-            disable_commit_confirmation = true,
-            -- Change the default way of opening neogit
-            kind = "replace", -- "replace", "tab", "split", "split_above", "vsplit", "floating"
-            -- override/add mappings
-            mappings = {
-                -- modify status buffer mappings
-                status = {
-                    ["q"] = "Close",
-                    ["1"] = "Depth1",
-                    ["2"] = "Depth2",
-                    ["3"] = "Depth3",
-                    ["4"] = "Depth4",
-                    ["<tab>"] = "Toggle",
-                    ["="] = "Toggle", -- fugitive habbit
-                    ["x"] = "Discard",
-                    ["s"] = "Stage",
-                    -- ["a"] = "StageUnstaged",
-                    -- ["<c-s>"] = "StageAll",
-                    ["u"] = "Unstage",
-                    -- ["U"] = "UnstageStaged",
-                    -- ["d"] = "DiffAtFile",
-                    -- ["$"] = "CommandHistory",
-                    -- ["<c-r>"] = "RefreshBuffer",
-                    -- ["o"] = "GoToFile",
-                    -- ["<enter>"] = "Toggle",
-                    -- ["<c-v>"] = "VSplitOpen",
-                    -- ["<c-x>"] = "SplitOpen",
-                    -- ["<c-t>"] = "TabOpen",
-                    ["?"] = "HelpPopup",
-                    -- ["D"] = "DiffPopup",
-                    ["P"] = "PullPopup",
-                    -- ["r"] = "RebasePopup",
-                    ["p"] = "PushPopup",
-                    ["c"] = "CommitPopup",
-                    ["L"] = "LogPopup",
-                    -- ["Z"] = "StashPopup",
-                    -- ["b"] = "BranchPopup",
-                },
-            },
-        },
-        keys = {
-            { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
-        },
-    },
-
     -- auto pairs
     {
         "windwp/nvim-autopairs",
@@ -273,44 +222,56 @@ return {
             -- },
             disable_filetype = { "TelescopePrompt", "spectre_panel", "vim", "text" },
             disable_in_macro = true, -- disable when recording or executing a macro
-            -- fast_wrap = {
-            --     map = '<M-e>',
-            --     chars = { '{', '[', '(', '"', "'" },
-            --     pattern = [=[[%'%"%>%]%)%}%,]]=],
-            --     end_key = '$',
-            --     keys = 'qwertyuiopzxcvbnmasdfghjkl',
-            --     check_comma = true,
-            --     highlight = 'Search',
-            --     highlight_grey='Comment'
-            -- },
+            -- I use this instead of surround for now
+            fast_wrap = {
+                map = "<M-e>",
+                chars = { "{", "[", "(", '"', "'" },
+                pattern = [=[[%'%"%>%]%)%}%,]]=],
+                end_key = "$",
+                keys = "qwertyuiopzxcvbnmasdfghjkl",
+                check_comma = true,
+                highlight = "Search",
+                highlight_grey = "Comment",
+            },
         },
+        config = function(_, opts)
+            require("nvim-autopairs").setup(opts)
+
+            -- Create a ule to add spaces between parentheses
+            local npairs = require("nvim-autopairs")
+            local Rule = require("nvim-autopairs.rule")
+
+            local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
+            npairs.add_rules({
+                Rule(" ", " "):with_pair(function(options)
+                    local pair = options.line:sub(options.col - 1, options.col)
+                    return vim.tbl_contains({
+                        brackets[1][1] .. brackets[1][2],
+                        brackets[2][1] .. brackets[2][2],
+                        brackets[3][1] .. brackets[3][2],
+                    }, pair)
+                end),
+            })
+            for _, bracket in pairs(brackets) do
+                npairs.add_rules({
+                    Rule(bracket[1] .. " ", " " .. bracket[2])
+                        :with_pair(function()
+                            return false
+                        end)
+                        :with_move(function(options)
+                            return options.prev_char:match(".%" .. bracket[2]) ~= nil
+                        end)
+                        :use_key(bracket[2]),
+                })
+            end
+        end,
     },
-    -- TODO: where do I put the rules for autopairs?
-    -- local npairs = require'nvim-autopairs'
-    -- local Rule   = require'nvim-autopairs.rule'
-    --
-    -- local brackets = { { '(', ')' }, { '[', ']' }, { '{', '}' } }
-    -- npairs.add_rules {
-    --     Rule(' ', ' ')
-    --     :with_pair(function (opts)
-    --         local pair = opts.line:sub(opts.col - 1, opts.col)
-    --         return vim.tbl_contains({
-    --             brackets[1][1]..brackets[1][2],
-    --             brackets[2][1]..brackets[2][2],
-    --             brackets[3][1]..brackets[3][2],
-    --         }, pair)
-    --     end)
-    -- }
-    -- for _,bracket in pairs(brackets) do
-    --     npairs.add_rules {
-    --         Rule(bracket[1]..' ', ' '..bracket[2])
-    --         :with_pair(function() return false end)
-    --         :with_move(function(opts)
-    --             return opts.prev_char:match('.%'..bracket[2]) ~= nil
-    --         end)
-    --         :use_key(bracket[2])
-    --     }
-    -- end
+
+    -- close tags using treesitter
+    {
+        "windwp/nvim-ts-autotag",
+        event = "VeryLazy",
+    },
 
     -- comments
     -- FIX: make pre_hook work
@@ -353,6 +314,36 @@ return {
     -- local comment_ft = require "Comment.ft"
     -- comment_ft.set("lua", { "--%s", "--[[%s]]" })
     -- comment_ft.set("markdown", { "[//]:%s", "<!--%s-->" })
+
+    {
+        "danymat/neogen",
+        dependencies = "nvim-treesitter/nvim-treesitter",
+        keys = {
+            {
+                "<leader>ng",
+                "<cmd>lua require('neogen').generate()<cr>",
+                desc = "Generate annotations for current function",
+            },
+            {
+                "<leader>nc",
+                "<cmd>lua require('neogen').generate({type = 'class'})<cr>",
+                desc = "Generate annotations for current class",
+            },
+            {
+                "<leader>nt",
+                "<cmd>lua require('neogen').generate({type = 'type'})<cr>",
+                desc = "Generate annotations for current type",
+            },
+            {
+                "<leader>nf",
+                "<cmd>lua require('neogen').generate({type = 'file'})<cr>",
+                desc = "Generate annotations for current file",
+            },
+        },
+        opts = {
+            snippet_engine = "luasnip", -- use provided engine to place the annotations
+        },
+    },
 
     -- Neovim plugin for splitting/joining blocks of code
     {
