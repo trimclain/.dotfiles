@@ -2,15 +2,15 @@ return {
     -- Better `vim.notify()`
     {
         "rcarriga/nvim-notify",
-        -- keys = {
-        --   {
-        --     "<leader>un",
-        --     function()
-        --       require("notify").dismiss({ silent = true, pending = true })
-        --     end,
-        --     desc = "Delete all Notifications",
-        --   },
-        -- },
+        keys = {
+            {
+                "<leader><space>",
+                function()
+                    require("notify").dismiss({ silent = true, pending = true })
+                end,
+                desc = "Delete all Notifications",
+            },
+        },
         opts = {
             timeout = 3000,
             max_height = function()
@@ -65,12 +65,11 @@ return {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
         opts = function()
-            -- TODO:
-            -- -- Show shiftwidth length
-            -- local spaces = function()
-            --     return " " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
-            -- end
-            --
+            -- Show shiftwidth length
+            local spaces = function()
+                return " " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+            end
+
             -- -- Show if formatting on save is enabled
             -- local autoformat = function()
             --     return vim.g.autoformat_status
@@ -171,13 +170,14 @@ return {
 
             -------------------------------------------------------------------------
 
-            -- local icons = require("lazyvim.config").icons
+            local icons = require("core.icons")
+            -- TODO:
             -- local function fg(name)
-            --   return function()
-            --     ---@type {foreground?:number}?
-            --     local hl = vim.api.nvim_get_hl_by_name(name, true)
-            --     return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
-            --   end
+            --     return function()
+            --         ---@type {foreground?:number}?
+            --         local hl = vim.api.nvim_get_hl_by_name(name, true)
+            --         return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
+            --     end
             -- end
 
             return {
@@ -195,67 +195,65 @@ return {
                 },
                 sections = {
                     lualine_a = { "mode" },
-                    lualine_b = { "branch", "diff", "diagnostics" },
+                    lualine_b = { "branch" },
+                    lualine_c = {
+                        {
+                            "diff",
+                            symbols = {
+                                added = icons.git.Add,
+                                modified = icons.git.Mod,
+                                removed = icons.git.Remove,
+                            },
+                        },
+                        {
+                            "diagnostics",
+                            symbols = {
+                                error = icons.diagnostics.Error,
+                                warn = icons.diagnostics.Warn,
+                                info = icons.diagnostics.Info,
+                                hint = icons.diagnostics.Hint,
+                            },
+                        },
+                    },
+                    -- enable navic
+                    -- lualine_c = {
+                    --     -- stylua: ignore
+                    --     {
+                    --         function() return require("nvim-navic").get_location() end,
+                    --         cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
+                    --     },
+                    -- },
                     -- TODO:
                     -- lualine_c = { move_to_the_middle, language_server },
-                    -- lualine_c = {},
-                    -- lualine_x = { "encoding", spaces, "fileformat", "filetype", autoformat },
+                    lualine_x = { "encoding", spaces, "fileformat", "filetype" }, -- , autoformat
                     lualine_y = { "progress" },
                     lualine_z = { "location" },
+                    -- lualine_z = {
+                    --     { "progress", separator = " ", padding = { left = 1, right = 0 } },
+                    --     { "location", padding = { left = 0, right = 1 } },
+                    -- },
                 },
+                -- TODO:
                 -- sections = {
-                --   lualine_a = { "mode" },
-                --   lualine_b = { "branch" },
-                --   lualine_c = {
-                --     {
-                --       "diagnostics",
-                --       symbols = {
-                --         error = icons.diagnostics.Error,
-                --         warn = icons.diagnostics.Warn,
-                --         info = icons.diagnostics.Info,
-                --         hint = icons.diagnostics.Hint,
-                --       },
+                --     lualine_x = {
+                --         -- stylua: ignore
+                --         {
+                --             function() return require("noice").api.status.command.get() end,
+                --             cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+                --             color = fg("Statement")
+                --         },
+                --         -- stylua: ignore
+                --         {
+                --             function() return require("noice").api.status.mode.get() end,
+                --             cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+                --             color = fg("Constant") ,
+                --         },
+                --         {
+                --             require("lazy.status").updates,
+                --             cond = require("lazy.status").has_updates,
+                --             color = fg("Special"),
+                --         },
                 --     },
-                --     { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-                --     { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
-                --     -- stylua: ignore
-                --     {
-                --       function() return require("nvim-navic").get_location() end,
-                --       cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
-                --     },
-                --   },
-                --   lualine_x = {
-                --     -- stylua: ignore
-                --     {
-                --       function() return require("noice").api.status.command.get() end,
-                --       cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-                --       color = fg("Statement")
-                --     },
-                --     -- stylua: ignore
-                --     {
-                --       function() return require("noice").api.status.mode.get() end,
-                --       cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-                --       color = fg("Constant") ,
-                --     },
-                --     { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = fg("Special") },
-                --     {
-                --       "diff",
-                --       symbols = {
-                --         added = icons.git.added,
-                --         modified = icons.git.modified,
-                --         removed = icons.git.removed,
-                --       },
-                --     },
-                --   },
-                --   lualine_y = {
-                --     { "progress", separator = " ", padding = { left = 1, right = 0 } },
-                --     { "location", padding = { left = 0, right = 1 } },
-                --   },
-                --   lualine_z = {
-                --     function()
-                --       return " " .. os.date("%R")
-                --     end,
-                --   },
                 -- },
                 extensions = { "lazy", "neo-tree", "quickfix", "toggleterm" },
             }
@@ -417,27 +415,27 @@ return {
     --   end,
     -- },
 
-    -- TODO: setup navic
     -- lsp symbol navigation for lualine
     -- {
-    --   "SmiteshP/nvim-navic",
-    --   lazy = true,
-    --   init = function()
-    --     vim.g.navic_silence = true
-    --     require("lazyvim.util").on_attach(function(client, buffer)
-    --       if client.server_capabilities.documentSymbolProvider then
-    --         require("nvim-navic").attach(client, buffer)
-    --       end
-    --     end)
-    --   end,
-    --   opts = function()
-    --     return {
-    --       separator = " ",
-    --       highlight = true,
-    --       depth_limit = 5,
-    --       icons = require("lazyvim.config").icons.kinds,
-    --     }
-    --   end,
+    --     "SmiteshP/nvim-navic",
+    --     lazy = true,
+    --     init = function()
+    --         vim.g.navic_silence = false -- for debug, later set to true
+    --         require("core.util").on_attach(function(client, buffer)
+    --             if client.server_capabilities.documentSymbolProvider then
+    --                 require("nvim-navic").attach(client, buffer)
+    --             end
+    --         end)
+    --     end,
+    --     opts = function()
+    --         local icons = require("core.icons")
+    --         return {
+    --             separator = " " .. icons.ui.ChevronRight .. " ",
+    --             highlight = true,
+    --             depth_limit = 5,
+    --             icons = icons.kinds,
+    --         }
+    --     end,
     -- },
 
     -- TODO: if I don't use noice
