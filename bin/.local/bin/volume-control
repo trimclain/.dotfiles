@@ -27,12 +27,8 @@ elif [ "$1" = "--decrease" ]; then
     pactl set-sink-volume @DEFAULT_SINK@ -5%
 elif [ "$1" = "--toggle-mute" ]; then
     # Toggle Mute Volume
-    if ! command -v pacmd > /dev/null; then
-        notify-send "Error: pacmd not found"
-        exit 1
-    fi
     pactl set-sink-mute @DEFAULT_SINK@ toggle
-    status=$(pacmd list-sinks | awk '/muted/ { print $2 }')
+    status=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '/Mute/ { print $2 }')
     if [ "$status" = "no" ]; then
         mode="unmuted"
     elif [ "$status" = "yes" ]; then
@@ -41,7 +37,9 @@ elif [ "$1" = "--toggle-mute" ]; then
 fi
 
 # Send notification
-output=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+# output=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+# TODO: does this work on ubuntu?
+output=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }')
 if  [ "$mode" = "increase" ]; then
     notify-send " $output %" -t 350
 elif [ "$mode" = "decrease" ]; then
