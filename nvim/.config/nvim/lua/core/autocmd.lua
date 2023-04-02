@@ -72,8 +72,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "man", -- nvim man pages
         "startuptime", -- dstein64/vim-startuptime
         "spectre_panel", -- nvim-pack/nvim-spectre
-        -- "Jaq",
-        -- "null-ls-info",
+        "Jaq", -- is0n/jaq-nvim
         -- "notify",
     },
     callback = function(event)

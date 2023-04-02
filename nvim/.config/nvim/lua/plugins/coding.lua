@@ -321,22 +321,30 @@ return {
         keys = {
             {
                 "<leader>ng",
-                "<cmd>lua require('neogen').generate()<cr>",
+                function()
+                    require("neogen").generate({ type = "func" })
+                end,
                 desc = "Generate annotations for current function",
             },
             {
                 "<leader>nc",
-                "<cmd>lua require('neogen').generate({type = 'class'})<cr>",
+                function()
+                    require("neogen").generate({ type = "class" })
+                end,
                 desc = "Generate annotations for current class",
             },
             {
                 "<leader>nt",
-                "<cmd>lua require('neogen').generate({type = 'type'})<cr>",
+                function()
+                    require("neogen").generate({ type = "type" })
+                end,
                 desc = "Generate annotations for current type",
             },
             {
                 "<leader>nf",
-                "<cmd>lua require('neogen').generate({type = 'file'})<cr>",
+                function()
+                    require("neogen").generate({ type = "file" })
+                end,
                 desc = "Generate annotations for current file",
             },
         },

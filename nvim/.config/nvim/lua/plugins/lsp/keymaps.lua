@@ -11,6 +11,7 @@ function M.get()
         -- stylua: ignore
         M._keys =  {
             { "<leader>li", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+            { "<leader>ln", "<cmd>NullLsInfo<cr>", desc = "NullLs Info" },
             { "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "Goto Definition", has = "definition" },
             { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
             { "gl", vim.diagnostic.open_float, desc = "Line Diagnostics" },

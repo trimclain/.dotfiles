@@ -33,6 +33,7 @@ return {
         init = function()
             vim.g.neo_tree_remove_legacy_commands = 1
             if vim.fn.argc() == 1 then
+                ---@diagnostic disable-next-line: param-type-mismatch
                 local stat = vim.loop.fs_stat(vim.fn.argv(0))
                 if stat and stat.type == "directory" then
                     require("neo-tree")
@@ -405,8 +406,8 @@ return {
         config = function(_, opts)
             local wk = require("which-key")
             wk.setup(opts)
-            local keymaps = {
-                mode = { "n", "v" },
+            local nkeymaps = {
+                mode = { "n" },
                 ["g"] = { name = "+goto" },
                 -- ["gz"] = { name = "+surround" },
                 ["]"] = { name = "+next" },
@@ -420,6 +421,7 @@ return {
                 ["<leader>n"] = { name = "+neogen" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
+                ["<leader>v"] = { name = "+vim" },
                 -- ["<leader>gh"] = { name = "+hunks" },
                 -- ["<leader>q"] = { name = "+quit/session" },
                 -- ["<leader>s"] = { name = "+search" },
@@ -428,9 +430,77 @@ return {
                 -- ["<leader>x"] = { name = "+diagnostics/quickfix" },
             }
             -- if Util.has_plugin("noice.nvim") then
-            --   keymaps["<leader>sn"] = { name = "+noice" }
+            --   nkeymaps["<leader>sn"] = { name = "+noice" }
             -- end
-            wk.register(keymaps)
+            local vkeymaps = {
+                mode = { "v" },
+                ["<leader>l"] = { name = "+lsp" },
+                ["<leader>r"] = { name = "+refactor" },
+            }
+            wk.register(nkeymaps)
+            wk.register(vkeymaps)
+        end,
+    },
+
+    -- terminal
+    {
+        "akinsho/toggleterm.nvim",
+        version = "*",
+        event = "VeryLazy",
+        -- keys = {
+        --     {"<c-\\>", "",}
+        -- },
+        opts = {
+            open_mapping = [[<c-\>]],
+            shading_factor = 2, -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+            direction = "float",
+            float_opts = {
+                border = "curved",
+            },
+        },
+        config = function(_, opts)
+            require("toggleterm").setup(opts)
+
+            -- set terminal keymaps
+            function _G.set_terminal_keymaps()
+                vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], { buffer = 0 })
+            end
+            vim.cmd("autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()")
+
+            -- TODO: there has to be a better way
+
+            -- local function open_in_toggleterm(cmd)
+            --     return require("toggleterm.terminal").Terminal:new({ cmd = cmd, hidden = true })
+            -- end
+
+            -- -- Open node in the terminal
+            -- local node = open_in_toggleterm("node")
+            -- function _NODE_TOGGLE()
+            --     node:toggle()
+            -- end
+
+            -- -- Open python3 in the terminal
+            -- local python = open_in_toggleterm("python3")
+            -- function _PYTHON_TOGGLE()
+            --     python:toggle()
+            -- end
+
+            -- -- Open htop in the terminal
+            -- local htop = open_in_toggleterm("htop")
+            -- function _HTOP_TOGGLE()
+            --     htop:toggle()
+            -- end
+
+            -- -- Open btop in the terminal
+            -- local btop = open_in_toggleterm("btop")
+            -- function _BTOP_TOGGLE()
+            --     btop:toggle()
+            -- end
+
+            -- vim.keymap.set("n", "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<cr>", { desc = "Python" })
+            -- vim.keymap.set("n", "<leader>tn", "<cmd>lua _NODE_TOGGLE()<cr>", { desc = "Node" })
+            -- vim.keymap.set("n", "<leader>th", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "HTOP" })
+            -- vim.keymap.set("n", "<leader>tb", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "BTOP" })
         end,
     },
 
@@ -452,38 +522,6 @@ return {
       { "<leader>rf", function() require("spectre").open_file_search() end, desc = "Replace Buffer (Spectre)" },
     },
     },
-
-    -- TODO: will I use this?
-    -- easily jump to any location and enhanced f/t motions for Leap
-    -- {
-    --   "ggandor/flit.nvim",
-    --   keys = function()
-    --     ---@type LazyKeys[]
-    --     local ret = {}
-    --     for _, key in ipairs({ "f", "F", "t", "T" }) do
-    --       ret[#ret + 1] = { key, mode = { "n", "x", "o" }, desc = key }
-    --     end
-    --     return ret
-    --   end,
-    --   opts = { labeled_modes = "nx" },
-    -- },
-    -- {
-    --   "ggandor/leap.nvim",
-    --   keys = {
-    --     { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
-    --     { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
-    --     { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
-    --   },
-    --   config = function(_, opts)
-    --     local leap = require("leap")
-    --     for k, v in pairs(opts) do
-    --       leap.opts[k] = v
-    --     end
-    --     leap.add_default_mappings(true)
-    --     vim.keymap.del({ "x", "o" }, "x")
-    --     vim.keymap.del({ "x", "o" }, "X")
-    --   end,
-    -- },
 
     -- git client
     {
@@ -550,31 +588,31 @@ return {
                 changedelete = { text = "▎" },
                 untracked = { text = "▎" },
             },
-            on_attach = function(buffer)
-                local gs = package.loaded.gitsigns
+            -- TODO: will I use these
+            -- on_attach = function(buffer)
+            --     local gs = package.loaded.gitsigns
 
-                local function map(mode, l, r, desc)
-                    vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-                end
+            --     local function map(mode, l, r, desc)
+            --         vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+            --     end
 
-                -- TODO: will I use these
-                -- stylua: ignore
-                -- -- Navigation
-                -- map("n", "]h", gs.next_hunk, "Next Hunk")
-                -- map("n", "[h", gs.prev_hunk, "Prev Hunk")
-                -- -- Actions
-                -- map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-                -- map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-                -- map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-                -- map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-                -- map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-                -- map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
-                -- map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
-                -- map("n", "<leader>ghd", gs.diffthis, "Diff This")
-                -- map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-                -- -- Text object
-                -- map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-            end,
+            --     -- stylua: ignore
+            --     -- Navigation
+            --     map("n", "]h", gs.next_hunk, "Next Hunk")
+            --     map("n", "[h", gs.prev_hunk, "Prev Hunk")
+            --     -- Actions
+            --     map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+            --     map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+            --     map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
+            --     map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
+            --     map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
+            --     map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
+            --     map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
+            --     map("n", "<leader>ghd", gs.diffthis, "Diff This")
+            --     map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
+            --     -- Text object
+            --     map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+            -- end,
         },
     },
 
@@ -677,13 +715,71 @@ return {
                 TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
             },
         },
-    -- stylua: ignore
-    keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-      -- { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-      -- { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-      -- { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+        -- stylua: ignore
+        keys = {
+            { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
+            { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
+            -- { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
+            -- { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
+            -- { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+        },
     },
+
+    -- smooth scrolling
+    -- althernative: https://github.com/declancm/cinnamon.nvim
+    {
+        "karb94/neoscroll.nvim",
+        event = { "BufReadPost" },
+        opts = {
+            -- All these keys will be mapped to their corresponding default scrolling animation
+            -- mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+            mappings = {},
+            stop_eof = false, -- Stop at <EOF> when scrolling downwards (default: true)
+            respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+            easing_function = "sine", -- Default easing function; options: quadratic, cubic, quartic, quintic, circular, sine
+        },
+        config = function(_, opts)
+            require("neoscroll").setup(opts)
+            local t = {}
+            -- Syntax: t[keys] = {function, {function arguments}}
+            -- Use the "sine" easing function
+            t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "true", "50" } }
+            t["<C-d>"] = { "scroll", { "vim.wo.scroll", "true", "50" } }
+            -- Use the "circular" easing function
+            -- t['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', '500', [['circular']]}}
+            -- t['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', '500', [['circular']]}}
+            -- Pass "nil" to disable the easing animation (constant scrolling speed)
+            -- t['<C-y>'] = {'scroll', {'-0.10', 'false', '100', nil}}
+            -- t['<C-e>'] = {'scroll', { '0.10', 'false', '100', nil}}
+            -- When no easing function is provided the default easing function (in this case "quadratic") will be used
+            t["zt"] = { "zt", { "100" } }
+            t["zz"] = { "zz", { "100" } }
+            t["zb"] = { "zb", { "100" } }
+            require("neoscroll.config").set_mappings(t)
+        end,
     },
+
+    -- easier jumps with f,F,t,T
+    {
+        "phaazon/hop.nvim",
+        branch = "v2",
+        opts = {
+            current_line_only = true,
+        },
+        -- stylua: ignore
+        keys = {
+            { "f", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR }) end},
+            { "F", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }) end},
+            { "t", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, hint_offset = -1 }) end},
+            { "T", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, hint_offset = 1 }) end},
+        },
+    },
+
+    -- TODO: do I need this?
+    -- incsearch for :linenum<cr>
+    -- {
+    --     "nacro90/numb.nvim",
+    --     event = "BufReadPost",
+    --     config = true,
+    -- },
 }

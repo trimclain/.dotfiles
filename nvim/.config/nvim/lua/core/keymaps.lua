@@ -37,6 +37,7 @@ keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 --
 -- Very Useful Stuff
 keymap("n", "<leader><cr>", "<cmd>source %<cr>", add_desc("Source Buffer"))
+keymap("n", "gp", "`[v`]", add_desc("Select recently pasted text"))
 keymap("n", "Q", "<cmd>qa<cr>", opts) -- remap Q to :qa
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts) -- and backwards
@@ -69,7 +70,15 @@ keymap("n", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
 -- Thx JoosepAlviste
 -- Open the file under the cursor with the default file handler for that file type (e.g., Firefox for `http` links, etc.)
 -- This mapping normally comes from `netrw`, but we disabled that for nvim-tree
-keymap("n", "gx", [[:call HandleURL()<cr>]], { silent = true })
+keymap("n", "gx", [[:call HandleURL()<cr>]], { silent = true, desc = "Open URL under cursor" })
+
+-- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
+keymap(
+    "n",
+    "<leader>vu",
+    ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>",
+    add_desc("Change fileformat from dos to unix")
+)
 
 -- TODO: make <C-t> open tmux-sessionizer like prime, coz fk tags?
 -------------------------------------------------------------------------------
@@ -88,39 +97,6 @@ if Util.has_plugin("harpoon") then
     -- keymap("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", opts)
     -- keymap("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", opts)
 end
-
--- hop.nvim keybindings
--- if Util.has_plugin("hop.nvim") then
---     keymap(
---         "",
---         "f",
---         "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
---         opts
---     )
---     keymap(
---         "",
---         "F",
---         "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
---         opts
---     )
---     keymap(
---         "",
---         "t",
---         "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>",
---         opts
---     )
---     keymap(
---         "",
---         "T",
---         "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>",
---         opts
---     )
--- end
-
--- jaq.nvim
--- if Util.has_plugin("jaq.nvim") then
---     keymap("n", "<C-b>", ":Jaq<cr>", opts)
--- end
 
 -- " QuickFixList Stuff
 -- keymap("n", "<up>", ":cprev<CR>zz", opts)
