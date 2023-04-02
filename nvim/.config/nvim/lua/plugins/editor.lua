@@ -775,6 +775,25 @@ return {
         },
     },
 
+    -- harpoon btw
+    {
+        "ThePrimeagen/harpoon",
+        keys = {
+            { "<leader>a", function() require('harpoon.mark').add_file() end, desc = "Add Harpoon Mark" },
+            { "<C-e>", function() require('harpoon.ui').toggle_quick_menu() end, desc = "Toggle Harpoon Menu" },
+            { "<C-j>", function() require('harpoon.ui').nav_file(1) end, desc = "Harpoon to file 1" },
+            { "<C-k>", function() require('harpoon.ui').nav_file(2) end, desc = "Harpoon to file 2" },
+            -- { "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", desc = "Harpoon to file 3" },
+            -- { "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", desc = "Harpoon to file 4" },
+        },
+        opts = {
+            global_settings = {
+                -- filetypes that you want to prevent from adding to the harpoon list menu.
+                excluded_filetypes = { "harpoon" },
+            },
+        },
+    },
+
     -- TODO: do I need this?
     -- incsearch for :linenum<cr>
     -- {
