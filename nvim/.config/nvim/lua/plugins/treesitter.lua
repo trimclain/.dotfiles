@@ -4,6 +4,16 @@ return {
         version = false, -- last release is way too old and doesn't work on Windows
         build = ":TSUpdate",
         event = { "BufReadPost", "BufNewFile" },
+        dependencies = {
+            {
+                "nvim-treesitter/nvim-treesitter-context",
+                config = function()
+                    require("treesitter-context").setup({
+                        max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
+                    })
+                end,
+            },
+        },
         -- keys = {
         --   { "<c-space>", desc = "Increment selection" },
         --   { "<bs>", desc = "Decrement selection", mode = "x" },
