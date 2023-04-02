@@ -15,6 +15,12 @@ keymap("", "<C-c>", "<Esc>", opts) -- normal, visual, select, operator-pending m
 keymap("l", "<C-c>", "<Esc>", opts) -- insert, command-line, lang-arg modes
 keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 
+-- INFO:
+-- How to modify macros:
+-- paste from register: "ap
+-- edit
+-- yank back to the register: "ayy
+
 --
 -- Easier movement between buffers (I'm fine with arrows and <C-w>jk for now -> more keys for whichkey)
 -- keymap("n", "<left>", "<C-w>h", opts)
@@ -87,16 +93,6 @@ keymap(
 keymap("n", "<leader>pl", "<cmd>Lazy home<cr>", add_desc("Open Lazy"))
 keymap("n", "<leader>ps", "<cmd>Lazy sync<cr>", add_desc("Lazy Sync"))
 keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>", add_desc("Lazy Profile"))
-
--- Harpoon
-if Util.has_plugin("harpoon") then
-    keymap("n", "<leader>a", "<cmd>lua require('harpoon.mark').add_file()<cr>", add_desc("Add Harpoon Mark"))
-    keymap("n", "<C-e>", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", opts)
-    keymap("n", "<C-j>", "<cmd>lua require('harpoon.ui').nav_file(1)<CR>", opts)
-    keymap("n", "<C-k>", "<cmd>lua require('harpoon.ui').nav_file(2)<CR>", opts)
-    -- keymap("n", "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", opts)
-    -- keymap("n", "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", opts)
-end
 
 -- " QuickFixList Stuff
 -- keymap("n", "<up>", ":cprev<CR>zz", opts)
