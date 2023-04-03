@@ -89,8 +89,7 @@ uninstall_nvim:
 purge_nvim: uninstall_nvim
 	@echo "Uninstalling Neovim Leftovers..."
 	rm -rf ~/.config/nvim
-	rm -rf ~/.local/share/nvim
-	rm -rf ~/.cache/nvim
+	rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
 	@echo "Done"
 
 nodejs:
