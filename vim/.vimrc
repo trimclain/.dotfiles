@@ -41,7 +41,7 @@ set smartcase                           " except when using capital letters
 set hidden                              " allows to open multiple buffers
 set ruler                               " Show the line and column number of the cursor position in the bottom right
 set backspace=indent,eol,start          " make sure backspace works properly
-set scrolloff=8                         " start scrolling when 8 lines away from the bottom
+set scrolloff=4                         " start scrolling when 8 lines away from the bottom
 set sidescrolloff=8                     " or  8 chars away from the sides
 set wildmenu                            " better command-line completion
 set showcmd                             " show partial commands in the last line of the screen
@@ -238,6 +238,8 @@ function! NetrwToggle()
         " execute 'wincmd ' . (tabpagewinnr(tabpagenr(), '$') - 1) . 'h'
         execute 'close'
     else
+        " TODO:
+        " let g:netrw_opened = 1
         execute '15Vex'
     endif
 endfunction
