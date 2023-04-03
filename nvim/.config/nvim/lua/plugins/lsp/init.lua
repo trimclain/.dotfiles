@@ -24,9 +24,8 @@ return {
                 update_in_insert = false,
                 -- If I'm tired of lsp telling me I'm wrong and want to use `gl` only, come here and make both false
                 -- enable/disable virtual text (errors on the right)
-                -- virtual_lines = false,
-                -- virtual_text = false,
-                virtual_text = { spacing = 4, prefix = "●" },
+                virtual_text = false,
+                -- virtual_text = { spacing = 4, prefix = "●" },
                 severity_sort = true,
                 float = {
                     focusable = false,
