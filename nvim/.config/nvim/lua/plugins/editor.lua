@@ -42,6 +42,10 @@ return {
         end,
         opts = {
             filesystem = {
+                filtered_items = {
+                    hide_dotfiles = false,
+                    hide_hidden = false, -- for Windows
+                },
                 bind_to_cwd = false, -- true creates a 2-way binding between vim's cwd and neo-tree's root
                 follow_current_file = true,
             },
