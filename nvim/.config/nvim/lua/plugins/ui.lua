@@ -70,6 +70,7 @@ return {
                 return " " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
             end
 
+            -- TODO:
             -- -- Show if formatting on save is enabled
             -- local autoformat = function()
             --     return vim.g.autoformat_status
@@ -215,14 +216,6 @@ return {
                             },
                         },
                     },
-                    -- enable navic
-                    -- lualine_c = {
-                    --     -- stylua: ignore
-                    --     {
-                    --         function() return require("nvim-navic").get_location() end,
-                    --         cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
-                    --     },
-                    -- },
                     -- TODO:
                     -- lualine_c = { move_to_the_middle, language_server },
                     lualine_x = { "encoding", spaces, "fileformat", "filetype" }, -- , autoformat
@@ -426,6 +419,7 @@ return {
     --                 require("nvim-navic").attach(client, buffer)
     --             end
     --         end)
+    --         vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
     --     end,
     --     opts = function()
     --         local icons = require("core.icons")
@@ -438,9 +432,20 @@ return {
     --     end,
     -- },
 
-    -- TODO: if I don't use noice
     -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
-    -- { "j-hui/fidget.nvim" },
+    {
+        "j-hui/fidget.nvim",
+        event = "VeryLazy",
+        opts = {
+            text = {
+                -- spinner = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" },
+                spinner = "moon", -- animation shown when tasks are ongoing
+            },
+            window = {
+                relative = "editor", -- where to anchor, either "win" or "editor" (default: "win")
+            },
+        },
+    },
 
     -- icons
     { "nvim-tree/nvim-web-devicons", lazy = true },
