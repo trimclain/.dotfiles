@@ -52,7 +52,7 @@ return {
                 },
             },
             behavior = {
-                default = "float", -- options: "float", "bang", "quickfix", "terminal"
+                default = "terminal", -- options: "float", "bang", "quickfix", "terminal"
                 autosave = true, -- auto-save files before running
             },
             ui = {
