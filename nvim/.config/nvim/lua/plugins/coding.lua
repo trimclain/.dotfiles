@@ -211,10 +211,9 @@ return {
     -- auto pairs
     {
         "windwp/nvim-autopairs",
-        event = "VeryLazy",
+        event = "InsertEnter",
         opts = {
-            -- TODO: enable this after installing treesitter
-            -- check_ts = true, -- work with treesitter
+            check_ts = true, -- work with treesitter
             -- ts_config = {
             --     lua = {'string'},-- it will not add a pair on that treesitter node
             --     javascript = {'template_string'},
@@ -235,11 +234,12 @@ return {
             },
         },
         config = function(_, opts)
-            require("nvim-autopairs").setup(opts)
-
             -- Create a ule to add spaces between parentheses
             local npairs = require("nvim-autopairs")
             local Rule = require("nvim-autopairs.rule")
+
+            npairs.setup(opts)
+
 
             local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
             npairs.add_rules({
