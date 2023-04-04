@@ -72,6 +72,16 @@ return {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
         version = false, -- telescope did only one release, so use HEAD for now
+        dependencies = {
+            {
+                "nvim-telescope/telescope-fzf-native.nvim", -- make telescope 20-200 times faster
+                build = "make",
+                config = function()
+                    require("telescope").load_extension("fzf")
+                end,
+            },
+            "nvim-lua/plenary.nvim",
+        },
         keys = {
             -- find
             { "<C-p>", Util.telescope("files"), desc = "Find Files (root dir)" },
@@ -341,14 +351,17 @@ return {
                     -- initial_mode = "insert" -- or "normal"
                 },
             },
+            extensions = {
+                fzf = {
+                    fuzzy = true, -- false will only do exact matching
+                    override_generic_sorter = true, -- override the generic sorter
+                    override_file_sorter = true, -- override the file sorter
+                    case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+                    -- the default case_mode is "smart_case"
+                },
+            },
         },
     },
-
-    -- TODO: do I want this?
-    -- use {
-    --     "nvim-telescope/telescope-fzf-native.nvim", -- fzf for telescope
-    --     run = "make",
-    -- }
 
     -- which-key
     {
