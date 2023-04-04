@@ -16,8 +16,9 @@ vimdir:
 	@mkdir -p ~/.vim/undodir
 	@echo "Done"
 
+# TODO: In case I'm missing icons, check https://unix.stackexchange.com/a/685714
 fonts:
-	@echo "Installing fonts..."
+	@echo "Installing fonts to ~/.local/share/fonts/"
 	@mkdir -p ~/.local/share/fonts/
 	@cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
 	@echo "Done"
@@ -38,11 +39,18 @@ wallpapers:
 # Languages
 ###################################################################################################
 
-# SOMEDAY: switch to pyenv for version control
-# SOMEDAY: switch to virtualenv (venv comes built-in, but has less features)
+# TODO: switch to pyenv for version control
+# TODO: switch to virtualenv (venv comes built-in, but has less features)
 python: ## Install python3, pip
 	@echo "Installing python3 with pip"
 	@$(INSTALL) python python-pip
+
+# TODO: rust, go (add to .PHONY)
+rust: ## Install rustup, the rust version manager
+	@$(INSTALL) rustup
+
+g: ## Install g, the go version manager
+	@$(INSTALL) go
 
 n: ## Install n, the node version manager
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
@@ -71,7 +79,7 @@ typescript:
 ###################################################################################################
 
 paru: ## Install paru (the AUR helper)
-	@if [ -f "/usr/bin/paru" ]; then echo "[paru]: Already installed";\
+	@if command -v paru &> /dev/null; then echo "[paru]: Already installed";\
 		else echo "Installing paru..." && $(INSTALL) base-devel &&\
 		git clone https://aur.archlinux.org/paru.git ~/paru && cd ~/paru &&\
 		makepkg -si && rm -rf ~/paru && echo "Done"; fi
@@ -80,22 +88,17 @@ flatpak: ## Install flatpak
 	@$(INSTALL) flatpak
 
 #========================================= Neovim =================================================
-nvimdir:
-	@echo "Creating directory for undofiles for nvim..."
-	@mkdir -p ~/.nvim/undodir
-	@echo "Done"
-
 nvim_reqs:
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
-	@# Need yad or zenity for the color picker plugin, xclipt for clipboard+
+	@# Need yad or zenity for the color picker plugin, xclip for clipboard+
 	@$(INSTALL) yad xclip
 	@# Install what :checkhealth recommends
 	@# Need pynvim for Bracey
 	@pip install pynvim
 	@npm install -g neovim
 
-nvim_build_reqs: nvimdir
+nvim_build_reqs:
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
 	@$(INSTALL) base-devel cmake unzip ninja tree-sitter curl
@@ -103,8 +106,8 @@ nvim_build_reqs: nvimdir
 nvim: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
 		else make nvim_build_reqs && echo "Installing Neovim..." &&\
-		git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
-		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim &&\
+		git clone https://github.com/neovim/neovim ~/neovim && pushd ~/neovim/ &&\
+		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf ~/neovim &&\
 		make nvim_reqs && echo "Done"; fi
 
 uninstall_nvim:
@@ -145,8 +148,8 @@ telegram: ## Install Telegram Desktop using flatpak
 		else $(FLATINSTALL) flathub org.telegram.desktop; fi
 #==================================================================================================
 
-apps: ## Install btop, xscreensaver, okular
-	@$(INSTALL) btop xscreensaver okular
+apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers
+	@$(INSTALL) btop xscreensaver okular lf pcmanfm
 
 #==================================================================================================
 # TODO:
@@ -158,8 +161,10 @@ install: ## Setup arch the way I want it
 	@echo "==================================================================="
 #==================================================================================================
 
-.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts wallpapers\
+.PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
 	n uninstall_n export_node_modules import_node_modules typescript\
-	paru flatpak nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim zsh zap\
+	paru flatpak \
+	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
+	zsh zap\
 	telegram apps\
 	install
