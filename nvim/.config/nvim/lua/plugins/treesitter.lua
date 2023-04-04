@@ -28,7 +28,6 @@ return {
             ensure_installed = {
                 "bash",
                 "css",
-                "help",
                 "dockerfile",
                 "graphql",
                 "html",
