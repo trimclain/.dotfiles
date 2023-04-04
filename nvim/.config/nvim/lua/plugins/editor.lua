@@ -75,56 +75,42 @@ return {
         keys = {
             -- find
             { "<C-p>", Util.telescope("files"), desc = "Find Files (root dir)" },
-            {
-                "<C-f>",
-                function()
-                    Util.curr_buf_search()
-                end,
-                desc = "Fzf Buffer",
-            },
-            -- TODO:
-            -- { "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
-            -- fd = { "<cmd>Telescope git_files cwd=" .. join_paths(os.getenv "HOME", ".dotfiles") .. "<cr>", "Dotfiles" },
+            -- stylua: ignore
+            { "<C-f>", function() Util.curr_buf_search() end, desc = "Fzf Buffer" },
             { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-            { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find String" },
-            { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find Word" },
+            { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "String in Files" },
+            -- { "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
+            { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Word under cursor" },
+
+            {
+                "<leader>fd",
+                Util.telescope("git_files", { cwd = Util.join(os.getenv("HOME"), ".dotfiles") }),
+                desc = "Dotfiles",
+            },
+
             { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
-            -- { "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "Highlights" },
-            -- { "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Last Search" },
-            -- { "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-
-            -- fn = { "<cmd>Telescope notify<cr>", "Notifications" }, -- TODO: to make it work
-            -- { "<leader>fn", "<cmd>Notifications<cr>", desc = "Notifications" },
-
-            { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
-            -- { "<leader>fR", "<cmd>Telescope registers<cr>", desc = "Registers" },
             { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
-            -- { "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Telescope Commands" },
-            -- { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Colorschemes" },
+            { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
+            { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+            { "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Commands" },
+            { "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
+            { "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "Highlight Groups" },
+            { "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Resume Last Search" },
+            { "<leader>fR", "<cmd>Telescope registers<cr>", desc = "Registers" },
+            { "<leader>fa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
 
-            -- { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+            -- stylua: ignore
+            { "<leader>fc", Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
 
             -- git
             { "<leader>gb", "<cmd>Telescope git_branches<cr>", desc = "branches" },
             { "<leader>gl", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-            -- search
-            -- { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-            -- { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
-            -- { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-            -- { "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
+
+            -- TODO:
             -- { "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
-            -- { "<leader>sg", Util.telescope("live_grep"), desc = "Grep (root dir)" },
-            -- { "<leader>sG", Util.telescope("live_grep", { cwd = false }), desc = "Grep (cwd)" },
-            -- { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
-            -- { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
-            -- { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-            -- { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-            -- { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
             -- { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
-            -- { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
-            -- { "<leader>sw", Util.telescope("grep_string"), desc = "Word (root dir)" },
-            -- { "<leader>sW", Util.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
-            -- { "<leader>uC", Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+
+            -- search
             -- {
             --   "<leader>ss",
             --   Util.telescope("lsp_document_symbols", {
@@ -772,10 +758,34 @@ return {
     {
         "ThePrimeagen/harpoon",
         keys = {
-            { "<leader>a", function() require('harpoon.mark').add_file() end, desc = "Add Harpoon Mark" },
-            { "<C-e>", function() require('harpoon.ui').toggle_quick_menu() end, desc = "Toggle Harpoon Menu" },
-            { "<C-j>", function() require('harpoon.ui').nav_file(1) end, desc = "Harpoon to file 1" },
-            { "<C-k>", function() require('harpoon.ui').nav_file(2) end, desc = "Harpoon to file 2" },
+            {
+                "<leader>a",
+                function()
+                    require("harpoon.mark").add_file()
+                end,
+                desc = "Add Harpoon Mark",
+            },
+            {
+                "<C-e>",
+                function()
+                    require("harpoon.ui").toggle_quick_menu()
+                end,
+                desc = "Toggle Harpoon Menu",
+            },
+            {
+                "<C-j>",
+                function()
+                    require("harpoon.ui").nav_file(1)
+                end,
+                desc = "Harpoon to file 1",
+            },
+            {
+                "<C-k>",
+                function()
+                    require("harpoon.ui").nav_file(2)
+                end,
+                desc = "Harpoon to file 2",
+            },
             -- { "<C-n>", ":lua require('harpoon.ui').nav_file(3)<CR>", desc = "Harpoon to file 3" },
             -- { "<C-s>", ":lua require('harpoon.ui').nav_file(4)<CR>", desc = "Harpoon to file 4" },
         },

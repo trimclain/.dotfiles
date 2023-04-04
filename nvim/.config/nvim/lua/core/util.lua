@@ -20,29 +20,16 @@ end
 --         return buf_option
 --     end
 -- end
---
--- --- Join path segments to a full path
--- ---@vararg string folder or file names
--- ---@return string result full path to the file or folder
--- function M.join_paths(...)
---     local uv = vim.loop
---     local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
---     local args = { ... }
---
---     -- Check if every given file or folder exists
---     local tmp_path = args[1]
---     table.remove(args, 1)
---     for _, v in ipairs(args) do
---         tmp_path = tmp_path .. path_sep .. tostring(v)
---         if not M.exists(tmp_path) then
---             print("Error: " .. tmp_path .. " doesn't exists")
---         end
---     end
---
---     local result = table.concat({ ... }, path_sep)
---     return result
--- end
---
+
+--- Join path segments to a full path
+---@vararg string folder or file names
+---@return string full path to the file or folder
+function M.join(...)
+    local uv = vim.loop
+    local path_sep = uv.os_uname().version:match("Windows") and "\\" or "/"
+    return table.concat({ ... }, path_sep)
+end
+
 -- --- Remove existing autogroup to disable autocommand
 -- ---@param name string the name of the existing autogroup
 -- function M.remove_augroup(name)
