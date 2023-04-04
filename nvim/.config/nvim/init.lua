@@ -1,4 +1,18 @@
-require "core.options"
-require "core.autocmd"
-require "core.lazy"
-require "core.keymaps"
+--#############################################################################
+--        ______ ___    __ __   ___    ____  __     __     __  __   __
+--       /_  __//   \  / //  \ /   |  / __/ / /    /  |   / / /  \ / /
+--        / /  /   _/ / // /\\/ /| | / /   / /    /   |  / / / /\\/ /
+--       / /  / /\ \ / // / \/_/ | |/ /__ / /___ / _  | / / / / \/ /
+--      /_/  /_/ \_\/_//_/       |_|\___//_____//_/ \_|/_/ /_/  /_/
+--
+--
+--       Arthur McLain (trimclain)
+--       mclain.it@gmail.com
+--       https://github.com/trimclain
+--
+--#############################################################################
+
+require("core.options")
+require("core.autocmd")
+require("core.lazy")
+require("core.keymaps")
