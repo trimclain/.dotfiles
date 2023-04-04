@@ -13,22 +13,13 @@ return {
             "MunifTanjim/nui.nvim",
         },
         keys = {
-            -- {
-            --   "<leader>fe",
-            --   function()
-            --     require("neo-tree.command").execute({ toggle = true, dir = require("lazyvim.util").get_root() })
-            --   end,
-            --   desc = "Explorer NeoTree (root dir)",
-            -- },
             {
                 "<leader>e",
                 function()
-                    require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+                    require("neo-tree.command").execute({ toggle = true })
                 end,
                 desc = "Explorer NeoTree (cwd)",
             },
-            -- { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-            -- { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
         },
         init = function()
             vim.g.neo_tree_remove_legacy_commands = 1
@@ -213,110 +204,53 @@ return {
                     "%.flac",
                     "%.tar.gz",
                 },
-                -- TODO: leave only needed ones
-                -- My old stuff
-                -- mappings = {
-                --     -- almost everything is default
-                --     i = {
-                --         ["<C-n>"] = actions.move_selection_next,
-                --         ["<C-p>"] = actions.move_selection_previous,
-                --
-                --         ["<C-j>"] = actions.cycle_history_next,
-                --         ["<C-k>"] = actions.cycle_history_prev,
-                --
-                --         ["<C-c>"] = actions.close,
-                --
-                --         ["<Down>"] = actions.move_selection_next,
-                --         ["<Up>"] = actions.move_selection_previous,
-                --
-                --         ["<CR>"] = actions.select_default,
-                --         ["<C-x>"] = actions.select_horizontal,
-                --         ["<C-v>"] = actions.select_vertical,
-                --         ["<C-t>"] = actions.select_tab,
-                --
-                --         ["<C-d>"] = actions.delete_buffer,
-                --
-                --         ["<PageUp>"] = actions.results_scrolling_up,
-                --         ["<PageDown>"] = actions.results_scrolling_down,
-                --
-                --         ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
-                --         ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
-                --         ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-                --         ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-                --         ["<C-l>"] = actions.complete_tag,
-                --         ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
-                --     },
-                --
-                --     n = {
-                --         ["<esc>"] = actions.close,
-                --         ["<C-c>"] = actions.close, -- thanks prime now I do it too
-                --         ["<CR>"] = actions.select_default,
-                --         ["<C-x>"] = actions.select_horizontal,
-                --         ["<C-v>"] = actions.select_vertical,
-                --         ["<C-t>"] = actions.select_tab,
-                --
-                --         -- mainly for :Telescope buffers
-                --         ["dd"] = actions.delete_buffer,
-                --
-                --         ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
-                --         ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
-                --         ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-                --         ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-                --
-                --         ["j"] = actions.move_selection_next,
-                --         ["k"] = actions.move_selection_previous,
-                --         ["H"] = actions.move_to_top,
-                --         ["M"] = actions.move_to_middle,
-                --         ["L"] = actions.move_to_bottom,
-                --
-                --         ["<Down>"] = actions.move_selection_next,
-                --         ["<Up>"] = actions.move_selection_previous,
-                --         ["gg"] = actions.move_to_top,
-                --         ["G"] = actions.move_to_bottom,
-                --
-                --         ["<C-u>"] = actions.preview_scrolling_up,
-                --         ["<C-d>"] = actions.preview_scrolling_down,
-                --
-                --         ["<PageUp>"] = actions.results_scrolling_up,
-                --         ["<PageDown>"] = actions.results_scrolling_down,
-                --
-                --         ["?"] = actions.which_key,
-                --     },
-                -- },
-                -- Lazyvim stuff
-                -- mappings = {
-                --   i = {
-                --     ["<c-t>"] = function(...)
-                --       return require("trouble.providers.telescope").open_with_trouble(...)
-                --     end,
-                --     ["<a-t>"] = function(...)
-                --       return require("trouble.providers.telescope").open_selected_with_trouble(...)
-                --     end,
-                --     -- ["<a-i>"] = function()
-                --     --   Util.telescope("find_files", { no_ignore = true })()
-                --     -- end,
-                --     -- ["<a-h>"] = function()
-                --     --   Util.telescope("find_files", { hidden = true })()
-                --     -- end,
-                --     ["<C-Down>"] = function(...)
-                --       return require("telescope.actions").cycle_history_next(...)
-                --     end,
-                --     ["<C-Up>"] = function(...)
-                --       return require("telescope.actions").cycle_history_prev(...)
-                --     end,
-                --     ["<C-f>"] = function(...)
-                --       return require("telescope.actions").preview_scrolling_down(...)
-                --     end,
-                --     ["<C-b>"] = function(...)
-                --       return require("telescope.actions").preview_scrolling_up(...)
-                --     end,
-                --   },
-                --   n = {
-                --     ["q"] = function(...)
-                --       return require("telescope.actions").close(...)
-                --     end,
-                --   },
-                -- },
+                mappings = {
+                    i = {
+                        -- Cycle search history
+                        ["<C-j>"] = function(...)
+                            return require("telescope.actions").cycle_history_next(...)
+                        end,
+                        ["<C-k>"] = function(...)
+                            return require("telescope.actions").cycle_history_prev(...)
+                        end,
+
+                        -- Scroll in the preview
+                        ["<C-f>"] = function(...)
+                            return require("telescope.actions").preview_scrolling_down(...)
+                        end,
+                        ["<C-b>"] = function(...)
+                            return require("telescope.actions").preview_scrolling_up(...)
+                        end,
+
+                        -- TODO: If I use trouble someday
+                        -- ["<c-t>"] = function(...)
+                        --   return require("trouble.providers.telescope").open_with_trouble(...)
+                        -- end,
+                        -- ["<a-t>"] = function(...)
+                        --   return require("trouble.providers.telescope").open_selected_with_trouble(...)
+                        -- end,
+
+                        -- keys from pressing <C-/>
+                        ["<C-_>"] = function(...)
+                            require("telescope.actions").which_key(...)
+                        end,
+                    },
+
+                    n = {
+                        -- thanks prime now I do it too
+                        ["<C-c>"] = function(...)
+                            return require("telescope.actions").close(...)
+                        end,
+                        ["q"] = function(...)
+                            return require("telescope.actions").close(...)
+                        end,
+
+                        -- for Telescope Buffers
+                        ["dd"] = function(...)
+                            return require("telescope.actions").delete_buffer(...)
+                        end,
+                    },
+                },
             },
             pickers = {
                 find_files = {
@@ -349,6 +283,10 @@ return {
                     previewer = false,
                     initial_mode = "normal",
                     -- initial_mode = "insert" -- or "normal"
+                },
+                colorscheme = {
+                    theme = "dropdown",
+                    -- previewer = false, -- TODO: fix this
                 },
             },
             extensions = {
