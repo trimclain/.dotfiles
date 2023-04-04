@@ -214,6 +214,9 @@ return {
                             return require("telescope.actions").cycle_history_prev(...)
                         end,
 
+                        -- Clear the promt instead of scrolling
+                        ["<C-u>"] = false,
+
                         -- Scroll in the preview
                         ["<C-f>"] = function(...)
                             return require("telescope.actions").preview_scrolling_down(...)
