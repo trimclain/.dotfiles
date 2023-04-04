@@ -411,7 +411,7 @@ return {
                 ["<leader>g"] = { name = "+git" },
                 ["<leader>l"] = { name = "+lsp" },
                 ["<leader>m"] = { name = "+make" },
-                ["<leader>n"] = { name = "+neogen" },
+                ["<leader>n"] = { name = "+neogen/notify" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
                 ["<leader>v"] = { name = "+vim" },

@@ -10,6 +10,7 @@ return {
                 end,
                 desc = "Delete all Notifications",
             },
+            { "<leader>ns", "<cmd>Notifications<cr>", desc = "Show all Notifications" },
         },
         opts = {
             timeout = 3000,
