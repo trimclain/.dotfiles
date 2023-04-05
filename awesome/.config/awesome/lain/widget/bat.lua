@@ -218,13 +218,13 @@ local function factory(args)
                     }).id
                 end
                 fullnotification = false
-            -- Disable for now coz keeps popping up?
-            -- elseif bat_now.status == "Full" and full_notify == "on" and not fullnotification then
-            --     bat.id = naughty.notify({
-            --         preset = bat_notification_charged_preset,
-            --         replaces_id = bat.id
-            --     }).id
-            --     fullnotification = true
+            -- TODO: disable this if I start to get annoying low battery notifications
+            elseif bat_now.status == "Full" and full_notify == "on" and not fullnotification then
+                bat.id = naughty.notify({
+                    preset = bat_notification_charged_preset,
+                    replaces_id = bat.id
+                }).id
+                fullnotification = true
             end
         end
     end
