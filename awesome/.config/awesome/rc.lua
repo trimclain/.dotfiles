@@ -675,7 +675,7 @@ local globalkeys = mytable.join(
         awful.spawn(terminal)
     end, { description = "open a terminal", group = "launcher" }),
     awful.key({ modkey }, "r", function()
-        awful.util.spawn("rofi -show run")
+        awful.spawn("rofi -show run")
     end, { description = "run a command", group = "launcher" }),
     -- awful.key({ modkey }, "r", function()
     --     awful.screen.focused().mypromptbox:run()
@@ -704,7 +704,7 @@ local globalkeys = mytable.join(
 
     -- App Launcher
     awful.key({ modkey }, "d", function()
-        awful.util.spawn("rofi -show drun")
+        awful.spawn("rofi -show drun")
     end, { description = "open apps", group = "launcher" }),
 
     -- Dropdown application
