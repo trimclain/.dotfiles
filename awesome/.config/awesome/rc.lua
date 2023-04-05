@@ -1129,8 +1129,27 @@ end)
 -- IDEA: Move this to initrc
 -- spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--startup")
 
+local function get_os_output(cmd, raw)
+    local f = assert(io.popen(cmd, "r"))
+    local s = assert(f:read("*a"))
+    f:close()
+    if raw then
+        return s
+    end
+    s = string.gsub(s, "^%s+", "")
+    s = string.gsub(s, "%s+$", "")
+    s = string.gsub(s, "[\n\r]+", " ")
+    return s
+end
+local operating_system = get_os_output("awk -F= '$1==\"ID\" { print $2 ;}' /etc/os-release")
+
 -- Enable Xscreensaver
-spawn_terminal_command("xscreensaver", "--no-splash")
+if operating_system == "ubuntu" then
+    spawn_terminal_command("xscreensaver", "-no-splash")
+else
+    spawn_terminal_command("xscreensaver", "--no-splash")
+end
+
 -- Set the wallpaper
 spawn_terminal_command("nitrogen", "--restore")
 -- Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
