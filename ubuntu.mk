@@ -5,7 +5,7 @@ all:
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives
-	sudo apt-get install -y curl stow ripgrep fzf htop btop tree xclip p7zip-full p7zip-rar
+	sudo apt-get install -y curl stow ripgrep fzf fd-find htop btop tree xclip p7zip-full p7zip-rar
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
@@ -190,7 +190,7 @@ server: ## install everything I need for my server
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, 7zip for extracting archives
-	sudo apt-get install -y curl stow ripgrep fzf htop btop tree p7zip-full
+	sudo apt-get install -y curl stow ripgrep fzf fd-find htop btop tree p7zip-full
 	./install --server
 
 
@@ -466,7 +466,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall alacritty_build_reqs alacritty \
-	uninstall_alacritty kitty uninstall_kitty imagemagick screensaver \
+	uninstall_alacritty kitty uninstall_kitty imagemagick \
 	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular linux_install linux_software python3_setup \
