@@ -240,7 +240,6 @@ return {
 
             npairs.setup(opts)
 
-
             local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
             npairs.add_rules({
                 Rule(" ", " "):with_pair(function(options)
@@ -291,6 +290,11 @@ return {
         },
         config = function(_, opts)
             require("Comment").setup(opts)
+
+            local comment_ft = require("Comment.ft")
+            comment_ft.set("rasi", { "//%s", "/*%s*/" }) -- rofi config
+            -- comment_ft.set("lua", { "--%s", "--[[%s]]" })
+            -- comment_ft.set("markdown", { "[//]:%s", "<!--%s-->" })
         end,
     },
     -- comments
@@ -309,11 +313,6 @@ return {
     --         require("mini.comment").setup(opts)
     --     end,
     -- },
-    -- TODO:
-    -- Manually set filetype comments
-    -- local comment_ft = require "Comment.ft"
-    -- comment_ft.set("lua", { "--%s", "--[[%s]]" })
-    -- comment_ft.set("markdown", { "[//]:%s", "<!--%s-->" })
 
     {
         "danymat/neogen",
