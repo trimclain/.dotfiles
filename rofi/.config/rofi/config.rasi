@@ -1,102 +1,179 @@
-configuration{
-    modi: "run,drun,window";
-    /* lines: 5; */
-    font: "JetBrainsMono Nerd Font 14";
-    show-icons: true;
-    icon-theme: "Oranchelo";
-    terminal: "st";
-    drun-display-format: "{icon} {name}";
-    location: 0;
-    disable-history: false;
-    /* hide-scrollbar: true; */
-    display-drun: "   Apps ";
-    display-run: "   Run ";
-    display-window: " 﩯  window";
-    /* display-Network: " 󰤨  Network"; */
-    sidebar-mode: true;
+configuration {
+  modi: [run,drun,window];
+    show-icons:               false;
+    display-drun:             "  Apps";
+    display-run:              "  Run";
+    display-window:           "  Window";
+    drun-display-format:      "{name}";
+    disable-history:          false;
+    click-to-exit:            true;
+    location:                 0;
+    sidebar-mode:             true;
 }
 
-@theme "catppuccin"
+@theme "kabinspace"
 
-element-text, element-icon , mode-switcher {
-    background-color: inherit;
-    text-color:       inherit;
+* {
+    font:                     "JetBrainsMono Nerd Font 12";
+    // font:                     "Cascadia Code 14";
+    background-color:         @background;
 }
 
 window {
-    height: 360px;
-    border: 3px;
-    border-color: @border-col;
-    background-color: @bg-col;
-}
-
-mainbox {
-    background-color: @bg-col;
-}
-
-inputbar {
-    children: [prompt,entry];
-    background-color: @bg-col;
-    border-radius: 5px;
-    padding: 2px;
-}
-
-prompt {
-    background-color: @blue;
-    padding: 6px;
-    text-color: @bg-col;
-    border-radius: 3px;
-    margin: 20px 0px 0px 20px;
+    // border:                   4px;
+    border-color:             @brdr;
+    border-radius:            0px;
+    width:                    450px;
+    height:                   0px;
 }
 
 textbox-prompt-colon {
-    expand: false;
-    str: ":";
+    expand:                   false;
+    // str:                      " 󰍉 ";
+    str:                      "  ";
+    padding:                  6px 4px 6px 4px;
+    text-color:               @background;
+    background-color:         @foreground;
+    border-radius:            8px;
 }
 
 entry {
-    padding: 6px;
-    margin: 20px 0px 0px 10px;
-    text-color: @fg-col;
-    background-color: @bg-col;
+    spacing:                  0;
+    expand:                   true;
+    horizontal-align:         0;
+    text-color:               @foreground;
+    placeholder-color:        @foreground;
+    placeholder:              "Search...";
+    padding:                  8px 2px 8px 2px;
+    border:                   0px 0px 0px 0px;
+    border-color:             @selected;
+    border-radius:            0px;
+}
+
+case-indicator {
+    spacing:                  0;
+    text-color:               @foreground;
+}
+
+inputbar {
+    spacing:                  4px;
+    text-color:               @foreground;
+    border:                   0px;
+    border-color:             @selected;
+    border-radius:            0px;
+    children:                 [ textbox-prompt-colon,entry ];
+}
+
+mainbox {
+    border:                   0px;
+    border-color:             @selected;
+    spacing:                  15px;
+    padding:                  30px;
 }
 
 listview {
-    border: 0px 0px 0px;
-    padding: 6px 0px 0px;
-    margin: 10px 0px 0px 20px;
-    columns: 2;
-    background-color: @bg-col;
+    lines:                    7;
+    columns:                  1;
+    fixed-height:             0;
+    border:                   0px;
+    border-color:             @foreground;
+    spacing:                  5px;
+    scrollbar:                false;
+    padding:                  5px 0px 0px;
+}
+
+element-text, element-icon {
+    background-color:         inherit;
+    text-color:               inherit;
 }
 
 element {
-    padding: 5px;
-    background-color: @bg-col;
-    text-color: @fg-col  ;
+    border:                   0px;
+    padding:                  8px;
+}
+element normal.normal {
+    background-color:         @background;
+    text-color:               @foreground;
+}
+element normal.urgent {
+    background-color:         @background;
+    text-color:               @off;
+}
+element normal.active {
+    background-color:         @background;
+    text-color:               @on;
+}
+element selected.normal {
+    background-color:         @selected;
+    text-color:               @foreground;
+    border:                   0px;
+    border-radius:            8px;
+    border-color:             @selected;
+}
+element selected.urgent {
+    background-color:         @background;
+    text-color:               @off;
+}
+element selected.active {
+    background-color:         @background;
+    text-color:               @selected;
+}
+element alternate.normal {
+    background-color:         @background;
+    text-color:               @foreground;
+}
+element alternate.urgent {
+    background-color:         @background;
+    text-color:               @foreground;
+}
+element alternate.active {
+    background-color:         @background;
+    text-color:               @foreground;
 }
 
-element-icon {
-    size: 25px;
+sidebar {
+    border:                   0px;
+    border-color:             @selected;
+    border-radius:            0px;
 }
-
-element selected {
-    background-color:  @selected-col ;
-    text-color: @fg-col2  ;
-}
-
-mode-switcher {
-    spacing: 0;
-  }
 
 button {
-    padding: 10px;
-    background-color: @bg-col-light;
-    text-color: @grey;
-    vertical-align: 0.5;
-    horizontal-align: 0.5;
+    margin:                   5px 10px 0px 10px;
+    horizontal-align:         0.5;
+    vertical-align:           0.5;
+    padding:                  10px;
+    // padding:                  8px 8px 8px 8px;
+    background-color:         @background-alt;
+    text-color:               @foreground;
+    border:                   2px;
+    border-radius:            8px;
+    border-color:             @selected;
 }
 
 button selected {
-  background-color: @bg-col;
-  text-color: @blue;
+    background-color:         @foreground;
+    text-color:               @background;
+    border:                   0px;
+    border-radius:            8px;
+    border-color:             @selected;
 }
+
+scrollbar {
+    width:                    4px;
+    border:                   0px;
+    handle-color:             @foreground;
+    handle-width:             8px;
+    padding:                  0;
+}
+
+message {
+    border:                   0px;
+    border-color:             @selected;
+    padding:                  1px;
+}
+
+textbox {
+    text-color:               @foreground;
+}
+
+// vim: ft=rasi
