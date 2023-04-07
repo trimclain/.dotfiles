@@ -376,6 +376,7 @@ end
 -- {{{ Keybinding Modes
 -- ############################################################################
 -- System Mode
+-- TODO: this stopped working after updates. Fix it.
 local sysmap = {
     {
         "e",
