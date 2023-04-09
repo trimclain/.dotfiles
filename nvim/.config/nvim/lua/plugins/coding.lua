@@ -10,10 +10,6 @@ return {
             "rafamadriz/friendly-snippets",
             config = function()
                 require("luasnip.loaders.from_vscode").lazy_load()
-                -- TODO: maybe there's a better place for this
-                -- require("luasnip").filetype_extend("javascript", { "javascriptreact", "html" }) -- add jsx and html snippets to js
-                -- require("luasnip").filetype_extend("javascriptreact", { "javascript", "html" }) -- add js and html snippets to jsx
-                -- require("luasnip").filetype_extend("typescriptreact", { "javascript", "html" }) -- add js and html snippets to tsx
             end,
         },
         opts = {
@@ -21,37 +17,45 @@ return {
             update_events = { "TextChanged", "TextChangedI" },
             delete_check_events = "TextChanged",
         },
-    -- stylua: ignore
-    keys = {
-      {
+        config = function(_, opts)
+            local luasnip = require("luasnip")
+            luasnip.setup(opts)
+            luasnip.filetype_extend("javascript", { "javascriptreact", "html" }) -- add jsx and html snippets to js
+            luasnip.filetype_extend("javascriptreact", { "javascript", "html" }) -- add js and html snippets to jsx
+            luasnip.filetype_extend("typescriptreact", { "javascript", "html" }) -- add js and html snippets to tsx
+        end,
+        keys = {
+            {
 
-          "<c-k>",
-          function()
-              if require("luasnip").expand_or_jumpable() then
-                  require("luasnip").expand_or_jump()
-              end
-          end,
-          silent = true, mode = { "i", "s" }
-      },
-      {
-          "<c-j>",
-          function()
-              if require("luasnip").jumpable(-1) then
-                  require("luasnip").jump(-1)
-              end
-          end,
-          silent = true, mode = { "i", "s" }
-      },
-      {
-          "<c-l>",
-          function()
-              if require("luasnip").choice_active() then
-                  require("luasnip").change_choice(1)
-              end
-          end,
-          mode = "i"
-      },
-    },
+                "<c-k>",
+                function()
+                    if require("luasnip").expand_or_jumpable() then
+                        require("luasnip").expand_or_jump()
+                    end
+                end,
+                silent = true,
+                mode = { "i", "s" },
+            },
+            {
+                "<c-j>",
+                function()
+                    if require("luasnip").jumpable(-1) then
+                        require("luasnip").jump(-1)
+                    end
+                end,
+                silent = true,
+                mode = { "i", "s" },
+            },
+            {
+                "<c-l>",
+                function()
+                    if require("luasnip").choice_active() then
+                        require("luasnip").change_choice(1)
+                    end
+                end,
+                mode = "i",
+            },
+        },
     },
 
     -- auto completion
@@ -64,6 +68,11 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "saadparwaiz1/cmp_luasnip",
+            -- TODO:
+            -- {
+            --     "hrsh7th/cmp-nvim-lsp-signature-help",
+            --     enabled = CONFIG.lsp.show_signature_on_insert,
+            -- },
         },
         opts = function()
             local cmp = require("cmp")
