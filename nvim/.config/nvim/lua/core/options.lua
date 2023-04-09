@@ -1,4 +1,4 @@
--- local join_paths = require("trimclain.utils").join_paths
+local tabwidth = CONFIG.opts.tabwidth
 
 local options = {
     clipboard = "unnamedplus", -- allows neovim to access the system clipboard
@@ -14,7 +14,7 @@ local options = {
     relativenumber = true, -- set relative numbered lines
     ruler = true, -- show the line and column number of the cursor position in the bottom right
     scrolloff = 4, -- start scrolling when 4 lines away from the bottom
-    shiftwidth = 4, -- the number of spaces inserted for each indentation level
+    shiftwidth = tabwidth, -- the number of spaces inserted for each indentation level
     showcmd = true, -- show partial commands in the last line of the screen
     showmatch = true, -- show matching brackets
     showmode = false, -- dont show mode since we have a statusline
@@ -22,12 +22,12 @@ local options = {
     signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
     smartcase = true, -- except when using capital letters
     smartindent = true, -- do smart autoindenting when starting a new line
-    softtabstop = 4, -- insert 4 spaces for <Tab> and <BS> keypresses
+    softtabstop = tabwidth, -- insert 4 spaces for <Tab> and <BS> keypresses
     spell = false, -- enable or disable spellcheck
     spelllang = { "en" }, -- languages used in spellcheck, install new from https://www.mirrorservice.org/pub/vim/runtime/spell/
     splitright = true, -- force all vertical splits to go to the right of current window
     swapfile = false, -- don't create a swapfile
-    tabstop = 4, -- insert 4 spaces for \t
+    tabstop = tabwidth, -- insert 4 spaces for \t
     termguicolors = true, -- set term gui colors (most terminals support this)
     timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
     undofile = true, -- enable persistent undo
@@ -61,7 +61,7 @@ if vim.g.neovide then
     -- vim.g.neovide_cursor_animation_length = 0
 end
 
--- TODO: Is there even a point of setting formatoptions here, if they get overwritten anyway?
+-- "o" gets overwritten on startup, so I have an autocommand to fix it
 -- see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
 -- To see what the options are use :h fo-table
 vim.opt.formatoptions = vim.opt.formatoptions
@@ -76,7 +76,7 @@ vim.opt.formatoptions = vim.opt.formatoptions
     - "2" -- I'm not in gradeschool anymore
 
 -- Sometimes them fingers do be fat
-vim.cmd [[com! Q q]]
-vim.cmd [[com! Qa qa]]
-vim.cmd "com! X x"
-vim.cmd "com! W w"
+vim.cmd([[com! Q q]])
+vim.cmd([[com! Qa qa]])
+vim.cmd("com! X x")
+vim.cmd("com! W w")

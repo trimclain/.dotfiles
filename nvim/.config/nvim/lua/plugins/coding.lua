@@ -2,9 +2,6 @@ return {
     -- snippets
     {
         "L3MON4D3/LuaSnip",
-        -- build = (not jit.os:find("Windows"))
-        --     and "echo -e 'NOTE: jsregexp is optional, so not a big deal if it fails to build\n'; make install_jsregexp"
-        --   or nil,
         dependencies = {
             "rafamadriz/friendly-snippets",
             config = function()
@@ -68,7 +65,7 @@ return {
             "hrsh7th/cmp-path",
             "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-cmdline",
-            -- "f3fora/cmp-spell" -- spell source for nvim-cmp based on vim's spellsuggest
+            "f3fora/cmp-spell",
 
             -- use "lukas-reineke/cmp-rg" -- source for using ripgrep
             -- use "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig
@@ -76,11 +73,10 @@ return {
             -- use "KadoBOT/cmp-plugins" -- source for Neovim plugins
             -- use "jcha0713/cmp-tw2css" -- source to convert tailwindcss classes to pure css
 
-            -- TODO:
-            -- {
-            --     "hrsh7th/cmp-nvim-lsp-signature-help",
-            --     enabled = CONFIG.lsp.show_signature_on_insert,
-            -- },
+            {
+                "hrsh7th/cmp-nvim-lsp-signature-help",
+                enabled = CONFIG.lsp.show_signature_help,
+            },
         },
         config = function()
             local cmp = require("cmp")
@@ -93,9 +89,6 @@ return {
             end
 
             cmp.setup({
-                -- completion = {
-                --   completeopt = "menu,menuone,noinsert",
-                -- },
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
@@ -145,6 +138,7 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
+                    { name = "nvim_lsp_signature_help" },
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
                     { name = "path" },
@@ -166,6 +160,7 @@ return {
                         item.kind = icons[item.kind] or ""
                         item.menu = ({
                             nvim_lsp = "[LSP]",
+                            nvim_lsp_signature_help = "[sign]",
                             luasnip = "[snip]",
                             buffer = "[buf]",
                             path = "[path]",
@@ -206,7 +201,6 @@ return {
                     { name = "cmdline", keyword_length = 2 }, -- otherwise too much info
                 }),
             })
-
         end,
     },
 
@@ -275,23 +269,20 @@ return {
     },
 
     -- comments
-    -- FIX: make pre_hook work
-    -- { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+    {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        lazy = true,
+    },
     {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
-        -- dependencies = {
-        --     "JoosepAlviste/nvim-ts-context-commentstring",
-        -- },
-        opts = {
-            ignore = "^$", -- ignores empty lines
-            -- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-            -- pre_hook = function()
-            --     require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
-            -- end,
-        },
-        config = function(_, opts)
-            require("Comment").setup(opts)
+        dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+        config = function()
+            require("Comment").setup({
+                ignore = "^$", -- ignores empty lines
+                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+            })
 
             local comment_ft = require("Comment.ft")
             comment_ft.set("rasi", { "//%s", "/*%s*/" }) -- rofi config
@@ -299,22 +290,6 @@ return {
             -- comment_ft.set("markdown", { "[//]:%s", "<!--%s-->" })
         end,
     },
-    -- comments
-    -- { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
-    -- {
-    --     "echasnovski/mini.comment",
-    --     event = "VeryLazy",
-    --     opts = {
-    --         hooks = {
-    --             pre = function()
-    --                 require("ts_context_commentstring.internal").update_commentstring({})
-    --             end,
-    --         },
-    --     },
-    --     config = function(_, opts)
-    --         require("mini.comment").setup(opts)
-    --     end,
-    -- },
 
     {
         "danymat/neogen",
@@ -351,6 +326,14 @@ return {
         },
         opts = {
             snippet_engine = "luasnip", -- use provided engine to place the annotations
+            languages = {
+                -- Supported languages: https://github.com/danymat/neogen#configuration
+                lua = {
+                    template = {
+                        annotation_convention = "emmylua",
+                    },
+                },
+            },
         },
     },
 

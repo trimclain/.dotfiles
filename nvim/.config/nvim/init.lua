@@ -22,7 +22,7 @@ CONFIG = {
     lsp = {
         format_on_save = false,
         virtual_text = false, -- { spacing = 4, prefix = "●" }
-        -- show_signature_on_insert = false,
+        show_signature_help = true,
         -- show_diagnostic = true,
     },
     ui = {
