@@ -55,17 +55,15 @@ return {
                 "vue",
                 "yaml",
             },
-
-            -- TODO: Do I want this?
-            -- incremental_selection = {
-            --   enable = true,
-            --   keymaps = {
-            --     init_selection = "<C-space>",
-            --     node_incremental = "<C-space>",
-            --     scope_incremental = "<nop>",
-            --     node_decremental = "<bs>",
-            --   },
-            -- },
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = "<C-space>",
+                    node_incremental = "<C-space>",
+                    scope_incremental = "<nop>",
+                    node_decremental = "<bs>",
+                },
+            },
         },
         ---@param opts TSConfig
         config = function(_, opts)
