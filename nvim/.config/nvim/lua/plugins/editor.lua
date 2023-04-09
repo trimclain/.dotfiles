@@ -93,6 +93,7 @@ return {
             { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
             { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
             { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
+            { "<leader>fD", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
             { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
             { "<leader>fC", "<cmd>Telescope commands<cr>", desc = "Commands" },
             { "<leader>fM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
@@ -107,10 +108,6 @@ return {
             -- git
             { "<leader>gb", "<cmd>Telescope git_branches<cr>", desc = "branches" },
             { "<leader>gl", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-
-            -- TODO:
-            -- { "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
-            -- { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
 
             -- search
             -- {
@@ -355,6 +352,7 @@ return {
                 ["<leader>n"] = { name = "+neogen/notify" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
+                ["<leader>t"] = { name = "+terminal" },
                 ["<leader>v"] = { name = "+vim" },
                 -- ["<leader>gh"] = { name = "+hunks" },
                 -- ["<leader>q"] = { name = "+quit/session" },
@@ -381,9 +379,6 @@ return {
         "akinsho/toggleterm.nvim",
         version = "*",
         event = "VeryLazy",
-        -- keys = {
-        --     {"<c-\\>", "",}
-        -- },
         opts = {
             open_mapping = [[<c-\>]],
             shading_factor = 2, -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
@@ -401,40 +396,31 @@ return {
             end
             vim.cmd("autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()")
 
-            -- TODO: there has to be a better way
+            -- Custom Terminals
+            local function open_in_toggleterm(cmd)
+                return require("toggleterm.terminal").Terminal:new({ cmd = cmd, hidden = true })
+            end
 
-            -- local function open_in_toggleterm(cmd)
-            --     return require("toggleterm.terminal").Terminal:new({ cmd = cmd, hidden = true })
-            -- end
+            -- Node
+            local node = open_in_toggleterm("node")
+            function _NODE_TOGGLE()
+                node:toggle()
+            end
+            vim.keymap.set("n", "<leader>tn", "<cmd>lua _NODE_TOGGLE()<cr>", { desc = "Node" })
 
-            -- -- Open node in the terminal
-            -- local node = open_in_toggleterm("node")
-            -- function _NODE_TOGGLE()
-            --     node:toggle()
-            -- end
+            -- Python3
+            local python = open_in_toggleterm("python3")
+            function _PYTHON_TOGGLE()
+                python:toggle()
+            end
+            vim.keymap.set("n", "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<cr>", { desc = "Python" })
 
-            -- -- Open python3 in the terminal
-            -- local python = open_in_toggleterm("python3")
-            -- function _PYTHON_TOGGLE()
-            --     python:toggle()
-            -- end
-
-            -- -- Open htop in the terminal
-            -- local htop = open_in_toggleterm("htop")
-            -- function _HTOP_TOGGLE()
-            --     htop:toggle()
-            -- end
-
-            -- -- Open btop in the terminal
-            -- local btop = open_in_toggleterm("btop")
-            -- function _BTOP_TOGGLE()
-            --     btop:toggle()
-            -- end
-
-            -- vim.keymap.set("n", "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<cr>", { desc = "Python" })
-            -- vim.keymap.set("n", "<leader>tn", "<cmd>lua _NODE_TOGGLE()<cr>", { desc = "Node" })
-            -- vim.keymap.set("n", "<leader>th", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "HTOP" })
-            -- vim.keymap.set("n", "<leader>tb", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "BTOP" })
+            -- Htop
+            local htop = open_in_toggleterm("htop")
+            function _HTOP_TOGGLE()
+                htop:toggle()
+            end
+            vim.keymap.set("n", "<leader>th", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "HTOP" })
         end,
     },
 
