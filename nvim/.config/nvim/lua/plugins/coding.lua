@@ -5,7 +5,6 @@ return {
         -- build = (not jit.os:find("Windows"))
         --     and "echo -e 'NOTE: jsregexp is optional, so not a big deal if it fails to build\n'; make install_jsregexp"
         --   or nil,
-        -- TODO: does this solve my not knowing where to put stuff?
         dependencies = {
             "rafamadriz/friendly-snippets",
             config = function()
@@ -62,19 +61,28 @@ return {
     {
         "hrsh7th/nvim-cmp",
         version = false, -- last release is way too old
-        event = "InsertEnter",
+        event = "VeryLazy", -- '/' and ':' autocomplete won't always work on InsertEnter
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "saadparwaiz1/cmp_luasnip",
+            "hrsh7th/cmp-cmdline",
+            -- "f3fora/cmp-spell" -- spell source for nvim-cmp based on vim's spellsuggest
+
+            -- use "lukas-reineke/cmp-rg" -- source for using ripgrep
+            -- use "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig
+            -- use "ray-x/cmp-treesitter" -- source for treesitter nodes
+            -- use "KadoBOT/cmp-plugins" -- source for Neovim plugins
+            -- use "jcha0713/cmp-tw2css" -- source to convert tailwindcss classes to pure css
+
             -- TODO:
             -- {
             --     "hrsh7th/cmp-nvim-lsp-signature-help",
             --     enabled = CONFIG.lsp.show_signature_on_insert,
             -- },
         },
-        opts = function()
+        config = function()
             local cmp = require("cmp")
 
             local has_words_before = function()
@@ -84,7 +92,7 @@ return {
                     and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
 
-            return {
+            cmp.setup({
                 -- completion = {
                 --   completeopt = "menu,menuone,noinsert",
                 -- },
@@ -108,7 +116,6 @@ return {
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-                    -- TODO: will I use this?
                     -- ["<S-CR>"] = cmp.mapping.confirm({
                     --   behavior = cmp.ConfirmBehavior.Replace,
                     --   select = true,
@@ -137,30 +144,20 @@ return {
                         end
                     end, { "i", "s" }),
                 }),
-                -- TODO:
-                -- sources = cmp.config.sources({
-                --     -- the order sets priority
-                --     { name = "nvim_lsp" },
-                --     { name = "nvim_lua" },
-                --     { name = "luasnip" },
-                --     { name = "path" },
-                --     {
-                --         name = "spell",
-                --         option = {
-                --             keep_all_entries = false,
-                --             enable_in_context = function()
-                --                 return true
-                --             end,
-                --         },
-                --     },
-                -- }, {
-                --     { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
-                -- }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
-                    { name = "buffer" },
                     { name = "path" },
+                    {
+                        name = "spell",
+                        option = {
+                            keep_all_entries = false,
+                            enable_in_context = function()
+                                return true
+                            end,
+                        },
+                    },
+                    { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
                 }),
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
@@ -169,7 +166,6 @@ return {
                         item.kind = icons[item.kind] or ""
                         item.menu = ({
                             nvim_lsp = "[LSP]",
-                            nvim_lua = "[lua]",
                             luasnip = "[snip]",
                             buffer = "[buf]",
                             path = "[path]",
@@ -181,41 +177,38 @@ return {
                 },
                 experimental = {
                     ghost_text = true, -- show completion preview inline
-                    -- ghost_text = {
-                    --   hl_group = "LspCodeLens",
-                    -- },
                 },
-            }
+            })
+
+            -- Set configuration for specific filetype.
+            -- cmp.setup.filetype('gitcommit', {
+            --     sources = cmp.config.sources({
+            --         { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+            --     }, {
+            --         { name = 'buffer' },
+            --     })
+            -- })
+
+            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+            cmp.setup.cmdline({ "/", "?" }, {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = "buffer" },
+                },
+            })
+
+            -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+            cmp.setup.cmdline(":", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = "path" },
+                }, {
+                    { name = "cmdline", keyword_length = 2 }, -- otherwise too much info
+                }),
+            })
+
         end,
     },
-
-    -- TODO:
-    -- -- Set configuration for specific filetype.
-    -- -- cmp.setup.filetype('gitcommit', {
-    -- --     sources = cmp.config.sources({
-    -- --         { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-    -- --     }, {
-    -- --         { name = 'buffer' },
-    -- --     })
-    -- -- })
-    --
-    -- -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-    -- cmp.setup.cmdline({ "/", "?" }, {
-    --     mapping = cmp.mapping.preset.cmdline(),
-    --     sources = {
-    --         { name = "buffer" },
-    --     },
-    -- })
-    --
-    -- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    -- cmp.setup.cmdline(":", {
-    --     mapping = cmp.mapping.preset.cmdline(),
-    --     sources = cmp.config.sources({
-    --         { name = "path" },
-    --     }, {
-    --         { name = "cmdline", keyword_length = 2 }, -- otherwise too much info
-    --     }),
-    -- })
 
     -- auto pairs
     {
@@ -278,7 +271,7 @@ return {
     -- close tags using treesitter
     {
         "windwp/nvim-ts-autotag",
-        event = "VeryLazy",
+        event = "InsertEnter",
     },
 
     -- comments
