@@ -232,4 +232,24 @@ return {
             vim.cmd.colorscheme("vscode")
         end,
     },
+
+    {
+        "glepnir/zephyr-nvim",
+        lazy = false,
+        priority = 1000,
+        enabled = CONFIG.ui.colorscheme == "zephyr",
+        config = function()
+            vim.cmd.colorscheme("zephyr")
+        end,
+    },
+
+    {
+        "getomni/neovim",
+        lazy = false,
+        priority = 1000,
+        enabled = CONFIG.ui.colorscheme == "omni",
+        config = function()
+            vim.cmd.colorscheme("omni")
+        end,
+    },
 }

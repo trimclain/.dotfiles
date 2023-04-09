@@ -26,7 +26,7 @@ CONFIG = {
         -- show_diagnostic = true,
     },
     ui = {
-        -- Colorschemes: tokyonight, catppuccin, kanagawa, nightfox, rose-pine, sonokai, tundra, vscode
+        -- Colorschemes (note/10): tokyonight (9), catppuccin (9), tundra (9), kanagawa (8), nightfox (8), rose-pine (8), zephyr (7), sonokai (6), vscode (5), omni (6)
         colorscheme = "tundra",
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
