@@ -40,6 +40,7 @@ return {
                 bind_to_cwd = false, -- true creates a 2-way binding between vim's cwd and neo-tree's root
                 follow_current_file = true,
             },
+            popup_border_style = CONFIG.ui.border,
             window = {
                 mappings = {
                     ["<space>"] = "none",
@@ -329,7 +330,7 @@ return {
                 -- ["<tab>"] = "TAB",
             },
             window = {
-                border = "rounded", -- none, single, double, shadow
+                border = CONFIG.ui.border,
             },
             layout = {
                 align = "center", -- align columns left, center or right
@@ -521,6 +522,8 @@ return {
                 changedelete = { text = "▎" },
                 untracked = { text = "▎" },
             },
+            signcolumn = CONFIG.git.show_signcolumn, -- Toggle with `:Gitsigns toggle_signs`
+            current_line_blame = CONFIG.git.show_blame, -- Toggle with `:Gitsigns toggle_current_line_blame`
             -- TODO: will I use these
             -- on_attach = function(buffer)
             --     local gs = package.loaded.gitsigns
@@ -584,10 +587,10 @@ return {
     -- buffer remove (other options: https://github.com/famiu/bufdelete.nvim)
     {
         "echasnovski/mini.bufremove",
-    -- stylua: ignore
-    keys = {
-      { "<leader>q", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-    },
+        -- stylua: ignore
+        keys = {
+            { "<leader>q", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+        },
     },
 
     -- TODO: will I use this?

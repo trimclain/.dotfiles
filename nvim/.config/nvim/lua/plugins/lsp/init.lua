@@ -22,22 +22,19 @@ return {
             diagnostics = {
                 underline = true,
                 update_in_insert = false,
-                -- If I'm tired of lsp telling me I'm wrong and want to use `gl` only, come here and make both false
-                -- enable/disable virtual text (errors on the right)
-                virtual_text = false,
-                -- virtual_text = { spacing = 4, prefix = "●" },
+                virtual_text = CONFIG.lsp.virtual_text,
                 severity_sort = true,
                 float = {
                     focusable = false,
                     style = "minimal",
-                    border = "rounded",
+                    border = CONFIG.ui.border,
                     source = "always", -- or "if_many"
                     header = "",
                     prefix = "",
                 },
             },
             -- Automatically format on save
-            autoformat = true,
+            -- autoformat = true,
             -- options for vim.lsp.buf.format
             -- `bufnr` and `filter` is handled by the LazyVim formatter,
             -- but can be also overridden when specified
@@ -109,10 +106,10 @@ return {
 
             -- Make the borders rounded
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-                border = "rounded",
+                border = CONFIG.ui.border,
             })
             vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-                border = "rounded",
+                border = CONFIG.ui.border,
             })
 
             -- diagnostics
@@ -224,7 +221,7 @@ return {
                 "shellcheck",
                 "eslint_d",
             },
-            border = "rounded", -- default: "none"
+            border = CONFIG.ui.border,
         },
         ---@param opts MasonSettings | {ensure_installed: string[]}
         config = function(_, opts)
@@ -253,7 +250,7 @@ return {
     --     opts = {
     --         hint_prefix = "🐼 ", -- Panda for parameter
     --         handler_opts = {
-    --             border = "rounded", -- double, rounded, single, shadow, none
+    --             border = CONFIG.ui.border,
     --         },
     --     },
     -- },

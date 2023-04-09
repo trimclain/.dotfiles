@@ -21,10 +21,8 @@ require("lazy").setup("plugins", {
         version = false, -- always use the latest git commit
     },
     -- try to load one of these colorschemes when starting an installation during startup
-    install = { colorscheme = { "tokyonight", "habamax" } },
-    ui = {
-        border = "rounded",
-    },
+    install = { colorscheme = { CONFIG.ui.colorscheme, "habamax" } },
+    ui = { border = CONFIG.ui.border },
     change_detection = {
         -- automatically check for config file changes and reload the ui
         enabled = false, -- maybe later
