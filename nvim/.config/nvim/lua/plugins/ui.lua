@@ -366,7 +366,7 @@ return {
             }
 
             dashboard.section.buttons.val = {
-                dashboard.button("f", " " .. " Find file", ":Telescope find_files<CR>"),
+                dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<CR>"),
                 dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<CR>"),
                 dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<CR>"),
                 dashboard.button("s", " " .. " Find string", ":Telescope live_grep<CR>"),
