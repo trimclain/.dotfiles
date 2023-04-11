@@ -32,6 +32,7 @@ CONFIG = {
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
         dashboard = true,
+        neoscroll = false,
     },
     git = {
         show_blame = false,

@@ -1,11 +1,9 @@
--- TODO: setup ensure_installed for both servers and formatters/linters
 return {
     -- lspconfig
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            -- { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
             { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
             "mason.nvim",
             "williamboman/mason-lspconfig.nvim",
@@ -34,9 +32,9 @@ return {
                 },
             },
             -- Automatically format on save
-            -- autoformat = true,
+            autoformat = CONFIG.lsp.format_on_save,
             -- options for vim.lsp.buf.format
-            -- `bufnr` and `filter` is handled by the LazyVim formatter,
+            -- `bufnr` and `filter` is handled by the formatter,
             -- but can be also overridden when specified
             format = {
                 formatting_options = nil,
@@ -95,12 +93,11 @@ return {
         },
         ---@param opts PluginLspOpts
         config = function(_, opts)
-            -- TODO:
             -- setup autoformat
-            -- require("lazyvim.plugins.lsp.format").autoformat = opts.autoformat
+            require("plugins.lsp.format").autoformat = opts.autoformat
             -- setup formatting and keymaps
             require("core.util").on_attach(function(client, buffer)
-                -- require("plugins.lsp.format").on_attach(client, buffer)
+                require("plugins.lsp.format").on_attach(client, buffer)
                 require("plugins.lsp.keymaps").on_attach(client, buffer)
             end)
 
@@ -206,17 +203,18 @@ return {
 
     -- cmdline tools and lsp servers
     {
-
         "williamboman/mason.nvim",
         cmd = "Mason",
         keys = { { "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" } },
         opts = {
-            -- Formatters and Linters
             ensure_installed = {
-                "stylua",
+                -- Formatters
                 "prettierd",
                 "black",
+                "stylua",
                 "beautysh",
+
+                -- Linters
                 "flake8",
                 "shellcheck",
                 "eslint_d",
