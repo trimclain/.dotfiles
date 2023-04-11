@@ -740,7 +740,6 @@ return {
         },
     },
 
-    -- TODO: do I need this?
     -- incsearch for :linenum<cr>
     -- {
     --     "nacro90/numb.nvim",

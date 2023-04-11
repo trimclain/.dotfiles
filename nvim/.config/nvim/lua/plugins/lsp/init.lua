@@ -242,18 +242,4 @@ return {
             end
         end,
     },
-
-    -- TODO: do I still want this? If yes, add a keymap to lsp config
-    -- {
-    --     "ray-x/lsp_signature.nvim",
-    --     event = { "BufReadPre", "BufNewFile" },
-    --     opts = {
-    --         hint_prefix = "🐼 ", -- Panda for parameter
-    --         handler_opts = {
-    --             border = CONFIG.ui.border,
-    --         },
-    --     },
-    -- },
-    -- TODO? try this instead
-    -- use "hrsh7th/cmp-nvim-lsp-signature-help"
 }

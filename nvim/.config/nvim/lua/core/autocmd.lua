@@ -12,14 +12,14 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()
-        vim.highlight.on_yank {
+        vim.highlight.on_yank({
             -- higroup = "IncSearch",
             -- higroup = "Substitute",
             higroup = "Search",
             timeout = 100,
             on_macro = true,
             on_visual = true,
-        }
+        })
     end,
     desc = "Highlight text on yank",
     group = augroup("highlight_on_yank"),
@@ -37,7 +37,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 -- Restore cursor position
 vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function()
-        -- TODO?: filetype/buftype exclude
         local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"')) -- when this is available, change unpack to table.unpack
         if row > 0 and row <= vim.api.nvim_buf_line_count(0) then
             vim.api.nvim_win_set_cursor(0, { row, col })
@@ -57,13 +56,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Fix formatoptions since they get overwritten (see options.lua:65)
 vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()
-        vim.opt_local.formatoptions:remove "o"
+        vim.opt_local.formatoptions:remove("o")
     end,
     desc = "Fix formatoptions",
     group = augroup("fix_formatoptions"),
 })
 
--- TODO: fix the pattern list
 -- Close these filetypes with a single keypress instead of :q
 vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = {
@@ -73,7 +71,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "startuptime", -- dstein64/vim-startuptime
         "spectre_panel", -- nvim-pack/nvim-spectre
         "Jaq", -- is0n/jaq-nvim
-        -- "notify",
     },
     callback = function(event)
         vim.bo[event.buf].buflisted = false
@@ -83,7 +80,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     group = augroup("close_with_q"),
 })
 
--- TODO: do I want this?
 -- Enable spell in following filetypes
 -- vim.api.nvim_create_autocmd({ "FileType" }, {
 --     pattern = { "markdown", "NeogitCommitMessage" },
@@ -94,23 +90,20 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 --     group = filetype_group,
 -- })
 
--------------------------------------------------------------------------------
-
--- TODO: ?
 -- If I use cursorline someday
 -- Hide cursorline in insert mode
--- vim.api.nvim_create_augroup("cursorline_toggle", { clear = true })
+-- local cursorline_toggle = augroup("cursorline_toggle")
 -- vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
 --     pattern = "*",
 --     command = "set cursorline",
 --     desc = "Enable cursorline in normal mode",
---     group = "cursorline_toggle",
+--     group = cursorline_toggle,
 -- })
 -- vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 --     pattern = "*",
 --     command = "set nocursorline",
 --     desc = "Disable cursorline in insert mode",
---     group = "cursorline_toggle",
+--     group = cursorline_toggle,
 -- })
 
 -- TODO: is there an easier way using Lazyvim's config?
@@ -143,35 +136,4 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 --     end,
 --     desc = "Update quickfixlist status variable on close",
 --     group = quickfix_toggle,
--- })
-
---TODO: set this up for neotree
---- Replace nvim-tree's 'open_on_setup' option
----@param data
--- local function open_nvim_tree_or_fzf(data)
---     -- buffer is a [No Name]
---     local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
---
---     -- buffer is a directory
---     local directory = vim.fn.isdirectory(data.file) == 1
---
---     if not no_name and not directory then
---         return
---     end
---
---     if directory then
---         -- change to the directory
---         vim.cmd.cd(data.file)
---         -- open the tree
---         require("nvim-tree.api").tree.open()
---     end
---
---     if no_name then
---         require("telescope.builtin").find_files({hidden = true})
---     end
--- end
-
--- vim.api.nvim_create_autocmd({ "VimEnter" }, {
---     callback = open_nvim_tree_or_fzf,
---     group = augroup("Nvim_Tree"),
 -- })

@@ -70,13 +70,22 @@ return {
             -- use "lukas-reineke/cmp-rg" -- source for using ripgrep
             -- use "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig
             -- use "ray-x/cmp-treesitter" -- source for treesitter nodes
-            -- use "KadoBOT/cmp-plugins" -- source for Neovim plugins
             -- use "jcha0713/cmp-tw2css" -- source to convert tailwindcss classes to pure css
 
             {
                 "hrsh7th/cmp-nvim-lsp-signature-help",
                 enabled = CONFIG.lsp.show_signature_help,
             },
+            -- {
+            --     "ray-x/lsp_signature.nvim",
+            --     event = { "BufReadPre", "BufNewFile" },
+            --     opts = {
+            --         hint_prefix = "🐼 ", -- Panda for parameter
+            --         handler_opts = {
+            --             border = CONFIG.ui.border,
+            --         },
+            --     },
+            -- },
         },
         config = function()
             local cmp = require("cmp")

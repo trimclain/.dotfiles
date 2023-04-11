@@ -1,9 +1,5 @@
 local M = {}
 
--- ############################################################################
--- NICE TO HAVE
--- ############################################################################
-
 --- Print the given object
 ---@param obj table | string | integer
 function _G.P(obj)
@@ -80,23 +76,22 @@ function M.opts(name)
     return Plugin.values(plugin, "opts", false)
 end
 
--- this will return a function that calls telescope.
--- cwd will default to core.util.get_root
--- for `files`, git_files or find_files will be chosen depending on .git
+-- Return a function that calls telescope.
+---@param builtin string
+---@param opts table | nil
 function M.telescope(builtin, opts)
     local params = { builtin = builtin, opts = opts }
     return function()
         builtin = params.builtin
         opts = params.opts or {}
-        -- opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
+        -- for `files`, git_files or find_files will be chosen depending on .git
         if builtin == "files" then
-            -- Thank you telescope, this is the way to fix above
+            -- Check if cwd is in a git worktree
             local in_worktree = require("telescope.utils").get_os_command_output(
                 { "git", "rev-parse", "--is-inside-work-tree" },
                 vim.loop.cwd()
             )
             if in_worktree[1] == "true" then
-                -- if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
                 opts.show_untracked = true
                 builtin = "git_files"
             else
