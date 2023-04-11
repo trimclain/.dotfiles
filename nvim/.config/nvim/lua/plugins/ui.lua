@@ -1,5 +1,13 @@
 return {
-    -- Better `vim.notify()`
+
+    -- TODO:
+    -- auto remove search highlight and rehighlight when using n or N
+    -- {
+    --     "nvimdev/hlsearch.nvim",
+    --     config = true,
+    -- },
+
+    -- better `vim.notify()`
     {
         "rcarriga/nvim-notify",
         keys = {
@@ -66,122 +74,133 @@ return {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
         opts = function()
-            -- Show shiftwidth length
+            -----------------------------------------------------------------------------------------------------------
+            -- Conditions to disable sections
+            -----------------------------------------------------------------------------------------------------------
+            -- Don't show a section when vim has less than 80 columns
+            local hide_in_width = function()
+                return vim.o.columns > 80
+            end
+
+            -- Don't show a section in ui filetypes
+            local show_lsp_section = function()
+                local buf_ft = vim.bo.filetype
+                local ui_filetypes = {
+                    "help",
+                    "undotree",
+                    "lspinfo",
+                    "mason",
+                    "null-ls-info",
+                    "NeogitStatus",
+                    "NeogitCommitMessage",
+                    "spectre_panel",
+                    "TelescopePrompt",
+                    "Trouble",
+                    "DressingSelect",
+                    "",
+                }
+                if vim.tbl_contains(ui_filetypes, buf_ft) then
+                    return false
+                end
+                return true
+            end
+
+            -----------------------------------------------------------------------------------------------------------
+            -- LSP and Formatters
+            -----------------------------------------------------------------------------------------------------------
+            -- Get the list of active lsp servers
+            local function lsp_list()
+                local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+                local buf_client_names = {}
+
+                for _, client in pairs(buf_clients) do
+                    if client.name ~= "null-ls" then
+                        table.insert(buf_client_names, client.name)
+                    end
+                end
+
+                return table.concat(buf_client_names, ", ")
+            end
+
+            -- Get the list of active formatters and linters
+            local function formatters_list()
+                local buf_ft = vim.bo.filetype
+                local nls_sources = require("null-ls.sources")
+                local available_sources = nls_sources.get_available(buf_ft)
+                local registered = {}
+                for _, source in ipairs(available_sources) do
+                    for method in pairs(source.methods) do
+                        registered[method] = registered[method] or {}
+                        table.insert(registered[method], source.name)
+                    end
+                end
+                local formatter_names = {}
+                local formatter = registered["NULL_LS_FORMATTING"]
+                local linter = registered["NULL_LS_DIAGNOSTICS"]
+                if formatter ~= nil then
+                    vim.list_extend(formatter_names, formatter)
+                end
+                if linter ~= nil then
+                    vim.list_extend(formatter_names, linter)
+                end
+                return table.concat(formatter_names, ", ")
+            end
+
+            local lsp_servers = {
+                function()
+                    local lsp = lsp_list()
+                    local text = " LSP:"
+                    if lsp == "" then
+                        text = "%#WinSeparator#" .. text .. "%*"
+                    end
+                    return vim.trim(vim.fn.join({ text, lsp }, " "))
+                end,
+                -- padding = 0,
+                cond = function() return hide_in_width() and show_lsp_section() end,
+                -- component_separators = "",
+            }
+
+            local formatters = {
+                function()
+                    local formatters = formatters_list()
+                    local text = " Format:"
+                    if formatters == "" then
+                        text = "%#WinSeparator#" .. text .. "%*"
+                    end
+                    return vim.trim(vim.fn.join({ text, formatters }, " "))
+                end,
+                -- padding = 0,
+                cond = function() return hide_in_width() and show_lsp_section() end,
+                -- component_separators = "",
+            }
+
+            -----------------------------------------------------------------------------------------------------------
+            -- Show the size of tabs
             local spaces = function()
                 return " " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
             end
 
-            -- TODO:
-            -- -- Show if formatting on save is enabled
-            -- local autoformat = function()
-            --     return vim.g.autoformat_status
-            -- end
-            --
-            -- local hide_in_width = function()
-            --     return vim.o.columns > 80
-            -- end
-            --
-            -- -- thnaks chris@machine
-            -- local language_server = {
-            --     function()
-            --         local buf_ft = vim.bo.filetype
-            --         local ui_filetypes = {
-            --             "help",
-            --             "packer",
-            --             "neogitstatus",
-            --             "NvimTree",
-            --             "Trouble",
-            --             "lir",
-            --             "Outline",
-            --             "spectre_panel",
-            --             "toggleterm",
-            --             "DressingSelect",
-            --             "TelescopePrompt",
-            --             "lspinfo",
-            --             "lsp-installer",
-            --             "",
-            --         }
-            --
-            --         if vim.tbl_contains(ui_filetypes, buf_ft) then
-            --             if M.language_servers == nil then
-            --                 return ""
-            --             else
-            --                 -- NEED M
-            --                 return M.language_servers
-            --             end
-            --         end
-            --
-            --         local clients = vim.lsp.buf_get_clients()
-            --         local client_names = {}
-            --
-            --         -- add client
-            --         for _, client in pairs(clients) do
-            --             if client.name ~= "null-ls" then
-            --                 table.insert(client_names, client.name)
-            --             end
-            --         end
-            --
-            --         -- add formatter
-            --         local s = require "null-ls.sources"
-            --         local available_sources = s.get_available(buf_ft)
-            --         local registered = {}
-            --         for _, source in ipairs(available_sources) do
-            --             for method in pairs(source.methods) do
-            --                 registered[method] = registered[method] or {}
-            --                 table.insert(registered[method], source.name)
-            --             end
-            --         end
-            --
-            --         local formatter = registered["NULL_LS_FORMATTING"]
-            --         local linter = registered["NULL_LS_DIAGNOSTICS"]
-            --         if formatter ~= nil then
-            --             vim.list_extend(client_names, formatter)
-            --         end
-            --         if linter ~= nil then
-            --             vim.list_extend(client_names, linter)
-            --         end
-            --
-            --         -- join client names with commas
-            --         local client_names_str = table.concat(client_names, ", ")
-            --
-            --         -- check client_names_str if empty
-            --         local language_servers = ""
-            --         local client_names_str_len = #client_names_str
-            --         if client_names_str_len ~= 0 then
-            --             language_servers = "LSP: " .. client_names_str .. ""
-            --         end
-            --
-            --         if client_names_str_len == 0 then
-            --             return ""
-            --         else
-            --             M.language_servers = language_servers
-            --             return language_servers:gsub(", anonymous source", "")
-            --         end
-            --     end,
-            --     -- padding = 0,
-            --     cond = hide_in_width,
-            --     component_separators = "",
-            -- }
-            --
-            -- local move_to_the_middle = {
-            --     function()
-            --         return "%="
-            --     end,
-            --     component_separators = "",
-            -- }
+            -- Show if formatting on save is enabled
+            local autoformat = function()
+                if CONFIG.lsp.format_on_save then
+                    -- ""
+                    return ""
+                end
+                -- "", ""
+                return ""
+            end
 
-            -------------------------------------------------------------------------
+            -- Move next sections to the middle of the screen
+            local move_to_the_middle = {
+                function()
+                    return "%="
+                end,
+                component_separators = "",
+            }
+
+            -----------------------------------------------------------------------------------------------------------
 
             local icons = require("core.icons")
-            -- TODO:
-            -- local function fg(name)
-            --     return function()
-            --         ---@type {foreground?:number}?
-            --         local hl = vim.api.nvim_get_hl_by_name(name, true)
-            --         return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
-            --     end
-            -- end
-
             return {
                 options = {
                     theme = "auto",
@@ -197,8 +216,8 @@ return {
                 },
                 sections = {
                     lualine_a = { "mode" },
-                    lualine_b = { "branch" },
-                    lualine_c = {
+                    lualine_b = {
+                        "branch",
                         {
                             "diff",
                             symbols = {
@@ -217,17 +236,19 @@ return {
                             },
                         },
                     },
-                    -- TODO:
-                    -- lualine_c = { move_to_the_middle, language_server },
-                    lualine_x = { "encoding", spaces, "fileformat", "filetype" }, -- , autoformat
-                    lualine_y = { "progress" },
-                    lualine_z = { "location" },
-                    -- lualine_z = {
-                    --     { "progress", separator = " ", padding = { left = 1, right = 0 } },
-                    --     { "location", padding = { left = 0, right = 1 } },
-                    -- },
+                    lualine_c = {
+                        move_to_the_middle,
+                        lsp_servers,
+                        formatters,
+                    },
+                    lualine_x = { "encoding", spaces, "fileformat", "filetype", autoformat },
+                    lualine_y = {},
+                    lualine_z = {
+                        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+                        { "location", padding = { left = 0, right = 1 } },
+                    },
                 },
-                -- TODO:
+                -- TODO with noice.nvim:
                 -- sections = {
                 --     lualine_x = {
                 --         -- stylua: ignore
@@ -366,7 +387,7 @@ return {
             }
 
             dashboard.section.buttons.val = {
-                dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<CR>"),
+                dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<CR>"),
                 dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<CR>"),
                 dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<CR>"),
                 dashboard.button("s", " " .. " Find string", ":Telescope live_grep<CR>"),
@@ -385,7 +406,7 @@ return {
             -- dashboard.section.buttons.opts.hl = "AlphaButtons"
             -- dashboard.section.footer.opts.hl = "AlphaFooter"
 
-            dashboard.config.layout[1].val = vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) })
+            dashboard.config.layout[1].val = vim.fn.max({ 3, vim.fn.floor(vim.fn.winheight(0) * 0.2) })
             dashboard.config.layout[3].val = 3
 
             return dashboard
