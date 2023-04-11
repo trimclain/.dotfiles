@@ -67,10 +67,11 @@ return {
             "hrsh7th/cmp-cmdline",
             "f3fora/cmp-spell",
 
-            -- use "lukas-reineke/cmp-rg" -- source for using ripgrep
-            -- use "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig
-            -- use "ray-x/cmp-treesitter" -- source for treesitter nodes
-            -- use "jcha0713/cmp-tw2css" -- source to convert tailwindcss classes to pure css
+            -- "lukas-reineke/cmp-rg" -- source for using ripgrep
+            -- "ray-x/cmp-treesitter" -- source for treesitter nodes
+            -- "lukas-reineke/cmp-under-comparator" -- better sort completion items that start with underlines
+            -- "amarakon/nvim-cmp-fonts" -- source for fonts using fontconfig
+            -- "jcha0713/cmp-tw2css" -- source to convert tailwindcss classes to pure css
 
             {
                 "hrsh7th/cmp-nvim-lsp-signature-help",

@@ -21,6 +21,11 @@ keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 -- edit
 -- yank back to the register: "ayy
 
+-- INFO:
+-- How to change split directions
+-- vertical to horizontal: <c-w>K
+-- horizontal to vertical: <c-w>H
+
 --
 -- Easier movement between buffers (I'm fine with arrows and <C-w>jk for now -> more keys for whichkey)
 -- keymap("n", "<left>", "<C-w>h", opts)

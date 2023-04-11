@@ -6,17 +6,6 @@ function _G.P(obj)
     print(vim.inspect(obj))
 end
 
--- --- Get the value of option current for current buffer
--- ---@param opt string vim.opt.optionname
--- function M.get_buf_option(opt)
---     local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
---     if not status_ok then
---         return nil
---     else
---         return buf_option
---     end
--- end
-
 --- Join path segments to a full path
 ---@vararg string folder or file names
 ---@return string full path to the file or folder
@@ -25,14 +14,6 @@ function M.join(...)
     local path_sep = uv.os_uname().version:match("Windows") and "\\" or "/"
     return table.concat({ ... }, path_sep)
 end
-
--- --- Remove existing autogroup to disable autocommand
--- ---@param name string the name of the existing autogroup
--- function M.remove_augroup(name)
---     if vim.fn.exists("#" .. name) == 1 then
---         vim.cmd("au! " .. name)
---     end
--- end
 
 -------------------------------------------------------------------------------
 -- From lazyvim.util.init.lua
@@ -121,54 +102,20 @@ end
 -------------------------------------------------------------------------------
 
 -- -- ############################################################################
--- -- HANDLE SPLITS
--- -- ############################################################################
---
--- --- <c-w>v
--- function M.split_vertically()
---     -- create a vertical split
---     vim.g.current_split = "vertical"
---     vim.fn.execute "wincmd v"
--- end
---
--- --- <c-w>s
--- function M.split_horizontally()
---     -- create a horizontal split
---     vim.g.current_split = "horizontal"
---     vim.fn.execute "wincmd s"
--- end
---
--- --- <c-w>o
--- function M.remove_splits()
---     -- remove all splits
---     vim.g.current_split = nil
---     vim.fn.execute "wincmd o"
--- end
---
--- --- If a there's a vertical split, make it horizontal, and if horizontal, make it vertical.
--- --- If there's no split, do nothing
--- function M.swap_split_direction()
---     -- local split_amount = #vim.api.nvim_tabpage_list_wins(0)
---     if vim.g.current_split == nil then
---         return
---     end
---     if vim.g.current_split == "vertical" then
---         vim.g.current_split = "horizontal"
---         vim.fn.execute "wincmd t"
---         vim.fn.execute "wincmd K"
---         return
---     end
---     if vim.g.current_split == "horizontal" then
---         vim.g.current_split = "vertical"
---         vim.fn.execute "wincmd t"
---         vim.fn.execute "wincmd H"
---         return
---     end
--- end
---
--- -- ############################################################################
 -- -- OPTION CHANGE
 -- -- ############################################################################
+
+-- --- Get the value of option current for current buffer
+-- ---@param opt string vim.opt.optionname
+-- function M.get_buf_option(opt)
+--     local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
+--     if not status_ok then
+--         return nil
+--     else
+--         return buf_option
+--     end
+-- end
+
 --
 -- --- Toggle the value of vim option
 -- ---@param option string vim.opt.optioname
@@ -191,7 +138,7 @@ end
 --     vim.opt.shiftwidth = value -- the number of spaces inserted for each indentation level
 --     vim.notify("tabstop, softtabstop and shiftwidth are set to " .. tostring(value))
 -- end
---
+
 -- -- ############################################################################
 -- -- FORMATTING
 -- -- ############################################################################
@@ -229,6 +176,14 @@ end
 --
 --     -- vim.g.autoformat_status = ""
 --     vim.g.autoformat_status = ""
+-- end
+--
+-- --- Remove existing autogroup to disable autocommand
+-- ---@param name string the name of the existing autogroup
+-- function M.remove_augroup(name)
+--     if vim.fn.exists("#" .. name) == 1 then
+--         vim.cmd("au! " .. name)
+--     end
 -- end
 --
 -- function M.init_format_on_save()
@@ -284,8 +239,20 @@ end
 -- -- bang is used to tell nvim to redefine the command if it already exists
 -- vim.api.nvim_create_user_command("FormattingToggle", M.toggle_format_on_save, { bang = true })
 --
--- -- ############################################################################
+-- TODO: is there an easier way using Lazyvim's config?
+-- Formatting
+-- require("trimclain.utils").init_format_on_save()
+-- vim.api.nvim_create_augroup("format_on_save_status", { clear = true })
+-- vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved", "CursorMovedI" }, {
+--     callback = function()
+--         require("trimclain.utils").update_autoformat_status()
+--     end,
+--     desc = "Update formatting status icon",
+--     group = "format_on_save_status",
+-- })
 --
+-- -- ############################################################################
+-- TODO: do I still use this?
 -- M.ToggleQFList = function()
 --     if vim.g.qflist_global == 1 then
 --         vim.cmd.cclose()
@@ -293,6 +260,25 @@ end
 --         vim.cmd.copen()
 --     end
 -- end
+-- Autocommands for QuickFixList
+-- local quickfix_toggle = vim.api.nvim_create_augroup("quickfix_toggle", { clear = true })
+-- vim.api.nvim_create_autocmd("BufWinEnter", {
+--     pattern = "quickfix",
+--     callback = function()
+--         vim.g.qflist_global = 1
+--     end,
+--     desc = "Update quickfixlist status variable on open",
+--     group = quickfix_toggle,
+-- })
+-- vim.api.nvim_create_autocmd("BufWinLeave", {
+--     pattern = "*",
+--     callback = function()
+--         vim.g.qflist_global = 0
+--     end,
+--     desc = "Update quickfixlist status variable on close",
+--     group = quickfix_toggle,
+-- })
+-- -- ############################################################################
 
 vim.cmd([[
     " Empty all Registers
