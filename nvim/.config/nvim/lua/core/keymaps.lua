@@ -92,6 +92,15 @@ keymap(
 )
 
 -- TODO: make <C-t> open tmux-sessionizer like prime, coz fk tags?
+-- stylua: ignore start
+keymap("n", "<leader>ow", function() require('core.util').toggle_option('wrap') end, add_desc("Toggle Current Buffer Line Wrap"))
+keymap("n", "<leader>on", function() require('core.util').toggle_option('number') end, add_desc("Toggle Current Buffer Line Numbers"))
+keymap("n", "<leader>or", function() require('core.util').toggle_option('relativenumber') end, add_desc("Toggle Current Buffer Relative Numbers"))
+keymap("n", "<leader>ol", function() require('core.util').toggle_option('cursorline') end, add_desc("Toggle Current Buffer Cursorline"))
+keymap("n", "<leader>os", function() require('core.util').toggle_option('spell') end, add_desc("Toggle Current Buffer Spell"))
+keymap("n", "<leader>ot", function() require('core.util').toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
+-- stylua: ignore end
+
 -------------------------------------------------------------------------------
 
 -- Lazy

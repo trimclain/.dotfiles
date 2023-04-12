@@ -351,6 +351,7 @@ return {
                 ["<leader>l"] = { name = "+lsp" },
                 ["<leader>m"] = { name = "+make" },
                 ["<leader>n"] = { name = "+neogen/notify" },
+                ["<leader>o"] = { name = "+options" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
                 ["<leader>t"] = { name = "+terminal" },

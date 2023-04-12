@@ -1,14 +1,14 @@
 local M = {}
 
 --- Print the given object
----@param obj table | string | integer
+---@param obj table | string | number
 function _G.P(obj)
     print(vim.inspect(obj))
 end
 
 --- Join path segments to a full path
----@vararg string folder or file names
----@return string full path to the file or folder
+---@vararg string
+---@return string
 function M.join(...)
     local uv = vim.loop
     local path_sep = uv.os_uname().version:match("Windows") and "\\" or "/"
@@ -84,12 +84,6 @@ function M.telescope(builtin, opts)
     end
 end
 
---- Fuzzy find in current buffer
-M.curr_buf_search = function()
-    local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
-    require("telescope.builtin").current_buffer_fuzzy_find(opt)
-end
-
 -- local diagnostics_active = true
 -- function M.toggle_diagnostics()
 --     diagnostics_active = not diagnostics_active
@@ -99,45 +93,70 @@ end
 --         vim.diagnostic.hide()
 --     end
 -- end
+
 -------------------------------------------------------------------------------
 
--- -- ############################################################################
--- -- OPTION CHANGE
--- -- ############################################################################
+--- Fuzzy find in current buffer
+M.curr_buf_search = function()
+    local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
+    require("telescope.builtin").current_buffer_fuzzy_find(opt)
+end
 
--- --- Get the value of option current for current buffer
--- ---@param opt string vim.opt.optionname
--- function M.get_buf_option(opt)
---     local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
---     if not status_ok then
---         return nil
---     else
---         return buf_option
---     end
--- end
+-------------------------------------------------------------------------------
+-- OPTION CHANGE
+-------------------------------------------------------------------------------
 
---
--- --- Toggle the value of vim option
--- ---@param option string vim.opt.optioname
--- function M.toggle_option(option)
---     local value = not vim.api.nvim_get_option_value(option, {})
---     vim.opt[option] = value
---     vim.notify(option .. " set to " .. tostring(value))
--- end
---
--- --- Change current tabstop, softtabstop and shiftwidth values between 2 and 4
--- function M.toggle_shiftwidth()
---     local value = vim.api.nvim_get_option_value("shiftwidth", {})
---     if value == 4 then
---         value = 2
---     else
---         value = 4
---     end
---     vim.opt.tabstop = value -- insert 2 spaces for \t
---     vim.opt.softtabstop = value -- insert 2 spaces for <Tab> and <BS> keypresses
---     vim.opt.shiftwidth = value -- the number of spaces inserted for each indentation level
---     vim.notify("tabstop, softtabstop and shiftwidth are set to " .. tostring(value))
--- end
+--- Use vim.notify to send INFO notifications
+---@param msg string
+---@param title string
+local function notify(msg, title)
+    vim.notify(msg, vim.log.levels.INFO, { title = title })
+end
+
+--- Implement python's str.capitalize() method
+---@param str string
+---@return string
+local function capitalize(str)
+    return (str:gsub("^%l", string.upper))
+end
+
+--- Get nvim option value
+---@param option string
+---@return string | boolean | number
+local function get_option(option)
+    return vim.api.nvim_get_option_value(option, {})
+end
+
+--- Set nvim option value
+---@param option string
+---@param value string
+local function set_option(option, value)
+    vim.opt[option] = value
+end
+
+--- Toggle the value of vim option
+---@param option string vim.opt.optioname
+function M.toggle_option(option)
+    local value = not get_option(option)
+    set_option(option, value)
+    notify(capitalize(option) .. " set to " .. tostring(value), "Option Toggler")
+end
+
+--- Change current tabstop, softtabstop and shiftwidth values between 2 and 4
+function M.toggle_shiftwidth()
+    local value = get_option("shiftwidth")
+    if value == 4 then
+        value = 2
+    else
+        value = 4
+    end
+    set_option("tabstop", value) -- insert 2 or 4 spaces for \t
+    set_option("softtabstop", value) -- insert 2 or 4 spaces for <Tab> and <BS> keypresses
+    set_option("shiftwidth", value) -- the number of spaces inserted for each indentation level
+    notify("Tab Size is set to " .. tostring(value) .. " spaces", "Tab Size Toggler")
+end
+
+-------------------------------------------------------------------------------
 
 -- -- ############################################################################
 -- -- FORMATTING
@@ -239,7 +258,6 @@ end
 -- -- bang is used to tell nvim to redefine the command if it already exists
 -- vim.api.nvim_create_user_command("FormattingToggle", M.toggle_format_on_save, { bang = true })
 --
--- TODO: is there an easier way using Lazyvim's config?
 -- Formatting
 -- require("trimclain.utils").init_format_on_save()
 -- vim.api.nvim_create_augroup("format_on_save_status", { clear = true })
@@ -252,7 +270,6 @@ end
 -- })
 --
 -- -- ############################################################################
--- TODO: do I still use this?
 -- M.ToggleQFList = function()
 --     if vim.g.qflist_global == 1 then
 --         vim.cmd.cclose()
