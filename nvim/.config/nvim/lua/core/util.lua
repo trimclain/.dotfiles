@@ -129,7 +129,7 @@ end
 
 --- Set nvim option value
 ---@param option string
----@param value string
+---@param value string | boolean | number
 local function set_option(option, value)
     vim.opt[option] = value
 end
@@ -137,9 +137,10 @@ end
 --- Toggle the value of vim option
 ---@param option string vim.opt.optioname
 function M.toggle_option(option)
-    local value = not get_option(option)
-    set_option(option, value)
-    notify(capitalize(option) .. " set to " .. tostring(value), "Option Toggler")
+    local value = get_option(option)
+    local status = value and " disabled" or " enabled"
+    set_option(option, not value)
+    notify(capitalize(option) .. status, "Option Toggler")
 end
 
 --- Change current tabstop, softtabstop and shiftwidth values between 2 and 4
