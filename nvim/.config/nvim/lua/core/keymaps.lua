@@ -91,7 +91,9 @@ keymap(
     add_desc("Change fileformat from dos to unix")
 )
 
--- TODO: make <C-t> open tmux-sessionizer like prime, coz fk tags?
+-- Open tmux-sessionizer
+keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
 -- stylua: ignore start
 keymap("n", "<leader>ow", function() require('core.util').toggle_option('wrap') end, add_desc("Toggle Current Buffer Line Wrap"))
 keymap("n", "<leader>on", function() require('core.util').toggle_option('number') end, add_desc("Toggle Current Buffer Line Numbers"))
