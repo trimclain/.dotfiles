@@ -91,7 +91,7 @@ flatpak: ## Install flatpak
 nvim_reqs:
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
-	@# Need yad or zenity for the color picker plugin, xclip for clipboard+
+	@# Need yad or zenity for the color picker plugin, xclip for clipboard+, tree-sitter if I want cli
 	@$(INSTALL) yad xclip
 	@# Install what :checkhealth recommends
 	@# Need pynvim for Bracey
@@ -101,7 +101,8 @@ nvim_reqs:
 nvim_build_reqs:
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
-	@$(INSTALL) base-devel cmake unzip ninja tree-sitter curl
+	@$(INSTALL) base-devel cmake unzip ninja curl
+	sudo pacman -S base-devel cmake unzip ninja curl
 
 nvim: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\

@@ -16,11 +16,6 @@ vimdir:
 	mkdir -p ~/.vim/undodir
 	@echo "Done"
 
-nvimdir:
-	@echo "Creating directory for undofiles for nvim..."
-	mkdir -p ~/.nvim/undodir
-	@echo "Done"
-
 fonts:
 	mkdir -p ~/.local/share/fonts/
 	cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
@@ -60,9 +55,9 @@ nvim_build_reqs:
 	@# Neovim prerequisites
 	@echo "==================================================================="
 	@echo "Installing Neovim build prerequisites..."
-	sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+	sudo apt install -y ninja-build gettext cmake unzip curl
 
-nvim: nvimdir nvim_build_reqs
+nvim: nvim_build_reqs
 	@# Install neovim by building it
 	@echo "==================================================================="
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
@@ -71,7 +66,7 @@ nvim: nvimdir nvim_build_reqs
 		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim &&\
 		echo "Done"; fi
 
-neovim: nvimdir
+neovim:
 	@# Install neovim using ppa
 	@# Get add-apt-repository command
 	@echo "==================================================================="
@@ -461,7 +456,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	@echo "Done"
 ###############################################################################
 
-.PHONY: all help vimdir nvimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
+.PHONY: all help vimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
 	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim nodejs \
 	uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
