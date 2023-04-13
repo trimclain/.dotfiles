@@ -6,8 +6,12 @@ x-scheme-handler/about=brave-browser.desktop
 x-scheme-handler/unknown=brave-browser.desktop
 application/pdf=okularApplication_pdf.desktop
 video/mp4=brave-browser.desktop
+image/jpeg=org.nomacs.ImageLounge.desktop
+image/png=org.nomacs.ImageLounge.desktop
 
 [Added Associations]
 application/pdf=okularApplication_pdf.desktop;
-image/jpeg=nomacs.desktop;
+application/pdf=FoxitReader.desktop
+image/jpeg=org.nomacs.ImageLounge.desktop;
+image/png=org.nomacs.ImageLounge.desktop;feh.desktop;
 video/mp4=smplayer.desktop;

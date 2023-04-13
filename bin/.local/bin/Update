@@ -5,8 +5,11 @@ OS=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
 if [[ $OS == arch ]]; then
     if command -v paru &> /dev/null; then
         paru -Syu
+        # TODO: autoremove?
+        # sudo pacman -R $(pacman -Qdtq)
     else
-        pacman -Syu
+        sudo pacman -Syu
+        # sudo pacman -R $(pacman -Qdtq)
     fi
 else
     sudo apt update
