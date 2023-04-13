@@ -102,7 +102,6 @@ nvim_build_reqs:
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
 	@$(INSTALL) base-devel cmake unzip ninja curl
-	sudo pacman -S base-devel cmake unzip ninja curl
 
 nvim: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
