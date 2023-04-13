@@ -406,8 +406,8 @@ return {
             -- dashboard.section.buttons.opts.hl = "AlphaButtons"
             -- dashboard.section.footer.opts.hl = "AlphaFooter"
 
-            dashboard.config.layout[1].val = vim.fn.max({ 3, vim.fn.floor(vim.fn.winheight(0) * 0.2) })
-            dashboard.config.layout[3].val = 3
+            dashboard.config.layout[1].val = vim.fn.max({ 3, vim.fn.floor(vim.fn.winheight(0) * 0.2) }) -- logo top margin
+            dashboard.config.layout[3].val = 2 -- distance between logo and buttons
 
             return dashboard
         end,
