@@ -307,17 +307,39 @@ vim.cmd([[
         endfor
     endfun
 ]])
+-------------------------------------------------------------------------------
+-- From astronvim/utils/init.lua
+-------------------------------------------------------------------------------
+--- Open a URL with the current operating system
+---@param path string The path of the file to open with the system opener
+function M.system_open(path)
+    local cmd
+    if vim.fn.has("win32") == 1 and vim.fn.executable("explorer") == 1 then
+        cmd = { "cmd.exe", "/K", "explorer" }
+    elseif vim.fn.has("unix") == 1 and vim.fn.executable("xdg-open") == 1 then
+        cmd = { "xdg-open" }
+    elseif (vim.fn.has("mac") == 1 or vim.fn.has("unix") == 1) and vim.fn.executable("open") == 1 then
+        cmd = { "open" }
+    end
+    if not cmd then
+        vim.notify("Available system opening tool not found!", vim.log.levels.ERROR)
+    end
+    vim.fn.jobstart(vim.fn.extend(cmd, { path }), { detach = true })
+end
 
-vim.cmd([[
-    function! HandleURL()
-        let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;)]*')
-        echo "Opened ".s:uri
-        if s:uri != ""
-            silent exec "!xdg-open '".s:uri."'"
-        else
-            echo "No URI found in line."
-        endif
-    endfunction
-]])
+--- Find URL in current line and open it with the current operating system
+function M.open_url()
+    --- regex used for matching a valid URL/URI string
+    local url_matcher =
+        "\\v\\c%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)%([&:#*@~%_\\-=?!+;/0-9a-z]+%(%([.;/?]|[.][.]+)[&:#*@~%_\\-=?!+/0-9a-z]+|:\\d+|,%(%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)@![0-9a-z]+))*|\\([&:#*@~%_\\-=?!+;/.0-9a-z]*\\)|\\[[&:#*@~%_\\-=?!+;/.0-9a-z]*\\]|\\{%([&:#*@~%_\\-=?!+;/.0-9a-z]*|\\{[&:#*@~%_\\-=?!+;/.0-9a-z]*})\\})+"
+    local url = vim.fn.matchstr(vim.fn.getline("."), url_matcher)
+    if url ~= "" then
+        notify("Opened " .. url, "URL Handler")
+        M.system_open(url)
+    else
+        notify("No URL found", "URL Handler")
+    end
+end
+-------------------------------------------------------------------------------
 
 return M
