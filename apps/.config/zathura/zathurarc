@@ -1,0 +1,38 @@
+set sandbox none
+set statusbar-h-padding 1
+set statusbar-v-padding 1
+set selection-clipboard clipboard
+
+# Defaults:
+map <C-u> scroll half-up
+map <C-d> scroll half-down
+map <C-r> recolor
+map <C-p> print
+
+map r reload
+map R rotate
+
+# Zoom
+map K zoom in
+map J zoom out
+map [fullscreen] K zoom in
+map [fullscreen] J zoom out
+
+# Next/Previous page
+map u navigate previous
+map d navigate next
+map [fullscreen] u navigate previous
+map [fullscreen] d navigate next
+
+# Toggle fullscreen
+map <C-f> toggle_fullscreen
+map [fullscreen] <C-f> toggle_fullscreen
+
+# Show or hide index
+map <C-i> toggle_index
+map [index] <C-i> toggle_index
+
+# Toggle between one and multiple pages per row
+map D toggle_page_mode
+
+# vim: ft=conf
