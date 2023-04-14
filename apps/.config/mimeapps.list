@@ -1,4 +1,9 @@
 [Default Applications]
+
+# xdg-open will use these settings to determine how to open filetypes.
+# These .desktop entries can also be seen and changed in
+# ~/.local/share/applications/ or /usr/share/applications/ or /usr/local/share/applications/
+
 text/html=brave-browser.desktop
 x-scheme-handler/http=brave-browser.desktop
 x-scheme-handler/https=brave-browser.desktop
@@ -6,8 +11,8 @@ x-scheme-handler/about=brave-browser.desktop
 x-scheme-handler/unknown=brave-browser.desktop
 application/pdf=okularApplication_pdf.desktop
 video/mp4=brave-browser.desktop
-image/jpeg=org.nomacs.ImageLounge.desktop
-image/png=org.nomacs.ImageLounge.desktop
+image/jpeg=sxiv.desktop
+image/png=sxiv.desktop
 
 [Added Associations]
 application/pdf=okularApplication_pdf.desktop;

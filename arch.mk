@@ -145,10 +145,13 @@ zap:
 telegram: ## Install Telegram Desktop using flatpak
 	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
 		else $(FLATINSTALL) flathub org.telegram.desktop; fi
+
+# TODO: spotify brave obs-studio kdenlive inkscape gimp
+
 #==================================================================================================
 
-apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers
-	@$(INSTALL) btop xscreensaver okular lf pcmanfm
+apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers, sxiv for images, flameshot for screenshots
+	@$(INSTALL) btop xscreensaver okular lf pcmanfm sxiv flameshot
 
 #==================================================================================================
 # TODO:
