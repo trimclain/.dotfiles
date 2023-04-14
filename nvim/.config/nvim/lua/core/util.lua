@@ -298,15 +298,14 @@ end
 -- })
 -- -- ############################################################################
 
-vim.cmd([[
-    " Empty all Registers
-    fun! EmptyRegisters()
-        let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
-        for r in regs
-            call setreg(r, [])
-        endfor
-    endfun
-]])
+--- Empty all Registers
+function M.empty_registers()
+    local regs = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"'
+    for r in regs:gmatch("%g") do -- %g matches all printable characters except space
+        vim.fn.setreg(r, {})
+    end
+end
+
 -------------------------------------------------------------------------------
 -- From astronvim/utils/init.lua
 -------------------------------------------------------------------------------

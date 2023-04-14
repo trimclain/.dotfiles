@@ -78,11 +78,6 @@ keymap("n", "<leader>w", "<cmd>w<cr>", add_desc("Save File"))
 keymap("n", "k", '(v:count > 5 ? "m\'" . v:count : "") . "k"', { expr = true })
 keymap("n", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
 
--- Thx JoosepAlviste
--- Open the file under the cursor with the default file handler for that file type (e.g., Firefox for `http` links, etc.)
--- This mapping normally comes from `netrw`, but we disabled that for nvim-tree
-keymap("n", "gx", [[:call HandleURL()<cr>]], { silent = true, desc = "Open URL under cursor" })
-
 -- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
 keymap(
     "n",
@@ -95,12 +90,15 @@ keymap(
 keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- stylua: ignore start
-keymap("n", "<leader>ow", function() require('core.util').toggle_option('wrap') end, add_desc("Toggle Current Buffer Line Wrap"))
-keymap("n", "<leader>on", function() require('core.util').toggle_option('number') end, add_desc("Toggle Current Buffer Line Numbers"))
-keymap("n", "<leader>or", function() require('core.util').toggle_option('relativenumber') end, add_desc("Toggle Current Buffer Relative Numbers"))
-keymap("n", "<leader>ol", function() require('core.util').toggle_option('cursorline') end, add_desc("Toggle Current Buffer Cursorline"))
-keymap("n", "<leader>os", function() require('core.util').toggle_option('spell') end, add_desc("Toggle Current Buffer Spell"))
-keymap("n", "<leader>ot", function() require('core.util').toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
+keymap("n", "gx", function() require("core.util").open_url() end, add_desc("Open URL under cursor"))
+keymap("n", "<leader>re", function() require("core.util").empty_registers() end, add_desc("Empty registers"))
+
+keymap("n", "<leader>ow", function() require("core.util").toggle_option("wrap") end, add_desc("Toggle Current Buffer Line Wrap"))
+keymap("n", "<leader>on", function() require("core.util").toggle_option("number") end, add_desc("Toggle Current Buffer Line Numbers"))
+keymap("n", "<leader>or", function() require("core.util").toggle_option("relativenumber") end, add_desc("Toggle Current Buffer Relative Numbers"))
+keymap("n", "<leader>ol", function() require("core.util").toggle_option("cursorline") end, add_desc("Toggle Current Buffer Cursorline"))
+keymap("n", "<leader>os", function() require("core.util").toggle_option("spell") end, add_desc("Toggle Current Buffer Spell"))
+keymap("n", "<leader>ot", function() require("core.util").toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
 -- stylua: ignore end
 
 -------------------------------------------------------------------------------
