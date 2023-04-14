@@ -282,6 +282,9 @@ plug "spaceship-prompt/spaceship-prompt"
 # Git aliases
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
 
+# Use <C-r> to fzf through commands from history
+plug "zap-zsh/fzf"
+
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
 
