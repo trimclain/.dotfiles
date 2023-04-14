@@ -1162,5 +1162,5 @@ spawn_terminal_command("$HOME/.config/polybar/scripts/get-brightness-on-startup.
 -- Enable polybar
 spawn_terminal_command("$HOME/.config/polybar/launch.sh")
 -- Configure touchpad
-spawn_terminal_command("$HOME/.local/bin/touchpad-settings")
+-- spawn_terminal_command("$HOME/.local/bin/touchpad-settings")
 -- }}}

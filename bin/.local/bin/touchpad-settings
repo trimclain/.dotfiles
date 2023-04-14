@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# TODO: this is useless if I persist config changes in libinput
 # This script updates some touchpad settings
+
+# For constant changes use /etc/X11/xorg.conf.d/30-touchpad.conf
 
 # Get touchpad name
 TOUCHPAD=$(xinput --list --name-only | grep Touchpad)
