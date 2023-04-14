@@ -28,6 +28,14 @@ map [fullscreen] d navigate next
 map <C-f> toggle_fullscreen
 map [fullscreen] <C-f> toggle_fullscreen
 
+# FIX: Toggle presentation mode
+# map p change_mode presentation
+# map [presentation] p change_mode normal
+
+# Toggle statusbar
+map <C-s> toggle_statusbar
+map [fullscreen] <C-s> toggle_statusbar
+
 # Show or hide index
 map <C-i> toggle_index
 map [index] <C-i> toggle_index

@@ -9,10 +9,10 @@ x-scheme-handler/http=brave-browser.desktop
 x-scheme-handler/https=brave-browser.desktop
 x-scheme-handler/about=brave-browser.desktop
 x-scheme-handler/unknown=brave-browser.desktop
-application/pdf=okularApplication_pdf.desktop
 video/mp4=brave-browser.desktop
 image/jpeg=sxiv.desktop
 image/png=sxiv.desktop
+application/pdf=org.pwmt.zathura.desktop
 
 [Added Associations]
 application/pdf=okularApplication_pdf.desktop;
