@@ -57,14 +57,15 @@ nvim_build_reqs:
 	@echo "Installing Neovim build prerequisites..."
 	sudo apt install -y ninja-build gettext cmake unzip curl
 
-nvim: nvim_build_reqs
+nvim:
 	@# Install neovim by building it
 	@echo "==================================================================="
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
-		else echo "Installing Neovim by building it..." &&\
-		git clone https://github.com/neovim/neovim ~/neovim && cd ~/neovim/ &&\
-		make CMAKE_BUILD_TYPE=Release && sudo make install && rm -rf ~/neovim &&\
+		else make nvim_build_reqs && echo "Installing Neovim..." &&\
+		git clone https://github.com/neovim/neovim ~/neovim && pushd ~/neovim/ &&\
+		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf ~/neovim &&\
 		echo "Done"; fi
+
 
 neovim:
 	@# Install neovim using ppa
@@ -305,6 +306,22 @@ lf:
 		env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest;\
 		else echo "[lf]: Install golang first by using \"make golang\""; fi
 
+flatpak:
+	@echo "==================================================================="
+	@echo "Installing Flatpak..."
+	@sudo apt install -y flatpak
+	@flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+# -------------------------------------------------------------------------------------------------
+# PDF viewers
+# too slow, waiting until it's better on linux (maybe on arch better?)
+# sioyek:
+# 	@flatpak install -y --or-update flathub com.github.ahrm.sioyek
+
+zathura:
+	@sudo apt install -y zathura
+# -------------------------------------------------------------------------------------------------
+
 telegram:
 	@echo "==================================================================="
 	@echo "Installing Telegram Desktop..."
@@ -462,7 +479,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall alacritty_build_reqs alacritty \
 	uninstall_alacritty kitty uninstall_kitty imagemagick \
-	i3 awesome nitrogen polybar picom rofi lf telegram spotify brave \
+	i3 awesome nitrogen polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular linux_install linux_software python3_setup \
 	null_ls_tool finish_setup

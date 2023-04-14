@@ -153,6 +153,8 @@ telegram: ## Install Telegram Desktop using flatpak
 apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers, sxiv for images, flameshot for screenshots
 	@$(INSTALL) btop xscreensaver okular lf pcmanfm sxiv flameshot
 
+# TODO: install zathura
+
 #==================================================================================================
 # TODO:
 install: ## Setup arch the way I want it
