@@ -69,7 +69,6 @@ keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank i
 keymap("n", "<leader>d", '"_d', add_desc("Delete to black hole"))
 keymap("i", "<C-r>", "<C-r>+", opts) -- paste from clipboard in insert mode
 keymap("c", "<C-r>", "<C-r>+", opts) -- paste from clipboard in command mode
-keymap("n", "<leader>mx", "<cmd>w <cr> <cmd>!chmod +x %<cr>", add_desc("executable"))
 keymap("n", "<leader>r.", ":%s/\\<<c-r><c-w>\\>/", add_desc("Replace Word Vim Style"))
 keymap("n", "<leader>Y", 'gg"+yG', add_desc("Yank Whole File"))
 keymap("n", "<leader>w", "<cmd>w<cr>", add_desc("Save File"))
@@ -92,6 +91,7 @@ keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 -- stylua: ignore start
 keymap("n", "gx", function() require("core.util").open_url() end, add_desc("Open URL under cursor"))
 keymap("n", "<leader>re", function() require("core.util").empty_registers() end, add_desc("Empty registers"))
+keymap("n", "<leader>mx", function() require("core.util").toggle_executable() end, add_desc("Make Current File Executable"))
 
 keymap("n", "<leader>ow", function() require("core.util").toggle_option("wrap") end, add_desc("Toggle Current Buffer Line Wrap"))
 keymap("n", "<leader>on", function() require("core.util").toggle_option("number") end, add_desc("Toggle Current Buffer Line Numbers"))

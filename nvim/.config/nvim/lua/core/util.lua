@@ -306,6 +306,19 @@ function M.empty_registers()
     end
 end
 
+--- Toggle current file being executable
+function M.toggle_executable()
+    local file = vim.fn.expand("%:p")
+    vim.cmd.write()
+    if vim.fn.executable(file) == 0 then
+        vim.fn.jobstart({ "chmod", "+x", file})
+        notify("This file is now executable", "Executer")
+    else
+        vim.fn.jobstart({ "chmod", "-x", file})
+        notify("This file is now not executable", "Executer")
+    end
+end
+
 -------------------------------------------------------------------------------
 -- From astronvim/utils/init.lua
 -------------------------------------------------------------------------------
