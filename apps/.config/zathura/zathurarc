@@ -1,3 +1,5 @@
+# INFO: careful with search (https://wiki.archlinux.org/title/zathura#Huge_memory_usage_with_Poppler)
+
 set sandbox none
 set statusbar-h-padding 1
 set statusbar-v-padding 1
@@ -15,8 +17,6 @@ map R rotate
 # Zoom
 map K zoom in
 map J zoom out
-map [fullscreen] K zoom in
-map [fullscreen] J zoom out
 
 # Next/Previous page
 map u navigate previous
@@ -24,9 +24,7 @@ map d navigate next
 map [fullscreen] u navigate previous
 map [fullscreen] d navigate next
 
-# Toggle fullscreen
-map <C-f> toggle_fullscreen
-map [fullscreen] <C-f> toggle_fullscreen
+# TODO: add a shortcut for :nohl
 
 # FIX: Toggle presentation mode
 # map p change_mode presentation
@@ -34,7 +32,6 @@ map [fullscreen] <C-f> toggle_fullscreen
 
 # Toggle statusbar
 map <C-s> toggle_statusbar
-map [fullscreen] <C-s> toggle_statusbar
 
 # Show or hide index
 map <C-i> toggle_index
