@@ -180,6 +180,32 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
     add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
+# From /usr/share/doc/fzf/examples/key-bindings.zsh
+# CTRL-R - Paste the selected command from history into the command line
+__fzfcmd() {
+  [ -n "$TMUX_PANE" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "$FZF_TMUX_OPTS" ]; } &&
+    echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
+}
+if command -v fzf &> /dev/null; then
+    fzf-history-widget() {
+        local selected num
+        setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
+        selected=( $(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
+            FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+        local ret=$?
+        if [ -n "$selected" ]; then
+            num=$selected[1]
+            if [ -n "$num" ]; then
+                zle vi-fetch-history -n $num
+            fi
+        fi
+        zle reset-prompt
+        return $ret
+    }
+    zle     -N   fzf-history-widget
+    bindkey '^R' fzf-history-widget
+fi
+
 ###############################################################################
 
 bindkey '^ ' autosuggest-accept
@@ -282,8 +308,11 @@ plug "spaceship-prompt/spaceship-prompt"
 # Git aliases
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
 
-# Use <C-r> to fzf through commands from history
-plug "zap-zsh/fzf"
+# TODO: checkout zap-zsh/supercharge
+
+# TODO: checkout zap-zsh/vim
+
+# TODO: checkout zap-zsh/exa
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
