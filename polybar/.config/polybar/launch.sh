@@ -12,7 +12,8 @@ export ETH_INTERFACE=$(ip link | grep default | awk '{print $2}' | awk -F ':' '{
 # Launch the correct bar depending on display dimensions
 if [[ $(xdpyinfo | awk '/dimensions/{print $2}') == "1366x768" ]]; then
     # Launch Polybar, using default config location ~/.config/polybar/config.ini
-    polybar minibar 2>&1 | tee -a /tmp/polybar.log & disown
+    # Since on ubuntu I have version 3.5.7, which doesn't default to config.ini yet, specify config variable
+    polybar --config=$HOME/.config/polybar/config.ini minibar 2>&1 | tee -a /tmp/polybar.log & disown
 else
-    polybar mainbar 2>&1 | tee -a /tmp/polybar.log & disown
+    polybar --config=$HOME/.config/polybar/config.ini mainbar 2>&1 | tee -a /tmp/polybar.log & disown
 fi
