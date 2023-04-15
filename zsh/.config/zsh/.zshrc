@@ -245,12 +245,11 @@ if [[ $TERM == "xterm-kitty" ]]; then
     alias icat="kitty +kitten icat"
 fi
 
-
 alias vim="$EDITOR"
 alias ebrc="$EDITOR $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
 alias ezrc="$EDITOR $DOTFILES/zsh/.config/zsh/.zshrc --cmd \"cd $DOTFILES/zsh/\""
 alias evrc="$EDITOR $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
-alias enrc="$EDITOR $DOTFILES/nvim/.config/nvim/ --cmd \"cd $DOTFILES/nvim/.config/nvim/\""
+alias enrc="$EDITOR $DOTFILES/nvim/.config/nvim/init.lua --cmd \"cd $DOTFILES/nvim/.config/nvim/\""
 
 alias py="python3"
 
