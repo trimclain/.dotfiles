@@ -54,7 +54,7 @@ return {
                 volar = {}, -- vue-language-server
                 bashls = {},
                 vimls = {},
-                yamlls = {},
+                -- yamlls = {},
                 graphql = {},
                 -- julials = {},
                 -- ansiblels = {},
@@ -191,7 +191,7 @@ return {
                     nls.builtins.formatting.beautysh,
 
                     -- Linters
-                    nls.builtins.diagnostics.flake8,
+                    -- nls.builtins.diagnostics.flake8, -- too annoying, turn off for now
                     nls.builtins.diagnostics.shellcheck,
                     nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
                     -- This is normal and not related to null-ls.
@@ -215,7 +215,7 @@ return {
                 "beautysh",
 
                 -- Linters
-                "flake8",
+                -- "flake8",
                 "shellcheck",
                 "eslint_d",
             },
