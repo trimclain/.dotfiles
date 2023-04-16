@@ -320,12 +320,12 @@ return {
                     g = true, -- bindings for prefixed with g
                 },
             },
-            key_labels = {
-                -- ["<space>"] = "SPC",
-                ["<leader>"] = "Space",
-                -- ["<cr>"] = "RET",
-                -- ["<tab>"] = "TAB",
-            },
+            -- key_labels = {
+            --     -- ["<space>"] = "SPC",
+            --     ["<leader>"] = "Space",
+            --     -- ["<cr>"] = "RET",
+            --     -- ["<tab>"] = "TAB",
+            -- },
             window = {
                 border = CONFIG.ui.border,
             },

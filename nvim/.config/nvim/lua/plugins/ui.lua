@@ -156,7 +156,9 @@ return {
                     return vim.trim(vim.fn.join({ text, lsp }, " "))
                 end,
                 -- padding = 0,
-                cond = function() return hide_in_width() and show_lsp_section() end,
+                cond = function()
+                    return hide_in_width() and show_lsp_section()
+                end,
                 -- component_separators = "",
             }
 
@@ -170,11 +172,63 @@ return {
                     return vim.trim(vim.fn.join({ text, formatters }, " "))
                 end,
                 -- padding = 0,
-                cond = function() return hide_in_width() and show_lsp_section() end,
+                cond = function()
+                    return hide_in_width() and show_lsp_section()
+                end,
                 -- component_separators = "",
             }
 
             -----------------------------------------------------------------------------------------------------------
+            -- Custom Mode Component
+            -----------------------------------------------------------------------------------------------------------
+            local mode = function()
+                -- stylua: ignore
+                local modes = {
+                    ['n']      = 'NORMAL',
+                    ['no']     = 'O-PENDING',
+                    ['nov']    = 'O-PENDING',
+                    ['noV']    = 'O-PENDING',
+                    ['no\22']  = 'O-PENDING',
+                    ['niI']    = 'NORMAL',
+                    ['niR']    = 'NORMAL',
+                    ['niV']    = 'NORMAL',
+                    ['nt']     = 'NORMAL',
+                    ['ntT']    = 'NORMAL',
+                    ['v']      = 'VISUAL',
+                    ['vs']     = 'VISUAL',
+                    ['V']      = 'V-LINE',
+                    ['Vs']     = 'V-LINE',
+                    ['\22']   = 'V-BLOCK',
+                    ['\22s']  = 'V-BLOCK',
+                    ['s']      = 'SELECT',
+                    ['S']      = 'S-LINE',
+                    ['\19']   = 'S-BLOCK',
+                    ['i']      = 'INSERT',
+                    ['ic']     = 'INSERT',
+                    ['ix']     = 'INSERT',
+                    ['R']      = 'REPLACE',
+                    ['Rc']     = 'REPLACE',
+                    ['Rx']     = 'REPLACE',
+                    ['Rv']     = 'V-REPLACE',
+                    ['Rvc']    = 'V-REPLACE',
+                    ['Rvx']    = 'V-REPLACE',
+                    ['c']      = 'COMMAND',
+                    ['cv']     = 'EX',
+                    ['ce']     = 'EX',
+                    ['r']      = 'REPLACE',
+                    ['rm']     = 'MORE',
+                    ['r?']     = 'CONFIRM',
+                    ['!']      = 'SHELL',
+                    ['t']      = 'TERMINAL',
+                }
+
+                local m = vim.api.nvim_get_mode().mode
+                return " " .. modes[m]
+                -- return "󰀘"
+            end
+
+            -----------------------------------------------------------------------------------------------------------
+
             -- Show the size of tabs
             local spaces = function()
                 return " " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
@@ -204,18 +258,25 @@ return {
             return {
                 options = {
                     theme = "auto",
+                    section_separators = { left = " ", right = "" },
+                    component_separators = { left = "", right = "" },
+                    -- block = { left = "█", right = "█" },
+
                     -- component_separators = { left = "", right = "" },
                     -- section_separators = { left = "", right = "" },
+
                     -- component_separators = { left = '', right = '' },
                     -- section_separators = { left = '', right = '' },
+                    -- component_separators = { left = "|", right = "|", },
                     -- component_separators = { " ", " " },
-                    component_separators = { left = "", right = "" },
-                    section_separators = { left = "", right = "" },
+
+                    -- component_separators = { left = "", right = "" },
+                    -- section_separators = { left = "", right = "" },
                     globalstatus = true,
                     disabled_filetypes = { statusline = { "dashboard", "alpha" } },
                 },
                 sections = {
-                    lualine_a = { "mode" },
+                    lualine_a = { mode },
                     lualine_b = {
                         "branch",
                         {
@@ -241,7 +302,7 @@ return {
                         lsp_servers,
                         formatters,
                     },
-                    lualine_x = { "encoding", spaces, "fileformat", "filetype", autoformat },
+                    lualine_x = { "encoding", spaces, "fileformat", "filetype" },
                     lualine_y = {},
                     lualine_z = {
                         { "progress", separator = " ", padding = { left = 1, right = 0 } },

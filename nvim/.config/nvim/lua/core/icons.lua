@@ -11,7 +11,7 @@ return {
         Error = " ",
         -- Warn = " ",
         Warn = " ",
-        Hint = " ",
+        -- Hint = " ",
         -- Info = " ",
         Info = " ",
         -- Question = " ",
