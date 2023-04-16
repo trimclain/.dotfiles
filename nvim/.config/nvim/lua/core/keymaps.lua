@@ -107,6 +107,7 @@ keymap("n", "<leader>ot", function() require("core.util").toggle_shiftwidth() en
 keymap("n", "<leader>pl", "<cmd>Lazy home<cr>", add_desc("Open Lazy"))
 keymap("n", "<leader>ps", "<cmd>Lazy sync<cr>", add_desc("Lazy Sync"))
 keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>", add_desc("Lazy Profile"))
+keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using lazy-lock.json"))
 
 -- " QuickFixList Stuff
 -- keymap("n", "<up>", ":cprev<CR>zz", opts)
