@@ -13,12 +13,19 @@ return {
             "MunifTanjim/nui.nvim",
         },
         keys = {
+            -- {
+            --     "<leader>e",
+            --     function()
+            --         require("neo-tree.command").execute({ toggle = true })
+            --     end,
+            --     desc = "Explorer NeoTree (cwd)",
+            -- },
             {
                 "<leader>e",
                 function()
-                    require("neo-tree.command").execute({ toggle = true })
+                    require("neo-tree.command").execute({ toggle = true, reveal_force_cwd = true })
                 end,
-                desc = "Explorer NeoTree (cwd)",
+                desc = "Explorer NeoTree",
             },
         },
         init = function()
