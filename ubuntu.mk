@@ -211,7 +211,7 @@ alacritty_build_reqs:
 	rustup override set stable
 	rustup update stable
 	@# Installing dependencies
-	sudo apt-get -y install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+	sudo apt install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 
 alacritty: alacritty_build_reqs
 	@# Download and build alacritty, Post Build, Terminfo, Copy the binary to $PATH,Add Manual Page
@@ -219,6 +219,8 @@ alacritty: alacritty_build_reqs
 		cargo build --release && sudo tic -xe alacritty,alacritty-direct extra/alacritty.info &&\
 		sudo cp target/release/alacritty /usr/local/bin &&\
 		sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg &&\
+		sudo desktop-file-install extra/linux/Alacritty.desktop &&\
+		sudo update-desktop-database &&\
 		sudo mkdir -p /usr/local/share/man/man1 &&\
 		gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null &&\
 		gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
