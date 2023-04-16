@@ -47,8 +47,8 @@ modalbind.init()
 
 modalbind.default_keys = {
     { "separator", "Mode Control:" },
-    { "Escape", modalbind.close_box, "Close Modal" },
-    { "Return", modalbind.close_box, "Close Modal" },
+    { "Escape", function() end, "Exit Modal", stay_in_mode = false},
+    { "Return", function() end, "Exit Modal", stay_in_mode = false},
     { "separator", "Keybindings:" },
 }
 modalbind.set_location("bottom_left") -- options: top_left, top_right, bottom_left, bottom_right, left, right, top, bottom, centered, center_vertical, center_horizontal
