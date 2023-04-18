@@ -70,10 +70,7 @@ def main():
     for folder in NO_CONFIG_FOLDERS:
         if is_tool("stow"):
             subprocess.run(["stow", "-vD", folder])
-    if did_smth:
-        pass
-        # print("Done")
-    else:
+    if not did_smth:
         print("There are no jobs")
 
 

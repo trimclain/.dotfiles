@@ -33,20 +33,20 @@ STOW_FOLDERS = [
 STOW_CONFIGS = [
     "",  # 0
     ".bashrc",  # 1
-    ".config/i3",  # 1
-    ".config/awesome",  # 2
-    ".config/polybar",  # 3
-    ".config/nvim",  # 4
-    "",  # 5
-    ".tmux.conf",  # 6
-    ".vimrc",  # 7
-    ".zshrc",  # 8
-    ".config/kitty",  # 9
-    ".config/alacritty",  # 10
-    ".config/rofi",  # 11
-    ".config/picom",  # 12
-    ".config/lf",  # 13
-    ".config/.stylua.toml",  # 14
+    ".config/i3",  # 2
+    ".config/awesome",  # 3
+    ".config/polybar",  # 4
+    ".config/nvim",  # 5
+    "",  # 6
+    ".tmux.conf",  # 7
+    ".vimrc",  # 8
+    ".zshrc",  # 9
+    ".config/kitty",  # 10
+    ".config/alacritty",  # 11
+    ".config/rofi",  # 12
+    ".config/picom",  # 13
+    ".config/lf",  # 14
+    ".config/.stylua.toml",  # 15
 ]
 
 # Get the mode, default to normal
@@ -165,7 +165,7 @@ def install():
 
     # Stow
     names = get_config_names()
-    for name in names:
+    for name in names: # pyright: ignore [reportOptionalIterable]
         subprocess.run(["stow", "-vR", name])
     # print("Done")
 
