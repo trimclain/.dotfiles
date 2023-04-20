@@ -1,18 +1,17 @@
--- vim:fileencoding=utf-8:foldmethod=marker
-
---#############################################################################
---        ______ ___    __ __   ___    ____  __     __     __  __   __
---       /_  __//   \  / //  \ /   |  / __/ / /    /  |   / / /  \ / /
---        / /  /   _/ / // /\\/ /| | / /   / /    /   |  / / / /\\/ /
---       / /  / /\ \ / // / \/_/ | |/ /__ / /___ / _  | / / / / \/ /
---      /_/  /_/ \_\/_//_/       |_|\___//_____//_/ \_|/_/ /_/  /_/
+-------------------------------------------------------------------------------
 --
+--   ████████╗██████╗ ██╗███╗   ███╗ ██████╗██╗      █████╗ ██╗███╗   ██╗
+--   ╚══██╔══╝██╔══██╗██║████╗ ████║██╔════╝██║     ██╔══██╗██║████╗  ██║
+--      ██║   ██████╔╝██║██╔████╔██║██║     ██║     ███████║██║██╔██╗ ██║
+--      ██║   ██╔══██╗██║██║╚██╔╝██║██║     ██║     ██╔══██║██║██║╚██╗██║
+--      ██║   ██║  ██║██║██║ ╚═╝ ██║╚██████╗███████╗██║  ██║██║██║ ╚████║
+--      ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝
 --
 --       Arthur McLain (trimclain)
 --       mclain.it@gmail.com
 --       https://github.com/trimclain
 --
---#############################################################################
+-------------------------------------------------------------------------------
 
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
@@ -128,30 +127,24 @@ awful.spawn.with_shell(
 -- ############################################################################
 
 local themes = {
-    "blackburn", -- 1
-    "copland", -- 2
-    "dremora", -- 3
-    "holo", -- 4
-    "multicolor", -- 5
-    "powerarrow", -- 6
-    "powerarrow-dark", -- 7
-    "rainbow", -- 8
-    "steamburn", -- 9
-    "vertex", -- 10
-    "powerarrow-custom", -- 11
-    "powerarrow-blue", -- 12
-    "gtk", -- 13
+    "copland", -- 1 (8/10)
+    "holo", -- 2 (8/10)
+    "multicolor", -- 3 (7/10)
+    "powerarrow", -- 4 (7/10)
+    "powerarrow-dark", -- 5 (7.5/10)
+    "vertex", -- 6 (9/10)
+    "powerarrow-custom", -- 7
 }
 
 -- choose your theme here
-local chosen_theme = themes[11]
+local chosen_theme = themes[7]
 local modkey = "Mod1" -- default: Mod4 (windows key)
 local altkey = "Mod4" -- default: Mod1 (alt key)
 local terminal = "kitty"
 local vi_focus = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev = true -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 local editor = os.getenv("EDITOR") or "nvim"
-local browser = "brave-browser"
+-- local browser = "brave-browser"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5", "6" }
@@ -1160,6 +1153,6 @@ spawn_terminal_command("$HOME/.local/bin/keyboard-layout", "--no-german")
 spawn_terminal_command("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar
 spawn_terminal_command("$HOME/.config/polybar/launch.sh")
--- Configure touchpad
--- spawn_terminal_command("$HOME/.local/bin/touchpad-settings")
 -- }}}
+
+-- vim:fileencoding=utf-8:foldmethod=marker
