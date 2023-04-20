@@ -17,7 +17,7 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local theme                                     = {}
 theme.default_dir                               = require("awful.util").get_themes_dir() .. "default"
 theme.icon_dir                                  = os.getenv("HOME") .. "/.config/awesome/themes/vertex/icons"
-theme.wallpaper                                 = os.getenv("HOME") .. "/.config/awesome/themes/vertex/wall.png"
+-- theme.wallpaper                                 = os.getenv("HOME") .. "/.config/awesome/themes/vertex/wall.png"
 theme.font                                      = "Roboto Bold 10"
 theme.taglist_font                              = "FontAwesome 17"
 theme.fg_normal                                 = "#FFFFFF"
@@ -393,11 +393,11 @@ function theme.at_screen_connect(s)
     s.quake = lain.util.quake({ app = awful.util.terminal, border = theme.border_width })
 
     -- If wallpaper is a function, call it with the screen
-    local wallpaper = theme.wallpaper
-    if type(wallpaper) == "function" then
-        wallpaper = wallpaper(s)
-    end
-    gears.wallpaper.maximized(wallpaper, s, true)
+    -- local wallpaper = theme.wallpaper
+    -- if type(wallpaper) == "function" then
+    --     wallpaper = wallpaper(s)
+    -- end
+    -- gears.wallpaper.maximized(wallpaper, s, true)
 
     -- Tags
     awful.tag(awful.util.tagnames, s, awful.layout.layouts[1])
