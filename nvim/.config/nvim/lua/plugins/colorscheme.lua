@@ -41,7 +41,7 @@ return {
             -- flavour = "frappe", -- mocha, frappe, macchiato, latte
             transparent_background = false,
             styles = {
-                comments = CONFIG.ui.italic_comments and { 'italic' } or {},
+                comments = CONFIG.ui.italic_comments and { "italic" } or {},
                 conditionals = {},
                 loops = {},
                 functions = {},
@@ -250,6 +250,39 @@ return {
         enabled = CONFIG.ui.colorscheme == "omni",
         config = function()
             vim.cmd.colorscheme("omni")
+        end,
+    },
+
+    {
+        "navarasu/onedark.nvim",
+        lazy = false,
+        priority = 1000,
+        enabled = CONFIG.ui.colorscheme == "onedark",
+        opts = {
+            style = "darker", --"dark", "darker", "cool", "deep", "warm", "warmer" and "light"
+            transparent = false, -- Show/hide background
+
+            -- Change code style ---
+            -- Options are italic, bold, underline, none
+            -- You can configure multiple style with comma separated, For e.g., keywords = "italic,bold"
+            code_style = {
+                comments = CONFIG.ui.italic_comment and "italic" or "none",
+                keywords = "none",
+                functions = "none",
+                strings = "none",
+                variables = "none",
+            },
+
+            -- Plugins Config --
+            diagnostics = {
+                darker = true, -- darker colors for diagnostic
+                undercurl = true, -- use undercurl instead of underline for diagnostics
+                background = true, -- use background color for virtual text
+            },
+        },
+        config = function(_, opts)
+            require("onedark").setup(opts)
+            vim.cmd.colorscheme("onedark")
         end,
     },
 }
