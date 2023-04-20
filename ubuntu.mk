@@ -4,8 +4,8 @@ all:
 	mkdir -p ~/.local/bin ~/.config
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
-	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives
-	sudo apt-get install -y curl stow ripgrep fzf fd-find htop btop tree xclip p7zip-full p7zip-rar
+	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives, ncdu for disk usage
+	sudo apt-get install -y curl stow ripgrep fzf fd-find ncdu htop btop tree xclip p7zip-full p7zip-rar
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
