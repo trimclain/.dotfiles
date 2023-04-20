@@ -1,6 +1,5 @@
 return {
 
-    -- TODO:
     -- auto remove search highlight and rehighlight when using n or N
     -- {
     --     "nvimdev/hlsearch.nvim",
@@ -449,10 +448,10 @@ return {
 
             dashboard.section.buttons.val = {
                 dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<CR>"),
-                dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<CR>"),
+                -- dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<CR>"),
                 dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<CR>"),
                 dashboard.button("s", " " .. " Find string", ":Telescope live_grep<CR>"),
-                dashboard.button("t", "󰄵 " .. " Find todos", ":TodoTelescope<CR>"),
+                dashboard.button("t", "󰄵 " .. " Find todos", ":TodoTelescope keywords=TODO,FIX<CR>"),
                 dashboard.button("c", " " .. " Config", ":e $MYVIMRC | cd ~/.config/nvim<CR>"),
                 dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
                 dashboard.button("q", " " .. " Quit", ":qa<CR>"),

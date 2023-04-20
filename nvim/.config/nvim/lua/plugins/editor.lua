@@ -78,6 +78,7 @@ return {
                 config = function()
                     require("telescope").load_extension("fzf")
                 end,
+                cond = vim.fn.executable("make") == 1,
             },
             "nvim-lua/plenary.nvim",
         },
@@ -230,7 +231,7 @@ return {
                             return require("telescope.actions").preview_scrolling_up(...)
                         end,
 
-                        -- TODO: If I use trouble someday
+                        -- If I use trouble someday
                         -- ["<c-t>"] = function(...)
                         --   return require("trouble.providers.telescope").open_with_trouble(...)
                         -- end,
@@ -294,7 +295,6 @@ return {
                 },
                 colorscheme = {
                     theme = "dropdown",
-                    -- previewer = false, -- TODO: fix this
                 },
             },
             extensions = {
@@ -518,7 +518,6 @@ return {
             },
             signcolumn = CONFIG.git.show_signcolumn, -- Toggle with `:Gitsigns toggle_signs`
             current_line_blame = CONFIG.git.show_blame, -- Toggle with `:Gitsigns toggle_current_line_blame`
-            -- TODO: will I use these
             on_attach = function(buffer)
                 local gs = package.loaded.gitsigns
 
@@ -590,7 +589,6 @@ return {
         },
     },
 
-    -- TODO: will I use this?
     -- better diagnostics list and others
     -- {
     --   "folke/trouble.nvim",
@@ -634,7 +632,7 @@ return {
         keys = {
             { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
             { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-            { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Todo" }
+            { "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIX<cr>", desc = "Todo" }
             -- { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
             -- { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
         },
