@@ -144,9 +144,13 @@ return {
         build = "npm install --prefix server",
         ft = "html",
         cmd = "Bracey",
-        -- keys = {
-        --     { "<leader>mb", "<cmd>Bracey<cr>", desc = "Browser Preview" },
-        -- },
+        keys = {
+            { "<leader>mb", "<cmd>Bracey<cr>", desc = "Open Preview (Live Server)" },
+        },
+        config = function()
+            -- Open preview in a new window
+            vim.g.bracey_browser_command = "brave-browser --new-window"
+        end,
     },
 
     -- preview colors in neovim
