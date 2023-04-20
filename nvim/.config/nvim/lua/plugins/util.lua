@@ -10,7 +10,6 @@ return {
         end,
     },
 
-    -- TODO: someday?
     -- session management
     -- {
     --     "folke/persistence.nvim",
@@ -99,15 +98,12 @@ return {
     --     end,
     -- },
 
-    -- TODO:
     -- Plugin for automated bullet lists in markdown
     -- use "dkarter/bullets.vim"
 
-    -- TODO:
     -- Plugin to generate table of contents for Markdown files
     -- use "mzlogin/vim-markdown-toc"
 
-    -- TODO:
     -- use "fladson/vim-kitty" -- get colors in kitty.conf
 
     -- preview markdown files in browser
@@ -115,22 +111,19 @@ return {
         "iamcco/markdown-preview.nvim",
         build = "cd app && npm install",
         ft = { "markdown" },
-        cmd = "MarkdownPreview",
-        -- keys = {
-        --     { "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", desc = "Markdown Preview" },
-        -- },
         config = function()
             vim.g.mkdp_auto_close = 0 -- don't auto close current preview window when change to another buffer
             vim.g.mkdp_echo_preview_url = 1 -- echo preview page url in command line when open preview page
             vim.g.mkdp_filetypes = { "markdown" }
-            -- TODO: I'd like a new window in current awesome pane
-            -- specify browser to open preview page
-            -- for path with space
-            -- valid: `/path/with\ space/xxx`
-            -- invalid: `/path/with\\ space/xxx`
-            -- default: ''
-            -- vim.g.mkdp_browser = ""
+            -- Open preview in a new window
+            vim.cmd([[
+                function OpenMarkdownPreview(url)
+                    execute "silent ! brave-browser --new-window " . a:url
+                endfunction
+                let g:mkdp_browserfunc = "OpenMarkdownPreview"
+            ]])
         end,
+        cond = vim.fn.executable("npm") == 1,
     },
 
     -- preview HTML, CSS and JS in browser
@@ -191,12 +184,16 @@ return {
             vim.g.vcoolor_disable_mappings = 1
             -- vim.g.vcoolor_lowercase = 1
         end,
+        cond = vim.fn.executable("zenity") == 1 or vim.fn.executable("yad") == 1,
     },
+
+    -- TODO:
+    -- { "lervag/vimtex", }
 
     -- library used by other plugins
     { "nvim-lua/plenary.nvim", lazy = true },
 
-    -- TODO: if I use leap someday
+    -- If I use leap someday
     -- makes some plugins dot-repeatable like leap
     ---{ "tpope/vim-repeat", event = "VeryLazy" },
 }

@@ -22,3 +22,11 @@ end
 vim.keymap.set("n", "<leader>td", toggle_todo_list, opts)
 
 vim.keymap.set("i", "--", "—", opts)
+
+-- For "iamcco/markdown-preview.nvim",
+vim.keymap.set(
+    "n",
+    "<leader>mp",
+    "<cmd>MarkdownPreviewToggle<cr>",
+    vim.tbl_extend("error", opts, { desc = "Toggle Markdown Preview" })
+)
