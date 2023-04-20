@@ -90,6 +90,7 @@ keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- stylua: ignore start
 keymap("n", "gx", function() require("core.util").open_url() end, add_desc("Open URL under cursor"))
+keymap("n", "gX", function() require("core.util").open_github_url() end, add_desc("Open Github URL under cursor"))
 keymap("n", "<leader>re", function() require("core.util").empty_registers() end, add_desc("Empty registers"))
 keymap("n", "<leader>mx", function() require("core.util").toggle_executable() end, add_desc("Make Current File Executable"))
 

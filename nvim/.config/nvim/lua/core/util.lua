@@ -352,6 +352,18 @@ function M.open_url()
         notify("No URL found", "URL Handler")
     end
 end
+
+--- Open the path under cursor in github
+function M.open_github_url()
+    local url = vim.fn.expand("<cfile>")
+    if url ~= "" then
+        url = "https://github.com/" .. url
+        notify("Opened " .. url, "Github URL Handler")
+        M.system_open(url)
+    else
+        notify("No Github URL found", "Github URL Handler")
+    end
+end
 -------------------------------------------------------------------------------
 
 return M
