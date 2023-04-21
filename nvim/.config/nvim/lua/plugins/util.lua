@@ -151,6 +151,7 @@ return {
             -- Open preview in a new window
             vim.g.bracey_browser_command = "brave-browser --new-window"
         end,
+        enabled = vim.fn.executable("npm") == 1,
     },
 
     -- preview colors in neovim
