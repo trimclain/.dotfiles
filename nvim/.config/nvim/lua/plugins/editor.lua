@@ -78,7 +78,7 @@ return {
                 config = function()
                     require("telescope").load_extension("fzf")
                 end,
-                cond = vim.fn.executable("make") == 1,
+                enabled = vim.fn.executable("make") == 1,
             },
             "nvim-lua/plenary.nvim",
         },
@@ -94,7 +94,11 @@ return {
 
             {
                 "<leader>fd",
-                Util.telescope("git_files", { cwd = Util.join(os.getenv("HOME"), ".dotfiles") }),
+                Util.telescope(
+                    "git_files",
+                    -- Yup, why would $HOME on windows be $HOME and not $HOMEPATH
+                    { cwd = Util.join(os.getenv(vim.fn.has("win32") == 1 and "HOMEPATH" or "HOME"), ".dotfiles") }
+                ),
                 desc = "Dotfiles",
             },
 

@@ -135,7 +135,7 @@ return {
                 let g:mkdp_browserfunc = "OpenMarkdownPreview"
             ]])
         end,
-        cond = vim.fn.executable("npm") == 1,
+        enabled = vim.fn.executable("npm") == 1,
     },
 
     -- preview HTML, CSS and JS in browser
@@ -200,7 +200,7 @@ return {
             vim.g.vcoolor_disable_mappings = 1
             -- vim.g.vcoolor_lowercase = 1
         end,
-        cond = vim.fn.executable("zenity") == 1 or vim.fn.executable("yad") == 1,
+        enabled = vim.fn.executable("zenity") == 1 or vim.fn.executable("yad") == 1,
     },
 
     -- TODO:
