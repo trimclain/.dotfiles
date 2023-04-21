@@ -23,19 +23,18 @@ done
 intern=${monitors[0]}
 extern=${monitors[1]}
 
-# TODO: does it not break when I have extern is empty?
+if [[ -z $extern ]]; then
+    echo "Error: external monitor not connected"
+    exit 1
+fi
+
 if [ "$1" = "--first" ]; then
     # Enable first monitor, turn off second one
     xrandr --output "$intern" --auto --output "$extern" --off
 
 elif [ "$1" = "--second" ]; then
     # Enable second monitor and make it primary, disable first monitor
-    if [[ -n $extern ]]; then
-        xrandr --output "$extern" --auto --primary --output "$intern" --off
-    else
-        echo "Error: no external monitor found"
-        exit 1
-    fi
+    xrandr --output "$extern" --auto --primary --output "$intern" --off
 
 # TODO: when first and second monitor have different resolutions, don't use auto,
 # use their resolution instead
