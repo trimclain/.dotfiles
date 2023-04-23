@@ -4,7 +4,7 @@
 
 import os
 from pathlib import Path
-from shutil import which
+import shutil
 import subprocess
 import sys
 
@@ -61,7 +61,7 @@ else:
 
 def is_tool(name):
     """Check whether `name` is in PATH and marked as executable."""
-    return which(name) is not None
+    return shutil.which(name) is not None
 
 
 def exists(path: str) -> bool:
@@ -102,15 +102,23 @@ def backup(location: str) -> None:
         return
     full_path = fullpath(location)
     if exists(full_path) and not os.path.islink(full_path):
-        subprocess.run(["mkdir", "-p", BACKUP_FOLDER])
-        print("Found existing", location, "-> Moving it to", BACKUP_FOLDER)
-        subprocess.run(["mv", full_path, BACKUP_FOLDER])
-
-    # Next part is useless if links are controlled by stowself.
-    # If not, uncomment \_/ this.
-    # elif exists(full_path) and os.path.islink(full_path):
-    #     print("Found symlink at", full_path, "-> Deleting it")
-    #     subprocess.run(["rm", "-r", full_path])
+        if not exists(BACKUP_FOLDER):
+            os.mkdir(BACKUP_FOLDER)
+        # if a backup already exist, add backup2
+        basename = os.path.basename(location)
+        name, ext = basename.split(".")
+        count = len([el for el in os.listdir(BACKUP_FOLDER) if name in el])
+        if count > 0:
+            # turn settings.json into settings1.json and not settings.json1
+            if "." in basename:
+                new_name = name + str(count + 1) + "." + ext
+            else:
+                new_name = basename + str(count + 1)
+            backup_path = os.path.join(BACKUP_FOLDER, new_name)
+        else:
+            backup_path = os.path.join(BACKUP_FOLDER, basename)
+        print("Found existing", location, "-> Moving it to", backup_path)
+        shutil.move(full_path, backup_path)
 
 
 def get_config_names():  # -> list[str]: -- not supported in 3.7
