@@ -12,7 +12,7 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 -- Make space a leader key. This needs to happen before lazy.nvim setup.
 vim.keymap.set("", "<Space>", "<Nop>")
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\"
+vim.g.maplocalleader = "\\"
 
 -- Any lua file in ~/.config/nvim/lua/plugins/*.lua will be automatically sourced
 require("lazy").setup("plugins", {
