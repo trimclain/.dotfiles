@@ -96,8 +96,12 @@ return {
                 "<leader>fd",
                 Util.telescope(
                     "git_files",
-                    -- Yup, why would $HOME on windows be $HOME and not $HOMEPATH
-                    { cwd = Util.join(os.getenv(vim.fn.has("win32") == 1 and "HOMEPATH" or "HOME"), ".dotfiles") }
+                    -- Yup, why would $HOME on windows be $HOME and not $HOMEPATH or $USERPROFILE
+                    {
+                        cwd = vim.fn.has("win32") == 1 and Util.join(os.getenv("HOMEPATH"), "dotfiles")
+                            or Util.join(os.getenv("HOME"), ".dotfiles"),
+                        prompt_title = "Dotfiles",
+                    }
                 ),
                 desc = "Dotfiles",
             },
