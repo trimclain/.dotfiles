@@ -204,8 +204,15 @@ return {
         enabled = vim.fn.executable("zenity") == 1 or vim.fn.executable("yad") == 1,
     },
 
-    -- TODO:
-    -- { "lervag/vimtex", }
+    -- LaTeX support
+    -- {
+    --     "lervag/vimtex",
+    --     init = function()
+    --         vim.g.vimtex_view_method = 'zathura'
+    --         -- vim.g.vimtex_compiler_method = 'latexmk'
+    --     end,
+    --     enabled = vim.fn.executable("latexmk") == 1,
+    -- },
 
     -- library used by other plugins
     { "nvim-lua/plenary.nvim", lazy = true },
