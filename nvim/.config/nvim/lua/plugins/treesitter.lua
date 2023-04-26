@@ -34,7 +34,7 @@ return {
                 "java",
                 "javascript",
                 "json",
-                -- "julia",
+                "julia",
                 "kotlin",
                 "latex",
                 "lua",

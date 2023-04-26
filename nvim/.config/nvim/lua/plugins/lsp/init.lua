@@ -56,7 +56,7 @@ return {
                 vimls = {},
                 -- yamlls = {},
                 graphql = {},
-                -- julials = {},
+                julials = {},
                 -- ansiblels = {},
                 dockerls = {},
 

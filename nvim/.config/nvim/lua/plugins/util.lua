@@ -53,7 +53,7 @@ return {
                     -- cpp = "g++ % -o $fileBase && ./$fileBase",
                     -- go = "go run %",
                     javascript = "node %",
-                    -- julia = "julia %",
+                    julia = "julia %",
                     tex = "tectonic --chatter=minimal %",
                     -- markdown = "glow %",
                     python = "python3 %",

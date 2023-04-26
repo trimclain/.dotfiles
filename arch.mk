@@ -74,6 +74,18 @@ typescript:
 	@# Install tsc and ts-node
 	@npm install -g typescript ts-node
 
+# Using https://github.com/JuliaLang/juliaup
+# Alternative: https://github.com/johnnychen94/jill.py
+julia:
+	@echo "==================================================================="
+	@if [ ! -d ~/.juliaup ]; then echo "Installing Juliaup (julia version manager)..." &&\
+		curl -fsSL https://install.julialang.org | sh &&\
+		echo "Done"; else echo "[julia]: Already installed"; fi
+
+uninstall_julia:
+	@if command -v juliaup > /dev/null; then echo "Uninstalling julia..." &&\
+		juliaup self uninstall && rm -rf ~/.julia/ && echo "Done";fi
+
 ###################################################################################################
 # Software
 ###################################################################################################
@@ -187,7 +199,7 @@ install: ## Setup arch the way I want it
 #==================================================================================================
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
-	n uninstall_n export_node_modules import_node_modules typescript\
+	n uninstall_n export_node_modules import_node_modules typescript julia uninstall_julia\
 	paru flatpak\
 	tectonic fix_tectonic uninstall_tectonic\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\

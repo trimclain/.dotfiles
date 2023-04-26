@@ -133,15 +133,13 @@ golang:
 
 julia:
 	@echo "==================================================================="
-	@# julia version is hardcoded, maybe fix someday
-	@if [ ! -d ~/.julia ]; then echo "Installing latest stable julia version..." &&\
-		git clone https://github.com/JuliaLang/julia.git ~/.julia && cd ~/.julia &&\
-		git checkout v1.7.3 && make && ln -s ~/.julia/usr/bin/julia ~/.local/bin/julia &&\
+	@if [ ! -d ~/.juliaup ]; then echo "Installing Juliaup (julia version manager)..." &&\
+		curl -fsSL https://install.julialang.org | sh &&\
 		echo "Done"; else echo "[julia]: Already installed"; fi
 
 uninstall_julia:
-	@if [ -d ~/.julia ]; then echo "Uninstalling julia..." &&\
-		rm -f ~/.local/bin/julia && rm -rf ~/.julia && echo "Done"; fi
+	@if command -v juliaup > /dev/null; then echo "Uninstalling julia..." &&\
+		juliaup self uninstall && rm -rf ~/.julia/ && echo "Done";fi
 
 sdkman:
 	@echo "==================================================================="
