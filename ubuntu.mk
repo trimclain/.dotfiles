@@ -88,6 +88,14 @@ purge_nvim: uninstall_nvim
 	rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
 	@echo "Done"
 
+tectonic:
+	@if [[ ! -f ~/.local/bin/tectonic ]]; then echo "Installing tectonic (latex compiler)..." &&\
+		curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh &&\
+		mv tectonic ~/.local/bin/ && echo "Done"; else echo "Tectonic already installed"; fi
+
+uninstall_tectonic:
+	@rm -f ~/.local/bin/tectonic
+
 nodejs:
 	@echo "==================================================================="
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
@@ -476,7 +484,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
-	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim nodejs \
+	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim tectonic uninstall_tectonic nodejs \
 	uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall alacritty_build_reqs alacritty \
