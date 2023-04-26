@@ -50,16 +50,17 @@ return {
                     vim = "source %",
                 },
                 external = {
-                    typescript = "ts-node %",
+                    -- cpp = "g++ % -o $fileBase && ./$fileBase",
+                    -- go = "go run %",
                     javascript = "node %",
+                    -- julia = "julia %",
+                    tex = "tectonic --chatter=minimal %",
                     -- markdown = "glow %",
                     python = "python3 %",
                     -- rust = "cargo run",
-                    -- cpp = "g++ % -o $fileBase && ./$fileBase",
-                    go = "go run %",
                     sh = "bash %",
+                    typescript = "ts-node %",
                     zsh = "zsh %",
-                    julia = "julia %",
                 },
             },
             behavior = {
@@ -207,8 +208,10 @@ return {
     -- LaTeX support
     -- {
     --     "lervag/vimtex",
+    --     -- event = "VeryLazy",
     --     init = function()
     --         vim.g.vimtex_view_method = 'zathura'
+    --         vim.g.vimtex_syntax_enabled = 0 -- I use treesitter
     --         -- vim.g.vimtex_compiler_method = 'latexmk'
     --     end,
     --     enabled = vim.fn.executable("latexmk") == 1,
