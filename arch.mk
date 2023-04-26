@@ -162,6 +162,13 @@ telegram: ## Install Telegram Desktop using flatpak
 
 # TODO: spotify brave obs-studio kdenlive inkscape gimp
 
+#======================================== Anki =================================================
+anki:
+	@echo "==================================================================="
+	@echo "Installing Anki..."
+	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
+		else $(FLATINSTALL) flathub net.ankiweb.Anki; fi
+
 #==================================================================================================
 
 apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers, sxiv for images, flameshot for screenshots, zathura for pdf, ncdu (htop for `du`)
@@ -185,5 +192,5 @@ install: ## Setup arch the way I want it
 	tectonic fix_tectonic uninstall_tectonic\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
 	zsh zap\
-	telegram apps\
+	telegram anki apps\
 	install
