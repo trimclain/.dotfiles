@@ -87,15 +87,20 @@ paru: ## Install paru (the AUR helper)
 flatpak: ## Install flatpak
 	@$(INSTALL) flatpak
 
-#========================================= Neovim =================================================
+#========================================= Tectonic =================================================
 tectonic:
 	@if [[ ! -f ~/.local/bin/tectonic ]]; then echo "Installing tectonic (latex compiler)..." &&\
 		curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh &&\
 		mv tectonic ~/.local/bin/ && echo "Done"; else echo "Tectonic already installed"; fi
 
+fix_tectonic:
+	@# Fix the error "libssl.so.1.1: cannot open shared object file: No such file or directory"
+	@sudo pacman -S openssl-1.1
+
 uninstall_tectonic:
 	@rm -f ~/.local/bin/tectonic
 
+#========================================= Neovim =================================================
 nvim_reqs:
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
@@ -176,8 +181,9 @@ install: ## Setup arch the way I want it
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
 	n uninstall_n export_node_modules import_node_modules typescript\
-	paru flatpak \
-	tectonic uninstall_tectonic nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
+	paru flatpak\
+	tectonic fix_tectonic uninstall_tectonic\
+	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
 	zsh zap\
 	telegram apps\
 	install

@@ -93,6 +93,11 @@ tectonic:
 		curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh &&\
 		mv tectonic ~/.local/bin/ && echo "Done"; else echo "Tectonic already installed"; fi
 
+fix_tectonic:
+	@wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.17_amd64.deb
+	@sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.17_amd64.deb
+
+
 uninstall_tectonic:
 	@rm -f ~/.local/bin/tectonic
 
@@ -484,11 +489,12 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
-	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim tectonic uninstall_tectonic nodejs \
-	uninstall_nodejs export_node_modules import_node_modules typescript \
+	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim \
+	tectonic fix_tectonic uninstall_tectonic \
+	nodejs uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
-	docker uninstall_docker pm2 ufw install sinstall finstall alacritty_build_reqs alacritty \
-	uninstall_alacritty kitty uninstall_kitty imagemagick \
+	docker uninstall_docker pm2 ufw install sinstall finstall \
+	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty imagemagick \
 	i3 awesome nitrogen polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular linux_install linux_software python3_setup \
