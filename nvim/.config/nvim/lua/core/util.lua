@@ -48,6 +48,7 @@ end
 
 --- List options passed to a plugin, if the plugin is used
 ---@param name string
+---@return table
 function M.opts(name)
     local plugin = require("lazy.core.config").plugins[name]
     if not plugin then
@@ -55,6 +56,15 @@ function M.opts(name)
     end
     local Plugin = require("lazy.core.plugin")
     return Plugin.values(plugin, "opts", false)
+end
+
+--- Return true if vim was opened from a git repository
+---@return boolean
+M.in_git_worktree = function()
+    return require("telescope.utils").get_os_command_output(
+        { "git", "rev-parse", "--is-inside-work-tree" },
+        vim.loop.cwd()
+    )[1] == "true"
 end
 
 -- Return a function that calls telescope.
@@ -68,11 +78,7 @@ function M.telescope(builtin, opts)
         -- for `files`, git_files or find_files will be chosen depending on .git
         if builtin == "files" then
             -- Check if cwd is in a git worktree
-            local in_worktree = require("telescope.utils").get_os_command_output(
-                { "git", "rev-parse", "--is-inside-work-tree" },
-                vim.loop.cwd()
-            )
-            if in_worktree[1] == "true" then
+            if M.in_git_worktree() then
                 opts.show_untracked = true
                 builtin = "git_files"
             else
@@ -311,10 +317,10 @@ function M.toggle_executable()
     local file = vim.fn.expand("%:p")
     vim.cmd.write()
     if vim.fn.executable(file) == 0 then
-        vim.fn.jobstart({ "chmod", "+x", file})
+        vim.fn.jobstart({ "chmod", "+x", file })
         notify("This file is now executable", "Executer")
     else
-        vim.fn.jobstart({ "chmod", "-x", file})
+        vim.fn.jobstart({ "chmod", "-x", file })
         notify("This file is now not executable", "Executer")
     end
 end

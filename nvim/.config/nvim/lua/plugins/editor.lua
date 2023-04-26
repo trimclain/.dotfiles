@@ -465,6 +465,10 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
+        cmd = "Neogit",
+        keys = {
+            { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
+        },
         opts = {
             disable_commit_confirmation = true,
             -- Change the default way of opening neogit
@@ -505,9 +509,6 @@ return {
                     -- ["b"] = "BranchPopup",
                 },
             },
-        },
-        keys = {
-            { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
         },
     },
 
