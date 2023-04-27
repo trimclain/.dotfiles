@@ -46,8 +46,8 @@ modalbind.init()
 
 modalbind.default_keys = {
     { "separator", "Mode Control:" },
-    { "Escape", function() end, "Exit Modal", stay_in_mode = false},
-    { "Return", function() end, "Exit Modal", stay_in_mode = false},
+    { "Escape", function() end, "Exit Modal", stay_in_mode = false },
+    { "Return", function() end, "Exit Modal", stay_in_mode = false },
     { "separator", "Keybindings:" },
 }
 modalbind.set_location("bottom_left") -- options: top_left, top_right, bottom_left, bottom_right, left, right, top, bottom, centered, center_vertical, center_horizontal
@@ -348,6 +348,7 @@ root.buttons(mytable.join(
 -- }}}
 
 -- {{{ Local Functions
+-- TODO: refactor
 local spawn_terminal_command = function(cmd, opts)
     local runcmd
     if opts then
@@ -1119,7 +1120,7 @@ end)
 -- ############################################################################
 -- FIX: on restart awesome sources this file -> endless loop
 -- Setup monitor layout
--- IDEA: Move this to initrc
+-- IDEA: Move this to xinitrc
 -- spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--startup")
 
 local function get_os_output(cmd, raw)
@@ -1142,6 +1143,12 @@ if operating_system == "ubuntu" then
 else
     spawn_terminal_command("xscreensaver", "--no-splash")
 end
+
+-- Set a typematic delay to 400ms and a typematic rate to 25Hz
+-- This should be in xinitrc, but I haven't set it up yet
+-- Run `xset r rate` to reset to default (delay of 660ms and a rate of 25Hz)
+spawn_terminal_command("xset", "r rate 400 25")
+
 
 -- Set the wallpaper
 spawn_terminal_command("nitrogen", "--restore")
