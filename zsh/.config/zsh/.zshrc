@@ -253,9 +253,19 @@ alias enrc="$EDITOR $DOTFILES/nvim/.config/nvim/init.lua --cmd \"cd $DOTFILES/nv
 
 alias py="python3"
 
-alias ls="ls --color=tty --group-directories-first"
-alias la="ls -A"
-alias l="ls -lhA"
+# zsh specific syntax for checking if command exists
+if (( $+commands[exa] )); then
+    alias ls='exa --group-directories-first --icons'
+    alias la='ls -a'
+    alias l='ls -lha'
+    alias ll='ls -lh'
+    alias tree='ll --tree --level=2'
+else
+    alias ls="ls --color=tty --group-directories-first"
+    alias la="ls -A"
+    alias l="ls -lhA"
+fi
+
 
 [[ -f ~/.local/bin/extract ]] && alias ex=extract
 [[ -f ~/.local/bin/archive ]] && alias ar=archive
@@ -281,7 +291,7 @@ addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
 addToPATH "$HOME/.juliaup/bin" # julia
 
-# Load aliases from .bash_aliases or .zsh_aliases if they exists
+# Load aliases from .bash_aliases or .zsh_aliases if they exist
 if [[ -f ~/.zsh_aliases ]]; then
     . ~/.zsh_aliases
 elif [[ -f ~/.bash_aliases ]]; then
@@ -305,14 +315,11 @@ source "$ZDOTDIR/plugins/colors/spaceship.zsh"
 plug "spaceship-prompt/spaceship-prompt"
 # plug "zap-zsh/zap-prompt"
 
-# Git aliases
+# Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
 
-# TODO: checkout zap-zsh/supercharge
-
-# TODO: checkout zap-zsh/vim
-
-# TODO: checkout zap-zsh/exa
+# Jump around directories
+plug "rupa/z"
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
