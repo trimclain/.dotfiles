@@ -49,10 +49,29 @@ return {
             },
             popup_border_style = CONFIG.ui.border,
             window = {
+                position = "left",
+                width = 35,
                 mappings = {
                     ["<space>"] = "none",
                     ["w"] = "none",
                     ["<tab>"] = "open",
+                    -- Open allowed filetypes with xdg-open
+                    ["O"] = function(state)
+                        local node = state.tree:get_node()
+                        local ext = node.name:match("^.+(%..+)$")
+                        local extensions = { ".pdf", ".jpg", ".jpeg", ".png", ".html" }
+                        for _, extension in pairs(extensions) do
+                            if ext == extension then
+                                vim.notify(
+                                    "Opened " .. node.name,
+                                    vim.log.levels.INFO,
+                                    { title = "NeoTree: System Open Files" }
+                                )
+                                require("core.util").system_open(node.path)
+                                break
+                            end
+                        end
+                    end,
                 },
             },
             default_component_configs = {
