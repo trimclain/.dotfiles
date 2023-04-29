@@ -452,15 +452,16 @@ return {
                 dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<CR>"),
                 dashboard.button("s", " " .. " Find string", ":Telescope live_grep<CR>"),
                 dashboard.button("t", "󰄵 " .. " Find todos", ":TodoTelescope keywords=TODO,FIX<CR>"),
-                dashboard.button("g", " " .. " Git status", ":Neogit<CR>"),
+                -- dashboard.button("g", " " .. " Git status", ":Neogit<CR>"),
                 dashboard.button("c", " " .. " Config", ":e $MYVIMRC | cd ~/.config/nvim<CR>"),
                 dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
                 dashboard.button("q", " " .. " Quit", ":qa<CR>"),
             }
+            -- Disabled: adds 12-15 ms to startup time
             -- Don't show git status if not in git repo
-            if not require("core.util").in_git_worktree() then
-                table.remove(dashboard.section.buttons.val, 5) -- careful, 5 is hard coded
-            end
+            -- if not require("core.util").in_git_worktree() then
+            --     table.remove(dashboard.section.buttons.val, 5) -- careful, 5 is hard coded
+            -- end
 
             for _, button in ipairs(dashboard.section.buttons.val) do
                 button.opts.hl = "AlphaButtons"
