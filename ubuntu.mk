@@ -1,3 +1,6 @@
+INSTALL = sudo apt install -y
+FLATINSTALL = flatpak install -y --or-update
+
 all:
 	@# Create required folders
 	@echo "Making sure ~/.local/bin and ~/.config exist"
@@ -5,7 +8,7 @@ all:
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives, ncdu for disk usage
-	sudo apt-get install -y curl stow ripgrep fzf fd-find ncdu htop btop tree exa xclip p7zip-full p7zip-rar
+	$(INSTALL) curl stow ripgrep fzf fd-find ncdu htop btop tree exa xclip p7zip-full p7zip-rar
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
@@ -29,17 +32,16 @@ clean_fonts: del_fonts fonts
 ansible:
 	@echo "==================================================================="
 	@if [ -f /usr/bin/ansible ]; then echo "[ansible]: Already installed";\
-		else echo "Installing ansible..." && sudo apt install ansible -y; fi
+		else echo "Installing ansible..." && $(INSTALL) ansible; fi
 
 tmux:
 	@echo "==================================================================="
 	@if [ -f /usr/bin/tmux ]; then echo "[tmux]: Already installed";\
-		else echo "Installing tmux..." && sudo apt install tmux -y; fi
-
+		else echo "Installing tmux..." && $(INSTALL) tmux; fi
 zsh:
 	@echo "==================================================================="
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
-		else echo "Installing Zsh..." && sudo apt install -y zsh && echo "Done" && make zap; fi
+		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done" && make zap; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
@@ -55,7 +57,7 @@ nvim_build_reqs:
 	@# Neovim prerequisites
 	@echo "==================================================================="
 	@echo "Installing Neovim build prerequisites..."
-	sudo apt install -y ninja-build gettext cmake unzip curl
+	$(INSTALL) ninja-build gettext cmake unzip curl
 
 nvim:
 	@# Install neovim by building it
@@ -73,9 +75,9 @@ neovim:
 	@echo "==================================================================="
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
 		else echo "Installing Neovim using ppa..." &&\
-		sudo apt install -y software-properties-common &&\
+		$(INSTALL) software-properties-common &&\
 		sudo add-apt-repository -y ppa:neovim-ppa/unstable &&\
-		sudo apt update && sudo apt install -y neovim; fi
+		sudo apt update && $(INSTALL) neovim; fi
 
 uninstall_nvim:
 	@if [ -f "/usr/local/bin/nvim" ]; then echo "Uninstalling Neovim..." &&\
@@ -167,7 +169,7 @@ docker:
 	@echo "==================================================================="
 	@# Installing docker
 	@if [ ! -f /usr/bin/docker ]; then echo "Installing Docker..." &&\
-		sudo apt install docker.io -y && sudo usermod -aG docker $$USER && echo "Done";\
+		$(INSTALL) docker.io && sudo usermod -aG docker $$USER && echo "Done";\
 		else echo "[docker]: Already installed"; fi
 
 uninstall_docker:
@@ -189,7 +191,7 @@ pm2:
 ufw:
 	@echo "==================================================================="
 	@echo "Installing UFW (Uncomplicated Firewall)..."
-	sudo apt install -y ufw
+	$(INSTALL) ufw
 
 server: ## install everything I need for my server
 	@echo "Making sure ~/.local/bin and ~/.config exist"
@@ -197,7 +199,7 @@ server: ## install everything I need for my server
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, 7zip for extracting archives
-	sudo apt-get install -y curl stow ripgrep fzf fd-find htop btop tree p7zip-full
+	$(INSTALL) curl stow ripgrep fzf fd-find htop btop tree p7zip-full
 	./install --server
 
 
@@ -222,7 +224,7 @@ alacritty_build_reqs:
 	rustup override set stable
 	rustup update stable
 	@# Installing dependencies
-	sudo apt install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+	$(INSTALL) cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 
 alacritty: alacritty_build_reqs
 	@# Download and build alacritty, Post Build, Terminfo, Copy the binary to $PATH,Add Manual Page
@@ -264,30 +266,30 @@ uninstall_kitty:
 imagemagick:
 	@# This is required to view images in kitty
 	@# Building from source:
-	sudo apt install imagemagick -y
+	$(INSTALL) imagemagick
 
 i3:
 	@echo "==================================================================="
 	@echo "Installing i3..."
-	sudo apt install i3 -y
+	$(INSTALL) i3
 
 awesome:
 	@echo "==================================================================="
 	@echo "Installing awesome window manager..."
 	@# dependencies: sudo apt install unclutter
 	@# librewolf -- i got better, and slock and dmenu -- were there
-	sudo apt install awesome -y
+	$(INSTALL) awesome
 
 nitrogen:
 	@echo "==================================================================="
 	@echo "Installing nitrogen..."
-	sudo apt install nitrogen -y
+	$(INSTALL) nitrogen
 
 polybar:
 	@# Install better winbar
 	@echo "==================================================================="
 	@echo "Installing polybar..."
-	sudo apt install polybar -y
+	$(INSTALL) polybar
 	@# For using my fonts I need to install them globally
 	@echo "Installing JetBrainsMono fonts for all users..."
 	@ sudo mkdir /usr/share/fonts/custom/ && sudo cp -r ~/.dotfiles/fonts/JetBrainsMono/ /usr/share/fonts/custom/
@@ -297,7 +299,7 @@ picom:
 	@echo "==================================================================="
 	@echo "Installing picom..."
 	@# Install requirements
-	sudo apt install -y libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
+	$(INSTALL) libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
 	@# Clone the project and go into it, update git submodule for whatever reason,
 	@# Use the meson build system (written in python), to make a ninja build and
 	@# Use the ninja build file to proceed and install picom
@@ -311,7 +313,7 @@ rofi:
 	@# Better dmenu
 	@echo "==================================================================="
 	@echo "Installing rofi..."
-	sudo apt install rofi -y
+	$(INSTALL) rofi
 
 lf:
 	@echo "==================================================================="
@@ -322,7 +324,7 @@ lf:
 flatpak:
 	@echo "==================================================================="
 	@echo "Installing Flatpak..."
-	@sudo apt install -y flatpak
+	@$(INSTALL) flatpak
 	@flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # -------------------------------------------------------------------------------------------------
@@ -332,7 +334,7 @@ flatpak:
 # 	@flatpak install -y --or-update flathub com.github.ahrm.sioyek
 
 zathura:
-	@sudo apt install -y zathura
+	@$(INSTALL) zathura
 # -------------------------------------------------------------------------------------------------
 
 telegram:
@@ -340,7 +342,7 @@ telegram:
 	@echo "Installing Telegram Desktop..."
 	@# Check if snap is installed
 	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
-		sudo apt install snapd -y; fi
+		$(INSTALL) snapd; fi
 	sudo snap install telegram-desktop
 
 spotify:
@@ -348,42 +350,42 @@ spotify:
 	@echo "Installing Spotify..."
 	@# Check if snap is installed
 	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
-		sudo apt install snapd -y; fi
+		$(INSTALL) snapd; fi
 	sudo snap install spotify
 
 brave:
 	@echo "==================================================================="
 	@echo "Installing brave-browser..."
-	sudo apt install -y apt-transport-https curl
+	$(INSTALL) apt-transport-https curl
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg\
 		https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64]\
 		https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 	sudo apt update
-	sudo apt install -y brave-browser
+	$(INSTALL) brave-browser
 
 obs-studio:
 	@echo "==================================================================="
 	@echo "Installing OBS..."
 	@# Install ffmpeg
-	sudo apt install ffmpeg -y
+	$(INSTALL) ffmpeg
 	@# Install obs-studio
 	sudo add-apt-repository ppa:obsproject/obs-studio -y
 	sudo apt update
-	sudo apt install obs-studio -y
+	$(INSTALL) obs-studio
 
 kdenlive:
 	@echo "==================================================================="
 	@echo "Installing Kdenlive..."
 	sudo add-apt-repository ppa:kdenlive/kdenlive-stable -y
 	sudo apt update
-	sudo apt install kdenlive -y
+	$(INSTALL) kdenlive
 
 neovide:
 	@echo "==================================================================="
 	@echo "Installing Neovide..."
 	@# Install dependencies
-	sudo apt install -y curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
+	$(INSTALL) curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
 	@# Install rust (done)
 	@# Clone the repo
 	git clone "https://github.com/neovide/neovide" ~/neovide
@@ -409,7 +411,7 @@ vscodium:
 	@echo "Installing VSCodium..."
 	@# Check if snap is installed
 	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
-		sudo apt install snapd -y; fi
+		$(INSTALL) snapd; fi
 	sudo snap install codium --classic
 
 pomo:
@@ -432,13 +434,13 @@ inkscape:
 	@# Add the ppa and install inkscape
 	sudo add-apt-repository ppa:inkscape.dev/stable -y
 	sudo apt update
-	sudo apt install inkscape -y
+	$(INSTALL) inkscape
 
 anki:
 	@echo "==================================================================="
 	@echo "Installing Anki..."
 	@# Requirements
-	sudo apt install libxcb-xinerama0 -y
+	$(INSTALL) libxcb-xinerama0
 	@# If no zstd found install it with 'sudo apt install zstd'
 	@# Install a hardcoded version
 	wget https://github.com/ankitects/anki/releases/download/2.1.54/anki-2.1.54-linux-qt6.tar.zst
@@ -453,11 +455,18 @@ uninstall_anki:
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
 okular:
-	sudo apt install okular -y
+	$(INSTALL) okular
+
+zoom:
+	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
+		else $(FLATINSTALL) flathub us.zoom.Zoom; fi
+
+discord:
+	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
+		else $(FLATINSTALL) flathub com.discordapp.Discord; fi
 
 ###############################################################################
-# Things that I install manually yet: Discord
-# Install with `sudo dpkg -i filename.deb` and `sudo apt -f install`
+# Install .deb app with `sudo dpkg -i filename.deb` and `sudo apt -f install`
 linux_install: font_install tmux zsh nvim nodejs golang rust kitty awesome nitrogen polybar picom rofi ## in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these
 	@# My ususal installation on Linux
 	@echo "========================== DONE ==================================="
@@ -466,11 +475,11 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 	@# Installing Linux only usefull tools:
 	@# fd for faster find command, speeds up telescope-file-browser,
 	@# sxiv image viewer, flameshot for screenshots, gimp
-	sudo apt install -y sxiv flameshot gimp
+	$(INSTALL) sxiv flameshot gimp
 
 ###############################################################################
 python3_setup:
-	sudo apt install python3-pip python3-venv -y
+	$(INSTALL) python3-pip python3-venv
 	@# Need pynvim for Bracey to work
 	pip3 install pynvim
 
@@ -495,5 +504,6 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty imagemagick \
 	i3 awesome nitrogen polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
-	inkscape anki uninstall_anki okular linux_install linux_software python3_setup \
+	inkscape anki uninstall_anki okular zoom discord \
+	linux_install linux_software python3_setup \
 	null_ls_tool finish_setup
