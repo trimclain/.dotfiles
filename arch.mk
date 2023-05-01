@@ -5,7 +5,7 @@ all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config
 	@echo "Installing some basic tools..."
-	@$(INSTALL) curl wget stow ripgrep fzf fd htop exa p7zip
+	@$(INSTALL) curl wget stow ripgrep fzf fd htop exa bat p7zip
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \

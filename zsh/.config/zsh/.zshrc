@@ -266,6 +266,15 @@ else
     alias l="ls -lhA"
 fi
 
+if (( $+commands[bat] )); then
+    alias cat="bat -pp --theme \"DarkNeon\""
+    alias catt="bat --theme \"DarkNeon\""
+elif (( $+commands[batcat] )); then
+    # Ubuntu...
+    alias bat="batcat"
+    alias cat="bat -pp --theme \"DarkNeon\""
+    alias catt="bat --theme \"DarkNeon\""
+fi
 
 [[ -f ~/.local/bin/extract ]] && alias ex=extract
 [[ -f ~/.local/bin/archive ]] && alias ar=archive
@@ -319,6 +328,7 @@ plug "spaceship-prompt/spaceship-prompt"
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
 
 # Jump around directories
+# Alternative: https://github.com/ajeetdsouza/zoxide
 plug "rupa/z"
 
 # Autosuggestions
