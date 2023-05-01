@@ -56,7 +56,7 @@ return {
                     ["w"] = "none",
                     ["<tab>"] = "open",
                     -- Open allowed filetypes with xdg-open
-                    ["O"] = function(state)
+                    ["o"] = function(state)
                         local node = state.tree:get_node()
                         local ext = node.name:match("^.+(%..+)$")
                         local extensions = { ".pdf", ".jpg", ".jpeg", ".png", ".html" }
