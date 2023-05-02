@@ -377,9 +377,7 @@ obs-studio:
 kdenlive:
 	@echo "==================================================================="
 	@echo "Installing Kdenlive..."
-	sudo add-apt-repository ppa:kdenlive/kdenlive-stable -y
-	sudo apt update
-	$(INSTALL) kdenlive
+	@$(FLATINSTALL) flathub org.kde.kdenlive
 
 neovide:
 	@echo "==================================================================="
