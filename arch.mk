@@ -183,6 +183,7 @@ anki:
 
 #==================================================================================================
 
+# TODO: install pistol previewer for lf
 apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers, sxiv for images, flameshot for screenshots, zathura for pdf, ncdu (htop for `du`)
 	@$(INSTALL) btop xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-poppler ncdu
 

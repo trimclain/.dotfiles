@@ -41,7 +41,9 @@ set autoquit
 # Commands and Functions
 ###############################################################################
 
-# TODO: add image previews
+# Use kitty to display images, and fall back to pistol for everything else
+set previewer ~/.config/lf/lf_kitty_preview
+set cleaner ~/.config/lf/lf_kitty_clean
 
 # TODO: add pdf previews
 
@@ -121,15 +123,16 @@ set autoquit
 map gh
 
 # use enter for shell commands
-map <enter> shell
+# map <enter> shell
+map <enter> open
 
 # toggle hidden files and folders (<c-h> is same as backspace)
 map <backspace> set hidden!
 
 # execute current file (must be executable)
-map x $$f
-map X !$f
+# map x $$f
+# map X !$f
 
 # dedicated keys for file opener actions
-map o &mimeopen $f
-map O $mimeopen --ask $f
+# map o &mimeopen $f
+# map O $mimeopen --ask $f
