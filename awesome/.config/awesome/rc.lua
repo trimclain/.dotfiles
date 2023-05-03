@@ -168,21 +168,21 @@ awful.layout.layouts = {
     --awful.layout.suit.corner.se,
     --lain.layout.cascade,
     --lain.layout.cascade.tile,
-    --lain.layout.centerwork,
+    lain.layout.centerwork,
     --lain.layout.centerwork.horizontal,
     --lain.layout.termfair,
     --lain.layout.termfair.center
 }
 
-lain.layout.termfair.nmaster = 3
-lain.layout.termfair.ncol = 1
-lain.layout.termfair.center.nmaster = 3
-lain.layout.termfair.center.ncol = 1
-lain.layout.cascade.tile.offset_x = 2
-lain.layout.cascade.tile.offset_y = 32
-lain.layout.cascade.tile.extra_padding = 5
-lain.layout.cascade.tile.nmaster = 5
-lain.layout.cascade.tile.ncol = 2
+-- lain.layout.termfair.nmaster = 3
+-- lain.layout.termfair.ncol = 1
+-- lain.layout.termfair.center.nmaster = 3
+-- lain.layout.termfair.center.ncol = 1
+-- lain.layout.cascade.tile.offset_x = 2
+-- lain.layout.cascade.tile.offset_y = 32
+-- lain.layout.cascade.tile.extra_padding = 5
+-- lain.layout.cascade.tile.nmaster = 5
+-- lain.layout.cascade.tile.ncol = 2
 
 awful.util.taglist_buttons = mytable.join(
     awful.button({}, 1, function(t)
