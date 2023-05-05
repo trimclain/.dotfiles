@@ -13,6 +13,10 @@ check_if_command_exists xrandr
 
 # get info from xrandr
 connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
+
+# Get the number of enabled monitors:
+# number=$(xrandr --listmonitors | grep Monitors | awk '{print $NF}')
+# Get the names of enabled monitors
 # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
 
 monitors=()
@@ -27,6 +31,9 @@ if [[ -z $extern ]]; then
     echo "Error: external monitor not connected"
     exit 1
 fi
+
+# TODO: add --mode and --rate
+# xrandr --output DVI-D-0 --mode 2560x1440 --rate 59.95
 
 if [ "$1" = "--first" ]; then
     # Enable first monitor, turn off second one
@@ -53,9 +60,9 @@ elif [ "$1" = "--startup" ]; then
     if [[ -n $extern ]]; then
         xrandr --output "$extern" --auto --primary --output "$intern" --off
         # Reload awesome, if it's currently runnings
-        if [[ $DESKTOP_SESSION == "awesome" ]]; then
-            awesome-client 'awesome.restart()' &> /dev/null
-            exit 0
-        fi
+        # if [[ $DESKTOP_SESSION == "awesome" ]]; then
+        #     awesome-client 'awesome.restart()' &> /dev/null
+        #     exit 0
+        # fi
     fi
 fi
