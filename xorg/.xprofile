@@ -1,0 +1,21 @@
+# Execute commands during the X session startup
+# after the display manager authenticates the user and before the window manager
+
+# Monitor Config
+$HOME/.local/bin/monitor-layout --startup
+
+# Sets the delay and rate for keyboard auto-repeat
+xset r rate 400 25
+
+# Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
+# picom -b
+
+# Hide mouse when typing
+# xbanish &
+
+# remap caps to escape
+# setxkbmap -option caps:escape
+# swap escape and caps
+# setxkbmap -option caps:swapescape
+
+# vim:ft=conf

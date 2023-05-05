@@ -22,6 +22,7 @@ STOW_FOLDERS = [
     "picom",
     "lf",
     "stylua",
+    "xorg"
 ]
 
 STOW_CONFIGS = [
@@ -41,6 +42,7 @@ STOW_CONFIGS = [
     ".config/picom",
     ".config/lf",
     ".config/.stylua.toml",
+    ".xprofile",
 ]
 
 STOW_DICT = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
@@ -67,8 +69,8 @@ def main():
                 print("Removing symlink to", folder)
             did_smth = True
     # bin and chtsh (have to use stow)
-    for folder in NO_CONFIG_FOLDERS:
-        if is_tool("stow"):
+    if is_tool("stow"):
+        for folder in NO_CONFIG_FOLDERS:
             subprocess.run(["stow", "-vD", folder])
     if not did_smth:
         print("There are no jobs")
