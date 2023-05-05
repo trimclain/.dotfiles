@@ -302,18 +302,19 @@ end)
 -- {{{ Screen
 -- ############################################################################
 
+-- I use external apps to set wallpaper
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal("property::geometry", function(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
-        end
-        gears.wallpaper.maximized(wallpaper, s, true)
-    end
-end)
+-- screen.connect_signal("property::geometry", function(s)
+--     -- Wallpaper
+--     if beautiful.wallpaper then
+--         local wallpaper = beautiful.wallpaper
+--         -- If wallpaper is a function, call it with the screen
+--         if type(wallpaper) == "function" then
+--             wallpaper = wallpaper(s)
+--         end
+--         gears.wallpaper.maximized(wallpaper, s, true)
+--     end
+-- end)
 
 -- No borders when rearranging only 1 non-floating or maximized client
 screen.connect_signal("arrange", function(s)
@@ -329,6 +330,7 @@ end)
 
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(function(s)
+    -- s.padding = { top = 20 }
     beautiful.at_screen_connect(s)
 end)
 -- }}}
@@ -739,10 +741,10 @@ local globalkeys = mytable.join(
     -- ########################################################################
 
     -- ########################## SCREEN GROUP ################################
-    awful.key({ modkey, "Control" }, "j", function()
+    awful.key({ altkey }, "h", function()
         awful.screen.focus_relative(1)
     end, { description = "focus the next screen", group = "screen" }),
-    awful.key({ modkey, "Control" }, "k", function()
+    awful.key({ altkey }, "l", function()
         awful.screen.focus_relative(-1)
     end, { description = "focus the previous screen", group = "screen" }),
     -- ########################################################################
@@ -783,10 +785,9 @@ local globalkeys = mytable.join(
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
     -- X screen locker
-    -- TODO:
-    -- awful.key({ altkey, "Control" }, "l", function()
-    --     awful.spawn.with_shell(scrlocker)
-    -- end, { description = "lock screen", group = "hotkeys" }),
+    awful.key({ altkey, "Control" }, "l", function()
+        spawn_terminal_command("xscreensaver-command", "-lock")
+    end, { description = "lock screen", group = "hotkeys" }),
 
     -- Use xrandr to adjust screen brightness
     awful.key({}, "XF86MonBrightnessUp", function()
@@ -984,6 +985,7 @@ awful.rules.rules = {
                 "Wpa_gui",
                 "veromix",
                 "xtightvncviewer",
+                -- TODO: add yad on arch
             },
 
             -- Note that the name property shown in xprop might be set slightly after creation of the client
@@ -1008,17 +1010,8 @@ awful.rules.rules = {
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
 
-    -- Get classname using `xprop WM_CLASS | awk -F, '{print $2}'`
+    -- Get class name using `xprop WM_CLASS | awk -F, '{print $2}'`
     -- https://www.reddit.com/r/awesomewm/comments/2kxmph/where_do_you_get_the_instance_name_of_a_client/
-
-    -- Set Evince to always map on the tag named "2"
-    { rule = { class = "Evince" }, properties = { tag = "2" } },
-
-    -- Set Okular to always map on the tag named "2"
-    { rule = { class = "okular" }, properties = { tag = "2" } },
-
-    -- Set Foxit Reader to always map on the tag named "2"
-    { rule = { class = "Foxit Reader" }, properties = { tag = "2" } },
 
     -- Set Anki to always map on the tag named "2"
     { rule = { class = "Anki" }, properties = { tag = "2" } },
@@ -1028,8 +1021,8 @@ awful.rules.rules = {
 
     -- Make polybar borders normal
     -- {
-    -- rule = { class = "Polybar" },
-    -- properties = { shape = gears.partially_rounded_rect(0, 70, 70, true, true, true, true, 30) },
+    --     rule = { class = "Polybar" },
+    --     properties = { shape = gears.partially_rounded_rect(0, 70, 70, true, true, true, true, 30) },
     -- },
 }
 -- }}}
@@ -1118,10 +1111,6 @@ end)
 
 -- {{{ Autostart Programs
 -- ############################################################################
--- FIX: on restart awesome sources this file -> endless loop
--- Setup monitor layout
--- IDEA: Move this to xinitrc
--- spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--startup")
 
 local function get_os_output(cmd, raw)
     local f = assert(io.popen(cmd, "r"))
@@ -1144,16 +1133,8 @@ else
     spawn_terminal_command("xscreensaver", "--no-splash")
 end
 
--- Set a typematic delay to 400ms and a typematic rate to 25Hz
--- This should be in xinitrc, but I haven't set it up yet
--- Run `xset r rate` to reset to default (delay of 660ms and a rate of 25Hz)
-spawn_terminal_command("xset", "r rate 400 25")
-
-
 -- Set the wallpaper
 spawn_terminal_command("nitrogen", "--restore")
--- Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
--- spawn_terminal_command("picom")
 -- Set my keyboard layout
 spawn_terminal_command("$HOME/.local/bin/keyboard-layout", "--no-german")
 -- Update current brightness for my custom script
