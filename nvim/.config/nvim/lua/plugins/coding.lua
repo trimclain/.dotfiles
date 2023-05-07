@@ -66,6 +66,7 @@ return {
             "saadparwaiz1/cmp_luasnip",
             "hrsh7th/cmp-cmdline",
             "f3fora/cmp-spell",
+            "kdheepak/cmp-latex-symbols",
 
             -- "lukas-reineke/cmp-rg" -- source for using ripgrep
             -- "ray-x/cmp-treesitter" -- source for treesitter nodes
@@ -150,6 +151,13 @@ return {
                 sources = cmp.config.sources({
                     { name = "nvim_lsp_signature_help" },
                     { name = "nvim_lsp" },
+                    {
+                        name = "latex_symbols",
+                        option = {
+                            -- @usage 0 (mixed) | 1 (julia) | 2 (latex)
+                            strategy = 0,
+                        },
+                    },
                     { name = "luasnip" },
                     { name = "path" },
                     {
@@ -171,6 +179,7 @@ return {
                         item.menu = ({
                             nvim_lsp = "[LSP]",
                             nvim_lsp_signature_help = "[sign]",
+                            latex_symbols = "[symb]",
                             luasnip = "[snip]",
                             buffer = "[buf]",
                             path = "[path]",
