@@ -285,4 +285,20 @@ return {
             vim.cmd.colorscheme("onedark")
         end,
     },
+
+    {
+        "chama-chomo/grail",
+        lazy = false,
+        priority = 1000,
+        enabled = CONFIG.ui.colorscheme == "grail",
+        opts = {
+            -- @usage soft | medium | hard
+            background = "hard",
+            disable_italic_comments = not CONFIG.ui.italic_comment,
+        },
+        config = function(_, opts)
+            require("grail").setup(opts)
+            vim.cmd.colorscheme("grail")
+        end,
+    },
 }
