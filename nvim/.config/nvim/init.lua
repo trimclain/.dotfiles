@@ -28,16 +28,17 @@ CONFIG = {
     },
     ui = {
         -- Colorschemes (note/10):
-        -- tokyonight (9), catppuccin (9), tundra (9), grail (9)
-        -- kanagawa (8), nightfox (8), rose-pine (8),
+        -- tokyonight (9), catppuccin (9), tundra (9),
+        -- kanagawa (8), nightfox (8), rose-pine (8), grail (8)
         -- zephyr (7), onedark (7)
         -- sonokai (6), omni (6),
         -- vscode (5)
-        colorscheme = "grail",
+        colorscheme = "rose-pine",
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
         dashboard = true,
         neoscroll = false,
+        ghost_text = false,
     },
     git = {
         show_blame = false,

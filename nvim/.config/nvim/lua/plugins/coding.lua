@@ -190,7 +190,8 @@ return {
                     end,
                 },
                 experimental = {
-                    ghost_text = true, -- show completion preview inline
+                    -- @usage boolean | { hl_group = string }
+                    ghost_text = CONFIG.ui.ghost_text, -- show completion preview inline
                 },
             })
 
