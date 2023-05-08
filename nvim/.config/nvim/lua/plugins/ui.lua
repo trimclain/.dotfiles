@@ -150,15 +150,15 @@ return {
                     local lsp = lsp_list()
                     local text = " LSP:"
                     if lsp == "" then
-                        text = "%#WinSeparator#" .. text .. "%*"
+                        -- return " ∅"
+                        return "%#WinSeparator#  LSP %*"
                     end
-                    return vim.trim(vim.fn.join({ text, lsp }, " "))
+                    return vim.fn.join({ text, lsp, "" }, " ")
                 end,
-                -- padding = 0,
                 cond = function()
                     return hide_in_width() and show_lsp_section()
                 end,
-                -- component_separators = "",
+                padding = { right = 0 },
             }
 
             local formatters = {
@@ -166,15 +166,15 @@ return {
                     local formatters = formatters_list()
                     local text = " Format:"
                     if formatters == "" then
-                        text = "%#WinSeparator#" .. text .. "%*"
+                        -- return " ∅"
+                        return "%#WinSeparator#  Format %*"
                     end
-                    return vim.trim(vim.fn.join({ text, formatters }, " "))
+                    return vim.fn.join({ "", text, formatters }, " ")
                 end,
-                -- padding = 0,
                 cond = function()
                     return hide_in_width() and show_lsp_section()
                 end,
-                -- component_separators = "",
+                padding = { right = 0 },
             }
 
             -----------------------------------------------------------------------------------------------------------
