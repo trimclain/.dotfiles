@@ -93,8 +93,8 @@ uninstall_julia:
 paru: ## Install paru (the AUR helper)
 	@if command -v paru &> /dev/null; then echo "[paru]: Already installed";\
 		else echo "Installing paru..." && $(INSTALL) base-devel &&\
-		git clone https://aur.archlinux.org/paru.git ~/paru && cd ~/paru &&\
-		makepkg -si && rm -rf ~/paru && echo "Done"; fi
+		git clone https://aur.archlinux.org/paru.git ~/paru && pushd ~/paru &&\
+		makepkg -si && popd && rm -rf ~/paru && echo "Done"; fi
 
 flatpak: ## Install flatpak
 	@$(INSTALL) flatpak
@@ -174,6 +174,13 @@ telegram: ## Install Telegram Desktop using flatpak
 
 # TODO: spotify brave obs-studio kdenlive inkscape gimp
 
+discord: ## Install Discord using flatpak
+	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
+		else $(FLATINSTALL) flathub com.discordapp.Discord; fi
+
+vscodium:
+	paru -S vscodium-bin
+
 #======================================== Anki =================================================
 anki:
 	@echo "==================================================================="
@@ -205,5 +212,5 @@ install: ## Setup arch the way I want it
 	tectonic fix_tectonic uninstall_tectonic\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
 	zsh zap\
-	telegram anki apps\
+	telegram discord vscodium anki apps\
 	install
