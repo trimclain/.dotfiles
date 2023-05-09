@@ -103,6 +103,7 @@ fix_tectonic:
 uninstall_tectonic:
 	@rm -f ~/.local/bin/tectonic
 
+# TODO: switch to https://github.com/Schniz/fnm (rust btw)
 nodejs:
 	@echo "==================================================================="
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
