@@ -8,7 +8,7 @@ $HOME/.local/bin/monitor-layout --startup
 xset r rate 400 25
 
 # Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
-# picom -b
+picom -b
 
 # Hide mouse when typing
 # xbanish &
