@@ -20,7 +20,7 @@ return {
             diagnostics = {
                 underline = true,
                 update_in_insert = false,
-                virtual_text = CONFIG.lsp.virtual_text,
+                virtual_text = CONFIG.lsp.virtual_text and { spacing = 4, prefix = "●" } or false,
                 severity_sort = true,
                 float = {
                     focusable = false,
