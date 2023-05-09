@@ -164,8 +164,13 @@ zap:
 		echo "Done"; fi
 
 #======================================== Awesome =================================================
-# TODO: awesome_reqs: global_fonts, commands
+# TODO: awesome_reqs: global_fonts, commands, picom
 
+#======================================== Hyprland ================================================
+hyprland:
+	@$(INSTALL) hyprland
+	@# Post Install Apps: wofi (wayland rofi)?
+	@$(INSTALL) xdg-desktop-portal-hyprland
 
 #==================================================================================================
 telegram: ## Install Telegram Desktop using flatpak
@@ -212,5 +217,6 @@ install: ## Setup arch the way I want it
 	tectonic fix_tectonic uninstall_tectonic\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
 	zsh zap\
+	hyprland\
 	telegram discord vscodium anki apps\
 	install
