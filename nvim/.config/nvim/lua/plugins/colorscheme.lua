@@ -98,7 +98,7 @@ return {
                 -- illuminate = true,
                 which_key = true,
                 treesitter = true,
-                treesitter_context = true,
+                treesitter_context = false,
             },
         },
         config = function(_, opts)
