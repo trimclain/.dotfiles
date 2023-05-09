@@ -94,12 +94,14 @@ keymap("n", "gX", function() require("core.util").open_github_url() end, add_des
 keymap("n", "<leader>re", function() require("core.util").empty_registers() end, add_desc("Empty registers"))
 keymap("n", "<leader>mx", function() require("core.util").toggle_executable() end, add_desc("Make Current File Executable"))
 
+-- Toggles
 keymap("n", "<leader>ow", function() require("core.util").toggle_option("wrap") end, add_desc("Toggle Current Buffer Line Wrap"))
 keymap("n", "<leader>on", function() require("core.util").toggle_option("number") end, add_desc("Toggle Current Buffer Line Numbers"))
 keymap("n", "<leader>or", function() require("core.util").toggle_option("relativenumber") end, add_desc("Toggle Current Buffer Relative Numbers"))
 keymap("n", "<leader>ol", function() require("core.util").toggle_option("cursorline") end, add_desc("Toggle Current Buffer Cursorline"))
 keymap("n", "<leader>os", function() require("core.util").toggle_option("spell") end, add_desc("Toggle Current Buffer Spell"))
 keymap("n", "<leader>ot", function() require("core.util").toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
+keymap("n", "<leader>od", function() require("core.util").toggle_diagnostics() end, add_desc("Toggle LSP Diagnostics"))
 -- stylua: ignore end
 
 -------------------------------------------------------------------------------
