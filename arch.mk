@@ -45,12 +45,18 @@ python: ## Install python3, pip
 	@echo "Installing python3 with pip"
 	@$(INSTALL) python python-pip
 
-# TODO: rust, go (add to .PHONY)
+# TODO: Do I want rust, go globally or managers are fine?
 rust: ## Install rustup, the rust version manager
 	@$(INSTALL) rustup
+golang:
+	@$(INSTALL) go
 
 g: ## Install g, the go version manager
-	@$(INSTALL) go
+	@echo "==================================================================="
+	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
+		export GOROOT="$$HOME/.golang" && export GOPATH="$$HOME/.go" && \
+		curl -sSL https://git.io/g-install | sh -s -- -y &&\
+		echo "Done"; else echo "[golang]: Already installed"; fi
 
 n: ## Install n, the node version manager
 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
