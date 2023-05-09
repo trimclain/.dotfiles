@@ -27,6 +27,8 @@ return {
             max_width = function()
                 return math.floor(vim.o.columns * 0.75)
             end,
+            -- used for 100% transparency (NotifyBackground links to Normal, which is not defined when transparency is enabled)
+            background_colour = CONFIG.ui.transparent_background and "#1e1e2e" or "NotifyBackground",
         },
         init = function()
             -- when noice is not enabled, install notify on VeryLazy
@@ -50,7 +52,7 @@ return {
         opts = {
             options = {
                 show_close_icon = false, --default: true
-                separator_style = "slant", -- | "thick" | "slant" | default: "thin" | "padded_slant"  | { 'any', 'any' }
+                separator_style = CONFIG.ui.transparent_background and "thin" or "slant", -- | "thick" | "slant" | default: "thin" | "padded_slant"  | { 'any', 'any' }
                 -- enforce_regular_tabs = true, -- default: false
                 max_name_length = 30, -- default 18
                 max_prefix_length = 30, -- prefix used when a buffer is de-duplicated, default 15
@@ -66,6 +68,14 @@ return {
                 },
             },
         },
+        config = function(_, opts)
+            if CONFIG.ui.colorscheme == "catppuccin" then
+                opts = vim.tbl_extend("force", opts, {
+                    highlights = require("catppuccin.groups.integrations.bufferline").get(),
+                })
+            end
+            require("bufferline").setup(opts)
+        end,
     },
 
     -- statusline
@@ -159,6 +169,9 @@ return {
                     return hide_in_width() and show_lsp_section()
                 end,
                 padding = { right = 0 },
+                -- Alternate: dont show when empty
+                -- draw_empty = false,
+                component_separators = "",
             }
 
             local formatters = {
@@ -513,11 +526,11 @@ return {
         event = "VeryLazy",
         opts = {
             text = {
-                -- spinner = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" },
-                spinner = "moon", -- animation shown when tasks are ongoing
+                spinner = CONFIG.ui.spinner,
             },
             window = {
                 relative = "editor", -- where to anchor, either "win" or "editor" (default: "win")
+                blend = CONFIG.ui.transparent_background and 0 or 100, -- &winblend for the window (default: 100)
             },
         },
     },

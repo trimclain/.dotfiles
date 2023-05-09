@@ -39,7 +39,7 @@ return {
         enabled = CONFIG.ui.colorscheme == "catppuccin",
         opts = {
             -- flavour = "frappe", -- mocha, frappe, macchiato, latte
-            transparent_background = false,
+            transparent_background = CONFIG.ui.transparent_background,
             styles = {
                 comments = CONFIG.ui.italic_comments and { "italic" } or {},
                 conditionals = {},
@@ -56,16 +56,14 @@ return {
             },
             color_overrides = {},
             integrations = {
+                ----
                 cmp = true,
                 gitsigns = true,
                 nvimtree = false,
                 telescope = true,
                 notify = true,
                 mini = false,
-                treesitter = true,
-                treesitter_context = true,
-                markdown = true,
-                hop = true,
+                ----
                 native_lsp = {
                     enabled = true,
                     virtual_text = {
@@ -85,6 +83,22 @@ return {
                     enabled = true,
                     colored_indent_levels = false,
                 },
+                ----
+                alpha = true,
+                fidget = true,
+                harpoon = true,
+                hop = true,
+                markdown = true,
+                mason = true,
+                neotree = true,
+                neogit = true,
+                -- noice = true,
+                -- dap -- check out https://github.com/catppuccin/nvim#special-integrations
+                -- lsp_troble = true,
+                -- illuminate = true,
+                which_key = true,
+                treesitter = true,
+                treesitter_context = true,
             },
         },
         config = function(_, opts)

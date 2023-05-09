@@ -24,21 +24,24 @@ CONFIG = {
         format_on_save = false,
         virtual_text = false, -- { spacing = 4, prefix = "●" }
         show_signature_help = true,
-        -- show_diagnostic = true,
     },
     ui = {
         -- Colorschemes (note/10):
-        -- tokyonight (9), catppuccin (9), tundra (9),
-        -- kanagawa (8), nightfox (8), rose-pine (8), grail (8)
+        -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9)
+        -- kanagawa (8), nightfox (8), grail (8)
         -- zephyr (7), onedark (7)
         -- sonokai (6), omni (6),
         -- vscode (5)
-        colorscheme = "rose-pine",
+        colorscheme = "catppuccin",
+        transparent_background = true,
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
         dashboard = true,
         neoscroll = false,
         ghost_text = false,
+
+        -- Spinners: dots_pulse, moon, meter, zip, pipe, dots, arc
+        spinner = "dots_pulse", -- animation shown when tasks are ongoing
     },
     git = {
         show_blame = false,
