@@ -203,11 +203,19 @@ anki:
 
 #==================================================================================================
 
-# TODO: install pistol previewer for lf
 apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers, sxiv for images, flameshot for screenshots, zathura for pdf, ncdu (htop for `du`)
 	@$(INSTALL) btop xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-poppler ncdu
+	@make pistol
 
-# TODO: lazygit, lazydocker (AUR)
+# TODO: try lazygit, lazydocker (AUR)
+
+# file previewer for lf
+pistol:
+	@if ! command -v pistol &> /dev/null; then if [ -f /home/trimclain/.golang/bin/go ]; then \
+		echo "Installing pistol, a file previewer for lf..." &&\
+		go install github.com/doronbehar/pistol/cmd/pistol@latest;\
+		else echo "[pistol]: Install golang first by using \"make golang\""; fi\
+		else echo "[pistol]: Already installed"; fi
 
 #==================================================================================================
 # TODO:
@@ -220,11 +228,12 @@ install: ## Setup arch the way I want it
 #==================================================================================================
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
+	python rust golang g \
 	n uninstall_n export_node_modules import_node_modules typescript julia uninstall_julia\
 	paru flatpak\
 	tectonic fix_tectonic uninstall_tectonic\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
 	zsh zap\
 	hyprland\
-	telegram discord vscodium anki apps\
+	telegram discord vscodium anki apps pistol\
 	install
