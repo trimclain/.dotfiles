@@ -27,7 +27,8 @@ CONFIG = {
     },
     ui = {
         -- Colorschemes (note/10):
-        -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9)
+        -- catppuccin (10),
+        -- tokyonight (9), rose-pine (9), tundra (9)
         -- kanagawa (8), nightfox (8), grail (8)
         -- zephyr (7), onedark (7)
         -- sonokai (6), omni (6),
@@ -42,6 +43,9 @@ CONFIG = {
 
         -- Spinners: dots_pulse, moon, meter, zip, pipe, dots, arc
         spinner = "dots_pulse", -- animation shown when tasks are ongoing
+
+        -- Jaq position
+        quickrun_position = "vert" -- "bot": bottom horizontal split, "vert": right vertical split
     },
     git = {
         show_blame = false,

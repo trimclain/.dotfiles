@@ -72,10 +72,10 @@ return {
                     border = CONFIG.ui.border,
                 },
                 terminal = {
-                    -- position = "bot",
-                    -- size = 10,
-                    position = "vert",
-                    size = 60,
+                    position = CONFIG.ui.quickrun_position,
+                    -- make it 30% of the width or 25% of the height
+                    size = CONFIG.ui.quickrun_position == "vert" and math.floor(vim.o.columns * 0.3)
+                        or math.floor(vim.o.lines * 0.25),
                 },
             },
         },
