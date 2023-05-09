@@ -171,6 +171,8 @@ hyprland:
 	@$(INSTALL) hyprland
 	@# Post Install Apps: wofi (wayland rofi)?
 	@$(INSTALL) xdg-desktop-portal-hyprland
+	@# Install waybar (statusbar) and swaybg (set wallpaper)
+	@$(INSTALL) waybar swaybg
 
 #==================================================================================================
 telegram: ## Install Telegram Desktop using flatpak
