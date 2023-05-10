@@ -742,11 +742,19 @@ local globalkeys = mytable.join(
 
     -- ########################## SCREEN GROUP ################################
     awful.key({ altkey }, "h", function()
-        awful.screen.focus_relative(1)
-    end, { description = "focus the next screen", group = "screen" }),
+        awful.screen.focus_bydirection("left")
+    end, { description = "focus screen to the left", group = "screen" }),
     awful.key({ altkey }, "l", function()
-        awful.screen.focus_relative(-1)
-    end, { description = "focus the previous screen", group = "screen" }),
+        awful.screen.focus_bydirection("right")
+    end, { description = "focus screen to the right", group = "screen" }),
+    awful.key({ altkey, "Shift" }, "h", function()
+        local c = awful.client.focus.history.get(nil, 0)
+        awful.client.movetoscreen(c, -1)
+    end, { description = "move client to the screen on the left", group = "screen" }),
+    awful.key({ altkey, "Shift" }, "l", function()
+        local c = awful.client.focus.history.get(nil, 0)
+        awful.client.movetoscreen(c, 1)
+    end, { description = "move client to the screen on the right", group = "screen" }),
     -- ########################################################################
 
     -- ########################## WIDGETS GROUP ###############################
@@ -835,7 +843,8 @@ local clientkeys = mytable.join(
         c.fullscreen = not c.fullscreen
         c:raise()
     end, { description = "toggle fullscreen", group = "client" }),
-    awful.key({ modkey, "Shift" }, "q", function(c)
+    -- awful.key({ modkey, "Shift" }, "q", function(c)
+    awful.key({ modkey }, "q", function(c)
         c:kill()
     end, { description = "close the client", group = "client" }),
     awful.key(
@@ -886,14 +895,14 @@ for i = 1, 9 do
                 tag:view_only()
             end
         end, { description = "view tag #" .. i, group = "tag" }),
-        -- Toggle tag display.
-        awful.key({ modkey, "Control" }, "#" .. i + 9, function()
-            local screen = awful.screen.focused()
-            local tag = screen.tags[i]
-            if tag then
-                awful.tag.viewtoggle(tag)
-            end
-        end, { description = "toggle tag #" .. i, group = "tag" }),
+        -- -- Toggle tag display.
+        -- awful.key({ modkey, "Control" }, "#" .. i + 9, function()
+        --     local screen = awful.screen.focused()
+        --     local tag = screen.tags[i]
+        --     if tag then
+        --         awful.tag.viewtoggle(tag)
+        --     end
+        -- end, { description = "toggle tag #" .. i, group = "tag" }),
         -- Move client to tag.
         awful.key({ modkey, "Shift" }, "#" .. i + 9, function()
             if client.focus then
@@ -902,16 +911,16 @@ for i = 1, 9 do
                     client.focus:move_to_tag(tag)
                 end
             end
-        end, { description = "move focused client to tag #" .. i, group = "tag" }),
-        -- Toggle tag on focused client.
-        awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9, function()
-            if client.focus then
-                local tag = client.focus.screen.tags[i]
-                if tag then
-                    client.focus:toggle_tag(tag)
-                end
-            end
-        end, { description = "toggle focused client on tag #" .. i, group = "tag" })
+        end, { description = "move focused client to tag #" .. i, group = "tag" })
+        -- -- Toggle tag on focused client.
+        -- awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9, function()
+        --     if client.focus then
+        --         local tag = client.focus.screen.tags[i]
+        --         if tag then
+        --             client.focus:toggle_tag(tag)
+        --         end
+        --     end
+        -- end, { description = "toggle focused client on tag #" .. i, group = "tag" })
     )
 end
 
