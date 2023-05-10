@@ -68,8 +68,8 @@ window:
     #
     # Window opacity as a floating point number from `0.0` to `1.0`.
     # The value `0.0` is completely transparent and `1.0` is opaque.
-    # opacity: 0.75
-    opacity: 1.0
+    opacity: 0.95
+    # opacity: 1.0
 
     # Startup Mode (changes require restart)
     #
@@ -110,6 +110,7 @@ scrolling:
     #multiplier: 3
 
 # Font configuration
+# Find fonts using `fc-list : family style`
 font:
     # Normal (roman) font face
     normal:
@@ -121,52 +122,40 @@ font:
         #   - (Windows) Consolas
         # family: MesloLGS NF
         # family: Source Code Pro
-        family: Cascadia Code
+
+        # No Nerd Icons for some reason
+        # family: Cascadia Code
+        # family: Comic Mono
+        # family: Hack
+        # family: Fira Code
+
+        # Work Fine
+        # family: JetBrainsMono Nerd Font Mono
+        family: BlexMono Nerd Font Mono
 
         # The `style` can be specified to pick a specific face.
         style: Regular
 
-    # Bold font face
-    bold:
-        # Font family
-        #
-        # If the bold family is not specified, it will fall back to the
-        # value specified for the normal font.
-        # family: MesloLGS NF
-        # family: Source Code Pro
-        # family: JetBrains Mono
-        family: Cascadia Code
+    # # Bold font face
+    # bold:
+    #     # family: JetBrainsMono Nerd Font Mono
+    #     # style: Bold
+    #     family: Cascadia Code
+    #     style: Bold
 
-        # The `style` can be specified to pick a specific face.
-        style: Bold
+    # # Italic font face
+    # italic:
+    #     # family: JetBrainsMono Nerd Font Mono
+    #     # style: Italic
+    #     family: Cascadia Code
+    #     style: Italic
 
-    # Italic font face
-    italic:
-        # Font family
-        #
-        # If the italic family is not specified, it will fall back to the
-        # value specified for the normal font.
-        # family: MesloLGS NF
-        # family: Source Code Pro
-        # family: JetBrains Mono
-        family: Cascadia Code
-
-        # The `style` can be specified to pick a specific face.
-        style: Italic
-
-    # Bold italic font face
-    bold_italic:
-        # Font family
-        #
-        # If the bold italic family is not specified, it will fall back to the
-        # value specified for the normal font.
-        # family: MesloLGS NF
-        # family: Source Code Pro
-        # family: JetBrains Mono
-        family: Cascadia Code
-
-        # The `style` can be specified to pick a specific face.
-        style: Bold Italic
+    # # Bold italic font face
+    # bold_italic:
+    #     # family: JetBrainsMono Nerd Font Mono
+    #     # style: Bold Italic
+    #     family: Cascadia Code
+    #     style: Bold Italic
 
     # Point size
     size: 13.0
@@ -224,7 +213,7 @@ schemes:
             matches:
                 foreground: "#21252D"
                 background: "#E25600"
-            bar:
+            footer_bar:
                 background: "#CCCCCC"
                 foreground: "#21252D"
 
@@ -261,45 +250,85 @@ schemes:
             cyan: "#42BDAB"
             white: "#D6D6D6"
 
-    ### Catppuccin ###
-    Catppuccin: &Catppuccin # Default colors
+    # Catppuccin Macchiato (https://github.com/catppuccin/alacritty/blob/main/catppuccin-macchiato.yml)
+    Macchiato: &Macchiato # Default colors
         primary:
-            background: "#1E1D2F"
-            foreground: "#D9E0EE"
+            background: "#24273A" # base
+            foreground: "#CAD3F5" # text
+            # Bright and dim foreground colors
+            dim_foreground: "#CAD3F5" # text
+            bright_foreground: "#CAD3F5" # text
 
-        # Colors the cursor will use if `custom_cursor_colors` is true
+        # Cursor colors
         cursor:
-            text: "#1E1D2F"
-            # cursor: '#FFFFFF'
-            cursor: "#F5E0DC"
-            # cursor: '#FF69B4'
-            # cursor: '#6E9EfE'
+            text: "#24273A" # base
+            cursor: "#F4DBD6" # rosewater
+        vi_mode_cursor:
+            text: "#24273A" # base
+            cursor: "#B7BDF8" # lavender
+
+        # Search colors
+        search:
+            matches:
+                foreground: "#24273A" # base
+                background: "#A5ADCB" # subtext0
+            focused_match:
+                foreground: "#24273A" # base
+                background: "#A6DA95" # green
+            footer_bar:
+                foreground: "#24273A" # base
+                background: "#A5ADCB" # subtext0
+
+        # Keyboard regex hints
+        hints:
+            start:
+                foreground: "#24273A" # base
+                background: "#EED49F" # yellow
+            end:
+                foreground: "#24273A" # base
+                background: "#A5ADCB" # subtext0
+
+        # Selection colors
+        selection:
+            text: "#24273A" # base
+            background: "#F4DBD6" # rosewater
 
         # Normal colors
         normal:
-            black: "#6E6C7E"
-            red: "#F28FAD"
-            green: "#ABE9B3"
-            yellow: "#FAE3B0"
-            blue: "#96CDFB"
-            magenta: "#F5C2E7"
-            cyan: "#89DCEB"
-            white: "#D9E0EE"
+            black: "#494D64" # surface1
+            red: "#ED8796" # red
+            green: "#A6DA95" # green
+            yellow: "#EED49F" # yellow
+            blue: "#8AADF4" # blue
+            magenta: "#F5BDE6" # pink
+            cyan: "#8BD5CA" # teal
+            white: "#B8C0E0" # subtext1
 
         # Bright colors
         bright:
-            black: "#988BA2"
-            red: "#F28FAD"
-            green: "#ABE9B3"
-            yellow: "#FAE3B0"
-            blue: "#96CDFB"
-            magenta: "#F5C2E7"
-            cyan: "#89DCEB"
-            white: "#D9E0EE"
+            black: "#5B6078" # surface2
+            red: "#ED8796" # red
+            green: "#A6DA95" # green
+            yellow: "#EED49F" # yellow
+            blue: "#8AADF4" # blue
+            magenta: "#F5BDE6" # pink
+            cyan: "#8BD5CA" # teal
+            white: "#A5ADCB" # subtext0
+
+        # Dim colors
+        dim:
+            black: "#494D64" # surface1
+            red: "#ED8796" # red
+            green: "#A6DA95" # green
+            yellow: "#EED49F" # yellow
+            blue: "#8AADF4" # blue
+            magenta: "#F5BDE6" # pink
+            cyan: "#8BD5CA" # teal
+            white: "#B8C0E0" # subtext1
 
         indexed_colors:
-            - { index: 16, color: "#F8BD96" }
-            - { index: 17, color: "#F5E0DC" }
+            - { index: 16, color: "#F5A97F" }
+            - { index: 17, color: "#F4DBD6" }
 
     ### Doom One ###
     DoomOne: &DoomOne
@@ -331,7 +360,7 @@ schemes:
             cyan: "#46d9ff"
             white: "#dfdfdf"
 
-    ### Dracula ###
+    ### Dracula (https://github.com/dracula/alacritty/blob/master/dracula.yml) ###
     Dracula: &Dracula
         primary:
             background: "#282a36"
@@ -350,7 +379,7 @@ schemes:
             focused_match:
                 foreground: "#44475a"
                 background: "#ffb86c"
-            bar:
+            footer_bar:
                 background: "#282a36"
                 foreground: "#f8f8f2"
         hints:
@@ -636,7 +665,7 @@ schemes:
 ## ###################################################################
 # Available themes are:
 # *Lighthaus
-# *Catppuccin
+# *Macchiato
 # *DoomOne
 # *Dracula
 # *GruvboxDark
@@ -649,7 +678,7 @@ schemes:
 # *TomorrowNight
 
 colors:
-    *Catppuccin
+    *Macchiato
     # colors:
     #   primary:
     #     background: '282c34'
