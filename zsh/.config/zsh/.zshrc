@@ -26,6 +26,10 @@
 # in that folder are managed by zap.
 ###############################################################################
 
+# Disable ctrl-s to freeze and ctrl-q to unfreeze terminal
+# This should come before powerlevel10k instant promt feature
+stty start undef stop undef
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -63,10 +67,6 @@ zstyle ':completion:*' menu select
 
 # Disable all error sounds
 unsetopt BEEP
-
-# Disable ctrl-s to freeze and ctrl-q to unfreeze terminal
-# This breaks with powerlevel10k instant promt feature
-# stty start undef stop undef
 
 # Change the location of .zcompdump (https://unix.stackexchange.com/questions/391641/separate-path-for-zcompdump-files)
 autoload -Uz compinit
