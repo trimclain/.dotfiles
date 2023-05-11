@@ -120,7 +120,6 @@ font:
         #   - (macOS) Menlo
         #   - (Linux/BSD) monospace
         #   - (Windows) Consolas
-        # family: MesloLGS NF
         # family: Source Code Pro
 
         # No Nerd Icons for some reason
@@ -131,6 +130,7 @@ font:
 
         # Work Fine
         # family: JetBrainsMono Nerd Font Mono
+        # family: MesloLGS NF
         family: BlexMono Nerd Font Mono
 
         # The `style` can be specified to pick a specific face.
