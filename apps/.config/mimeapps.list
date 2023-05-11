@@ -13,10 +13,15 @@ video/mp4=brave-browser.desktop
 image/jpeg=sxiv.desktop
 image/png=sxiv.desktop
 application/pdf=org.pwmt.zathura.desktop
+application/javascript=neovide.desktop
+text/markdown=neovide.desktop
+text/css=neovide.desktop
 
 [Added Associations]
-application/pdf=okularApplication_pdf.desktop;
-application/pdf=FoxitReader.desktop
-image/jpeg=org.nomacs.ImageLounge.desktop;
+application/pdf=okularApplication_pdf.desktop;FoxitReader.desktop;
+image/jpeg=org.nomacs.ImageLounge.desktop;feh.desktop;
 image/png=org.nomacs.ImageLounge.desktop;feh.desktop;
 video/mp4=smplayer.desktop;
+application/javascript=neovide.desktop;
+text/markdown=neovide.desktop;
+text/css=neovide.desktop;
