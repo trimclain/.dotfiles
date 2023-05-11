@@ -55,8 +55,9 @@ end
 
 -- Settings for Neovide
 if vim.g.neovide then
-    vim.opt.guifont = "JetBrains Mono:h12" -- set the font
-    -- vim.g.neovide_transparency = 0.85 -- make it transparent
+    vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12" -- set the font
+    -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
+    vim.g.neovide_transparency = 0.85 -- make it transparent
     -- vim.g.neovide_cursor_trail_legnth = 0
     -- vim.g.neovide_cursor_animation_length = 0
 end

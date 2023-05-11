@@ -393,21 +393,19 @@ neovide:
 	@# Install dependencies
 	$(INSTALL) curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
 	@# Install rust (done)
+	@cargo install --git https://github.com/neovide/neovide
+	@# Install .desktop file and icon to access neovide from rofi
 	@# Clone the repo
 	git clone "https://github.com/neovide/neovide" ~/neovide
-	@# Build
-	cd ~/neovide && ~/.cargo/bin/cargo build --release
-	@# Copy the binary
-	sudo cp ~/neovide/target/release/neovide /usr/local/bin/
 	@# Copy .desktop entry to make it visible for apps in rofi
 	sudo cp ~/neovide/assets/neovide.desktop /usr/share/applications/
-	@# Copy the icon (jeez I have to do their work)
+	@# Copy the icon (
 	sudo cp ~/neovide/assets/neovide-256x256.png /usr/local/share/icons/hicolor/256x256/apps/neovide.png
 	@# Uninstall the github repo
 	rm -rf ~/neovide
 
 uninstall_neovide:
-	sudo rm -f /usr/local/bin/neovide
+	rm -f ~/.cargo/bin/neovide
 	sudo rm -f /usr/share/applications/neovide.desktop
 	sudo rm -f /usr/local/share/icons/hicolor/256x256/apps/neovide.png
 
