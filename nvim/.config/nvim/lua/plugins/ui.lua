@@ -462,6 +462,7 @@ return {
             dashboard.section.buttons.val = {
                 dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<CR>"),
                 -- dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<CR>"),
+                dashboard.button("p", " " .. " Open project", ":lua require('core.util').open_project()<CR>"),
                 dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<CR>"),
                 dashboard.button("s", " " .. " Find string", ":Telescope live_grep<CR>"),
                 dashboard.button("t", "󰄵 " .. " Find todos", ":TodoTelescope keywords=TODO,FIX<CR>"),
@@ -475,6 +476,11 @@ return {
             -- if not require("core.util").in_git_worktree() then
             --     table.remove(dashboard.section.buttons.val, 5) -- careful, 5 is hard coded
             -- end
+
+            -- Open project
+            if vim.g.neovide == nil then
+                table.remove(dashboard.section.buttons.val, 2) -- careful, 2 is hard coded
+            end
 
             for _, button in ipairs(dashboard.section.buttons.val) do
                 button.opts.hl = "AlphaButtons"

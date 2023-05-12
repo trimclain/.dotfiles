@@ -15,6 +15,16 @@ function M.join(...)
     return table.concat({ ... }, path_sep)
 end
 
+--- Check if a file exists
+---@param name string path to the file
+function M.file_exists(name)
+    local f = io.open(name, "r")
+    if f then
+        f:close()
+    end
+    return f ~= nil
+end
+
 -------------------------------------------------------------------------------
 -- From lazyvim.util.init.lua
 -------------------------------------------------------------------------------
@@ -88,6 +98,46 @@ function M.telescope(builtin, opts)
         end
         require("telescope.builtin")[builtin](opts)
     end
+end
+
+--- Choose a project to work on from my $PROJECTLIST using Telescope
+M.open_project = function()
+    local projectlist = M.join(os.getenv("HOME"), ".projectlist")
+    if not M.file_exists(projectlist) then
+        vim.notify("Project List not found", vim.log.levels.ERROR, { title = "Project Manager" })
+        return
+    end
+
+    local pickers = require("telescope.pickers")
+    local sorters = require("telescope.sorters")
+    local finders = require("telescope.finders")
+    local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
+
+    ---@diagnostic disable-next-line: missing-parameter
+    pickers
+        .new({
+            results_title = "My Projects",
+            ---@diagnostic disable-next-line: missing-parameter
+            finder = finders.new_oneshot_job({ "cat", projectlist }),
+            sorter = sorters.get_fuzzy_file(),
+            attach_mappings = function(_, map)
+                -- Define custom action when an item is selected
+                map("i", "<CR>", function(prompt_bufnr)
+                    -- Get the selected entry
+                    local selection = action_state.get_selected_entry()[1]
+                    -- Close the picker
+                    actions.close(prompt_bufnr)
+                    vim.notify("Opened " .. selection, vim.log.levels.INFO, { title = "Project Manager" })
+                    vim.cmd.cd(selection)
+                    -- Open files in telescope
+                    M.telescope("files")()
+                    -- require("neo-tree.command").execute({ toggle = true, dir = selection })
+                end)
+                return true
+            end,
+        })
+        :find()
 end
 
 local diagnostics_active = true
