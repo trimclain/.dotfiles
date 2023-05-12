@@ -68,21 +68,12 @@ nvim:
 		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf ~/neovim &&\
 		echo "Done"; fi
 
-
-neovim:
-	@# Install neovim using ppa
-	@# Get add-apt-repository command
-	@echo "==================================================================="
-	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
-		else echo "Installing Neovim using ppa..." &&\
-		$(INSTALL) software-properties-common &&\
-		sudo add-apt-repository -y ppa:neovim-ppa/unstable &&\
-		sudo apt update && $(INSTALL) neovim; fi
-
 uninstall_nvim:
-	@if [ -f "/usr/local/bin/nvim" ]; then echo "Uninstalling Neovim..." &&\
+	@if [ -f "/usr/local/bin/nvim" ]; then echo -n "Uninstalling Neovim... " &&\
 		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
 		echo "Done"; fi
+
+neovim: uninstall_nvim nvim
 
 purge_nvim: uninstall_nvim
 	@echo "Uninstalling Neovim Leftovers..."
@@ -500,7 +491,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 ###############################################################################
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
-	nvim_build_reqs nvim neovim uninstall_nvim purge_nvim \
+	nvim_build_reqs nvim uninstall_nvim neovim purge_nvim \
 	tectonic fix_tectonic uninstall_tectonic \
 	nodejs uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
