@@ -7,7 +7,7 @@ all:
 	@echo "Installing some basic tools..."
 	@$(INSTALL) curl wget stow ripgrep fzf fd htop exa bat p7zip
 
-help: ## print this help menu
+help: ## Print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -103,7 +103,8 @@ paru: ## Install paru (the AUR helper)
 		makepkg -si && popd && rm -rf ~/paru && echo "Done"; fi
 
 flatpak: ## Install flatpak
-	@$(INSTALL) flatpak
+	@if command -v paru &> /dev/null; then echo "[flatpak]: Already installed";\
+		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
 
 #========================================= Tectonic =================================================
 tectonic:
@@ -153,6 +154,29 @@ purge_nvim: uninstall_nvim
 	@rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
 	@echo "Done"
 
+#========================================= Neovide ================================================
+neovide:
+	@echo "==================================================================="
+	@echo "Installing Neovide..."
+	@# Install dependencies
+	$(INSTALL) curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
+	@# Install rust (done)
+	@cargo install --git https://github.com/neovide/neovide
+	@# Install .desktop file and icon to access neovide from rofi
+	@# Clone the repo
+	git clone "https://github.com/neovide/neovide" ~/neovide
+	@# Copy .desktop entry to make it visible for apps in rofi
+	sudo cp ~/neovide/assets/neovide.desktop /usr/share/applications/
+	@# Copy the icon (
+	sudo cp ~/neovide/assets/neovide-256x256.png /usr/local/share/icons/hicolor/256x256/apps/neovide.png
+	@# Uninstall the github repo
+	rm -rf ~/neovide
+
+uninstall_neovide:
+	rm -f ~/.cargo/bin/neovide
+	sudo rm -f /usr/share/applications/neovide.desktop
+	sudo rm -f /usr/local/share/icons/hicolor/256x256/apps/neovide.png
+
 #========================================== Zsh ===================================================
 zsh: ## Install zsh
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
@@ -171,6 +195,12 @@ zap:
 
 #======================================== Awesome =================================================
 # TODO: awesome_reqs: global_fonts, commands, picom
+
+#======================================== Terminal ================================================
+kitty:
+	@echo "==================================================================="
+	@# imagemagick is required to display uncommon image formats in kitty
+	$(INSTALL) imagemagic kitty
 
 #======================================== Hyprland ================================================
 hyprland:
@@ -233,7 +263,9 @@ install: ## Setup arch the way I want it
 	paru flatpak\
 	tectonic fix_tectonic uninstall_tectonic\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
+	neovide uninstall_neovide\
 	zsh zap\
+	kitty \
 	hyprland\
 	telegram discord vscodium anki apps pistol\
 	install
