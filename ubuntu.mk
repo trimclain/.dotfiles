@@ -236,29 +236,23 @@ uninstall_alacritty:
 	sudo rm -f /usr/local/bin/alacritty
 	sudo rm -f /usr/share/pixmaps/Alacritty.svg
 
-kitty: imagemagick
-	@# Installing kitty
+kitty:
 	@echo "==================================================================="
-	@echo "Installing Kitty..."
-	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-	@# Creating a symlink to /usr/bin to add kitty to PATH
-	sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin
-	@# Place the kitty.desktop file somewhere it can be found by the OS
-	sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/share/applications/
+	@# imagemagick is required to display uncommon image formats in kitty
 	@# If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
 	@# cp ~/.local/kitty.app/share/applications/kitty-open.desktop /usr/share/applications/
-	@# Update the path to the kitty icon in the kitty.desktop file(s)
-	sudo sed -i "s|Icon=kitty|Icon=/home/$$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/share/applications/kitty*.desktop
+	@if [ -d ~/.local/kitty.app ]; then echo "[kitty]: already installed"; \
+		else echo "Installing Kitty..." && $(INSTALL) imagemagick &&\
+		curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n &&\
+		sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin &&\
+		sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/share/applications/ \
+		sudo sed -i "s|Icon=kitty|Icon=/home/$$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" \
+		/usr/share/applications/kitty*.desktop && echo "Done"; fi
 
 uninstall_kitty:
-	sudo rm -f /usr/local/bin/kitty
-	sudo rm -f /usr/share/applications/kitty.desktop
-	rm -rf .local/kitty.app
-
-imagemagick:
-	@# This is required to view images in kitty
-	@# Building from source:
-	$(INSTALL) imagemagick
+	@if [ -d ~/.local/kitty.app ]; then echo "Uninstalling kitty..." &&\
+		sudo rm -f /usr/local/bin/kitty && sudo rm -f /usr/share/applications/kitty*.desktop &&\
+		rm -rf ~/.local/kitty.app; fi
 
 i3:
 	@echo "==================================================================="
@@ -496,7 +490,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	nodejs uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall \
-	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty imagemagick \
+	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
 	i3 awesome nitrogen polybar picom rofi pistol lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular zoom discord \
