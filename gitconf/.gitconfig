@@ -3,3 +3,5 @@
 	email = mclain.it@gmail.com
 [init]
     defaultBranch = main
+[pull]
+    rebase = true
