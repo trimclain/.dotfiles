@@ -119,6 +119,33 @@ set cleaner ~/.config/lf/lf_kitty_clean
 # Bindings
 ###############################################################################
 
+############
+# Defaults in case I forget:
+# <Space> - toggle selection
+# v - invert selection
+# u - undo all selection                                        - vim
+# y - copy                                                      - vim
+map x delete
+# d - cut                                                       - vim
+# p - paste                                                     - vim
+# c - clear copied or cut
+# r - rename
+# : - run builtin command                                       - vim
+# $ - run shell command
+# % - run shell command and pipe input/output into lf
+# ! - run shell command and wait for a key press afterwards     - vim
+# & - run shell command in background
+# / - search forward                                            - vim
+# ? - search back                                               - vim
+# n - next search item                                          - vim
+# N - previous search item                                      - vim
+# z - toggle option or change it's value
+# s - sort by
+# e - launch an editor
+# i - launch a pager (like what `less` uses)
+# w - launch a shell
+############
+
 # unmap gh (it was set to "cd --")
 map gh
 
