@@ -257,14 +257,13 @@ uninstall_kitty:
 wezterm:
 	@if [[ -f /usr/bin/wezterm ]]; then echo "[wezterm]: already installed"; \
 		else echo "Installing wezterm..." &&\
-		curl -LO https://github.com/wez/wezterm/releases/download/20230408-112425-69ae8472/wezterm-20230408-112425-69ae8472.Ubuntu22.04.deb &&\
-		sudo apt install -y ./wezterm-20230408-112425-69ae8472.Ubuntu20.04.deb &&\
-		rm -f ./wezterm-20230408-112425-69ae8472.Ubuntu20.04.deb && echo "Done"; fi
+		curl -L https://github.com/wez/wezterm/releases/download/20230408-112425-69ae8472/wezterm-20230408-112425-69ae8472.Ubuntu22.04.deb --output ~/wezterm.deb &&\
+		sudo apt install -y ~/wezterm.deb &&\
+		rm -f ~/wezterm.deb && echo "Done"; fi
 
 uninstall_wezterm:
 	@if [ -f /usr/bin/wezterm ]; then echo "Uninstalling wezterm..." &&\
-		sudo rm -f /usr/bin/wezterm && sudo rm -f /usr/share/applications/org.wezfurlong.wezterm.desktop &&\
-		echo "Done"
+		sudo apt purge -y wezterm && echo "Done"; fi
 
 i3:
 	@echo "==================================================================="
