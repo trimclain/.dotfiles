@@ -202,6 +202,10 @@ kitty:
 	@# imagemagick is required to display uncommon image formats in kitty
 	$(INSTALL) imagemagic kitty
 
+# TODO: build from source?
+wezterm:
+	@paru -S wezterm-git
+
 #======================================== Hyprland ================================================
 hyprland:
 	@$(INSTALL) hyprland
@@ -265,7 +269,7 @@ install: ## Setup arch the way I want it
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
 	neovide uninstall_neovide\
 	zsh zap\
-	kitty \
+	kitty wezterm\
 	hyprland\
 	telegram discord vscodium anki apps pistol\
 	install

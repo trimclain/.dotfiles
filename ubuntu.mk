@@ -245,14 +245,26 @@ kitty:
 		else echo "Installing Kitty..." && $(INSTALL) imagemagick &&\
 		curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n &&\
 		sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin &&\
-		sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/share/applications/ \
+		sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/share/applications/ &&\
 		sudo sed -i "s|Icon=kitty|Icon=/home/$$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" \
 		/usr/share/applications/kitty*.desktop && echo "Done"; fi
 
 uninstall_kitty:
 	@if [ -d ~/.local/kitty.app ]; then echo "Uninstalling kitty..." &&\
 		sudo rm -f /usr/local/bin/kitty && sudo rm -f /usr/share/applications/kitty*.desktop &&\
-		rm -rf ~/.local/kitty.app; fi
+		rm -rf ~/.local/kitty.app && echo "Done"; fi
+
+wezterm:
+	@if [[ -f /usr/bin/wezterm ]]; then echo "[wezterm]: already installed"; \
+		else echo "Installing wezterm..." &&\
+		curl -LO https://github.com/wez/wezterm/releases/download/20230408-112425-69ae8472/wezterm-20230408-112425-69ae8472.Ubuntu22.04.deb &&\
+		sudo apt install -y ./wezterm-20230408-112425-69ae8472.Ubuntu20.04.deb &&\
+		rm -f ./wezterm-20230408-112425-69ae8472.Ubuntu20.04.deb && echo "Done"; fi
+
+uninstall_wezterm:
+	@if [ -f /usr/bin/wezterm ]; then echo "Uninstalling wezterm..." &&\
+		sudo rm -f /usr/bin/wezterm && sudo rm -f /usr/share/applications/org.wezfurlong.wezterm.desktop &&\
+		echo "Done"
 
 i3:
 	@echo "==================================================================="
@@ -490,7 +502,7 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	nodejs uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall \
-	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty \
+	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
 	i3 awesome nitrogen polybar picom rofi pistol lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular zoom discord \
