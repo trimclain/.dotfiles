@@ -3,21 +3,21 @@
 ![screenshot](https://user-images.githubusercontent.com/84108846/194804318-319eac9f-f69d-45dc-a4c1-fbd396bcef59.png)
 
 My current configuration:
-* Editor - [Neovim](https://neovim.io)
-    * Configured in Lua
-    * See [`plugins.lua`](./nvim/.config/nvim/lua/trimclain/plugins.lua) for used plugins
-    * Neovim's built-in LSP client
-    * [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter/) 
+- Editor - [Neovim](https://neovim.io)
+    - Configured in Lua
+    - Neovim's built-in LSP client
+    - [`lazy.nvim`](https://github.com/folke/lazy.nvim) plugin manager
+    - [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter/)
       for highlighting
-    * [`telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) for 
+    - [`telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) for
       navigation
-* Terminal - [Kitty](https://sw.kovidgoyal.net/kitty)
-* Shell - [Zsh](https://www.zsh.org)
-* Window Manager - [Awesome](https://awesomewm.org/)
-* Status Bar - [Polybar](https://polybar.github.io/)
+- Terminal - [Wezterm](https://wezfurlong.org/wezterm/)
+- Shell - [Zsh](https://www.zsh.org)
+- Window Manager - [Awesome](https://awesomewm.org/)
+- Status Bar - [Polybar](https://polybar.github.io/)
 
 NOTES:
-- Installation with `make` is written for Debian-based systems and was tested on Ubuntu 22.04.
+- Installation with `make` is written for Ubuntu 22.04 and Arch Linux.
 - For my neovim config the latest neovim nightly is required. Use `make nvim` to install it.
 - Use `make help` to see available installation options.
 
@@ -79,25 +79,30 @@ git clone https://github.com/trimclain/.dotfiles ~/.dotfiles
 ```
 cd ~/.dotfiles && make
 ```
-4. Install my dotfiles (in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these)
+4. Install my dotfiles
 ```
 ./install --linux
 ```
-4. Install my desktop software (telegram, spotify, brave, obs-studio, kdenlive, inkscape, fd-find, nomacs, flameshot, gimp, smplayer)
+4. Install my desktop software
 ```
 make linux_install
 ```
-5. Install some apps I use
+5. Install some more apps I use
 ```
 make linux_software
 ```
 6. Restart and boot using the awesome window manager
-7. Open and close nvim to let it automatically install packer and my plugins
-8. Symlink my git config
+7. Symlink my git config
 ```
 stow gitconf
 ```
-8. Finish the setup by installing pip, venv, pynvim, black, flake8, stylua and prettier
-```
-make finish_setup
-```
+
+## What software do I currently use and why
+#### Terminal
+Alacritty was my first terminal, that I installed myself. It is written has a lot of nice features, it was also
+nice to see changes of my config without needing to restart the terminal.
+After a while I tried using kitty. It is written in go and has some features, that Alacritty doesn't, like ligature support. Kittens (kitty plugins)
+were also a big deal for me. I used the kitten to preview images in terminal in my lf config.
+Recently I decided to try out wezterm. It is, like Alacritty, written in rust, but it has some features, that are a dealbreaker for me.
+Firstly, wezterm config is written in lua, which is an actual programming language (Alacritty used yaml and Kitty used conf),
+and I love lua. Secondly, it combined the things I loved in Alacritty and Kitty. It's config is also reloaded in current terminal!
