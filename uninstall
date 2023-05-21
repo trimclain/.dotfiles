@@ -22,7 +22,8 @@ STOW_FOLDERS = [
     "picom",
     "lf",
     "stylua",
-    "xorg"
+    "xorg",
+    "wezterm",
 ]
 
 STOW_CONFIGS = [
@@ -43,6 +44,7 @@ STOW_CONFIGS = [
     ".config/lf",
     ".config/.stylua.toml",
     ".xprofile",
+    ".config/wezterm",
 ]
 
 STOW_DICT = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
