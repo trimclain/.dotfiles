@@ -8,7 +8,8 @@ all:
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives, ncdu for disk usage
-	$(INSTALL) curl stow ripgrep fzf fd-find ncdu htop btop tree exa bat xclip p7zip-full p7zip-rar
+	@$(INSTALL) curl stow ripgrep fzf fd-find ncdu htop btop tree exa bat xclip p7zip-full p7zip-rar
+	@$(INSTALL) python3-pip python3-venv
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
@@ -57,7 +58,9 @@ nvim_build_reqs:
 	@# Neovim prerequisites
 	@echo "==================================================================="
 	@echo "Installing Neovim build prerequisites..."
-	$(INSTALL) ninja-build gettext cmake unzip curl
+	@$(INSTALL) ninja-build gettext cmake unzip curl
+	@# Need pynvim for Bracey to work
+	@pip3 install pynvim
 
 nvim:
 	@# Install neovim by building it
@@ -478,22 +481,6 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 	$(INSTALL) sxiv flameshot gimp
 
 ###############################################################################
-python3_setup:
-	$(INSTALL) python3-pip python3-venv
-	@# Need pynvim for Bracey to work
-	pip3 install pynvim
-
-null_ls_tools:
-	@# Installing black (code formatter) and flake8 (diagnostics tool) for null-ls
-	pip3 install black flake8
-	@# Install stylua for lua formatting
-	cargo install stylua
-	@# Install prettier
-	npm install --global prettier
-
-finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, stylua and prettier
-	@echo "Done"
-###############################################################################
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
 	nvim_build_reqs nvim uninstall_nvim neovim purge_nvim \
@@ -505,5 +492,4 @@ finish_setup: python3_setup null_ls_tools ## install pip3, venv, black, flake8, 
 	i3 awesome nitrogen polybar picom rofi pistol lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular zoom discord \
-	linux_install linux_software python3_setup \
-	null_ls_tool finish_setup
+	linux_install linux_software
