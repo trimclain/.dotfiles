@@ -68,6 +68,7 @@ return {
                                     { title = "NeoTree: System Open Files" }
                                 )
                                 require("core.util").system_open(node.path)
+                                require("neo-tree.command").execute({ toggle = true })
                                 break
                             end
                         end
