@@ -218,16 +218,15 @@ hyprland:
 	@$(INSTALL) waybar swaybg
 
 #==================================================================================================
-telegram: ## Install Telegram Desktop using flatpak
-	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
-		else $(FLATINSTALL) flathub org.telegram.desktop; fi
+telegram: ## Install Telegram Desktop
+	@$(INSTALL) telegram-desktop
 
 # TODO: spotify brave obs-studio kdenlive inkscape gimp
 
-discord: ## Install Discord using flatpak
-	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
-		else $(FLATINSTALL) flathub com.discordapp.Discord; fi
+discord: ## Install Discord
+	@$(INSTALL) discord
 
+# Lol
 vscodium:
 	paru -S vscodium-bin
 
