@@ -205,9 +205,8 @@ kitty:
 	@# imagemagick is required to display uncommon image formats in kitty
 	$(INSTALL) imagemagic kitty
 
-# TODO: build from source?
 wezterm:
-	@paru -S wezterm-git
+	@$(INSTALL) wezterm
 
 #======================================== Hyprland ================================================
 hyprland:
