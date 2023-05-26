@@ -188,6 +188,7 @@ addToPATH "$N_PREFIX/bin" # n-insall for node versions
 addToPATH "$CARGO" # rust btw
 addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
+addToPATH "$HOME/.juliaup/bin" # julia
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
