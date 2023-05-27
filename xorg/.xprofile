@@ -7,7 +7,7 @@ $HOME/.local/bin/monitor-layout --startup
 # Sets the delay and rate for keyboard auto-repeat
 xset r rate 400 25
 
-# Enable transparency; add "-- config $HOME/.config/picom/picom.conf" for config to be used
+# Enable transparency and other visual effects; add "-- config $HOME/.config/picom/picom.conf" for config to be used
 picom -b
 
 # Hide mouse when typing
