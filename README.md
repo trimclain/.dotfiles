@@ -7,10 +7,9 @@ My current configuration:
     - Configured in Lua
     - Neovim's built-in LSP client
     - [`lazy.nvim`](https://github.com/folke/lazy.nvim) plugin manager
-    - [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter/)
-      for highlighting
-    - [`telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) for
-      navigation
+    - [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter/) for highlighting
+    - [`telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) for navigation
+    - [`neo-tree.nvim`](https://github.com/nvim-neo-tree/neo-tree.nvim) file manager
 - Terminal - [Wezterm](https://wezfurlong.org/wezterm/)
 - Shell - [Zsh](https://www.zsh.org)
 - Window Manager - [Awesome](https://awesomewm.org/)
