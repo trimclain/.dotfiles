@@ -129,10 +129,23 @@ return {
             vim.g.mkdp_auto_close = 0 -- don't auto close current preview window when change to another buffer
             vim.g.mkdp_echo_preview_url = 1 -- echo preview page url in command line when open preview page
             vim.g.mkdp_filetypes = { "markdown" }
+
+            -- Detect installed browser
+            local browserlist = {
+                "brave",
+                "brave-browser",
+            }
+            for _, browser in ipairs(browserlist) do
+                if vim.fn.executable(browser) == 1 then
+                    vim.g.mkdp_browser = browser
+                    break
+                end
+            end
+
             -- Open preview in a new window
             vim.cmd([[
                 function OpenMarkdownPreview(url)
-                    execute "silent ! brave-browser --new-window " . a:url
+                    execute "silent ! " . g:mkdp_browser . " --new-window " . a:url
                 endfunction
                 let g:mkdp_browserfunc = "OpenMarkdownPreview"
             ]])
