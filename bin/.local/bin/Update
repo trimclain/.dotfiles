@@ -17,8 +17,9 @@ elif [[ $OS == arch ]]; then
         sudo pacman -Syu --noconfirm
     fi
     # apt autoremove
-    if [[ -n $(pacman -Qdtq) ]]; then
-        sudo pacman -R --noconfirm "$(pacman -Qdtq)"
+    orphans=$(pacman -Qdtq)
+    if [[ -n $orphans ]]; then
+        sudo pacman -R --noconfirm "$orphans"
     fi
 else
     echo "Error: OS not supported"
