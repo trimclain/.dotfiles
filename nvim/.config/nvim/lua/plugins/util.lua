@@ -74,7 +74,7 @@ return {
                 terminal = {
                     position = CONFIG.ui.quickrun_position,
                     -- make it 30% of the width or 25% of the height
-                    -- TODO: update size on vim resize
+                    -- TODO: update size on vim resize (can I do jaq-nvim.opts.ui.terminal.size = new_size ?)
                     size = CONFIG.ui.quickrun_position == "vert" and math.floor(vim.o.columns * 0.3)
                         or math.floor(vim.o.lines * 0.25),
                 },

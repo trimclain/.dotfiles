@@ -87,7 +87,6 @@ return {
     },
 
     -- Fuzzy Finder
-    -- TODO: fix a bug, where I enter insert mode after picking files
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
