@@ -2,18 +2,36 @@
 
 OS=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
 
-if [[ $OS == arch ]]; then
-    if command -v paru &> /dev/null; then
-        paru -Syu
-        # TODO: autoremove?
-        # sudo pacman -R $(pacman -Qdtq)
-    else
-        sudo pacman -Syu
-        # sudo pacman -R $(pacman -Qdtq)
-    fi
-else
+# package manager updates
+if [[ $OS == ubuntu ]]; then
     sudo apt update
     sudo apt upgrade -y
+    # see https://www.networkworld.com/article/3453032/cleaning-up-with-apt-get.html
+    # sudo apt clean -y
+    sudo apt autoclean -y
     sudo apt autoremove -y
+elif [[ $OS == arch ]]; then
+    if command -v paru > /dev/null; then
+        paru -Syu --noconfirm
+    else
+        sudo pacman -Syu --noconfirm
+    fi
+    # apt autoremove
+    if [[ -n $(pacman -Qdtq) ]]; then
+        sudo pacman -R --noconfirm "$(pacman -Qdtq)"
+    fi
+else
+    echo "Error: OS not supported"
+    exit 1
 fi
 
+# flatpak
+if command -v flatpak > /dev/null; then
+    flatpak update -y
+fi
+
+# zap
+if command -v zap > /dev/null; then
+    zap update all
+    zap update self
+fi
