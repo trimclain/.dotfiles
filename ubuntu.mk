@@ -10,6 +10,8 @@ all:
 	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives, ncdu for disk usage
 	@$(INSTALL) curl stow ripgrep fzf fd-find ncdu htop btop tree exa bat xclip p7zip-full p7zip-rar
 	@$(INSTALL) python3-pip python3-venv
+	@# For netstat, ifconfig and more
+	@$(INSTALL) net-tools
 
 help: ## print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
