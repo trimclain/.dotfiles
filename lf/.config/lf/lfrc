@@ -41,6 +41,7 @@ set autoquit
 # Commands and Functions
 ###############################################################################
 
+# TODO: update to use a different method
 # Use kitty to display images, and fall back to pistol for everything else
 set previewer ~/.config/lf/lf_kitty_preview
 set cleaner ~/.config/lf/lf_kitty_clean
