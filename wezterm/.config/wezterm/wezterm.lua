@@ -55,7 +55,6 @@ config.font_size = 13.0
 config.window_background_opacity = 0.85
 -- config.color_scheme = "Catppuccin Macchiato"
 
--- TODO:
 -- https://github.com/samuelngs/apple-emoji-linux/releases/tag/v16.4
 -- local emoji_fonts={ "Apple Color Emoji", "Joypixels", "Twemoji", "Noto Color Emoji", "Noto Emoji" }
 -- config.font = wezterm.font_with_fallback({ fonts[1], emoji_fonts[1], emoji_fonts[2] })
