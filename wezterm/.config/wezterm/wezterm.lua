@@ -41,15 +41,19 @@ end
 -- "TempleOS",
 -- "Apercu Pro"
 
+-- INFO:
+-- \u{2718} is supported in these fonts: https://www.fileformat.info/info/unicode/char/2718/fontsupport.htm
+-- For now I choose DejaVu (Ubuntu uses it)
+
 -- List available fonts: wezterm ls-fonts --list-system
 local fonts = {
     "BlexMono Nerd Font Mono",
     "Cascadia Code",
     "JetBrainsMono Nerd Font Mono",
+    "DejaVuSansM Nerd Font",
     "JetBrains Mono", -- pre-installed
 }
-
-config.font = wezterm.font_with_fallback({ fonts[1], fonts[#fonts] })
+config.font = wezterm.font_with_fallback({ fonts[1], fonts[#fonts - 1], fonts[#fonts] })
 config.font_size = 13.0
 
 config.window_background_opacity = 0.85
