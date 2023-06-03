@@ -43,6 +43,7 @@ wallpapers:
 
 # TODO: switch to pyenv for version control
 # TODO: switch to virtualenv (venv comes built-in, but has less features)
+# TODO: install numpy, matplotlib, pillow
 python: ## Install python3, pip
 	@echo "Installing python3 with pip"
 	@$(INSTALL) python python-pip
