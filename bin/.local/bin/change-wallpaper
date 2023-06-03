@@ -9,9 +9,9 @@ else
     exit 2
 fi
 
-if [[ -f /usr/bin/nitrogen ]]; then
-    nitrogen $wallpapers
-# elif [[ -f /usr/bin/feh ]]; then
+if command -v nitrogen > /dev/null; then
+    nitrogen "$wallpapers"
+# elif command -v feh > /dev/null; then
 #     images_folder=~/personal/images
 
 #     selected=$(find $images_folder | grep '.png\|.jpg\|.jpeg' | fzf)
