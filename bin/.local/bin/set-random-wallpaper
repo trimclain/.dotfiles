@@ -9,12 +9,14 @@ else
     exit 2
 fi
 
-if [[ -f /usr/bin/nitrogen ]]; then
-    nitrogen --set-auto --random $wallpapers
+if command -v nitrogen > /dev/null; then
+    nitrogen --set-auto --random "$wallpapers" &> /dev/null
+# elif command -v feh > /dev/null; then
+#     ls "$wallpapers" |sort -R |tail -1 |while read -r selected; do
+#     # Something involving $file, or you can leave
+#     # off the while to just get the filenames
+#     feh --bg-scale $wallpapers/$selected
+#     done
 else
-    ls $wallpapers |sort -R |tail -1 |while read selected; do
-    # Something involving $file, or you can leave
-    # off the while to just get the filenames
-    feh --bg-scale $wallpapers/$selected
-    done
+    echo "Error: neither nitrogen nor feh found"
 fi
