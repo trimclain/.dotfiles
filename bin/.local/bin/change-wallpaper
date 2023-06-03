@@ -10,7 +10,7 @@ else
 fi
 
 if command -v nitrogen > /dev/null; then
-    nitrogen "$wallpapers"
+    nitrogen "$wallpapers" &
 # elif command -v feh > /dev/null; then
 #     images_folder=~/personal/images
 
