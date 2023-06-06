@@ -1,6 +1,8 @@
 # INFO: careful with search (https://wiki.archlinux.org/title/zathura#Huge_memory_usage_with_Poppler)
 
 set sandbox none
+# don't show the statusbar on startup
+set guioptions none
 set statusbar-h-padding 1
 set statusbar-v-padding 1
 set selection-clipboard clipboard
