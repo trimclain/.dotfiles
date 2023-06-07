@@ -19,14 +19,55 @@ return {
             luasnip.filetype_extend("javascript", { "javascriptreact", "html" }) -- add jsx and html snippets to js
             luasnip.filetype_extend("javascriptreact", { "javascript", "html" }) -- add js and html snippets to jsx
             luasnip.filetype_extend("typescriptreact", { "javascript", "html" }) -- add js and html snippets to tsx
+
+            -----------------------------------------------------------------------------------------------------------
+            -- My Snippets
+            -----------------------------------------------------------------------------------------------------------
+            luasnip.add_snippets("NeogitCommitMessage", {
+                luasnip.snippet("cl", {
+                    luasnip.text_node("chore(nvim): update lazy-lock")
+                })
+            })
+
+            -----------------------------------------------------------------------------------------------------------
+            -- Example snippet:
+            -----------------------------------------------------------------------------------------------------------
+            -- args is a table, where 1 is the text in Placeholder 1, 2 the text in
+            -- placeholder 2,...
+            -- local function copy(args)
+            --     return args[1]
+            -- end
+            -- luasnip.add_snippets("all", {
+            --     -- trigger is `fn`, second argument to snippet-constructor are the nodes to insert into the buffer on expansion.
+            --     luasnip.snippet("fnk", {
+            --         -- Simple static text.
+            --         luasnip.text_node("//Parameters: "),
+            --         -- function, first parameter is the function, second the Placeholders
+            --         -- whose text it gets as input.
+            --         luasnip.function_node(copy, 2),
+            --         luasnip.text_node({ "", "function " }),
+            --         -- Placeholder/Insert.
+            --         luasnip.insert_node(1),
+            --         luasnip.text_node("("),
+            --         -- Placeholder with initial text.
+            --         luasnip.insert_node(2, "int foo"),
+            --         -- Linebreak
+            --         luasnip.text_node({ ") {", "\t" }),
+            --         -- Last Placeholder, exit Point of the snippet.
+            --         luasnip.insert_node(0),
+            --         luasnip.text_node({ "", "}" }),
+            --     }),
+            -- })
+            -----------------------------------------------------------------------------------------------------------
         end,
         keys = {
             {
 
                 "<c-k>",
                 function()
-                    if require("luasnip").expand_or_jumpable() then
-                        require("luasnip").expand_or_jump()
+                    local luasnip = require("luasnip")
+                    if luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
                     end
                 end,
                 silent = true,
@@ -35,8 +76,9 @@ return {
             {
                 "<c-j>",
                 function()
-                    if require("luasnip").jumpable(-1) then
-                        require("luasnip").jump(-1)
+                    local luasnip = require("luasnip")
+                    if luasnip.jumpable(-1) then
+                        luasnip.jump(-1)
                     end
                 end,
                 silent = true,
@@ -45,8 +87,9 @@ return {
             {
                 "<c-l>",
                 function()
-                    if require("luasnip").choice_active() then
-                        require("luasnip").change_choice(1)
+                    local luasnip = require("luasnip")
+                    if luasnip.choice_active() then
+                        luasnip.change_choice(1)
                     end
                 end,
                 mode = "i",
