@@ -33,7 +33,12 @@ fi
 # TODO: rewrite so it's pretty
 filename=$(basename -- "$1")
 extension="${filename##*.}"
-filename="${filename%.*}"
+# if I want a custom folder name to extract into
+if [[ -n $2 ]]; then
+    filename=$2
+else
+    filename="${filename%.*}"
+fi
 if [[ $extension == "zip" ]]; then
     # if there's 1 folder containing every other file in an archive
     # don't create new folder
