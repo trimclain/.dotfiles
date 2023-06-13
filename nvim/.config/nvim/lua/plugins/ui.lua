@@ -20,7 +20,7 @@ return {
             { "<leader>ns", "<cmd>Notifications<cr>", desc = "Show all Notifications" },
         },
         opts = {
-            timeout = 2000,
+            timeout = 1500,
             max_height = function()
                 return math.floor(vim.o.lines * 0.75)
             end,
