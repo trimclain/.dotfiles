@@ -90,7 +90,7 @@ function M.telescope(builtin, opts, theme)
         if params.theme == "default" then
             opts = params.opts or {}
         else
-            opts = require("telescope.themes").get_dropdown({params.opts or {}})
+            opts = require("telescope.themes").get_dropdown(params.opts or {})
         end
 
         -- for `files`, git_files or find_files will be chosen depending on .git
