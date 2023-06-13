@@ -21,7 +21,10 @@ return {
         ---@type TSConfig
         opts = {
             highlight = { enable = true },
-            indent = { enable = true },
+            indent = {
+                enable = true,
+                disable = { "julia" }, -- sadly broken right now
+            },
             context_commentstring = { enable = true, enable_autocmd = false }, -- nvim-ts-context-commentstring
             autotag = { enable = true }, -- nvim-ts-autotag
             -- one of "all", "maintained" (parsers with maintainers), or a list of languages
