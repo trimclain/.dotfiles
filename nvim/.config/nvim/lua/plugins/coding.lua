@@ -24,8 +24,15 @@ return {
             -- My Snippets
             -----------------------------------------------------------------------------------------------------------
             luasnip.add_snippets("NeogitCommitMessage", {
-                luasnip.snippet("cl", {
+                -- lazy-lock
+                luasnip.snippet("ll", {
                     luasnip.text_node("chore(nvim): update lazy-lock"),
+                }),
+                -- config update
+                luasnip.snippet("cu", {
+                    luasnip.text_node("chore("),
+                    luasnip.insert_node(1, "scope"),
+                    luasnip.text_node("): update config"),
                 }),
             })
 
