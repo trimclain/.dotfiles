@@ -25,8 +25,8 @@ return {
             -----------------------------------------------------------------------------------------------------------
             luasnip.add_snippets("NeogitCommitMessage", {
                 luasnip.snippet("cl", {
-                    luasnip.text_node("chore(nvim): update lazy-lock")
-                })
+                    luasnip.text_node("chore(nvim): update lazy-lock"),
+                }),
             })
 
             -----------------------------------------------------------------------------------------------------------
@@ -283,7 +283,7 @@ return {
             -- I use this instead of surround for now
             fast_wrap = {
                 map = "<M-e>",
-                chars = { "{", "[", "(", '"', "'" },
+                chars = { "{", "[", "(", '"', "'", "`" },
                 pattern = [=[[%'%"%>%]%)%}%,]]=],
                 end_key = "$",
                 keys = "qwertyuiopzxcvbnmasdfghjkl",
@@ -293,12 +293,12 @@ return {
             },
         },
         config = function(_, opts)
-            -- Create a ule to add spaces between parentheses
             local npairs = require("nvim-autopairs")
             local Rule = require("nvim-autopairs.rule")
 
             npairs.setup(opts)
 
+            -- Create a rule to add spaces between parentheses
             local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
             npairs.add_rules({
                 Rule(" ", " "):with_pair(function(options)
@@ -322,6 +322,11 @@ return {
                         :use_key(bracket[2]),
                 })
             end
+
+            -- A rule for arrow key on javascript
+            Rule("%(.*%)%s*%=>$", " {  }", { "typescript", "typescriptreact", "javascript", "javascriptreact" })
+                :use_regex(true)
+                :set_end_pair_length(2)
         end,
     },
 
