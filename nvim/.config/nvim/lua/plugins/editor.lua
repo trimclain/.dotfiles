@@ -103,8 +103,14 @@ return {
             "nvim-lua/plenary.nvim",
         },
         keys = {
-            -- find
+            -- find files
             { "<C-p>", Util.telescope("files"), desc = "Find Files (root dir)" },
+            {
+                "<leader>ff",
+                Util.telescope("files", { previewer = true }, "default"),
+                desc = "Find Files with preview",
+            },
+
             -- stylua: ignore
             { "<C-f>", function() Util.curr_buf_search() end, desc = "Fzf Buffer" },
             { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
@@ -291,8 +297,8 @@ return {
             },
             pickers = {
                 find_files = {
-                    theme = "dropdown",
                     previewer = false,
+                    hidden = true,
                 },
                 -- live_grep = {
                 --     vimgrep_arguments = {
@@ -309,9 +315,6 @@ return {
                 -- previewer = false
                 -- },
                 git_files = {
-                    -- theme = "ivy",
-                    theme = "dropdown",
-                    -- theme = "cursor",
                     previewer = false,
                     show_untracked = true,
                 },

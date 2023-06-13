@@ -80,19 +80,25 @@ end
 -- Return a function that calls telescope.
 ---@param builtin string
 ---@param opts table | nil
-function M.telescope(builtin, opts)
-    local params = { builtin = builtin, opts = opts }
+---@param theme string | nil
+function M.telescope(builtin, opts, theme)
+    local params = { builtin = builtin, opts = opts, theme = theme }
     return function()
         builtin = params.builtin
-        opts = params.opts or {}
+
+        -- theme can be "dropdown", "cursor" or "ivy"
+        if params.theme == "default" then
+            opts = params.opts or {}
+        else
+            opts = require("telescope.themes").get_dropdown({params.opts or {}})
+        end
+
         -- for `files`, git_files or find_files will be chosen depending on .git
         if builtin == "files" then
             -- Check if cwd is in a git worktree
             if M.in_git_worktree() then
-                opts.show_untracked = true
                 builtin = "git_files"
             else
-                opts.hidden = true
                 builtin = "find_files"
             end
         end
