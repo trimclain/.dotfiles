@@ -13,6 +13,13 @@ return {
                     return require("core.util").has_plugin("nvim-cmp")
                 end,
             },
+            {
+                "smjonas/inc-rename.nvim",
+                opts = { preview_empty_name = false },
+                config = function(_, opts)
+                    require("inc_rename").setup(opts)
+                end,
+            },
         },
         ---@class PluginLspOpts
         opts = {
