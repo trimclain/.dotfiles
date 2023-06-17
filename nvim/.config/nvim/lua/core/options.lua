@@ -29,6 +29,7 @@ local options = {
     swapfile = false, -- don't create a swapfile
     tabstop = tabwidth, -- insert 4 spaces for \t
     termguicolors = true, -- set term gui colors (most terminals support this)
+    textwidth = 80, -- maximum width of text that is being inserted, used by `gq` command
     timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
     undofile = true, -- enable persistent undo
     undolevels = 10000, -- maximum number of changes that can be undone

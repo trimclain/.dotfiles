@@ -46,6 +46,7 @@ set sidescrolloff=8                     " or  8 chars away from the sides
 set wildmenu                            " better command-line completion
 set showcmd                             " show partial commands in the last line of the screen
 set colorcolumn=80                      " vertical column to see 80 characters
+set textwidth=80                        " wrap lines at 80 characters with gq
 set signcolumn=yes                      " enable error-column
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
 set timeoutlen=500                      " time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)

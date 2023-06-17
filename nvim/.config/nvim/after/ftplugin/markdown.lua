@@ -1,4 +1,5 @@
 vim.opt_local.colorcolumn = "120"
+vim.opt_local.textwidth = 120
 
 -- buffer set to true means the keymap is set only in the buffer this was sourced in
 local opts = { noremap = true, silent = true, buffer = true }
