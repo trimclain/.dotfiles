@@ -52,7 +52,8 @@ return {
             ---@type lspconfig.options
             servers = {
                 -- Available servers: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
-                pyright = {},
+                -- pyright = {}, -- breaks nvim on quit, have to kill it (2023-06-17)
+                jedi_language_server = {},
                 html = {},
                 cssls = {},
                 emmet_ls = {},
@@ -66,7 +67,6 @@ return {
                 -- julials = {},
                 -- ansiblels = {},
                 dockerls = {},
-
                 jsonls = {},
                 lua_ls = {
                     -- mason = false, -- set to false if you don't want this server to be installed with mason
@@ -188,17 +188,16 @@ return {
                         extra_args = { "--tab-width=4" }, -- , "--jsx-single-quote", "--no-semi", "--single-quote",
                         extra_filetypes = { "toml" },
                     }),
-                    nls.builtins.formatting.black.with({
-                        extra_args = {
-                            "--fast", -- if --fast given, skip temporary sanity checks [default: --safe]
-                            -- "--skip-string-normalization", -- don't normalize string quotes (don't change single to double) or prefixes
-                        },
+                    nls.builtins.formatting.ruff.with({ -- an extremely fast python formatter/linter, written in rust
+                        extra_args = { "--ignore", "E501" }, -- ignore long lines
                     }),
                     nls.builtins.formatting.stylua,
                     nls.builtins.formatting.beautysh,
 
                     -- Linters
-                    -- nls.builtins.diagnostics.flake8, -- too annoying, turn off for now
+                    nls.builtins.diagnostics.ruff.with({
+                        extra_args = { "--ignore", "E501" }, -- ignore long lines
+                    }),
                     nls.builtins.diagnostics.shellcheck,
                     nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
                     -- This is normal and not related to null-ls.
@@ -217,12 +216,11 @@ return {
             ensure_installed = {
                 -- Formatters
                 "prettierd",
-                "black",
                 "stylua",
                 "beautysh",
 
                 -- Linters
-                -- "flake8",
+                "ruff", -- also used as a formatter
                 "shellcheck",
                 "eslint_d",
             },
