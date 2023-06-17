@@ -22,9 +22,14 @@ keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 -- yank back to the register: "ayy
 
 -- INFO:
--- How to change split directions
+-- How to change split directions:
 -- vertical to horizontal: <c-w>K
 -- horizontal to vertical: <c-w>H
+
+-- INFO:
+-- How to check where was the keymap defined:
+-- map <keymap> for Normal, Visual, Select, Operator-pending modes
+-- map! <keymap> for Insert and Command-line modes
 
 --
 -- Easier movement between buffers (I'm fine with arrows and <C-w>jk for now -> more keys for whichkey)
