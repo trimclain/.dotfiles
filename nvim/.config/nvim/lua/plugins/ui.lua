@@ -150,7 +150,10 @@ return {
                     vim.list_extend(formatter_names, formatter)
                 end
                 if linter ~= nil then
-                    vim.list_extend(formatter_names, linter)
+                    -- handle the case where I use the same tool for formatting and linting
+                    if not vim.tbl_contains(formatter_names, linter[1]) then
+                        vim.list_extend(formatter_names, linter)
+                    end
                 end
                 return table.concat(formatter_names, ", ")
             end
@@ -177,10 +180,10 @@ return {
             local formatters = {
                 function()
                     local formatters = formatters_list()
-                    local text = " Format:"
+                    local text = " Style:"
                     if formatters == "" then
                         -- return " ∅"
-                        return "%#WinSeparator#  Format %*"
+                        return "%#WinSeparator#  Style %*"
                     end
                     return vim.fn.join({ "", text, formatters }, " ")
                 end,
