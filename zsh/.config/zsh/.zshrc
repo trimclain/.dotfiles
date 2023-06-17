@@ -309,6 +309,9 @@ addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
 addToPATH "$HOME/.juliaup/bin" # julia
 
+# I want to use the tools mason installs outside of neovim aswell
+addToPATH "$XDG_DATA_HOME/nvim/mason/bin"
+
 # Load aliases from .bash_aliases or .zsh_aliases if they exist
 if [[ -f ~/.zsh_aliases ]]; then
     . ~/.zsh_aliases
