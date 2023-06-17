@@ -17,7 +17,7 @@ else
             -not -path "$PERSONAL_PROJECTS/bots" \
             -not -path "$LOCAL_PLUGINS" 2> /dev/null | \
             sed "s|$HOME/\(.*\)|\1|" | \
-            fzf
+            fzf --cycle --bind 'tab:toggle-up,btab:toggle-down'
     )
 fi
 
