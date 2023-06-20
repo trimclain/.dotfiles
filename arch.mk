@@ -241,8 +241,8 @@ anki:
 
 #==================================================================================================
 
-apps: ## Install btop, xscreensaver, okular, lf and pcmanfm file managers, sxiv for images, flameshot for screenshots, zathura for pdf, ncdu (htop for `du`), mpv music player
-	@$(INSTALL) btop xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-poppler ncdu mpv
+apps: ## Install btop, slock, xscreensaver, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
+	@$(INSTALL) btop slock xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-poppler ncdu mpv
 	@make pistol
 
 # TODO: try lazygit, lazydocker (AUR)
