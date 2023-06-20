@@ -241,19 +241,11 @@ anki:
 
 #==================================================================================================
 
+# TODO: I switched to bat, uninstall pistol with `rm ~/.go/bin/pistol`
 apps: ## Install btop, slock, xscreensaver, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
 	@$(INSTALL) btop slock xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-poppler ncdu mpv
-	@make pistol
 
 # TODO: try lazygit, lazydocker (AUR)
-
-# file previewer for lf
-pistol:
-	@if ! command -v pistol &> /dev/null; then if [ -f /home/trimclain/.golang/bin/go ]; then \
-		echo "Installing pistol, a file previewer for lf..." &&\
-		go install github.com/doronbehar/pistol/cmd/pistol@latest;\
-		else echo "[pistol]: Install golang first by using \"make golang\""; fi\
-		else echo "[pistol]: Already installed"; fi
 
 #==================================================================================================
 # TODO:
@@ -275,5 +267,5 @@ install: ## Setup arch the way I want it
 	zsh zap\
 	kitty wezterm\
 	hyprland\
-	telegram discord vscodium anki apps pistol\
+	telegram discord vscodium anki apps\
 	install

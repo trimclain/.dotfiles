@@ -317,14 +317,8 @@ rofi:
 	@echo "Installing rofi..."
 	$(INSTALL) rofi
 
-# file previewer for lf
-pistol:
-	@echo "==================================================================="
-	@if [ -f /home/trimclain/.golang/bin/go ]; then echo "Installing pistol, a file previewer for lf..." &&\
-		$(INSTALL) libmagic-dev && go install github.com/doronbehar/pistol/cmd/pistol@latest;\
-		else echo "[pistol]: Install golang first by using \"make golang\""; fi
-
-lf: pistol
+# TODO: I switch to bat instead of pistol, finish setup
+lf:
 	@echo "==================================================================="
 	@if [ -f /home/trimclain/.golang/bin/go ]; then echo "Installing lf, a terminal file manager..." &&\
 		env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest;\
@@ -491,7 +485,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
-	i3 awesome nitrogen polybar picom rofi pistol lf flatpak sioyek zathura telegram spotify brave \
+	i3 awesome nitrogen polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular zoom discord \
 	linux_install linux_software

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+file=$1
+
+batorcat() {
+	file="$1"
+	shift
+	if command -v bat > /dev/null 2>&1; then
+		bat --color=always --style=plain --pager=never "$file" "$@"
+    # thanks ubuntu
+	elif command -v batcat > /dev/null 2>&1; then
+		batcat --color=always --style=plain --pager=never "$file" "$@"
+	else
+		cat "$file"
+	fi
+}
+batorcat "$file"
