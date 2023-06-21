@@ -11,4 +11,16 @@ if [[ "$( file -Lb --mime-type "$file")" =~ ^image ]]; then
     exit 1
 fi
 
-pistol "$file"
+batorcat() {
+	file="$1"
+	shift
+	if command -v bat > /dev/null 2>&1; then
+		bat --color=always --style=plain --pager=never "$file" "$@"
+    # thanks ubuntu
+	elif command -v batcat > /dev/null 2>&1; then
+		batcat --color=always --style=plain --pager=never "$file" "$@"
+	else
+		cat "$file"
+	fi
+}
+batorcat "$file"
