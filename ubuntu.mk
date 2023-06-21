@@ -342,19 +342,15 @@ zathura:
 
 telegram:
 	@echo "==================================================================="
-	@echo "Installing Telegram Desktop..."
-	@# Check if snap is installed
-	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
-		$(INSTALL) snapd; fi
-	sudo snap install telegram-desktop
+	@if command -v flatpak > /dev/null; then echo "Installing Telegram Desktop..." &&\
+		$(FLATINSTALL) flathub org.telegram.desktop;\
+		else echo "Error: flatpak not found";fi
 
 spotify:
 	@echo "==================================================================="
-	@echo "Installing Spotify..."
-	@# Check if snap is installed
-	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
-		$(INSTALL) snapd; fi
-	sudo snap install spotify
+	@if command -v flatpak > /dev/null; then echo "Installing Spotify..." &&\
+		$(FLATINSTALL) flathub com.spotify.Client;\
+		else echo "Error: flatpak not found";fi
 
 brave:
 	@echo "==================================================================="
@@ -407,11 +403,9 @@ uninstall_neovide:
 # Lol
 vscodium:
 	@echo "==================================================================="
-	@echo "Installing VSCodium..."
-	@# Check if snap is installed
-	@if [ ! -f /usr/bin/snap ]; then echo "Installing snap..." &&\
-		$(INSTALL) snapd; fi
-	sudo snap install codium --classic
+	@if command -v flatpak > /dev/null; then echo "Installing VSCodium..." &&\
+		$(FLATINSTALL) flathub com.vscodium.codium;\
+		else echo "Error: flatpak not found";fi
 
 pomo:
 	@echo "==================================================================="
