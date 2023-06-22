@@ -132,6 +132,7 @@ return {
 
             -- Detect installed browser
             local browserlist = {
+                "google-chrome",
                 "brave",
                 "brave-browser",
             }

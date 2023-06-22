@@ -1028,7 +1028,7 @@ awful.rules.rules = {
     { rule = { class = "Anki" }, properties = { tag = "2" } },
 
     -- Set Chrome to always map on the tag named "3"
-    { rule = { class = "Google-chrome" }, properties = { tag = "3" } },
+    -- { rule = { class = "Google-chrome" }, properties = { tag = "3" } },
 
     -- Make polybar borders normal
     -- {
