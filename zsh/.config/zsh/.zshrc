@@ -230,6 +230,10 @@ bindkey -s ^_ "^utmux-chtsh\n"
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
     tmp="$(mktemp)"
+
+    # needed by the previewer
+    [ ! -d "$HOME/.cache/lf" ] && mkdir --parents "$HOME/.cache/lf"
+
     # `command` is needed in case `lfcd` is aliased to `lf`
     command lf -last-dir-path="$tmp" "$@"
     if [ -f "$tmp" ]; then

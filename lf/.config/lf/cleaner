@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
+# Kitty
 kitty +kitten icat --clear --stdin no --silent --transfer-mode file < /dev/null > /dev/tty
+
+# Ueberzugpp
+# ueberzugpp cmd -s $UB_SOCKET -a remove -i PREVIEW

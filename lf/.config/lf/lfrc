@@ -42,13 +42,10 @@ set autoquit
 ###############################################################################
 
 # TODO: update to use a different method
-# Use kitty to display images, and fall back to pistol for everything else
-# set previewer ~/.config/lf/preview
+set previewer ~/.config/lf/previewer
+set cleaner ~/.config/lf/cleaner
 
-set previewer ~/.config/lf/lf_kitty_preview
-set cleaner ~/.config/lf/lf_kitty_clean
-
-# TODO: add pdf previews
+set ratios 1:2:3
 
 # define a custom 'open' command
 # This command is called when current file is not a directory. You may want to
