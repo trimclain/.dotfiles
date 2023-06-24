@@ -140,7 +140,7 @@ local themes = {
 local chosen_theme = themes[7]
 local modkey = "Mod1" -- default: Mod4 (windows key)
 local altkey = "Mod4" -- default: Mod1 (alt key)
-local terminal = "wezterm" -- kitty, alacritty, wezterm
+local terminal = "kitty" -- kitty, alacritty, wezterm
 local editor = os.getenv("EDITOR") or "nvim"
 -- local browser = "brave-browser"
 
