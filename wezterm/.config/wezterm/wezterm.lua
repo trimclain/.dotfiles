@@ -23,6 +23,7 @@
 -- 2. Easily setup fallback fonts
 -- 3. Helpful error messages (for example when a char can't be rendered with my current fonts)
 -- 4. Changes in config apply instantly in same window
+-- 5. Supports sixel AND kitty image format
 -- 5. Written in rust (btw)
 
 
