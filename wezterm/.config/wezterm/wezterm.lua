@@ -13,6 +13,19 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+-- Why I stopped using wezterm for now:
+-- 1. After I do `nohup xdg-open "$filename" &>/dev/null &` some number of times, my PC freezes when I exit wezterm
+-- 2. When changing the font size, it also changes the windows size
+
+-- As soon as these things get fixed, I'm coming back to it
+-- Reasons:
+-- 1. Config in Lua (I love lua)
+-- 2. Easily setup fallback fonts
+-- 3. Helpful error messages (for example when a char can't be rendered with my current fonts)
+-- 4. Changes in config apply instantly in same window
+-- 5. Written in rust (btw)
+
+
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 
