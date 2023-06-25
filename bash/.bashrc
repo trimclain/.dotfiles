@@ -16,9 +16,16 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+    *) return;;
+esac
+
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
 export EDITOR="/usr/bin/vim"
+export VISUAL=$EDITOR
 
 # Useful variables to set
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -32,11 +39,24 @@ export GOROOT="$HOME/.golang"
 export GOPATH="$HOME/.go"
 export SDKMAN_DIR="$HOME/.sdkman"
 
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-    *) return;;
-esac
+###############################################################################
+# Less
+###############################################################################
+export PAGER=less
+export LESSCHARSET="UTF-8"
+export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
+export LESS='-i -n -w -M -R -P%t?f%f \
+:stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
+
+# Less Colors for Man Pages
+export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+export LESS_TERMCAP_me=$'\E[0m'           # end mode
+export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+export LESS_TERMCAP_so=$'\E[38;5;11m'    # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+###############################################################################
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
