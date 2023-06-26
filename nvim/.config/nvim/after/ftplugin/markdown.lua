@@ -10,7 +10,7 @@ vim.b.is_todo_list = false
 --- Toggle writing TODO lists in current markdown buffer
 local toggle_todo_list = function()
     if vim.b.is_todo_list == false then
-        vim.keymap.set("i", "<cr>", "<cr>-   [ ] ", { buffer = vim.b.todo_list_bufnr })
+        vim.keymap.set("i", "<cr>", "<cr>- [ ] ", { buffer = vim.b.todo_list_bufnr })
         vim.b.is_todo_list = true
         vim.notify("Enabled TODO List")
     else

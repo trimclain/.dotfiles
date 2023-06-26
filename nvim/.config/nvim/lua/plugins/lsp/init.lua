@@ -187,6 +187,7 @@ return {
                     nls.builtins.formatting.prettierd.with({
                         extra_args = { "--tab-width=4" }, -- , "--jsx-single-quote", "--no-semi", "--single-quote",
                         extra_filetypes = { "toml" },
+                        disabled_filetypes = { "markdown" },
                     }),
                     nls.builtins.formatting.ruff.with({ -- an extremely fast python formatter/linter, written in rust
                         extra_args = { "--ignore", "E501" }, -- ignore long lines
