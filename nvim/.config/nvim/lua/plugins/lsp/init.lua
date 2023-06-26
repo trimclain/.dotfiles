@@ -203,6 +203,14 @@ return {
                     nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
                     -- This is normal and not related to null-ls.
                     -- You can stop it by running eslint_d stop from the command line.
+
+                    -- Hover
+                    nls.builtins.hover.printenv.with({ -- shows the value for the current environment variable under the cursor
+                        filetypes = { "zsh", "sh", "dosbatch", "ps1" },
+                    }),
+                    -- nls.builtins.hover.dictionary.with({ -- shows the first available definition for the current word under the cursor
+                    --     filetypes = { "org", "text", "markdown" },
+                    -- }),
                 },
             }
         end,
