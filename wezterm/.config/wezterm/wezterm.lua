@@ -15,6 +15,7 @@
 
 -- Why I stopped using wezterm for now:
 -- 1. After I do `nohup xdg-open "$filename" &>/dev/null &` some number of times, my PC freezes when I exit wezterm
+--      There might be fixed, if I set "no_hup and no_check_jobs" options in zshrc
 -- 2. When changing the font size, it also changes the windows size
 
 -- As soon as these things get fixed, I'm coming back to it
