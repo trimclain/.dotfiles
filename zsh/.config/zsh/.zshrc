@@ -26,9 +26,10 @@
 # in that folder are managed by zap.
 ###############################################################################
 
-# Disable ctrl-s to freeze and ctrl-q to unfreeze terminal
+# Disable XON/XOFF flow control (ctrl-s to freeze, ctrl-q to unfreeze)
 # This should come before powerlevel10k instant promt feature
-stty start undef stop undef
+stty -ixon
+# stty start undef stop undef
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -53,10 +54,18 @@ setopt pushdminus
 setopt histignorespace
 # Don't save older commands that duplicate newer ones
 setopt histsavenodups
-# When using !! or !<number>, expand the command before running it
-setopt histverify
+# When using !! or !<number>, don't expand the command before running it
+setopt nohistverify
 # Allow comments in the interactive shell
 setopt interactive_comments
+# Don't kill jobs when exiting shell
+setopt no_hup
+# And don't warn
+setopt no_check_jobs
+# show us when some command didn't exit with 0
+setopt print_exit_value
+# move cursor to end after every completion
+setopt always_to_end
 
 # Disable highlighting on paste
 zle_highlight=('paste:none')
@@ -344,7 +353,7 @@ elif [[ -f ~/.bash_aliases ]]; then
     . ~/.bash_aliases
 fi
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# enable sdkman
 if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
