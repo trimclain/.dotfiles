@@ -61,6 +61,7 @@ return {
                 tsserver = {},
                 volar = {}, -- vue-language-server
                 bashls = {},
+                marksman = {}, -- markdown
                 vimls = {},
                 -- yamlls = {},
                 graphql = {},
@@ -232,6 +233,7 @@ return {
                 "ruff", -- also used as a formatter
                 "shellcheck",
                 "eslint_d",
+                "stylelint", -- css linter
             },
             border = CONFIG.ui.border,
         },
