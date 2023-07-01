@@ -190,9 +190,10 @@ return {
                         extra_filetypes = { "toml" },
                         disabled_filetypes = { "markdown" },
                     }),
-                    nls.builtins.formatting.ruff.with({ -- an extremely fast python formatter/linter, written in rust
-                        extra_args = { "--ignore", "E501" }, -- ignore long lines
-                    }),
+                    -- nls.builtins.formatting.ruff.with({ -- an extremely fast python formatter/linter, written in rust
+                    --     extra_args = { "--ignore", "E501" }, -- ignore long lines
+                    -- }),
+                    nls.builtins.formatting.autopep8,
                     nls.builtins.formatting.stylua,
                     nls.builtins.formatting.beautysh,
 
@@ -228,9 +229,10 @@ return {
                 "prettierd",
                 "stylua",
                 "beautysh",
+                "autopep8",
 
                 -- Linters
-                "ruff", -- also used as a formatter
+                "ruff",
                 "shellcheck",
                 "eslint_d",
                 "stylelint", -- css linter
