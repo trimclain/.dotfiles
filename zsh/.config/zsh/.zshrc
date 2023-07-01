@@ -319,6 +319,11 @@ elif (( $+commands[batcat] )); then
     alias catt="bat --theme \"DarkNeon\""
 fi
 
+if (( $+commands[fdfind] )); then
+    # Ubuntu...
+    alias fd="fdfind"
+fi
+
 [[ -f ~/.local/bin/extract ]] && alias ex=extract
 [[ -f ~/.local/bin/archive ]] && alias ar=archive
 
