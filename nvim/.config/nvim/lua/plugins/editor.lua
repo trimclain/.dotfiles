@@ -484,7 +484,7 @@ return {
 
     -- git client
     {
-        "TimUntersberger/neogit",
+        "NeogitOrg/neogit",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
