@@ -32,7 +32,9 @@ if command -v flatpak > /dev/null; then
 fi
 
 # zap
-if command -v zap > /dev/null; then
-    zap update all
-    zap update self
-fi
+# This doesn't work, since I zap.zsh needs to be sourced first for zap command
+# to exist
+# if [[ -f ~/.local/share/zap/zap.zsh ]] > /dev/null; then
+#     zap update all
+#     zap update self
+# fi
