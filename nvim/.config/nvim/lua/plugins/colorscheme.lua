@@ -4,7 +4,7 @@ return {
         "folke/tokyonight.nvim",
         lazy = false, -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
-        enabled = CONFIG.ui.colorscheme == "tokyonight",
+        cond = CONFIG.ui.colorscheme == "tokyonight",
         opts = {
             style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
             transparent = false, -- Enable this to disable setting the background color
@@ -36,7 +36,7 @@ return {
         name = "catppuccin",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "catppuccin",
+        cond = CONFIG.ui.colorscheme == "catppuccin", -- `cond` is now the same as `enabled`, but skips clean
         opts = {
             -- flavour = "frappe", -- mocha, frappe, macchiato, latte
             transparent_background = CONFIG.ui.transparent_background,
@@ -111,7 +111,7 @@ return {
         "rebelot/kanagawa.nvim",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "kanagawa",
+        cond = CONFIG.ui.colorscheme == "kanagawa",
         opts = {
             theme = "wave", -- wave, dragon, lotus
         },
@@ -125,7 +125,7 @@ return {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "nightfox",
+        cond = CONFIG.ui.colorscheme == "nightfox",
         opts = {
             transparent = false, -- Disable setting background
             dim_inactive = false, -- Non focused panes set to alternative background
@@ -141,7 +141,7 @@ return {
         name = "rose-pine",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "rose-pine",
+        cond = CONFIG.ui.colorscheme == "rose-pine",
         opts = {
             --- @usage 'auto'|'main'|'moon'|'dawn'
             variant = "auto",
@@ -163,7 +163,7 @@ return {
         "sainnhe/sonokai",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "sonokai",
+        cond = CONFIG.ui.colorscheme == "sonokai",
         config = function()
             vim.g.sonokai_style = "andromeda" -- options: 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
             vim.g.sonokai_better_performance = 1 -- options: 0, 1
@@ -175,7 +175,7 @@ return {
         "sam4llis/nvim-tundra",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "tundra",
+        cond = CONFIG.ui.colorscheme == "tundra",
         opts = {
             transparent_background = false,
             dim_inactive_windows = {
@@ -233,7 +233,7 @@ return {
         "Mofiqul/vscode.nvim",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "vscode",
+        cond = CONFIG.ui.colorscheme == "vscode",
         opts = {
             transparent = false,
             italic_comments = CONFIG.ui.italic_comment,
@@ -251,7 +251,7 @@ return {
         "glepnir/zephyr-nvim",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "zephyr",
+        cond = CONFIG.ui.colorscheme == "zephyr",
         config = function()
             vim.cmd.colorscheme("zephyr")
         end,
@@ -261,7 +261,7 @@ return {
         "getomni/neovim",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "omni",
+        cond = CONFIG.ui.colorscheme == "omni",
         config = function()
             vim.cmd.colorscheme("omni")
         end,
@@ -271,7 +271,7 @@ return {
         "navarasu/onedark.nvim",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "onedark",
+        cond = CONFIG.ui.colorscheme == "onedark",
         opts = {
             style = "darker", --"dark", "darker", "cool", "deep", "warm", "warmer" and "light"
             transparent = false, -- Show/hide background
@@ -304,7 +304,7 @@ return {
         "chama-chomo/grail",
         lazy = false,
         priority = 1000,
-        enabled = CONFIG.ui.colorscheme == "grail",
+        cond = CONFIG.ui.colorscheme == "grail",
         opts = {
             -- @usage soft | medium | hard
             background = "hard",
