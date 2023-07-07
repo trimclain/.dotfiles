@@ -62,11 +62,11 @@ return {
                         local extensions = { ".pdf", ".jpg", ".jpeg", ".png", ".html" }
                         for _, extension in pairs(extensions) do
                             if ext == extension then
-                                vim.notify(
-                                    "Opened " .. node.name,
-                                    vim.log.levels.INFO,
-                                    { title = "NeoTree: System Open Files" }
-                                )
+                                -- vim.notify(
+                                --     "Opened " .. node.name,
+                                --     vim.log.levels.INFO,
+                                --     { title = "NeoTree: System Open Files" }
+                                -- )
                                 require("core.util").system_open(node.path)
                                 require("neo-tree.command").execute({ toggle = true })
                                 break
