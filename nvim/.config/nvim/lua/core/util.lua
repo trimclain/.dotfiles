@@ -42,7 +42,7 @@ end
 --- Check if a plugin is installed and enabled
 ---@param plugin string
 function M.has_plugin(plugin)
-    return require("lazy.core.config").plugins[plugin] ~= nil
+    return require("lazy.core.config").spec.plugins[plugin] ~= nil
 end
 
 --- Execute command on VeryLazy event from lazy.nvim
