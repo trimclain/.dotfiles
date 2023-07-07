@@ -201,6 +201,7 @@ return {
                     --     extra_args = { "--ignore", "E501" }, -- ignore long lines
                     -- }),
                     nls.builtins.formatting.autopep8,
+                    nls.builtins.formatting.isort,
                     nls.builtins.formatting.stylua,
                     nls.builtins.formatting.beautysh,
 
@@ -237,6 +238,7 @@ return {
                 "stylua",
                 "beautysh",
                 "autopep8",
+                "isort",
 
                 -- Linters
                 "ruff",
