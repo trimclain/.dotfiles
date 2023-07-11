@@ -9,8 +9,6 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-# TODO: update config
-
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod1
 
@@ -354,7 +352,7 @@ client.urgent           $red $red $white $red $red
 ############################
 
 bar {
-    # position top
+    position top
     status_command i3status
     # font MesloLGS NF:style=Regular
     # font FontAwesome:style=Regular
