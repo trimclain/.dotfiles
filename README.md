@@ -10,7 +10,7 @@ My current configuration:
     - [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter/) for highlighting
     - [`telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) for navigation
     - [`neo-tree.nvim`](https://github.com/nvim-neo-tree/neo-tree.nvim) file manager
-- Terminal - [Wezterm](https://wezfurlong.org/wezterm/)
+- Terminal - [Kitty](https://sw.kovidgoyal.net/kitty/)
 - Shell - [Zsh](https://www.zsh.org)
 - Window Manager - [Awesome](https://awesomewm.org/)
 - Status Bar - [Polybar](https://polybar.github.io/)
@@ -105,6 +105,8 @@ were also a big deal for me. I used the kitten to preview images in terminal in 
 Recently I decided to try out wezterm. It is, like Alacritty, written in rust, but it has some features, that are a dealbreaker for me.
 Firstly, wezterm config is written in lua, which is an actual programming language (Alacritty used yaml and Kitty used conf),
 and I love lua. Secondly, it combined the things I loved in Alacritty and Kitty. It's config is also reloaded in current terminal!
+EDIT: for now I switched back to kitty, until some issues with wezterm are resolved.
 
 #### Window Manager
-My first tiling manager was i3. I liked everything about it, but sometime later decided to check out AwesomeWM, which is my current one since than. I like that it's also configured in lua. Sometime later I will slowly switch to Hyprland, but since it's Wayland, it takes time to get used to and setup everything.
+My first tiling manager was i3. I liked everything about it, but sometime later decided to check out AwesomeWM, which is my current one since than.
+I like that it's also configured in lua. Sometime later I will slowly switch to Hyprland, but since it's Wayland, it takes time to get used to and setup everything.
