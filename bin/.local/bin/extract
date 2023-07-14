@@ -36,31 +36,35 @@ extension="${filename##*.}"
 # if I want a custom folder name to extract into
 if [[ -n $2 ]]; then
     filename=$2
+    needfolder=true
 else
     filename="${filename%.*}"
 fi
 if [[ $extension == "zip" ]]; then
-    # if there's 1 folder containing every other file in an archive
-    # don't create new folder
-    array=($(zipinfo $1 \* | awk '{print $NF}'))
-    first="${array[0]}"
-    # tmp=$(mktemp)
-    # zipinfo $1 \* > $tmp
-    # array=($(awk 'ORS=" "{print $NF}' $tmp))
-    # rm -f $tmp
-    # echo "Array is ${array[*]}"
-    first="${array[0]}"
-    # echo "First is $first"
-    needfolder=false
-    for element in "${array[@]}";
-    do
-        # echo "Element is $element"
-        if [[ "$element" != "$first"* ]]; then
-            # echo "$element does not start with $first"
-            needfolder=true
-            break
-        fi
-    done
+    # TODO: yeeeeah.... nice code btw
+    if [[ -z $2 ]]; then
+        # if there's 1 folder containing every other file in an archive
+        # don't create new folder
+        array=($(zipinfo "$1" \* | awk '{print $NF}'))
+        first="${array[0]}"
+        # tmp=$(mktemp)
+        # zipinfo $1 \* > $tmp
+        # array=($(awk 'ORS=" "{print $NF}' $tmp))
+        # rm -f $tmp
+        # echo "Array is ${array[*]}"
+        first="${array[0]}"
+        # echo "First is $first"
+        needfolder=false
+        for element in "${array[@]}";
+        do
+            # echo "Element is $element"
+            if [[ "$element" != "$first"* ]]; then
+                # echo "$element does not start with $first"
+                needfolder=true
+                break
+            fi
+        done
+    fi
     if $needfolder; then
         # echo "NEED FOLDER"
         echo -n "Extracting files from $1 into $filename... "
