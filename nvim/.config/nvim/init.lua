@@ -45,7 +45,7 @@ CONFIG = {
         spinner = "dots_pulse", -- animation shown when tasks are ongoing
 
         -- Jaq position
-        quickrun_position = "bot" -- "bot": bottom horizontal split, "vert": right vertical split
+        quickrun_position = "bot", -- "bot": bottom horizontal split, "vert": right vertical split
     },
     git = {
         show_blame = false,
