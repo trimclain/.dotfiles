@@ -241,9 +241,8 @@ anki:
 
 #==================================================================================================
 
-# TODO: I switched to bat, uninstall pistol with `rm ~/.go/bin/pistol`
 apps: ## Install btop, slock, xscreensaver, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
-	@$(INSTALL) btop slock xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-poppler ncdu mpv
+	@$(INSTALL) btop slock xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
 
 # TODO: try lazygit, lazydocker (AUR)
 
