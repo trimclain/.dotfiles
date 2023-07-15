@@ -239,6 +239,8 @@ anki:
 	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
 		else $(FLATINSTALL) flathub net.ankiweb.Anki; fi
 
+# after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
+
 #==================================================================================================
 
 apps: ## Install btop, slock, xscreensaver, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv

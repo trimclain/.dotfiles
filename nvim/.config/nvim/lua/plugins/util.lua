@@ -220,6 +220,21 @@ return {
         enabled = vim.fn.executable("zenity") == 1 or vim.fn.executable("yad") == 1,
     },
 
+    -- create anki cards in neovim
+    -- {
+    --     "rareitems/anki.nvim",
+    --     -- event = "VeryLazy",
+    --     config = function()
+    --         require("anki").setup({
+    --             tex_support = true,
+    --             models = {
+    --                 -- Specify which notetype should be associated with which deck
+    --                 Default = "WT I",
+    --             },
+    --         })
+    --     end,
+    -- },
+
     -- LaTeX support
     -- {
     --     "lervag/vimtex",

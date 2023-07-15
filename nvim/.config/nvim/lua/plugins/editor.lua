@@ -385,6 +385,7 @@ return {
                 -- ["<leader>b"] = { name = "+buffer" },
                 ["<leader>f"] = { name = "+find" },
                 ["<leader>g"] = { name = "+git" },
+                ["<leader>h"] = { name = "+harpoon" },
                 ["<leader>gh"] = { name = "+hunks" },
                 ["<leader>l"] = { name = "+lsp" },
                 ["<leader>m"] = { name = "+make" },
@@ -744,7 +745,7 @@ return {
         "ThePrimeagen/harpoon",
         -- stylua: ignore
         keys = {
-            { "<leader>a", function() require("harpoon.mark").add_file() end, desc = "Add Harpoon Mark" },
+            { "<leader>ha", function() require("harpoon.mark").add_file() end, desc = "Add Mark" },
             { "<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, desc = "Toggle Harpoon Menu" },
             { "<C-j>", function() require("harpoon.ui").nav_file(1) end, desc = "Harpoon to file 1" },
             { "<C-k>", function() require("harpoon.ui").nav_file(2) end, desc = "Harpoon to file 2" },
