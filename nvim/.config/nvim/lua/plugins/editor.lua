@@ -6,20 +6,13 @@ return {
     {
         "nvim-neo-tree/neo-tree.nvim",
         cmd = "Neotree",
-        branch = "v2.x",
+        branch = "v3.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
             "MunifTanjim/nui.nvim",
         },
         keys = {
-            -- {
-            --     "<leader>e",
-            --     function()
-            --         require("neo-tree.command").execute({ toggle = true })
-            --     end,
-            --     desc = "Explorer NeoTree (cwd)",
-            -- },
             {
                 "<leader>e",
                 function()
@@ -45,7 +38,9 @@ return {
                     hide_hidden = false, -- for Windows
                 },
                 bind_to_cwd = false, -- true creates a 2-way binding between vim's cwd and neo-tree's root
-                follow_current_file = true,
+                follow_current_file = {
+                    enabled = true,
+                },
             },
             popup_border_style = CONFIG.ui.border,
             window = {
@@ -507,7 +502,7 @@ return {
                     ["3"] = "Depth3",
                     ["4"] = "Depth4",
                     ["<tab>"] = "Toggle",
-                    ["="] = "Toggle", -- fugitive habbit
+                    -- ["="] = "Toggle", -- fugitive habbit
                     ["x"] = "Discard",
                     ["s"] = "Stage",
                     -- ["a"] = "StageUnstaged",
