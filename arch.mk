@@ -236,8 +236,18 @@ vscodium:
 anki:
 	@echo "==================================================================="
 	@echo "Installing Anki..."
-	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
-		else $(FLATINSTALL) flathub net.ankiweb.Anki; fi
+	@# If no zstd found install it with 'sudo apt install zstd'
+	@# Install a hardcoded version
+	wget https://github.com/ankitects/anki/releases/download/2.1.65/anki-2.1.65-linux-qt6.tar.zst
+	@# Unpack it
+	tar xaf ./anki-2.1.65-linux-qt6.tar.zst
+	@# Run the installation script
+	cd ./anki-2.1.65-linux-qt6 && sudo ./install.sh
+	@# Delete the folder and the archive
+	rm -r ./anki-2.1.65-linux-qt6.tar.zst ./anki-2.1.65-linux-qt6
+
+uninstall_anki:
+	cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
