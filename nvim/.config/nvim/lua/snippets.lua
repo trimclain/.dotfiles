@@ -38,6 +38,11 @@ ls.add_snippets("anki", {
         i(1, ""),
         t("\\)"),
     }),
+    s("b", {
+        t("\\["),
+        i(1, ""),
+        t("\\]"),
+    }),
 })
 
 ls.add_snippets("NeogitCommitMessage", {
