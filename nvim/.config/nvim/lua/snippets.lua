@@ -31,6 +31,15 @@ local r = ls.restore_node
 --     }),
 -- })
 
+ls.add_snippets("anki", {
+    -- MathJax inline equiation
+    s("l", {
+        t("\\("),
+        i(1, ""),
+        t("\\)"),
+    }),
+})
+
 ls.add_snippets("NeogitCommitMessage", {
     -- lazy-lock
     s("ll", {
