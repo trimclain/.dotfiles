@@ -202,7 +202,7 @@ server: ## install everything I need for my server
 
 ###############################################################################
 
-install: font_install tmux zsh nvim nodejs golang rust ## install fonts, tmux, zsh, nvim, nodejs, golang, rust and my config for nvim, tmux and zsh
+install: tmux zsh nvim nodejs ## install tmux, zsh, nvim, nodejs and my config for nvim, tmux and zsh
 	./install
 
 sinstall: vimdir tmux ## install tmux and my config for bash, tmux and vim
