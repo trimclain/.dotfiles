@@ -18,7 +18,6 @@ vimdir:
 	@mkdir -p ~/.vim/undodir
 	@echo "Done"
 
-# TODO: In case I'm missing icons, check https://unix.stackexchange.com/a/685714
 fonts:
 	@echo "Installing fonts to ~/.local/share/fonts/"
 	@mkdir -p ~/.local/share/fonts/
@@ -190,7 +189,6 @@ zsh: ## Install zsh
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
-	@# TODO: why is one $ ok for [[]] but not ok anywhere else?
 	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
 		echo "Successfully switched to ZSH."; else echo "[zsh]: Already in use"; fi
 
@@ -255,8 +253,6 @@ uninstall_anki:
 
 apps: ## Install btop, slock, xscreensaver, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
 	@$(INSTALL) btop slock xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
-
-# TODO: try lazygit, lazydocker (AUR)
 
 #==================================================================================================
 # TODO:
