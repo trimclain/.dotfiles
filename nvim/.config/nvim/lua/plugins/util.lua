@@ -82,13 +82,13 @@ return {
         },
     },
 
-    -- local plugins need to be explicitly configured with dir
-    ---{ dir = "~/projects/secret.nvim" },
-
-    -- local plugins can also be configure with the dev option.
-    -- This will use {config.dev.path}/noice.nvim/ instead of fetching it from Github
-    -- With the dev option, you can easily switch between the local and installed version of a plugin
-    ---{ "folke/noice.nvim", dev = true },
+    {
+        "trimclain/builder.nvim",
+        dev = true,
+        config = function()
+            require("builder").setup()
+        end,
+    },
 
     -- preview print statement outputs in neovim (for JS, TS, Python and Lua)
     -- {

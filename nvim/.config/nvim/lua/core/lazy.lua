@@ -20,6 +20,9 @@ require("lazy").setup("plugins", {
         lazy = false, -- should plugins be lazy-loaded?
         version = false, -- always use the latest git commit
     },
+    dev = {
+        path = "~/projects/personal",
+    },
     -- try to load one of these colorschemes when starting an installation during startup
     install = { colorscheme = { CONFIG.ui.colorscheme, "habamax" } },
     ui = { border = CONFIG.ui.border },

@@ -125,6 +125,9 @@ keymap("n", "<leader>ps", "<cmd>Lazy sync<cr>", add_desc("Lazy Sync"))
 keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>", add_desc("Lazy Profile"))
 keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using lazy-lock.json"))
 
+-- stylua: ignore
+keymap("n", "<leader>b", function() require("builder").Build("cat /etc/hostname") end)
+
 -- " QuickFixList Stuff
 -- keymap("n", "<up>", ":cprev<CR>zz", opts)
 -- keymap("n", "<down>", ":cnext<CR>zz", opts)
