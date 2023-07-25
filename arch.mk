@@ -254,6 +254,8 @@ uninstall_anki:
 apps: ## Install btop, slock, xscreensaver, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
 	@$(INSTALL) btop slock xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
 
+# TODO: add lf preview dependencies (like chafa etc.)
+
 #==================================================================================================
 # TODO:
 install: ## Setup arch the way I want it
