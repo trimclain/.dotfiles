@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 import os
-from pathlib import Path
 import shutil
 import subprocess
 import sys
+from pathlib import Path
 
 CWD = os.path.join(Path.home(), ".dotfiles")
 BACKUP_FOLDER = os.path.join(CWD, ".backup")
@@ -26,8 +26,9 @@ STOW_FOLDERS = [
     "picom",  # 13
     "lf",  # 14
     "stylua",  # 15
-    "xorg", # 16
-    "wezterm", # 17
+    "xorg",  # 16
+    "wezterm",  # 17
+    "apps",  # 18
 ]
 
 STOW_CONFIGS = [
@@ -48,7 +49,8 @@ STOW_CONFIGS = [
     ".config/lf",  # 14
     ".config/.stylua.toml",  # 15
     ".xprofile",  # 16
-    ".config/wezterm", # 17
+    ".config/wezterm",  # 17
+    ".config/mimeapps.list",  # 18
 ]
 
 # Get the mode, default to normal
@@ -140,7 +142,7 @@ def get_config_names():  # -> list[str]: -- not supported in 3.7
         to_stow = [0, 1, 6, 7, 8]
     # Linux installation
     elif MODE == "-l" or MODE == "--linux":
-        to_stow = [0, 3, 4, 5, 6, 7, 9, 10, 12, 13, 14, 15, 16, 17]
+        to_stow = [0, 3, 4, 5, 6, 7, 9, 10, 12, 13, 14, 15, 16, 17, 18]
     # Remote server installation
     elif MODE == "--server":
         to_stow = [0, 1, 7, 8]
@@ -171,7 +173,7 @@ def install():
 
     # Stow
     names = get_config_names()
-    for name in names: # pyright: ignore [reportOptionalIterable]
+    for name in names:  # pyright: ignore [reportOptionalIterable]
         subprocess.run(["stow", "-vR", name])
     # print("Done")
 
