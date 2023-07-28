@@ -5,7 +5,7 @@
 # For constant changes use /etc/X11/xorg.conf.d/30-touchpad.conf
 
 # Get touchpad name
-TOUCHPAD=$(xinput --list --name-only | grep Touchpad)
+TOUCHPAD=$(xinput --list --name-only | grep Touch)
 
 # Give me that Natural Scrolling
 xinput set-prop "$TOUCHPAD" 'libinput Natural Scrolling Enabled' 1
