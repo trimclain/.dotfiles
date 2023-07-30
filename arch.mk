@@ -1,11 +1,12 @@
 INSTALL = sudo pacman -S --noconfirm --needed
+PARUINSTALL = paru -S --noconfirm --needed
 FLATINSTALL = flatpak install -y --or-update
 
 all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config
 	@echo "Installing some basic tools..."
-	@$(INSTALL) curl wget stow ripgrep fzf fd htop exa bat p7zip
+	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop exa bat p7zip
 	@# For netstat, ifconfig and more
 	@$(INSTALL) net-tools
 
@@ -47,11 +48,13 @@ python: ## Install python3, pip
 	@echo "Installing python3 with pip"
 	@$(INSTALL) python python-pip
 
-# TODO: Do I want rust, go globally or managers are fine?
 rust: ## Install rustup, the rust version manager
 	@$(INSTALL) rustup
+	@rustup default stable
+
 julia:
 	@$(INSTALL) julia
+
 golang:
 	@$(INSTALL) go
 
@@ -129,17 +132,17 @@ nvim_reqs:
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
 	@# Need yad or zenity for the color picker plugin, xclip for clipboard+, tree-sitter if I want cli
-	@$(INSTALL) yad xclip
+	$(INSTALL) yad xclip
 	@# Install what :checkhealth recommends
 	@# Need pynvim for Bracey
-	@pip install pynvim
-	@npm install -g neovim
+	pip install pynvim
+	npm install -g neovim
 	@make tectonic
 
 nvim_build_reqs:
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
-	@$(INSTALL) base-devel cmake unzip ninja curl
+	$(INSTALL) base-devel cmake unzip ninja curl
 
 nvim: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
@@ -153,20 +156,21 @@ uninstall_nvim:
 		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
 		echo "Done"; fi
 
-purge_nvim: uninstall_nvim
+clean_nvim:
 	@echo "Uninstalling Neovim Leftovers..."
-	@rm -rf ~/.config/nvim
 	@rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
 	@echo "Done"
+
+purge_nvim: uninstall_nvim clean_nvim
 
 #========================================= Neovide ================================================
 neovide:
 	@echo "==================================================================="
 	@echo "Installing Neovide..."
 	@# Install dependencies
-	$(INSTALL) curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
+	(INSTALL) curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
 	@# Install rust (done)
-	@cargo install --git https://github.com/neovide/neovide
+	cargo install --git https://github.com/neovide/neovide
 	@# Install .desktop file and icon to access neovide from rofi
 	@# Clone the repo
 	git clone "https://github.com/neovide/neovide" ~/neovide
@@ -197,38 +201,49 @@ zap:
 		else echo "Installing zap-zsh..." && git clone https://github.com/zap-zsh/zap ~/.local/share/zap;\
 		echo "Done"; fi
 
-#======================================== Awesome =================================================
-# TODO: awesome_reqs: global_fonts, commands, picom
+#===================================== Window Manager =============================================
+awesome:
+	@echo "==================================================================="
+	$(INSTALL) awesome dmenu rofi slock xscreensaver dunst picom feh nitrogen polybar
+
+# TODO:
+hyprland:
+	@echo "==================================================================="
+	$(INSTALL) hyprland
+	@# Post Install Apps: wofi (wayland rofi)?
+	$(INSTALL) xdg-desktop-portal-hyprland
+	@# Install waybar (statusbar) and swaybg (set wallpaper)
+	$(INSTALL) waybar swaybg
 
 #======================================== Terminal ================================================
 kitty:
 	@echo "==================================================================="
 	@# imagemagick is required to display uncommon image formats in kitty
-	$(INSTALL) imagemagic kitty
+	$(INSTALL) imagemagick kitty
 
 wezterm:
 	@$(INSTALL) wezterm
 
-#======================================== Hyprland ================================================
-hyprland:
-	@$(INSTALL) hyprland
-	@# Post Install Apps: wofi (wayland rofi)?
-	@$(INSTALL) xdg-desktop-portal-hyprland
-	@# Install waybar (statusbar) and swaybg (set wallpaper)
-	@$(INSTALL) waybar swaybg
-
 #==================================================================================================
-telegram: ## Install Telegram Desktop
-	@$(INSTALL) telegram-desktop
+# TODO: obs-studio kdenlive inkscape gimp
+brave: ## Install Brave Browser
+	$(PARUINSTALL) brave-bin
 
-# TODO: spotify brave obs-studio kdenlive inkscape gimp
+chrome: ## Install Google Chrome Browser
+	$(PARUINSTALL) google-chrome
+
+telegram: ## Install Telegram Desktop
+	$(INSTALL) telegram-desktop
 
 discord: ## Install Discord
-	@$(INSTALL) discord
+	$(INSTALL) discord
+
+spotify: ## Install Spotify
+	$(INSTALL) ncspot
 
 # Lol
 vscodium:
-	paru -S vscodium-bin
+	$(PARUINSTALL) vscodium-bin
 
 #======================================== Anki =================================================
 anki:
@@ -245,25 +260,56 @@ anki:
 	rm -r ./anki-2.1.65-linux-qt6.tar.zst ./anki-2.1.65-linux-qt6
 
 uninstall_anki:
-	cd /usr/local/share/anki/ && sudo ./uninstall.sh
+	@cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
 #==================================================================================================
 
-apps: ## Install btop, slock, xscreensaver, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
-	@$(INSTALL) btop slock xscreensaver okular lf pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
+apps: ## Install btop, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
+	@echo "==================================================================="
+	@echo Installing apps...
+	@echo "==================================================================="
+	$(INSTALL) btop okular lf chafa pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
+	@make brave
+	@make telegram
 
-# TODO: add lf preview dependencies (like chafa etc.)
+# TODO: add all lf preview dependencies
 
 #==================================================================================================
-# TODO:
-install: ## Setup arch the way I want it
+install: ## Setup arch after new installation
 	@echo "==================================================================="
 	@echo Installing everything...
 	@echo "==================================================================="
-	@make
-	@echo "==================================================================="
+	@# global langs
+	@make python
+	@make rust
+	@# aur helper
+	@make paru
+	@# network manager extras
+	@ $(INSTALL) network-manager-applet nm-connection-editor
+	@# window manager
+	@make awesome
+	@# terminal
+	@make kitty
+	@# system fonts + my fonts
+	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
+	@make fonts
+	@# shell
+	@make zsh
+	$(INSTALL) tmux
+	@# node
+	@make n
+	@# editor
+	@make nvim
+	@# symlink my configs
+	./install --linux
+	@echo "========================== DONE ==================================="
+
+# TODO:
+# linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, inkscape, gimp
+# 	@# Installing Linux only usefull tools:
+# 	$(INSTALL) gimp
 #==================================================================================================
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
@@ -271,10 +317,10 @@ install: ## Setup arch the way I want it
 	n uninstall_n export_node_modules import_node_modules typescript \
 	paru flatpak\
 	tectonic fix_tectonic uninstall_tectonic\
-	nvim_reqs nvim_build_reqs nvim uninstall_nvim purge_nvim\
+	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide uninstall_neovide\
 	zsh zap\
+	awesome hyprland\
 	kitty wezterm\
-	hyprland\
-	telegram discord vscodium anki apps\
+	brave telegram discord spotify vscodium anki uninstall_anki apps\
 	install
