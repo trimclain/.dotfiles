@@ -2,7 +2,15 @@
 
 # This script updates some touchpad settings
 
-# For constant changes use /etc/X11/xorg.conf.d/30-touchpad.conf
+# For constant changes add following to /etc/X11/xorg.conf.d/30-touchpad.conf
+# Section "InputClass"
+# 	Identifier "Touchpad"
+# 	MatchDriver "libinput"
+
+# 	MatchIsTouchpad "on"
+# 	Option "Tapping" "on"
+# 	Option "NaturalScrolling" "true"
+# EndSection
 
 # Get touchpad name
 TOUCHPAD=$(xinput --list --name-only | grep Touch)
