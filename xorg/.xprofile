@@ -10,6 +10,9 @@ xset r rate 400 25
 # Enable transparency and other visual effects
 picom -b
 
+# Enable notifications
+dunst
+
 # Hide mouse when typing
 # xbanish &
 

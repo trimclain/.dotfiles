@@ -6,45 +6,49 @@ from shutil import which
 import subprocess
 
 STOW_FOLDERS = [
-    "bin",
-    "bash",
-    "i3",
-    "awesome",
-    "polybar",
-    "nvim",
-    "chtsh",
-    "tmux",
-    "vim",
-    "zsh",
-    "kitty",
-    "alacritty",
-    "rofi",
-    "picom",
-    "lf",
-    "stylua",
-    "xorg",
-    "wezterm",
+    "bin",  # 0
+    "bash",  # 1
+    "i3",  # 2
+    "awesome",  # 3
+    "polybar",  # 4
+    "nvim",  # 5
+    "chtsh",  # 6
+    "tmux",  # 7
+    "vim",  # 8
+    "zsh",  # 9
+    "kitty",  # 10
+    "alacritty",  # 11
+    "rofi",  # 12
+    "picom",  # 13
+    "lf",  # 14
+    "stylua",  # 15
+    "xorg",  # 16
+    "wezterm",  # 17
+    "apps",  # 18
+    "dunst",  # 19
 ]
 
 STOW_CONFIGS = [
-    "",
-    ".bashrc",
-    ".config/i3",
-    ".config/awesome",
-    ".config/polybar",
-    ".config/nvim",
-    "",
-    ".tmux.conf",
-    ".vimrc",
-    ".zshrc",
-    ".config/kitty",
-    ".config/alacritty",
-    ".config/rofi",
-    ".config/picom",
-    ".config/lf",
-    ".config/.stylua.toml",
-    ".xprofile",
-    ".config/wezterm",
+    "",  # 0
+    ".bashrc",  # 1
+    ".config/i3",  # 2
+    ".config/awesome",  # 3
+    ".config/polybar",  # 4
+    ".config/nvim",  # 5
+    "",  # 6
+    ".tmux.conf",  # 7
+    ".vimrc",  # 8
+    ".zshrc",  # 9
+    ".config/kitty",  # 10
+    ".config/alacritty",  # 11
+    ".config/rofi",  # 12
+    ".config/picom",  # 13
+    ".config/lf",  # 14
+    ".config/.stylua.toml",  # 15
+    ".xprofile",  # 16
+    ".config/wezterm",  # 17
+    ".config/mimeapps.list",  # 18
+    ".config/dunst",  # 19
 ]
 
 STOW_DICT = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
