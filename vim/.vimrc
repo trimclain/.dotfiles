@@ -233,10 +233,8 @@ nnoremap <silent> <leader>gs :G<cr>
 let g:netrw_opened = 0
 function! NetrwToggle()
     if g:netrw_opened == 1
-        " get the amount of opened splits and move this much to left
-        " hoping this would work
-        " TODO:
-        " execute 'wincmd ' . (tabpagewinnr(tabpagenr(), '$') - 1) . 'h'
+        " move to the most left split
+        execute 'wincmd H'
         execute 'close'
     else
         " TODO:
@@ -360,7 +358,7 @@ augroup autopairs
     au FileType php let b:AutoPairs = AutoPairsDefine({'<?' : '?>', '<?php': '?>'})
 augroup END
 
-" -- To see what the options are use :h fo-table
+" To see what the options are use :h fo-table
 " vim.opt.formatoptions = vim.opt.formatoptions
 "     - "a" -- Auto formatting is BAD.
 "     - "t" -- Don't auto format my code. I got linters for that.
