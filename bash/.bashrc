@@ -108,9 +108,11 @@ fi
 
 if [ "$color_prompt" = yes ]; then
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[00;34m\]\w\[\033[00m\]\$ '
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='[\[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\W\[\033[00m\]]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='[\u@\h \W]\$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -142,18 +144,14 @@ fi
 #   sleep 10; alert
 # alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-bind '"\C-u": "Update\r"'
+# bind '"\C-u": "Update\r"'
 bind '"\C-t": "tmux-sessionizer $DOTFILES\n"'
 
 
 # Disable annoying error sound in terminal
 bind 'set bell-style none'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
+# My Aliases
 alias ebrc="vim $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
 alias evrc="vim $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
 
@@ -173,7 +171,7 @@ fi
 
 alias py="python3"
 alias activate="source venv/bin/activate"
-alias rest="./stop && ./start"
+# alias rest="./stop && ./start"
 
 # Load aliases from .zsh_aliases or .bash_aliases if they exist
 if [ -f ~/.zsh_aliases ]; then
