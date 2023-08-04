@@ -491,7 +491,7 @@ return {
         opts = {
             disable_commit_confirmation = true,
             -- Change the default way of opening neogit
-            kind = "replace", -- "replace", "tab", "split", "split_above", "vsplit", "floating"
+            kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
             -- override/add mappings
             mappings = {
                 -- modify status buffer mappings
