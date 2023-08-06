@@ -78,13 +78,12 @@ uninstall_nvim:
 		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
 		echo "Done"; fi
 
-neovim: uninstall_nvim nvim
-
-purge_nvim: uninstall_nvim
+clean_nvim:
 	@echo "Uninstalling Neovim Leftovers..."
-	rm -rf ~/.config/nvim
-	rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
+	@rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
 	@echo "Done"
+
+purge_nvim: uninstall_nvim clean_nvim
 
 tectonic:
 	@if [[ ! -f ~/.local/bin/tectonic ]]; then echo "Installing tectonic (latex compiler)..." &&\
@@ -471,7 +470,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 ###############################################################################
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
-	nvim_build_reqs nvim uninstall_nvim neovim purge_nvim \
+	nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim \
 	tectonic fix_tectonic uninstall_tectonic \
 	nodejs uninstall_nodejs export_node_modules import_node_modules typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
