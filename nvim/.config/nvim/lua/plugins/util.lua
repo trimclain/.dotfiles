@@ -82,13 +82,14 @@ return {
         },
     },
 
-    {
-        "trimclain/builder.nvim",
-        dev = true,
-        config = function()
-            require("builder").setup()
-        end,
-    },
+    -- TODO:
+    -- {
+    --     "trimclain/builder.nvim",
+    --     dev = true,
+    --     config = function()
+    --         require("builder").setup()
+    --     end,
+    -- },
 
     -- preview print statement outputs in neovim (for JS, TS, Python and Lua)
     -- {
