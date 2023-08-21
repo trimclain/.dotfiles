@@ -122,7 +122,7 @@ tectonic:
 
 fix_tectonic:
 	@# Fix the error "libssl.so.1.1: cannot open shared object file: No such file or directory"
-	@sudo pacman -S openssl-1.1
+	@$(INSTALL) openssl-1.1
 
 uninstall_tectonic:
 	@rm -f ~/.local/bin/tectonic
