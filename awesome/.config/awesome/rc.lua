@@ -796,8 +796,9 @@ local globalkeys = mytable.join(
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
     -- X screen locker
-    awful.key({ altkey, "Control" }, "l", function()
-        spawn_terminal_command("xscreensaver-command", "-lock")
+    awful.key({ altkey }, "l", function()
+        spawn_terminal_command("slock")
+        -- spawn_terminal_command("xscreensaver-command", "-lock")
     end, { description = "lock screen", group = "hotkeys" }),
 
     -- Use xrandr to adjust screen brightness
