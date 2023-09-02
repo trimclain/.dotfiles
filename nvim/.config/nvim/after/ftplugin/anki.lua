@@ -10,3 +10,11 @@ keymap("i", "ue", "ü", opts)
 keymap("i", "ae", "ä", opts)
 keymap("i", "oe", "ö", opts)
 keymap("i", "sz", "ß", opts)
+
+local anki = vim.api.nvim_create_augroup("trimclain_anki", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*.anki",
+    command = "silent %y+",
+    desc = "Yank Entire File",
+    group = anki,
+})
