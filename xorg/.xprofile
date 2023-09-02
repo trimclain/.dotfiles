@@ -10,7 +10,8 @@ xset r rate 400 25
 # Enable transparency and other visual effects
 picom -b
 
-# TODO: Enable notifications
+# Enable notifications
+# in awesome naughty is used
 # dunst
 
 # Hide mouse when typing

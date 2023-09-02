@@ -43,7 +43,9 @@ wallpapers:
 
 # TODO: switch to pyenv for version control
 # TODO: switch to virtualenv (venv comes built-in, but has less features)
-# TODO: install numpy, matplotlib, pillow
+
+# To install numpy, matplotlib, pillow use
+# $(INSTALL) python-numpy python-matplotlib python-pillow
 python: ## Install python3, pip
 	@echo "Installing python3 with pip"
 	@$(INSTALL) python python-pip
@@ -86,19 +88,6 @@ import_node_modules:
 typescript:
 	@# Install tsc and ts-node
 	@npm install -g typescript ts-node
-
-# TODO: do I want this one or julia from pacman repo?
-# Using https://github.com/JuliaLang/juliaup
-# Alternative: https://github.com/johnnychen94/jill.py
-# julia:
-# 	@echo "==================================================================="
-# 	@if [ ! -d ~/.juliaup ]; then echo "Installing Juliaup (julia version manager)..." &&\
-# 		curl -fsSL https://install.julialang.org | sh &&\
-# 		echo "Done"; else echo "[julia]: Already installed"; fi
-
-# uninstall_julia:
-# 	@if command -v juliaup > /dev/null; then echo "Uninstalling julia..." &&\
-# 		juliaup self uninstall && rm -rf ~/.julia/ && echo "Done";fi
 
 ###################################################################################################
 # Software
@@ -225,7 +214,7 @@ wezterm:
 	@$(INSTALL) wezterm
 
 #==================================================================================================
-# TODO: obs-studio kdenlive inkscape gimp
+# SOMEDAY: obs-studio kdenlive inkscape gimp
 brave: ## Install Brave Browser
 	$(PARUINSTALL) brave-bin
 
@@ -274,8 +263,6 @@ apps: ## Install btop, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
 	@make brave
 	@make telegram
 
-# TODO: add all lf preview dependencies
-
 #==================================================================================================
 install: ## Setup arch after new installation
 	@echo "==================================================================="
@@ -306,10 +293,6 @@ install: ## Setup arch after new installation
 	./install --linux
 	@echo "========================== DONE ==================================="
 
-# TODO:
-# linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, inkscape, gimp
-# 	@# Installing Linux only usefull tools:
-# 	$(INSTALL) gimp
 #==================================================================================================
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
