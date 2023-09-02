@@ -38,6 +38,7 @@ ls.add_snippets("anki", {
         i(1, ""),
         t("\\)"),
     }),
+    -- MathJax block equiation
     s("b", {
         t("\\["),
         i(1, ""),
