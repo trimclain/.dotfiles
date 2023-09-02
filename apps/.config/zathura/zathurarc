@@ -1,4 +1,4 @@
-# INFO: careful with search (https://wiki.archlinux.org/title/zathura#Huge_memory_usage_with_Poppler)
+# INFO: for awailable options use `man zathurarc`
 
 set sandbox none
 # don't show the statusbar on startup
@@ -25,6 +25,12 @@ map u navigate previous
 map d navigate next
 map [fullscreen] u navigate previous
 map [fullscreen] d navigate next
+
+# Top and Bottom of the page
+map b scroll page-top
+map e scroll page-bottom
+map [fullscreen] b scroll page-top
+map [fullscreen] e scroll page-bottom
 
 # TODO: add a shortcut for :nohl
 
