@@ -6,6 +6,8 @@ set guioptions none
 set statusbar-h-padding 1
 set statusbar-v-padding 1
 set selection-clipboard clipboard
+# start in night-mode
+# set recolor true
 
 # Defaults:
 map <C-u> scroll half-up
