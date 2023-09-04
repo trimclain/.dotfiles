@@ -13,6 +13,9 @@ map <C-d> scroll half-down
 map <C-r> recolor
 map <C-p> print
 
+# toggle_statusbar by default, fits better as night-mode switch
+map <C-n> recolor
+
 map r reload
 map R rotate
 
