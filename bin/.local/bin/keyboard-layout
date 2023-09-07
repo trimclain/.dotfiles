@@ -1,12 +1,12 @@
 #!/bin/sh
 
 # Set the keyboard layout
-if [ -n $1 ]; then
-    if [ $1 = "--german" ]; then
+if [ -n "$1" ]; then
+    if [ "$1" = "--german" ]; then
         setxkbmap -layout de,us,ru
         # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
         setxkbmap -option 'grp:win_space_toggle'
-    elif [ $1 = "--no-german" ]; then
+    elif [ "$1" = "--no-german" ]; then
         setxkbmap -layout us,ru
         setxkbmap -option 'grp:win_space_toggle'
     fi
