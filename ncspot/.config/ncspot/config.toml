@@ -1,0 +1,197 @@
+###############################################################################
+# Basic options
+# https://github.com/hrkfdn/ncspot/blob/main/doc/users.md#configuration
+###############################################################################
+
+# Enable default keybindings (default: false)
+default_keybindings = false
+# Turn nerdfont glyphs on/off (default: false)
+use_nerdfont = false
+# Enable desktop notifications (default: false)
+notify = true
+# Enable gapless playback (default: true)
+gapless = true
+# Reverse play/pause icon meaning (default: false)
+flip_status_indicators = true
+# Set default shuffle state (default: false)
+shuffle = false
+# Set default repeat mode (off, track, playlist) (default: off)
+repeat = "off"
+# Set default playback state ("Stopped", "Paused", "Playing", "Default") (default: "Paused")
+# playback_state =
+# Tabs to show in library screen (Array of "tracks", "albums", "artists", "playlists", "podcasts", "browse")
+# library_tabs =
+
+###############################################################################
+[keybindings]
+# https://github.com/hrkfdn/ncspot/blob/main/doc/users.md#custom-keybindings
+###############################################################################
+
+"?" = "help"
+"q" = "back"
+"Q" = "quit"
+"Ctrl+r" = "reload" # reload ncspot
+"U" = "update"  # update library
+
+#######################
+# Tracks
+#######################
+"p" = "playpause"
+"Enter" = "play"
+"s" = "stop"
+
+"h" = "seek -5000"  # -5 sec
+"l" = "seek +5000"  # +5 sec
+
+"Ctrl+p" = "previous"  # play previous track
+"Ctrl+n" = "next"  # play next track
+
+"R" = "repeat"  # toggle repeat
+"Z" = "shuffle"  # toggle shuffle
+
+"S" = "save"  #  add to liked songs
+"D" = "delete"  # remove from liked songs
+
+#######################
+# Volume
+#######################
+"=" = "volup 1"
+"-" = "voldown 1"
+"]" = "volup 5"
+"[" = "voldown 5"
+
+#######################
+# Navigation
+#######################
+"j" = "move down 1"
+"k" = "move up 1"
+"H" = "move left 1"
+"L" = "move right 1"
+"G" = "move bottom"
+"g" = "move top"
+"Ctrl+d" = "move down 5"
+"Ctrl+u" = "move up 5"
+"z" = "move playing"  # for some reason this doesn't work (create an issue?)
+# "x" = "move pageup 0.2"
+
+# Views
+"F1" = "focus queue"
+"F2" = "focus library"
+"F3" = "focus search"
+"1" = "focus queue"
+"2" = "focus library"
+"3" = "focus search"
+# "Ctrl+q" = "focus queue"
+
+# Context Menu
+"O" = "open current"
+"o" = "open selected"
+# "A" = "goto artist"
+# "a" = "goto album"
+
+#######################
+# Queue
+#######################
+# Add to queue
+# " " = "queue"
+# "Ctrl+s" = "save queue"
+# Move selected song up/down in the queue
+# "J" = "shift down 1"
+# "K" = "shift up 1"
+# "C" = "clear"
+# Open the context menu for a Spotify link in the clipboard
+# "Ctrl+v" = "insert"
+
+#######################
+# Sorting
+#######################
+# "t" = "sort added d"
+# "T" = "sort title a"
+
+#######################
+# Sharing
+#######################
+# "Y" = "share selected"
+# "y" = "share current"
+
+###############################################################################
+# Format
+###############################################################################
+statusbar_format = "%artists - %title"
+
+# Available options for tracks: %artists, %title, %album, %saved, %duration
+[track_format]
+# left = "%artists - %title"
+# center = "%album"
+# right = "%saved %duration"
+left = "|%saved| %duration | %title - %artists"
+center = ""
+right = "%album"
+
+[notification_format]
+title = "%title"
+body = "%artists"
+
+###############################################################################
+# Theme
+###############################################################################
+
+# # Gruvbox dark [ originally based on base16 by Dawid Kurek (dawikur@gmail.com) ]
+# [theme]
+# background = "default"
+# primary = "#a89984"
+# secondary = "#928374"
+# title = "#8ec07c"
+# playing = "#689d6a"
+# playing_bg = "#383838"
+# playing_selected = "#ebdbb2"
+# highlight = "#d5c4a1"
+# highlight_bg = "#484848"
+# error = "#fbf1c7"
+# error_bg = "#cc241d"
+# statusbar_progress = "#458588"
+# statusbar_bg = "#282828"
+# statusbar = "#98971a"
+# cmdline = "#d5c4a1"
+# cmdline_bg = "#383838"
+# search_match = "#fabd2f"
+
+# # Base16 solarized dark, originally form https://github.com/gidsi/base16-ncspot
+# [theme]
+# background = "#002b36"
+# primary = "#eee8d5"
+# secondary = "#2aa198"
+# title = "#859900"
+# playing = "#268bd2"
+# playing_selected = "light green"
+# playing_bg = "#002b36"
+# highlight = "#93a1a1"
+# highlight_bg = "#484848"
+# error = "#93a1a1"
+# error_bg = "#fdf6e3"
+# statusbar = "#002b36"
+# statusbar_progress = "#dc322f"
+# statusbar_bg = "#859900"
+# cmdline = "#93a1a1"
+# cmdline_bg = "#002b36"
+
+# Spotify
+[theme]
+background = "black"
+primary = "light white"
+secondary = "light black"
+title = "green"
+playing = "green"
+playing_selected = "light green"
+playing_bg = "black"
+highlight = "light white"
+highlight_bg = "#484848"
+error = "light white"
+error_bg = "red"
+statusbar = "black"
+statusbar_progress = "green"
+statusbar_bg = "green"
+cmdline = "light white"
+cmdline_bg = "black"
+
+# vim: ft=cfg
