@@ -6,7 +6,7 @@ all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config
 	@echo "Installing some basic tools..."
-	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop exa bat p7zip
+	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop exa bat p7zip unzip
 	@# For netstat, ifconfig and more
 	@$(INSTALL) net-tools
 
