@@ -89,6 +89,7 @@ compinit -d "$ZSH_COMPDUMP"
 ###############################################################################
 
 # Preferred editor for local and remote sessions
+# TODO: check if nvim is executable
 [[ -n $SSH_CONNECTION ]] && export EDITOR='/usr/bin/vim' || export EDITOR='/usr/local/bin/nvim'
 export VISUAL=$EDITOR
 
@@ -225,7 +226,7 @@ __fzfcmd() {
     [ -n "$TMUX_PANE" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "$FZF_TMUX_OPTS" ]; } &&
     echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
 }
-if command -v fzf &> /dev/null; then
+if command -v fzf > /dev/null; then
     fzf-history-widget() {
         local selected num
         setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
@@ -249,30 +250,37 @@ fi
 
 bindkey '^ ' autosuggest-accept
 
-# open dotfiles in tmux (use -s with bindkey when binding to custom command)
-bindkey -s ^q "^utmux-sessionizer $DOTFILES\n"
-# start tmux-sessionizer
-bindkey -s ^t "^utmux-sessionizer\n"
-# get help from cht.sh in tmux on Ctrl+?
-bindkey -s ^_ "^utmux-chtsh\n"
+if [[ -f ~/.local/bin/tmux-sessionizer ]]; then
+    # open dotfiles in tmux (use -s with bindkey when binding to custom command)
+    bindkey -s ^q "^utmux-sessionizer $DOTFILES\n"
+    # start tmux-sessionizer
+    bindkey -s ^t "^utmux-sessionizer\n"
+fi
+
+if [[ -f ~/.local/bin/tmux-chtsh ]]; then
+    # get help from cht.sh in tmux on Ctrl+?
+    bindkey -s ^_ "^utmux-chtsh\n"
+fi
 # bindkey -s ^b "^uchange-wallpaper\n"
 
 # Use lf to switch directories and bind it to ctrl-o
-lfcd () {
-    tmp="$(mktemp)"
+if command -v lf > /dev/null; then
+    lfcd () {
+        tmp="$(mktemp)"
 
-    # needed by the previewer
-    [ ! -d "$HOME/.cache/lf" ] && mkdir --parents "$HOME/.cache/lf"
+        # needed by the previewer
+        [ ! -d "$HOME/.cache/lf" ] && mkdir --parents "$HOME/.cache/lf"
 
-    # `command` is needed in case `lfcd` is aliased to `lf`
-    command lf -last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return 0
-    fi
-}
-bindkey -s '^o' '^ulfcd\n'
+        # `command` is needed in case `lfcd` is aliased to `lf`
+        command lf -last-dir-path="$tmp" "$@"
+        if [ -f "$tmp" ]; then
+            dir="$(cat "$tmp")"
+            rm -f "$tmp"
+            [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return 0
+        fi
+    }
+    bindkey -s '^o' '^ulfcd\n'
+fi
 
 ###############################################################################
 # Aliases
