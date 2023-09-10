@@ -193,5 +193,3 @@ statusbar_progress = "green"
 statusbar_bg = "green"
 cmdline = "light white"
 cmdline_bg = "black"
-
-# vim: ft=cfg
