@@ -89,8 +89,17 @@ compinit -d "$ZSH_COMPDUMP"
 ###############################################################################
 
 # Preferred editor for local and remote sessions
-# TODO: check if nvim is executable
-[[ -n $SSH_CONNECTION ]] && export EDITOR='/usr/bin/vim' || export EDITOR='/usr/local/bin/nvim'
+if [[ -n "$SSH_CONNECTION" ]]; then
+    export EDITOR='/usr/bin/vim'
+elif [[ -x '/usr/local/bin/nvim' ]]; then
+    export EDITOR='/usr/local/bin/nvim'
+elif [[ -x '/usr/sbin/nvim' ]]; then
+    # wsl stuff
+    export EDITOR='/usr/sbin/nvim'
+else
+    echo "Error: nvim not found"
+fi
+
 export VISUAL=$EDITOR
 
 ###############################################################################
@@ -100,7 +109,7 @@ export PAGER=less
 export LESSCHARSET="UTF-8"
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
 export LESS='-i -n -w -M -R -P%t?f%f \
-:stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
+    :stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
 
 # Less Colors for Man Pages
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
