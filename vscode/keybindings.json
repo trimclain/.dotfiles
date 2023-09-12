@@ -1,26 +1,6 @@
-// Place your key bindings in this file to override the defaults
 [
-    // TERMINAL NAVIGATION
-    {
-        "key": "ctrl+shift+a",
-        "command": "workbench.action.terminal.focusNext",
-        "when": "terminalFocus"
-    },
-    {
-        "key": "ctrl+shift+b",
-        "command": "workbench.action.terminal.focusPrevious",
-        "when": "terminalFocus"
-    },
-    {
-        "key": "ctrl+shift+j",
-        "command": "workbench.action.togglePanel"
-    },
-    {
-        "key": "ctrl+shift+n",
-        "command": "workbench.action.terminal.new",
-        "when": "terminalFocus"
-    },
-    // FILE TREE
+    // File Tree
+    // toggle
     {
         "command": "workbench.action.toggleSidebarVisibility",
         "key": "ctrl+e",
@@ -30,39 +10,120 @@
         "key": "ctrl+e",
         "when": "editorTextFocus"
     },
+    // create file
     {
-        "key": "n",
+        "key": "a",
         "command": "explorer.newFile",
         "when": "filesExplorerFocus && !inputFocus"
     },
+    // rename file
     {
         "command": "renameFile",
         "key": "r",
         "when": "filesExplorerFocus && !inputFocus"
     },
-    {
-        "key": "shift+n",
-        "command": "explorer.newFolder",
-        "when": "explorerViewletFocus"
-    },
-    {
-        "key": "shift+n",
-        "command": "workbench.action.newWindow",
-        "when": "!explorerViewletFocus"
-    },
+    // delete file
     {
         "command": "deleteFile",
         "key": "d",
         "when": "filesExplorerFocus && !inputFocus"
     },
-
-    // EXTRA
+    // create folder
     {
-        "key": "ctrl+shift+5",
-        "command": "editor.emmet.action.matchTag"
+        "key": "shift+n",
+        "command": "explorer.newFolder",
+        "when": "explorerViewletFocus"
     },
+    // open new vscode window
+    // {
+    //     "key": "shift+n",
+    //     "command": "workbench.action.newWindow",
+    //     "when": "!explorerViewletFocus"
+    // },
+
+    // Toggle bottom panel
+    {
+        "key": "ctrl+h",
+        "command": "-extension.vim_ctrl+h",
+        "when": "editorTextFocus && vim.active && vim.use<C-h> && !inDebugRepl"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "-editor.action.startFindReplaceAction",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.togglePanel"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "-workbench.action.togglePanel"
+    },
+
+    // Terminal
+    // {
+    //     "key": "ctrl+shift+a",
+    //     "command": "workbench.action.terminal.focusNext",
+    //     "when": "terminalFocus"
+    // },
+    // {
+    //     "key": "ctrl+shift+b",
+    //     "command": "workbench.action.terminal.focusPrevious",
+    //     "when": "terminalFocus"
+    // },
+    // {
+    //     "key": "ctrl+shift+j",
+    //     "command": "workbench.action.togglePanel"
+    // },
+    // {
+    //     "key": "ctrl+shift+n",
+    //     "command": "workbench.action.terminal.new",
+    //     "when": "terminalFocus"
+    // },
+
+    // Zen mode
     {
         "key": "ctrl+z",
         "command": "workbench.action.toggleZenMode"
+    },
+
+    // Scroll through suggestions with Tab and ShiftTab
+    {
+        "key": "tab",
+        "command": "selectNextSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
+    {
+        "key": "down",
+        "command": "-selectNextSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
+    {
+        "key": "shift+tab",
+        "command": "selectPrevSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
+    {
+        "key": "up",
+        "command": "-selectPrevSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
+
+    // Reload Window
+    {
+        "key": "shift+alt+r",
+        "command": "-revealFileInOS",
+        "when": "!editorFocus"
+    },
+    {
+        "key": "shift+alt+r",
+        "command": "workbench.action.reloadWindow",
+        // "when": "isDevelopment"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.reloadWindow",
+        "when": "isDevelopment"
     }
 ]
