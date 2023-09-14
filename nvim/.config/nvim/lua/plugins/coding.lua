@@ -198,10 +198,10 @@ return {
                             nvim_lsp_signature_help = "[sign]",
                             latex_symbols = "[symb]",
                             luasnip = "[snip]",
-                            buffer = "[buf]",
                             path = "[path]",
-                            cmdline = "[cmd]",
                             spell = "[spell]",
+                            buffer = "[buf]",
+                            cmdline = "[cmd]",
                         })[entry.source.name]
                         return item
                     end,

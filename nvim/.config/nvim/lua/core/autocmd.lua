@@ -37,6 +37,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 -- Restore cursor position
 vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function()
+        unpack = unpack or table.unpack
         local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"')) -- when this is available, change unpack to table.unpack
         if row > 0 and row <= vim.api.nvim_buf_line_count(0) then
             vim.api.nvim_win_set_cursor(0, { row, col })
