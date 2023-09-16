@@ -58,10 +58,10 @@ keymap("n", "Q", "<cmd>qa<cr>", opts) -- remap Q to :qa
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts) -- and backwards
 
-if not CONFIG.ui.neoscroll then
-    keymap("n", "<C-u>", "<C-u>zz", opts) -- keep it centered when scrolling up
-    keymap("n", "<C-d>", "<C-d>zz", opts) -- and down
-end
+-- if not CONFIG.ui.neoscroll then
+--     keymap("n", "<C-u>", "<C-u>zz", opts) -- keep it centered when scrolling up
+--     keymap("n", "<C-d>", "<C-d>zz", opts) -- and down
+-- end
 
 keymap("n", "J", "mzJ`z", opts) -- keep it centered when joining lines
 keymap("i", ",", ",<c-g>u", opts) -- set a break point for undo after ,
