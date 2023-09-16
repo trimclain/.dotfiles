@@ -987,7 +987,7 @@ awful.rules.rules = {
                 "Wpa_gui",
                 "veromix",
                 "xtightvncviewer",
-                -- TODO: add yad on arch
+                "Yad",
             },
 
             -- Note that the name property shown in xprop might be set slightly after creation of the client
