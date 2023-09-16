@@ -669,9 +669,9 @@ local globalkeys = mytable.join(
         awful.spawn(terminal)
     end, { description = "open a terminal", group = "launcher" }),
     -- FIX: for some reason neovide spawns not fully focused
-    awful.key({ altkey }, "Return", function()
-        spawn_terminal_command("~/.cargo/bin/neovide")
-    end, { description = "open neovide", group = "launcher" }),
+    -- awful.key({ altkey }, "Return", function()
+    --     spawn_terminal_command("~/.cargo/bin/neovide")
+    -- end, { description = "open neovide", group = "launcher" }),
 
     awful.key({ modkey }, "r", function()
         awful.spawn("rofi -show run")
@@ -1124,26 +1124,20 @@ end)
 -- {{{ Autostart Programs
 -- ############################################################################
 
-local function get_os_output(cmd, raw)
-    local f = assert(io.popen(cmd, "r"))
-    local s = assert(f:read("*a"))
-    f:close()
-    if raw then
-        return s
-    end
-    s = string.gsub(s, "^%s+", "")
-    s = string.gsub(s, "%s+$", "")
-    s = string.gsub(s, "[\n\r]+", " ")
-    return s
-end
-local operating_system = get_os_output("awk -F= '$1==\"ID\" { print $2 ;}' /etc/os-release")
+-- local function get_os_output(cmd, raw)
+--     local f = assert(io.popen(cmd, "r"))
+--     local s = assert(f:read("*a"))
+--     f:close()
+--     if raw then
+--         return s
+--     end
+--     s = string.gsub(s, "^%s+", "")
+--     s = string.gsub(s, "%s+$", "")
+--     s = string.gsub(s, "[\n\r]+", " ")
+--     return s
+-- end
 
--- Enable Xscreensaver
-if operating_system == "ubuntu" then
-    spawn_terminal_command("xscreensaver", "-no-splash")
-else
-    spawn_terminal_command("xscreensaver", "--no-splash")
-end
+-- local operating_system = get_os_output("awk -F= '$1==\"ID\" { print $2 ;}' /etc/os-release")
 
 -- Set the wallpaper
 spawn_terminal_command("nitrogen", "--restore")
