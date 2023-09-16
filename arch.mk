@@ -193,7 +193,7 @@ zap:
 #===================================== Window Manager =============================================
 awesome:
 	@echo "==================================================================="
-	$(INSTALL) awesome dmenu rofi slock xscreensaver dunst picom feh nitrogen polybar
+	$(INSTALL) awesome dmenu rofi slock dunst picom feh nitrogen polybar
 
 # TODO:
 hyprland:

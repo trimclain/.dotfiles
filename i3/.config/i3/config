@@ -46,9 +46,8 @@ exec_always --no-startup-id touchpad-settings
 # TODO: this doesn' work
 # exec_always --no-startup-id "setxkbmap -option 'grp:win_space_toggle'"
 #
-# Set the wallpaper and enable picom for transparency
+# Set the wallpaper
 exec_always --no-startup-id "nitrogen --restore"
-# exec_always --no-startup-id "picom"
 
 # start program launcher
 # bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons
