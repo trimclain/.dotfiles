@@ -10,7 +10,6 @@ check_if_command_exists() {
 ## End Functions
 
 check_if_command_exists xrandr
-check_if_command_exists bc
 check_if_command_exists notify-send
 
 mode="unknown"
@@ -24,7 +23,6 @@ for display in $connectedOutputs; do
     monitors+=($display)
 done
 
-# Names: Dell(eDP-1-1,HDMI-1-1), Asus(edp, HDMI-1-0)
 intern=${monitors[0]}
 
 current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
@@ -33,24 +31,23 @@ new="$current"
 # Increase Brightness
 if [ "$1" = "--increase" ]; then
     mode="increase"
-    new="$( echo $current+0.1 | bc )"
-
+    new=$(awk "BEGIN {print $current+0.1}")
     # don't got out of range
     if [[ $new == 1.1 ]]; then
         # still show current even if out of range
-        output=$( echo $current*100/1 | bc )
+        output=$(awk "BEGIN {print $current*100}")
         notify-send "🔆 $output %" -t 350
         exit 0
     fi
 # Decrease Brightness
 elif [ "$1" = "--decrease" ]; then
     mode="decrease"
-    new="$( echo $current-0.1 | bc )"
+    new=$(awk "BEGIN {print $current-0.1}")
 
     # don't got out of range, but allow 0
     if [[ $new == -.1 ]]; then
         # still show current even if out of range
-        output=$( echo $current*100/1 | bc )
+        output=$(awk "BEGIN {print $current*100}")
         notify-send "🔅 $output %" -t 350
         exit 0
     fi
@@ -66,10 +63,10 @@ elif [ "$1" = "--half" ]; then
 fi
 
 # Set Brightness
-xrandr --output $intern --brightness $new
+xrandr --output "$intern" --brightness "$new"
 
 # Write new brightness to a file so it can be read easily without calling xrandr
-output=$( echo $new*100/1 | bc )
+output=$(awk "BEGIN {print $new*100}")
 echo "$output%" > ~/.actual_brightness
 
 # Send notification
