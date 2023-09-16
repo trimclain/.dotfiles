@@ -27,14 +27,13 @@ CONFIG = {
     },
     ui = {
         -- Colorschemes (note/10):
-        -- catppuccin (10),
-        -- tokyonight (9), rose-pine (9), tundra (9)
-        -- kanagawa (8), nightfox (8), grail (8)
-        -- zephyr (7), onedark (7)
+        -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9)
+        -- nightfox (8), vscode (8), gruvbox (8)
+        -- github-dark (7), onedark (7), kanagawa (7), zephyr (7)
         -- sonokai (6), omni (6),
-        -- vscode (5)
-        colorscheme = "catppuccin",
-        transparent_background = true,
+        -- darkplus (why does it change colors 5 seconds after launch?)
+        colorscheme = "vscode",
+        transparent_background = false,
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
         dashboard = true,

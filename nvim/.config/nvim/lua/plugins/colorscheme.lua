@@ -235,15 +235,82 @@ return {
         priority = 1000,
         cond = CONFIG.ui.colorscheme == "vscode",
         opts = {
-            transparent = false,
+            transparent = CONFIG.ui.transparent_background,
             italic_comments = CONFIG.ui.italic_comment,
-            disable_nvimtree_bg = true,
-            color_overrides = {},
-            group_overrides = {},
         },
         config = function(_, opts)
             require("vscode").setup(opts)
             vim.cmd.colorscheme("vscode")
+        end,
+    },
+
+    {
+        "LunarVim/darkplus.nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "darkplus",
+        config = function()
+            vim.cmd.colorscheme("darkplus")
+        end,
+    },
+
+    {
+        "ellisonleao/gruvbox.nvim",
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "gruvbox",
+        opts = {
+            bold = false,
+            italic = {
+                strings = false,
+                comments = CONFIG.ui.italic_comments,
+            },
+            contrast = "hard", -- "hard", "soft" or "" (default)
+            transparent_mode = CONFIG.ui.transparent_background,
+        },
+        config = function(_, opts)
+            require("gruvbox").setup(opts)
+            vim.cmd.colorscheme("gruvbox")
+        end,
+    },
+
+    {
+        "projekt0n/github-nvim-theme",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "github-dark",
+        opts = {
+            options = {
+                transparent = CONFIG.ui.transparent_background,
+                styles = { -- Style to be applied to different syntax groups
+                    comments = CONFIG.ui.italic_comments and "italic" or "NONE",
+                    functions = "NONE",
+                    keywords = "NONE",
+                    variables = "NONE",
+                    conditionals = "NONE",
+                    constants = "NONE",
+                    numbers = "NONE",
+                    operators = "NONE",
+                    strings = "NONE",
+                    types = "NONE",
+                },
+                modules = {
+                    cmp = true,
+                    dashboard = CONFIG.ui.dashboard,
+                    fidget = true,
+                    gitsigns = true,
+                    indent_blankline = true,
+                    neogit = true,
+                    neotree = true,
+                    notify = true,
+                    telescope = true,
+                    treesitter_context = true,
+                    whichkey = true,
+                },
+            },
+        },
+        config = function(_, opts)
+            require("github-theme").setup(opts)
+            vim.cmd.colorscheme("github_dark_dimmed")
         end,
     },
 
@@ -297,22 +364,6 @@ return {
         config = function(_, opts)
             require("onedark").setup(opts)
             vim.cmd.colorscheme("onedark")
-        end,
-    },
-
-    {
-        "chama-chomo/grail",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "grail",
-        opts = {
-            -- @usage soft | medium | hard
-            background = "hard",
-            disable_italic_comments = not CONFIG.ui.italic_comment,
-        },
-        config = function(_, opts)
-            require("grail").setup(opts)
-            vim.cmd.colorscheme("grail")
         end,
     },
 }
