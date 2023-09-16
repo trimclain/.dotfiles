@@ -7,8 +7,9 @@ $HOME/.local/bin/monitor-layout --startup
 # Sets the delay and rate for keyboard auto-repeat
 xset r rate 400 25
 
+# Eats 80% of my RAM, disabled for now
 # Enable transparency and other visual effects
-picom -b
+# picom -b
 
 # Enable notifications
 # in awesome naughty is used
