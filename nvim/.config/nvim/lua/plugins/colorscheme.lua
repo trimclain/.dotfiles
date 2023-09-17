@@ -236,7 +236,7 @@ return {
         cond = CONFIG.ui.colorscheme == "vscode",
         opts = {
             transparent = CONFIG.ui.transparent_background,
-            italic_comments = CONFIG.ui.italic_comment,
+            italic_comments = CONFIG.ui.italic_comments,
         },
         config = function(_, opts)
             require("vscode").setup(opts)
@@ -347,7 +347,7 @@ return {
             -- Options are italic, bold, underline, none
             -- You can configure multiple style with comma separated, For e.g., keywords = "italic,bold"
             code_style = {
-                comments = CONFIG.ui.italic_comment and "italic" or "none",
+                comments = CONFIG.ui.italic_comments and "italic" or "none",
                 keywords = "none",
                 functions = "none",
                 strings = "none",
