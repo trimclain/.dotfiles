@@ -18,11 +18,13 @@ end
 --- Check if a file exists
 ---@param name string path to the file
 function M.file_exists(name)
-    local f = io.open(name, "r")
-    if f then
-        f:close()
-    end
-    return f ~= nil
+    return vim.fn.filereadable(name) == 1
+end
+
+--- Check if a directory exists
+---@param name string path to the directory
+function M.dir_exists(name)
+    return vim.fn.isdirectory(name) == 1
 end
 
 -------------------------------------------------------------------------------
@@ -96,11 +98,7 @@ function M.telescope(builtin, opts, theme)
         -- for `files`, git_files or find_files will be chosen depending on .git
         if builtin == "files" then
             -- Check if cwd is in a git worktree
-            if M.in_git_worktree() then
-                builtin = "git_files"
-            else
-                builtin = "find_files"
-            end
+            builtin = M.in_git_worktree() and "git_files" or "find_files"
         end
         require("telescope.builtin")[builtin](opts)
     end
