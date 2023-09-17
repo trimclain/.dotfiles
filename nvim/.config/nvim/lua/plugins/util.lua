@@ -1,3 +1,5 @@
+local Util = require("core.util")
+
 return {
     -- measure startuptime
     {
@@ -82,14 +84,19 @@ return {
         },
     },
 
-    -- TODO:
-    -- {
-    --     "trimclain/builder.nvim",
-    --     dev = true,
-    --     config = function()
-    --         require("builder").setup()
-    --     end,
-    -- },
+    -- run files
+    {
+        "trimclain/builder.nvim",
+        dev = true,
+        -- stylua: ignore
+        keys = {
+            { "<leader>b", function() require("builder").Build("cat /etc/hostname") end, desc = "Build" }
+        },
+        config = function()
+            require("builder").setup()
+        end,
+        enabled = Util.dir_exists(Util.join(os.getenv("HOME"), "projects/personal/builder.nvim")),
+    },
 
     -- preview print statement outputs in neovim (for JS, TS, Python and Lua)
     -- {
