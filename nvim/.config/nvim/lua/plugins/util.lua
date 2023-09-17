@@ -38,63 +38,77 @@ return {
     -- },
 
     -- quickrun buffer
-    {
-        "is0n/jaq-nvim",
-        -- local_use("jaq-nvim", { branch = "find-json-in-root" })
-        cmd = "Jaq",
-        keys = {
-            { "<C-b>", "<cmd>Jaq<cr>", desc = "Run buffer" },
-        },
-        opts = {
-            cmds = {
-                internal = {
-                    lua = "luafile %",
-                    vim = "source %",
-                },
-                external = {
-                    -- cpp = "g++ % -o $fileBase && ./$fileBase",
-                    -- go = "go run %",
-                    javascript = "node %",
-                    julia = "julia %",
-                    tex = "tectonic --chatter=minimal %",
-                    -- markdown = "glow %",
-                    python = "python3 %",
-                    -- rust = "cargo run",
-                    sh = "bash %",
-                    typescript = "ts-node %",
-                    zsh = "zsh %",
-                },
-            },
-            behavior = {
-                default = "terminal", -- options: "float", "bang", "quickfix", "terminal"
-                autosave = true, -- auto-save files before running
-            },
-            ui = {
-                float = {
-                    border = CONFIG.ui.border,
-                },
-                terminal = {
-                    position = CONFIG.ui.quickrun_position,
-                    -- make it 30% of the width or 25% of the height
-                    -- TODO: update size on vim resize (can I do jaq-nvim.opts.ui.terminal.size = new_size ?)
-                    size = CONFIG.ui.quickrun_position == "vert" and math.floor(vim.o.columns * 0.3)
-                        or math.floor(vim.o.lines * 0.25),
-                },
-            },
-        },
-    },
+    -- {
+    --     "is0n/jaq-nvim",
+    --     cmd = "Jaq",
+    --     keys = {
+    --         { "<C-b>", "<cmd>Jaq<cr>", desc = "Run buffer" },
+    --     },
+    --     opts = {
+    --         cmds = {
+    --             internal = {
+    --                 lua = "luafile %",
+    --                 vim = "source %",
+    --             },
+    --             external = {
+    --                 -- cpp = "g++ % -o $fileBase && ./$fileBase",
+    --                 -- go = "go run %",
+    --                 javascript = "node %",
+    --                 julia = "julia %",
+    --                 tex = "tectonic --chatter=minimal %",
+    --                 -- markdown = "glow %",
+    --                 python = "python3 %",
+    --                 -- rust = "cargo run",
+    --                 sh = "bash %",
+    --                 typescript = "ts-node %",
+    --                 zsh = "zsh %",
+    --             },
+    --         },
+    --         behavior = {
+    --             default = "terminal", -- options: "float", "bang", "quickfix", "terminal"
+    --             autosave = true, -- auto-save files before running
+    --         },
+    --         ui = {
+    --             float = {
+    --                 border = CONFIG.ui.border,
+    --             },
+    --             terminal = {
+    --                 position = CONFIG.ui.quickrun_position,
+    --                 -- make it 30% of the width or 25% of the height
+    --                 size = CONFIG.ui.quickrun_position == "vert" and math.floor(vim.o.columns * 0.3)
+    --                     or math.floor(vim.o.lines * 0.25),
+    --             },
+    --         },
+    --     },
+    -- },
 
-    -- run files
+    -- build files
     {
         "trimclain/builder.nvim",
         dev = true,
         -- stylua: ignore
         keys = {
-            { "<leader>b", function() require("builder").Build("cat /etc/hostname") end, desc = "Build" }
+            { "<C-b>", function() require("builder").build() end, desc = "Build current buffer" }
         },
-        config = function()
-            require("builder").setup()
-        end,
+        opts = {
+            -- make it 30% of the width or 25% of the height
+            size = CONFIG.ui.quickrun_position == "vert" and math.floor(vim.o.columns * 0.3)
+                or math.floor(vim.o.lines * 0.25),
+        },
+        commands = {
+            -- c = "gcc % -o $basename.out && ./$basename.out",
+            -- cpp = "g++ % -o $basename.out && ./$basename.out",
+            -- go = "go run %",
+            -- java = "java %",
+            -- javascript = "node %",
+            -- lua = "lua %", -- this will overwrite enable_internals
+            -- markdown = "glow %",
+            python = "python %",
+            -- rust = "cargo run",
+            sh = "sh %",
+            -- typescript = "ts-node %",
+            zsh = "zsh %",
+        },
         enabled = Util.dir_exists(Util.join(os.getenv("HOME"), "projects/personal/builder.nvim")),
     },
 

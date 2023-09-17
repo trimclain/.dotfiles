@@ -85,7 +85,8 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
-        version = false, -- telescope did only one release, so use HEAD for now
+        tag = '0.1.3',
+        -- version = false, -- telescope did only one release, so use HEAD for now
         dependencies = {
             {
                 "nvim-telescope/telescope-fzf-native.nvim", -- make telescope 20-200 times faster
