@@ -94,10 +94,11 @@ if [[ -n "$SSH_CONNECTION" ]]; then
 elif [[ -x '/usr/local/bin/nvim' ]]; then
     export EDITOR='/usr/local/bin/nvim'
 elif [[ -x '/usr/sbin/nvim' ]]; then
-    # wsl stuff
+    # arch wsl stuff
     export EDITOR='/usr/sbin/nvim'
 else
-    echo "Error: nvim not found"
+    # set to vim in hopes that it's installed :D
+    export EDITOR='vim'
 fi
 
 export VISUAL=$EDITOR
@@ -132,10 +133,12 @@ export SAVEHIST=50000
 export HISTORY_IGNORE="(ls|la|l|cd|cd -|cd ..|history|vim)"
 setopt sharehistory
 
-export CARGO="$HOME/.cargo"
 export N_PREFIX="$HOME/.n"
+
+# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
 export GOROOT="$HOME/.golang"
 export GOPATH="$HOME/.go"
+
 export SDKMAN_DIR="$HOME/.sdkman"
 
 ###############################################################################
@@ -313,6 +316,7 @@ alias enrc="$EDITOR $DOTFILES/nvim/.config/nvim/init.lua --cmd \"cd $DOTFILES/nv
 
 alias py="python3"
 
+alias grep='grep --color=auto'
 # zsh specific syntax for checking if command exists
 if (( $+commands[exa] )); then
     alias ls='exa --group-directories-first --icons'
@@ -348,9 +352,9 @@ fi
 # Path
 ###############################################################################
 
-# fucntion to add folders to the end of $PATH
+# add folders to the beginning of $PATH
 addToPATH() {
-    if [[ ! :$PATH: == *":$1:"* ]]; then
+    if [[ -d "$1" ]] && [[ ! :$PATH: == *":$1:"* ]]; then
         export PATH="$1:$PATH"
     fi
 }
@@ -360,10 +364,13 @@ addToPATH "/usr/local/bin"
 addToPATH "$HOME/.local/bin"
 
 addToPATH "$N_PREFIX/bin" # n-insall for node versions
-addToPATH "$CARGO/bin" # rust btw
-addToPATH "$GOROOT/bin" # golang
-addToPATH "$GOPATH/bin" # also golang
 addToPATH "$HOME/.juliaup/bin" # julia
+
+# Used if rustup is installed from https://rustup.rs/ (not relevant on arch)
+addToPATH "~/.cargo/bin" # rust btw
+# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
+addToPATH "$GOROOT/bin" # golang
+addToPATH "$GOPATH/bin"
 
 # I want to use the tools mason installs outside of neovim aswell
 addToPATH "$XDG_DATA_HOME/nvim/mason/bin"
@@ -376,9 +383,9 @@ if [[ -f ~/.bash_aliases ]]; then
     . ~/.bash_aliases
 fi
 
-# enable sdkman
-if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
+# enable sdkman (jdk version manager)
+if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
+    source "$SDKMAN_DIR/bin/sdkman-init.sh"
 fi
 
 ###############################################################################

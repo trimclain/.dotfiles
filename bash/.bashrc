@@ -30,7 +30,6 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-export CARGO="$HOME/.cargo/bin"
 export N_PREFIX="$HOME/.n"
 export GOROOT="$HOME/.golang"
 export GOPATH="$HOME/.go"
@@ -140,7 +139,6 @@ fi
 
 alias py="python3"
 alias activate="source venv/bin/activate"
-# alias rest="./stop && ./start"
 
 # Load aliases from .zsh_aliases or .bash_aliases if they exist
 if [ -f ~/.zsh_aliases ]; then
@@ -160,13 +158,12 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# function to add folders to the end of $PATH
+# add folders to the beginning of $PATH
 addToPATH() {
-    if [[ ! :$PATH: == *":$1:"* ]]; then
-        PATH+=":$1"
+    if [[ -d "$1" ]] && [[ ! :$PATH: == *":$1:"* ]]; then
+        export PATH="$1:$PATH"
     fi
 }
-
 
 # Make sure ~/.local/bin and /usr/local/bin are in $PATH.
 addToPATH "/usr/local/bin"
@@ -178,7 +175,7 @@ addToPATH "$GOROOT/bin" # golang
 addToPATH "$GOPATH/bin" # also golang
 addToPATH "$HOME/.juliaup/bin" # julia
 
-# SDKMAN
-if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
+# enable sdkman (jdk version manager)
+if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
+    source "$SDKMAN_DIR/bin/sdkman-init.sh"
 fi
