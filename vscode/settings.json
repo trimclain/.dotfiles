@@ -1,10 +1,4 @@
 {
-    // List of my Extensions:
-    // "vscodevim.vim"
-    // "wayou.vscode-todo-highlight"
-    // "jdinhlife.gruvbox"
-    // "vscode-icons-team.vscode-icons"
-
     "workbench.startupEditor": "none",
     // Colorschemes for AL (note/10):
     // "Monokai" (9.5),
@@ -19,7 +13,7 @@
     // "Dracula" (7.5),
     // "Andromeda" (7.5),
     // "Tokyo Night Storm", (7)
-    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "workbench.colorTheme": "Default Dark Modern",
     "workbench.iconTheme": "vscode-icons",
     // "workbench.activityBar.visible": false,
 
@@ -79,7 +73,7 @@
 	//  - selection: Render whitespace characters only on selected text. (default)
 	//  - trailing: Render only trailing whitespace characters.
 	//  - all
-	"editor.renderWhitespace": "trailing",
+	"editor.renderWhitespace": "boundary",
 	// Controls how the editor should render the current line highlight.
 	//  - none
 	//  - gutter
@@ -217,25 +211,12 @@
 	// "git.countBadge": "off",
 	// Stash any changes before pulling and restore them after successful pull.
 	// "git.autoStash": false,
-
-    // TODO:
-    // "terminal.integrated.fontFamily": "Blex Mono Nerd Font Complete Mono",
-    // "javascript.updateImportsOnFileMove.enabled": "always",
-    // "[typescriptreact]": {
-    //     "editor.defaultFormatter": "esbenp.prettier-vscode"
-    // },
-    // "go.toolsManagement.autoUpdate": true,
-    // "[typescript]": {
-    //     "editor.defaultFormatter": "esbenp.prettier-vscode"
-    // },
-    // "[jsonc]": {
-    //     "editor.defaultFormatter": "esbenp.prettier-vscode"
-    // },
+    "diffEditor.ignoreTrimWhitespace": false,
 
     // Zen Mode
     "zenMode.hideLineNumbers": false,
-    "zenMode.hideTabs": false,
 	"zenMode.hideStatusBar": false,
+    "zenMode.hideTabs": false,
 
     //-------------------------------------------------------------------------
     // Vim Extension
@@ -293,11 +274,25 @@
             "before": ["]", "d"],
             "commands": ["editor.action.marker.next"]
         },
+        // git changes
+        {
+            "before": ["[", "h"],
+            "commands": ["workbench.action.editor.previousChange"]
+        },
+        {
+            "before": ["]", "h"],
+            "commands": ["workbench.action.editor.nextChange"]
+        },
         // code actions
         {
             "before": ["<leader>", "c", "a"],
             "commands": ["editor.action.quickFix"]
         },
+        //
+        // {
+        //     "before": ["leader", "p"],
+        //     "commands": ["workbench.action.quickOpen"]
+        // },
         // format
         {
             "before": ["leader", "f"],
@@ -307,12 +302,28 @@
         {
             "before": ["<S-k>"],
             "commands": ["editor.action.showDefinitionPreviewHover"]
-        }
+        },
+        {
+            "before": ["g", "l"],
+            "commands": ["editor.action.showDefinitionPreviewHover"]
+        },
+        // go to references
+        {
+            "before": ["g", "r"],
+            "commands": ["editor.action.goToReferences"]
+        },
+        // zen mode
+        {
+            "before": ["leader", "z"],
+            "commands": ["workbench.action.toggleZenMode"]
+        },
     ],
     "vim.visualModeKeyBindings": [
         // stay in visual mode while indenting
         { "before": ["<"], "commands": ["editor.action.outdentLines"] },
         { "before": [">"], "commands": ["editor.action.indentLines"] },
+        { "before": ["H"], "commands": ["editor.action.outdentLines"] },
+        { "before": ["L"], "commands": ["editor.action.indentLines"] },
         // move selected lines while staying in visual mode
         { "before": ["J"], "commands": ["editor.action.moveLinesDownAction"] },
         { "before": ["K"], "commands": ["editor.action.moveLinesUpAction"] },
