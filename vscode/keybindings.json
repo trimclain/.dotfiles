@@ -126,11 +126,23 @@
         "command": "-workbench.action.reloadWindow",
         "when": "isDevelopment"
     },
-    
-    // Disable vim ctrl+p to use the default one
+
+    // Disable vim ctrl+p to use the vscode one
     {
         "key": "ctrl+p",
         "command": "-extension.vim_ctrl+p",
         "when": "editorTextFocus && vim.active && vim.use<C-p> && !inDebugRepl || vim.active && vim.use<C-p> && !inDebugRepl && vim.mode == 'CommandlineInProgress' || vim.active && vim.use<C-p> && !inDebugRepl && vim.mode == 'SearchInProgressMode'"
+    },
+
+    // Github Copilot accept suggestion
+    {
+        "key": "ctrl+space",
+        "command": "editor.action.inlineSuggest.commit",
+        "when": "inlineSuggestionHasIndentationLessThanTabSize && inlineSuggestionVisible && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible"
+    },
+    {
+        "key": "tab",
+        "command": "-editor.action.inlineSuggest.commit",
+        "when": "inlineSuggestionHasIndentationLessThanTabSize && inlineSuggestionVisible && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible"
     }
 ]
