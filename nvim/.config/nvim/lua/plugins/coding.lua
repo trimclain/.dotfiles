@@ -107,7 +107,7 @@ return {
             -- },
             {
                 "zbirenbaum/copilot-cmp",
-                enabled = vim.uv.os_gethostname() == "arch",
+                enabled = CONFIG.lsp.enable_copilot,
                 dependencies = "copilot.lua",
                 opts = {},
                 config = function(_, opts)
@@ -133,7 +133,7 @@ return {
                     and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
 
-            opts = {
+            local opts = {
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
@@ -183,7 +183,6 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
-                    { name = "copilot", group_index = 2 },
                     { name = "nvim_lsp_signature_help" },
                     { name = "nvim_lsp" },
                     {
@@ -206,23 +205,8 @@ return {
                     },
                     { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
                 }),
-                sorting = {
-                    priority_weight = 2,
-                    comparators = {
-                        -- Below is the default comparitor list and order for nvim-cmp
-                        cmp.config.compare.offset,
-                        -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
-                        cmp.config.compare.exact,
-                        cmp.config.compare.score,
-                        cmp.config.compare.recently_used,
-                        cmp.config.compare.locality,
-                        cmp.config.compare.kind,
-                        cmp.config.compare.sort_text,
-                        cmp.config.compare.length,
-                        cmp.config.compare.order,
-                    },
-                },
-
+                -- use defaults for sorting stragegy
+                sorting = require("cmp.config.default")().sorting,
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
                     format = function(entry, item)
@@ -248,8 +232,9 @@ return {
                 },
             }
 
-            -- TODO: if copilot is enabled
-            if vim.uv.os_gethostname() == "arch" then
+            -- if copilot is enabled update priority
+            if CONFIG.lsp.enable_copilot then
+                table.insert(opts.sources, 1, { name = "copilot", group_index = 2 })
                 table.insert(opts.sorting.comparators, 1, require("copilot_cmp.comparators").prioritize)
             end
 
@@ -289,7 +274,7 @@ return {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
         build = ":Copilot auth",
-        enabled = vim.uv.os_gethostname() == "arch",
+        enabled = CONFIG.lsp.enable_copilot,
         opts = {
             suggestion = { enabled = false },
             panel = { enabled = false },

@@ -24,6 +24,7 @@ CONFIG = {
         format_on_save = false,
         virtual_text = false,
         show_signature_help = true,
+        enable_copilot = vim.uv.os_gethostname() == "arch",
     },
     ui = {
         -- Colorschemes (note/10):
@@ -43,7 +44,7 @@ CONFIG = {
         -- Spinners: dots_pulse, moon, meter, zip, pipe, dots, arc
         spinner = "dots_pulse", -- animation shown when tasks are ongoing
 
-        -- builder
+        -- Builder
         builder_position = "bot", -- "bot": bottom horizontal split, "vert": right vertical split
     },
     git = {
