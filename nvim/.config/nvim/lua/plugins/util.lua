@@ -94,20 +94,20 @@ return {
             -- make it 30% of the width or 25% of the height
             size = CONFIG.ui.quickrun_position == "vert" and math.floor(vim.o.columns * 0.3)
                 or math.floor(vim.o.lines * 0.25),
-        },
-        commands = {
-            -- c = "gcc % -o $basename.out && ./$basename.out",
-            -- cpp = "g++ % -o $basename.out && ./$basename.out",
-            -- go = "go run %",
-            -- java = "java %",
-            -- javascript = "node %",
-            -- lua = "lua %", -- this will overwrite enable_internals
-            -- markdown = "glow %",
-            python = "python %",
-            -- rust = "cargo run",
-            sh = "sh %",
-            -- typescript = "ts-node %",
-            zsh = "zsh %",
+            commands = {
+                -- c = "gcc % -o $basename.out && ./$basename.out",
+                -- cpp = "g++ % -o $basename.out && ./$basename.out",
+                -- go = "go run %",
+                -- java = "java %",
+                -- javascript = "node %",
+                -- lua = "lua %", -- this will overwrite enable_internals
+                -- markdown = "glow %",
+                python = "python %",
+                -- rust = "cargo run",
+                sh = "sh %",
+                -- typescript = "ts-node %",
+                zsh = "zsh %",
+            },
         },
         enabled = Util.dir_exists(Util.join(os.getenv("HOME"), "projects/personal/builder.nvim")),
     },
