@@ -105,6 +105,23 @@ return {
             --         },
             --     },
             -- },
+            {
+                "zbirenbaum/copilot-cmp",
+                enabled = vim.uv.os_gethostname() == "arch",
+                dependencies = "copilot.lua",
+                opts = {},
+                config = function(_, opts)
+                    local copilot_cmp = require("copilot_cmp")
+                    copilot_cmp.setup(opts)
+                    -- attach cmp source whenever copilot attaches
+                    -- fixes lazy-loading issues with the copilot cmp source
+                    require("core.util").on_attach(function(client)
+                        if client.name == "copilot" then
+                            copilot_cmp._on_insert_enter({})
+                        end
+                    end)
+                end,
+            },
         },
         config = function()
             local cmp = require("cmp")
@@ -116,7 +133,7 @@ return {
                     and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
 
-            cmp.setup({
+            opts = {
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
@@ -166,6 +183,7 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
+                    { name = "copilot", group_index = 2 },
                     { name = "nvim_lsp_signature_help" },
                     { name = "nvim_lsp" },
                     {
@@ -188,12 +206,30 @@ return {
                     },
                     { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
                 }),
+                sorting = {
+                    priority_weight = 2,
+                    comparators = {
+                        -- Below is the default comparitor list and order for nvim-cmp
+                        cmp.config.compare.offset,
+                        -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+                        cmp.config.compare.exact,
+                        cmp.config.compare.score,
+                        cmp.config.compare.recently_used,
+                        cmp.config.compare.locality,
+                        cmp.config.compare.kind,
+                        cmp.config.compare.sort_text,
+                        cmp.config.compare.length,
+                        cmp.config.compare.order,
+                    },
+                },
+
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
                     format = function(entry, item)
                         local icons = require("core.icons").kinds
                         item.kind = icons[item.kind] or ""
                         item.menu = ({
+                            copilot = "[copilot]",
                             nvim_lsp = "[LSP]",
                             nvim_lsp_signature_help = "[sign]",
                             latex_symbols = "[symb]",
@@ -210,7 +246,14 @@ return {
                     -- @usage boolean | { hl_group = string }
                     ghost_text = CONFIG.ui.ghost_text, -- show completion preview inline
                 },
-            })
+            }
+
+            -- TODO: if copilot is enabled
+            if vim.uv.os_gethostname() == "arch" then
+                table.insert(opts.sorting.comparators, 1, require("copilot_cmp.comparators").prioritize)
+            end
+
+            cmp.setup(opts)
 
             -- Set configuration for specific filetype.
             -- cmp.setup.filetype('gitcommit', {
@@ -239,6 +282,22 @@ return {
                 }),
             })
         end,
+    },
+
+    -- github copilot
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        build = ":Copilot auth",
+        enabled = vim.uv.os_gethostname() == "arch",
+        opts = {
+            suggestion = { enabled = false },
+            panel = { enabled = false },
+            filetypes = {
+                markdown = true,
+                help = true,
+            },
+        },
     },
 
     -- auto pairs
@@ -348,6 +407,7 @@ return {
         end,
     },
 
+    -- documentation comments
     {
         "danymat/neogen",
         dependencies = "nvim-treesitter/nvim-treesitter",

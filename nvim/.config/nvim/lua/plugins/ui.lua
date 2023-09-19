@@ -108,10 +108,7 @@ return {
                     "DressingSelect",
                     "",
                 }
-                if vim.tbl_contains(ui_filetypes, buf_ft) then
-                    return false
-                end
-                return true
+                return not vim.tbl_contains(ui_filetypes, buf_ft)
             end
 
             -----------------------------------------------------------------------------------------------------------
@@ -119,11 +116,11 @@ return {
             -----------------------------------------------------------------------------------------------------------
             -- Get the list of active lsp servers
             local function lsp_list()
-                local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+                local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
                 local buf_client_names = {}
 
                 for _, client in pairs(buf_clients) do
-                    if client.name ~= "null-ls" then
+                    if client.name ~= "null-ls" and client.name ~= "copilot" then
                         table.insert(buf_client_names, client.name)
                     end
                 end
@@ -193,6 +190,19 @@ return {
                 padding = { right = 0 },
             }
 
+            -- Show github copilot status
+            local copilot = {
+                function()
+                    local icon = require("core.icons").kinds.Copilot
+                    local status = require("copilot.api").status.data
+                    return icon .. (status.message or "")
+                end,
+                cond = function()
+                    local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
+                    return ok and hide_in_width() and #clients > 0
+                end,
+            }
+
             -----------------------------------------------------------------------------------------------------------
             -- Custom Mode Component
             -----------------------------------------------------------------------------------------------------------
@@ -245,9 +255,12 @@ return {
             -----------------------------------------------------------------------------------------------------------
 
             -- Show the size of tabs
-            local spaces = function()
-                return " " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
-            end
+            local spaces = {
+                function()
+                    return " " .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
+                end,
+                cond = hide_in_width,
+            }
 
             -- Show if formatting on save is enabled
             local autoformat = function()
@@ -301,6 +314,7 @@ return {
                                 modified = icons.git.Mod,
                                 removed = icons.git.Remove,
                             },
+                            cond = hide_in_width,
                         },
                         {
                             "diagnostics",
@@ -310,6 +324,7 @@ return {
                                 info = icons.diagnostics.Info,
                                 hint = icons.diagnostics.Hint,
                             },
+                            cond = hide_in_width,
                         },
                     },
                     lualine_c = {
@@ -317,8 +332,19 @@ return {
                         lsp_servers,
                         formatters,
                     },
-                    lualine_x = { "encoding", spaces, "fileformat", "filetype" },
-                    lualine_y = {},
+                    lualine_x = {
+                        {
+                            "encoding",
+                            cond = hide_in_width,
+                        },
+                        spaces,
+                        {
+                            "fileformat",
+                            cond = hide_in_width,
+                        },
+                        "filetype",
+                    },
+                    lualine_y = { copilot },
                     lualine_z = {
                         { "progress", separator = " ", padding = { left = 1, right = 0 } },
                         { "location", padding = { left = 0, right = 1 } },
