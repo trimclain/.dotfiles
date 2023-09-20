@@ -234,11 +234,10 @@ spotify: ## Install Spotify
 vscodium:
 	$(PARUINSTALL) vscodium-bin
 
-#======================================== Anki =================================================
+#========================================== Study =================================================
 anki:
 	@echo "==================================================================="
 	@echo "Installing Anki..."
-	@# If no zstd found install it with 'sudo apt install zstd'
 	@# Install a hardcoded version
 	wget https://github.com/ankitects/anki/releases/download/2.1.65/anki-2.1.65-linux-qt6.tar.zst
 	@# Unpack it
@@ -252,6 +251,20 @@ uninstall_anki:
 	@cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
+
+pomo:
+	@# go is required to build pomo
+	@# altenative installation: paru -S pomo-git
+	@echo "==================================================================="
+	@echo "Installing pomo (simple CLI for Pomodoro)..."
+	git clone https://github.com/kevinschoon/pomo.git ~/pomo
+	@# TODO: Fix golang GOROOT Problem
+	cd ~/pomo && make
+	cp ~/pomo/bin/pomo ~/.local/bin/
+	rm -rf ~/pomo
+
+uninstall_pomo:
+	rm -f ~/.local/bin/pomo
 
 #==================================================================================================
 
@@ -305,5 +318,7 @@ install: ## Setup arch after new installation
 	zsh zap\
 	awesome hyprland\
 	kitty wezterm\
-	brave telegram discord spotify vscodium anki uninstall_anki apps\
+	brave chrome telegram discord spotify vscodium\
+	anki uninstall_anki pomo uninstall_pomo\
+	apps\
 	install
