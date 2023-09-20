@@ -136,8 +136,10 @@ setopt sharehistory
 export N_PREFIX="$HOME/.n"
 
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
-export GOROOT="$HOME/.golang"
-export GOPATH="$HOME/.go"
+if [[ -d "$HOME/.golang" ]]; then
+    export GOROOT="$HOME/.golang"
+    export GOPATH="$HOME/.go"
+fi
 
 export SDKMAN_DIR="$HOME/.sdkman"
 
@@ -318,6 +320,7 @@ alias py="python3"
 
 alias grep='grep --color=auto'
 # zsh specific syntax for checking if command exists
+# switch for eza someday in the future (community fork of exa)
 if (( $+commands[exa] )); then
     alias ls='exa --group-directories-first --icons'
     alias la='ls -a'
@@ -368,9 +371,12 @@ addToPATH "$HOME/.juliaup/bin" # julia
 
 # Used if rustup is installed from https://rustup.rs/ (not relevant on arch)
 addToPATH "~/.cargo/bin" # rust btw
+
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
-addToPATH "$GOROOT/bin" # golang
-addToPATH "$GOPATH/bin"
+if [[ -n $GOROOT]]; then
+    addToPATH "$GOROOT/bin" # golang
+    addToPATH "$GOPATH/bin"
+fi
 
 # I want to use the tools mason installs outside of neovim aswell
 addToPATH "$XDG_DATA_HOME/nvim/mason/bin"

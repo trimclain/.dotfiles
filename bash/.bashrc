@@ -31,8 +31,8 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
 export N_PREFIX="$HOME/.n"
-export GOROOT="$HOME/.golang"
-export GOPATH="$HOME/.go"
+# export GOROOT="$HOME/.golang"
+# export GOPATH="$HOME/.go"
 export SDKMAN_DIR="$HOME/.sdkman"
 
 ###############################################################################
@@ -170,9 +170,8 @@ addToPATH "/usr/local/bin"
 addToPATH "$HOME/.local/bin"
 
 addToPATH "$N_PREFIX/bin" # n-insall for node versions
-addToPATH "$CARGO" # rust btw
-addToPATH "$GOROOT/bin" # golang
-addToPATH "$GOPATH/bin" # also golang
+# addToPATH "$GOROOT/bin" # golang
+# addToPATH "$GOPATH/bin" # also golang
 addToPATH "$HOME/.juliaup/bin" # julia
 
 # enable sdkman (jdk version manager)
