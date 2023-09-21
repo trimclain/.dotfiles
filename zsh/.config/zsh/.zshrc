@@ -373,7 +373,7 @@ addToPATH "$HOME/.juliaup/bin" # julia
 addToPATH "~/.cargo/bin" # rust btw
 
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
-if [[ -n $GOROOT]]; then
+if [[ -n $GOROOT ]]; then
     addToPATH "$GOROOT/bin" # golang
     addToPATH "$GOPATH/bin"
 fi
