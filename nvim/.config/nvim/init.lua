@@ -24,7 +24,7 @@ CONFIG = {
         format_on_save = false,
         virtual_text = false,
         show_signature_help = true,
-        enable_copilot = vim.uv.os_gethostname() == "arch",
+        enable_copilot = vim.fn.hostname() == "arch",
     },
     ui = {
         -- Colorschemes (note/10):
