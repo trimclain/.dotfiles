@@ -258,13 +258,14 @@ pomo:
 	@echo "==================================================================="
 	@echo "Installing pomo (simple CLI for Pomodoro)..."
 	git clone https://github.com/kevinschoon/pomo.git ~/pomo
-	@# TODO: Fix golang GOROOT Problem
 	cd ~/pomo && make
 	cp ~/pomo/bin/pomo ~/.local/bin/
 	rm -rf ~/pomo
+	@# pomo init
 
 uninstall_pomo:
 	rm -f ~/.local/bin/pomo
+	rm -rf ~/.local/share/pomo
 
 #==================================================================================================
 
