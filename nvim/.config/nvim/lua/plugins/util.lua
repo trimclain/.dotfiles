@@ -85,15 +85,24 @@ return {
     -- build files
     {
         "trimclain/builder.nvim",
-        dev = true,
-        -- stylua: ignore
+        dev = Util.dir_exists(Util.join(os.getenv("HOME"), "projects/personal/builder.nvim")),
+        cmd = "Build",
         keys = {
-            { "<C-b>", function() require("builder").build() end, desc = "Build current buffer" }
+            {
+                "<C-b>",
+                function()
+                    local position = CONFIG.ui.builder_position
+                    local size = position == "vert" and math.floor(vim.o.columns * 0.3)
+                        or math.floor(vim.o.lines * 0.25) -- make it 30% of width for "vert" or 25% of height for "bot"
+                    require("builder").build({
+                        position = position,
+                        size = size,
+                    })
+                end,
+                desc = "Build current buffer",
+            },
         },
         opts = {
-            -- make it 30% of the width or 25% of the height
-            size = CONFIG.ui.quickrun_position == "vert" and math.floor(vim.o.columns * 0.3)
-                or math.floor(vim.o.lines * 0.25),
             commands = {
                 -- c = "gcc % -o $basename.out && ./$basename.out",
                 -- cpp = "g++ % -o $basename.out && ./$basename.out",
@@ -109,7 +118,6 @@ return {
                 zsh = "zsh %",
             },
         },
-        enabled = Util.dir_exists(Util.join(os.getenv("HOME"), "projects/personal/builder.nvim")),
     },
 
     -- preview print statement outputs in neovim (for JS, TS, Python and Lua)
