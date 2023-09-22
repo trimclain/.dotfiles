@@ -320,8 +320,13 @@ alias py="python3"
 
 alias grep='grep --color=auto'
 # zsh specific syntax for checking if command exists
-# switch for eza someday in the future (community fork of exa)
-if (( $+commands[exa] )); then
+if (( $+commands[eza] )); then
+    alias ls='eza --group-directories-first --icons'
+    alias la='ls -a'
+    alias l='ls -lha'
+    alias ll='ls -lh'
+    alias tree='ll --tree --level=2'
+elif (( $+commands[exa] )); then
     alias ls='exa --group-directories-first --icons'
     alias la='ls -a'
     alias l='ls -lha'
