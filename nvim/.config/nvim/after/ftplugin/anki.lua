@@ -6,15 +6,18 @@ local keymap = vim.keymap.set
 -- TODO: can I actually make this option only for one buffer? (restore it with autocommands?)
 vim.opt_local.timeoutlen = 100 -- time to wait for a mapped sequence to complete (in milliseconds)
 
+-- add german letters
 keymap("i", "ue", "ü", opts)
 keymap("i", "ae", "ä", opts)
 keymap("i", "oe", "ö", opts)
 keymap("i", "sz", "ß", opts)
 
 -- TODO: find a way to enable lsp in .anki files for latex symbols completion
+
+-- cut on save
 local anki = vim.api.nvim_create_augroup("trimclain_anki", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = "*.anki",
+    pattern = { "*.anki", "ankitemp" },
     command = "silent %d+",
     desc = "Cut Entire File Into Clipboard",
     group = anki,

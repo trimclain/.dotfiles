@@ -44,6 +44,22 @@ ls.add_snippets("anki", {
         i(1, ""),
         t("\\]"),
     }),
+    -- Mathbb
+    s("bb", {
+        t("\\mathbb{"),
+        i(1, ""),
+        t("}"),
+    }),
+    -- Mathcal
+    s("cal", {
+        t("\\mathcal{"),
+        i(1, ""),
+        t("}"),
+    }),
+    -- Epsilon
+    s("e", {
+        t("\\varepsilon"),
+    }),
 })
 
 ls.add_snippets("NeogitCommitMessage", {

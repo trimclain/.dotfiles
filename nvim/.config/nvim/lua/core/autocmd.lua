@@ -115,4 +115,7 @@ vim.filetype.add({
     extension = {
         anki = "anki",
     },
+    filename = {
+        ["ankitemp"] = "anki",
+    },
 })
