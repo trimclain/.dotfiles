@@ -318,6 +318,13 @@ alias enrc="$EDITOR $DOTFILES/nvim/.config/nvim/init.lua --cmd \"cd $DOTFILES/nv
 
 alias py="python3"
 
+# add verbosity
+alias cp="cp -iv" \
+    mv="mv -iv" \
+    rm="rm -vI"
+# rsync="rsync -vrPlu"
+# mkd="mkdir -pv"
+
 alias grep='grep --color=auto'
 # zsh specific syntax for checking if command exists
 if (( $+commands[eza] )); then
@@ -333,7 +340,7 @@ elif (( $+commands[exa] )); then
     alias ll='ls -lh'
     alias tree='ll --tree --level=2'
 else
-    alias ls="ls --color=tty --group-directories-first"
+    alias ls="ls --color=auto --group-directories-first"
     alias la="ls -A"
     alias l="ls -lhA"
 fi

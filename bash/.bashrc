@@ -123,6 +123,11 @@ alias evrc="vim $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
 alias sbrc="source ~/.bashrc"
 alias godf="cd ~/.dotfiles"
 
+# add verbosity
+alias cp="cp -iv" \
+    mv="mv -iv" \
+    rm="rm -vI"
+
 alias grep='grep --color=auto'
 
 alias ls='ls --color=auto'
