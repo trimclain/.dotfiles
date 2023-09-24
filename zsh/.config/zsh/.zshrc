@@ -135,10 +135,10 @@ setopt sharehistory
 
 export N_PREFIX="$HOME/.n"
 
+export GOPATH="$HOME/.go"
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
 if [[ -d "$HOME/.golang" ]]; then
     export GOROOT="$HOME/.golang"
-    export GOPATH="$HOME/.go"
 fi
 
 export SDKMAN_DIR="$HOME/.sdkman"
