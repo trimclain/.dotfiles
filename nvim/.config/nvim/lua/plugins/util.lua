@@ -79,6 +79,33 @@ return {
         },
     },
 
+    -- TODO: find out how to make plenary work
+    -- run tests
+    -- {
+    --     "nvim-neotest/neotest",
+    --     dependencies = {
+    --         "nvim-lua/plenary.nvim",
+    --         "nvim-treesitter/nvim-treesitter",
+    --         "antoinemadec/FixCursorHold.nvim",
+    --     },
+    --     -- stylua: ignore
+    --     keys = {
+    --         { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Neotest Run File" },
+    --         { "<leader>tT", function() require("neotest").run.run(vim.loop.cwd()) end, desc = "Neotest Run All Test Files" },
+    --         { "<leader>tr", function() require("neotest").run.run() end, desc = "Neotest Run Nearest" },
+    --         { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Neotest Toggle Summary" },
+    --         -- { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Neotest Show Output" },
+    --         { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Neotest Toggle Output Panel" },
+    --         { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop" },
+    --     },
+    --     opts = {
+    --         adapters = {
+    --             -- ["neotest-plenary"] = { min_init = "./tests/init.lua" },
+    --             ["neotest-plenary"] = {},
+    --         },
+    --     },
+    -- },
+
     -- TODO:?
     -- preview print statement outputs in neovim (for JS, TS, Python and Lua)
     -- {

@@ -4,7 +4,13 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
+            {
+                "folke/neodev.nvim", -- enable type checking to develop neovim
+                opts = {
+                    experimental = { pathStrict = true },
+                    library = { plugins = { "neotest" }, types = true },
+                },
+            },
             "mason.nvim",
             "williamboman/mason-lspconfig.nvim",
             {

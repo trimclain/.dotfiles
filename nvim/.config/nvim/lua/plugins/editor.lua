@@ -85,7 +85,7 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
-        tag = '0.1.3',
+        tag = "0.1.3",
         -- version = false, -- telescope did only one release, so use HEAD for now
         dependencies = {
             {
@@ -389,13 +389,13 @@ return {
                 ["<leader>o"] = { name = "+options" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
-                ["<leader>t"] = { name = "+terminal" },
+                ["<leader>t"] = { name = "+terminal/test" },
                 ["<leader>v"] = { name = "+vim" },
-                -- ["<leader>q"] = { name = "+quit/session" },
-                -- ["<leader>s"] = { name = "+search" },
-                -- ["<leader>u"] = { name = "+ui" },
-                -- ["<leader>w"] = { name = "+windows" },
-                -- ["<leader>x"] = { name = "+diagnostics/quickfix" },
+                -- ["<leader>a"] = { name = "+tbd" },
+                -- ["<leader>s"] = { name = "+tbd" },
+                -- ["<leader>x"] = { name = "+tbd" },
+                -- ["<leader>c"] = { name = "+tbd" },
+                -- ["<leader>b"] = { name = "+tbd" },
             }
             -- if Util.has_plugin("noice.nvim") then
             --   nkeymaps["<leader>sn"] = { name = "+noice" }
@@ -442,21 +442,21 @@ return {
             function _NODE_TOGGLE()
                 node:toggle()
             end
-            vim.keymap.set("n", "<leader>tn", "<cmd>lua _NODE_TOGGLE()<cr>", { desc = "Node" })
+            vim.keymap.set("n", "<leader>tn", "<cmd>lua _NODE_TOGGLE()<cr>", { desc = "Open Node in Terminal" })
 
             -- Python3
             local python = open_in_toggleterm("python3")
             function _PYTHON_TOGGLE()
                 python:toggle()
             end
-            vim.keymap.set("n", "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<cr>", { desc = "Python" })
+            vim.keymap.set("n", "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<cr>", { desc = "Open Python in Terminal" })
 
             -- Htop
             local htop = open_in_toggleterm("htop")
             function _HTOP_TOGGLE()
                 htop:toggle()
             end
-            vim.keymap.set("n", "<leader>th", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "HTOP" })
+            vim.keymap.set("n", "<leader>th", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "Open HTOP in Terminal" })
         end,
     },
 
