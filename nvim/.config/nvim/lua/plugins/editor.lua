@@ -722,17 +722,26 @@ return {
 
     -- easier jumps with f,F,t,T
     {
-        "phaazon/hop.nvim",
-        branch = "v2",
+        "folke/flash.nvim",
+        event = "VeryLazy",
         opts = {
-            current_line_only = true,
-        },
-        -- stylua: ignore
-        keys = {
-            { "f", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR }) end},
-            { "F", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }) end},
-            { "t", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, hint_offset = -1 }) end},
-            { "T", function() require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, hint_offset = 1 }) end},
+            label = {
+                rainbow = {
+                    enabled = true,
+                },
+            },
+            modes = {
+                search = {
+                    -- enabled = false,
+                    -- highlight = { backdrop = true },
+                    jump = { history = true, register = true, nohlsearch = true },
+                },
+                char = {
+                    jump_labels = true,
+                    -- multi_line = false,
+                    -- highlight = { backdrop = false },
+                },
+            },
         },
     },
 
