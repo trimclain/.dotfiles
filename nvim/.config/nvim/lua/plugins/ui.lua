@@ -564,7 +564,7 @@ return {
     -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
     {
         "j-hui/fidget.nvim",
-        event = "VeryLazy",
+        event = "LspAttach",
         tag = "legacy",
         opts = {
             text = {

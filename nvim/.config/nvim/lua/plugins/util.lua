@@ -148,8 +148,6 @@ return {
     -- Plugin to generate table of contents for Markdown files
     -- use "mzlogin/vim-markdown-toc"
 
-    -- use "fladson/vim-kitty" -- get colors in kitty.conf
-
     -- preview markdown files in browser
     {
         "iamcco/markdown-preview.nvim",
