@@ -12,6 +12,7 @@ return {
         end,
     },
 
+    -- TODO:?
     -- session management
     -- {
     --     "folke/persistence.nvim",
@@ -25,6 +26,7 @@ return {
     --     },
     -- },
 
+    -- TODO:?
     -- neovim in browser
     -- {
     --     "glacambre/firenvim",
@@ -120,6 +122,7 @@ return {
         },
     },
 
+    -- TODO:?
     -- preview print statement outputs in neovim (for JS, TS, Python and Lua)
     -- {
     --     "0x100101/lab.nvim",
@@ -142,9 +145,11 @@ return {
     --     end,
     -- },
 
+    -- TODO:?
     -- Plugin for automated bullet lists in markdown
     -- use "dkarter/bullets.vim"
 
+    -- TODO:?
     -- Plugin to generate table of contents for Markdown files
     -- use "mzlogin/vim-markdown-toc"
 
@@ -181,6 +186,28 @@ return {
         end,
         enabled = vim.fn.executable("npm") == 1,
     },
+
+    -- TODO: switch to this for markdown preview?
+    -- -- markdown preview
+    -- {
+    --     "toppair/peek.nvim",
+    --     build = "deno task --quiet build:fast",
+    --     keys = {
+    --         {
+    --             "<leader>op",
+    --             function()
+    --                 local peek = require("peek")
+    --                 if peek.is_open() then
+    --                     peek.close()
+    --                 else
+    --                     peek.open()
+    --                 end
+    --             end,
+    --             desc = "Peek (Markdown Preview)",
+    --         },
+    --     },
+    --     opts = { theme = "light" },
+    -- },
 
     -- preview HTML, CSS and JS in browser
     {
@@ -248,6 +275,12 @@ return {
         enabled = vim.fn.executable("zenity") == 1 or vim.fn.executable("yad") == 1,
     },
 
+    -- TODO:?
+    -- -- color picker in neovim
+    -- {
+    --     "uga-rosa/ccc.nvim",
+    -- },
+
     -- LaTeX support
     -- {
     --     "lervag/vimtex",
@@ -263,9 +296,11 @@ return {
     -- library used by other plugins
     { "nvim-lua/plenary.nvim", lazy = true },
 
+    -- TODO:?
     -- For aligning tables
     -- { "godlygeek/tabular" }
 
+    -- TODO:?
     -- If I use leap someday
     -- makes some plugins dot-repeatable like leap
     ---{ "tpope/vim-repeat", event = "VeryLazy" },

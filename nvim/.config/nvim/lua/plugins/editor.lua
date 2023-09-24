@@ -532,6 +532,22 @@ return {
         },
     },
 
+    -- TODO:?
+    -- -- better diffing
+    -- {
+    --     "sindrets/diffview.nvim",
+    --     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+    --     config = true,
+    --     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
+    -- },
+
+    -- TODO:?
+    -- -- reveal the commit messages under the cursor
+    -- {
+    --     "rhysd/git-messenger.vim",
+    --     keys = "<leader>gm",
+    -- },
+
     -- git signs
     {
         "lewis6991/gitsigns.nvim",
@@ -577,38 +593,6 @@ return {
         },
     },
 
-    -- references
-    -- {
-    --   "RRethy/vim-illuminate",
-    --   event = { "BufReadPost", "BufNewFile" },
-    --   opts = { delay = 200 },
-    --   config = function(_, opts)
-    --     require("illuminate").configure(opts)
-    --
-    --     local function map(key, dir, buffer)
-    --       vim.keymap.set("n", key, function()
-    --         require("illuminate")["goto_" .. dir .. "_reference"](false)
-    --       end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-    --     end
-    --
-    --     map("]]", "next")
-    --     map("[[", "prev")
-    --
-    --     -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-    --     vim.api.nvim_create_autocmd("FileType", {
-    --       callback = function()
-    --         local buffer = vim.api.nvim_get_current_buf()
-    --         map("]]", "next", buffer)
-    --         map("[[", "prev", buffer)
-    --       end,
-    --     })
-    --   end,
-    --   keys = {
-    --     { "]]", desc = "Next Reference" },
-    --     { "[[", desc = "Prev Reference" },
-    --   },
-    -- },
-
     -- buffer remove (other options: https://github.com/famiu/bufdelete.nvim)
     {
         "echasnovski/mini.bufremove",
@@ -618,6 +602,7 @@ return {
         },
     },
 
+    -- TODO: ?
     -- better diagnostics list and others
     -- {
     --   "folke/trouble.nvim",
@@ -745,6 +730,24 @@ return {
         },
     },
 
+    -- TODO: Setup neorg
+    -- -- neorg
+    -- {
+    --     "nvim-neorg/neorg",
+    --     enabled = false,
+    --     ft = "norg",
+    --     opts = {
+    --         load = {
+    --             ["core.defaults"] = {},
+    --             ["core.norg.concealer"] = {},
+    --             ["core.norg.completion"] = {
+    --                 config = { engine = "nvim-cmp" },
+    --             },
+    --             ["core.integrations.nvim-cmp"] = {},
+    --         },
+    --     },
+    -- },
+
     -- harpoon btw
     {
         "ThePrimeagen/harpoon",
@@ -794,6 +797,40 @@ return {
         },
     },
 
+    -- TODO: ?
+    -- highlight same words on mouse over them like vscode
+    -- {
+    --   "RRethy/vim-illuminate",
+    --   event = { "BufReadPost", "BufNewFile" },
+    --   opts = { delay = 200 },
+    --   config = function(_, opts)
+    --     require("illuminate").configure(opts)
+    --
+    --     local function map(key, dir, buffer)
+    --       vim.keymap.set("n", key, function()
+    --         require("illuminate")["goto_" .. dir .. "_reference"](false)
+    --       end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+    --     end
+    --
+    --     map("]]", "next")
+    --     map("[[", "prev")
+    --
+    --     -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+    --     vim.api.nvim_create_autocmd("FileType", {
+    --       callback = function()
+    --         local buffer = vim.api.nvim_get_current_buf()
+    --         map("]]", "next", buffer)
+    --         map("[[", "prev", buffer)
+    --       end,
+    --     })
+    --   end,
+    --   keys = {
+    --     { "]]", desc = "Next Reference" },
+    --     { "[[", desc = "Prev Reference" },
+    --   },
+    -- },
+
+    -- TODO: ?
     -- incsearch for :linenum<cr>
     -- {
     --     "nacro90/numb.nvim",
