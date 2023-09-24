@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# Make sure ffmpeg and xorg-xwininfo are installed
+check_if_command_exists() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
+        exit 1
+    fi
+}
+check_if_command_exists ffmpeg
+check_if_command_exists xwininfo
+
+#######################################
+# Kill existing recording
+#######################################
+killrecording() {
+    pidloc="/tmp/recordingpid"
+    if [ -f "$pidloc" ]; then
+        recpid="$(cat $pidloc)"
+        kill -15 "$recpid"
+        rm -f "$pidloc"
+    fi
+}
+
+#######################################
+# Record screen without audio
+#######################################
+screen() {
+    ffmpeg \
+        -hide_banner \
+        -loglevel error \
+        -f x11grab \
+        -show-region 1 \
+        -framerate 30 \
+        -i "$DISPLAY" \
+        -c:v libx264 -qp 0 -r 30 \
+        "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+}
+
+#######################################
+# Record selected window without audio
+#######################################
+
+window() {
+    WINID=$(xwininfo | grep "Window id" | awk '{print $4}')
+    ffmpeg \
+        -hide_banner \
+        -loglevel error \
+        -f x11grab \
+        -show_region 1 \
+        -window_id "$WINID" \
+        -framerate 30 \
+        -i "$DISPLAY" \
+        -c:v libx264 -qp 0 -r 30 \
+        "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+}
+
+case "$1" in
+    screen) screen ;;
+    window) window ;;
+    stop) killrecording ;;
+esac
