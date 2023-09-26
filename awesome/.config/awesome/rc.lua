@@ -542,7 +542,7 @@ local globalkeys = mytable.join(
     -- ########################################################################
 
     -- ########################## AWESOME GROUP ###############################
-    awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
+    awful.key({ modkey }, "z", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     -- awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     awful.key({ modkey, "Shift" }, "e", awesome.quit, { description = "exit awesome", group = "awesome" }),
@@ -791,7 +791,7 @@ local globalkeys = mytable.join(
         spawn_terminal_command("flameshot", "screen -c")
     end, { description = "take a screenshot of a full screen to clipboard", group = "hotkeys" }),
 
-    awful.key({ modkey }, "z", function()
+    awful.key({ modkey }, "s", function()
         spawn_terminal_command("flameshot", "gui -c")
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
