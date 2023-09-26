@@ -22,6 +22,7 @@ require("lazy").setup("plugins", {
     },
     dev = {
         path = "~/projects/personal",
+        fallback = true, -- fallback to git when local plugin doesn't exist
     },
     -- try to load one of these colorschemes when starting an installation during startup
     install = { colorscheme = { CONFIG.ui.colorscheme, "habamax" } },

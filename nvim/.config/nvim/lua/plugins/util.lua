@@ -39,10 +39,10 @@ return {
     --     end,
     -- },
 
-    -- build files
+    -- run/build files
     {
         "trimclain/builder.nvim",
-        dev = Util.dir_exists(Util.join(os.getenv("HOME"), "projects/personal/builder.nvim")),
+        dev = true,
         cmd = "Build",
         keys = {
             {
@@ -67,7 +67,7 @@ return {
                 -- java = "java %",
                 -- javascript = "node %",
                 -- julia = "julia %",
-                -- lua = "lua %", -- this will overwrite enable_internals
+                -- lua = "lua %", -- this will override the `enable_builtin` for lua
                 -- markdown = "glow %",
                 python = "python %",
                 -- rust = "cargo run",
@@ -285,7 +285,6 @@ return {
     -- { "godlygeek/tabular" }
 
     -- TODO:?
-    -- If I use leap someday
-    -- makes some plugins dot-repeatable like leap
+    -- makes some plugins dot-repeatable like flash.nvim
     ---{ "tpope/vim-repeat", event = "VeryLazy" },
 }

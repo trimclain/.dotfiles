@@ -582,4 +582,7 @@ return {
 
     -- ui components
     { "MunifTanjim/nui.nvim", lazy = true },
+
+    -- TODO:
+    -- { "stevearc/dressing.nvim", lazy = true },
 }
