@@ -33,25 +33,25 @@ local r = ls.restore_node
 
 ls.add_snippets("anki", {
     -- MathJax inline equiation
-    s("l", {
+    s("$", {
         t("\\("),
         i(1, ""),
         t("\\)"),
     }),
     -- MathJax block equiation
-    s("b", {
+    s("[", {
         t("\\["),
         i(1, ""),
         t("\\]"),
     }),
     -- Mathbb
-    s("bb", {
+    s("b", {
         t("\\mathbb{"),
         i(1, ""),
         t("}"),
     }),
     -- Mathcal
-    s("cal", {
+    s("c", {
         t("\\mathcal{"),
         i(1, ""),
         t("}"),
