@@ -195,6 +195,9 @@ return {
                 function()
                     local icon = require("core.icons").kinds.Copilot
                     local status = require("copilot.api").status.data
+                    if string.find(status.message, "disconnected") then
+                        return ""
+                    end
                     return icon .. (status.message or "")
                 end,
                 cond = function()
