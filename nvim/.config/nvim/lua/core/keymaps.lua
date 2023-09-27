@@ -72,14 +72,15 @@ keymap("v", "K", ":m '<-2<cr>gv=gv", opts) -- move higlighted lines up a line
 keymap("v", "J", ":m '>+1<cr>gv=gv", opts) -- and down a line
 keymap("v", "<", "<gv", opts) -- stay in indent mode
 keymap("v", ">", ">gv", opts) -- stay in indent mode
-keymap("v", "<S-h>", "<gv", opts) -- feels natural
-keymap("v", "<S-l>", ">gv", opts) -- feels natural
-keymap("v", "y", "myy`y", opts) -- Maintain the cursor position
+keymap("v", "<S-h>", "<gv", opts) -- feels
+keymap("v", "<S-l>", ">gv", opts) -- natural
+keymap("v", "y", "myy`y", opts) -- maintain the cursor position
 keymap("v", "Y", "myy`y", opts) -- when yanking a visual selection
 keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank it
 keymap("n", "<leader>d", '"_d', add_desc("Delete to black hole"))
 keymap("i", "<C-r>", "<C-r>+", opts) -- paste from clipboard in insert mode
 keymap("c", "<C-r>", "<C-r>+", opts) -- paste from clipboard in command mode
+keymap("n", "M", "<cmd>Man<cr>", opts) -- open manual entry for word under cursor
 keymap("n", "<leader>r.", ":%s/\\<<c-r><c-w>\\>/", add_desc("Replace Word Vim Style"))
 keymap("n", "<leader>Y", 'gg"+yG', add_desc("Yank Whole File"))
 keymap("n", "<leader>w", "<cmd>w<cr>", add_desc("Save File"))
