@@ -1,11 +1,15 @@
--- Great explanation of what lazy.nvim can do: https://github.com/folke/lazy.nvim#examples
-
 -- Install lazy.nvim if needed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  -- bootstrap lazy.nvim
-  -- stylua: ignore
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
+if not (vim.uv or vim.loop).fs_stat(lazypath) then -- TODO: REMOVE vim.loop after Neovim v0.10 comes out
+    -- install lazy.nvim
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
@@ -30,7 +34,7 @@ require("lazy").setup("plugins", {
     change_detection = {
         -- automatically check for config file changes and reload the ui
         enabled = false, -- maybe later
-        notify = true, -- get a notification when changes are found
+        -- notify = false, -- get a notification when changes are found
     },
     performance = {
         rtp = {
