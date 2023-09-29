@@ -45,7 +45,7 @@ CONFIG = {
         spinner = "dots_pulse", -- animation shown when tasks are ongoing
 
         -- Builder
-        builder_position = "bot", -- "bot": bottom horizontal split, "vert": right vertical split
+        builder_type = "bot", -- "bot": bottom horizontal split, "vert": right vertical split, "float": floating window
     },
     git = {
         show_blame = false,

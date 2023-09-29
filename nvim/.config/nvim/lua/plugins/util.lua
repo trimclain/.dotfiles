@@ -44,22 +44,12 @@ return {
         "trimclain/builder.nvim",
         dev = true,
         cmd = "Build",
+        -- stylua: ignore
         keys = {
-            {
-                "<C-b>",
-                function()
-                    local position = CONFIG.ui.builder_position
-                    local size = position == "vert" and math.floor(vim.o.columns * 0.3)
-                        or math.floor(vim.o.lines * 0.25) -- make it 30% of width for "vert" or 25% of height for "bot"
-                    require("builder").build({
-                        position = position,
-                        size = size,
-                    })
-                end,
-                desc = "Build current buffer",
-            },
+            {"<C-b>", function() require("builder").build() end, desc = "Build current buffer"},
         },
         opts = {
+            type = CONFIG.ui.builder_type,
             commands = {
                 -- c = "gcc % -o $basename.out && ./$basename.out",
                 -- cpp = "g++ % -o $basename.out && ./$basename.out",
