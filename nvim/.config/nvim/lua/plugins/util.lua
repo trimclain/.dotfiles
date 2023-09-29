@@ -50,10 +50,12 @@ return {
         },
         opts = {
             type = CONFIG.ui.builder_type,
+            float_border = CONFIG.ui.border,
             commands = {
-                -- c = "gcc % -o $basename.out && ./$basename.out",
+                c = "gcc % -o $basename.out && ./$basename.out",
                 -- cpp = "g++ % -o $basename.out && ./$basename.out",
                 -- go = "go run %",
+                go = "go build % && ./$basename",
                 -- java = "java %",
                 -- javascript = "node %",
                 -- julia = "julia %",

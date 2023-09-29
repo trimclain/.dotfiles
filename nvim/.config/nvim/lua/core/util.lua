@@ -1,9 +1,11 @@
 local M = {}
 
---- Print the given object
+--- Print the given object and return it
 ---@param obj table | string | number
+---@return table | string | number obj
 function _G.P(obj)
     print(vim.inspect(obj))
+    return obj
 end
 
 --- Join path segments to a full path

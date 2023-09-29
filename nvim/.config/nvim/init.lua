@@ -33,9 +33,9 @@ CONFIG = {
         -- github-dark (7), onedark (7), kanagawa (7), zephyr (7)
         -- sonokai (6), omni (6),
         -- darkplus (why does it change colors 5 seconds after launch?)
-        colorscheme = "vscode",
+        colorscheme = "tokyonight",
         transparent_background = false,
-        border = "rounded", -- see ':h nvim_open_win'
+        border = "rounded", -- see `:h nvim_open_win`
         italic_comments = true,
         dashboard = true,
         neoscroll = false,
