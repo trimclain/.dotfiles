@@ -54,8 +54,8 @@ return {
             commands = {
                 c = "gcc % -o $basename.out && ./$basename.out",
                 -- cpp = "g++ % -o $basename.out && ./$basename.out",
-                -- go = "go run %",
-                go = "go build % && ./$basename",
+                go = "go run %",
+                -- go = "go build % && ./$basename",
                 -- java = "java %",
                 -- javascript = "node %",
                 -- julia = "julia %",
