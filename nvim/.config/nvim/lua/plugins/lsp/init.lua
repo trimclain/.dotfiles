@@ -207,14 +207,15 @@ return {
                     --     extra_args = { "--ignore", "E501" }, -- ignore long lines
                     -- }),
                     nls.builtins.formatting.autopep8,
+                    nls.builtins.formatting.beautysh,
                     nls.builtins.formatting.isort,
                     nls.builtins.formatting.stylua,
-                    nls.builtins.formatting.beautysh,
 
                     -- Linters
                     nls.builtins.diagnostics.ruff.with({
                         extra_args = { "--ignore", "E501" }, -- ignore long lines
                     }),
+                    nls.builtins.diagnostics.selene,
                     nls.builtins.diagnostics.shellcheck,
                     nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
                     -- This is normal and not related to null-ls.
@@ -247,16 +248,17 @@ return {
             },
             ensure_installed = {
                 -- Formatters
+                "autopep8",
+                "beautysh",
+                "isort",
                 "prettierd",
                 "stylua",
-                "beautysh",
-                "autopep8",
-                "isort",
 
                 -- Linters
-                "ruff",
-                "shellcheck",
                 "eslint_d",
+                "ruff",
+                "selene",
+                "shellcheck",
                 "stylelint", -- css linter
             },
             border = CONFIG.ui.border,
