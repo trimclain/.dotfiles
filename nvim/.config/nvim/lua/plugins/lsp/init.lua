@@ -189,7 +189,7 @@ return {
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
     {
-        "jose-elias-alvarez/null-ls.nvim",
+        "jose-elias-alvarez/null-ls.nvim", -- replace with "nvimtools/none-ls.nvim"?
         event = { "BufReadPre", "BufNewFile" },
         dependencies = { "mason.nvim" },
         opts = function()
@@ -215,7 +215,7 @@ return {
                     nls.builtins.diagnostics.ruff.with({
                         extra_args = { "--ignore", "E501" }, -- ignore long lines
                     }),
-                    nls.builtins.diagnostics.selene,
+                    -- nls.builtins.diagnostics.selene,
                     nls.builtins.diagnostics.shellcheck,
                     nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
                     -- This is normal and not related to null-ls.
@@ -257,7 +257,7 @@ return {
                 -- Linters
                 "eslint_d",
                 "ruff",
-                "selene",
+                -- "selene",
                 "shellcheck",
                 "stylelint", -- css linter
             },
