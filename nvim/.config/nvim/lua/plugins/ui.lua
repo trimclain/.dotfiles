@@ -396,27 +396,30 @@ return {
             -- To set or unset the char for a trailing space (default is "trail:-")
             vim.opt.listchars:append("trail: ") -- currently it's unset
             return {
-                char = "▏",
-                -- char = "│",
-                filetype_exclude = {
-                    "help",
-                    "man",
-                    "checkhealth",
-                    "lazy",
-                    "lspinfo",
-                    "neo-tree",
-                    "neogitstatus",
-                    "undotree",
-                    "Trouble",
-                    "alpha",
-                    "dashboard",
-                    "mason",
+                indent = {
+                    char = "▏",
+                    -- char = "│",
+                    tab_char = "▏",
+                    -- tab_char = "│",
                 },
-                show_trailing_blankline_indent = false,
-                show_current_context = false,
-                show_end_of_line = true,
+                scope = { enabled = false },
+                exclude = {
+                    filetypes = {
+                        "Trouble",
+                        "alpha",
+                        "dashboard",
+                        "lazy",
+                        "mason",
+                        "neo-tree",
+                        "notify",
+                        "neogitstatus",
+                        "undotree",
+                        "toggleterm",
+                    },
+                },
             }
         end,
+        main = "ibl",
     },
 
     -- active indent guide and indent text objects
