@@ -1,36 +1,4 @@
 return {
-    -- the colorscheme should be available when starting Neovim
-    {
-        "folke/tokyonight.nvim",
-        lazy = false, -- make sure we load this during startup if it is your main colorscheme
-        priority = 1000, -- make sure to load this before all the other start plugins
-        cond = CONFIG.ui.colorscheme == "tokyonight",
-        opts = {
-            style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-            transparent = false, -- Enable this to disable setting the background color
-            styles = {
-                -- Style to be applied to different syntax groups
-                -- Value is any valid attr-list value for `:help nvim_set_hl`
-                comments = { italic = CONFIG.ui.italic_comments },
-                keywords = { italic = CONFIG.ui.italic_comments },
-                functions = {},
-                variables = {},
-                -- Background styles. Can be "dark", "transparent" or "normal"
-                sidebars = "dark", -- style for sidebars, see below
-                floats = "dark", -- style for floating windows
-            },
-            sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-            hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-            dim_inactive = false, -- dims inactive windows
-            lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
-        },
-        config = function(_, opts)
-            require("tokyonight").setup(opts)
-            -- load the colorscheme here
-            vim.cmd.colorscheme("tokyonight")
-        end,
-    },
-
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -108,31 +76,33 @@ return {
     },
 
     {
-        "rebelot/kanagawa.nvim",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "kanagawa",
+        "folke/tokyonight.nvim",
+        lazy = false, -- make sure we load this during startup if it is your main colorscheme
+        priority = 1000, -- make sure to load this before all the other start plugins
+        cond = CONFIG.ui.colorscheme == "tokyonight",
         opts = {
-            theme = "wave", -- wave, dragon, lotus
+            style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+            transparent = false, -- Enable this to disable setting the background color
+            styles = {
+                -- Style to be applied to different syntax groups
+                -- Value is any valid attr-list value for `:help nvim_set_hl`
+                comments = { italic = CONFIG.ui.italic_comments },
+                keywords = { italic = CONFIG.ui.italic_comments },
+                functions = {},
+                variables = {},
+                -- Background styles. Can be "dark", "transparent" or "normal"
+                sidebars = "dark", -- style for sidebars, see below
+                floats = "dark", -- style for floating windows
+            },
+            sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+            hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+            dim_inactive = false, -- dims inactive windows
+            lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
         },
         config = function(_, opts)
-            require("kanagawa").setup(opts)
-            vim.cmd.colorscheme("kanagawa")
-        end,
-    },
-
-    {
-        "EdenEast/nightfox.nvim",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "nightfox",
-        opts = {
-            transparent = false, -- Disable setting background
-            dim_inactive = false, -- Non focused panes set to alternative background
-        },
-        config = function(_, opts)
-            require("nightfox").setup(opts)
-            vim.cmd.colorscheme("nightfox")
+            require("tokyonight").setup(opts)
+            -- load the colorscheme here
+            vim.cmd.colorscheme("tokyonight")
         end,
     },
 
@@ -160,23 +130,24 @@ return {
                 TelescopeResultsNormal = { fg = "subtle", bg = "none" },
                 TelescopeSelection = { fg = "text", bg = "base" },
                 TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
+                -- -- borderless telescope.nvim
+                -- TelescopeBorder = { fg = "overlay", bg = "overlay" },
+                -- TelescopeNormal = { fg = "subtle", bg = "overlay" },
+                -- TelescopeSelection = { fg = "text", bg = "highlight_med" },
+                -- TelescopeSelectionCaret = { fg = "love", bg = "highlight_med" },
+                -- TelescopeMultiSelection = { fg = "text", bg = "highlight_high" },
+
+                -- TelescopeTitle = { fg = "base", bg = "love" },
+                -- TelescopePromptTitle = { fg = "base", bg = "pine" },
+                -- TelescopePreviewTitle = { fg = "base", bg = "iris" },
+
+                -- TelescopePromptNormal = { fg = "text", bg = "surface" },
+                -- TelescopePromptBorder = { fg = "surface", bg = "surface" },
             },
         },
         config = function(_, opts)
             require("rose-pine").setup(opts)
             vim.cmd.colorscheme("rose-pine")
-        end,
-    },
-
-    {
-        "sainnhe/sonokai",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "sonokai",
-        config = function()
-            vim.g.sonokai_style = "andromeda" -- options: 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
-            vim.g.sonokai_better_performance = 1 -- options: 0, 1
-            vim.cmd.colorscheme("sonokai")
         end,
     },
 
@@ -235,6 +206,47 @@ return {
         config = function(_, opts)
             require("nvim-tundra").setup(opts)
             vim.cmd.colorscheme("tundra")
+        end,
+    },
+
+    {
+        "AstroNvim/astrotheme",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "astrotheme",
+        opts = {
+            palette = "astrodark", -- String of the default palette to use when calling `:colorscheme astrotheme`
+            style = {
+                transparent = CONFIG.ui.transparent_background,
+                inactive = false,
+                -- border = CONFIG.ui.border ~= "none" and true or false,
+                border = false,
+                title_invert = true,
+                italic_comments = CONFIG.ui.italic_comments,
+                simple_syntax_colors = true,
+            },
+            -- plugins = { -- Allows for individual plugin overrides using plugin name and value from above.
+            --     ["bufferline.nvim"] = false,
+            -- },
+        },
+        config = function(_, opts)
+            require("astrotheme").setup(opts)
+            vim.cmd.colorscheme("astrotheme")
+        end,
+    },
+
+    {
+        "EdenEast/nightfox.nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "nightfox",
+        opts = {
+            transparent = false, -- Disable setting background
+            dim_inactive = false, -- Non focused panes set to alternative background
+        },
+        config = function(_, opts)
+            require("nightfox").setup(opts)
+            vim.cmd.colorscheme("nightfox")
         end,
     },
 
@@ -314,26 +326,6 @@ return {
     },
 
     {
-        "glepnir/zephyr-nvim",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "zephyr",
-        config = function()
-            vim.cmd.colorscheme("zephyr")
-        end,
-    },
-
-    {
-        "getomni/neovim",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "omni",
-        config = function()
-            vim.cmd.colorscheme("omni")
-        end,
-    },
-
-    {
         "navarasu/onedark.nvim",
         lazy = false,
         priority = 1000,
@@ -363,6 +355,52 @@ return {
         config = function(_, opts)
             require("onedark").setup(opts)
             vim.cmd.colorscheme("onedark")
+        end,
+    },
+
+    {
+        "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "kanagawa",
+        opts = {
+            theme = "wave", -- wave, dragon, lotus
+        },
+        config = function(_, opts)
+            require("kanagawa").setup(opts)
+            vim.cmd.colorscheme("kanagawa")
+        end,
+    },
+
+    {
+        "glepnir/zephyr-nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "zephyr",
+        config = function()
+            vim.cmd.colorscheme("zephyr")
+        end,
+    },
+
+    {
+        "sainnhe/sonokai",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "sonokai",
+        config = function()
+            vim.g.sonokai_style = "andromeda" -- options: 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
+            vim.g.sonokai_better_performance = 1 -- options: 0, 1
+            vim.cmd.colorscheme("sonokai")
+        end,
+    },
+
+    {
+        "getomni/neovim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "omni",
+        config = function()
+            vim.cmd.colorscheme("omni")
         end,
     },
 }
