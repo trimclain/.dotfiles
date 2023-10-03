@@ -245,16 +245,6 @@ return {
     },
 
     {
-        "LunarVim/darkplus.nvim",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "darkplus",
-        config = function()
-            vim.cmd.colorscheme("darkplus")
-        end,
-    },
-
-    {
         "ellisonleao/gruvbox.nvim",
         priority = 1000,
         cond = CONFIG.ui.colorscheme == "gruvbox",
