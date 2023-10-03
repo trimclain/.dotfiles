@@ -12,7 +12,7 @@ return {
                 -- Style to be applied to different syntax groups
                 -- Value is any valid attr-list value for `:help nvim_set_hl`
                 comments = { italic = CONFIG.ui.italic_comments },
-                keywords = { italic = true },
+                keywords = { italic = CONFIG.ui.italic_comments },
                 functions = {},
                 variables = {},
                 -- Background styles. Can be "dark", "transparent" or "normal"
@@ -22,7 +22,7 @@ return {
             sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
             hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
             dim_inactive = false, -- dims inactive windows
-            lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
+            lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
         },
         config = function(_, opts)
             require("tokyonight").setup(opts)
@@ -146,11 +146,20 @@ return {
             --- @usage 'auto'|'main'|'moon'|'dawn'
             variant = "auto",
             --- @usage 'main'|'moon'|'dawn'
-            dark_variant = "main",
+            dark_variant = "moon",
+            disable_italics = not CONFIG.ui.italic_comments,
+
             -- Change specific vim highlight groups
+            -- https://github.com/rose-pine/neovim/wiki/Recipes
+            -- https://rosepinetheme.com/palette
             highlight_groups = {
-                -- ColorColumn = { bg = "rose" },
-                ColorColumn = { bg = "overlay" },
+                -- make telescope.nvim transparent
+                TelescopeBorder = { fg = "highlight_high", bg = "none" },
+                TelescopeNormal = { bg = "none" },
+                TelescopePromptNormal = { bg = "base" },
+                TelescopeResultsNormal = { fg = "subtle", bg = "none" },
+                TelescopeSelection = { fg = "text", bg = "base" },
+                TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
             },
         },
         config = function(_, opts)

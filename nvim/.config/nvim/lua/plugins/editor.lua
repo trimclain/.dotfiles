@@ -191,6 +191,7 @@ return {
                 prompt_prefix = " ",
                 -- selection_caret = " ",
                 selection_caret = "  ",
+                border = CONFIG.ui.border ~= "none" and true or false,
                 set_env = { ["COLORTERM"] = "truecolor" }, -- default: nil
                 vimgrep_arguments = {
                     "rg",

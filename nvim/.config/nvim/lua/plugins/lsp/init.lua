@@ -245,6 +245,7 @@ return {
                     package_uninstalled = "✗",
                     package_pending = "⟳",
                 },
+                border = CONFIG.ui.border,
             },
             ensure_installed = {
                 -- Formatters
@@ -261,7 +262,6 @@ return {
                 "shellcheck",
                 "stylelint", -- css linter
             },
-            border = CONFIG.ui.border,
         },
         ---@param opts MasonSettings | {ensure_installed: string[]}
         config = function(_, opts)

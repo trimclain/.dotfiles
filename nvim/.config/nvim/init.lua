@@ -32,7 +32,7 @@ CONFIG = {
         -- nightfox (8), vscode (8), gruvbox (8)
         -- github-dark (7), onedark (7), kanagawa (7), zephyr (7)
         -- sonokai (6), omni (6),
-        colorscheme = "tokyonight",
+        colorscheme = "rose-pine",
         transparent_background = false,
         border = "rounded", -- see `:h nvim_open_win`
         italic_comments = true,
