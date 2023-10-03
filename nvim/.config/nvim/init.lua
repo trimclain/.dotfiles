@@ -34,6 +34,7 @@ CONFIG = {
         -- sonokai (6), omni (6),
         colorscheme = "rose-pine",
         transparent_background = false,
+        cursorline = true,
         border = "rounded", -- see `:h nvim_open_win`
         italic_comments = true,
         dashboard = true,

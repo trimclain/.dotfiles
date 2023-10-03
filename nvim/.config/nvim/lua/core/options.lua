@@ -5,6 +5,7 @@ local options = {
     colorcolumn = "80", -- vertical column to see 80 characters
     completeopt = { "menu", "menuone", "noselect" }, -- required by nvim-cmp
     conceallevel = 0, -- so that `` is visible in markdown files
+    cursorline = CONFIG.ui.cursorline, -- highlight current line
     expandtab = true, -- use spaces instead of tabs
     fileencoding = "utf-8", -- the encoding written to a file
     hlsearch = true, -- highlight all matches on previous search pattern
@@ -43,7 +44,6 @@ local options = {
     -- pumblend = 10 -- popup blend
     -- pumheight = 10 -- maximum number of entries in a popup
     -- showtabline = 2, -- always show tabs
-    -- cursorline = true, -- highlight current line
 }
 
 for k, v in pairs(options) do
