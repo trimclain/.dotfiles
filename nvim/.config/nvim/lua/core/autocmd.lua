@@ -76,7 +76,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "man", -- nvim man pages
         "startuptime", -- dstein64/vim-startuptime
         "spectre_panel", -- nvim-pack/nvim-spectre
-        "Jaq", -- is0n/jaq-nvim
     },
     callback = function(event)
         vim.bo[event.buf].buflisted = false
