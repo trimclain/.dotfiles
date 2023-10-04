@@ -191,7 +191,7 @@ return {
                 prompt_prefix = " ",
                 -- selection_caret = " ",
                 selection_caret = "  ",
-                border = CONFIG.ui.border ~= "none" and true or false,
+                border = CONFIG.ui.border ~= "none",
                 set_env = { ["COLORTERM"] = "truecolor" }, -- default: nil
                 vimgrep_arguments = {
                     "rg",
@@ -675,7 +675,7 @@ return {
     -- althernative: https://github.com/declancm/cinnamon.nvim
     {
         "karb94/neoscroll.nvim",
-        enabled = CONFIG.ui.neoscroll,
+        cond = CONFIG.ui.neoscroll,
         event = { "BufReadPost" },
         opts = {
             -- All these keys will be mapped to their corresponding default scrolling animation

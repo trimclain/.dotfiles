@@ -45,6 +45,7 @@ return {
     {
         "akinsho/bufferline.nvim",
         event = { "BufNewFile", "BufReadPre" },
+        cond = CONFIG.ui.bufferline,
         -- keys = {
         --   { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
         --   { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
@@ -82,6 +83,7 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
+        cond = CONFIG.ui.lualine,
         opts = function()
             -----------------------------------------------------------------------------------------------------------
             -- Conditions to disable sections
@@ -384,6 +386,7 @@ return {
     {
         "lukas-reineke/indent-blankline.nvim",
         event = { "BufReadPost", "BufNewFile" },
+        cond = CONFIG.ui.indentline,
         opts = function()
             -- Next lines add the ↲ sign at the EOL
             vim.opt.list = true
@@ -427,6 +430,7 @@ return {
         "echasnovski/mini.indentscope",
         version = false, -- wait till new 0.7.0 release to put it back on semver
         event = { "BufReadPre", "BufNewFile" },
+        cond = CONFIG.ui.indentline,
         opts = {
             symbol = "▏",
             -- symbol = "│",
@@ -572,9 +576,10 @@ return {
         "j-hui/fidget.nvim",
         event = "LspAttach",
         tag = "legacy",
+        cond = CONFIG.ui.spinner,
         opts = {
             text = {
-                spinner = CONFIG.ui.spinner,
+                spinner = CONFIG.ui.spinner_type,
             },
             window = {
                 relative = "editor", -- where to anchor, either "win" or "editor" (default: "win")

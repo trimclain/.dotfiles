@@ -13,6 +13,9 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+-- Fast way to switch to minimal (in terms of ui) config
+local type = "default" --- @usage: "default" | "minimal"
+
 -- Important settings for easy modification
 CONFIG = {
     opts = {
@@ -37,12 +40,16 @@ CONFIG = {
         cursorline = true,
         border = "rounded", -- see `:h nvim_open_win`
         italic_comments = true,
-        dashboard = true,
-        neoscroll = false,
         ghost_text = false,
 
-        -- Spinners: dots_pulse, moon, meter, zip, pipe, dots, arc
-        spinner = "dots_pulse", -- animation shown when tasks are ongoing
+        -- plugins
+        dashboard = type == "default",
+        neoscroll = false,
+        bufferline = type == "default",
+        lualine = type == "default",
+        indentline = type == "default",
+        spinner = type == "default", -- animation shown when tasks are ongoing
+        spinner_type = "dots_pulse", -- spinners: dots_pulse, moon, meter, zip, pipe, dots, arc
 
         -- Builder
         builder_type = "bot", -- "bot": bottom horizontal split, "vert": right vertical split, "float": floating window

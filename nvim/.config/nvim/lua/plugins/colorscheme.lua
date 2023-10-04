@@ -219,7 +219,7 @@ return {
             style = {
                 transparent = CONFIG.ui.transparent_background,
                 inactive = false,
-                -- border = CONFIG.ui.border ~= "none" and true or false,
+                -- border = CONFIG.ui.border ~= "none",
                 border = false,
                 title_invert = true,
                 italic_comments = CONFIG.ui.italic_comments,
