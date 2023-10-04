@@ -15,8 +15,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank({
             -- higroup = "IncSearch",
             -- higroup = "Substitute",
-            higroup = "Search",
-            timeout = 100,
+            -- higroup = "Search",
+            higroup = "Visual",
+            timeout = 70,
             on_macro = true,
             on_visual = true,
         })
@@ -25,11 +26,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     group = augroup("highlight_on_yank"),
 })
 
+vim.api.nvim_create_autocmd({ "CmdWinEnter" }, {
+    command = "quit",
+    desc = "Autoclose command-line window",
+    group = augroup("autoclose_commandline_window"),
+})
+
 -- Resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-    callback = function()
-        vim.cmd("tabdo wincmd =")
-    end,
+    command = "tabdo wincmd =",
     desc = "Resize splits if window got resized",
     group = augroup("resize_splits"),
 })
@@ -81,31 +86,33 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     group = augroup("close_with_q"),
 })
 
--- Enable spell in following filetypes
--- vim.api.nvim_create_autocmd({ "FileType" }, {
---     pattern = { "markdown", "NeogitCommitMessage" },
---     callback = function()
---         vim.opt_local.spell = true
---     end,
---     desc = "Enable builin spellcheck in following filetypes",
---     group = filetype_group,
--- })
+-- Enable spell and wrap in following filetypes
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "markdown", "NeogitCommitMessage" },
+    callback = function()
+        vim.opt_local.spell = true
+        vim.opt_local.wrap = true
+    end,
+    desc = "Enable word wrap and spellcheck in markdown and gitcommit filetypes",
+    group = augroup("enable_spell_wrap"),
+})
 
--- If I use cursorline someday
 -- Hide cursorline in insert mode
--- local cursorline_toggle = augroup("cursorline_toggle")
--- vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
---     pattern = "*",
---     command = "set cursorline",
---     desc = "Enable cursorline in normal mode",
---     group = cursorline_toggle,
--- })
--- vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
---     pattern = "*",
---     command = "set nocursorline",
---     desc = "Disable cursorline in insert mode",
---     group = cursorline_toggle,
--- })
+if CONFIG.ui.cursorline then
+    local cursorline_toggle = augroup("cursorline_toggle")
+    vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+        pattern = "*",
+        command = "set cursorline",
+        desc = "Enable cursorline in normal mode",
+        group = cursorline_toggle,
+    })
+    vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+        pattern = "*",
+        command = "set nocursorline",
+        desc = "Disable cursorline in insert mode",
+        group = cursorline_toggle,
+    })
+end
 
 -----------------------------------------------------------------------------------------------------------------------
 -- Filetypes
