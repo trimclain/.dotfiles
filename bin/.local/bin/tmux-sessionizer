@@ -4,6 +4,15 @@
 # Create new tmux session
 ###############################################################################
 
+check_if_command_exists() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
+        exit 1
+    fi
+}
+check_if_command_exists tmux
+check_if_command_exists fzf
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
