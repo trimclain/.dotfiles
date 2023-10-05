@@ -72,8 +72,9 @@ return {
                 marksman = {}, -- markdown
                 vimls = {},
                 -- yamlls = {},
+                -- texlab = {}, -- latex
                 graphql = {},
-                -- julials = {},
+                -- julials = {}, -- https://github.com/williamboman/mason-lspconfig.nvim/blob/main/lua/mason-lspconfig/server_configurations/julials/README.md
                 -- ansiblels = {},
                 dockerls = {},
                 jsonls = {},
@@ -189,7 +190,11 @@ return {
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
     {
-        "jose-elias-alvarez/null-ls.nvim", -- replace with "nvimtools/none-ls.nvim"?
+        "jose-elias-alvarez/null-ls.nvim",
+        -- Possible replacement plugins:
+        -- - "nvimtools/none-ls.nvim" -- same thing but maintained
+        -- - "stevearc/conform.nvim" -- formatters
+        -- - "mfussenegger/nvim-lint" -- linters
         event = { "BufReadPre", "BufNewFile" },
         dependencies = { "mason.nvim" },
         opts = function()
@@ -263,7 +268,6 @@ return {
                 "stylelint", -- css linter
             },
         },
-        ---@param opts MasonSettings | {ensure_installed: string[]}
         config = function(_, opts)
             require("mason").setup(opts)
             local mr = require("mason-registry")
