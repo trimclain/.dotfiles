@@ -102,6 +102,8 @@ return {
         event = "VeryLazy",
         cond = CONFIG.ui.lualine,
         opts = function()
+            local icons = require("core.icons")
+
             -----------------------------------------------------------------------------------------------------------
             -- Conditions to disable sections
             -----------------------------------------------------------------------------------------------------------
@@ -133,6 +135,7 @@ return {
             -----------------------------------------------------------------------------------------------------------
             -- LSP and Formatters
             -----------------------------------------------------------------------------------------------------------
+
             -- Get the list of active lsp servers
             local function lsp_list()
                 local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -176,13 +179,13 @@ return {
 
             local lsp_servers = {
                 function()
-                    local lsp = lsp_list()
-                    local text = " LSP:"
-                    if lsp == "" then
+                    local servers = lsp_list()
+                    local label = " LSP:"
+                    if servers == "" then
                         -- return " ∅"
                         return "%#WinSeparator#  LSP %*"
                     end
-                    return vim.fn.join({ text, lsp, "" }, " ")
+                    return vim.fn.join({ label, servers, "" }, " ")
                 end,
                 cond = function()
                     return hide_in_width() and show_lsp_section()
@@ -196,12 +199,12 @@ return {
             local formatters = {
                 function()
                     local formatters = formatters_list()
-                    local text = " Style:"
+                    local label = " Style:"
                     if formatters == "" then
                         -- return " ∅"
                         return "%#WinSeparator#  Style %*"
                     end
-                    return vim.fn.join({ "", text, formatters }, " ")
+                    return vim.fn.join({ "", label, formatters }, " ")
                 end,
                 cond = function()
                     return hide_in_width() and show_lsp_section()
@@ -212,12 +215,11 @@ return {
             -- Show github copilot status
             local copilot = {
                 function()
-                    local icon = require("core.icons").kinds.Copilot
                     local status = require("copilot.api").status.data
                     if string.find(status.message, "disconnected") then
                         return ""
                     end
-                    return icon .. (status.message or "")
+                    return icons.kinds.Copilot .. (status.message or "")
                 end,
                 cond = function()
                     local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
@@ -270,7 +272,7 @@ return {
                 }
 
                 local m = vim.api.nvim_get_mode().mode
-                return " " .. modes[m]
+                return icons.misc.Vim .. modes[m]
                 -- return "󰀘"
             end
 
@@ -279,7 +281,7 @@ return {
             -- Show the size of tabs
             local spaces = {
                 function()
-                    return " " .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
+                    return icons.ui.Tab .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
                 end,
                 cond = hide_in_width,
             }
@@ -288,7 +290,7 @@ return {
             local autoformat = function()
                 if CONFIG.lsp.format_on_save then
                     -- ""
-                    return ""
+                    return icons.ui.DoubleCheck
                 end
                 -- "", ""
                 return ""
@@ -304,7 +306,6 @@ return {
 
             -----------------------------------------------------------------------------------------------------------
 
-            local icons = require("core.icons")
             return {
                 options = {
                     theme = "auto",
