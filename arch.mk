@@ -234,6 +234,9 @@ spotify: ## Install Spotify
 vscodium:
 	$(PARUINSTALL) vscodium-bin
 
+office:
+	$(INSTALL) libreoffice-still
+
 #========================================== Study =================================================
 anki:
 	@echo "==================================================================="
@@ -319,7 +322,7 @@ install: ## Setup arch after new installation
 	zsh zap\
 	awesome hyprland\
 	kitty wezterm\
-	brave chrome telegram discord spotify vscodium\
+	brave chrome telegram discord spotify vscodium office\
 	anki uninstall_anki pomo uninstall_pomo\
 	apps\
 	install
