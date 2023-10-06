@@ -236,6 +236,16 @@ return {
     },
 
     {
+        "LunarVim/primer.nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "primer-dark",
+        config = function()
+            vim.cmd.colorscheme("primer_dark")
+        end,
+    },
+
+    {
         "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
