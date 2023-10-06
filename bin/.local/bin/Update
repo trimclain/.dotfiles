@@ -19,7 +19,8 @@ elif [[ $OS == arch ]]; then
     # apt autoremove
     orphans=$(pacman -Qdtq)
     if [[ -n $orphans ]]; then
-        sudo pacman -R --noconfirm "$orphans"
+        # shellcheck disable=SC2086
+        sudo pacman -R --noconfirm $orphans
     fi
 else
     echo "Error: OS not supported"
@@ -36,5 +37,4 @@ fi
 # to exist
 # if [[ -f ~/.local/share/zap/zap.zsh ]] > /dev/null; then
 #     zap update all
-#     zap update self
 # fi
