@@ -533,21 +533,16 @@ return {
         },
     },
 
-    -- TODO:?
-    -- -- better diffing
-    -- {
-    --     "sindrets/diffview.nvim",
-    --     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
-    --     config = true,
-    --     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
-    -- },
-
-    -- TODO:?
-    -- -- reveal the commit messages under the cursor
-    -- {
-    --     "rhysd/git-messenger.vim",
-    --     keys = "<leader>gm",
-    -- },
+    -- better git diff
+    {
+        "sindrets/diffview.nvim",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
+        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+        config = true,
+        keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
+    },
 
     -- git signs
     {
@@ -758,8 +753,8 @@ return {
             { "<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, desc = "Toggle Harpoon Menu" },
             { "<C-j>", function() require("harpoon.ui").nav_file(1) end, desc = "Harpoon to file 1" },
             { "<C-k>", function() require("harpoon.ui").nav_file(2) end, desc = "Harpoon to file 2" },
-            -- { "<C-l>", function() require("harpoon.ui").nav_file(3) end, desc = "Harpoon to file 3" },
-            -- { "<C-;>", function() require("harpoon.ui").nav_file(4) end, desc = "Harpoon to file 4" },
+            { "<C-l>", function() require("harpoon.ui").nav_file(3) end, desc = "Harpoon to file 3" },
+            { "<C-;>", function() require("harpoon.ui").nav_file(4) end, desc = "Harpoon to file 4" },
         },
         opts = {
             global_settings = {
@@ -798,38 +793,46 @@ return {
         },
     },
 
-    -- TODO: ?
-    -- highlight same words on mouse over them like vscode
-    -- {
-    --   "RRethy/vim-illuminate",
-    --   event = { "BufReadPost", "BufNewFile" },
-    --   opts = { delay = 200 },
-    --   config = function(_, opts)
-    --     require("illuminate").configure(opts)
-    --
-    --     local function map(key, dir, buffer)
-    --       vim.keymap.set("n", key, function()
-    --         require("illuminate")["goto_" .. dir .. "_reference"](false)
-    --       end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-    --     end
-    --
-    --     map("]]", "next")
-    --     map("[[", "prev")
-    --
-    --     -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-    --     vim.api.nvim_create_autocmd("FileType", {
-    --       callback = function()
-    --         local buffer = vim.api.nvim_get_current_buf()
-    --         map("]]", "next", buffer)
-    --         map("[[", "prev", buffer)
-    --       end,
-    --     })
-    --   end,
-    --   keys = {
-    --     { "]]", desc = "Next Reference" },
-    --     { "[[", desc = "Prev Reference" },
-    --   },
-    -- },
+    -- Automatically highlights other instances of the word under your cursor.
+    -- This works with LSP, Treesitter, and regexp matching to find the other
+    -- instances.
+    {
+        "RRethy/vim-illuminate",
+        cond = CONFIG.ui.illuminate,
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {
+            delay = 200,
+            large_file_cutoff = 2000,
+            large_file_overrides = {
+                providers = { "lsp" },
+            },
+        },
+        config = function(_, opts)
+            require("illuminate").configure(opts)
+
+            local function map(key, dir, buffer)
+                vim.keymap.set("n", key, function()
+                    require("illuminate")["goto_" .. dir .. "_reference"](false)
+                end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+            end
+
+            map("]]", "next")
+            map("[[", "prev")
+
+            -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+            vim.api.nvim_create_autocmd("FileType", {
+                callback = function()
+                    local buffer = vim.api.nvim_get_current_buf()
+                    map("]]", "next", buffer)
+                    map("[[", "prev", buffer)
+                end,
+            })
+        end,
+        keys = {
+            { "]]", desc = "Next Reference" },
+            { "[[", desc = "Prev Reference" },
+        },
+    },
 
     -- TODO: ?
     -- incsearch for :linenum<cr>
