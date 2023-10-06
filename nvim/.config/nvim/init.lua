@@ -32,10 +32,10 @@ CONFIG = {
     ui = {
         -- Colorschemes (note/10):
         -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9), astrotheme (9)
-        -- nightfox (8), vscode (8), gruvbox (8)
+        -- primer-dark (8.5), nightfox (8), vscode (8), gruvbox (8)
         -- github-dark (7), onedark (7), kanagawa (7), zephyr (7)
         -- sonokai (6), omni (6),
-        colorscheme = "rose-pine",
+        colorscheme = "primer-dark",
         transparent_background = false,
         cursorline = true,
         border = "rounded", -- see `:h nvim_open_win`
@@ -43,11 +43,12 @@ CONFIG = {
         ghost_text = false,
 
         -- plugins
-        dashboard = type == "default",
         neoscroll = false,
         bufferline = type == "default",
-        lualine = type == "default",
+        dashboard = type == "default",
+        illuminate = type == "default",
         indentline = type == "default",
+        lualine = type == "default",
         spinner = type == "default", -- animation shown when tasks are ongoing
         spinner_type = "dots_pulse", -- spinners: dots_pulse, moon, meter, zip, pipe, dots, arc
 

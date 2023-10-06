@@ -115,6 +115,10 @@ keymap("n", "<leader>os", function() require("core.util").toggle_option("spell")
 keymap("n", "<leader>ot", function() require("core.util").toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
 keymap("n", "<leader>od", function() require("core.util").toggle_diagnostics() end, add_desc("Toggle LSP Diagnostics"))
 
+if CONFIG.ui.illuminate then
+    keymap("n", "<leader>oi", function() require("illuminate").toggle() end, add_desc("Toggle Vim Illuminate"))
+end
+
 keymap("n", "<leader>fp", function() require("core.util").open_project() end, add_desc("Open Project"))
 -- stylua: ignore end
 
