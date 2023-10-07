@@ -109,7 +109,7 @@ return {
             -----------------------------------------------------------------------------------------------------------
             -- Don't show a section when vim has less than 80 columns
             local hide_in_width = function()
-                return vim.o.columns > 80
+                return vim.fn.winwidth(0) > 80
             end
 
             -- Don't show a section in ui filetypes
@@ -225,6 +225,7 @@ return {
                     local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
                     return ok and hide_in_width() and #clients > 0
                 end,
+                color = { fg = "#6CC644" },
             }
 
             -----------------------------------------------------------------------------------------------------------
@@ -332,6 +333,7 @@ return {
                         "branch",
                         {
                             "diff",
+                            -- colored = CONFIG.ui.colorscheme ~= "primer-dark",
                             symbols = {
                                 added = icons.git.Add,
                                 modified = icons.git.Mod,
@@ -341,6 +343,8 @@ return {
                         },
                         {
                             "diagnostics",
+                            -- colored = CONFIG.ui.colorscheme ~= "primer-dark",
+                            sections = { "error", "warn" },
                             symbols = {
                                 error = icons.diagnostics.Error,
                                 warn = icons.diagnostics.Warn,
@@ -395,7 +399,7 @@ return {
                 --         },
                 --     },
                 -- },
-                extensions = { "lazy", "neo-tree", "quickfix", "toggleterm" },
+                extensions = { "lazy", "neo-tree", "man", "quickfix", "toggleterm" }, -- "trouble"
             }
         end,
     },
@@ -458,6 +462,7 @@ return {
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
                 callback = function()
+                    ---@diagnostic disable-next-line: inject-field
                     vim.b.miniindentscope_disable = true
                 end,
             })
