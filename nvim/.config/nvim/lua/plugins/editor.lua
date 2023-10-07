@@ -835,6 +835,13 @@ return {
     },
 
     -- TODO: ?
+    -- auto remove search highlight and rehighlight when using n or N
+    -- {
+    --     "nvimdev/hlsearch.nvim",
+    --     config = true,
+    -- },
+
+    -- TODO: ?
     -- incsearch for :linenum<cr>
     -- {
     --     "nacro90/numb.nvim",

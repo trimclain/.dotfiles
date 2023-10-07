@@ -13,6 +13,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+-- TODO: new navigation: no bufferline, use tabs as workspaces, switch between buffer using telescope and harpoon
+
 -- Fast way to switch to minimal (in terms of ui) config
 local type = "default" --- @usage: "default" | "minimal"
 
