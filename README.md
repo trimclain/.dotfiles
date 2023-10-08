@@ -20,6 +20,7 @@ NOTES:
 - For my neovim config the latest neovim nightly is required. Use `make nvim` to install it.
 - Use `make help` to see available installation options.
 
+
 ## How to install
 
 1. Install git and make:
@@ -64,6 +65,7 @@ NOTE: If you want to install dotfiles with a different option, run `./uninstall`
     ```
 5. Open and close vim/nvim 2 times to let it automatically install pugin manager and plugins. <br>
 
+
 ## How I install my dotfiles
 
 1. Install git and make:
@@ -97,6 +99,7 @@ stow gitconf
 ```
 
 ## What software do I currently use and why
+
 #### Terminal
 Alacritty was my first terminal, that I installed myself. It is written has a lot of nice features, it was also
 nice to see changes of my config without needing to restart the terminal.
