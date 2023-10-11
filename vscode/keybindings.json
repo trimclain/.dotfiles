@@ -3,7 +3,7 @@
     // toggle
     {
         "command": "workbench.action.toggleSidebarVisibility",
-        "key": "ctrl+e",
+        "key": "ctrl+e"
     },
     {
         "command": "workbench.files.action.focusFilesExplorer",
@@ -118,7 +118,7 @@
     },
     {
         "key": "shift+alt+r",
-        "command": "workbench.action.reloadWindow",
+        "command": "workbench.action.reloadWindow"
         // "when": "isDevelopment"
     },
     {
@@ -146,3 +146,5 @@
         "when": "inlineSuggestionHasIndentationLessThanTabSize && inlineSuggestionVisible && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible"
     }
 ]
+
+// vim:ft=jsonc

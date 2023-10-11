@@ -17,80 +17,80 @@
     "workbench.iconTheme": "vscode-icons",
     // "workbench.activityBar.visible": false,
 
-	"update.showReleaseNotes": false,
+    "update.showReleaseNotes": false,
     "telemetry.telemetryLevel": "off",
     "security.workspace.trust.enabled": false,
 
-	// Format a file on save. A formatter must be available, the file must not be saved after delay, and the editor must not be shutting down.
+    // Format a file on save. A formatter must be available, the file must not be saved after delay, and the editor must not be shutting down.
     "editor.formatOnSave": false,
-	// Controls if format on save formats the whole file or only modifications. Only applies when `editor.formatOnSave` is enabled.
-	//  - file: Format the whole file. (default)
-	//  - modifications: Format modifications (requires source control).
-	//  - modificationsIfAvailable: Will attempt to format modifications only (requires source control). If source control can't be used, then the whole file will be formatted.
-	// "editor.formatOnSaveMode": "file",
+    // Controls if format on save formats the whole file or only modifications. Only applies when `editor.formatOnSave` is enabled.
+    //  - file: Format the whole file. (default)
+    //  - modifications: Format modifications (requires source control).
+    //  - modificationsIfAvailable: Will attempt to format modifications only (requires source control). If source control can't be used, then the whole file will be formatted.
+    // "editor.formatOnSaveMode": "file",
 
     "breadcrumbs.enabled": true,
     "window.zoomLevel": 0.7, // default: 0
-	"editor.fontSize": 16, // default: 14
+    "editor.fontSize": 16, // default: 14
     "editor.fontFamily": "'Blex Mono Nerd Font Complete Mono', Consolas, 'Courier New', monospace",
     "editor.fontLigatures": false,
 
     // Cursor
     // blink (default), smooth, phase, expand, solid
     "editor.cursorBlinking": "solid",
-	// Controls whether the smooth caret animation should be enabled.
-	//  - off: Smooth caret animation is disabled. (default)
-	//  - explicit: Smooth caret animation is enabled only when the user moves the cursor with an explicit gesture.
-	//  - on: Smooth caret animation is always enabled. (like Neovide)
-	"editor.cursorSmoothCaretAnimation": "off",
+    // Controls whether the smooth caret animation should be enabled.
+    //  - off: Smooth caret animation is disabled. (default)
+    //  - explicit: Smooth caret animation is enabled only when the user moves the cursor with an explicit gesture.
+    //  - on: Smooth caret animation is always enabled. (like Neovide)
+    "editor.cursorSmoothCaretAnimation": "off",
 
     "editor.linkedEditing": true,
     "editor.minimap.enabled": false,
 
     // Line numbers
     // "editor.lineNumbers": "relative",
-	// `editor.lineNumbers` is determined by the active Vim mode, absolute when in insert mode, relative otherwise.
-	// "vim.smartRelativeLine": false,
+    // `editor.lineNumbers` is determined by the active Vim mode, absolute when in insert mode, relative otherwise.
+    // "vim.smartRelativeLine": false,
 
-	// Controls the delay in milliseconds after which the hover is shown. (default: 300)
-	"editor.hover.delay": 200,
+    // Controls the delay in milliseconds after which the hover is shown. (default: 300)
+    "editor.hover.delay": 200,
 
-	// Controls how lines should wrap.
-	//  - off: Lines will never wrap. (default)
-	//  - on: Lines will wrap at the viewport width.
-	//  - wordWrapColumn: Lines will wrap at `editor.wordWrapColumn`.
-	//  - bounded: Lines will wrap at the minimum of viewport and `editor.wordWrapColumn`.
-	"editor.wordWrap": "off",
+    // Controls how lines should wrap.
+    //  - off: Lines will never wrap. (default)
+    //  - on: Lines will wrap at the viewport width.
+    //  - wordWrapColumn: Lines will wrap at `editor.wordWrapColumn`.
+    //  - bounded: Lines will wrap at the minimum of viewport and `editor.wordWrapColumn`.
+    "editor.wordWrap": "off",
 
     //-------------------------------------------------------------------------
     // Rendering
     //-------------------------------------------------------------------------
-	// Render vertical rulers after a certain number of monospace characters. Use multiple values for multiple rulers. No rulers are drawn if array is empty.
-	// "editor.rulers": [80],
-	// Controls how the editor should render whitespace characters.
-	//  - none
-	//  - boundary: Render whitespace characters except for single spaces between words.
-	//  - selection: Render whitespace characters only on selected text. (default)
-	//  - trailing: Render only trailing whitespace characters.
-	//  - all
-	"editor.renderWhitespace": "boundary",
-	// Controls how the editor should render the current line highlight.
-	//  - none
-	//  - gutter
-	//  - line (default)
-	//  - all: Highlights both the gutter and the current line.
-	"editor.renderLineHighlight": "none",
-	// Controls whether the editor should highlight semantic symbol occurrences. (default: true)
-	"editor.occurrencesHighlight": false,
-	// Controls whether the editor should highlight matches similar to the selection. (default: true)
-	"editor.selectionHighlight": false,
+    // Render vertical rulers after a certain number of monospace characters. Use multiple values for multiple rulers. No rulers are drawn if array is empty.
+    // "editor.rulers": [80],
+    // Controls how the editor should render whitespace characters.
+    //  - none
+    //  - boundary: Render whitespace characters except for single spaces between words.
+    //  - selection: Render whitespace characters only on selected text. (default)
+    //  - trailing: Render only trailing whitespace characters.
+    //  - all
+    "editor.renderWhitespace": "boundary",
+    // Controls how the editor should render the current line highlight.
+    //  - none
+    //  - gutter
+    //  - line (default)
+    //  - all: Highlights both the gutter and the current line.
+    "editor.renderLineHighlight": "none",
+    // Controls whether the editor should highlight semantic symbol occurrences. (default: true)
+    "editor.occurrencesHighlight": false,
+    // Controls whether the editor should highlight matches similar to the selection. (default: true)
+    "editor.selectionHighlight": false,
 
-	// Highlight matching brackets. (default: always)
-	"editor.matchBrackets": "never",
-	// Controls whether bracket pair colorization is enabled or not. Use `workbench.colorCustomizations` to override the bracket highlight colors. (default: true)
-	"editor.bracketPairColorization.enabled": true,
+    // Highlight matching brackets. (default: always)
+    "editor.matchBrackets": "never",
+    // Controls whether bracket pair colorization is enabled or not. Use `workbench.colorCustomizations` to override the bracket highlight colors. (default: true)
+    "editor.bracketPairColorization.enabled": true,
 
-	// // Override colors from the currently selected color theme, make them less obtrusive (or completely transparent)
+    // // Override colors from the currently selected color theme, make them less obtrusive (or completely transparent)
     // "workbench.colorCustomizations": {
     //     "editor.selectionHighlightBackground": "#0000", // similar selection
     //     "editor.selectionHighlightBorder": "#0000",
@@ -102,137 +102,137 @@
     //     "editorBracketMatch.background": "#0000",
     // },
 
-	// Controls whether the editor should highlight the active bracket pair. (default: true)
-	// "editor.guides.highlightActiveBracketPair": true,
-	// Controls whether the editor should highlight the active indent guide.
-	//  - true: Highlights the active indent guide. (default)
-	//  - always: Highlights the active indent guide even if bracket guides are highlighted.
-	//  - false: Do not highlight the active indent guide.
-	// "editor.guides.highlightActiveIndentation": true,
+    // Controls whether the editor should highlight the active bracket pair. (default: true)
+    // "editor.guides.highlightActiveBracketPair": true,
+    // Controls whether the editor should highlight the active indent guide.
+    //  - true: Highlights the active indent guide. (default)
+    //  - always: Highlights the active indent guide even if bracket guides are highlighted.
+    //  - false: Do not highlight the active indent guide.
+    // "editor.guides.highlightActiveIndentation": true,
     //-------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------
     // Scrolling
     //-------------------------------------------------------------------------
-	"editor.smoothScrolling": true,
-	// Controls the visibility of the vertical scrollbar.
-	//  - auto: The vertical scrollbar will be visible only when necessary. (default)
-	//  - visible: The vertical scrollbar will always be visible.
-	//  - hidden: The vertical scrollbar will always be hidden.
-	"editor.scrollbar.vertical": "hidden",
-	// The width of the vertical scrollbar. (default: 14)
-	"editor.scrollbar.verticalScrollbarSize": 10,
+    "editor.smoothScrolling": true,
+    // Controls the visibility of the vertical scrollbar.
+    //  - auto: The vertical scrollbar will be visible only when necessary. (default)
+    //  - visible: The vertical scrollbar will always be visible.
+    //  - hidden: The vertical scrollbar will always be hidden.
+    "editor.scrollbar.vertical": "hidden",
+    // The width of the vertical scrollbar. (default: 14)
+    "editor.scrollbar.verticalScrollbarSize": 10,
 
-	// Controls the visibility of the horizontal scrollbar.
-	//  - auto: The horizontal scrollbar will be visible only when necessary. (default)
-	//  - visible: The horizontal scrollbar will always be visible.
-	//  - hidden: The horizontal scrollbar will always be hidden.
-	"editor.scrollbar.horizontal": "hidden",
-	// The height of the horizontal scrollbar. (default: 12)
-	// "editor.scrollbar.horizontalScrollbarSize": 12,
+    // Controls the visibility of the horizontal scrollbar.
+    //  - auto: The horizontal scrollbar will be visible only when necessary. (default)
+    //  - visible: The horizontal scrollbar will always be visible.
+    //  - hidden: The horizontal scrollbar will always be hidden.
+    "editor.scrollbar.horizontal": "hidden",
+    // The height of the horizontal scrollbar. (default: 12)
+    // "editor.scrollbar.horizontalScrollbarSize": 12,
     //-------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------
     // Completion
     //-------------------------------------------------------------------------
-	// Controls whether snippets are shown with other suggestions and how they are sorted.
-	//  - top: Show snippet suggestions on top of other suggestions.
-	//  - bottom: Show snippet suggestions below other suggestions.
-	//  - inline: Show snippets suggestions with other suggestions. (default)
-	//  - none: Do not show snippet suggestions.
-	"editor.snippetSuggestions": "top",
-	// Controls whether words are overwritten when accepting completions. Note that this depends on extensions opting into this feature.
-	//  - insert: Insert suggestion without overwriting text right of the cursor. (default)
-	//  - replace: Insert suggestion and overwrite text right of the cursor.
+    // Controls whether snippets are shown with other suggestions and how they are sorted.
+    //  - top: Show snippet suggestions on top of other suggestions.
+    //  - bottom: Show snippet suggestions below other suggestions.
+    //  - inline: Show snippets suggestions with other suggestions. (default)
+    //  - none: Do not show snippet suggestions.
+    "editor.snippetSuggestions": "top",
+    // Controls whether words are overwritten when accepting completions. Note that this depends on extensions opting into this feature.
+    //  - insert: Insert suggestion without overwriting text right of the cursor. (default)
+    //  - replace: Insert suggestion and overwrite text right of the cursor.
     "editor.suggest.insertMode": "replace",
-	// Controls whether to preview the suggestion outcome in the editor. (default: false)
-	"editor.suggest.preview": true,
-	// Controls whether a suggestion is selected when the widget shows. Note that this only applies to automatically triggered suggestions (`editor.quickSuggestions#` and `#editor.suggestOnTriggerCharacters`) and that a suggestion is always selected when explicitly invoked, e.g via `Ctrl+Space`.
-	//  - always: Always select a suggestion when automatically triggering IntelliSense. (default)
-	//  - never: Never select a suggestion when automatically triggering IntelliSense.
-	//  - whenTriggerCharacter: Select a suggestion only when triggering IntelliSense from a trigger character.
-	//  - whenQuickSuggestion: Select a suggestion only when triggering IntelliSense as you type.
-	"editor.suggest.selectionMode": "always",
-	// Controls whether suggestions should automatically show up while typing. This can be controlled for typing in comments, strings, and other code. Quick suggestion can be configured to show as ghost text or with the suggest widget. Also be aware of the '#editor.suggestOnTriggerCharacters#'-setting which controls if suggestions are triggered by special characters.
+    // Controls whether to preview the suggestion outcome in the editor. (default: false)
+    "editor.suggest.preview": true,
+    // Controls whether a suggestion is selected when the widget shows. Note that this only applies to automatically triggered suggestions (`editor.quickSuggestions#` and `#editor.suggestOnTriggerCharacters`) and that a suggestion is always selected when explicitly invoked, e.g via `Ctrl+Space`.
+    //  - always: Always select a suggestion when automatically triggering IntelliSense. (default)
+    //  - never: Never select a suggestion when automatically triggering IntelliSense.
+    //  - whenTriggerCharacter: Select a suggestion only when triggering IntelliSense from a trigger character.
+    //  - whenQuickSuggestion: Select a suggestion only when triggering IntelliSense as you type.
+    "editor.suggest.selectionMode": "always",
+    // Controls whether suggestions should automatically show up while typing. This can be controlled for typing in comments, strings, and other code. Quick suggestion can be configured to show as ghost text or with the suggest widget. Also be aware of the '#editor.suggestOnTriggerCharacters#'-setting which controls if suggestions are triggered by special characters.
 
-	"editor.quickSuggestions": {
-		"other": "on",
-		"comments": "on",
-		"strings": "off"
-	},
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "on",
+        "strings": "off"
+    },
 
-	// Controls whether suggestions should be accepted on commit characters. For example, in JavaScript, the semi-colon (`;`) can be a commit character that accepts a suggestion and types that character.
+    // Controls whether suggestions should be accepted on commit characters. For example, in JavaScript, the semi-colon (`;`) can be a commit character that accepts a suggestion and types that character.
     "editor.acceptSuggestionOnCommitCharacter": true, // (default: true)
 
-	// Controls whether suggestions should be accepted on `Enter`, in addition to `Tab`. Helps to avoid ambiguity between inserting new lines or accepting suggestions.
-	//  - on (default)
-	//  - smart: Only accept a suggestion with `Enter` when it makes a textual change.
-	//  - off
-	"editor.acceptSuggestionOnEnter": "on",
+    // Controls whether suggestions should be accepted on `Enter`, in addition to `Tab`. Helps to avoid ambiguity between inserting new lines or accepting suggestions.
+    //  - on (default)
+    //  - smart: Only accept a suggestion with `Enter` when it makes a textual change.
+    //  - off
+    "editor.acceptSuggestionOnEnter": "on",
 
-	// Controls when to show the inline suggestion toolbar.
-	//  - always: Show the inline suggestion toolbar whenever an inline suggestion is shown.
-	//  - onHover: Show the inline suggestion toolbar when hovering over an inline suggestion. (default)
-	// "editor.inlineSuggest.showToolbar": "onHover",
+    // Controls when to show the inline suggestion toolbar.
+    //  - always: Show the inline suggestion toolbar whenever an inline suggestion is shown.
+    //  - onHover: Show the inline suggestion toolbar when hovering over an inline suggestion. (default)
+    // "editor.inlineSuggest.showToolbar": "onHover",
 
-	// Controls the delay in milliseconds after which quick suggestions will show up. (default: 10)
-	// "editor.quickSuggestionsDelay": 10,
-	// Controls whether suggestions should automatically show up when typing trigger characters.
-	// "editor.suggestOnTriggerCharacters": true,
-	// Controls how suggestions are pre-selected when showing the suggest list.
-	//  - first: Always select the first suggestion.
-	//  - recentlyUsed: Select recent suggestions unless further typing selects one, e.g. `console.| -> console.log` because `log` has been completed recently.
-	//  - recentlyUsedByPrefix: Select suggestions based on previous prefixes that have completed those suggestions, e.g. `co -> console` and `con -> const`.
-	// "editor.suggestSelection": "first",
+    // Controls the delay in milliseconds after which quick suggestions will show up. (default: 10)
+    // "editor.quickSuggestionsDelay": 10,
+    // Controls whether suggestions should automatically show up when typing trigger characters.
+    // "editor.suggestOnTriggerCharacters": true,
+    // Controls how suggestions are pre-selected when showing the suggest list.
+    //  - first: Always select the first suggestion.
+    //  - recentlyUsed: Select recent suggestions unless further typing selects one, e.g. `console.| -> console.log` because `log` has been completed recently.
+    //  - recentlyUsedByPrefix: Select suggestions based on previous prefixes that have completed those suggestions, e.g. `co -> console` and `con -> const`.
+    // "editor.suggestSelection": "first",
     //-------------------------------------------------------------------------
 
-	// Moves files/folders to the OS trash (recycle bin on Windows) when deleting. Disabling this will delete files/folders permanently.
-	// "files.enableTrash": true,
+    // Moves files/folders to the OS trash (recycle bin on Windows) when deleting. Disabling this will delete files/folders permanently.
+    // "files.enableTrash": true,
 
     // Trim useless stuff
-	// When enabled, will trim all new lines after the final new line at the end of the file when saving it.
-	"files.trimFinalNewlines": true,
-	// When enabled, will trim trailing whitespace when saving a file.
-	"files.trimTrailingWhitespace": true,
+    // When enabled, will trim all new lines after the final new line at the end of the file when saving it.
+    "files.trimFinalNewlines": true,
+    // When enabled, will trim trailing whitespace when saving a file.
+    "files.trimTrailingWhitespace": true,
 
     // Git
-	// Control whether a repository in parent folders of workspaces or open files should be opened.
-	//  - always: Always open a repository in parent folders of workspaces or open files.
-	//  - never: Never open a repository in parent folders of workspaces or open files.
-	//  - prompt: Prompt before opening a repository the parent folders of workspaces or open files. (default)
+    // Control whether a repository in parent folders of workspaces or open files should be opened.
+    //  - always: Always open a repository in parent folders of workspaces or open files.
+    //  - never: Never open a repository in parent folders of workspaces or open files.
+    //  - prompt: Prompt before opening a repository the parent folders of workspaces or open files. (default)
     "git.openRepositoryInParentFolders": "always",
     "git.enableSmartCommit": true,
     "git.autofetch": true,
     "git.confirmSync": false,
-	// Controls the Git count badge.
-	//  - all: Count all changes. (default)
-	//  - tracked: Count only tracked changes.
-	//  - off: Turn off counter.
-	// "git.countBadge": "off",
-	// Stash any changes before pulling and restore them after successful pull.
-	// "git.autoStash": false,
+    // Controls the Git count badge.
+    //  - all: Count all changes. (default)
+    //  - tracked: Count only tracked changes.
+    //  - off: Turn off counter.
+    // "git.countBadge": "off",
+    // Stash any changes before pulling and restore them after successful pull.
+    // "git.autoStash": false,
     "diffEditor.ignoreTrimWhitespace": false,
 
     // Zen Mode
     "zenMode.hideLineNumbers": false,
-	"zenMode.hideStatusBar": false,
+    "zenMode.hideStatusBar": false,
     "zenMode.hideTabs": false,
 
     //-------------------------------------------------------------------------
     // Vim Extension
     //-------------------------------------------------------------------------
-	"vim.disableExtension": false,
+    "vim.disableExtension": false,
     "vim.leader": "<Space>",
     "vim.hlsearch": true,
     "vim.useSystemClipboard": true,
     // highlight on yank
-	"vim.highlightedyank.enable": true,
-	"vim.highlightedyank.duration": 100,
-	"vim.highlightedyank.textColor": "",
-	// Background color of yanked text. The color must not be opaque so as not to hide underlying decorations.
-	"vim.highlightedyank.color": "rgba(250, 240, 170, 0.5)",
-	// Timeout in milliseconds for remapped commands. (default: 1000)
-	"vim.timeout": 500,
+    "vim.highlightedyank.enable": true,
+    "vim.highlightedyank.duration": 100,
+    "vim.highlightedyank.textColor": "",
+    // Background color of yanked text. The color must not be opaque so as not to hide underlying decorations.
+    "vim.highlightedyank.color": "rgba(250, 240, 170, 0.5)",
+    // Timeout in milliseconds for remapped commands. (default: 1000)
+    "vim.timeout": 500,
     "vim.normalModeKeyBindingsNonRecursive": [
         // NAVIGATION
         // buffers
@@ -316,7 +316,7 @@
         {
             "before": ["leader", "z"],
             "commands": ["workbench.action.toggleZenMode"]
-        },
+        }
     ],
     "vim.visualModeKeyBindings": [
         // stay in visual mode while indenting
@@ -328,7 +328,10 @@
         { "before": ["J"], "commands": ["editor.action.moveLinesDownAction"] },
         { "before": ["K"], "commands": ["editor.action.moveLinesUpAction"] },
         // toggle comment selection
-        { "before": ["leader", "g", "c"], "commands": ["editor.action.commentLine"] }
+        {
+            "before": ["leader", "g", "c"],
+            "commands": ["editor.action.commentLine"]
+        }
     ],
     //-------------------------------------------------------------------------
 
@@ -344,29 +347,31 @@
         {
             "text": "NOTE:",
             "color": "black",
-            "backgroundColor": "#10B981",
+            "backgroundColor": "#10B981"
             // "overviewRulerColor": "grey"
         },
         {
             "text": "HACK:",
             "color": "black",
             "backgroundColor": "#FBBF24",
-            "isWholeLine": false,
+            "isWholeLine": false
         },
         {
             "text": "FIX:",
             "color": "white",
             "backgroundColor": "#DC2626",
-            "isWholeLine": false,
+            "isWholeLine": false
         },
         {
             "text": "TODO:",
             "color": "white",
-            "backgroundColor": "#2563EB",
+            "backgroundColor": "#2563EB"
             // "border": "1px solid red",
             // "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
             // "backgroundColor": "rgba(0,0,0,.2)",
             //other styling properties goes here ...
         }
-    ],
+    ]
 }
+
+// vim:ft=jsonc
