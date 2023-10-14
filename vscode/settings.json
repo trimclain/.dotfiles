@@ -30,7 +30,6 @@
     // "editor.formatOnSaveMode": "file",
 
     "breadcrumbs.enabled": true,
-    "window.zoomLevel": 0.7, // default: 0
     "editor.fontSize": 16, // default: 14
     "editor.fontFamily": "'Blex Mono Nerd Font Complete Mono', Consolas, 'Courier New', monospace",
     "editor.fontLigatures": false,
@@ -45,7 +44,6 @@
     "editor.cursorSmoothCaretAnimation": "off",
 
     "editor.linkedEditing": true,
-    "editor.minimap.enabled": false,
 
     // Line numbers
     // "editor.lineNumbers": "relative",
@@ -65,6 +63,7 @@
     //-------------------------------------------------------------------------
     // Rendering
     //-------------------------------------------------------------------------
+    "editor.minimap.enabled": false,
     // Render vertical rulers after a certain number of monospace characters. Use multiple values for multiple rulers. No rulers are drawn if array is empty.
     // "editor.rulers": [80],
     // Controls how the editor should render whitespace characters.
@@ -144,7 +143,7 @@
     // Controls whether words are overwritten when accepting completions. Note that this depends on extensions opting into this feature.
     //  - insert: Insert suggestion without overwriting text right of the cursor. (default)
     //  - replace: Insert suggestion and overwrite text right of the cursor.
-    "editor.suggest.insertMode": "replace",
+    "editor.suggest.insertMode": "insert",
     // Controls whether to preview the suggestion outcome in the editor. (default: false)
     "editor.suggest.preview": true,
     // Controls whether a suggestion is selected when the widget shows. Note that this only applies to automatically triggered suggestions (`editor.quickSuggestions#` and `#editor.suggestOnTriggerCharacters`) and that a suggestion is always selected when explicitly invoked, e.g via `Ctrl+Space`.
@@ -212,6 +211,7 @@
     // Stash any changes before pulling and restore them after successful pull.
     // "git.autoStash": false,
     "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.hideUnchangedRegions.enabled": true,
 
     // Zen Mode
     "zenMode.hideLineNumbers": false,
@@ -259,9 +259,9 @@
             "commands": ["workbench.action.focusRightGroup"]
         },
         // nice to have
-        { "before": ["leader", "w"], "commands": [":w!"] },
-        { "before": ["leader", "q"], "commands": [":q!"] },
-        { "before": ["leader", "x"], "commands": [":x!"] },
+        { "before": ["leader", "w"], "commands": [":w"] },
+        { "before": ["leader", "q"], "commands": [":q"] },
+        { "before": ["leader", "x"], "commands": [":x"] },
         { "before": ["Y"], "after": ["y", "$"] },
         // Clear highlights after a search
         { "before": ["<C-l>"], "commands": [":nohl"] },
@@ -346,7 +346,13 @@
         // "FIXME",
         {
             "text": "NOTE:",
-            "color": "black",
+            "color": "white",
+            "backgroundColor": "#10B981"
+            // "overviewRulerColor": "grey"
+        },
+        {
+            "text": "INFO:",
+            "color": "white",
             "backgroundColor": "#10B981"
             // "overviewRulerColor": "grey"
         },
@@ -366,12 +372,9 @@
             "text": "TODO:",
             "color": "white",
             "backgroundColor": "#2563EB"
-            // "border": "1px solid red",
-            // "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
-            // "backgroundColor": "rgba(0,0,0,.2)",
-            //other styling properties goes here ...
         }
-    ]
+    ],
+    "window.zoomLevel": 0.7
 }
 
 // vim:ft=jsonc
