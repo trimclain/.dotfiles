@@ -382,7 +382,6 @@ return {
                 -- ["<leader>b"] = { name = "+buffer" },
                 ["<leader>f"] = { name = "+find" },
                 ["<leader>g"] = { name = "+git" },
-                ["<leader>h"] = { name = "+harpoon" },
                 ["<leader>gh"] = { name = "+hunks" },
                 ["<leader>l"] = { name = "+lsp" },
                 ["<leader>m"] = { name = "+make" },
@@ -391,8 +390,8 @@ return {
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
                 ["<leader>t"] = { name = "+terminal/test" },
-                ["<leader>v"] = { name = "+vim" },
-                -- ["<leader>a"] = { name = "+tbd" },
+                -- ["<leader>v"] = { name = "+tbd" },
+                -- ["<leader>h"] = { name = "+tbd" },
                 -- ["<leader>s"] = { name = "+tbd" },
                 -- ["<leader>x"] = { name = "+tbd" },
                 -- ["<leader>c"] = { name = "+tbd" },
@@ -749,7 +748,7 @@ return {
         "ThePrimeagen/harpoon",
         -- stylua: ignore
         keys = {
-            { "<leader>ha", function() require("harpoon.mark").add_file() end, desc = "Add Mark" },
+            { "<leader>a", function() require("harpoon.mark").add_file() end, desc = "Add Harpoon Mark" },
             { "<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, desc = "Toggle Harpoon Menu" },
             { "<C-j>", function() require("harpoon.ui").nav_file(1) end, desc = "Harpoon to file 1" },
             { "<C-k>", function() require("harpoon.ui").nav_file(2) end, desc = "Harpoon to file 2" },

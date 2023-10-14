@@ -89,14 +89,6 @@ keymap("n", "<leader>w", "<cmd>w<cr>", add_desc("Save File"))
 keymap("n", "k", '(v:count > 5 ? "m\'" . v:count : "") . "k"', { expr = true })
 keymap("n", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
 
--- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
-keymap(
-    "n",
-    "<leader>vu",
-    ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>",
-    add_desc("Change fileformat from dos to unix")
-)
-
 -- Open tmux-sessionizer
 keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
@@ -134,3 +126,13 @@ keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using 
 -- keymap("n", "<up>", ":cprev<CR>zz", opts)
 -- keymap("n", "<down>", ":cnext<CR>zz", opts)
 -- keymap("n", "<C-q>", "<cmd>lua require('core.utils').ToggleQFList()<CR>", opts)
+
+-------------------------------------------------------------------------------
+-- Commands
+-------------------------------------------------------------------------------
+-- convert fileformat from dos/unix to unix (https://vim.fandom.com/wiki/File_format#Converting_the_current_file)
+vim.api.nvim_create_user_command(
+    "ConvertDos2Unix",
+    ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>",
+    { desc = "Change fileformat from dos to unix" }
+)
