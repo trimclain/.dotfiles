@@ -78,9 +78,9 @@
     //  - gutter
     //  - line (default)
     //  - all: Highlights both the gutter and the current line.
-    "editor.renderLineHighlight": "none",
+    // "editor.renderLineHighlight": "none",
     // Controls whether the editor should highlight semantic symbol occurrences. (default: true)
-    "editor.occurrencesHighlight": false,
+    // "editor.occurrencesHighlight": false,
     // Controls whether the editor should highlight matches similar to the selection. (default: true)
     "editor.selectionHighlight": false,
 
