@@ -7,6 +7,15 @@ return {
         dependencies = {
             {
                 "nvim-treesitter/nvim-treesitter-context",
+                keys = {
+                    {
+                        "[c",
+                        function()
+                            require("treesitter-context").go_to_context()
+                        end,
+                        desc = "Jump to context (upwards)",
+                    },
+                },
                 config = function()
                     require("treesitter-context").setup({
                         max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
@@ -44,7 +53,7 @@ return {
                 "luadoc",
                 "luap",
                 "make",
-                "markdown",
+                "markdown", -- TODO: remove since neovim comes with it built in?
                 "markdown_inline",
                 "python",
                 "query", -- ?
