@@ -90,15 +90,9 @@ compinit -d "$ZSH_COMPDUMP"
 
 # Preferred editor for local and remote sessions
 if [[ -n "$SSH_CONNECTION" ]]; then
-    export EDITOR='/usr/bin/vim'
-elif [[ -x '/usr/local/bin/nvim' ]]; then
-    export EDITOR='/usr/local/bin/nvim'
-elif [[ -x '/usr/sbin/nvim' ]]; then
-    # arch wsl stuff
-    export EDITOR='/usr/sbin/nvim'
+    export EDITOR="$(which vim)"
 else
-    # set to vim in hopes that it's installed :D
-    export EDITOR='vim'
+    export EDITOR="$(which nvim)"
 fi
 
 export VISUAL=$EDITOR
