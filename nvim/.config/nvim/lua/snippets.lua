@@ -80,4 +80,8 @@ ls.add_snippets("NeogitCommitMessage", {
         }),
         t(": update config"),
     }),
+    -- docs update
+    s("du", {
+        t("docs: update README"),
+    }),
 })
