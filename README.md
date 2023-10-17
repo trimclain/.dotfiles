@@ -97,15 +97,3 @@ make linux_software
 ```
 stow gitconf
 ```
-
-## What software do I currently use and why
-
-#### Terminal
-Alacritty was my first terminal, that I installed myself. It is written has a lot of nice features, it was also
-nice to see changes of my config without needing to restart the terminal.
-After a while I tried using kitty. It is written in go and has some features, that Alacritty doesn't, like ligature support. Kittens (kitty plugins)
-were also a big deal for me. I used the kitten to preview images in terminal in my lf config.
-Recently I decided to try out wezterm. It is, like Alacritty, written in rust, but it has some features, that are a dealbreaker for me.
-Firstly, wezterm config is written in lua, which is an actual programming language (Alacritty used yaml and Kitty used conf),
-and I love lua. Secondly, it combined the things I loved in Alacritty and Kitty. It's config is also reloaded in current terminal!
-EDIT: for now I switched back to kitty, until some issues with wezterm are resolved.
