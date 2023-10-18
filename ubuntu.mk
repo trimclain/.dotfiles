@@ -1,3 +1,5 @@
+# DEPRECATED: I fully switched to arch
+
 INSTALL = sudo apt install -y
 FLATINSTALL = flatpak install -y --or-update
 
