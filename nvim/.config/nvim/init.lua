@@ -46,7 +46,7 @@ CONFIG = {
 
         -- plugins
         neoscroll = false,
-        bufferline = type == "default",
+        bufferline = false, -- to force myself to use harpoon more
         dashboard = type == "default",
         illuminate = type == "default",
         indentline = type == "default",

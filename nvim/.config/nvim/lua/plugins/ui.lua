@@ -281,6 +281,22 @@ return {
                 cond = hide_in_width,
             }
 
+            local filename = {
+                function()
+                    local home = os.getenv("HOME") or os.getenv("USERPROFILE")
+                    local filepath = vim.fn.expand("%:p")
+                    ---@diagnostic disable-next-line: param-type-mismatch
+                    filepath = string.gsub(filepath, home, "~")
+                    if vim.bo.readonly then
+                        filepath = filepath .. " " .. icons.ui.Lock
+                    elseif vim.bo.modified then
+                        filepath = filepath .. " " .. icons.ui.Circle
+                    end
+                    return filepath
+                end,
+                cond = hide_in_width,
+            }
+
             -- Show if formatting on save is enabled
             local autoformat = function()
                 if CONFIG.lsp.format_on_save then
@@ -350,8 +366,9 @@ return {
                     },
                     lualine_c = {
                         move_to_the_middle,
-                        lsp_servers,
-                        formatters,
+                        filename,
+                        -- lsp_servers,
+                        -- formatters,
                     },
                     lualine_x = {
                         {
