@@ -402,29 +402,29 @@ local sysmap = {
 }
 
 -- Brightness Mode
-local brightmap = {
-    {
-        "0",
-        function()
-            spawn_terminal_command("$HOME/.local/bin/display-brightness", "--zero")
-        end,
-        "0%",
-    },
-    {
-        "5",
-        function()
-            spawn_terminal_command("$HOME/.local/bin/display-brightness", "--half")
-        end,
-        "50%",
-    },
-    {
-        "1",
-        function()
-            spawn_terminal_command("$HOME/.local/bin/display-brightness", "--full")
-        end,
-        "100%",
-    },
-}
+-- local brightmap = {
+--     {
+--         "0",
+--         function()
+--             spawn_terminal_command("$HOME/.local/bin/display-brightness", "--zero")
+--         end,
+--         "0%",
+--     },
+--     {
+--         "5",
+--         function()
+--             spawn_terminal_command("$HOME/.local/bin/display-brightness", "--half")
+--         end,
+--         "50%",
+--     },
+--     {
+--         "1",
+--         function()
+--             spawn_terminal_command("$HOME/.local/bin/display-brightness", "--full")
+--         end,
+--         "100%",
+--     },
+-- }
 
 -- Keyboard Layout Mode
 local layoutmap = {
@@ -487,9 +487,9 @@ local globalkeys = mytable.join(
         modalbind.grab({ keymap = sysmap, name = "System", stay_in_mode = false })
     end, { description = "enter system mode", group = "modes" }),
 
-    awful.key({ modkey }, "b", function()
-        modalbind.grab({ keymap = brightmap, name = "Brightness", stay_in_mode = false })
-    end, { description = "enter brightness mode", group = "modes" }),
+    -- awful.key({ modkey }, "b", function()
+    --     modalbind.grab({ keymap = brightmap, name = "Brightness", stay_in_mode = false })
+    -- end, { description = "enter brightness mode", group = "modes" }),
 
     awful.key({ modkey }, "o", function()
         modalbind.grab({ keymap = layoutmap, name = "Layout", stay_in_mode = false })
@@ -542,7 +542,7 @@ local globalkeys = mytable.join(
     -- ########################################################################
 
     -- ########################## AWESOME GROUP ###############################
-    awful.key({ modkey }, "z", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
+    awful.key({ altkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     -- awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     awful.key({ modkey, "Shift" }, "e", awesome.quit, { description = "exit awesome", group = "awesome" }),
@@ -852,8 +852,10 @@ local clientkeys = mytable.join(
         c:kill()
     end, { description = "close the client", group = "client" }),
     awful.key(
-        { modkey, "Control" },
-        "space",
+        -- { modkey, "Control" },
+        -- "space",
+        { modkey },
+        "t",
         awful.client.floating.toggle,
         { description = "toggle floating", group = "client" }
     ),
@@ -863,9 +865,9 @@ local clientkeys = mytable.join(
     -- awful.key({ modkey }, "o", function(c)
     --     c:move_to_screen()
     -- end, { description = "move to screen", group = "client" }),
-    awful.key({ modkey }, "t", function(c)
-        c.ontop = not c.ontop
-    end, { description = "toggle keep on top", group = "client" }),
+    -- awful.key({ modkey }, "t", function(c)
+    --     c.ontop = not c.ontop
+    -- end, { description = "toggle keep on top", group = "client" }),
     -- awful.key({ modkey }, "n", function(c)
     --     -- The client currently has the input focus, so it cannot be
     --     -- minimized, since minimized clients can't have the focus.

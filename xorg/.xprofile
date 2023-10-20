@@ -15,13 +15,13 @@ xset r rate 400 25
 # xset s off && xset -dpms
 
 # Enable notifications
-# in awesome naughty is used
-# dunst
+# in awesomewm naughty is used
+dunst &
 
 # Hide mouse when typing
 # xbanish &
 
-# remap caps to escape
+# remap caps to another escape
 # setxkbmap -option caps:escape
 # swap escape and caps
 # setxkbmap -option caps:swapescape
