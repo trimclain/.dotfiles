@@ -1,17 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
 # Set the keyboard layout
-if [ -n "$1" ]; then
-    if [ "$1" = "--german" ]; then
-        setxkbmap -layout de,us,ru
-        # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
-        setxkbmap -option 'grp:win_space_toggle'
-    elif [ "$1" = "--no-german" ]; then
-        setxkbmap -layout us,ru
-        setxkbmap -option 'grp:win_space_toggle'
+if [[ -n "$1" ]]; then
+    if [[ "$1" == "--german" ]]; then
+        setxkbmap -layout de
+    # elif [[ "$1" == "--toggle" ]]; then
+    #     if [[ $(setxkbmap -query | awk '/^layout/ {print $2}') == "de" ]]; then
+    #         echo switching back to default;
+    #     fi
     fi
-# if no argument given -> back to default
 else
+    # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
     setxkbmap -layout us,ru
     setxkbmap -option 'grp:win_space_toggle'
 fi

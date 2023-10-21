@@ -461,14 +461,14 @@ local monimap = {
         "Second",
     },
     {
-        "d",
+        "e",
         function()
-            spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--dual")
+            spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--extend")
         end,
         "Dual",
     },
     {
-        "p",
+        "d",
         function()
             spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--duplicate")
         end,
@@ -735,12 +735,12 @@ local globalkeys = mytable.join(
         awful.tag.incncol(-1, nil, true)
     end, { description = "decrease the number of columns", group = "layout" }),
 
-    awful.key({ modkey }, "space", function()
+    awful.key({ modkey }, "Tab", function()
         awful.layout.inc(1)
     end, { description = "select next layout", group = "layout" }),
-    awful.key({ modkey, "Shift" }, "space", function()
-        awful.layout.inc(-1)
-    end, { description = "select previous layout", group = "layout" }),
+    -- awful.key({ modkey, "Shift" }, "space", function()
+    --     awful.layout.inc(-1)
+    -- end, { description = "select previous layout", group = "layout" }),
     -- ########################################################################
 
     -- ########################## SCREEN GROUP ################################
@@ -1144,7 +1144,7 @@ end)
 -- Set the wallpaper
 spawn_terminal_command("nitrogen", "--restore")
 -- Set my keyboard layout
-spawn_terminal_command("$HOME/.local/bin/keyboard-layout", "--no-german")
+spawn_terminal_command("$HOME/.local/bin/keyboard-layout")
 -- Update current brightness for my custom script
 spawn_terminal_command("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar

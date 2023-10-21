@@ -27,6 +27,8 @@ done
 intern=${monitors[0]}
 extern=${monitors[1]}
 
+# FIX: am I doing the right thing here? this gets ran on every startup, even
+# without the external monitor connected
 if [[ -z $extern ]]; then
     echo "Error: external monitor not connected"
     exit 1
@@ -45,7 +47,8 @@ elif [ "$1" = "--second" ]; then
 
 # TODO: when first and second monitor have different resolutions, don't use auto,
 # use their resolution instead
-elif [ "$1" = "--dual" ]; then
+# problem found in awesomewm
+elif [ "$1" = "--extend" ]; then
     # Enable dual monitor setup, primary is the monitor, which was primary before
     xrandr --output "$extern" --auto --right-of "$intern" --output "$intern" --auto
 

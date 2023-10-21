@@ -15,9 +15,9 @@ export SECOND_MONITOR=${monitors[1]}
 
 # define variables for automatic wlan/eth interface detection
 export WLAN_INTERFACE
-WLAN_INTERFACE=$(ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep wl)
+WLAN_INTERFACE=$(ip link | awk '/default/ {split($2, a, ":"); print a[1]}' | grep wl)
 export ETH_INTERFACE
-ETH_INTERFACE=$(ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep en)
+ETH_INTERFACE=$(ip link | awk '/default/ {split($2, a, ":"); print a[1]}' | grep en)
 
 # Launch the correct bar depending on display dimensions
 # Two 1920x1080 monitors
