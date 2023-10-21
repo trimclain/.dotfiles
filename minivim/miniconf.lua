@@ -97,15 +97,47 @@ if vim.fn.has("nvim-0.9.0") == 1 then
     vim.opt.splitkeep = "screen"
 end
 
--- Settings for Neovide
-if vim.g.neovide then
-    vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12" -- set the font
+-- Settings for Neovide or GUI nvim
+if vim.g.neovide or vim.fn.has("gui_running") then
+    -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
+    vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
-    vim.g.neovide_transparency = 0.85 -- make it transparent
+    vim.api.nvim_create_user_command(
+        "FontSize",
+        function(cmd)
+            local current_font = vim.opt.guifont._value
+            -- no gui font set (shouldn't be the case but still checking)
+            if current_font == "" then
+                return
+            end
+
+            local parts = vim.split(vim.trim(cmd.args), "%s+")
+            -- more than 1 argument
+            if #parts > 1 then
+                return
+            end
+
+            local font_parts = vim.split(current_font, ":")
+            if #parts == 1 and parts[1] ~= "" then
+                -- argument not a number
+                if not tonumber(parts[1]) then
+                    return
+                end
+                -- set the font size to the given one
+                vim.opt.guifont = font_parts[1] .. ":h" .. parts[1]
+            else
+                -- toggle sizes between 14 and 12
+                local new_size = font_parts[2] == "h14" and "h12" or "h14"
+                vim.opt.guifont = font_parts[1] .. new_size
+            end
+        end,
+        { nargs = "?", desc = "Update gui font size" }
+    )
+end
+if vim.g.neovide then
+    vim.g.neovide_transparency = 0.95
     -- vim.g.neovide_cursor_trail_legnth = 0
     -- vim.g.neovide_cursor_animation_length = 0
-elseif vim.fn.has("gui_running") then
-    vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
 end
 
 -- "o" gets overwritten on startup, so I have an autocommand to fix it
