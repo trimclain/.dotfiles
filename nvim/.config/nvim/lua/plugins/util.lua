@@ -142,6 +142,7 @@ return {
 
             -- Detect installed browser
             local browserlist = {
+                "thorium-browser",
                 "google-chrome",
                 "brave",
                 "brave-browser",

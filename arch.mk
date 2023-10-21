@@ -226,6 +226,9 @@ brave: ## Install Brave Browser
 chrome: ## Install Google Chrome Browser
 	$(PARUINSTALL) google-chrome
 
+thorium: ## Install Thorium Browser
+	$(PARUINSTALL) thorium-browser-bin
+
 telegram: ## Install Telegram Desktop
 	$(INSTALL) telegram-desktop
 
@@ -236,10 +239,10 @@ spotify: ## Install Spotify
 	$(INSTALL) ncspot
 
 # Lol
-vscodium:
+vscodium: ## Install VSCodium
 	$(PARUINSTALL) vscodium-bin
 
-office:
+office: ## Install LibreOffice
 	$(INSTALL) libreoffice-still
 
 #========================================== Study =================================================
@@ -277,12 +280,12 @@ uninstall_pomo:
 
 #==================================================================================================
 
-apps: ## Install btop, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv
+apps: ## Install btop, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, chafa, thorium, telegram
 	@echo "==================================================================="
 	@echo Installing apps...
 	@echo "==================================================================="
 	$(INSTALL) btop okular lf chafa pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
-	@make brave
+	@make thorium
 	@make telegram
 
 #==================================================================================================
@@ -325,9 +328,9 @@ install: ## Setup arch after new installation
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide uninstall_neovide\
 	zsh zap\
-	awesome hyprland\
+	awesome hyprland qtile\
 	kitty wezterm\
-	brave chrome telegram discord spotify vscodium office\
+	brave chrome thorium telegram discord spotify vscodium office\
 	anki uninstall_anki pomo uninstall_pomo\
 	apps\
 	install
