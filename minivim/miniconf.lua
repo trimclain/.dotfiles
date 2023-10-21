@@ -98,7 +98,7 @@ if vim.fn.has("nvim-0.9.0") == 1 then
 end
 
 -- Settings for Neovide or GUI nvim
-if vim.g.neovide or vim.fn.has("gui_running") then
+if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
     vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
