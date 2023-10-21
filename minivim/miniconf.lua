@@ -128,7 +128,7 @@ if vim.g.neovide or vim.fn.has("gui_running") == 1 then
             else
                 -- toggle sizes between 14 and 12
                 local new_size = font_parts[2] == "h14" and "h12" or "h14"
-                vim.opt.guifont = font_parts[1] .. new_size
+                vim.opt.guifont = font_parts[1] .. ":" .. new_size
             end
         end,
         { nargs = "?", desc = "Update gui font size" }
