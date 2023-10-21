@@ -204,6 +204,11 @@ hyprland:
 	@# Install waybar (statusbar) and swaybg (set wallpaper)
 	$(INSTALL) waybar swaybg
 
+qtile:
+	@echo "==================================================================="
+	@# Install qtile, python-psutil (for cpu widget), alsa-utils (for volume widget)
+	$(INSTALL) qtile python-psutil alsa-utils dmenu rofi slock dunst picom feh nitrogen
+
 #======================================== Terminal ================================================
 kitty:
 	@echo "==================================================================="

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import os
+import subprocess
 from pathlib import Path
 from shutil import which
-import subprocess
 
 STOW_FOLDERS = [
     "bin",  # 0
@@ -26,6 +26,7 @@ STOW_FOLDERS = [
     "wezterm",  # 17
     "apps",  # 18
     "dunst",  # 19
+    "qtile"  # 20
 ]
 
 STOW_CONFIGS = [
@@ -49,6 +50,7 @@ STOW_CONFIGS = [
     ".config/wezterm",  # 17
     ".config/mimeapps.list",  # 18
     ".config/dunst",  # 19
+    ".config/qtile",  # 20
 ]
 
 STOW_DICT = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
