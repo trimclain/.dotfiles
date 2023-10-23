@@ -31,8 +31,10 @@
 
     "breadcrumbs.enabled": true,
     "editor.fontSize": 16, // default: 14
-    "editor.fontFamily": "'Blex Mono Nerd Font Complete Mono', Consolas, 'Courier New', monospace",
-    "editor.fontLigatures": false,
+    // To find the exact font name: Control Panel -> Appearance and Personalization -> Fonts -> Find the font name
+    "editor.fontFamily": "'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
+    // "editor.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
 
     // Cursor
     // blink (default), smooth, phase, expand, solid
