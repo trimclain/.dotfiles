@@ -43,7 +43,7 @@
     //  - off: Smooth caret animation is disabled. (default)
     //  - explicit: Smooth caret animation is enabled only when the user moves the cursor with an explicit gesture.
     //  - on: Smooth caret animation is always enabled. (like Neovide)
-    "editor.cursorSmoothCaretAnimation": "off",
+    "editor.cursorSmoothCaretAnimation": "on",
 
     "editor.linkedEditing": true,
 
@@ -115,7 +115,7 @@
     //-------------------------------------------------------------------------
     // Scrolling
     //-------------------------------------------------------------------------
-    "editor.smoothScrolling": true,
+    "editor.smoothScrolling": false,
     // Controls the visibility of the vertical scrollbar.
     //  - auto: The vertical scrollbar will be visible only when necessary. (default)
     //  - visible: The vertical scrollbar will always be visible.
