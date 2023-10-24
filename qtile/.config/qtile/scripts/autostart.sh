@@ -10,5 +10,3 @@ run_in_background(){
 run_in_background nm-applet
 # Set the wallpaper
 run_in_background nitrogen --restore
-# Set my keyboard layout (use keyboard widget)
-# run_in_background "$HOME/.local/bin/keyboard-layout" --no-german

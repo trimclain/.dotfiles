@@ -89,6 +89,10 @@ typescript:
 	@# Install tsc and ts-node
 	@npm install -g typescript ts-node
 
+# LaTeX engine
+tectonic:
+	$(INSTALL) tectonic
+
 ###################################################################################################
 # Software
 ###################################################################################################
@@ -102,19 +106,6 @@ paru: ## Install paru (the AUR helper)
 flatpak: ## Install flatpak
 	@if command -v paru &> /dev/null; then echo "[flatpak]: Already installed";\
 		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
-
-#========================================= Tectonic =================================================
-tectonic:
-	@if [[ ! -f ~/.local/bin/tectonic ]]; then echo "Installing tectonic (latex compiler)..." &&\
-		curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh &&\
-		mv tectonic ~/.local/bin/ && echo "Done"; else echo "Tectonic already installed"; fi
-
-fix_tectonic:
-	@# Fix the error "libssl.so.1.1: cannot open shared object file: No such file or directory"
-	@$(INSTALL) openssl-1.1
-
-uninstall_tectonic:
-	@rm -f ~/.local/bin/tectonic
 
 #========================================= Neovim =================================================
 nvim_reqs:
@@ -206,7 +197,7 @@ hyprland:
 
 qtile:
 	@echo "==================================================================="
-	@# Install qtile, python-psutil (for cpu widget), alsa-utils (for volume widget)
+	@# Install qtile, python-psutil (for cpu widget and more), alsa-utils (for volume widget)
 	$(INSTALL) qtile python-psutil alsa-utils dmenu rofi slock dunst picom feh nitrogen
 
 #======================================== Terminal ================================================
@@ -322,9 +313,8 @@ install: ## Setup arch after new installation
 
 .PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
 	python rust julia golang g \
-	n uninstall_n export_node_modules import_node_modules typescript \
+	n uninstall_n export_node_modules import_node_modules typescript tectonic \
 	paru flatpak\
-	tectonic fix_tectonic uninstall_tectonic\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide uninstall_neovide\
 	zsh zap\
