@@ -31,8 +31,10 @@
 
     "breadcrumbs.enabled": true,
     "editor.fontSize": 16, // default: 14
-    "editor.fontFamily": "'Blex Mono Nerd Font Complete Mono', Consolas, 'Courier New', monospace",
-    "editor.fontLigatures": false,
+    // To find the exact font name: Control Panel -> Appearance and Personalization -> Fonts -> Find the font name
+    "editor.fontFamily": "'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
+    // "editor.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
 
     // Cursor
     // blink (default), smooth, phase, expand, solid
@@ -41,7 +43,7 @@
     //  - off: Smooth caret animation is disabled. (default)
     //  - explicit: Smooth caret animation is enabled only when the user moves the cursor with an explicit gesture.
     //  - on: Smooth caret animation is always enabled. (like Neovide)
-    "editor.cursorSmoothCaretAnimation": "off",
+    "editor.cursorSmoothCaretAnimation": "on",
 
     "editor.linkedEditing": true,
 
@@ -113,7 +115,7 @@
     //-------------------------------------------------------------------------
     // Scrolling
     //-------------------------------------------------------------------------
-    "editor.smoothScrolling": true,
+    "editor.smoothScrolling": false,
     // Controls the visibility of the vertical scrollbar.
     //  - auto: The vertical scrollbar will be visible only when necessary. (default)
     //  - visible: The vertical scrollbar will always be visible.

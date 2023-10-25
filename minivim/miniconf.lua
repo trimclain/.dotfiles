@@ -135,7 +135,7 @@ if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     )
 end
 if vim.g.neovide then
-    vim.g.neovide_transparency = 0.95
+    vim.g.neovide_transparency = 1 -- 0.95
     -- vim.g.neovide_cursor_trail_legnth = 0
     -- vim.g.neovide_cursor_animation_length = 0
 end
