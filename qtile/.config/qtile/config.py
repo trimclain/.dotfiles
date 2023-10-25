@@ -28,7 +28,10 @@ mod = "mod1"
 alt = "mod4"
 
 terminal = "kitty"
+
 browser = "thorium-browser"
+if shutil.which(browser) is None:
+    browser = "brave"
 
 # Theme defaults
 bar_defaults = dict(
@@ -72,7 +75,11 @@ def run_command(qtile, cmd):
     Args:
         command: shell command to run
     """
-    command = os.path.expanduser(cmd).split(" ")
+    if isinstance(cmd, str):
+        command = os.path.expanduser(cmd).split(" ")
+    else:
+        command = list(cmd)
+
     if shutil.which(command[0]) is None:
         subprocess.run(["notify-send", f'"Error: {command[0]} not found"'])
     else:
@@ -102,7 +109,7 @@ keys = [
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
 
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+    # Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
 
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload config"),
     Key([mod, "shift"], "e", lazy.shutdown(), desc="Exit Qtile"),
@@ -253,12 +260,28 @@ keys = [
         # autopep8: on
     ]),
 
+    # Browser Profiles
+    KeyChord([mod], "b", [
+        Key(
+            [],
+            "1",
+            lazy.spawn([browser, " --profile-directory=Default"]),
+            desc="Launch browser with the default profile"
+        ),
+        Key(
+            [],
+            "2",
+            lazy.spawn([browser, "--profile-directory=Profile 1"]),
+            desc="Launch browser with the second profile"
+        ),
+    ]),
+
     # System control
     KeyChord([mod], "0", [
-        Key([], "s", run_command("systemctl suspend"), desc="Suspend"),
+        Key([], "s", lazy.spawn("systemctl suspend"), desc="Suspend"),
         Key([], "e", lazy.shutdown(), desc="Logout"),
-        Key([], "r", run_command("systemctl reboot"), desc="Reboot"),
-        Key([], "S", run_command("systemctl poweroff"), desc="Shutdown"),
+        Key([], "r", lazy.spawn("systemctl reboot"), desc="Reboot"),
+        Key([], "p", lazy.spawn("systemctl poweroff"), desc="Poweroff"),
     ])
 
     # TODO: Try dm-scripts from dt
