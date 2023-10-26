@@ -42,15 +42,18 @@ bar_defaults = dict(
     # border_color=["#ff00ff", "#000000", "#ff00ff", "#000000"]  # Borders are magenta
 )
 
-layout_defaults = {
-    "border_width": 2,
-    "margin": 8,  # gaps
-    # TODO: add floating border colors
+floating_layout_defaults = {
     "border_focus": "#E1ACFF",  # dt colors
-    # "border_normal": "#1D2330",
+    "border_normal": "#1D2330",
     # "border_focus": "#F07178",  # my awesome colors
-    "border_normal": "#282a36"
+    # "border_normal": "#282a36"
+    "border_width": 2,
 }
+
+layout_defaults = floating_layout_defaults.copy()
+layout_defaults.update({
+    "margin": 8,  # gaps
+})
 
 widget_defaults = dict(
     # use ` kitty +list-fonts | grep <fontname>` to find a font
@@ -332,10 +335,10 @@ layouts = [
     # layout.Matrix(),
     layout.MonadTall(**layout_defaults),
     layout.MonadWide(**layout_defaults),
-    layout.Floating(**layout_defaults),
+    layout.Floating(**floating_layout_defaults),
+    # layout.TreeTab(),
     # layout.RatioTile(),
     # layout.Tile(),
-    # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
