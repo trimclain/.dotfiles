@@ -35,9 +35,9 @@ if shutil.which(browser) is None:
 
 # Theme defaults
 bar_defaults = dict(
-    size=24,
+    size=24,  # height of the bar
     background='#15181a',  # ['#222222', '#111111'],
-    # margin=6,
+    margin=[8, 8, 0, 8],  # top, right, bottom, left
     # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
     # border_color=["#ff00ff", "#000000", "#ff00ff", "#000000"]  # Borders are magenta
 )
@@ -45,9 +45,10 @@ bar_defaults = dict(
 layout_defaults = {
     "border_width": 2,
     "margin": 8,  # gaps
-    # "border_focus": "#E1ACFF", # dt colors
+    # TODO: add floating border colors
+    "border_focus": "#E1ACFF",  # dt colors
     # "border_normal": "#1D2330",
-    "border_focus": "#F07178",  # my awesome colors
+    # "border_focus": "#F07178",  # my awesome colors
     "border_normal": "#282a36"
 }
 
@@ -293,7 +294,7 @@ groups = []
 group_names = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["", "", "", "", "", "ﭮ"]
-# , , 
+# , , , 
 group_labels = ["" for i in range(len(group_names))]
 
 # INFO: match wm_class: https://docs.qtile.org/en/latest/manual/config/groups.html#example
@@ -351,7 +352,8 @@ class Widget:
         # filename="~/.config/qtile/icons/python.png",
         filename="~/.config/qtile/icons/archlinux-logo.png",
         mouse_callbacks={"Button1": lazy.spawn(terminal)},
-        margin=1,
+        margin_x=0,
+        margin_y=2,
     )
 
     groupbox = dict(
@@ -374,6 +376,7 @@ class Widget:
         # disable_drag=True,
         # invert_mouse_wheel=True,
 
+        # hide_unused = True,
         highlight_method="line",
     )
 
@@ -454,15 +457,29 @@ class Widget:
         charge_char="",
         # full_char = "",
         full_char="",
-        discharge_char="",
+        # discharge_char="",
         # discharge_char = "",
-        # discharge_char="",
+        discharge_char="",
         # empty_char = "",
         empty_char="",
         unknown_char="",
         # not_charging_char="", # default: "*"
         # notify_below=15, #default: None
         format="{char} {percent:2.0%}",
+    )
+
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#textbox
+    exit_button = dict(
+        mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
+        fmt="  ",
+        # fmt="",
+        # fmt="",
+        # fmt="",
+        # fmt="",
+        # fmt="",
+        # fmt="",
+        padding=0,
+        background="#7A7B8C",
     )
 
 
@@ -477,11 +494,9 @@ def myMiniBar():
         widget.Sep(**Widget.sep),
         widget.WindowName(**Widget.window_name),
 
-        # TODO: move clock to the middle
+        widget.Spacer(),
         widget.Clock(**Widget.clock),
-        widget.Sep(**Widget.sep),
-        # TODO:
-        # widget.QuickExit(),
+        widget.Spacer(),
     ]
 
 
@@ -496,28 +511,24 @@ def myBar():
         widget.Sep(**Widget.sep),
         widget.WindowName(**Widget.window_name),
 
-        # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-        # widget.StatusNotifier(),
+        widget.Spacer(),
+        widget.Clock(**Widget.clock),
+        widget.Spacer(),
+
+        # on Wayland use widget.StatusNotifier(),
         widget.Systray(**Widget.systray),
         widget.Sep(**Widget.sep),
         # TODO: Volume (update to use custom commands)
-        # widget.Volume(**Widget.volume),
-        # widget.PulseVolume(**Widget.volume),
         # TODO: Brightness (create custom using GenPollCommand)
         widget.KeyboardLayout(**Widget.keyboard_layout),
         widget.Sep(**Widget.sep),
-        # TODO: Network (create custom)
         widget.Memory(**Widget.memory),
         widget.Sep(**Widget.sep),
         widget.ThermalSensor(**Widget.thermal_sensor),
         widget.Sep(**Widget.sep),
         widget.Battery(**Widget.battery),
         widget.Sep(**Widget.sep),
-        # TODO: move clock to the middle
-        widget.Clock(**Widget.clock),
-        widget.Sep(**Widget.sep),
-        # TODO:
-        # widget.QuickExit(),
+        # widget.TextBox(**Widget.exit_button),
     ]
 
 
