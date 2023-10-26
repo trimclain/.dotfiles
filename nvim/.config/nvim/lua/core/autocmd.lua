@@ -79,7 +79,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     },
     callback = function(event)
         vim.bo[event.buf].buflisted = false
-        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+        vim.keymap.set("n", "q", "<cmd>quit<cr>", { buffer = event.buf, silent = true })
     end,
     desc = "Set these filetypes to close with q-press and to not be in the buffers list",
     group = augroup("close_with_q"),

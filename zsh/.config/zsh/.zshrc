@@ -100,6 +100,7 @@ export VISUAL=$EDITOR
 ###############################################################################
 # Less
 ###############################################################################
+export MANPAGER="nvim +Man!"
 export PAGER=less
 export LESSCHARSET="UTF-8"
 export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
