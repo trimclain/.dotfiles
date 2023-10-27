@@ -12,6 +12,9 @@ get_volume() {
     pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'
 }
 
+get_muted_status() {
+    pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
+}
 ## End Functions
 
 check_if_command_exists notify-send
@@ -20,7 +23,6 @@ check_if_command_exists pactl
 VOLUME_UP="pactl set-sink-volume @DEFAULT_SINK@ +5%"
 VOLUME_DOWN="pactl set-sink-volume @DEFAULT_SINK@ -5%"
 VOLUME_MUTE="pactl set-sink-mute @DEFAULT_SINK@ toggle"
-# MUTED_STATUS=
 
 # Use alsa-utils instead of pactl if found
 # if command -v amixer > /dev/null; then
@@ -43,7 +45,7 @@ elif [ "$1" = "--decrease" ]; then
 elif [ "$1" = "--toggle-mute" ]; then
     # Toggle Mute Volume
     $VOLUME_MUTE
-    status=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '/Mute/ { print $2 }')
+    status=$(get_muted_status)
     if [ "$status" = "no" ]; then
         mode="unmuted"
     elif [ "$status" = "yes" ]; then
@@ -52,19 +54,25 @@ elif [ "$1" = "--toggle-mute" ]; then
 fi
 
 
-output=$(get_volume)
+value=$(get_volume)
 # Write new volume to a file so it can be read less resource intensive
-echo "$output%" > ~/.actual_volume
+status=$(get_muted_status)
+if [ "$status" = "no" ]; then
+    output="墳 $value%"
+else
+    output="婢 $value%"
+fi
+echo "$output" > ~/.actual_volume
 
 # Send notification
 if  [ "$mode" = "increase" ]; then
-    notify-send " $output %" -t 350
+    notify-send " $value %" -t 350
 elif [ "$mode" = "decrease" ]; then
-    notify-send "奔 $output %" -t 350
+    notify-send "奔 $value %" -t 350
 elif [ "$mode" = "muted" ]; then
-    notify-send "婢 $output %" -t 450
+    notify-send "婢 $value %" -t 450
 elif [ "$mode" = "unmuted" ]; then
-    notify-send " $output %" -t 450
+    notify-send " $value %" -t 450
 else
     notify-send 'Error: something went wrong' -t 500
 fi

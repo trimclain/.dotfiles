@@ -411,9 +411,12 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#genpollcommand
     volume = dict(
-        # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
+        # increase/decrease volume on scroll
+        mouse_callbacks={
+            "Button4": run_command("~/.local/bin/volume-control --increase"),
+            "Button5": run_command("~/.local/bin/volume-control --decrease"),
+        },
         padding=5,
-        fmt="墳 {}",
         cmd=os.path.expanduser("~/.config/qtile/scripts/get-volume.sh"),
         update_interval=0.01,
         # foreground=colors[7],
@@ -422,7 +425,11 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#genpollcommand
     brightness = dict(
-        # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
+        # increase/decrease volume on scroll
+        mouse_callbacks={
+            "Button4": run_command("~/.local/bin/display-brightness --increase"),
+            "Button5": run_command("~/.local/bin/display-brightness --decrease"),
+        },
         padding=5,
         fmt=" {}",
         cmd=os.path.expanduser("~/.config/qtile/scripts/get-brightness.sh"),
