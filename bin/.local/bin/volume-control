@@ -7,27 +7,42 @@ check_if_command_exists() {
         exit 1
     fi
 }
+
+get_volume() {
+    pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'
+}
+
 ## End Functions
 
 check_if_command_exists notify-send
+
 check_if_command_exists pactl
+VOLUME_UP="pactl set-sink-volume @DEFAULT_SINK@ +5%"
+VOLUME_DOWN="pactl set-sink-volume @DEFAULT_SINK@ -5%"
+VOLUME_MUTE="pactl set-sink-mute @DEFAULT_SINK@ toggle"
+# MUTED_STATUS=
+
+# Use alsa-utils instead of pactl if found
+# if command -v amixer > /dev/null; then
+#     VOLUME_UP="amixer -q sset Master 5%+ unmute"
+#     VOLUME_DOWN="amixer -q sset Master 5%- unmute"
+#     VOLUME_MUTE="amixer -q sset Master toggle"
+# fi
 
 mode="unknown"
 
 # Increase Volume
 if [ "$1" = "--increase" ]; then
     mode="increase"
-    # Set Volume
-    pactl set-sink-volume @DEFAULT_SINK@ +5%
+    $VOLUME_UP
 
 # Decrease Volume
 elif [ "$1" = "--decrease" ]; then
     mode="decrease"
-    # Set Volume
-    pactl set-sink-volume @DEFAULT_SINK@ -5%
+    $VOLUME_DOWN
 elif [ "$1" = "--toggle-mute" ]; then
     # Toggle Mute Volume
-    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    $VOLUME_MUTE
     status=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '/Mute/ { print $2 }')
     if [ "$status" = "no" ]; then
         mode="unmuted"
@@ -36,9 +51,12 @@ elif [ "$1" = "--toggle-mute" ]; then
     fi
 fi
 
+
+output=$(get_volume)
+# Write new volume to a file so it can be read less resource intensive
+echo "$output%" > ~/.actual_volume
+
 # Send notification
-# output=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
-output=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }')
 if  [ "$mode" = "increase" ]; then
     notify-send " $output %" -t 350
 elif [ "$mode" = "decrease" ]; then
