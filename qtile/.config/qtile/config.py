@@ -409,12 +409,24 @@ class Widget:
         padding=5,
     )
 
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#volume
-    # TODO: specify custom commands
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#genpollcommand
     volume = dict(
         # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
         padding=5,
-        fmt="墳{}",
+        fmt="墳 {}",
+        cmd=os.path.expanduser("~/.config/qtile/scripts/get-volume.sh"),
+        update_interval=0.01,
+        # foreground=colors[7],
+        # background=colors[0],
+    )
+
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#genpollcommand
+    brightness = dict(
+        # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
+        padding=5,
+        fmt=" {}",
+        cmd=os.path.expanduser("~/.config/qtile/scripts/get-brightness.sh"),
+        update_interval=0.01,
         # foreground=colors[7],
         # background=colors[0],
     )
@@ -521,11 +533,11 @@ def my_legacy_bar():
         widget.Clock(**Widget.clock),
         widget.Spacer(),
 
+        # on Wayland use widget.StatusNotifier(),
         widget.Systray(**Widget.systray),
         widget.Sep(**Widget.sep),
-        # on Wayland use widget.StatusNotifier(),
-        # TODO: Volume (update to use custom commands)
-        # TODO: Brightness (create custom using GenPollCommand)
+        widget.GenPollCommand(**Widget.volume),
+        widget.GenPollCommand(**Widget.brightness),
         widget.KeyboardLayout(**Widget.keyboard_layout),
         widget.Sep(**Widget.sep),
         widget.Memory(**Widget.memory),
@@ -551,11 +563,11 @@ def my_modern_bar():
         widget.GroupBox(**Widget.groupbox),
         widget.Spacer(),
 
+        # on Wayland use widget.StatusNotifier(),
         widget.Systray(**Widget.systray),
         widget.Sep(**Widget.sep),
-        # on Wayland use widget.StatusNotifier(),
-        # TODO: Volume (update to use custom commands)
-        # TODO: Brightness (create custom using GenPollCommand)
+        widget.GenPollCommand(**Widget.volume),
+        widget.GenPollCommand(**Widget.brightness),
         widget.KeyboardLayout(**Widget.keyboard_layout),
         widget.Sep(**Widget.sep),
         widget.Memory(**Widget.memory),
