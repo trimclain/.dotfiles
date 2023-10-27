@@ -1,6 +1,12 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-## Functions
+###############################################################################
+# Volume Control
+#
+# Description: Update volume and get notifications about it
+# Dependencies: notify-send, pactl
+###############################################################################
+
 check_if_command_exists() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
@@ -15,64 +21,84 @@ get_volume() {
 get_muted_status() {
     pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
 }
-## End Functions
 
-check_if_command_exists notify-send
+notify() {
+    if command -v dunstify > /dev/null; then
+        dunstify -a "volume-control" -r 7777 -u low -h int:value:"$1" -t 1500 "$2 Volume: ${1}%"
+    else
+        notify-send "$2 ${1}%" -t 350
+    fi
+}
 
-check_if_command_exists pactl
-VOLUME_UP="pactl set-sink-volume @DEFAULT_SINK@ +5%"
-VOLUME_DOWN="pactl set-sink-volume @DEFAULT_SINK@ -5%"
-VOLUME_MUTE="pactl set-sink-mute @DEFAULT_SINK@ toggle"
+send_notification() {
+    if  [ "$2" = "increase" ]; then
+        notify "$1" ""
+    elif [ "$2" = "decrease" ]; then
+        notify "$1" "奔"
+    elif [ "$2" = "muted" ]; then
+        notify "$1" "婢"
+    elif [ "$2" = "unmuted" ]; then
+        notify "$1" ""
+    else
+        notify-send  'Volume Control' 'Error: something went wrong' -t 3000 -u critical
+    fi
+}
 
-# Use alsa-utils instead of pactl if found
-# if command -v amixer > /dev/null; then
-#     VOLUME_UP="amixer -q sset Master 5%+ unmute"
-#     VOLUME_DOWN="amixer -q sset Master 5%- unmute"
-#     VOLUME_MUTE="amixer -q sset Master toggle"
-# fi
+main() {
+    check_if_command_exists notify-send
+    check_if_command_exists pactl
+    VOLUME_UP="pactl set-sink-volume @DEFAULT_SINK@ +5%"
+    VOLUME_DOWN="pactl set-sink-volume @DEFAULT_SINK@ -5%"
+    VOLUME_UNMUTE="pactl set-sink-mute @DEFAULT_SINK@ 0"
+    MUTE_TOGGLE="pactl set-sink-mute @DEFAULT_SINK@ toggle"
 
-mode="unknown"
+    # Use alsa-utils instead of pactl if found
+    # if command -v amixer > /dev/null; then
+    #     VOLUME_UP="amixer -q sset Master 5%+ unmute"
+    #     VOLUME_DOWN="amixer -q sset Master 5%- unmute"
+    #     MUTE_TOGGLE="amixer -q sset Master toggle"
+    # fi
 
-# Increase Volume
-if [ "$1" = "--increase" ]; then
-    mode="increase"
-    $VOLUME_UP
+    # Use pamixer instead of pactl if found
+    # if command -v amixer > /dev/null; then
+    #     VOLUME_UP="pamixer -i 5 --allow-boost"
+    #     VOLUME_DOWN="pamixer -d 5 --allow-boost"
+    #     VOLUME_UNMUTE="pamixer -u"
+    #     MUTE_TOGGLE="pamixer -t"
+    # fi
 
-# Decrease Volume
-elif [ "$1" = "--decrease" ]; then
-    mode="decrease"
-    $VOLUME_DOWN
-elif [ "$1" = "--toggle-mute" ]; then
-    # Toggle Mute Volume
-    $VOLUME_MUTE
+    mode="unknown"
+    if [ "$1" = "--increase" ]; then
+        $VOLUME_UNMUTE
+        $VOLUME_UP
+        mode="increase"
+
+    elif [ "$1" = "--decrease" ]; then
+        $VOLUME_UNMUTE
+        $VOLUME_DOWN
+        mode="decrease"
+    elif [ "$1" = "--toggle-mute" ]; then
+        $MUTE_TOGGLE
+        status=$(get_muted_status)
+        if [ "$status" = "no" ]; then
+            mode="unmuted"
+        elif [ "$status" = "yes" ]; then
+            mode="muted"
+        fi
+    fi
+
+    value=$(get_volume)
+
+    # write new volume to a file so it can be read less resource intensive
     status=$(get_muted_status)
     if [ "$status" = "no" ]; then
-        mode="unmuted"
-    elif [ "$status" = "yes" ]; then
-        mode="muted"
+        output="墳 $value%"
+    else
+        output="婢 $value%"
     fi
-fi
+    echo "$output" > ~/.actual_volume
 
+    send_notification "$value" "$mode"
+}
 
-value=$(get_volume)
-# Write new volume to a file so it can be read less resource intensive
-status=$(get_muted_status)
-if [ "$status" = "no" ]; then
-    output="墳 $value%"
-else
-    output="婢 $value%"
-fi
-echo "$output" > ~/.actual_volume
-
-# Send notification
-if  [ "$mode" = "increase" ]; then
-    notify-send " $value %" -t 350
-elif [ "$mode" = "decrease" ]; then
-    notify-send "奔 $value %" -t 350
-elif [ "$mode" = "muted" ]; then
-    notify-send "婢 $value %" -t 450
-elif [ "$mode" = "unmuted" ]; then
-    notify-send " $value %" -t 450
-else
-    notify-send 'Error: something went wrong' -t 500
-fi
+main "$@"
