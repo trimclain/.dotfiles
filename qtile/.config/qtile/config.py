@@ -127,6 +127,9 @@ keys = [
     Key([mod], "r", lazy.spawn("rofi -show run"), desc="Run a command"),
     Key([mod], "d", lazy.spawn("rofi -show drun"), desc="Run App Launcher"),
 
+    # System control
+    Key([mod], "0", run_command("~/.local/bin/powermenu"), desc="Power Menu"),
+
     ################################ LAYOUT ###################################
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -286,14 +289,12 @@ keys = [
     ]),
 
     # System control
-    KeyChord([mod], "0", [
-        Key([], "s", lazy.spawn("systemctl suspend"), desc="Suspend"),
-        Key([], "e", lazy.shutdown(), desc="Logout"),
-        Key([], "r", lazy.spawn("systemctl reboot"), desc="Reboot"),
-        Key([], "p", lazy.spawn("systemctl poweroff"), desc="Poweroff"),
-    ])
-
-    # TODO: Try dm-scripts from dt
+    # KeyChord([mod], "0", [
+    #     Key([], "s", lazy.spawn("systemctl suspend"), desc="Suspend"),
+    #     Key([], "e", lazy.shutdown(), desc="Logout"),
+    #     Key([], "r", lazy.spawn("systemctl reboot"), desc="Reboot"),
+    #     Key([], "p", lazy.spawn("systemctl poweroff"), desc="Poweroff"),
+    # ])
 ]
 # }}}
 
@@ -477,7 +478,9 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#textbox
     exit_button = dict(
-        mouse_callbacks={"Button1": lazy.spawn(terminal)},
+        mouse_callbacks={
+            "Button1": run_command("~/.local/bin/powermenu"),
+        },
         fmt="  ",
         padding=0,
         background=arch_color,

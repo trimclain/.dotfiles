@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+###############################################################################
+# Power Menu
+#
+# Description: Logout, shutdown, reboot or suspend
+# Dependencies: rofi or dmenu
+###############################################################################
+
+TITLE="Power Menu"
+
+if command -v rofi > /dev/null; then
+    MENU=(rofi -dmenu -i -no-custom -p "$TITLE" -window-title "$TITLE")
+elif command -v dmenu > /dev/null; then
+    MENU=(dmenu -i -p "$TITLE:")
+else
+    echo "Error: neither rofi nor dmenu were found"
+    exit 1
+fi
+
+# " Logout", " Reboot"
+choice=$(printf " Logout\n Suspend\n Reboot\n Shutdown" | "${MENU[@]}")
+
+if [[ "$choice" == " Logout" ]]; then
+    loginctl kill-user "$UID"
+elif [[ "$choice" == " Suspend" ]]; then
+    systemctl suspend
+elif [[ "$choice" == " Reboot" ]]; then
+    systemctl reboot
+elif [[ "$choice" == " Shutdown" ]]; then
+    systemctl poweroff
+fi
