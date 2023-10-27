@@ -10,6 +10,8 @@ run_in_background(){
 run_in_background nm-applet
 # Set the wallpaper
 run_in_background nitrogen --restore
+# Enable notifications
+run_in_background dunst
 # Get the correct current brightness and volume on system startup
 ~/.config/qtile/scripts/get-brightness-on-startup.sh
 ~/.config/qtile/scripts/get-volume-on-startup.sh

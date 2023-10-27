@@ -15,8 +15,8 @@ xset r rate 400 25
 # xset s off && xset -dpms
 
 # Enable notifications
-# in awesomewm naughty is used
-dunst &
+# in awesomewm naughty is used; in qtile I do it elsewhere
+# dunst &
 
 # Hide mouse when typing
 # xbanish &
