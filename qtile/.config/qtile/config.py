@@ -36,14 +36,18 @@ if shutil.which(browser) is None:
 # Theme defaults
 bar_defaults = dict(
     size=24,  # height of the bar
-    background='#15181a',  # ['#222222', '#111111'],
+    # background=["#222222", "#111111"], # dt background
+    background="#15181a",
     margin=[8, 8, 0, 8],  # top, right, bottom, left
     # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
     # border_color=["#ff00ff", "#000000", "#ff00ff", "#000000"]  # Borders are magenta
 )
 
+arch_color = "#1793D0"
+
 floating_layout_defaults = {
-    "border_focus": "#E1ACFF",  # dt colors
+    "border_focus": arch_color,
+    # "border_focus": "#E1ACFF",  # dt colors
     "border_normal": "#1D2330",
     # "border_focus": "#F07178",  # my awesome colors
     # "border_normal": "#282a36"
@@ -65,7 +69,8 @@ widget_defaults = dict(
     padding=3,
     borderwidth=2,
     # border = "#d75f5f",
-    background="#292a30"
+    background="#292a30",
+    foreground="#ffffff",
 )
 extension_defaults = widget_defaults.copy()
 
@@ -360,27 +365,25 @@ class Widget:
     )
 
     groupbox = dict(
-        # active=widget_defaults['foreground'],
-        # inactive=['#444444', '#333333'],
+        active=widget_defaults["foreground"],
+        inactive=['#444444', '#333333'],
 
-        # this_screen_border=layout_defaults['border_focus'],
-        # this_current_screen_border=layout_defaults['border_focus'],
-        # other_screen_border='#444444',
+        highlight_method="block", # "border", "block", "text", "line"
+        highlight_color=["#3D8BFF", arch_color],
+        # highlight_color=["#3D8BFF", "#1276A6"],
+        # highlight_color=["#000000", "#282828"],  # default
 
-        # urgent_text=widget_defaults['foreground'],
-        # urgent_border='#ff0000',
+        this_current_screen_border=layout_defaults["border_focus"],
+        this_screen_border=layout_defaults["border_focus"],
+        other_screen_border='#444444',
 
-        # highlight_method='block',
-        # rounded=True,
+        urgent_text=widget_defaults["foreground"],
+        urgent_border="#FF0000",
 
-        # # margin=-1,
+        disable_drag=True,
+        # hide_unused = True, # like i3
+        # margin=-5,
         # padding=3,
-        # borderwidth=2,
-        # disable_drag=True,
-        # invert_mouse_wheel=True,
-
-        # hide_unused = True,
-        highlight_method="line",
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#sep
@@ -388,7 +391,7 @@ class Widget:
         size_percent=100,
         linewidth=0,
         padding=5,
-        # foreground=layout_defaults['border_normal'],
+        # foreground=layout_defaults["border_normal"],
         # foreground=colors[2],
         # background=colors[0]
     )
@@ -402,6 +405,7 @@ class Widget:
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#systray
     systray = dict(
         icon_size=15,  # default: 20
+        padding=5,
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#volume
@@ -473,20 +477,15 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#textbox
     exit_button = dict(
-        mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
+        mouse_callbacks={"Button1": lazy.spawn(terminal)},
         fmt="  ",
-        # fmt="",
-        # fmt="",
-        # fmt="",
-        # fmt="",
-        # fmt="",
-        # fmt="",
         padding=0,
-        background="#7A7B8C",
+        background=arch_color,
+        # background="#7A7B8C",
     )
 
 
-def myMiniBar():
+def my_mini_bar():
     return [
         widget.Sep(**Widget.sep),
         widget.Image(**Widget.logo),
@@ -503,7 +502,8 @@ def myMiniBar():
     ]
 
 
-def myBar():
+def my_legacy_bar():
+    """First design"""
     return [
         widget.Sep(**Widget.sep),
         widget.Image(**Widget.logo),
@@ -518,9 +518,9 @@ def myBar():
         widget.Clock(**Widget.clock),
         widget.Spacer(),
 
-        # on Wayland use widget.StatusNotifier(),
         widget.Systray(**Widget.systray),
         widget.Sep(**Widget.sep),
+        # on Wayland use widget.StatusNotifier(),
         # TODO: Volume (update to use custom commands)
         # TODO: Brightness (create custom using GenPollCommand)
         widget.KeyboardLayout(**Widget.keyboard_layout),
@@ -531,13 +531,44 @@ def myBar():
         widget.Sep(**Widget.sep),
         widget.Battery(**Widget.battery),
         widget.Sep(**Widget.sep),
-        # widget.TextBox(**Widget.exit_button),
+        widget.TextBox(**Widget.exit_button),
     ]
 
+def my_modern_bar():
+    """Second design"""
+    return [
+        widget.Sep(**Widget.sep),
+        widget.Image(**Widget.logo),
+        widget.Sep(**Widget.sep),
+        widget.CurrentLayoutIcon(padding=0, scale=0.7),
+        widget.Sep(**Widget.sep),
+        widget.WindowName(**Widget.window_name),
+
+        widget.Spacer(),
+        widget.GroupBox(**Widget.groupbox),
+        widget.Spacer(),
+
+        widget.Systray(**Widget.systray),
+        widget.Sep(**Widget.sep),
+        # on Wayland use widget.StatusNotifier(),
+        # TODO: Volume (update to use custom commands)
+        # TODO: Brightness (create custom using GenPollCommand)
+        widget.KeyboardLayout(**Widget.keyboard_layout),
+        widget.Sep(**Widget.sep),
+        widget.Memory(**Widget.memory),
+        widget.Sep(**Widget.sep),
+        widget.ThermalSensor(**Widget.thermal_sensor),
+        widget.Sep(**Widget.sep),
+        widget.Battery(**Widget.battery),
+        widget.Sep(**Widget.sep),
+        widget.Clock(**Widget.clock),
+        widget.Sep(**Widget.sep),
+        widget.TextBox(**Widget.exit_button),
+    ]
 
 screens = [
-    Screen(top=bar.Bar(widgets=myBar(), **bar_defaults)),
-    Screen(top=bar.Bar(widgets=myMiniBar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=my_modern_bar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=my_mini_bar(), **bar_defaults)),
 ]
 # }}}
 
