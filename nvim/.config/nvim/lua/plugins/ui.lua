@@ -356,10 +356,10 @@ return {
                             newfile_status = true,
                             path = 3,
                             symbols = {
-                                modified = icons.ui.Circle, -- default: "[+]",
-                                readonly = icons.ui.Lock, -- default: "[-]",
-                                unnamed =  "", -- default: "[No Name]"
-                                newfile =  icons.ui.NewFile -- default: "[New]",
+                                modified = icons.ui.Circle, -- default: "[+]"
+                                readonly = icons.ui.Lock, -- default: "[-]"
+                                unnamed = "", -- default: "[No Name]"
+                                newfile = icons.ui.NewFile, -- default: "[New]"
                             },
                             cond = hide_in_width,
                         },
@@ -386,6 +386,22 @@ return {
                         { "location", padding = { left = 0, right = 1 } },
                     },
                 },
+                -- winbar = {
+                --     lualine_a = {},
+                --     lualine_b = {},
+                --     lualine_c = { "filename" },
+                --     lualine_x = {},
+                --     lualine_y = {},
+                --     lualine_z = {},
+                -- },
+                -- tabline = {
+                --     lualine_a = { "buffers" },
+                --     lualine_b = { "branch" },
+                --     lualine_c = { "filename" },
+                --     lualine_x = {},
+                --     lualine_y = {},
+                --     lualine_z = { "tabs" },
+                -- },
                 -- TODO with noice.nvim:
                 -- sections = {
                 --     lualine_x = {
@@ -408,7 +424,7 @@ return {
                 --         },
                 --     },
                 -- },
-                extensions = { "lazy", "neo-tree", "man", "quickfix", "toggleterm" }, -- "trouble"
+                extensions = { "lazy", "man", "mason", "neo-tree", "quickfix", "toggleterm" }, -- "trouble", "nvim-dap-ui"
             }
         end,
     },

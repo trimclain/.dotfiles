@@ -108,6 +108,7 @@ flatpak: ## Install flatpak
 		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
 
 #========================================= Neovim =================================================
+# or install neovim-nightly-bin with paru
 nvim_reqs:
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
@@ -143,28 +144,8 @@ clean_nvim:
 
 purge_nvim: uninstall_nvim clean_nvim
 
-#========================================= Neovide ================================================
 neovide:
-	@echo "==================================================================="
-	@echo "Installing Neovide..."
-	@# Install dependencies
-	(INSTALL) curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
-	@# Install rust (done)
-	cargo install --git https://github.com/neovide/neovide
-	@# Install .desktop file and icon to access neovide from rofi
-	@# Clone the repo
-	git clone "https://github.com/neovide/neovide" ~/neovide
-	@# Copy .desktop entry to make it visible for apps in rofi
-	sudo cp ~/neovide/assets/neovide.desktop /usr/share/applications/
-	@# Copy the icon (
-	sudo cp ~/neovide/assets/neovide-256x256.png /usr/local/share/icons/hicolor/256x256/apps/neovide.png
-	@# Uninstall the github repo
-	rm -rf ~/neovide
-
-uninstall_neovide:
-	rm -f ~/.cargo/bin/neovide
-	sudo rm -f /usr/share/applications/neovide.desktop
-	sudo rm -f /usr/local/share/icons/hicolor/256x256/apps/neovide.png
+	$(INSTALL) neovide
 
 #========================================== Zsh ===================================================
 zsh: ## Install zsh
@@ -207,7 +188,7 @@ kitty:
 	$(INSTALL) imagemagick kitty
 
 wezterm:
-	@$(INSTALL) wezterm
+	$(INSTALL) wezterm
 
 #==================================================================================================
 # SOMEDAY: obs-studio kdenlive inkscape gimp
@@ -250,7 +231,7 @@ anki:
 	rm -r ./anki-2.1.65-linux-qt6.tar.zst ./anki-2.1.65-linux-qt6
 
 uninstall_anki:
-	@cd /usr/local/share/anki/ && sudo ./uninstall.sh
+	cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
