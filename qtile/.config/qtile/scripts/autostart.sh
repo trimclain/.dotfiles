@@ -14,4 +14,4 @@ run_in_background nitrogen --restore
 run_in_background dunst
 # Get the correct current brightness and volume on system startup
 ~/.config/qtile/scripts/get-brightness-on-startup.sh
-~/.config/qtile/scripts/get-volume-on-startup.sh
+# ~/.config/qtile/scripts/get-volume-on-startup.sh

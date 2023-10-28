@@ -3,7 +3,7 @@
 
 [global]
     follow = mouse                      # default: none
-    width = (0, 300)                    # default: 300
+    width = (0, 400)                    # default: 300
     height = 300                        # default: 300
     offset = 10x40                      # default: 10x50
     notification_limit = 0              # default: 20
@@ -17,6 +17,7 @@
     corner_radius = 10                  # default: 0
     highlight = "#FFFFFF"               # progress_bar_color
     progress_bar_min_width = 50         # default: 150
+    progress_bar_max_width = 400        # default: 300
     progress_bar_corner_radius = 5      # default: 0
     # icon_position = off                 # default: left
     # transparency = 25                   # default: 0
