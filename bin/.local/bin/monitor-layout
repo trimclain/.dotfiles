@@ -21,7 +21,7 @@ connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
 
 monitors=()
 for display in $connectedOutputs; do
-    monitors+=($display)
+    monitors+=("$display")
 done
 
 intern=${monitors[0]}
