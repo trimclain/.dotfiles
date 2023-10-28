@@ -25,6 +25,19 @@
     mouse_right_click = close_all
 
 ##################################################
+# Don't add to history these notifications
+##################################################
+[volume-control]
+    # This notification will not be saved in history
+    appname = volume-control
+    history_ignore = yes
+
+[brightness-control]
+    # This notification will not be saved in history
+    appname = brightness-control
+    history_ignore = yes
+
+##################################################
 # Arch Colors
 ##################################################
 [urgency_low]
