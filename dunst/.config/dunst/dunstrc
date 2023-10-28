@@ -1,32 +1,60 @@
-# TODO: finish the setup on arch in hyprland using https://www.youtube.com/watch?v=XWlbaERuDP4
 
-# This is lukesmith config
+# Reference: /etc/dunst/dunstrc
+
 [global]
-    monitor = 0
-    follow = keyboard
-    width = 370
-    height = 350
-    offset = 0x19
-    padding = 2
-    horizontal_padding = 2
-    transparency = 25
-    font = Monospace 12
-    format = "<b>%s</b>\n%b"
+    follow = mouse                      # default: none
+    width = (0, 300)                    # default: 300
+    height = 300                        # default: 300
+    offset = 10x40                      # default: 10x50
+    notification_limit = 0              # default: 20
+    padding = 10                        # default: 8
+    horizontal_padding = 10             # default: 8
+    frame_width = 2                     # default: 3
+    frame_color = "#9399b2"             # default: #aaaaaa
+    font = BlexMono Nerd Font Mono 12   # default: Monospace 8
+    alignment = center                  # default: left
+    corner_radius = 10                  # default: 0
+    highlight = "#FFFFFF"               # progress_bar_color
+    progress_bar_min_width = 50         # default: 150
+    progress_bar_corner_radius = 5      # default: 0
+    # icon_position = off                 # default: left
+    # transparency = 25                   # default: 0
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
 
+##################################################
+# Arch Colors
+##################################################
 [urgency_low]
-    background = "#1d2021"
-    foreground = "#928374"
-    timeout = 3
-
-[urgency_normal]
-    foreground = "#ebdbb2"
-    background = "#458588"
-    timeout = 5
-
-[urgency_critical]
-    background = "#1cc24d"
-    foreground = "#ebdbb2"
-    frame_color = "#fabd2f"
+    background = "#15181A"
+    foreground = "#FFFFFF"
     timeout = 10
+[urgency_normal]
+    background = "#15181A"
+    foreground = "#FFFFFF"
+    timeout = 10
+[urgency_critical]
+    background = "#15181A"
+    foreground = "#F38BA8"
+    frame_color = "#F38BA8"
+    timeout = 0
+
+# ##################################################
+# # Catppuccin Colors
+# ##################################################
+# [urgency_low]
+#     background = "#181825AA"
+#     foreground = "#CDD6F4"
+#     timeout = 10
+# [urgency_normal]
+#     background = "#181825AA"
+#     foreground = "#CDD6F4"
+#     timeout = 10
+# [urgency_critical]
+#     background = "#181825AA"
+#     foreground = "#F38BA8"
+#     frame_color = "#F38BA8"
+#     timeout = 0
 
 # vim: ft=cfg
