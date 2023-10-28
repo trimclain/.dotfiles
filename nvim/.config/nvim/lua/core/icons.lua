@@ -231,7 +231,7 @@ return {
         MidCircle = "",
         MidDottedCircle = " ",
         MidUnfilledCircle = " ",
-        NewFile = " ",
+        NewFile = "",
         Note = " ",
         NoteBook = " ",
         Package = " ",
