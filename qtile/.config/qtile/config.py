@@ -372,7 +372,7 @@ class Widget:
         active=widget_defaults["foreground"],
         inactive=['#444444', '#333333'],
 
-        highlight_method="text", # "border", "block", "text", "line"
+        highlight_method="text",  # "border", "block", "text", "line"
         highlight_color=["#3D8BFF", arch_color],
         # highlight_color=["#3D8BFF", "#1276A6"],
         # highlight_color=["#000000", "#282828"],  # default
@@ -476,7 +476,16 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#clock
     clock = dict(
-        # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
+        mouse_callbacks={
+            # Get current month as notification
+            "Button1": run_command("~/.config/qtile/scripts/calendar.sh --today"),
+            # Get whole year in a new terminal
+            "Button3": lazy.spawn(
+                terminal + " -e " + os.path.expanduser(
+                    "~/.config/qtile/scripts/calendar.sh"
+                )
+            ),
+        },
         format="%a %d/%m/%Y %H:%M",
         fmt=" {}",
     )
@@ -526,6 +535,7 @@ def my_legacy_mini_bar():
         widget.Spacer(),
     ]
 
+
 def my_modern_mini_bar():
     return [
         widget.Sep(**Widget.sep),
@@ -539,6 +549,7 @@ def my_modern_mini_bar():
         widget.GroupBox(**Widget.groupbox),
         widget.Spacer(),
     ]
+
 
 def my_legacy_bar():
     """First design"""
@@ -572,6 +583,7 @@ def my_legacy_bar():
         widget.TextBox(**Widget.exit_button),
     ]
 
+
 def my_modern_bar():
     """Second design"""
     return [
@@ -603,6 +615,7 @@ def my_modern_bar():
         widget.Sep(**Widget.sep),
         widget.TextBox(**Widget.exit_button),
     ]
+
 
 screens = [
     Screen(top=bar.Bar(widgets=my_modern_bar(), **bar_defaults)),
