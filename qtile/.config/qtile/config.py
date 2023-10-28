@@ -37,10 +37,10 @@ if shutil.which(browser) is None:
 bar_defaults = dict(
     size=24,  # height of the bar
     # background=["#222222", "#111111"], # dt background
-    background="#15181a",
+    background="#15181A",
     margin=[8, 8, 0, 8],  # top, right, bottom, left
     # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-    # border_color=["#ff00ff", "#000000", "#ff00ff", "#000000"]  # Borders are magenta
+    # border_color=["#FF00FF", "#000000", "#FF00FF", "#000000"]  # Borders are magenta
 )
 
 arch_color = "#1793D0"
@@ -71,6 +71,7 @@ widget_defaults = dict(
     # border = "#d75f5f",
     background="#292a30",
     foreground="#ffffff",
+    # foreground="#CDD6F4"
 )
 extension_defaults = widget_defaults.copy()
 
@@ -356,6 +357,7 @@ layouts = [
 class Widget:
     """ Container for individual widget style options """
 
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#image
     logo = dict(
         # filename="~/.config/qtile/icons/python-white.png",
         # filename="~/.config/qtile/icons/python.png",
@@ -365,11 +367,12 @@ class Widget:
         margin_y=2,
     )
 
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#groupbox
     groupbox = dict(
         active=widget_defaults["foreground"],
         inactive=['#444444', '#333333'],
 
-        highlight_method="block", # "border", "block", "text", "line"
+        highlight_method="text", # "border", "block", "text", "line"
         highlight_color=["#3D8BFF", arch_color],
         # highlight_color=["#3D8BFF", "#1276A6"],
         # highlight_color=["#000000", "#282828"],  # default
@@ -507,7 +510,7 @@ class Widget:
     )
 
 
-def my_mini_bar():
+def my_legacy_mini_bar():
     return [
         widget.Sep(**Widget.sep),
         widget.Image(**Widget.logo),
@@ -523,6 +526,19 @@ def my_mini_bar():
         widget.Spacer(),
     ]
 
+def my_modern_mini_bar():
+    return [
+        widget.Sep(**Widget.sep),
+        widget.Image(**Widget.logo),
+        widget.Sep(**Widget.sep),
+        widget.CurrentLayoutIcon(padding=0, scale=0.7),
+        widget.Sep(**Widget.sep),
+        widget.WindowName(**Widget.window_name),
+
+        widget.Spacer(),
+        widget.GroupBox(**Widget.groupbox),
+        widget.Spacer(),
+    ]
 
 def my_legacy_bar():
     """First design"""
@@ -590,7 +606,7 @@ def my_modern_bar():
 
 screens = [
     Screen(top=bar.Bar(widgets=my_modern_bar(), **bar_defaults)),
-    Screen(top=bar.Bar(widgets=my_mini_bar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=my_modern_mini_bar(), **bar_defaults)),
 ]
 # }}}
 
