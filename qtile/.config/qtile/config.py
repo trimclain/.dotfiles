@@ -33,17 +33,18 @@ browser = "thorium-browser"
 if shutil.which(browser) is None:
     browser = "brave"
 
+arch_color = "#1793D0"
+
 # Theme defaults
 bar_defaults = dict(
     size=24,  # height of the bar
     # background=["#222222", "#111111"], # dt background
     background="#15181A",
     margin=[8, 8, 0, 8],  # top, right, bottom, left
-    # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-    # border_color=["#FF00FF", "#000000", "#FF00FF", "#000000"]  # Borders are magenta
+    # border_width=[0, 0, 2, 0],  # Draw top and bottom borders
+    # border_color=["#FF00FF", "#000000", "#FF00FF", "#000000"]
+    border_color=arch_color
 )
-
-arch_color = "#1793D0"
 
 floating_layout_defaults = {
     "border_focus": arch_color,
@@ -372,7 +373,7 @@ class Widget:
         active=widget_defaults["foreground"],
         inactive=['#444444', '#333333'],
 
-        highlight_method="text",  # "border", "block", "text", "line"
+        highlight_method="border",  # "border", "block", "text", "line"
         highlight_color=["#3D8BFF", arch_color],
         # highlight_color=["#3D8BFF", "#1276A6"],
         # highlight_color=["#000000", "#282828"],  # default
