@@ -178,8 +178,8 @@ hyprland:
 
 qtile:
 	@echo "==================================================================="
-	@# Install qtile, python-psutil (for cpu widget and more), alsa-utils (for volume widget)
-	$(INSTALL) qtile python-psutil alsa-utils dmenu rofi slock dunst picom feh nitrogen
+	@# Install qtile, python-psutil (for cpu widget and more)
+	$(INSTALL) qtile python-psutil dmenu rofi slock dunst picom feh nitrogen
 
 #======================================== Terminal ================================================
 kitty:
@@ -273,7 +273,7 @@ install: ## Setup arch after new installation
 	@# network manager extras
 	@ $(INSTALL) network-manager-applet nm-connection-editor
 	@# window manager
-	@make awesome
+	@make qtile
 	@# terminal
 	@make kitty
 	@# system fonts + my fonts
