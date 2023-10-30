@@ -106,6 +106,10 @@ return {
                 return vim.fn.winwidth(0) > 80
             end
 
+            local hide_in_width_100 = function()
+                return vim.fn.winwidth(0) > 100
+            end
+
             -- Don't show a section in ui filetypes
             local show_lsp_section = function()
                 local buf_ft = vim.bo.filetype
@@ -361,7 +365,7 @@ return {
                                 unnamed = "", -- default: "[No Name]"
                                 newfile = icons.ui.NewFile, -- default: "[New]"
                             },
-                            cond = hide_in_width,
+                            cond = hide_in_width_100,
                         },
                         -----------------------------------------------------------------------------------------------
 
