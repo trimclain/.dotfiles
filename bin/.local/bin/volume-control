@@ -22,6 +22,12 @@ get_muted_status() {
     pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
 }
 
+display_volume(){
+    value=$(get_volume)
+    status=$(get_muted_status)
+    [ "$status" = "no" ] && echo "墳 $value%" || echo "婢 $value%"
+}
+
 notify() {
     if command -v dunstify > /dev/null; then
         dunstify -a "volume-control" -r 7777 -u low -h int:value:"$1" -t 1500 "$2 Volume: ${1}%"
@@ -67,12 +73,17 @@ main() {
     #     MUTE_TOGGLE="pamixer -t"
     # fi
 
+    # For the statusbar
+    if [ "$1" = "--get-volume" ]; then
+        display_volume
+        exit 0
+    fi
+
     mode="unknown"
     if [ "$1" = "--increase" ]; then
         $VOLUME_UNMUTE
         $VOLUME_UP
         mode="increase"
-
     elif [ "$1" = "--decrease" ]; then
         $VOLUME_UNMUTE
         $VOLUME_DOWN
@@ -87,18 +98,13 @@ main() {
         fi
     fi
 
-    value=$(get_volume)
+    # removed in favor of direct use of display_volume
+    # reason: difficult to handle the event of inserting/removing headphones
+    #write new volume to a file so it can be read less resource intensive
+    #output=$(display_volume)
+    #echo "$output" > ~/.actual_volume
 
-    # write new volume to a file so it can be read less resource intensive
-    status=$(get_muted_status)
-    if [ "$status" = "no" ]; then
-        output="墳 $value%"
-    else
-        output="婢 $value%"
-    fi
-    echo "$output" > ~/.actual_volume
-
-    send_notification "$value" "$mode"
+    send_notification "$(get_volume)" "$mode"
 }
 
 main "$@"
