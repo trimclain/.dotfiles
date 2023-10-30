@@ -36,7 +36,7 @@
             </table>
         </td>
         <td>
-            <img src="https://user-images.githubusercontent.com/84108846/194804318-319eac9f-f69d-45dc-a4c1-fbd396bcef59.png" alt="screenshot">
+            <img src="https://github.com/trimclain/.dotfiles/assets/84108846/12d5daeb-6cf2-483e-a71d-96ba29580350" alt="screenshot">
         </td>
     </tr>
 </table>
