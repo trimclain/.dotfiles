@@ -29,6 +29,10 @@
                     <td>Editor</td>
                     <td><a href="https://neovim.io">Neovim</a></td>
                 </tr>
+                <tr>
+                    <td>File&nbspManager</td>
+                    <td><a href="https://github.com/gokcehan/lf">lf</a></td>
+                </tr>
             </table>
         </td>
         <td>
