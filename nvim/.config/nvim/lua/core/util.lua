@@ -333,20 +333,23 @@ end
 --     group = "format_on_save_status",
 -- })
 --
--- -- ############################################################################
--- M.ToggleQFList = function()
---     if vim.g.qflist_global == 1 then
+-- ############################################################################
+-- FIX: toggle doesn't work properly yet, so I'll just use <C-q> to open and q to close
+
+-- M.toggle_quickfix = function()
+--     if vim.g.qflist_open then
 --         vim.cmd.cclose()
 --     else
 --         vim.cmd.copen()
 --     end
 -- end
--- Autocommands for QuickFixList
+
+-- -- Autocommands for QuickFixList
 -- local quickfix_toggle = vim.api.nvim_create_augroup("quickfix_toggle", { clear = true })
 -- vim.api.nvim_create_autocmd("BufWinEnter", {
 --     pattern = "quickfix",
 --     callback = function()
---         vim.g.qflist_global = 1
+--         vim.g.qflist_open = true
 --     end,
 --     desc = "Update quickfixlist status variable on open",
 --     group = quickfix_toggle,
@@ -354,12 +357,12 @@ end
 -- vim.api.nvim_create_autocmd("BufWinLeave", {
 --     pattern = "*",
 --     callback = function()
---         vim.g.qflist_global = 0
+--         vim.g.qflist_open = false
 --     end,
 --     desc = "Update quickfixlist status variable on close",
 --     group = quickfix_toggle,
 -- })
--- -- ############################################################################
+-- ############################################################################
 
 --- Empty all Registers
 function M.empty_registers()
@@ -374,10 +377,12 @@ function M.toggle_executable()
     local file = vim.fn.expand("%:p")
     vim.cmd.write()
     if vim.fn.executable(file) == 0 then
-        vim.fn.jobstart({ "chmod", "+x", file })
+        ---@diagnostic disable-next-line: assign-type-mismatch
+        vim.system({"chmod", "+x", file }):wait()
         notify("This file is now executable", "Executer")
     else
-        vim.fn.jobstart({ "chmod", "-x", file })
+        ---@diagnostic disable-next-line: assign-type-mismatch
+        vim.system({"chmod", "-x", file }):wait()
         notify("This file is now not executable", "Executer")
     end
 end

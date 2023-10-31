@@ -15,7 +15,7 @@ fi
 read -rep "Enter Query: " query
 
 # if a language was selected
-if grep -qs "$selected" $chtsh_langs; then
+if grep -qsw "$selected" $chtsh_langs; then
     query=$(echo "$query" | tr ' ' '+')
     # if in tmux
     if [ -n "$TMUX" ]; then
