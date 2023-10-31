@@ -12,24 +12,31 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-read -p "Enter Query: " query
+read -rep "Enter Query: " query
 
-# Check if a language was selected; grep -q for quiet and -s for no messages
+# if a language was selected
 if grep -qs "$selected" $chtsh_langs; then
     query=$(echo "$query" | tr ' ' '+')
-    # Check if in tmux
+    # if in tmux
     if [ -n "$TMUX" ]; then
-        # tmux neww bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query & while [ : ]; do sleep 1; done"
         tmux split-window -h bash -c "curl cht.sh/$selected/$query | less -R"
     else
-        # bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query"
-        bash -c "curl cht.sh/$selected/$query | less -R"
+        curl "cht.sh/$selected/$query" | less -R
     fi
 else
-    if [ -n "$TMUX" ]; then
-        # tmux neww bash -c "curl -s cht.sh/$selected~$query | less -R"
-        tmux split-window -h bash -c "curl -s cht.sh/$selected~$query | less -R"
+    # allow empty queries for commands
+    if [[ -n $query ]]; then
+        if [ -n "$TMUX" ]; then
+            tmux split-window -h bash -c "curl -s cht.sh/$selected~$query | less -R"
+        else
+            curl -s "cht.sh/$selected~$query" | less -R
+        fi
     else
-        bash -c "curl -s cht.sh/$selected~$query | less -R"
+        if [ -n "$TMUX" ]; then
+            tmux split-window -h bash -c "curl -s cht.sh/$selected | less -R"
+        else
+            curl -s "cht.sh/$selected" | less -R
+        fi
     fi
+
 fi
