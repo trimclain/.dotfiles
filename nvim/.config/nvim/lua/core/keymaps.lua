@@ -93,25 +93,25 @@ keymap("n", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
 keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- stylua: ignore start
-keymap("n", "gx", function() require("core.util").open_url() end, add_desc("Open URL under cursor"))
-keymap("n", "gX", function() require("core.util").open_github_url() end, add_desc("Open Github URL under cursor"))
-keymap("n", "<leader>re", function() require("core.util").empty_registers() end, add_desc("Empty registers"))
-keymap("n", "<leader>mx", function() require("core.util").toggle_executable() end, add_desc("Make Current File Executable"))
+keymap("n", "gx", function() Util.open_url() end, add_desc("Open URL under cursor"))
+keymap("n", "gX", function() Util.open_github_url() end, add_desc("Open Github URL under cursor"))
+keymap("n", "<leader>re", function() Util.empty_registers() end, add_desc("Empty registers"))
+keymap("n", "<leader>mx", function() Util.toggle_executable() end, add_desc("Make Current File Executable"))
 
 -- Toggles
-keymap("n", "<leader>ow", function() require("core.util").toggle_option("wrap") end, add_desc("Toggle Current Buffer Line Wrap"))
-keymap("n", "<leader>on", function() require("core.util").toggle_option("number") end, add_desc("Toggle Current Buffer Line Numbers"))
-keymap("n", "<leader>or", function() require("core.util").toggle_option("relativenumber") end, add_desc("Toggle Current Buffer Relative Numbers"))
-keymap("n", "<leader>ol", function() require("core.util").toggle_option("cursorline") end, add_desc("Toggle Current Buffer Cursorline"))
-keymap("n", "<leader>os", function() require("core.util").toggle_option("spell") end, add_desc("Toggle Current Buffer Spell"))
-keymap("n", "<leader>ot", function() require("core.util").toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
-keymap("n", "<leader>od", function() require("core.util").toggle_diagnostics() end, add_desc("Toggle LSP Diagnostics"))
+keymap("n", "<leader>ow", function() Util.toggle_option("wrap") end, add_desc("Toggle Current Buffer Line Wrap"))
+keymap("n", "<leader>on", function() Util.toggle_option("number") end, add_desc("Toggle Current Buffer Line Numbers"))
+keymap("n", "<leader>or", function() Util.toggle_option("relativenumber") end, add_desc("Toggle Current Buffer Relative Numbers"))
+keymap("n", "<leader>ol", function() Util.toggle_option("cursorline") end, add_desc("Toggle Current Buffer Cursorline"))
+keymap("n", "<leader>os", function() Util.toggle_option("spell") end, add_desc("Toggle Current Buffer Spell"))
+keymap("n", "<leader>ot", function() Util.toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
+keymap("n", "<leader>od", function() Util.toggle_diagnostics() end, add_desc("Toggle LSP Diagnostics"))
 
 if CONFIG.ui.illuminate then
     keymap("n", "<leader>oi", function() require("illuminate").toggle() end, add_desc("Toggle Vim Illuminate"))
 end
 
-keymap("n", "<leader>fp", function() require("core.util").open_project() end, add_desc("Open Project"))
+keymap("n", "<leader>fp", function() Util.open_project() end, add_desc("Open Project"))
 -- stylua: ignore end
 
 -------------------------------------------------------------------------------
@@ -122,10 +122,10 @@ keymap("n", "<leader>ps", "<cmd>Lazy sync<cr>", add_desc("Lazy Sync"))
 keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>", add_desc("Lazy Profile"))
 keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using lazy-lock.json"))
 
--- " QuickFixList Stuff
--- keymap("n", "<up>", ":cprev<CR>zz", opts)
--- keymap("n", "<down>", ":cnext<CR>zz", opts)
--- keymap("n", "<C-q>", "<cmd>lua require('core.utils').ToggleQFList()<CR>", opts)
+-- QuickFixList
+keymap("n", "<leader>k", "<cmd>cprev<cr>zz", add_desc("Next item in QuickFixList"))
+keymap("n", "<leader>j", "<cmd>cnext<cr>zz", add_desc("Previous item in QuickFixList"))
+keymap("n", "<C-q>", function() vim.cmd.copen() end, add_desc("Open QuickFixList"))
 
 -------------------------------------------------------------------------------
 -- Commands
