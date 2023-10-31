@@ -95,7 +95,6 @@ keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 -- stylua: ignore start
 keymap("n", "gx", function() Util.open_url() end, add_desc("Open URL under cursor"))
 keymap("n", "gX", function() Util.open_github_url() end, add_desc("Open Github URL under cursor"))
-keymap("n", "<leader>re", function() Util.empty_registers() end, add_desc("Empty registers"))
 keymap("n", "<leader>mx", function() Util.toggle_executable() end, add_desc("Make Current File Executable"))
 
 -- Toggles
@@ -125,6 +124,7 @@ keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using 
 -- QuickFixList
 keymap("n", "<leader>k", "<cmd>cprev<cr>zz", add_desc("Next item in QuickFixList"))
 keymap("n", "<leader>j", "<cmd>cnext<cr>zz", add_desc("Previous item in QuickFixList"))
+-- stylua: ignore
 keymap("n", "<C-q>", function() vim.cmd.copen() end, add_desc("Open QuickFixList"))
 
 -------------------------------------------------------------------------------
@@ -136,3 +136,15 @@ vim.api.nvim_create_user_command(
     ":update<cr> :e ++ff=dos<cr> :setlocal ff=unix<cr> :w<cr>",
     { desc = "Change fileformat from dos to unix" }
 )
+
+-- enable building with color
+vim.api.nvim_create_user_command("BuildWithColor", function()
+    keymap("n", "<C-b>", function()
+        require("builder").build({ color = true })
+    end)
+end, { desc = "Remap <C-b> to build with color" })
+
+-- clear registers in vim
+vim.api.nvim_create_user_command("EmptyRegisters", function()
+    Util.empty_registers()
+end, { desc = "Empty :registers" })
