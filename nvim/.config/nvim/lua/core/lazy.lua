@@ -38,16 +38,17 @@ require("lazy").setup("plugins", {
     },
     performance = {
         rtp = {
+            -- disable builtin plugins I don't use
             disabled_plugins = {
-                "gzip",
-                "matchit",
-                "matchparen",
-                "netrwPlugin",
-                "rplugin",
-                "tarPlugin",
-                "tohtml",
-                "tutor",
-                "zipPlugin",
+                "gzip", -- read *.Z, *.gz, *.bz2, *.lzma, *.xz, *.lz and *.zst files in vim
+                -- "matchit", -- better % matches
+                "matchparen", -- highlight matching parentheses
+                "netrwPlugin", -- builtin file explorer
+                "rplugin", -- remote plugin support
+                "tarPlugin", -- read *.tar files in vim
+                "tohtml", -- convert current window to html
+                "tutor", -- vim tutor
+                "zipPlugin", -- read *.zip files in vim
             },
         },
     },
