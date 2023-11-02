@@ -333,36 +333,22 @@ end
 --     group = "format_on_save_status",
 -- })
 --
--- ############################################################################
--- FIX: toggle doesn't work properly yet, so I'll just use <C-q> to open and q to close
 
--- M.toggle_quickfix = function()
---     if vim.g.qflist_open then
---         vim.cmd.cclose()
---     else
---         vim.cmd.copen()
---     end
--- end
-
--- -- Autocommands for QuickFixList
--- local quickfix_toggle = vim.api.nvim_create_augroup("quickfix_toggle", { clear = true })
--- vim.api.nvim_create_autocmd("BufWinEnter", {
---     pattern = "quickfix",
---     callback = function()
---         vim.g.qflist_open = true
---     end,
---     desc = "Update quickfixlist status variable on open",
---     group = quickfix_toggle,
--- })
--- vim.api.nvim_create_autocmd("BufWinLeave", {
---     pattern = "*",
---     callback = function()
---         vim.g.qflist_open = false
---     end,
---     desc = "Update quickfixlist status variable on close",
---     group = quickfix_toggle,
--- })
--- ############################################################################
+-- Inspired by https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/keymaps.lua
+M.toggle_quickfix = function()
+    -- ignore error messages and restore the cursor to the original window when opening the list
+    local silent_mods = { mods = { silent = true, emsg_silent = true } }
+    if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+        vim.cmd.cclose(silent_mods)
+    -- elseif #vim.fn.getqflist() > 0 then
+    else
+        -- local win = vim.api.nvim_get_current_win()
+        vim.cmd.copen(silent_mods)
+        -- if win ~= vim.api.nvim_get_current_win() then
+        --     vim.cmd.wincmd("p")
+        -- end
+    end
+end
 
 --- Empty all Registers
 function M.empty_registers()
@@ -378,11 +364,11 @@ function M.toggle_executable()
     vim.cmd.write()
     if vim.fn.executable(file) == 0 then
         ---@diagnostic disable-next-line: assign-type-mismatch
-        vim.system({"chmod", "+x", file }):wait()
+        vim.system({ "chmod", "+x", file }):wait()
         notify("This file is now executable", "Executer")
     else
         ---@diagnostic disable-next-line: assign-type-mismatch
-        vim.system({"chmod", "-x", file }):wait()
+        vim.system({ "chmod", "-x", file }):wait()
         notify("This file is now not executable", "Executer")
     end
 end
