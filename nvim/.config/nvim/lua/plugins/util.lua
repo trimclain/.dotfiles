@@ -99,7 +99,6 @@ return {
         },
     },
 
-    -- TODO:?
     -- preview print statement outputs in neovim (for JS, TS, Python and Lua)
     -- {
     --     "0x100101/lab.nvim",

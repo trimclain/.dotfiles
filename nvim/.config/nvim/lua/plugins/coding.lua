@@ -490,7 +490,7 @@ return {
         "Wansmer/treesj",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         keys = {
-            { "<leader>sj", "<cmd>TSJToggle<cr>", desc = "Join Toggle" },
+            { "gs", "<cmd>TSJToggle<cr>", desc = "Toggle SplitJoin" }, -- defailt gs is :sleep (kinda useless)
         },
         opts = { use_default_keymaps = false, max_join_length = 150 },
     },
