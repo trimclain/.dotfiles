@@ -17,9 +17,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
             -- higroup = "Substitute",
             -- higroup = "Search",
             higroup = "Visual",
-            timeout = 70,
+            timeout = 75,
             on_macro = true,
             on_visual = true,
+            priority = 250,
         })
     end,
     desc = "Highlight text on yank",
@@ -41,11 +42,12 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 
 -- Restore cursor position
 vim.api.nvim_create_autocmd("BufReadPost", {
-    callback = function()
+    callback = function(event)
         unpack = unpack or table.unpack
-        local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"')) -- when this is available, change unpack to table.unpack
-        if row > 0 and row <= vim.api.nvim_buf_line_count(0) then
+        local row, col = unpack(vim.api.nvim_buf_get_mark(event.buf, '"')) -- when this is available, change unpack to table.unpack
+        if row > 0 and row <= vim.api.nvim_buf_line_count(event.buf) then
             vim.api.nvim_win_set_cursor(0, { row, col })
+            vim.cmd.normal("zz")
         end
     end,
     desc = "Return to last known cursor position",

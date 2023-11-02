@@ -436,13 +436,16 @@ return {
     -- indent guides for Neovim
     {
         "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
         event = { "BufReadPost", "BufNewFile" },
+        -- for setting shiftwidth and tabstop automatically
+        -- dependencies = "tpope/vim-sleuth",
         cond = CONFIG.ui.indentline,
         opts = {
             indent = {
-                char = "▏",
+                char = require("core.icons").ui.LineLeft,
                 -- char = "│",
-                tab_char = "▏",
+                tab_char = require("core.icons").ui.LineLeft,
                 -- tab_char = "│",
             },
             scope = { enabled = false },
@@ -461,7 +464,6 @@ return {
                 },
             },
         },
-        main = "ibl",
     },
 
     -- active indent guide and indent text objects
@@ -471,7 +473,7 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         cond = CONFIG.ui.indentline,
         opts = {
-            symbol = "▏",
+            symbol = require("core.icons").ui.LineLeft,
             -- symbol = "│",
             options = { try_as_border = true },
         },

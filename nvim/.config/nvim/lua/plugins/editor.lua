@@ -389,13 +389,12 @@ return {
                 ["<leader>o"] = { name = "+options" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
+                ["<leader>s"] = { name = "+splitjoin" },
                 ["<leader>t"] = { name = "+terminal/test" },
                 -- ["<leader>v"] = { name = "+tbd" },
                 -- ["<leader>h"] = { name = "+tbd" },
-                -- ["<leader>s"] = { name = "+tbd" },
                 -- ["<leader>x"] = { name = "+tbd" },
                 -- ["<leader>c"] = { name = "+tbd" },
-                -- ["<leader>b"] = { name = "+tbd" },
             }
             -- if Util.has_plugin("noice.nvim") then
             --   nkeymaps["<leader>sn"] = { name = "+noice" }
