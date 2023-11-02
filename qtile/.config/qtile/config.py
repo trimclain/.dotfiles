@@ -47,8 +47,8 @@ bar_defaults = dict(
 )
 
 floating_layout_defaults = {
-    "border_focus": arch_color,
-    # "border_focus": "#E1ACFF",  # dt colors
+    # "border_focus": arch_color,
+    "border_focus": "#E1ACFF",  # dt colors
     "border_normal": "#1D2330",
     # "border_focus": "#F07178",  # my awesome colors
     # "border_normal": "#282a36"
@@ -57,6 +57,7 @@ floating_layout_defaults = {
 
 layout_defaults = floating_layout_defaults.copy()
 layout_defaults.update({
+    "border_focus": arch_color,
     "margin": 8,  # gaps
 })
 
@@ -650,7 +651,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-    ]
+    ], **floating_layout_defaults
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
