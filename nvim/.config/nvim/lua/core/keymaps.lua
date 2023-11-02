@@ -40,14 +40,16 @@ keymap("i", "<C-c>", "<Esc>", opts) -- insert mode again, coz doesn't work above
 
 --
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<cr>", opts)
-keymap("n", "<S-h>", ":bprevious<cr>", opts)
+keymap("n", "[b", "<cmd>bprevious<cr>", add_desc("Prev Buffer"))
+keymap("n", "]b", "<cmd>bnext<cr>", add_desc("Next Buffer"))
 
--- TODO: switch to navigate tabs
--- -- Tab navigation.
--- vim.keymap.set('n', '<leader>tc', '<cmd>tabclose<cr>', { desc = 'Close tab page' })
--- vim.keymap.set('n', '<leader>tn', '<cmd>tab split<cr>', { desc = 'New tab page' })
--- vim.keymap.set('n', '<leader>to', '<cmd>tabonly<cr>', { desc = 'Close other tab pages' })
+--
+-- Tab navigation.
+keymap("n", "<leader>Q", "<cmd>tabclose<cr>", add_desc("Quit Tab Page"))
+keymap("n", "<leader>tc", "<cmd>tab split<cr>", add_desc("Create Tab Page"))
+keymap("n", "<leader>to", "<cmd>tabonly<cr>", add_desc("Close other Tab Pages"))
+keymap("n", "<S-h>", "<cmd>tabprevious<cr>", add_desc("Next Tab Page"))
+keymap("n", "<S-l>", "<cmd>tabnext<cr>", add_desc("Prev Tab Page"))
 
 --
 -- Resizing: Use Ctrl + arrows to resize buffers

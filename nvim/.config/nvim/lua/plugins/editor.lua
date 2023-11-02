@@ -390,7 +390,7 @@ return {
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
                 ["<leader>s"] = { name = "+splitjoin" },
-                ["<leader>t"] = { name = "+terminal/test" },
+                ["<leader>t"] = { name = "+tab/terminal" },
                 -- ["<leader>v"] = { name = "+tbd" },
                 -- ["<leader>h"] = { name = "+tbd" },
                 -- ["<leader>x"] = { name = "+tbd" },
