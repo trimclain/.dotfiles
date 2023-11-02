@@ -19,12 +19,13 @@ else
 fi
 
 # " Logout", " Reboot"
-choice=$(printf " Logout\n Suspend\n Reboot\n Shutdown" | "${MENU[@]}")
+choice=$(printf " Logout\n Reboot\n Shutdown" | "${MENU[@]}")
+# choice=$(printf " Logout\n Suspend\n Reboot\n Shutdown" | "${MENU[@]}")
 
 if [[ "$choice" == " Logout" ]]; then
     loginctl kill-user "$UID"
-elif [[ "$choice" == " Suspend" ]]; then
-    systemctl suspend
+# elif [[ "$choice" == " Suspend" ]]; then
+#     systemctl suspend
 elif [[ "$choice" == " Reboot" ]]; then
     systemctl reboot
 elif [[ "$choice" == " Shutdown" ]]; then
