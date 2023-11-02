@@ -190,11 +190,11 @@ return {
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
     {
-        "jose-elias-alvarez/null-ls.nvim",
-        -- Possible replacement plugins:
-        -- - "nvimtools/none-ls.nvim" -- same thing but maintained
-        -- - "stevearc/conform.nvim" -- formatters
-        -- - "mfussenegger/nvim-lint" -- linters
+        "nvimtools/none-ls.nvim",
+        -- TODO: someday
+        -- Use these replacement plugins:
+        -- "stevearc/conform.nvim" -- for formatters
+        -- "mfussenegger/nvim-lint" -- for linters
         event = { "BufReadPre", "BufNewFile" },
         dependencies = { "mason.nvim" },
         opts = function()
