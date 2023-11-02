@@ -438,41 +438,29 @@ return {
         "lukas-reineke/indent-blankline.nvim",
         event = { "BufReadPost", "BufNewFile" },
         cond = CONFIG.ui.indentline,
-        opts = function()
-            -- Next lines add the ↲ sign at the EOL
-            vim.opt.list = true
-            -- vim.opt.listchars:append "space:⋅"
-            -- vim.opt.listchars:append "space:"
-            -- vim.opt.listchars:append ("eol:↴")
-            -- vim.opt.listchars:append ("eol:﬋")
-            -- vim.opt.listchars:append ("eol:⤶")
-            vim.opt.listchars:append("eol:↲")
-            -- To set or unset the char for a trailing space (default is "trail:-")
-            vim.opt.listchars:append("trail: ") -- currently it's unset
-            return {
-                indent = {
-                    char = "▏",
-                    -- char = "│",
-                    tab_char = "▏",
-                    -- tab_char = "│",
+        opts = {
+            indent = {
+                char = "▏",
+                -- char = "│",
+                tab_char = "▏",
+                -- tab_char = "│",
+            },
+            scope = { enabled = false },
+            exclude = {
+                filetypes = {
+                    "Trouble",
+                    "alpha",
+                    "dashboard",
+                    "lazy",
+                    "mason",
+                    "neo-tree",
+                    "notify",
+                    "neogitstatus",
+                    "undotree",
+                    "toggleterm",
                 },
-                scope = { enabled = false },
-                exclude = {
-                    filetypes = {
-                        "Trouble",
-                        "alpha",
-                        "dashboard",
-                        "lazy",
-                        "mason",
-                        "neo-tree",
-                        "notify",
-                        "neogitstatus",
-                        "undotree",
-                        "toggleterm",
-                    },
-                },
-            }
-        end,
+            },
+        },
         main = "ibl",
     },
 

@@ -54,48 +54,91 @@ if vim.fn.has("nvim-0.9.0") == 1 then
     vim.opt.splitkeep = "screen"
 end
 
+-----------------------------------------------------------------------------------------------------------------------
 -- Settings for Neovide or GUI nvim
+-----------------------------------------------------------------------------------------------------------------------
 if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
     vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
-    vim.api.nvim_create_user_command(
-        "FontSize",
-        function(cmd)
-            local current_font = vim.opt.guifont._value
-            -- no gui font set (shouldn't be the case but still checking)
-            if current_font == "" then
+    vim.api.nvim_create_user_command("FontSize", function(cmd)
+        local current_font = vim.o.guifont
+        -- no gui font set (shouldn't be the case but still checking)
+        if current_font == "" then
+            return
+        end
+
+        local parts = vim.split(vim.trim(cmd.args), "%s+")
+        -- more than 1 argument
+        if #parts > 1 then
+            return
+        end
+
+        local font_parts = vim.split(current_font, ":")
+        if #parts == 1 and parts[1] ~= "" then
+            -- argument not a number
+            if not tonumber(parts[1]) then
                 return
             end
-
-            local parts = vim.split(vim.trim(cmd.args), "%s+")
-            -- more than 1 argument
-            if #parts > 1 then
-                return
-            end
-
-            local font_parts = vim.split(current_font, ":")
-            if #parts == 1 and parts[1] ~= "" then
-                -- argument not a number
-                if not tonumber(parts[1]) then
-                    return
-                end
-                -- set the font size to the given one
-                vim.opt.guifont = font_parts[1] .. ":h" .. parts[1]
-            else
-                -- toggle sizes between 14 and 12
-                local new_size = font_parts[2] == "h14" and "h12" or "h14"
-                vim.opt.guifont = font_parts[1] .. new_size
-            end
-        end,
-        { nargs = "?", desc = "Update gui font size" }
-    )
+            -- set the font size to the given one
+            vim.opt.guifont = font_parts[1] .. ":h" .. parts[1]
+        else
+            -- toggle sizes between 14 and 12
+            local new_size = font_parts[2] == "h14" and "h12" or "h14"
+            vim.opt.guifont = font_parts[1] .. new_size
+        end
+    end, { nargs = "?", desc = "Update gui font size" })
 end
 if vim.g.neovide then
     vim.g.neovide_transparency = 0.95
     -- vim.g.neovide_cursor_trail_legnth = 0
     -- vim.g.neovide_cursor_animation_length = 0
 end
+-----------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------
+-- UI characters
+-----------------------------------------------------------------------------------------------------------------------
+-- List mode (`:h 'list'`)
+vim.opt.list = true
+-- vim.opt.listchars:append "space:⋅" -- "␣", "", ""
+vim.opt.listchars:append("eol:↲") -- "↴", "⤶", ""
+-- To set or unset the char for a trailing space (default is "trail:-")
+vim.opt.listchars:append("trail: ") -- currently it's unset
+-- vim.opt.listchars:append("tab=  ")
+vim.opt.listchars:append("tab=󰌒 ")
+
+local icons = require("core.icons").ui
+-- fillchars (`:h 'fillchars'`)
+vim.opt.fillchars = {
+    eob = " ", -- empty lines at the end of a buffer
+    -- fold = " ", -- filling 'foldtext'
+    foldopen = icons.ArrowOpen, -- mark the beginning of a fold
+    foldclose = icons.ArrowClosed, -- show a closed fold
+    foldsep = " ", -- open fold middle marker
+    -- msgsep = "─", -- message separator 'display'
+}
+-----------------------------------------------------------------------------------------------------------------------
+
+-- Folding.
+vim.o.foldcolumn = "1"
+vim.o.foldlevelstart = 0 -- 0 (all folds closed), 1 (some folds closed), 99 (no folds closed)
+-- vim.o.foldmethod = "expr" -- "manual", "indent", "expr", "marker", "syntax", "diff",
+-- vim.wo.foldtext = 'v:lua.vim.treesitter.foldtext()'
+-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+
+-- Diff mode settings.
+-- Setting the context to a very large number disables folding.
+-- vim.opt.diffopt:append 'vertical,context:99'
+
+-- Disable search count wrap and startup messages
+vim.opt.shortmess:append { s = true, I = true }
+
+-- Disable health checks for these providers.
+-- vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
 
 -- "o" gets overwritten on startup, so I have an autocommand to fix it
 -- see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
