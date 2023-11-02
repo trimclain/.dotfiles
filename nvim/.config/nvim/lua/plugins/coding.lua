@@ -22,7 +22,14 @@ return {
             luasnip.filetype_extend("typescriptreact", { "javascript", "html" }) -- add js and html snippets to tsx
 
             -- my own snippets
-            require("snippets")
+            require("luasnip.loaders.from_lua").lazy_load({
+                paths = {
+                    -- Load local snippets if present
+                    -- vim.fn.getcwd() .. "/.snippets",
+                    -- Global snippets
+                    vim.fn.stdpath("config") .. "/snippets",
+                },
+            })
         end,
         keys = {
             {
