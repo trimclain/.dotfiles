@@ -34,9 +34,9 @@ stty -ixon
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 ###############################################################################
 # Zsh Settings
@@ -408,11 +408,20 @@ fi
 # Enable zap
 [ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
 
-# Load the theme.
-source "$ZDOTDIR/plugins/colors/spaceship.zsh"
-plug "spaceship-prompt/spaceship-prompt"
+##################################################
+# Colorscheme
+##################################################
+# Spaceship
+# plug "spaceship-prompt/spaceship-prompt"
+# source "$ZDOTDIR/plugins/colors/spaceship.zsh"
+
+# Zap Prompt
 # plug "zap-zsh/zap-prompt"
-# plug "romkatv/powerlevel10k"
+
+# Powerlevel10k Spaceship
+plug "romkatv/powerlevel10k"
+source "$ZDOTDIR/plugins/colors/p10k-spaceship.zsh"
+##################################################
 
 # Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
@@ -424,8 +433,5 @@ plug "rupa/z"
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
 
-# Syntax highlighting (should be last one)
+# Syntax highlighting (should be the last one)
 plug "zsh-users/zsh-syntax-highlighting"
-
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-# [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
