@@ -27,7 +27,7 @@ from libqtile.log_utils import logger
 mod = "mod1"
 alt = "mod4"
 
-terminal = "kitty"
+terminal = "alacritty" # "wezterm", "kitty", "alacritty"
 
 browser = "thorium-browser"
 if shutil.which(browser) is None:
@@ -120,8 +120,15 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
 
+    # Terminal
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+    # Browser
+    Key(
+        [mod],
+        "b",
+        lazy.spawn([browser, " --profile-directory=Default"]),
+        desc="Launch browser"
+    ),
 
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload config"),
     Key([mod, "shift"], "e", lazy.shutdown(), desc="Exit Qtile"),
@@ -276,20 +283,20 @@ keys = [
     ]),
 
     # Browser Profiles
-    KeyChord([mod], "b", [
-        Key(
-            [],
-            "1",
-            lazy.spawn([browser, " --profile-directory=Default"]),
-            desc="Launch browser with the default profile"
-        ),
-        Key(
-            [],
-            "2",
-            lazy.spawn([browser, "--profile-directory=Profile 1"]),
-            desc="Launch browser with the second profile"
-        ),
-    ]),
+    # KeyChord([mod], "b", [
+    #     Key(
+    #         [],
+    #         "1",
+    #         lazy.spawn([browser, " --profile-directory=Default"]),
+    #         desc="Launch browser with the default profile"
+    #     ),
+    #     Key(
+    #         [],
+    #         "2",
+    #         lazy.spawn([browser, "--profile-directory=Profile 1"]),
+    #         desc="Launch browser with the second profile"
+    #     ),
+    # ]),
 
     # System control
     # KeyChord([mod], "0", [

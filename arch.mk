@@ -167,6 +167,11 @@ awesome:
 	@echo "==================================================================="
 	$(INSTALL) awesome dmenu rofi slock dunst picom feh nitrogen polybar
 
+qtile:
+	@echo "==================================================================="
+	@# Install qtile, python-psutil (for cpu widget and more)
+	$(INSTALL) qtile python-psutil dmenu rofi slock dunst picom feh nitrogen
+
 # TODO:
 hyprland:
 	@echo "==================================================================="
@@ -176,12 +181,10 @@ hyprland:
 	@# Install waybar (statusbar) and swaybg (set wallpaper)
 	$(INSTALL) waybar swaybg
 
-qtile:
-	@echo "==================================================================="
-	@# Install qtile, python-psutil (for cpu widget and more)
-	$(INSTALL) qtile python-psutil dmenu rofi slock dunst picom feh nitrogen
-
 #======================================== Terminal ================================================
+alacritty:
+	$(INSTALL) alacritty
+
 kitty:
 	@echo "==================================================================="
 	@# imagemagick is required to display uncommon image formats in kitty
@@ -260,6 +263,8 @@ apps: ## Install btop, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv,
 	@make thorium
 	@make telegram
 
+# Remote Desktop Connection: AnyDesk, RustDesk
+
 #==================================================================================================
 install: ## Setup arch after new installation
 	@echo "==================================================================="
@@ -299,8 +304,8 @@ install: ## Setup arch after new installation
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide uninstall_neovide\
 	zsh zap\
-	awesome hyprland qtile\
-	kitty wezterm\
+	awesome qtile hyprland\
+	alacritty kitty wezterm\
 	brave chrome thorium telegram discord spotify vscodium office\
 	anki uninstall_anki pomo uninstall_pomo\
 	apps\
