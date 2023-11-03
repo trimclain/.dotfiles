@@ -26,16 +26,23 @@
 # in that folder are managed by zap.
 ###############################################################################
 
+# Colorscheme
+# Easy to change colorscheme by changing the value of $_PROMT_THEME
+# Available colorschemes: spaceship, p10k-spaceship, zap
+_PROMT_THEME="p10k"
+
 # Disable XON/XOFF flow control (ctrl-s to freeze, ctrl-q to unfreeze)
 # This should come before powerlevel10k instant promt feature
 stty -ixon
 # stty start undef stop undef
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ "$_PROMT_THEME" == "p10k" ]]; then
+    # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+    # Initialization code that may require console input (password prompts, [y/n]
+    # confirmations, etc.) must go above this block; everything else may go below.
+    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+        source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    fi
 fi
 
 ###############################################################################
@@ -405,23 +412,22 @@ fi
 # Plugins
 ###############################################################################
 
-# Enable zap
+# Enable zap (https://github.com/zap-zsh/zap)
 [ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
 
-##################################################
-# Colorscheme
-##################################################
-# Spaceship
-# plug "spaceship-prompt/spaceship-prompt"
-# source "$ZDOTDIR/plugins/colors/spaceship.zsh"
-
-# Zap Prompt
-# plug "zap-zsh/zap-prompt"
-
-# Powerlevel10k Spaceship
-plug "romkatv/powerlevel10k"
-source "$ZDOTDIR/plugins/colors/p10k-spaceship.zsh"
-##################################################
+# Set Promt Colors
+if [[ "$_PROMT_THEME" == "spaceship" ]]; then
+    # Spaceship
+    source "$ZDOTDIR/plugins/colors/spaceship.zsh"
+    plug "spaceship-prompt/spaceship-prompt"
+elif [[ "$_PROMT_THEME" == "p10k" ]]; then
+    # Powerlevel10k Spaceship
+    source "$ZDOTDIR/plugins/colors/p10k-spaceship.zsh"
+    plug "romkatv/powerlevel10k"
+elif [[ "$_PROMT_THEME" == "zap" ]]; then
+    # Zap Prompt
+    plug "zap-zsh/zap-prompt"
+fi
 
 # Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"

@@ -111,7 +111,7 @@
 
     # =========================[ Line #2 ]=========================
     newline                 # \n
-    status                  # exit code of the last command
+    # status                  # exit code of the last command
     prompt_char             # prompt symbol
   )
 
@@ -382,6 +382,7 @@
   #
   # VCS_STATUS_* parameters are set by gitstatus plugin. See reference:
   # https://github.com/romkatv/gitstatus/blob/master/gitstatus.plugin.zsh.
+  # TODO: make it look like spaceshipt: [!?] instead of !2 ?1
   function my_git_formatter() {
     emulate -L zsh
 
@@ -395,9 +396,9 @@
     if (( $1 )); then
       # Styling for up-to-date Git status.
       local       meta='%f'   # default foreground
-      local      clean='%2F'  # green foreground
-      local   modified='%3F'  # yellow foreground
-      local  untracked='%4F'  # blue foreground
+      local      clean='%5F'  # magenta foreground
+      local   modified='%1F'  # red foreground
+      local  untracked='%1F'  # red foreground
       local conflicted='%1F'  # red foreground
     else
       # Styling for incomplete and stale Git status.
@@ -526,8 +527,8 @@
   # These settings are used for repositories other than Git or when gitstatusd fails and
   # Powerlevel10k has to fall back to using vcs_info.
   typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=2
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=2
-  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=3
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=1
+  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=1
 
   ##########################[ status: exit code of the last command ]###########################
   # Enable OK_PIPE, ERROR_PIPE and ERROR_SIGNAL status states to allow us to enable, disable and
