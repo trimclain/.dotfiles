@@ -27,7 +27,7 @@ from libqtile.log_utils import logger
 mod = "mod1"
 alt = "mod4"
 
-terminal = "alacritty" # "wezterm", "kitty", "alacritty"
+terminal = "alacritty" # "alacritty", "kitty", "wezterm"
 
 browser = "thorium-browser"
 if shutil.which(browser) is None:

@@ -15,8 +15,9 @@
 
 -- Why I stopped using wezterm for now:
 -- 1. After I do `nohup xdg-open "$filename" &>/dev/null &` some number of times, my PC freezes when I exit wezterm
---      There might be fixed, if I set "no_hup and no_check_jobs" options in zshrc
--- 2. When changing the font size, it also changes the windows size (can be fixed by maximizing the window)
+--    This might be fixed, if I set "no_hup and no_check_jobs" options in zshrc
+-- 2. Only on AwesomeWM: When changing the font size, it also changes the windows size (can be fixed by maximizing the window)
+-- 3. On Qtile: Extremely Slow
 
 -- As soon as these things get fixed, I'm coming back to it
 -- Reasons:
@@ -67,24 +68,25 @@ local fonts = {
     "DejaVuSansM Nerd Font",
     "JetBrains Mono", -- pre-installed
 }
-config.font = wezterm.font_with_fallback({ fonts[2], fonts[#fonts - 1], fonts[#fonts] })
+-- config.font = wezterm.font_with_fallback({ fonts[2], fonts[#fonts - 1], fonts[#fonts] })
 config.font_size = 13.0
 
--- local cascadia_code = {
---     { family = "Cascadia Code", weight = "Light", stretch = "Normal", style = "Normal" },
---     { family = "Cascadia Code", weight = "Light", stretch = "Normal", style = "Italic" },
---     { family = "Cascadia Code", weight = "DemiBold", stretch = "Normal", style = "Normal" },
---     { family = "Cascadia Code", weight = "DemiBold", stretch = "Normal", style = "Italic" },
--- }
--- config.font = wezterm.font_with_fallback(cascadia_code)
+local cascadia_code = {
+    { family = "Cascadia Code", weight = "DemiLight", stretch = "Normal", style = "Normal" },
+    { family = "Cascadia Code", weight = "DemiLight", stretch = "Normal", style = "Italic" },
+    { family = "Cascadia Code", weight = "DemiBold", stretch = "Normal", style = "Normal" },
+    { family = "Cascadia Code", weight = "DemiBold", stretch = "Normal", style = "Italic" },
+}
+config.font = wezterm.font_with_fallback(cascadia_code)
 
 -- config.window_background_opacity = 0.85
 -- config.color_scheme = "Catppuccin Macchiato"
 -- config.color_scheme = "GitHub Dark"
 
 -- Set background to same color as neovim
-config.colors = {}
-config.colors.background = "#21262d"
+-- config.colors = {}
+-- config.colors.background = "#21262d"
+config.color_scheme = "Campbell (Gogh)"
 
 -- https://github.com/samuelngs/apple-emoji-linux/releases/tag/v16.4
 -- local emoji_fonts={ "Apple Color Emoji", "Joypixels", "Twemoji", "Noto Color Emoji", "Noto Emoji" }
@@ -105,7 +107,10 @@ config.enable_tab_bar = false
 -- config.hide_tab_bar_if_only_one_tab= false
 -- config.enable_scroll_bar = false
 
-config.default_cursor_style = "BlinkingBar" -- SteadyBlock, BlinkingBlock, SteadyUnderline, BlinkingUnderline, SteadyBar, or BlinkingBar
+config.default_cursor_style = "SteadyBar" -- SteadyBlock, BlinkingBlock, SteadyUnderline, BlinkingUnderline, SteadyBar, or BlinkingBar
+config.animation_fps = 1
+config.cursor_blink_ease_in = 'Constant'
+config.cursor_blink_ease_out = 'Constant'
 
 config.scrollback_lines = 5000 -- default: 3500
 
