@@ -330,11 +330,12 @@ alias cp="cp -iv" \
 alias grep='grep --color=auto'
 # zsh specific syntax for checking if command exists
 if (( $+commands[eza] )); then
-    alias ls='eza --group-directories-first --icons'
+    alias ls='eza --group-directories-first --icons=always'
     alias la='ls -a'
     alias l='ls -lha'
     alias ll='ls -lh'
     alias tree='ll --tree --level=2'
+# TODO: delete some time later
 elif (( $+commands[exa] )); then
     alias ls='exa --group-directories-first --icons'
     alias la='ls -a'
