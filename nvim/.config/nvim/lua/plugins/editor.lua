@@ -44,7 +44,7 @@ return {
             },
             popup_border_style = CONFIG.ui.border,
             window = {
-                position = "left",
+                position = "float", -- left, right, float, current (like netrw)
                 width = 35,
                 mappings = {
                     ["<space>"] = "none",
