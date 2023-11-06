@@ -480,7 +480,7 @@ class Widget:
         mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
         format="{temp:.0f}{unit}",
         fmt=" {}",
-        threshold=85
+        threshold=90
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#clock

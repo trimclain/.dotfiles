@@ -101,12 +101,13 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 -- List mode (`:h 'list'`)
 vim.opt.list = true
--- vim.opt.listchars:append "space:⋅" -- "␣", "", ""
-vim.opt.listchars:append("eol:↲") -- "↴", "⤶", ""
--- To set or unset the char for a trailing space (default is "trail:-")
-vim.opt.listchars:append("trail: ") -- currently it's unset
--- vim.opt.listchars:append("tab=  ")
-vim.opt.listchars:append("tab=󰌒 ")
+vim.opt.listchars = {
+    eol = "↲", -- "↴", "⤶", ""
+    nbsp = "␣", -- ""
+    tab = "󰌒 ", -- "▸ ", " ", "󰌒 ", "<->"
+    trail = " ",
+    -- lead = "⋅", -- "␣", "", "_"
+}
 
 local icons = require("core.icons").ui
 -- fillchars (`:h 'fillchars'`)
@@ -132,7 +133,7 @@ vim.o.foldlevelstart = 0 -- 0 (all folds closed), 1 (some folds closed), 99 (no 
 -- vim.opt.diffopt:append 'vertical,context:99'
 
 -- Disable search count wrap and startup messages
-vim.opt.shortmess:append { s = true, I = true }
+vim.opt.shortmess:append({ s = true, I = true })
 
 -- Disable health checks for these providers.
 -- vim.g.loaded_python3_provider = 0
