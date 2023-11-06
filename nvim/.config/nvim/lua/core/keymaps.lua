@@ -101,9 +101,9 @@ keymap("n", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
 keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- stylua: ignore start
-keymap("n", "gx", function() Util.open_url() end, add_desc("Open URL under cursor"))
-keymap("n", "gX", function() Util.open_github_url() end, add_desc("Open Github URL under cursor"))
-keymap("n", "<leader>mx", function() Util.toggle_executable() end, add_desc("Make Current File Executable"))
+keymap("n", "gx", Util.open_url, add_desc("Open URL under cursor"))
+keymap("n", "gX", Util.open_github_url, add_desc("Open Github URL under cursor"))
+keymap("n", "<leader>mx", Util.toggle_executable, add_desc("Make Current File Executable"))
 
 -- Toggles
 keymap("n", "<leader>ow", function() Util.toggle_option("wrap") end, add_desc("Toggle Current Buffer Line Wrap"))
@@ -111,14 +111,15 @@ keymap("n", "<leader>on", function() Util.toggle_option("number") end, add_desc(
 keymap("n", "<leader>or", function() Util.toggle_option("relativenumber") end, add_desc("Toggle Current Buffer Relative Numbers"))
 keymap("n", "<leader>ol", function() Util.toggle_option("cursorline") end, add_desc("Toggle Current Buffer Cursorline"))
 keymap("n", "<leader>os", function() Util.toggle_option("spell") end, add_desc("Toggle Current Buffer Spell"))
-keymap("n", "<leader>ot", function() Util.toggle_shiftwidth() end, add_desc("Toggle Shiftwidth"))
-keymap("n", "<leader>od", function() Util.toggle_diagnostics() end, add_desc("Toggle LSP Diagnostics"))
+keymap("n", "<leader>ot", Util.toggle_shiftwidth, add_desc("Toggle Shiftwidth"))
+keymap("n", "<leader>od", Util.toggle_diagnostics, add_desc("Toggle LSP Diagnostics"))
+keymap("n", "<leader>oc", Util.toggle_conceallevel, add_desc("Toggle Conceallevel"))
 
 if CONFIG.ui.illuminate then
     keymap("n", "<leader>oi", function() require("illuminate").toggle() end, add_desc("Toggle Vim Illuminate"))
 end
 
-keymap("n", "<leader>fp", function() Util.open_project() end, add_desc("Open Project"))
+keymap("n", "<leader>fp", Util.open_project, add_desc("Open Project"))
 -- stylua: ignore end
 
 -------------------------------------------------------------------------------

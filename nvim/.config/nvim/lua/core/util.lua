@@ -146,17 +146,6 @@ M.open_project = function()
         :find()
 end
 
-local diagnostics_active = true
---- Show/Hide LSP diagnostics
-function M.toggle_diagnostics()
-    diagnostics_active = not diagnostics_active
-    if diagnostics_active then
-        vim.diagnostic.show()
-    else
-        vim.diagnostic.hide()
-    end
-end
-
 -------------------------------------------------------------------------------
 
 --- Fuzzy find in current buffer
@@ -209,15 +198,32 @@ end
 --- Change current tabstop, softtabstop and shiftwidth values between 2 and 4
 function M.toggle_shiftwidth()
     local value = get_option("shiftwidth")
-    if value == 4 then
-        value = 2
-    else
-        value = 4
-    end
+    value = value == 4 and 2 or 4
     set_option("tabstop", value) -- insert 2 or 4 spaces for \t
     set_option("softtabstop", value) -- insert 2 or 4 spaces for <Tab> and <BS> keypresses
     set_option("shiftwidth", value) -- the number of spaces inserted for each indentation level
     notify("Tab Size is set to " .. tostring(value) .. " spaces", "Tab Size Toggler")
+end
+
+--- Toggle conceallevel value between 0 and 1
+function M.toggle_conceallevel()
+    local value = get_option("conceallevel")
+    value = value == 1 and 0 or 1
+    set_option("conceallevel", value)
+    notify("Conceallevel is set to " .. tostring(value), "Conceallevel Toggler")
+end
+
+local diagnostics_active = true
+--- Show/Hide LSP diagnostics
+function M.toggle_diagnostics()
+    diagnostics_active = not diagnostics_active
+    if diagnostics_active then
+        vim.diagnostic.show()
+        notify("Diagnostics enabled", "Diagnostics Toggler")
+    else
+        vim.diagnostic.hide()
+        notify("Diagnostics disabled", "Diagnostics Toggler")
+    end
 end
 
 -------------------------------------------------------------------------------
