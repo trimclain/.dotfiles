@@ -71,6 +71,36 @@ return {
         },
     },
 
+    -- advanced note taking, project/task management
+    {
+        "nvim-neorg/neorg",
+        build = ":Neorg sync-parsers",
+        ft = "norg",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require("neorg").setup({
+                load = {
+                    ["core.defaults"] = {}, -- Loads default behaviour
+                    ["core.concealer"] = {}, -- Adds pretty icons to your documents
+                    -- ["core.dirman"] = { -- Manages Neorg workspaces
+                    --     config = {
+                    --         workspaces = {
+                    --             notes = "~/notes",
+                    --         },
+                    --     },
+                    -- },
+                    -- https://github.com/nvim-neorg/neorg/wiki/Completion#configuration
+                    -- ["core.completion"] = {
+                    --     config = { engine = "nvim-cmp" },
+                    -- },
+                },
+            })
+        end,
+    },
+
     -- TODO: find out how to make plenary work
     -- run tests
     {

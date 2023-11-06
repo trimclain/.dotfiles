@@ -382,7 +382,7 @@ return {
                 -- ["<leader>b"] = { name = "+buffer" },
                 ["<leader>f"] = { name = "+find" },
                 ["<leader>g"] = { name = "+git" },
-                ["<leader>gh"] = { name = "+hunks" },
+                ["<leader>gh"] = { name = "+hunks" }, -- FIX:
                 ["<leader>l"] = { name = "+lsp" },
                 ["<leader>m"] = { name = "+make" },
                 ["<leader>n"] = { name = "+neogen/notify" },
@@ -391,8 +391,10 @@ return {
                 ["<leader>r"] = { name = "+replace/refactor" },
                 ["<leader>s"] = { name = "+splitjoin" },
                 ["<leader>t"] = { name = "+tab/terminal" },
-                -- ["<leader>v"] = { name = "+tbd" },
                 -- ["<leader>h"] = { name = "+tbd" },
+                -- ["<leader>j"] = { name = "+tbd" },
+                -- ["<leader>k"] = { name = "+tbd" },
+                -- ["<leader>v"] = { name = "+tbd" },
                 -- ["<leader>x"] = { name = "+tbd" },
                 -- ["<leader>c"] = { name = "+tbd" },
             }
@@ -401,7 +403,9 @@ return {
             -- end
             local vkeymaps = {
                 mode = { "v" },
-                ["<leader>l"] = { name = "+lsp" },
+                ["<leader>g"] = { name = "+git" },
+                ["<leader>gh"] = { name = "+hunks" }, -- FIX:
+                ["<leader>l"] = { name = "+lsp" }, -- FIX:
                 ["<leader>r"] = { name = "+refactor" },
             }
             wk.register(nkeymaps)
@@ -723,24 +727,6 @@ return {
             },
         },
     },
-
-    -- TODO: Setup neorg
-    -- -- neorg
-    -- {
-    --     "nvim-neorg/neorg",
-    --     enabled = false,
-    --     ft = "norg",
-    --     opts = {
-    --         load = {
-    --             ["core.defaults"] = {},
-    --             ["core.norg.concealer"] = {},
-    --             ["core.norg.completion"] = {
-    --                 config = { engine = "nvim-cmp" },
-    --             },
-    --             ["core.integrations.nvim-cmp"] = {},
-    --         },
-    --     },
-    -- },
 
     -- harpoon btw
     {
