@@ -1,4 +1,10 @@
 {
+    // Installed plugins:
+	//  - vscodevim.vim: Vim emulation for Visual Studio Code
+	//  - tobias-z.vscode-harpoon: A vscode clone of the vim plugin Harpoon created by The Primeagen
+	//  - vscode-icons-team.vscode-icons: Icons for Visual Studio Code
+	//  - wayou.vscode-todo-highlight: highlight TODOs, FIXMEs, and any keywords, annotations...
+
     "workbench.startupEditor": "none",
     // Colorschemes for AL (note/10):
     // "Monokai" (9.5),
@@ -14,8 +20,10 @@
     // "Andromeda" (7.5),
     // "Tokyo Night Storm", (7)
     "workbench.colorTheme": "Default Dark Modern",
+    // "workbench.colorTheme": "Default Light Modern",
     "workbench.iconTheme": "vscode-icons",
     // "workbench.activityBar.visible": false,
+    "workbench.sideBar.location": "right",
 
     "update.showReleaseNotes": false,
     "telemetry.telemetryLevel": "off",
@@ -74,7 +82,7 @@
     //  - selection: Render whitespace characters only on selected text. (default)
     //  - trailing: Render only trailing whitespace characters.
     //  - all
-    "editor.renderWhitespace": "boundary",
+    "editor.renderWhitespace": "none",
     // Controls how the editor should render the current line highlight.
     //  - none
     //  - gutter
@@ -205,20 +213,21 @@
     "git.enableSmartCommit": true,
     "git.autofetch": true,
     "git.confirmSync": false,
+	"git.fetchOnPull": true,
+	"git.untrackedChanges": "separate",
     // Controls the Git count badge.
     //  - all: Count all changes. (default)
     //  - tracked: Count only tracked changes.
     //  - off: Turn off counter.
     // "git.countBadge": "off",
     // Stash any changes before pulling and restore them after successful pull.
-    // "git.autoStash": false,
+    "git.autoStash": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "diffEditor.hideUnchangedRegions.enabled": true,
 
     // Zen Mode
     "zenMode.hideLineNumbers": false,
     "zenMode.hideStatusBar": false,
-    "zenMode.hideTabs": false,
 
     //-------------------------------------------------------------------------
     // Vim Extension
@@ -232,11 +241,19 @@
     "vim.highlightedyank.duration": 100,
     "vim.highlightedyank.textColor": "",
     // Background color of yanked text. The color must not be opaque so as not to hide underlying decorations.
-    "vim.highlightedyank.color": "rgba(250, 240, 170, 0.5)",
+    "vim.highlightedyank.color": "rgba(70, 240, 170, 0.5)", // default: "rgba(250, 240, 170, 0.5)",
     // Timeout in milliseconds for remapped commands. (default: 1000)
     "vim.timeout": 500,
+    // In visual mode, start a search with * or # using the current selection
+    // "vim.visualstar": true,
+    // Delegate configured keys to be handled by VS Code instead of by the VSCodeVim extension
+    "vim.handleKeys": {
+        "<C-f>": false, // vscode find
+        "<C-p>": false, // vscode commands
+        "<C-b>": false, // build
+        "<C-h>": false  // toggle bottom panel
+    },
     "vim.normalModeKeyBindingsNonRecursive": [
-        // NAVIGATION
         // buffers
         { "before": ["<S-h>"], "commands": [":bprevious"] },
         { "before": ["<S-l>"], "commands": [":bnext"] },
@@ -246,27 +263,36 @@
         // panes
         {
             "before": ["leader", "h"],
-            "commands": ["workbench.action.focusLeftGroup"]
+            "commands": ["workbench.action.focusLeftGroup"],
+            "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
         },
         {
             "before": ["leader", "j"],
-            "commands": ["workbench.action.focusBelowGroup"]
+            "commands": ["workbench.action.focusBelowGroup"],
+            "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
         },
         {
             "before": ["leader", "k"],
-            "commands": ["workbench.action.focusAboveGroup"]
+            "commands": ["workbench.action.focusAboveGroup"],
+            "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
         },
         {
             "before": ["leader", "l"],
-            "commands": ["workbench.action.focusRightGroup"]
+            "commands": ["workbench.action.focusRightGroup"],
+            "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
+        },
+        // file explorer (reveal current file)
+        {
+            "before": ["<leader>", "e"],
+            "commands": [ "revealInExplorer" ],
         },
         // nice to have
         { "before": ["leader", "w"], "commands": [":w"] },
         { "before": ["leader", "q"], "commands": [":q"] },
         { "before": ["leader", "x"], "commands": [":x"] },
         { "before": ["Y"], "after": ["y", "$"] },
-        // Clear highlights after a search
-        { "before": ["<C-l>"], "commands": [":nohl"] },
+        // clear highlights after a search
+        { "before": ["<C-l>"], "commands": [":nohl"], "silent": true },
         // diagnostics
         {
             "before": ["[", "d"],
@@ -276,7 +302,7 @@
             "before": ["]", "d"],
             "commands": ["editor.action.marker.next"]
         },
-        // git changes
+        // git hunks
         {
             "before": ["[", "h"],
             "commands": ["workbench.action.editor.previousChange"]
@@ -318,6 +344,31 @@
         {
             "before": ["leader", "z"],
             "commands": ["workbench.action.toggleZenMode"]
+        },
+        // harpoon
+        {
+            "before": ["<leader>", "a"],
+            "commands": ["vscode-harpoon.addEditor"]
+        },
+        {
+            "before": ["<C-e>"],
+            "commands": ["vscode-harpoon.editEditors"]
+        },
+        // {
+        //     "before": ["<leader>", "p", "e"],
+        //     "commands": ["vscode-harpoon.editorQuickPick"]
+        // },
+        {
+            "before": ["<C-j>"],
+            "commands": ["vscode-harpoon.gotoEditor1"]
+        },
+        {
+            "before": ["<C-k>"],
+            "commands": ["vscode-harpoon.gotoEditor2"]
+        },
+        {
+            "before": ["<C-g>"],
+            "commands": ["vscode-harpoon.gotoEditor3"]
         }
     ],
     "vim.visualModeKeyBindings": [
@@ -335,6 +386,11 @@
             "commands": ["editor.action.commentLine"]
         }
     ],
+
+    // To improve performance
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1
+    },
     //-------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------
