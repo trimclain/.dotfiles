@@ -79,12 +79,17 @@
         "command": "workbench.action.toggleZenMode"
     },
 
-    // Harpoon: close editor with q
+    // Harpoon: close editor with q and ctrl+e (to toggle)
     {
         "key": "q",
         "command": "workbench.action.closeActiveEditor",
         // https://code.visualstudio.com/docs/getstarted/keybindings#_when-clause-contexts
         // https://code.visualstudio.com/api/references/when-clause-contexts
+        "when": "resourceFilename == vscodeHarpoon.harpoon",
+    },
+    {
+        "key": "ctrl+e",
+        "command": "workbench.action.closeActiveEditor",
         "when": "resourceFilename == vscodeHarpoon.harpoon",
     },
 
