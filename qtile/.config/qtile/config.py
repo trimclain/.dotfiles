@@ -31,7 +31,7 @@ terminal = "alacritty" # "alacritty", "kitty", "wezterm"
 
 browser = "thorium-browser"
 if shutil.which(browser) is None:
-    browser = "brave"
+    browser = "firefox"
 
 arch_color = "#1793D0"
 
