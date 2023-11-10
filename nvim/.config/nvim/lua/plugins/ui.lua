@@ -525,6 +525,51 @@ return {
     -- },
 
     -- dashboard
+    -- TODO:
+    -- {
+    --     "nvimdev/dashboard-nvim",
+    --     enabled = CONFIG.ui.dashboard,
+    --     event = "VimEnter",
+    --     dependencies = { { "nvim-tree/nvim-web-devicons" } },
+    --     opts = function()
+    --         local logo = {
+    --             "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
+    --             "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
+    --             "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
+    --             "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
+    --             "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
+    --             "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
+    --         }
+    --         local opts = {
+    --             theme = "doom",
+    --             hide = {
+    --                 -- this is taken care of by lualine
+    --                 -- enabling this messes up the actual laststatus setting after loading a file
+    --                 statusline = false,
+    --             },
+    --             config = {
+    --                 header = logo,
+    --                 -- stylua: ignore
+    --                 center = {
+    --                     { action = "Telescope find_files",                                     desc = " Find file",       icon = " ", key = "f" },
+    --                     { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
+    --                     { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
+    --                     { action = "Telescope live_grep",                                      desc = " Find text",       icon = " ", key = "g" },
+    --                     { action = [[lua require("lazyvim.util").telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
+    --                     { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
+    --                     { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
+    --                     { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
+    --                     { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
+    --                 },
+    --                 footer = function()
+    --                     local stats = require("lazy").stats()
+    --                     local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+    --                     return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+    --                 end,
+    --             },
+    --         }
+    --     end,
+    -- },
     {
         "goolord/alpha-nvim",
         enabled = CONFIG.ui.dashboard,
@@ -541,14 +586,14 @@ return {
             }
 
             dashboard.section.buttons.val = {
-                dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<CR>"),
-                -- dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<CR>"),
-                dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<CR>"),
-                dashboard.button("s", " " .. " Find string", ":Telescope live_grep<CR>"),
-                dashboard.button("t", "󰄵 " .. " Find todos", ":TodoTelescope keywords=TODO,FIX<CR>"),
-                dashboard.button("c", " " .. " Config", ":e $MYVIMRC | cd ~/.config/nvim<CR>"),
-                dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
-                dashboard.button("q", " " .. " Quit", ":qa<CR>"),
+                dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<cr>"),
+                -- dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<cr>"),
+                dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<cr>"),
+                dashboard.button("s", " " .. " Find string", ":Telescope live_grep<cr>"),
+                dashboard.button("t", "󰄵 " .. " Find todos", ":TodoTelescope keywords=TODO,FIX<cr>"),
+                dashboard.button("c", " " .. " Config", ":e $MYVIMRC | cd " .. vim.fn.stdpath("config") .. "<cr>"),
+                dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<cr>"),
+                dashboard.button("q", " " .. " Quit", ":qa<cr>"),
             }
             -- Disabled: adds 12-15 ms to startup time
             -- Show git status if in git repo
