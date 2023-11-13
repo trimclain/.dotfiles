@@ -380,12 +380,13 @@ return {
                 ["["] = { name = "+prev" },
                 -- ["<leader><tab>"] = { name = "+tabs" },
                 -- ["<leader>b"] = { name = "+buffer" },
+                ["<leader>d"] = { name = "+document" },
                 ["<leader>f"] = { name = "+find" },
                 ["<leader>g"] = { name = "+git" },
                 ["<leader>gh"] = { name = "+hunks" }, -- FIX:
                 ["<leader>l"] = { name = "+lsp" },
                 ["<leader>m"] = { name = "+make" },
-                ["<leader>n"] = { name = "+neogen/notify" },
+                ["<leader>n"] = { name = "+neorg" },
                 ["<leader>o"] = { name = "+options" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
@@ -417,6 +418,7 @@ return {
     {
         "akinsho/toggleterm.nvim",
         version = "*",
+        -- TODO: I can do better (load only on keymap)
         event = "VeryLazy",
         opts = {
             open_mapping = [[<c-\>]],

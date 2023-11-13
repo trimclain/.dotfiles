@@ -405,28 +405,28 @@ return {
         dependencies = "nvim-treesitter/nvim-treesitter",
         keys = {
             {
-                "<leader>ng",
+                "<leader>dg",
                 function()
                     require("neogen").generate({ type = "func" })
                 end,
                 desc = "Generate annotations for current function",
             },
             {
-                "<leader>nc",
+                "<leader>dc",
                 function()
                     require("neogen").generate({ type = "class" })
                 end,
                 desc = "Generate annotations for current class",
             },
             {
-                "<leader>nt",
+                "<leader>dt",
                 function()
                     require("neogen").generate({ type = "type" })
                 end,
                 desc = "Generate annotations for current type",
             },
             {
-                "<leader>nf",
+                "<leader>df",
                 function()
                     require("neogen").generate({ type = "file" })
                 end,
