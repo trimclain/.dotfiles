@@ -358,7 +358,14 @@ return {
                         {
                             "filename",
                             newfile_status = true,
+                            -- 0: Just the filename (default),
+                            -- 1: Relative path,
+                            -- 2: Absolute path,
+                            -- 3: Absolute path, with tilde as the home directory,
+                            -- 4: Filename and parent dir, with tilde as the home directory
                             path = 3,
+                            -- spaces to leave in the window for other components
+                            shorting_target = math.floor(vim.go.columns * 0.8), -- (default: 40)
                             symbols = {
                                 modified = icons.ui.Circle, -- default: "[+]"
                                 readonly = icons.ui.Lock, -- default: "[-]"
