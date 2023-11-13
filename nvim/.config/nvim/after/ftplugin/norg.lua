@@ -5,3 +5,5 @@ vim.keymap.set(
     "<cmd>Neorg toggle-concealer<cr>",
     vim.tbl_extend("error", opts, { desc = "Toggle Neorg Concealer" })
 )
+
+vim.opt_local.conceallevel = 1
