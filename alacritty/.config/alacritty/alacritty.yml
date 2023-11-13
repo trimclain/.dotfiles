@@ -195,6 +195,7 @@ font:
         style: SemiBold Italic
 
     # Point size (default: 11)
+    # TODO: fix the problem with 13 being too big for 1366x768 monitors
     size: 13.0
 
     # Offset is the extra space around each character. `offset.y` can be thought

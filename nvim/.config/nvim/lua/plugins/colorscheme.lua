@@ -52,7 +52,7 @@ return {
                     colored_indent_levels = false,
                 },
                 ----
-                alpha = true,
+                dashboard = true,
                 fidget = true,
                 harpoon = true,
                 hop = true,
