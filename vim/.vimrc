@@ -112,6 +112,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'sainnhe/sonokai'                  " other colorscheme
 Plug 'sonph/onehalf', { 'rtp': 'vim'  } " like atoms one but 1/2
 
+Plug 'tpope/vim-sleuth'                  " detect tabstop and shiftwidth automatically
 Plug 'tpope/vim-fugitive'                " git
 Plug 'tpope/vim-commentary'              " comments
 Plug 'itchyny/lightline.vim'             " statusline
