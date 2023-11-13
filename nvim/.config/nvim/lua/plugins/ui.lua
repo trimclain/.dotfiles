@@ -570,11 +570,9 @@ return {
                         -- { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
                         { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
                         { action = "Telescope live_grep",                                      desc = " Find string",     icon = " ", key = "s" },
-                        -- TODO: search hidden folders
                         { action = "TodoTelescope keywords=TODO,FIX",                          desc = " Find todos",      icon = "󰄵 ", key = "t" },
-                        { action = ":e $MYVIMRC | cd " .. vim.fn.stdpath("config"),            desc = " Config",          icon = " ", key = "c" },
-                        -- TODO:
-                        -- { action = [[lua require("lazyvim.util").telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
+                        -- { action = ":e $MYVIMRC | cd " .. vim.fn.stdpath("config"),            desc = " Config",          icon = " ", key = "c" },
+                        { action = require("core.util").config_files,                          desc = " Config",          icon = " ", key = "c" },
                         { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
                         { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
                     },

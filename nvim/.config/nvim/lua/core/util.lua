@@ -106,6 +106,11 @@ function M.telescope(builtin, opts, theme)
     end
 end
 
+--- Find neovim config files in telescope
+function M.config_files()
+    M.telescope("find_files", { cwd = vim.fn.stdpath("config") })()
+end
+
 --- Choose a project to work on from my $PROJECTLIST using Telescope
 M.open_project = function()
     local projectlist = M.join(os.getenv("HOME"), ".projectlist")
