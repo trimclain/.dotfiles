@@ -820,6 +820,9 @@ return {
         },
     },
 
+    -- Detect tabstop and shiftwidth automatically
+    { "tpope/vim-sleuth" },
+
     -- TODO: ?
     -- auto remove search highlight and rehighlight when using n or N
     -- {
