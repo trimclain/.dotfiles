@@ -116,7 +116,7 @@ nvim_reqs:
 	$(INSTALL) yad xclip
 	@# Install what :checkhealth recommends
 	@# Need pynvim for Bracey
-	pip install pynvim
+	$(INSTALL) python-pynvim
 	npm install -g neovim
 	@make tectonic
 
