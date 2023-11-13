@@ -532,58 +532,17 @@ return {
     -- },
 
     -- dashboard
-    -- TODO:
-    -- {
-    --     "nvimdev/dashboard-nvim",
-    --     enabled = CONFIG.ui.dashboard,
-    --     event = "VimEnter",
-    --     dependencies = { { "nvim-tree/nvim-web-devicons" } },
-    --     opts = function()
-    --         local logo = {
-    --             "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
-    --             "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
-    --             "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
-    --             "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
-    --             "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
-    --             "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
-    --         }
-    --         local opts = {
-    --             theme = "doom",
-    --             hide = {
-    --                 -- this is taken care of by lualine
-    --                 -- enabling this messes up the actual laststatus setting after loading a file
-    --                 statusline = false,
-    --             },
-    --             config = {
-    --                 header = logo,
-    --                 -- stylua: ignore
-    --                 center = {
-    --                     { action = "Telescope find_files",                                     desc = " Find file",       icon = " ", key = "f" },
-    --                     { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
-    --                     { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
-    --                     { action = "Telescope live_grep",                                      desc = " Find text",       icon = " ", key = "g" },
-    --                     { action = [[lua require("lazyvim.util").telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
-    --                     { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
-    --                     { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
-    --                     { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
-    --                     { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
-    --                 },
-    --                 footer = function()
-    --                     local stats = require("lazy").stats()
-    --                     local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-    --                     return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-    --                 end,
-    --             },
-    --         }
-    --     end,
-    -- },
     {
-        "goolord/alpha-nvim",
+        "nvimdev/dashboard-nvim",
         enabled = CONFIG.ui.dashboard,
         event = "VimEnter",
+        dependencies = { { "nvim-tree/nvim-web-devicons" } },
         opts = function()
-            local dashboard = require("alpha.themes.dashboard")
-            dashboard.section.header.val = {
+            local padding_top = vim.fn.max({ 3, vim.fn.floor(vim.fn.winheight(0) * 0.2) })
+            local padding_bot = 2
+            local max_width = 43
+
+            local logo = {
                 "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
                 "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
                 "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
@@ -591,77 +550,87 @@ return {
                 "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
                 "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
             }
+            logo = vim.list_extend(
+                vim.list_extend(vim.split(string.rep("\n", padding_top), "\n"), logo),
+                vim.split(string.rep("\n", padding_bot), "\n")
+            )
 
-            dashboard.section.buttons.val = {
-                dashboard.button("f", " " .. " Find file", ":lua require('core.util').telescope('files')()<cr>"),
-                -- dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert<cr>"),
-                dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles<cr>"),
-                dashboard.button("s", " " .. " Find string", ":Telescope live_grep<cr>"),
-                dashboard.button("t", "󰄵 " .. " Find todos", ":TodoTelescope keywords=TODO,FIX<cr>"),
-                dashboard.button("c", " " .. " Config", ":e $MYVIMRC | cd " .. vim.fn.stdpath("config") .. "<cr>"),
-                dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<cr>"),
-                dashboard.button("q", " " .. " Quit", ":qa<cr>"),
+            local opts = {
+                theme = "doom",
+                hide = {
+                    -- this is taken care of by lualine
+                    -- enabling this messes up the actual laststatus setting after loading a file
+                    statusline = false,
+                },
+                config = {
+                    header = logo,
+                    -- stylua: ignore
+                    center = {
+                        { action = require("core.util").telescope("files"),                    desc = " Find file",       icon = " ", key = "f" }, -- " "
+                        -- { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
+                        { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
+                        { action = "Telescope live_grep",                                      desc = " Find string",     icon = " ", key = "s" },
+                        -- TODO: search hidden folders
+                        { action = "TodoTelescope keywords=TODO,FIX",                          desc = " Find todos",      icon = "󰄵 ", key = "t" },
+                        { action = ":e $MYVIMRC | cd " .. vim.fn.stdpath("config"),            desc = " Config",          icon = " ", key = "c" },
+                        -- TODO:
+                        -- { action = [[lua require("lazyvim.util").telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
+                        { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
+                        { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
+                    },
+                    footer = function()
+                        local stats = require("lazy").stats()
+                        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+                        return {
+                            "⚡ Neovim loaded "
+                                .. stats.loaded
+                                .. "/"
+                                .. stats.count
+                                .. " plugins   in "
+                                .. ms
+                                .. "ms",
+                        }
+                    end,
+                },
             }
+
             -- Disabled: adds 12-15 ms to startup time
             -- Show git status if in git repo
             -- if require("core.util").in_git_worktree() then
             --     table.insert(
-            --         dashboard.section.buttons.val,
+            --         opts.config.center,
             --         5,
-            --         dashboard.button("g", " " .. " Git status", ":Neogit<CR>")
+            --         { action = "Neogit", desc = " Git status", icon = " ", key = "g" }
             --     )
             -- end
 
             -- Since I don't have tmux in neovide, add a project manager to dashboard
             if vim.g.neovide ~= nil then
                 table.insert(
-                    dashboard.section.buttons.val,
+                    opts.config.center,
                     2,
-                    dashboard.button("p", " " .. " Open project", ":lua require('core.util').open_project()<CR>")
+                    { action = require("core.util").open_project, desc = " Open project", icon = " ", key = "p" }
                 )
             end
 
-            for _, button in ipairs(dashboard.section.buttons.val) do
-                button.opts.hl = "AlphaButtons"
-                button.opts.hl_shortcut = "AlphaShortcut"
+            -- configure width
+            for _, button in ipairs(opts.config.center) do
+                button.desc = button.desc .. string.rep(" ", max_width - #button.desc)
+                button.key_format = "  %s"
             end
 
-            -- dashboard.section.header.opts.hl = "AlphaHeader"
-            -- dashboard.section.buttons.opts.hl = "AlphaButtons"
-            -- dashboard.section.footer.opts.hl = "AlphaFooter"
-
-            dashboard.config.layout[1].val = vim.fn.max({ 3, vim.fn.floor(vim.fn.winheight(0) * 0.2) }) -- logo top margin
-            dashboard.config.layout[3].val = 2 -- distance between logo and buttons
-
-            return dashboard
-        end,
-        config = function(_, dashboard)
             -- close Lazy and re-open when the dashboard is ready
             if vim.o.filetype == "lazy" then
                 vim.cmd.close()
                 vim.api.nvim_create_autocmd("User", {
-                    pattern = "AlphaReady",
+                    pattern = "DashboardLoaded",
                     callback = function()
                         require("lazy").show()
                     end,
                 })
             end
 
-            require("alpha").setup(dashboard.opts)
-
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "LazyVimStarted",
-                callback = function()
-                    local stats = require("lazy").stats()
-                    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-                    dashboard.section.footer.val = "⚡ Neovim loaded "
-                        .. stats.count
-                        .. " plugins   in "
-                        .. ms
-                        .. "ms"
-                    pcall(vim.cmd.AlphaRedraw)
-                end,
-            })
+            return opts
         end,
     },
 
