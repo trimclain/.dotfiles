@@ -28,15 +28,15 @@
 
 # Colorscheme
 # Easy to change colorscheme by changing the value of $_PROMT_THEME
-# Available colorschemes: spaceship, p10k-spaceship, zap
-_PROMT_THEME="p10k"
+# Available colorschemes: spaceship, p10k-spaceship, p10k-pure, p10k-robbyrussel, zap
+_PROMT_THEME="p10k-spaceship"
 
 # Disable XON/XOFF flow control (ctrl-s to freeze, ctrl-q to unfreeze)
 # This should come before powerlevel10k instant promt feature
 stty -ixon
 # stty start undef stop undef
 
-if [[ "$_PROMT_THEME" == "p10k" ]]; then
+if [[ "$_PROMT_THEME" == "p10k-"* ]]; then
     # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
     # Initialization code that may require console input (password prompts, [y/n]
     # confirmations, etc.) must go above this block; everything else may go below.
@@ -421,9 +421,17 @@ if [[ "$_PROMT_THEME" == "spaceship" ]]; then
     # Spaceship
     source "$ZDOTDIR/plugins/colors/spaceship.zsh"
     plug "spaceship-prompt/spaceship-prompt"
-elif [[ "$_PROMT_THEME" == "p10k" ]]; then
+elif [[ "$_PROMT_THEME" == "p10k-spaceship" ]]; then
     # Powerlevel10k Spaceship
     source "$ZDOTDIR/plugins/colors/p10k-spaceship.zsh"
+    plug "romkatv/powerlevel10k"
+elif [[ "$_PROMT_THEME" == "p10k-pure" ]]; then
+    # Powerlevel10k pure
+    source "$ZDOTDIR/plugins/colors/p10k-pure.zsh"
+    plug "romkatv/powerlevel10k"
+elif [[ "$_PROMT_THEME" == "p10k-robbyrussel" ]]; then
+    # Powerlevel10k robbyrussel
+    source "$ZDOTDIR/plugins/colors/p10-robbyrussel.zsh"
     plug "romkatv/powerlevel10k"
 elif [[ "$_PROMT_THEME" == "zap" ]]; then
     # Zap Prompt
