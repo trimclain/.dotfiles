@@ -50,6 +50,22 @@ env:
     TERM: alacritty
     #TERM: xterm-256color
 
+    # Scale Factor
+    # Source: https://wiki.archlinux.org/title/Alacritty#Different_font_size_on_multiple_monitors
+    #
+    # By default, Alacritty attempts to scale fonts to the appropriate
+    # point size on each monitor based on the Device pixel ratio.
+    # On some setups with multiple displays, this behavior can result in
+    # vastly different physical sizes.
+    # To view the existing device pixel ratio values for each monitor, run
+    # `alacritty -v`, move the child window to each monitor, and pay attention to
+    # the reported Device pixel ratio in the parent window.
+    # Default value is "1.33".
+    # Forcing a constant device pixel ratio using the WINIT_X11_SCALE_FACTOR
+    # environment variable may be sufficient to fix the different font size
+    # issue:
+    WINIT_X11_SCALE_FACTOR: "1.1"
+
 window:
     # Window dimensions (changes require restart)
     #
@@ -195,7 +211,6 @@ font:
         style: SemiBold Italic
 
     # Point size (default: 11)
-    # TODO: fix the problem with 13 being too big for 1366x768 monitors
     size: 13.0
 
     # Offset is the extra space around each character. `offset.y` can be thought
