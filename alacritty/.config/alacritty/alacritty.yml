@@ -64,6 +64,7 @@ env:
     # Forcing a constant device pixel ratio using the WINIT_X11_SCALE_FACTOR
     # environment variable may be sufficient to fix the different font size
     # issue:
+    # TODO: can I set this separate for every monitor?
     WINIT_X11_SCALE_FACTOR: "1.1"
 
 window:
@@ -175,40 +176,41 @@ font:
         #   - (Linux/BSD) monospace
         #   - (Windows) Consolas
 
-        #family: Comic Mono
-        #family: Hack
-        #family: JetBrainsMono Nerd Font Mono
-        #family: MesloLGS NF
-        #family: BlexMono Nerd Font Mono
-        family: Cascadia Code
+        # family: Comic Mono
+        # family: Hack
+        # family: JetBrainsMono Nerd Font Mono
+        # family: MesloLGS NF
+        family: BlexMono Nerd Font Mono
+        # family: Cascadia Code
 
         # The `style` can be specified to pick a specific face.
         #style: Regular
-        # with Cascadia Code:
-        style: SemiLight
+        # # with Cascadia Code:
+        # style: SemiLight
         #style: Light
 
-    # Bold font face
-    bold:
-        # family: JetBrainsMono Nerd Font Mono
-        # style: Bold
-        family: Cascadia Code
-        style: SemiBold
+    # With Cascadia Code uncomment below
+    # # Bold font face
+    # bold:
+    #     # family: JetBrainsMono Nerd Font Mono
+    #     # style: Bold
+    #     family: Cascadia Code
+    #     style: SemiBold
 
-    # Italic font face
-    italic:
-        # family: JetBrainsMono Nerd Font Mono
-        # style: Italic
-        family: Cascadia Code
-        style: SemiLight Italic
-        #style: Light Italic
+    # # Italic font face
+    # italic:
+    #     # family: JetBrainsMono Nerd Font Mono
+    #     # style: Italic
+    #     family: Cascadia Code
+    #     style: SemiLight Italic
+    #     #style: Light Italic
 
-    # Bold italic font face
-    bold_italic:
-        # family: JetBrainsMono Nerd Font Mono
-        # style: Bold Italic
-        family: Cascadia Code
-        style: SemiBold Italic
+    # # Bold italic font face
+    # bold_italic:
+    #     # family: JetBrainsMono Nerd Font Mono
+    #     # style: Bold Italic
+    #     family: Cascadia Code
+    #     style: SemiBold Italic
 
     # Point size (default: 11)
     size: 13.0

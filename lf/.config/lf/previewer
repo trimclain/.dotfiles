@@ -2,6 +2,11 @@
 
 # Sixel
 image() {
+    if [[ "$TERM" == "alacritty" ]]; then
+        echo "Alacritty doesn't support images"
+        return
+    fi
+
     file=$1
     w=$2
     h=$3

@@ -104,7 +104,7 @@ paru: ## Install paru (the AUR helper)
 		makepkg -si && popd && rm -rf ~/paru && echo "Done"; fi
 
 flatpak: ## Install flatpak
-	@if command -v paru &> /dev/null; then echo "[flatpak]: Already installed";\
+	@if command -v flatpak &> /dev/null; then echo "[flatpak]: Already installed";\
 		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
 
 #========================================= Neovim =================================================
@@ -208,7 +208,11 @@ telegram: ## Install Telegram Desktop
 	$(INSTALL) telegram-desktop
 
 discord: ## Install Discord
-	$(INSTALL) discord
+	@# $(INSTALL) discord
+	@# Flatpak version is more up to date
+	@if ! command -v flatpak &> /dev/null; then echo "Installing flatpak..." &&\
+		$(INSTALL) flatpak && echo "Done"; fi
+	$(FLATINSTALL) flathub com.discordapp.Discord
 
 spotify: ## Install Spotify
 	$(INSTALL) ncspot
