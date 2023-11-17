@@ -4,7 +4,7 @@ FLATINSTALL = flatpak install -y --or-update
 
 all:
 	@# Make sure these folders exist
-	@mkdir -p ~/.local/bin ~/.config
+	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@echo "Installing some basic tools..."
 	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr
 	@# For netstat, ifconfig and more
@@ -19,17 +19,10 @@ vimdir:
 	@mkdir -p ~/.vim/undodir
 	@echo "Done"
 
-fonts:
-	@echo "Installing fonts to ~/.local/share/fonts/"
-	@mkdir -p ~/.local/share/fonts/
-	@cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
-	@echo "Done"
-
-del_fonts:
-	@echo "Deleting fonts from ~/.local/share/fonts/"
-	@rm -r ~/.local/share/fonts/
-
-clean_fonts: del_fonts fonts
+getnf: ## nerd font installer
+	@if [ ! -f ~/.local/bin/getnf ]; then echo "Installing getnf..." &&\
+		git clone https://github.com/ronniedroid/getnf.git ~/getnf &&\
+		pushd ~/getnf && ./install.sh && popd && rm -rf ~/getnf && echo "Done"; fi
 
 wallpapers:
 	@echo "Installing wallpapers..."
@@ -47,7 +40,6 @@ wallpapers:
 # To install numpy, matplotlib, pillow use
 # $(INSTALL) python-numpy python-matplotlib python-pillow
 python: ## Install python3, pip
-	@echo "Installing python3 with pip"
 	@$(INSTALL) python python-pip
 
 rust: ## Install rustup, the rust version manager
@@ -301,7 +293,7 @@ install: ## Setup arch after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir fonts del_fonts clean_fonts wallpapers\
+.PHONY: all help vimdir getnf wallpapers\
 	python rust julia golang g \
 	n uninstall_n export_node_modules import_node_modules typescript tectonic \
 	paru flatpak\
