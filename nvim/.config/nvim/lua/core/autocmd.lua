@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 vim.api.nvim_create_autocmd({ "VimResized" }, {
     callback = function()
         local old_cmdheight = vim.o.cmdheight
-        if  old_cmdheight > 1 then
+        if old_cmdheight > 1 then
             vim.notify("Resizing cmdheight from " .. old_cmdheight, vim.log.levels.INFO, { title = "Thank You Neovim" })
             vim.o.cmdheight = 1
         end
