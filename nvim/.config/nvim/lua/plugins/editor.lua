@@ -494,22 +494,42 @@ return {
         keys = {
             { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
         },
-        opts = {
-            disable_commit_confirmation = true,
-            -- Change the default way of opening neogit
-            kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
-            -- -- The time after which an output console is shown for slow running commands
-            -- console_timeout = 2000,
-            -- -- Automatically show console if a command takes more than console_timeout milliseconds
-            -- auto_show_console = true,
-            -- override/add mappings
-            mappings = {
-                popup = {
-                    ["P"] = "PullPopup",
-                    ["p"] = "PushPopup",
+        config = function()
+            local icons = require("core.icons").ui
+
+            require("neogit").setup({
+                disable_commit_confirmation = true,
+                -- Change the default way of opening neogit
+                kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
+                -- -- The time after which an output console is shown for slow running commands
+                -- console_timeout = 2000,
+                -- -- Automatically show console if a command takes more than console_timeout milliseconds
+                -- auto_show_console = true,
+                -- override/add mappings
+                commit_editor = {
+                    kind = "split", -- default: "auto"
                 },
-            },
-        },
+                signs = {
+                    -- { CLOSED, OPENED }
+                    section = { icons.ArrowClosed, icons.ArrowOpen }, -- default: { ">", "v" },
+                    item = { icons.ArrowClosedSmall, icons.ArrowOpenSmall }, -- default: { ">", "v" },
+                    -- hunk = { "", "" }, -- default: { "", "" },
+                },
+                mappings = {
+                    popup = {
+                        ["P"] = "PullPopup",
+                        ["p"] = "PushPopup",
+                    },
+                },
+            })
+
+            -- Close Neogit after `git push`
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "NeogitPushComplete",
+                group = vim.api.nvim_create_augroup("trimclain_close_neogit_after_push", { clear = true }),
+                callback = require("neogit").close,
+            })
+        end,
     },
 
     -- better git diff
