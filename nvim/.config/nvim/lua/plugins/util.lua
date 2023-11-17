@@ -168,7 +168,7 @@ return {
     -- preview markdown files in browser
     {
         "iamcco/markdown-preview.nvim",
-        build = "cd app && npm install",
+        build = "cd app && npx --yes yarn install", -- Lazy sync doesn't run `git restore .` so it can't pull
         ft = { "markdown" },
         config = function()
             vim.g.mkdp_auto_close = 0 -- don't auto close current preview window when change to another buffer
@@ -190,6 +190,7 @@ return {
             end
 
             -- Open preview in a new window
+            -- doesn't work on mac: https://github.com/iamcco/markdown-preview.nvim#faq
             vim.cmd([[
                 function OpenMarkdownPreview(url)
                     execute "silent ! " . g:mkdp_browser . " --new-window " . a:url
@@ -225,7 +226,7 @@ return {
     -- preview HTML, CSS and JS in browser
     {
         "turbio/bracey.vim",
-        build = "npm install --prefix server",
+        build = "npm ci --prefix server",  -- Lazy sync doesn't run `git restore .` so it can't pull.
         ft = "html",
         cmd = "Bracey",
         keys = {
