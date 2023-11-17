@@ -498,40 +498,15 @@ return {
             disable_commit_confirmation = true,
             -- Change the default way of opening neogit
             kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
+            -- -- The time after which an output console is shown for slow running commands
+            -- console_timeout = 2000,
+            -- -- Automatically show console if a command takes more than console_timeout milliseconds
+            -- auto_show_console = true,
             -- override/add mappings
             mappings = {
-                -- modify status buffer mappings
-                status = {
-                    ["q"] = "Close",
-                    ["1"] = "Depth1",
-                    ["2"] = "Depth2",
-                    ["3"] = "Depth3",
-                    ["4"] = "Depth4",
-                    ["<tab>"] = "Toggle",
-                    -- ["="] = "Toggle", -- fugitive habbit
-                    ["x"] = "Discard",
-                    ["s"] = "Stage",
-                    -- ["a"] = "StageUnstaged",
-                    -- ["<c-s>"] = "StageAll",
-                    ["u"] = "Unstage",
-                    -- ["U"] = "UnstageStaged",
-                    -- ["d"] = "DiffAtFile",
-                    -- ["$"] = "CommandHistory",
-                    -- ["<c-r>"] = "RefreshBuffer",
-                    -- ["o"] = "GoToFile",
-                    -- ["<enter>"] = "Toggle",
-                    -- ["<c-v>"] = "VSplitOpen",
-                    -- ["<c-x>"] = "SplitOpen",
-                    -- ["<c-t>"] = "TabOpen",
-                    ["?"] = "HelpPopup",
-                    -- ["D"] = "DiffPopup",
+                popup = {
                     ["P"] = "PullPopup",
-                    -- ["r"] = "RebasePopup",
                     ["p"] = "PushPopup",
-                    ["c"] = "CommitPopup",
-                    ["L"] = "LogPopup",
-                    -- ["Z"] = "StashPopup",
-                    -- ["b"] = "BranchPopup",
                 },
             },
         },
