@@ -538,8 +538,18 @@ return {
         event = "VimEnter",
         dependencies = { { "nvim-tree/nvim-web-devicons" } },
         opts = function()
-            local padding_top = vim.fn.max({ 3, vim.fn.floor(vim.fn.winheight(0) * 0.2) })
-            local padding_bot = 2
+            local winheight = vim.fn.winheight(0)
+
+            -- big screen winheight: 36
+            local padding_top = vim.fn.max({ 3, vim.fn.floor(winheight * 0.15) })
+            local padding_bot = 1
+
+            -- small screen winheight
+            if winheight == 24 then
+                padding_top = 1
+                padding_bot = 0
+            end
+
             local max_width = 43
 
             local logo = {
