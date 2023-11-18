@@ -11,6 +11,10 @@ return {
             vim.g.startuptime_tries = 10
         end,
     },
+    -- {
+    --     "tweekmonster/startuptime.vim",
+    --     cmd = "StartupTime",
+    -- },
 
     -- TODO:?
     -- session management
@@ -87,7 +91,7 @@ return {
                     ["core.concealer"] = { -- Adds pretty icons to your documents
                         config = {
                             icon_preset = "basic", -- "basic" (default), "diamond", "varied"
-                        }
+                        },
                     },
                     -- ["core.dirman"] = { -- Manages Neorg workspaces
                     --     config = {
@@ -226,7 +230,7 @@ return {
     -- preview HTML, CSS and JS in browser
     {
         "turbio/bracey.vim",
-        build = "npm ci --prefix server",  -- Lazy sync doesn't run `git restore .` so it can't pull.
+        build = "npm ci --prefix server", -- Lazy sync doesn't run `git restore .` so it can't pull.
         ft = "html",
         cmd = "Bracey",
         keys = {
