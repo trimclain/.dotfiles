@@ -27,7 +27,7 @@ getnf: ## nerd font installer
 wallpapers:
 	@echo "Installing wallpapers..."
 	@mkdir -p ~/personal/media/
-	@git clone https://github.com/Mach-OS/wallpapers ~/personal/media/wallpapers
+	@git clone --depth=1 https://github.com/trimclain/wallpapers ~/personal/media/wallpapers
 	@echo "Done"
 
 ###################################################################################################
