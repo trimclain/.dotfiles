@@ -1,9 +1,9 @@
 configuration {
   modi: [run,drun,window];
     show-icons:               false;
-    display-drun:             "  Apps";
-    display-run:              "  Run";
-    display-window:           "  Window";
+    display-drun:             " Apps";
+    display-run:              " Run";
+    display-window:           " Window";
     drun-display-format:      "{name}";
     disable-history:          false;
     click-to-exit:            true;
@@ -14,8 +14,11 @@ configuration {
 @theme "kabinspace"
 
 * {
-    font:                     "JetBrainsMono Nerd Font 12";
-    // font:                     "Cascadia Code 14";
+    //----------------------------------------------------------------------
+    // Get the name using `fc-list | awk -F: '{print $2,$3}' | grep <font>`
+    //----------------------------------------------------------------------
+    // font:                     "JetBrainsMono Nerd Font Mono 12";
+    font:                     "CaskaydiaCove Nerd Font Mono 13";
     background-color:         @background;
 }
 
@@ -31,7 +34,7 @@ textbox-prompt-colon {
     expand:                   false;
     // str:                      " 󰍉 ";
     str:                      "  ";
-    padding:                  6px 4px 6px 4px;
+    padding:                  8px 4px 4px 4px; // top right bottom left
     text-color:               @background;
     background-color:         @foreground;
     border-radius:            8px;
