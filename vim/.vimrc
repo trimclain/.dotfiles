@@ -64,6 +64,7 @@ set undodir=~/.vim/undodir              " set the undo directory
 set conceallevel=0                      " so that `` is visible in markdown files (default: 0)
 set laststatus=2                        " no statusbar because lightline
 set showtabline=2                       " enable tabline to see buffers using plugins
+set virtualedit=block                   " allows cursor to move where there is no text in visual block mode
 " set splitright                          " force all vertical splits to go to the right of current window
 " set mouse=a                             " enable the mouse
 " set cursorline                          " highlight current line
