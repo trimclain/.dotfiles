@@ -86,7 +86,7 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
-        tag = "0.1.3",
+        branch = "0.1.x",
         -- version = false, -- telescope did only one release, so use HEAD for now
         dependencies = {
             {
@@ -494,7 +494,8 @@ return {
             { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
         },
         config = function()
-            require("neogit").setup({
+            local neogit = require("neogit")
+            neogit.setup({
                 disable_commit_confirmation = true,
                 -- Change the default way of opening neogit
                 kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
@@ -508,8 +509,8 @@ return {
                 },
                 signs = {
                     -- { CLOSED, OPENED }
-                    section = { icons.ArrowClosed, icons.ArrowOpen }, -- default: { ">", "v" },
-                    item = { icons.ArrowClosedSmall, icons.ArrowOpenSmall }, -- default: { ">", "v" },
+                    section = { Icons.ArrowClosed, Icons.ArrowOpen }, -- default: { ">", "v" },
+                    item = { Icons.ArrowClosedSmall, Icons.ArrowOpenSmall }, -- default: { ">", "v" },
                     -- hunk = { "", "" }, -- default: { "", "" },
                 },
                 mappings = {
@@ -520,12 +521,17 @@ return {
                 },
             })
 
+            -- FIX:
             -- Close Neogit after `git push`
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "NeogitPushComplete",
-                group = vim.api.nvim_create_augroup("trimclain_close_neogit_after_push", { clear = true }),
-                callback = require("neogit").close,
-            })
+            -- vim.api.nvim_create_autocmd("User", {
+            --     -- pattern = "NeogitPushComplete",
+            --     pattern = "NeogitPullComplete",
+            --     group = vim.api.nvim_create_augroup("trimclain_close_neogit_after_push", { clear = true }),
+            --     -- callback = neogit.close,
+            --     callback = function()
+            --         vim.notify("Neogit Push Complete", vim.log.levels.INFO, { title = "Trimclain Neogit" })
+            --     end,
+            -- })
         end,
     },
 
