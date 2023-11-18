@@ -438,6 +438,8 @@ elif [[ "$_PROMT_THEME" == "zap" ]]; then
     plug "zap-zsh/zap-prompt"
 fi
 
+# SOMEDAY: eval "$(starship init zsh)"
+
 # Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
 
