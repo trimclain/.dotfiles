@@ -205,7 +205,6 @@ function M.toggle_shiftwidth()
     local value = get_option("shiftwidth")
     value = value == 4 and 2 or 4
     set_option("tabstop", value) -- insert 2 or 4 spaces for \t
-    set_option("softtabstop", value) -- insert 2 or 4 spaces for <Tab> and <BS> keypresses
     set_option("shiftwidth", value) -- the number of spaces inserted for each indentation level
     notify("Tab Size is set to " .. tostring(value) .. " spaces", "Tab Size Toggler")
 end
