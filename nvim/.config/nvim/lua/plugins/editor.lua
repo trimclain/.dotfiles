@@ -1,4 +1,5 @@
 local Util = require("core.util")
+local Icons = require("core.icons").ui
 
 return {
 
@@ -73,8 +74,8 @@ return {
             default_component_configs = {
                 indent = {
                     with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-                    expander_collapsed = "",
-                    expander_expanded = "",
+                    expander_collapsed = Icons.ArrowClosedSmall,
+                    expander_expanded = Icons.ArrowOpenSmall,
                     expander_highlight = "NeoTreeExpander",
                 },
             },
@@ -187,10 +188,8 @@ return {
         },
         opts = {
             defaults = {
-                -- prompt_prefix = " ",
-                prompt_prefix = " ",
-                -- selection_caret = " ",
-                selection_caret = "  ",
+                prompt_prefix = Icons.Telescope, -- default: " ",
+                selection_caret = Icons.Forward, -- default: " ",
                 border = CONFIG.ui.border ~= "none",
                 set_env = { ["COLORTERM"] = "truecolor" }, -- default: nil
                 vimgrep_arguments = {
@@ -495,8 +494,6 @@ return {
             { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
         },
         config = function()
-            local icons = require("core.icons").ui
-
             require("neogit").setup({
                 disable_commit_confirmation = true,
                 -- Change the default way of opening neogit
