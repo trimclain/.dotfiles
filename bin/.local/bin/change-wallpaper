@@ -24,5 +24,3 @@ if command -v nitrogen > /dev/null; then
 else
     echo "Error: neither nitrogen nor feh found"
 fi
-
-
