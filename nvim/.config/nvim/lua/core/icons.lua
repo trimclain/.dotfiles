@@ -177,7 +177,7 @@ return {
         ChevronShortRight = "",
         ChevronShortUp = "",
         -- Circle = "",
-        Circle = "● ",  -- referenced
+        Circle = "●",  -- referenced
         -- Close = "",
         Close = " ",
         -- CloudDownload = "",
@@ -223,7 +223,7 @@ return {
         MidDottedCircle = " ",
         MidUnfilledCircle = " ",
         -- NewFile = "",
-        NewFile = "", -- referenced
+        NewFile = " ", -- referenced
         -- Note = "",
         Note = " ",
         NoteBook = " ",
