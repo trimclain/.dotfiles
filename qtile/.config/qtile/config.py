@@ -65,8 +65,8 @@ widget_defaults = dict(
     # use ` kitty +list-fonts | grep <fontname>` to find a font
     # font="sans", # default
     # font="JetBrainsMono Nerd Font Mono",
-    # font="Cascadia Code",
-    font="BlexMono Nerd Font Mono",
+    # font="BlexMono Nerd Font Mono",
+    font="CaskaydiaCove Nerd Font Mono",
     fontsize=13,
     padding=3,
     borderwidth=2,
@@ -528,7 +528,7 @@ class Widget:
     )
 
 
-def my_legacy_mini_bar():
+def my_mini_bar_1():
     return [
         widget.Sep(**Widget.sep),
         widget.Image(**Widget.logo),
@@ -545,7 +545,7 @@ def my_legacy_mini_bar():
     ]
 
 
-def my_modern_mini_bar():
+def my_mini_bar_2():
     return [
         widget.Sep(**Widget.sep),
         widget.Image(**Widget.logo),
@@ -560,7 +560,24 @@ def my_modern_mini_bar():
     ]
 
 
-def my_legacy_bar():
+def my_mini_bar_3():
+    return [
+        widget.Sep(**Widget.sep),
+        widget.Clock(**Widget.clock),
+        # widget.Sep(**Widget.sep),
+        # widget.Image(**Widget.logo),
+        # widget.Sep(**Widget.sep),
+        # widget.CurrentLayoutIcon(padding=0, scale=0.7),
+        # widget.Sep(**Widget.sep),
+        # widget.WindowName(**Widget.window_name),
+
+        widget.Spacer(),
+        widget.GroupBox(**Widget.groupbox),
+        widget.Spacer(),
+    ]
+
+
+def my_bar_1():
     """First design"""
     return [
         widget.Sep(**Widget.sep),
@@ -593,7 +610,7 @@ def my_legacy_bar():
     ]
 
 
-def my_modern_bar():
+def my_bar_2():
     """Second design"""
     return [
         widget.Sep(**Widget.sep),
@@ -611,7 +628,7 @@ def my_modern_bar():
         widget.Systray(**Widget.systray),
         widget.Sep(**Widget.sep),
         widget.GenPollCommand(**Widget.volume),
-        widget.GenPollCommand(**Widget.brightness),
+        # widget.GenPollCommand(**Widget.brightness),
         widget.KeyboardLayout(**Widget.keyboard_layout),
         widget.Sep(**Widget.sep),
         widget.Memory(**Widget.memory),
@@ -625,10 +642,41 @@ def my_modern_bar():
         widget.TextBox(**Widget.exit_button),
     ]
 
+def my_bar_3():
+    """Third design"""
+    return [
+        # widget.Sep(**Widget.sep),
+        # widget.Image(**Widget.logo),
+        widget.Sep(**Widget.sep),
+        widget.Clock(**Widget.clock),
+        # widget.Sep(**Widget.sep),
+        # widget.WindowName(**Widget.window_name),
+
+        widget.Spacer(),
+        widget.GroupBox(**Widget.groupbox),
+        widget.Spacer(),
+
+        # on Wayland use widget.StatusNotifier(),
+        widget.Systray(**Widget.systray),
+        # widget.Sep(**Widget.sep),
+        # widget.CurrentLayoutIcon(padding=0, scale=0.7),
+        widget.Sep(**Widget.sep),
+        widget.GenPollCommand(**Widget.volume),
+        widget.GenPollCommand(**Widget.brightness),
+        widget.KeyboardLayout(**Widget.keyboard_layout),
+        widget.Sep(**Widget.sep),
+        widget.Memory(**Widget.memory),
+        widget.Sep(**Widget.sep),
+        widget.ThermalSensor(**Widget.thermal_sensor),
+        widget.Sep(**Widget.sep),
+        widget.Battery(**Widget.battery),
+        widget.Sep(**Widget.sep),
+        widget.TextBox(**Widget.exit_button),
+    ]
 
 screens = [
-    Screen(top=bar.Bar(widgets=my_modern_bar(), **bar_defaults)),
-    Screen(top=bar.Bar(widgets=my_modern_mini_bar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=my_bar_3(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=my_mini_bar_3(), **bar_defaults)),
 ]
 # }}}
 
