@@ -379,7 +379,6 @@ return {
     -- comments
     {
         "JoosepAlviste/nvim-ts-context-commentstring",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
         lazy = true,
     },
     {
