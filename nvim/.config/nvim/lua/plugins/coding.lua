@@ -360,6 +360,7 @@ return {
         "windwp/nvim-ts-autotag",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         event = "InsertEnter",
+        config = true,
     },
 
     -- I use snippets instead, but in case I want here's the link
@@ -378,13 +379,19 @@ return {
 
     -- comments
     {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        lazy = true,
-    },
-    {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
-        dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+        dependencies = {
+            {
+                "JoosepAlviste/nvim-ts-context-commentstring",
+                config = function()
+                    vim.g.skip_ts_context_commentstring_module = true
+                    require("ts_context_commentstring").setup({
+                        enable_autocmd = false,
+                    })
+                end,
+            },
+        },
         config = function()
             require("Comment").setup({
                 ignore = "^$", -- ignores empty lines
