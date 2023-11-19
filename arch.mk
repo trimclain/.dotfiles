@@ -19,7 +19,7 @@ vimdir:
 	@mkdir -p ~/.vim/undodir
 	@echo "Done"
 
-getnf: ## nerd font installer
+getnf: ## Install the Nerd Font installer
 	@if [ ! -f ~/.local/bin/getnf ]; then echo "Installing getnf..." &&\
 		git clone https://github.com/ronniedroid/getnf.git ~/getnf &&\
 		pushd ~/getnf && ./install.sh && popd && rm -rf ~/getnf && echo "Done"; fi
