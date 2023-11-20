@@ -27,13 +27,22 @@ from libqtile.log_utils import logger
 mod = "mod1"
 alt = "mod4"
 
-terminal = "alacritty" # "alacritty", "kitty", "wezterm"
+terminal = "alacritty"  # "alacritty", "kitty", "wezterm"
 
 browser = "thorium-browser"
 if shutil.which(browser) is None:
     browser = "firefox"
 
 arch_color = "#1793D0"
+# muted = "#6E6A86"
+# subtle = "#908cAA"
+rose = "#EBBCBA"
+pine = "#31748F"
+foam = "#9CCFD8"
+iris = "#C4A7E7"
+
+main_color = iris
+float_color = "#E1ACFF",  # dt colors
 
 # Theme defaults
 bar_defaults = dict(
@@ -43,12 +52,12 @@ bar_defaults = dict(
     margin=[8, 8, 0, 8],  # top, right, bottom, left
     # border_width=[0, 0, 2, 0],  # Draw top and bottom borders
     # border_color=["#FF00FF", "#000000", "#FF00FF", "#000000"]
-    border_color=arch_color
+    border_color=main_color
 )
 
 floating_layout_defaults = {
     # "border_focus": arch_color,
-    "border_focus": "#E1ACFF",  # dt colors
+    "border_focus": float_color,
     "border_normal": "#1D2330",
     # "border_focus": "#F07178",  # my awesome colors
     # "border_normal": "#282a36"
@@ -57,7 +66,7 @@ floating_layout_defaults = {
 
 layout_defaults = floating_layout_defaults.copy()
 layout_defaults.update({
-    "border_focus": arch_color,
+    "border_focus": main_color,
     "margin": 8,  # gaps
 })
 
@@ -314,7 +323,7 @@ group_names = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["", "", "", "", "", "ﭮ"]
 # , , , 
-group_labels = ["" for i in range(len(group_names))]
+group_labels = ["  " for i in range(len(group_names))]
 
 # INFO: match wm_class: https://docs.qtile.org/en/latest/manual/config/groups.html#example
 # or https://wiki.archlinux.org/title/Qtile#Group_Rules
@@ -382,7 +391,7 @@ class Widget:
         inactive=['#444444', '#333333'],
 
         highlight_method="border",  # "border", "block", "text", "line"
-        highlight_color=["#3D8BFF", arch_color],
+        highlight_color=["#3D8BFF", main_color],
         # highlight_color=["#3D8BFF", "#1276A6"],
         # highlight_color=["#000000", "#282828"],  # default
 
@@ -495,11 +504,14 @@ class Widget:
                 )
             ),
         },
-        format="%a %d/%m/%Y %H:%M",
-        fmt=" {}",
+        # format="%a %d/%m/%Y %H:%M",
+        format="%a, %b %d %H:%M",
+        # fmt=" {}",
+        fmt="󰥔 {}",
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#batteryicon
+    # TODO: update when discharging like polybar
     battery = dict(
         # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
         charge_char="",
@@ -521,9 +533,10 @@ class Widget:
         mouse_callbacks={
             "Button1": run_command("~/.local/bin/powermenu"),
         },
-        fmt="  ",
+        # fmt="  ",
+        fmt=" 󰐥 ",
         padding=0,
-        background=arch_color,
+        background=main_color,
         # background="#7A7B8C",
     )
 
@@ -642,6 +655,7 @@ def my_bar_2():
         widget.TextBox(**Widget.exit_button),
     ]
 
+
 def my_bar_3():
     """Third design"""
     return [
@@ -673,6 +687,7 @@ def my_bar_3():
         widget.Sep(**Widget.sep),
         widget.TextBox(**Widget.exit_button),
     ]
+
 
 screens = [
     Screen(top=bar.Bar(widgets=my_bar_3(), **bar_defaults)),
