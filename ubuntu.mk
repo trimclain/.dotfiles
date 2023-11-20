@@ -6,7 +6,7 @@ FLATINSTALL = flatpak install -y --or-update
 all:
 	@# Create required folders
 	@echo "Making sure ~/.local/bin and ~/.config exist"
-	mkdir -p ~/.local/bin ~/.config
+	mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives, ncdu for disk usage
@@ -15,7 +15,7 @@ all:
 	@# For netstat, ifconfig and more
 	@$(INSTALL) net-tools
 
-help: ## print this help menu
+help: ## Print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -24,15 +24,10 @@ vimdir:
 	mkdir -p ~/.vim/undodir
 	@echo "Done"
 
-fonts:
-	mkdir -p ~/.local/share/fonts/
-	cp -r ~/.dotfiles/fonts/* ~/.local/share/fonts/
-
-del_fonts:
-	@echo "Deleting fonts from ~/.local/share/fonts/"
-	@rm -r ~/.local/share/fonts/
-
-clean_fonts: del_fonts fonts
+getnf: ## Install the Nerd Font installer
+	@if [ ! -f ~/.local/bin/getnf ]; then echo "Installing getnf..." &&\
+		git clone https://github.com/ronniedroid/getnf.git ~/getnf &&\
+		pushd ~/getnf && ./install.sh && popd && rm -rf ~/getnf && echo "Done"; fi
 
 ansible:
 	@echo "==================================================================="
@@ -471,7 +466,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 
 ###############################################################################
 
-.PHONY: all help vimdir fonts del_fonts clean_fonts ansible tmux zsh zap \
+.PHONY: all help vimdir getnf ansible tmux zsh zap \
 	nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim \
 	tectonic fix_tectonic uninstall_tectonic \
 	nodejs uninstall_nodejs export_node_modules import_node_modules typescript \
