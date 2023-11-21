@@ -375,6 +375,84 @@ require("lazy").setup({
             vim.cmd.colorscheme("primer_dark")
         end,
     },
+    -- file explorer
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        cmd = "Neotree",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        },
+        keys = {
+            {
+                "<leader>e",
+                function()
+                    require("neo-tree.command").execute({ toggle = true, reveal_force_cwd = true })
+                end,
+                desc = "Explorer NeoTree",
+            },
+        },
+        init = function()
+            vim.g.neo_tree_remove_legacy_commands = 1
+            if vim.fn.argc() == 1 then
+                ---@diagnostic disable-next-line: param-type-mismatch
+                local stat = vim.loop.fs_stat(vim.fn.argv(0))
+                if stat and stat.type == "directory" then
+                    require("neo-tree")
+                end
+            end
+        end,
+        opts = {
+            filesystem = {
+                filtered_items = {
+                    hide_dotfiles = false,
+                    hide_hidden = false, -- for Windows
+                },
+                bind_to_cwd = false, -- true creates a 2-way binding between vim's cwd and neo-tree's root
+                follow_current_file = {
+                    enabled = true,
+                },
+            },
+            popup_border_style = CONFIG.ui.border,
+            window = {
+                position = "float", -- left, right, float, current (like netrw)
+                width = 35,
+                mappings = {
+                    ["<space>"] = "none",
+                    ["w"] = "none",
+                    ["<tab>"] = "open",
+                    -- Open allowed filetypes with xdg-open
+                    ["o"] = function(state)
+                        local node = state.tree:get_node()
+                        local ext = node.name:match("^.+(%..+)$")
+                        local extensions = { ".pdf", ".jpg", ".jpeg", ".png", ".html" }
+                        for _, extension in pairs(extensions) do
+                            if ext == extension then
+                                -- vim.notify(
+                                --     "Opened " .. node.name,
+                                --     vim.log.levels.INFO,
+                                --     { title = "NeoTree: System Open Files" }
+                                -- )
+                                system_open(node.path)
+                                require("neo-tree.command").execute({ toggle = true })
+                                break
+                            end
+                        end
+                    end,
+                },
+            },
+            default_component_configs = {
+                indent = {
+                    with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+                    expander_collapsed = "",
+                    expander_expanded = "",
+                    expander_highlight = "NeoTreeExpander",
+                },
+            },
+        },
+    },
     -- telescope
     {
         "nvim-telescope/telescope.nvim",
@@ -798,8 +876,6 @@ require("lazy").setup({
             },
         },
     },
-    -- TODO: neotree?
-
     -- undotree
     {
         "mbbill/undotree",
@@ -821,6 +897,14 @@ require("lazy").setup({
             -- comment_ft.set("lua", { "--%s", "--[[%s]]" })
             -- comment_ft.set("markdown", { "[//]:%s", "<!--%s-->" })
         end,
+    },
+    -- close buffers
+    {
+        "echasnovski/mini.bufremove",
+        -- stylua: ignore
+        keys = {
+            { "<leader>q", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+        },
     },
     -- measure startuptime
     {
