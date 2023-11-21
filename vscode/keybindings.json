@@ -1,12 +1,12 @@
 [
     // Toggle bottom panel
+    // {
+    //     "key": "ctrl+h",
+    //     "command": "-editor.action.startFindReplaceAction",
+    //     "when": "editorFocus || editorIsOpen"
+    // },
     {
-        "key": "ctrl+h",
-        "command": "-editor.action.startFindReplaceAction",
-        "when": "editorFocus || editorIsOpen"
-    },
-    {
-        "key": "ctrl+h",
+        "key": "ctrl+n",
         "command": "workbench.action.togglePanel"
     },
     {
