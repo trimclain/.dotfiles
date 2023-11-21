@@ -1,9 +1,10 @@
 {
     // Installed plugins:
-	//  - vscodevim.vim: Vim emulation for Visual Studio Code
-	//  - tobias-z.vscode-harpoon: A vscode clone of the vim plugin Harpoon created by The Primeagen
-	//  - vscode-icons-team.vscode-icons: Icons for Visual Studio Code
-	//  - wayou.vscode-todo-highlight: highlight TODOs, FIXMEs, and any keywords, annotations...
+    // - vscodevim.vim: Vim emulation for Visual Studio Code
+    // - tobias-z.vscode-harpoon: A vscode clone of the vim plugin Harpoon created by The Primeagen
+    // - vscode-icons-team.vscode-icons: Icons for Visual Studio Code
+    // - wayou.vscode-todo-highlight: highlight TODOs, FIXMEs, and any keywords, annotations...
+    // - eamodio.gitlens: Supercharge Git
 
     "workbench.startupEditor": "none",
     // Colorschemes for AL (note/10):
@@ -40,8 +41,7 @@
     "breadcrumbs.enabled": true,
     "editor.fontSize": 16, // default: 14
     // To find the exact font name: Control Panel -> Appearance and Personalization -> Fonts -> Find the font name
-    "editor.fontFamily": "'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
-    // "editor.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
+    "editor.fontFamily": "'CaskaydiaCove Nerd Font Mono', 'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
     "editor.fontLigatures": true,
 
     // Cursor
@@ -56,9 +56,9 @@
     "editor.linkedEditing": true,
 
     // Line numbers
-    // "editor.lineNumbers": "relative",
+    "editor.lineNumbers": "relative",
     // `editor.lineNumbers` is determined by the active Vim mode, absolute when in insert mode, relative otherwise.
-    // "vim.smartRelativeLine": false,
+    "vim.smartRelativeLine": true,
 
     // Controls the delay in milliseconds after which the hover is shown. (default: 300)
     "editor.hover.delay": 200,
@@ -213,8 +213,8 @@
     "git.enableSmartCommit": true,
     "git.autofetch": true,
     "git.confirmSync": false,
-	"git.fetchOnPull": true,
-	"git.untrackedChanges": "separate",
+    "git.fetchOnPull": true,
+    "git.untrackedChanges": "separate",
     // Controls the Git count badge.
     //  - all: Count all changes. (default)
     //  - tracked: Count only tracked changes.
@@ -224,6 +224,11 @@
     "git.autoStash": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "diffEditor.hideUnchangedRegions.enabled": true,
+
+    // GitLens
+    "gitlens.showWelcomeOnInstall": false,
+    "gitlens.plusFeatures.enabled": false,
+    "gitlens.showWhatsNewAfterUpgrades": false,
 
     // Zen Mode
     "zenMode.hideLineNumbers": false,
@@ -245,13 +250,13 @@
     // Timeout in milliseconds for remapped commands. (default: 1000)
     "vim.timeout": 500,
     // In visual mode, start a search with * or # using the current selection
-    // "vim.visualstar": true,
+    "vim.visualstar": true,
     // Delegate configured keys to be handled by VS Code instead of by the VSCodeVim extension
     "vim.handleKeys": {
         "<C-f>": false, // vscode find
         "<C-p>": false, // vscode commands
         "<C-b>": false, // build
-        "<C-h>": false  // toggle bottom panel
+        "<C-n>": false  // toggle bottom panel
     },
     "vim.normalModeKeyBindingsNonRecursive": [
         // buffers
@@ -311,11 +316,11 @@
             "before": ["]", "h"],
             "commands": ["workbench.action.editor.nextChange"]
         },
-        // code actions
-        {
-            "before": ["<leader>", "c", "a"],
-            "commands": ["editor.action.quickFix"]
-        },
+        // lsp code actions
+        // {
+        //     "before": ["<leader>", "l", "a"],
+        //     "commands": ["editor.action.quickFix"]
+        // },
         //
         // {
         //     "before": ["leader", "p"],
@@ -367,9 +372,19 @@
             "commands": ["vscode-harpoon.gotoEditor2"]
         },
         {
-            "before": ["<C-g>"],
+            "before": ["<C-h>"],
             "commands": ["vscode-harpoon.gotoEditor3"]
-        }
+        },
+        {
+            "before": ["<C-g>"],
+            "commands": ["vscode-harpoon.gotoEditor4"]
+        },
+
+        // TODO: Toggle bottom and side panels
+        // {
+        //     "before": ["<leader>", "c"],
+        //     "commands": ["workbench.action.togglePanel"]
+        // },
     ],
     "vim.visualModeKeyBindings": [
         // stay in visual mode while indenting
