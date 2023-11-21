@@ -21,12 +21,11 @@ CONFIG = {
     },
     ui = {
         -- Colorschemes (note/10):
-        -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9)
-        -- nightfox (8), vscode (8), gruvbox (8)
+        -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9), astrotheme (9)
+        -- primer-dark (8.5), nightfox (8), vscode (8), gruvbox (8)
         -- github-dark (7), onedark (7), kanagawa (7), zephyr (7)
         -- sonokai (6), omni (6),
-        -- darkplus (why does it change colors 5 seconds after launch?)
-        colorscheme = "vscode",
+        colorscheme = "primer-dark",
         transparent_background = false,
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
@@ -39,6 +38,7 @@ CONFIG = {
 }
 
 -------------------------------------------------------------------------------
+-- OPTIONS
 -- require("core.options")
 -------------------------------------------------------------------------------
 local tabwidth = CONFIG.opts.tabwidth
@@ -100,7 +100,8 @@ end
 -- Settings for Neovide or GUI nvim
 if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
-    vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
+    -- vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
+    vim.opt.guifont = "CaskaydiaCove Nerd Font Mono:h14"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
     vim.api.nvim_create_user_command(
         "FontSize",
@@ -161,6 +162,7 @@ vim.cmd("com! X x")
 vim.cmd("com! W w")
 
 -------------------------------------------------------------------------------
+-- UTILITIES
 -- require("core.util")
 -------------------------------------------------------------------------------
 --- Fuzzy find in current buffer
@@ -209,6 +211,7 @@ local function open_url()
 end
 
 -------------------------------------------------------------------------------
+-- KEYMAPS
 -- require("core.keymaps")
 -------------------------------------------------------------------------------
 local opts = { noremap = true, silent = true }
@@ -268,7 +271,8 @@ keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 
 --
 -- Very Useful Stuff
-keymap("n", "<leader><cr>", "<cmd>source %<cr>", add_desc("Source Buffer"))
+keymap("n", "<leader><cr>", "<cmd>e $MYVIMRC<cr>", add_desc("Edit Config"))
+-- keymap("n", "<leader><cr>", "<cmd>source %<cr>", add_desc("Source Buffer"))
 keymap("n", "gp", "`[v`]", add_desc("Select recently pasted text"))
 keymap("n", "Q", "<cmd>qa<cr>", opts) -- remap Q to :qa
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
@@ -329,14 +333,20 @@ keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using 
 -- keymap("n", "<C-q>", "<cmd>lua require('core.utils').ToggleQFList()<CR>", opts)
 
 -------------------------------------------------------------------------------
+-- PLUGINS
 -- require("core.lazy")
 -------------------------------------------------------------------------------
 -- Install lazy.nvim if needed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  -- bootstrap lazy.nvim
-  -- stylua: ignore
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
+if not (vim.uv or vim.loop).fs_stat(lazypath) then -- TODO: REMOVE vim.loop after Neovim v0.10 comes out
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
@@ -354,6 +364,15 @@ require("lazy").setup({
         config = function(_, opts)
             require("vscode").setup(opts)
             vim.cmd.colorscheme("vscode")
+        end,
+    },
+    {
+        "LunarVim/primer.nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "primer-dark",
+        config = function()
+            vim.cmd.colorscheme("primer_dark")
         end,
     },
     -- telescope
@@ -494,6 +513,87 @@ require("lazy").setup({
                 },
             },
         },
+    },
+    -- treesitter
+    {
+        -- REQUIREMENT: `scoop install gcc`
+        "nvim-treesitter/nvim-treesitter",
+        version = false, -- last release is way too old and doesn't work on Windows
+        build = ":TSUpdate",
+        enabled = vim.fn.executable("gcc") == 1,
+        event = { "BufReadPost", "BufNewFile" },
+        -- dependencies = {
+        --     {
+        --         "nvim-treesitter/nvim-treesitter-context",
+        --         keys = {
+        --             {
+        --                 "[c",
+        --                 function()
+        --                     require("treesitter-context").go_to_context()
+        --                 end,
+        --                 desc = "Jump to context (upwards)",
+        --             },
+        --         },
+        --         config = function()
+        --             require("treesitter-context").setup({
+        --                 max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
+        --             })
+        --         end,
+        --     },
+        -- },
+        -- keys = {
+        --   { "<c-space>", desc = "Increment selection" },
+        --   { "<bs>", desc = "Decrement selection", mode = "x" },
+        -- },
+        ---@type TSConfig
+        opts = {
+            highlight = {
+                enable = true,
+                -- disable slow treesitter highlight for large files
+                disable = function(lang, buf)
+                    -- return lang == "cpp" and vim.api.nvim_buf_line_count(bufnr) > 50000
+                    local max_filesize = 100 * 1024 -- 100 KB
+                    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+                    if ok and stats and stats.size > max_filesize then
+                        return true
+                    end
+                end,
+            },
+            indent = {
+                enable = true,
+                disable = { "julia" }, -- sadly broken right now
+            },
+            context_commentstring = { enable = true, enable_autocmd = false }, -- nvim-ts-context-commentstring
+            autotag = { enable = true }, -- nvim-ts-autotag
+            -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+            ensure_installed = {
+                "html",
+                "javascript",
+                "json",
+                "jsonc",
+                "lua",
+                "markdown",
+                "markdown_inline",
+                "python",
+                "regex",
+                "vim",
+                "vimdoc",
+                "xml",
+            },
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = "<C-space>",
+                    node_incremental = "<C-space>",
+                    scope_incremental = "<nop>",
+                    node_decremental = "<bs>",
+                },
+            },
+        },
+        ---@param opts TSConfig
+        config = function(_, opts)
+            require("nvim-treesitter.configs").setup(opts)
+        end,
     },
     -- auto completion
     {
@@ -743,39 +843,28 @@ require("lazy").setup({
     change_detection = {
         -- automatically check for config file changes and reload the ui
         enabled = false, -- maybe later
-        notify = true, -- get a notification when changes are found
+        notify = false, -- get a notification when changes are found
     },
     performance = {
         rtp = {
             -- disable some rtp plugins
             disabled_plugins = {
-                "2html_plugin",
-                "getscript",
-                "getscriptPlugin",
-                "gzip",
-                "logipat",
-                "matchit",
-                "matchparen",
-                "netrw",
-                "netrwFileHandlers",
-                "netrwPlugin",
-                "netrwSettings",
-                "rrhelper",
-                "spellfile_plugin",
-                "tar",
-                "tarPlugin",
-                "tohtml",
-                "tutor",
-                "vimball",
-                "vimballPlugin",
-                "zip",
-                "zipPlugin",
+                "gzip", -- read *.Z, *.gz, *.bz2, *.lzma, *.xz, *.lz and *.zst files in vim
+                -- "matchit", -- better % matches
+                "matchparen", -- highlight matching parentheses
+                "netrwPlugin", -- builtin file explorer
+                "rplugin", -- remote plugin support
+                "tarPlugin", -- read *.tar files in vim
+                "tohtml", -- convert current window to html
+                "tutor", -- vim tutor
+                "zipPlugin", -- read *.zip files in vim
             },
         },
     },
 })
 
 -------------------------------------------------------------------------------
+-- AUTOCOMMANDS
 -- require("core.autocmd")
 -------------------------------------------------------------------------------
 local function augroup(name)
@@ -849,6 +938,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "qf", -- QuickFixList
         "help", -- nvim help
         "man", -- nvim man pages
+        "startuptime", -- dstein64/vim-startuptime
     },
     callback = function(event)
         vim.bo[event.buf].buflisted = false
