@@ -89,7 +89,7 @@ shopt -s checkwinsize
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color|xterm-kitty|screen) color_prompt=yes ;;
+    xterm-color|*-256color|xterm-kitty|alacritty|screen) color_prompt=yes ;;
 esac
 
 if [ "$color_prompt" = yes ]; then
