@@ -29,7 +29,7 @@ CONFIG = {
         format_on_save = false,
         virtual_text = false,
         show_signature_help = true,
-        enable_copilot = vim.fn.has("unix") == 1,
+        enable_copilot = vim.fn.has("unix") == 1 and vim.fn.has("wsl") == 0,
     },
     ui = {
         -- Colorschemes (note/10):
