@@ -211,6 +211,7 @@ return {
 
     {
         "AstroNvim/astrotheme",
+        dir = "~/projects/open-source/nvim-plugins/astrotheme",
         lazy = false,
         priority = 1000,
         cond = CONFIG.ui.colorscheme == "astrotheme",
@@ -228,6 +229,8 @@ return {
             -- plugins = { -- Allows for individual plugin overrides using plugin name and value from above.
             --     ["bufferline.nvim"] = false,
             -- },
+            -- TODO: add neogit
+            -- TODO: add harpoon
         },
         config = function(_, opts)
             require("astrotheme").setup(opts)
@@ -389,6 +392,16 @@ return {
         cond = CONFIG.ui.colorscheme == "zephyr",
         config = function()
             vim.cmd.colorscheme("zephyr")
+        end,
+    },
+
+    {
+        "embark-theme/vim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "embark",
+        config = function()
+            vim.cmd.colorscheme("embark")
         end,
     },
 

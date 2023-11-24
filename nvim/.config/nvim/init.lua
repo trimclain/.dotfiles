@@ -36,11 +36,13 @@ CONFIG = {
         -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9), astrotheme (9)
         -- primer-dark (8.5), nightfox (8), vscode (8), gruvbox (8)
         -- github-dark (7), onedark (7), kanagawa (7), zephyr (7)
-        -- sonokai (6), omni (6),
-        colorscheme = "primer-dark",
+        -- embark(6), sonokai (6), omni (6),
+        -- colorscheme = "primer-dark",
+        colorscheme = "astrotheme",
         transparent_background = false,
         cursorline = true,
-        border = "rounded", -- see `:h nvim_open_win`
+        -- border = "rounded", -- see `:h nvim_open_win`
+        border = "none",
         italic_comments = true,
         ghost_text = false,
 
