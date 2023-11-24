@@ -43,7 +43,7 @@ return {
                     enabled = true,
                 },
             },
-            popup_border_style = CONFIG.ui.border,
+            popup_border_style = CONFIG.ui.border == "none" and "rounded" or CONFIG.ui.border,
             window = {
                 position = "float", -- left, right, float, current (like netrw)
                 width = 35,
@@ -190,7 +190,7 @@ return {
             defaults = {
                 prompt_prefix = Icons.Telescope, -- default: " ",
                 selection_caret = Icons.Forward, -- default: " ",
-                border = CONFIG.ui.border ~= "none",
+                -- border = CONFIG.ui.border ~= "none",
                 set_env = { ["COLORTERM"] = "truecolor" }, -- default: nil
                 vimgrep_arguments = {
                     "rg",
@@ -826,7 +826,15 @@ return {
                     map("[[", "prev", buffer)
                 end,
             })
+
+            -- replace underline with highlight
+            local hl = vim.api.nvim_set_hl
+            local color = "#31363d" -- color taken from primer.nvim
+            hl(0, "IlluminatedWordRead", { fg = "NONE", bg = color })
+            hl(0, "IlluminatedWordWrite", { fg = "NONE", bg = color })
+            hl(0, "IlluminatedWordText", { fg = "NONE", bg = color })
         end,
+        -- TODO: use this idea to lazy load toggleterm on keys
         keys = {
             { "]]", desc = "Next Reference" },
             { "[[", desc = "Prev Reference" },

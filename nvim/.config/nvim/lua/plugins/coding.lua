@@ -146,11 +146,10 @@ return {
                         require("luasnip").lsp_expand(args.body)
                     end,
                 },
-                -- Make it round
-                window = {
+                window = CONFIG.ui.border == "rounded" and {
                     completion = cmp.config.window.bordered(),
                     documentation = cmp.config.window.bordered(),
-                },
+                } or {},
                 mapping = cmp.mapping.preset.insert({
                     ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
                     ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
