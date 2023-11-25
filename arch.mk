@@ -9,6 +9,8 @@ all:
 	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr
 	@# For netstat, ifconfig and more
 	@$(INSTALL) net-tools
+	@# Some scripts like getnf need this
+	@$(INSTALL) xdg-user-dirs
 
 help: ## Print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
