@@ -488,8 +488,8 @@
     # (( VCS_STATUS_PUSH_COMMITS_AHEAD  )) && res+="${conflicted}⇢"
     # *42 if have stashes.
     # (( VCS_STATUS_STASHES        )) && res+=" ${clean}*${VCS_STATUS_STASHES}"
-    # BE_LIKE_STARSHIP:
-    (( VCS_STATUS_STASHES        )) && newres+=" ${conflicted}*"
+    # BE_LIKE_STARSHIP: $ if have stashes.
+    (( VCS_STATUS_STASHES )) && newres+="${conflicted}\$"
     # 'merge' if the repo is in an unusual state.
     # [[ -n $VCS_STATUS_ACTION     ]] && res+=" ${conflicted}${VCS_STATUS_ACTION}"
     # BE_LIKE_STARSHIP:
