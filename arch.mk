@@ -30,6 +30,12 @@ wallpapers:
 	@git clone --depth=1 https://github.com/trimclain/wallpapers ~/personal/media/wallpapers
 	@echo "Done"
 
+bluetooth:
+	@echo "Setting up bluetooth..."
+	$(INSTALL) bluez bluez-utils
+	sudo systemctl enable --now bluetooth.service
+
+
 ###################################################################################################
 # Languages
 ###################################################################################################
@@ -293,7 +299,7 @@ install: ## Setup arch after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir getnf wallpapers\
+.PHONY: all help vimdir getnf wallpapers bluetooth\
 	python rust julia golang g \
 	n uninstall_n export_node_modules import_node_modules typescript tectonic \
 	paru flatpak\
