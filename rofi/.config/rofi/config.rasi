@@ -18,7 +18,7 @@ configuration {
     // Get the name using `fc-list | awk -F: '{print $2,$3}' | grep <font>`
     //----------------------------------------------------------------------
     // font:                     "JetBrainsMono Nerd Font Mono 12";
-    font:                     "CaskaydiaCove Nerd Font Mono 13";
+    font:                     "CaskaydiaCove NFM 13";
     background-color:         @background;
 }
 

@@ -41,7 +41,7 @@
     "breadcrumbs.enabled": true,
     "editor.fontSize": 16, // default: 14
     // To find the exact font name: Control Panel -> Appearance and Personalization -> Fonts -> Find the font name
-    "editor.fontFamily": "'CaskaydiaCove Nerd Font Mono', 'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
+    "editor.fontFamily": "'CaskaydiaCove NFM', 'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
     "editor.fontLigatures": true,
 
     // Cursor

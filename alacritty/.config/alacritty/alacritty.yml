@@ -193,7 +193,7 @@ font:
         # family: BlexMono Nerd Font Mono # (8/10)
         # family: JetBrainsMono Nerd Font Mono # (8/10)
 
-        family: CaskaydiaCove Nerd Font Mono # (9/10)
+        family: CaskaydiaCove NFM # (9/10)
         style: SemiLight
 
         # The `style` can be specified to pick a specific face.
@@ -210,7 +210,7 @@ font:
         # family: Cascadia Code
         # style: SemiBold
 
-        family: CaskaydiaCove Nerd Font Mono
+        family: CaskaydiaCove NFM
         style: SemiBold
 
     # Italic font face
@@ -222,7 +222,7 @@ font:
         # style: SemiLight Italic
         #style: Light Italic
 
-        family: CaskaydiaCove Nerd Font Mono
+        family: CaskaydiaCove NFM
         style: SemiLight Italic
 
     # Bold italic font face
@@ -233,7 +233,7 @@ font:
         # family: Cascadia Code
         # style: SemiBold Italic
 
-        family: CaskaydiaCove Nerd Font Mono
+        family: CaskaydiaCove NFM
         style: SemiBold Italic
 
 

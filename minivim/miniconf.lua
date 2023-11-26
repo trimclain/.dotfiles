@@ -101,8 +101,7 @@ end
 if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
-    vim.opt.guifont = "CaskaydiaCove Nerd Font Mono:h14"
-    -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
+    vim.opt.guifont = "CaskaydiaCove NFM:h14"
     vim.api.nvim_create_user_command(
         "FontSize",
         function(cmd)
