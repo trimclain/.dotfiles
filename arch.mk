@@ -39,26 +39,27 @@ bluetooth:
 
 
 ###################################################################################################
-# Languages
+#                                            Languages                                            #
 ###################################################################################################
 
 # TODO: switch to pyenv for version control
 # TODO: switch to virtualenv (venv comes built-in, but has less features)
 
-# To install numpy, matplotlib, pillow use
-# $(INSTALL) python-numpy python-matplotlib python-pillow
 python: ## Install python3, pip
-	@$(INSTALL) python python-pip
+	$(INSTALL) python python-pip
+
+python_modules:
+	$(INSTALL) python-numpy python-matplotlib jupyter-notebook
 
 rust: ## Install rustup, the rust version manager
-	@$(INSTALL) rustup
-	@rustup default stable
+	$(INSTALL) rustup
+	rustup default stable
 
 julia:
-	@$(INSTALL) julia
+	$(INSTALL) julia
 
 golang:
-	@$(INSTALL) go
+	$(INSTALL) go
 
 g: ## Install g, the go version manager
 	@echo "==================================================================="
@@ -87,14 +88,14 @@ import_node_modules:
 
 typescript:
 	@# Install tsc and ts-node
-	@npm install -g typescript ts-node
+	npm install -g typescript ts-node
 
 # LaTeX engine
 tectonic:
 	$(INSTALL) tectonic
 
 ###################################################################################################
-# Software
+#                                             Software                                            #
 ###################################################################################################
 
 paru: ## Install paru (the AUR helper)
@@ -107,7 +108,7 @@ flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then echo "[flatpak]: Already installed";\
 		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
 
-#========================================= Neovim =================================================
+#============================================= Neovim =============================================
 # or install neovim-nightly-bin with paru
 nvim_reqs:
 	@# Things my neovim needs
@@ -147,7 +148,7 @@ purge_nvim: uninstall_nvim clean_nvim
 neovide:
 	$(INSTALL) neovide
 
-#========================================== Zsh ===================================================
+#============================================== Zsh ===============================================
 zsh: ## Install zsh
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
 		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done" && make zap; fi
@@ -162,7 +163,7 @@ zap:
 		else echo "Installing zap-zsh..." && git clone https://github.com/zap-zsh/zap ~/.local/share/zap;\
 		echo "Done"; fi
 
-#===================================== Window Manager =============================================
+#========================================= Window Manager =========================================
 awesome:
 	@echo "==================================================================="
 	$(INSTALL) awesome dmenu rofi slock dunst picom feh nitrogen polybar
@@ -181,7 +182,7 @@ hyprland:
 	@# Install waybar (statusbar) and swaybg (set wallpaper)
 	$(INSTALL) waybar swaybg
 
-#======================================== Terminal ================================================
+#============================================ Terminal ============================================
 alacritty:
 	$(INSTALL) alacritty
 
@@ -224,7 +225,7 @@ vscodium: ## Install VSCodium
 office: ## Install LibreOffice
 	$(INSTALL) libreoffice-still
 
-#========================================== Study =================================================
+#============================================= Study ==============================================
 anki:
 	@echo "==================================================================="
 	@echo "Installing Anki..."
@@ -287,7 +288,8 @@ install: ## Setup arch after new installation
 	@make kitty
 	@# system fonts + my fonts
 	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
-	@make fonts
+	@# TODO: automate nerd font install
+	@make getnf
 	@# shell
 	@make zsh
 	$(INSTALL) tmux
