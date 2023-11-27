@@ -512,6 +512,8 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#batteryicon
     # TODO: update when discharging like polybar
+    # https://qtile-extras.readthedocs.io/en/stable/manual/ref/widgets.html#upowerwidget
+    # dep: python-dbus-next
     battery = dict(
         # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
         charge_char="",
