@@ -417,11 +417,14 @@ return {
     {
         "akinsho/toggleterm.nvim",
         version = "*",
-        -- TODO: I can do better (load only on keymap)
-        event = "VeryLazy",
+        keys = {
+            { [[<C-\>]], desc = "Toggle Terminal" },
+        },
+        -- event = "VeryLazy",
         opts = {
             open_mapping = [[<c-\>]],
-            shading_factor = 2, -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+            -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+            shading_factor = 2,
             direction = "float",
             float_opts = {
                 border = "curved",
@@ -834,7 +837,6 @@ return {
             hl(0, "IlluminatedWordWrite", { fg = "NONE", bg = color })
             hl(0, "IlluminatedWordText", { fg = "NONE", bg = color })
         end,
-        -- TODO: use this idea to lazy load toggleterm on keys
         keys = {
             { "]]", desc = "Next Reference" },
             { "[[", desc = "Prev Reference" },

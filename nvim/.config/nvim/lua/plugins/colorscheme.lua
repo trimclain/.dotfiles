@@ -229,7 +229,6 @@ return {
             -- plugins = { -- Allows for individual plugin overrides using plugin name and value from above.
             --     ["bufferline.nvim"] = false,
             -- },
-            -- TODO: add neogit
             -- TODO: add harpoon
         },
         config = function(_, opts)
