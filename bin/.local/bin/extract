@@ -23,10 +23,10 @@
 # }
 
 if [[ -z $1 ]]; then
-    echo "Error: Need an archive to extract";
+    echo "Error: Need an archive to extract"
     exit 1
 elif [[ ! -f $1 ]]; then
-    echo "Error: $1 not found";
+    echo "Error: $1 not found"
     exit 1
 fi
 
@@ -42,6 +42,10 @@ else
 fi
 if [[ $extension == "zip" ]]; then
     # TODO: yeeeeah.... nice code btw
+    if ! command -v unzip &> /dev/null; then
+        echo "Error: unzip not found"
+        exit 1
+    fi
     if [[ -z $2 ]]; then
         # if there's 1 folder containing every other file in an archive
         # don't create new folder
@@ -85,7 +89,7 @@ else
         rm "$1"
         echo "Done"
     else
-        echo "Error: 7z not found";
+        echo "Error: 7z not found"
         exit 1
     fi
 fi
