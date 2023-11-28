@@ -213,11 +213,14 @@ return {
             -- Show github copilot status
             local copilot = {
                 function()
-                    local status = require("copilot.api").status.data
-                    if string.find(status.message, "disconnected") then
+                    -- INFO:
+                    -- status options I've seen so far: "Normal", "InProcess", "Warning"
+                    local status = require("copilot.api").status.data.status
+                    -- this usually means there's no internet connection, so disable the icon
+                    if status == "Warning" then
                         return ""
                     end
-                    return icons.kinds.Copilot .. (status.message or "")
+                    return icons.kinds.Copilot .. (status or "")
                 end,
                 cond = function()
                     local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
