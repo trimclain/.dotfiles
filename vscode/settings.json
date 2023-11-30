@@ -7,21 +7,14 @@
     // - eamodio.gitlens: Supercharge Git
 
     "workbench.startupEditor": "none",
-    // Colorschemes for AL (note/10):
-    // "Monokai" (9.5),
-    // "Gruvbox Dark Hard" (9),
-    // "Rosé Pine Moon" (9),
-    // "Catppuccin Macchiato" (8.5),
-    // "Default Dark Modern" (8.5),
-    // "Default Dark+" (8.5),
-    // "Kanagawa" (8),
-    // "Monokai Classic" (8), // annoyingly choosing icons too
-    // "Monokai Pro" (8), // annoyingly choosing icons too
-    // "Dracula" (7.5),
-    // "Andromeda" (7.5),
-    // "Tokyo Night Storm", (7)
-    "workbench.colorTheme": "Default Dark Modern",
-    // "workbench.colorTheme": "Default Light Modern",
+    // Colorschemes (note/10):
+    // "workbench.colorTheme": "Rosé Pine Moon", // (9.5)
+    // "workbench.colorTheme": "Dobri Next -C05- Electron", // (9.5)
+    "workbench.colorTheme": "Electron", // (9.5)
+    // "workbench.colorTheme": "Dobri Next -C09- Eve", // (8.5)
+    // "workbench.colorTheme": "Andromeda Italic Bordered", // (8) (pretty bright colors)
+    // "workbench.colorTheme": "Shades of Purple (Super Dark)", // (8) (high contrast)
+    // "workbench.colorTheme": "Default Dark Modern", // (hate green comments)
     "workbench.iconTheme": "vscode-icons",
     // "workbench.activityBar.visible": false,
     "workbench.sideBar.location": "right",
