@@ -395,11 +395,6 @@
         // move selected lines while staying in visual mode
         { "before": ["J"], "commands": ["editor.action.moveLinesDownAction"] },
         { "before": ["K"], "commands": ["editor.action.moveLinesUpAction"] },
-        // toggle comment selection
-        {
-            "before": ["leader", "g", "c"],
-            "commands": ["editor.action.commentLine"]
-        }
     ],
 
     // To improve performance
