@@ -32,6 +32,7 @@
     // "editor.formatOnSaveMode": "file",
 
     "breadcrumbs.enabled": true,
+    "window.zoomLevel": 0.7,
     "editor.fontSize": 16, // default: 14
     // To find the exact font name: Control Panel -> Appearance and Personalization -> Fonts -> Find the font name
     "editor.fontFamily": "'CaskaydiaCove NFM', 'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
@@ -285,9 +286,9 @@
             "commands": [ "revealInExplorer" ],
         },
         // nice to have
-        { "before": ["leader", "w"], "commands": [":w"] },
-        { "before": ["leader", "q"], "commands": [":q"] },
-        { "before": ["leader", "x"], "commands": [":x"] },
+        { "before": ["leader", "w"], "commands": [":w"], "silent": true },
+        { "before": ["leader", "q"], "commands": [":q"], "silent": true },
+        { "before": ["leader", "x"], "commands": [":x"], "silent": true },
         { "before": ["Y"], "after": ["y", "$"] },
         // clear highlights after a search
         { "before": ["<C-l>"], "commands": [":nohl"], "silent": true },
@@ -346,11 +347,13 @@
         // harpoon
         {
             "before": ["<leader>", "a"],
-            "commands": ["vscode-harpoon.addEditor"]
+            "commands": ["vscode-harpoon.addEditor"],
+            "silent": true
         },
         {
             "before": ["<C-e>"],
-            "commands": ["vscode-harpoon.editEditors"]
+            "commands": ["vscode-harpoon.editEditors"],
+            "silent": true
         },
         // {
         //     "before": ["<leader>", "p", "e"],
@@ -358,19 +361,23 @@
         // },
         {
             "before": ["<C-j>"],
-            "commands": ["vscode-harpoon.gotoEditor1"]
+            "commands": ["vscode-harpoon.gotoEditor1"],
+            "silent": true
         },
         {
             "before": ["<C-k>"],
-            "commands": ["vscode-harpoon.gotoEditor2"]
+            "commands": ["vscode-harpoon.gotoEditor2"],
+            "silent": true
         },
         {
             "before": ["<C-h>"],
-            "commands": ["vscode-harpoon.gotoEditor3"]
+            "commands": ["vscode-harpoon.gotoEditor3"],
+            "silent": true
         },
         {
             "before": ["<C-g>"],
-            "commands": ["vscode-harpoon.gotoEditor4"]
+            "commands": ["vscode-harpoon.gotoEditor4"],
+            "silent": true
         },
 
         // TODO: Toggle bottom and side panels
@@ -440,7 +447,6 @@
             "backgroundColor": "#2563EB"
         }
     ],
-    "window.zoomLevel": 0.7
 }
 
 // vim:ft=jsonc
