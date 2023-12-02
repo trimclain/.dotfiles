@@ -749,21 +749,27 @@ return {
     -- harpoon btw
     {
         "ThePrimeagen/harpoon",
+        branch = "harpoon2",
         -- stylua: ignore
-        keys = {
-            { "<leader>a", function() require("harpoon.mark").add_file() end, desc = "Add Harpoon Mark" },
-            { "<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, desc = "Toggle Harpoon Menu" },
-            { "<C-j>", function() require("harpoon.ui").nav_file(1) end, desc = "Harpoon to file 1" },
-            { "<C-k>", function() require("harpoon.ui").nav_file(2) end, desc = "Harpoon to file 2" },
-            { "<C-h>", function() require("harpoon.ui").nav_file(3) end, desc = "Harpoon to file 3" },
-            { "<C-g>", function() require("harpoon.ui").nav_file(4) end, desc = "Harpoon to file 4" },
-        },
+        keys = function()
+            local harpoon = require("harpoon")
+            return {
+                { "<leader>a", function() harpoon:list():append() end, desc = "Add Harpoon Mark" },
+                { "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "Toggle Harpoon Menu" },
+                { "<C-j>", function() harpoon:list():select(1) end, desc = "Harpoon to file 1" },
+                { "<C-k>", function() harpoon:list():select(2) end, desc = "Harpoon to file 2" },
+                { "<C-h>", function() harpoon:list():select(3) end, desc = "Harpoon to file 3" },
+                { "<C-g>", function() harpoon:list():select(4) end, desc = "Harpoon to file 4" },
+            }
+        end,
         opts = {
-            global_settings = {
-                -- filetypes that you want to prevent from adding to the harpoon list menu.
-                excluded_filetypes = { "harpoon" },
+            settings = {
+                save_on_toggle = true,
             },
         },
+        config = function(_, opts)
+            require("harpoon"):setup(opts)
+        end,
     },
 
     -- zen mode
