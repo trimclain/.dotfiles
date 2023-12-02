@@ -1,3 +1,5 @@
+local Util = require("core.util")
+
 return {
 
     -- better `vim.notify()`
@@ -26,7 +28,6 @@ return {
         },
         init = function()
             -- when noice is not enabled, install notify on VeryLazy
-            local Util = require("core.util")
             if not Util.has_plugin("noice.nvim") then
                 Util.on_very_lazy(function()
                     vim.notify = require("notify")
@@ -213,14 +214,20 @@ return {
             -- Show github copilot status
             local copilot = {
                 function()
-                    -- INFO:
-                    -- status options I've seen so far: "Normal", "InProcess", "Warning"
                     local status = require("copilot.api").status.data.status
                     -- this usually means there's no internet connection, so disable the icon
+                    -- vim.notify("Status: " .. status)
                     if status == "Warning" then
                         return ""
                     end
-                    return icons.kinds.Copilot .. (status or "")
+
+                    -- TODO: notify when it's a new status
+                    local status_known = status == "Normal" or status == "InProgress" or status == "Warning"
+                    if status ~= "" and not status_known then
+                        vim.notify("WOOOW! Unknown status: " .. status, vim.log.levels.INFO, { title = "Copilot News" })
+                    end
+
+                    return icons.kinds.Copilot -- .. (status or "")
                 end,
                 cond = function()
                     local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
@@ -579,13 +586,13 @@ return {
                     header = logo,
                     -- stylua: ignore
                     center = {
-                        { action = require("core.util").telescope("files"),                    desc = " Find file",       icon = " ", key = "f" }, -- " "
+                        { action = Util.telescope("files"),                    desc = " Find file",       icon = " ", key = "f" }, -- " "
                         -- { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
                         { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
                         { action = "Telescope live_grep",                                      desc = " Find string",     icon = " ", key = "s" },
                         { action = "TodoTelescope keywords=TODO,FIX",                          desc = " Find todos",      icon = "󰄵 ", key = "t" },
                         -- { action = ":e $MYVIMRC | cd " .. vim.fn.stdpath("config"),            desc = " Config",          icon = " ", key = "c" },
-                        { action = require("core.util").config_files,                          desc = " Config",          icon = " ", key = "c" },
+                        { action = Util.config_files,                          desc = " Config",          icon = " ", key = "c" },
                         { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
                         { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
                     },
@@ -607,7 +614,7 @@ return {
 
             -- Disabled: adds 12-15 ms to startup time
             -- Show git status if in git repo
-            -- if require("core.util").in_git_worktree() then
+            -- if Util.in_git_worktree() then
             --     table.insert(
             --         opts.config.center,
             --         5,
@@ -620,7 +627,7 @@ return {
                 table.insert(
                     opts.config.center,
                     2,
-                    { action = require("core.util").open_project, desc = " Open project", icon = " ", key = "p" }
+                    { action = Util.open_project, desc = " Open project", icon = " ", key = "p" }
                 )
             end
 
