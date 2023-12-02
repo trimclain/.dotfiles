@@ -209,10 +209,10 @@ function M.toggle_shiftwidth()
     notify("Tab Size is set to " .. tostring(value) .. " spaces", "Tab Size Toggler")
 end
 
---- Toggle conceallevel value between 0 and 1
+--- Toggle conceallevel value between 0 and 2
 function M.toggle_conceallevel()
     local value = get_option("conceallevel")
-    value = value == 1 and 0 or 1
+    value = value == 2 and 0 or 2
     set_option("conceallevel", value)
     notify("Conceallevel is set to " .. tostring(value), "Conceallevel Toggler")
 end
