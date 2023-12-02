@@ -35,7 +35,7 @@
     "window.zoomLevel": 0.7,
     "editor.fontSize": 16, // default: 14
     // To find the exact font name: Control Panel -> Appearance and Personalization -> Fonts -> Find the font name
-    "editor.fontFamily": "'CaskaydiaCove NFM', 'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
+    "editor.fontFamily": "'CaskaydiaCove Nerd Font Mono Light', 'BlexMono Nerd Font Mono', Consolas, 'Courier New', monospace",
     "editor.fontLigatures": true,
 
     // Cursor
