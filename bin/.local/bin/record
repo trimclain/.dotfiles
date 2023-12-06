@@ -10,6 +10,14 @@ check_if_command_exists() {
 check_if_command_exists ffmpeg
 check_if_command_exists xwininfo
 
+# Show help if no argument is passed
+show_help(){
+    echo "Usage: record [screen|window|stop]"
+    echo "screen: record entire screen"
+    echo "window: record selected window"
+    echo "stop: stop recording"
+}
+
 #######################################
 # Kill existing recording
 #######################################
@@ -59,4 +67,5 @@ case "$1" in
     screen) screen ;;
     window) window ;;
     stop) killrecording ;;
+    *) show_help ;;
 esac
