@@ -750,6 +750,7 @@ return {
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
+        -- dir = "~/projects/open-source/nvim-plugins/harpoon",
         -- stylua: ignore
         keys = function()
             local harpoon = require("harpoon")
@@ -769,9 +770,6 @@ return {
         },
         config = function(_, opts)
             require("harpoon"):setup(opts)
-            -- TODO: as soon as this works properly, add config to astrotheme
-            -- vim.api.nvim_set_hl(0, "HarpoonWindow", { fg = "#a5d6ff", bg = "#ff00ff" })
-            vim.api.nvim_set_hl(0, "HarpoonBorder", { fg = "#ff0000", bg = "#ffffff" }) -- this highlight is for the inside for some reason
         end,
     },
 
