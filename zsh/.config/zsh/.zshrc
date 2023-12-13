@@ -324,7 +324,7 @@ alias py="python3"
 alias cp="cp -iv" \
     mv="mv -iv" \
     rm="rm -vI"
-# rsync="rsync -vrPlu"
+# rsync= "rsync -avuP"
 # mkd="mkdir -pv"
 
 alias grep='grep --color=auto'
