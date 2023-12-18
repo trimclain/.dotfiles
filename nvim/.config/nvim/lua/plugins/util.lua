@@ -65,7 +65,7 @@ return {
                 -- julia = "julia %",
                 -- lua = "lua %", -- this will override the `enable_builtin` for lua
                 -- markdown = "glow %",
-                python = "python %",
+                python = "python3 %",
                 -- rust = "cargo run",
                 sh = "sh %",
                 -- tex = "tectonic --chatter=minimal %",
