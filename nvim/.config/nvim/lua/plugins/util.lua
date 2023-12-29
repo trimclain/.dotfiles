@@ -58,7 +58,11 @@ return {
             commands = {
                 c = "gcc % -o $basename.out && ./$basename.out",
                 -- cpp = "g++ % -o $basename.out && ./$basename.out",
-                go = "go run %",
+                -- go = "go run %",
+                go = {
+                    cmd = "go run %",
+                    alt = "go build % && ./$basename",
+                },
                 -- go = "go build % && ./$basename",
                 -- java = "java %",
                 -- javascript = "node %",
