@@ -108,13 +108,20 @@ return {
                 desc = "Find Files with preview",
             },
 
-            -- stylua: ignore
-            { "<C-f>", function() Util.curr_buf_search() end, desc = "Fzf Buffer" },
+            -- find string
+            { "<C-f>", Util.curr_buf_search, desc = "Fzf Buffer" },
             { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
             { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "String in Files" },
-            -- { "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
-            { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Word under cursor" },
+            { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find word under cursor" },
+            {
+                "<leader>fW",
+                function()
+                    require("telescope.builtin").grep_string({ search = vim.fn.expand("<cWORD>") })
+                end,
+                desc = "Find WORD under cursor",
+            },
 
+            -- find my dotfiles
             {
                 "<leader>fd",
                 Util.telescope(

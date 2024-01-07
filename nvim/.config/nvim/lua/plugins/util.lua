@@ -65,7 +65,7 @@ return {
                 },
                 -- go = "go build % && ./$basename",
                 -- java = "java %",
-                -- javascript = "node %",
+                javascript = "node %",
                 -- julia = "julia %",
                 -- lua = "lua %", -- this will override the `enable_builtin` for lua
                 -- markdown = "glow %",

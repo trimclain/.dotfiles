@@ -222,7 +222,7 @@ return {
                     }),
                     -- nls.builtins.diagnostics.selene,
                     nls.builtins.diagnostics.shellcheck,
-                    nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
+                    -- nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
                     -- This is normal and not related to null-ls.
                     -- You can stop it by running eslint_d stop from the command line.
 
