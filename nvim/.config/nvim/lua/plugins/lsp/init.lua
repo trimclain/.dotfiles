@@ -1,22 +1,18 @@
+local Util = require("core.util")
+
 return {
     -- lspconfig
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            {
-                "folke/neodev.nvim", -- enable type checking to develop neovim
-                opts = {
-                    experimental = { pathStrict = true },
-                    library = { plugins = { "neotest" }, types = true },
-                },
-            },
+            { "folke/neodev.nvim", opts = {} }, -- enable type checking to develop neovim
             "mason.nvim",
             "williamboman/mason-lspconfig.nvim",
             {
                 "hrsh7th/cmp-nvim-lsp",
                 cond = function()
-                    return require("core.util").has_plugin("nvim-cmp")
+                    return Util.has_plugin("nvim-cmp")
                 end,
             },
             {
@@ -33,7 +29,7 @@ return {
             diagnostics = {
                 underline = true,
                 update_in_insert = false,
-                virtual_text = CONFIG.lsp.virtual_text and { spacing = 4, prefix = "●" } or false,
+                virtual_text = CONFIG.lsp.virtual_text and { spacing = 4, source = "if_many", prefix = "●" } or false,
                 severity_sort = true,
                 float = {
                     focusable = false,
@@ -44,10 +40,18 @@ return {
                     prefix = "",
                 },
             },
+            -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+            -- Be aware that you also will need to properly configure your LSP server to
+            -- provide the inlay hints.
+            inlay_hints = {
+                enabled = false,
+            },
             -- add any global capabilities here
             capabilities = {},
+            -- TODO:
             -- Automatically format on save
-            autoformat = CONFIG.lsp.format_on_save,
+            -- autoformat = CONFIG.lsp.format_on_save,
+
             -- options for vim.lsp.buf.format
             -- `bufnr` and `filter` is handled by the formatter,
             -- but can be also overridden when specified
@@ -110,10 +114,12 @@ return {
         },
         ---@param opts PluginLspOpts
         config = function(_, opts)
+            -- TODO:
             -- setup autoformat
-            require("plugins.lsp.format").autoformat = opts.autoformat
+            -- require("plugins.lsp.format").autoformat = opts.autoformat
+
             -- setup formatting and keymaps
-            require("core.util").on_attach(function(client, buffer)
+            Util.on_attach(function(client, buffer)
                 require("plugins.lsp.format").on_attach(client, buffer)
                 require("plugins.lsp.keymaps").on_attach(client, buffer)
             end)
