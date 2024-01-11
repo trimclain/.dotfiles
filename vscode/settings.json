@@ -250,7 +250,9 @@
         "<C-f>": false, // vscode find
         "<C-p>": false, // vscode commands
         "<C-b>": false, // build
-        "<C-n>": false  // toggle bottom panel
+        "<C-n>": false,  // toggle bottom panel
+        "<C-o>": false,  // switch to native go back
+        "<C-i>": false  // switch to native go forward
     },
     "vim.normalModeKeyBindingsNonRecursive": [
         // buffers
