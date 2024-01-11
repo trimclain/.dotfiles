@@ -101,7 +101,8 @@ end
 if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
-    vim.opt.guifont = "CaskaydiaCove NFM:h14"
+    vim.opt.guifont = "CaskaydiaCove Nerd Font Mono:h14"
+    -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
     vim.api.nvim_create_user_command(
         "FontSize",
         function(cmd)
@@ -1051,4 +1052,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     end,
     desc = "Set these filetypes to close with q-press and to not be in the buffers list",
     group = augroup("close_with_q"),
+})
+
+-- set conceallevel for markdown files
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*.md",
+    callback = function()
+        vim.opt_local.conceallevel = 1
+    end,
+    desc = "Set Conceallevel for markdown",
+    group = augroup("set_conceallevel_markdown"),
 })
