@@ -1,5 +1,16 @@
 return {
     {
+        "LunarVim/darkplus.nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "darkplus",
+        config = function()
+            -- require("darkplus").setup()
+            vim.cmd.colorscheme("darkplus")
+        end,
+    },
+
+    {
         "catppuccin/nvim",
         name = "catppuccin",
         lazy = false,
