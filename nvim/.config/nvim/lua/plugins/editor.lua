@@ -510,13 +510,13 @@ return {
         config = function()
             local neogit = require("neogit")
             neogit.setup({
-                disable_commit_confirmation = true,
+                disable_insert_on_commit = true, -- "auto", "true" or "false"
                 -- Change the default way of opening neogit
                 kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
-                -- -- The time after which an output console is shown for slow running commands
-                -- console_timeout = 2000,
-                -- -- Automatically show console if a command takes more than console_timeout milliseconds
-                -- auto_show_console = true,
+                -- The time after which an output console is shown for slow running commands
+                --console_timeout = 2000,
+                -- Automatically show console if a command takes more than console_timeout milliseconds
+                --auto_show_console = true,
                 -- override/add mappings
                 commit_editor = {
                     kind = "split", -- default: "auto"
@@ -525,7 +525,8 @@ return {
                     -- { CLOSED, OPENED }
                     section = { Icons.ArrowClosed, Icons.ArrowOpen }, -- default: { ">", "v" },
                     item = { Icons.ArrowClosedSmall, Icons.ArrowOpenSmall }, -- default: { ">", "v" },
-                    -- hunk = { "", "" }, -- default: { "", "" },
+                    hunk = { "", "" },
+                    -- hunk = { "", "" },
                 },
                 mappings = {
                     popup = {
