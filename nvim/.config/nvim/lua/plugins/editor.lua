@@ -500,6 +500,7 @@ return {
     -- git client
     {
         "NeogitOrg/neogit",
+        dir = "~/projects/open-source/nvim-plugins/neogit",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
@@ -529,6 +530,12 @@ return {
                     -- hunk = { "", "" },
                 },
                 mappings = {
+                    -- TODO: await the fix
+                    -- commit_editor = {
+                    --     ["q"] = false,
+                    --     ["<c-c><c-c>"] = false, -- default: "Submit"
+                    --     ["<c-c><c-k>"] = false, -- default: "Abort"
+                    -- },
                     popup = {
                         ["P"] = "PullPopup",
                         ["p"] = "PushPopup",
