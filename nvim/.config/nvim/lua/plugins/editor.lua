@@ -500,7 +500,7 @@ return {
     -- git client
     {
         "NeogitOrg/neogit",
-        dir = "~/projects/open-source/nvim-plugins/neogit",
+        -- dir = "~/projects/open-source/nvim-plugins/neogit",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
