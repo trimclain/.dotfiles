@@ -21,9 +21,17 @@
                     <td>Terminal</td>
                     <td><a href="https://sw.kovidgoyal.net/kitty/">Kitty</a></td>
                 </tr>
+                <!-- <tr> -->
+                <!--     <td>Terminal</td> -->
+                <!--     <td><a href="https://alacritty.org/">Alacritty</a></td> -->
+                <!-- </tr> -->
                 <tr>
                     <td>Shell</td>
                     <td><a href="https://www.zsh.org">Zsh</a></td>
+                </tr>
+                <tr>
+                    <td>Shell Theme</td>
+                    <td><a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a></td>
                 </tr>
                 <tr>
                     <td>Editor</td>
@@ -44,7 +52,7 @@
 
 ## How to install
 
-1. Install git and make
+1. Install `git` and `make`
 2. Clone this repository to your home directory:
 ```
 git clone --depth=1 https://github.com/trimclain/.dotfiles ~/.dotfiles
