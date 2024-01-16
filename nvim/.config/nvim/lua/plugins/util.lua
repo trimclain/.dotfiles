@@ -51,7 +51,7 @@ return {
         -- stylua: ignore
         keys = {
             {"<C-b>", function() require("builder").build() end, desc = "Build current buffer"},
-            -- {"<C-b>", function() require("builder").build({ color = true }) end, desc = "Build current buffer"},
+            -- {"<C-m>", function() require("builder").build({ color = true }) end, desc = "Build current buffer"},
         },
         opts = {
             type = CONFIG.ui.builder_type,
