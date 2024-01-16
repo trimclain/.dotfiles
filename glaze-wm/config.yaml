@@ -197,6 +197,11 @@ keybindings:
   - command: "exec wt" # "exec cmd"
     binding: "Alt+Enter"
 
+  # TODO:
+  # Launch Keypirinha (alternatively `exec wt` or `exec %ProgramFiles%/Git/git-bash.exe`
+  # - command: "exec wt"
+  #   binding: "Alt+D"
+
   # Focus the workspace that last had focus.
   - command: "focus workspace recent"
     binding: "Alt+Y"
