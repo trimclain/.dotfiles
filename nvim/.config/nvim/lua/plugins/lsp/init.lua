@@ -120,7 +120,8 @@ return {
 
             -- setup formatting and keymaps
             Util.on_attach(function(client, buffer)
-                require("plugins.lsp.format").on_attach(client, buffer)
+                -- TODO: this is the autoformat
+                -- require("plugins.lsp.format").on_attach(client, buffer)
                 require("plugins.lsp.keymaps").on_attach(client, buffer)
             end)
 
