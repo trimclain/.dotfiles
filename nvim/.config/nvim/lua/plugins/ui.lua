@@ -53,6 +53,7 @@ return {
             end
         end,
     },
+
     -- bufferline
     {
         "akinsho/bufferline.nvim",
