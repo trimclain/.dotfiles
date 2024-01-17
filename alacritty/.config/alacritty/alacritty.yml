@@ -13,7 +13,7 @@
 #                                                                             #
 ###############################################################################
 
-# Configuration for Alacritty, the GPU enhanced terminal emulator.
+# Configuration for Alacritty version < 0.13
 
 # Import additional configuration files
 #

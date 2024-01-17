@@ -1,0 +1,152 @@
+###############################################################################
+#                                                                             #
+#    ████████╗██████╗ ██╗███╗   ███╗ ██████╗██╗      █████╗ ██╗███╗   ██╗     #
+#    ╚══██╔══╝██╔══██╗██║████╗ ████║██╔════╝██║     ██╔══██╗██║████╗  ██║     #
+#       ██║   ██████╔╝██║██╔████╔██║██║     ██║     ███████║██║██╔██╗ ██║     #
+#       ██║   ██╔══██╗██║██║╚██╔╝██║██║     ██║     ██╔══██║██║██║╚██╗██║     #
+#       ██║   ██║  ██║██║██║ ╚═╝ ██║╚██████╗███████╗██║  ██║██║██║ ╚████║     #
+#       ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝     #
+#                                                                             #
+#        Arthur McLain (trimclain)                                            #
+#        mclain.it@gmail.com                                                  #
+#        https://github.com/trimclain                                         #
+#                                                                             #
+###############################################################################
+
+# Configuration for Alacritty, the GPU enhanced terminal emulator.
+# Docs: https://alacritty.org/config-alacritty.html
+
+# More Colorschemes: https://github.com/alacritty/alacritty-theme
+import = [
+    # "~/.config/alacritty/themes/machiatto.toml",
+    # "~/.config/alacritty/themes/lighthouse.toml",
+    # "~/.config/alacritty/themes/dracula.toml",
+    # "~/.config/alacritty/themes/blood_moon.toml",
+    # "~/.config/alacritty/themes/doom_one.toml",
+    # "~/.config/alacritty/themes/palenight.toml",
+    # "~/.config/alacritty/themes/ubuntu.toml",
+    # "~/.config/alacritty/themes/campbell.toml",
+    # "~/.config/alacritty/themes/xterm.toml",
+    "~/.config/alacritty/themes/hyper.toml",
+]
+
+[env]
+#TERM = xterm-256color
+TERM = "alacritty"
+# Docs: https://wiki.archlinux.org/title/Alacritty#Different_font_size_on_multiple_monitors
+# TODO: can I set this separate for every monitor?
+WINIT_X11_SCALE_FACTOR = "1.1"
+
+[window]
+dynamic_padding = true
+
+[scrolling]
+history = 5000 # default: 10000
+
+# {{{ Font configuration
+# Find fonts using `fc-list : family style`
+
+# ###############################################################################
+# # Hasklug Nerd Font Mono (8.7/10)
+# ###############################################################################
+# [font.normal]
+# family = "Hasklug Nerd Font Mono"
+
+# ###############################################################################
+# # CodeNewRoman Nerd Font Mono (8.5/10)
+# ###############################################################################
+# [font.normal]
+# family = "CodeNewRoman Nerd Font Mono"
+
+# ###############################################################################
+# # ComicShannsMono Nerd Font Mono (8.5/10)
+# ###############################################################################
+# [font.normal]
+# family = "ComicShannsMono Nerd Font Mono"
+
+# ###############################################################################
+# # VictorMono Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Medium"
+# # style = "SemiBold Oblique"
+# [font.bold]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Bold"
+# [font.italic]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Medium Italic"
+# # style = "SemiBold Oblique"
+# [font.bold_italic]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Medium"
+
+# ###############################################################################
+# # Iosevka Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "Iosevka Nerd Font Mono"
+
+# ###############################################################################
+# # BlexMono Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "BlexMono Nerd Font Mono"
+
+# ###############################################################################
+# # JetBrainsMono Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "JetBrainsMono Nerd Font Mono"
+
+###############################################################################
+# Cascadia Code Nerd Font Mono (9/10)
+###############################################################################
+[font.normal]
+family = "CaskaydiaCove Nerd Font Mono"
+style = "SemiLight"
+[font.bold]
+family = "CaskaydiaCove Nerd Font Mono"
+style = "SemiBold"
+[font.italic]
+family = "CaskaydiaCove Nerd Font Mono"
+style = "SemiLight Italic"
+[font.bold_italic]
+family = "CaskaydiaCove Nerd Font Mono"
+style = "SemiBold Italic"
+
+###############################################################################
+
+[font]
+size = 13.0 # default: 11.0
+# }}}
+
+[colors.primary]
+background = "#282c34"
+
+[cursor.style]
+blinking = "Never"
+shape = "Beam" # ▇ "Block" (default), _ "Underline", | "Beam"
+
+[mouse]
+hide_when_typing = true
+
+# {{{ Key Bindings
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+# }}}
+
+# vim:fileencoding=utf-8:foldmethod=marker
