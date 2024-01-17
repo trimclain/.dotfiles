@@ -47,7 +47,8 @@ bar:
   opacity: 1.0
   background: "#20242cc4"
   foreground: "#ffffff"
-  font_family: "Segoe UI"
+  # font_family: "Segoe UI"
+  font_family: "CaskaydiaCove Nerd Font Mono Light"
   font_size: "13px"
   padding: "4px 6px"
   offset_x: "0"
@@ -79,11 +80,29 @@ bar:
 
 workspaces:
   - name: "1"
+    display_name: ""
+    # bind_to_monitor: 1
+    keep_alive: true
   - name: "2"
+    display_name: ""
+    # bind_to_monitor: 1
+    keep_alive: true
   - name: "3"
+    display_name: ""
+    # bind_to_monitor: 1
+    keep_alive: true
   - name: "4"
+    display_name: ""
+    # bind_to_monitor: 1
+    keep_alive: true
   - name: "5"
+    display_name: ""
+    # bind_to_monitor: 1
+    keep_alive: true
   - name: "6"
+    display_name: ""
+    # bind_to_monitor: 1
+    keep_alive: true
   - name: "7"
   - name: "8"
   - name: "9"
@@ -196,11 +215,6 @@ keybindings:
   # to start Windows Terminal and Git Bash respectively.
   - command: "exec wt" # "exec cmd"
     binding: "Alt+Enter"
-
-  # TODO:
-  # Launch Keypirinha (alternatively `exec wt` or `exec %ProgramFiles%/Git/git-bash.exe`
-  # - command: "exec wt"
-  #   binding: "Alt+D"
 
   # Focus the workspace that last had focus.
   - command: "focus workspace recent"
