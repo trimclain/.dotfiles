@@ -396,7 +396,7 @@ return {
                 ["<leader>gh"] = { name = "+hunks" }, -- FIX:
                 ["<leader>l"] = { name = "+lsp" },
                 ["<leader>m"] = { name = "+make" },
-                ["<leader>n"] = { name = "+neorg" },
+                ["<leader>n"] = { name = "+neorg/neotest" },
                 ["<leader>o"] = { name = "+options" },
                 ["<leader>p"] = { name = "+plugins" },
                 ["<leader>r"] = { name = "+replace/refactor" },
