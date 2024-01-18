@@ -85,15 +85,32 @@ return {
                 lua_ls = {
                     -- mason = false, -- set to false if you don't want this server to be installed with mason
                     settings = {
+                        -- docs: https://luals.github.io/wiki/settings/
                         Lua = {
-                            workspace = {
-                                checkThirdParty = false,
-                            },
                             completion = {
+                                -- "Disable" - Only show function name (default)
+                                -- "Both" - Show function name and snippet
+                                -- "Replace" - Only show the call snippet
                                 callSnippet = "Replace",
                             },
-                            telemetry = {
-                                enable = false,
+                            diagnostics = {
+                                globals = { "describe", "it", "before_each", "after_each", "vim" },
+                            },
+                            hint = {
+                                enable = true,
+                                setType = true,
+                                -- semicolon = "Disable" -- default: "SameLine"
+                            },
+                            workspace = {
+                                checkThirdParty = false,
+                                -- TODO:?
+                                -- library = {
+                                --     vim.fn.expand("$VIMRUNTIME"),
+                                --     require("neodev.config").types(),
+                                --     "${3rd}/busted/library",
+                                --     "${3rd}/luassert/library",
+                                --     "${3rd}/luv/library",
+                                -- },
                             },
                         },
                     },
