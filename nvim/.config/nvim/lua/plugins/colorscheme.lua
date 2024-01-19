@@ -237,16 +237,21 @@ return {
                 italic_comments = CONFIG.ui.italic_comments,
                 simple_syntax_colors = true,
             },
-            -- highlights = {
-            --     global = {
-            --         modify_hl_groups = function(hl, c)
-            --             hl.NeogitDiffDelete = { fg = c.ui.base, bg = c.syntax.red }
-            --             hl.NeogitDiffDeleteHighlight = { fg = c.ui.base, bg = c.syntax.red }
-            --             hl.NeogitDiffAdd = { fg = c.ui.base, bg = c.syntax.green }
-            --             hl.NeogitDiffAddHighlight = { fg = c.ui.base, bg = c.syntax.green }
-            --         end,
-            --     },
-            -- },
+            highlights = {
+                global = {
+                    modify_hl_groups = function(hl, c)
+                        -- hl.NeogitDiffDelete = { fg = c.ui.base, bg = c.syntax.red }
+                        -- hl.NeogitDiffDeleteHighlight = { fg = c.ui.base, bg = c.syntax.red }
+                        -- hl.NeogitDiffAdd = { fg = c.ui.base, bg = c.syntax.green }
+                        -- hl.NeogitDiffAddHighlight = { fg = c.ui.base, bg = c.syntax.green }
+                        if CONFIG.ui.cursorline then
+                            hl.IlluminatedWordText = { fg = c.none, bg = "#31363d" }
+                            hl.IlluminatedWordRead = { fg = c.none, bg = "#31363d" }
+                            hl.IlluminatedWordWrite = { fg = c.none, bg = "#31363d" }
+                        end
+                    end,
+                },
+            },
         },
         config = function(_, opts)
             require("astrotheme").setup(opts)

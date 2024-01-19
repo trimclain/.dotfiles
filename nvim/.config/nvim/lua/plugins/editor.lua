@@ -856,12 +856,12 @@ return {
                 end,
             })
 
-            -- replace underline with highlight
-            local hl = vim.api.nvim_set_hl
-            local color = "#31363d" -- color taken from primer.nvim
-            hl(0, "IlluminatedWordRead", { fg = "NONE", bg = color })
-            hl(0, "IlluminatedWordWrite", { fg = "NONE", bg = color })
-            hl(0, "IlluminatedWordText", { fg = "NONE", bg = color })
+            -- replace underline with highlight (no need since astrotheme supports this now)
+            -- local hl = vim.api.nvim_set_hl
+            -- local color = "#31363d" -- color taken from primer.nvim
+            -- hl(0, "IlluminatedWordRead", { fg = "NONE", bg = color })
+            -- hl(0, "IlluminatedWordWrite", { fg = "NONE", bg = color })
+            -- hl(0, "IlluminatedWordText", { fg = "NONE", bg = color })
         end,
         keys = {
             { "]]", desc = "Next Reference" },
