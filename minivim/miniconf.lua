@@ -645,7 +645,6 @@ require("lazy").setup({
         --   { "<c-space>", desc = "Increment selection" },
         --   { "<bs>", desc = "Decrement selection", mode = "x" },
         -- },
-        ---@type TSConfig
         opts = {
             highlight = {
                 enable = true,
