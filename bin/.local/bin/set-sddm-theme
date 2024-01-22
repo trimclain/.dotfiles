@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+###############################################################################
+# Set the theme for SDDM
+###############################################################################
+
+check_if_command_exists() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
+        exit 1
+    fi
+}
+check_if_command_exists sddm
+
+CONF=/etc/sddm.conf
+THEMES=/usr/share/sddm/themes
+
+if [[ ! -d $THEMES/archlinux-simplyblack ]] && command -v paru > /dev/null; then
+    echo "Installing archlinux-themes-sddm from AUR..."
+    paru -S --noconfirm --needed archlinux-themes-sddm
+fi
+
+if [[ ! -f $CONF ]]; then
+    echo "Creating sddm config in $CONF..."
+    echo "Setting the theme to archlinux-simplyblack"
+    echo -e "[Theme]\nCurrent=archlinux-simplyblack" | sudo tee $CONF > /dev/null
+fi
+
+# To test the theme:
+#sddm-greeter --test-mode --theme /usr/share/sddm/themes/breeze
+
+# shellcheck disable=SC2012
+CHOSEN=$(ls $THEMES | fzf)
+echo "Chosenname is $CHOSEN"
+
+if [[ -n $CHOSEN ]]; then
+    echo "Setting sddm theme to $CHOSEN"
+    sudo sed -i "0,/^#\{0,1\}Current=.*/ s||Current=$CHOSEN|" $CONF
+fi
