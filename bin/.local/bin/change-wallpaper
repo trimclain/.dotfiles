@@ -9,18 +9,31 @@ else
     exit 2
 fi
 
+# On Wayland using hyprpaper
+if [[ -n $WAYLAND_DISPLAY ]]; then
+    selected=$(find "$wallpapers" | grep '.png\|.jpg\|.jpeg' | fzf)
+    if [[ -z $selected ]]; then
+        exit 0
+    fi
+    echo "Setting wallpaper to $selected"
+    # TODO: fix hardcoded monitor
+    hyprctl hyprpaper preload "$selected" > /dev/null && hyprctl hyprpaper wallpaper "DP-1,$selected" > /dev/null
+    exit 0
+fi
+
+
 if command -v nitrogen > /dev/null; then
     nitrogen "$wallpapers" &
-# elif command -v feh > /dev/null; then
-#     images_folder=~/personal/images
+    # elif command -v feh > /dev/null; then
+    #     images_folder=~/personal/images
 
-#     selected=$(find $images_folder | grep '.png\|.jpg\|.jpeg' | fzf)
+    #     selected=$(find $images_folder | grep '.png\|.jpg\|.jpeg' | fzf)
 
-#     if [[ -z $selected ]]; then
-#         exit 0
-#     fi
+    #     if [[ -z $selected ]]; then
+    #         exit 0
+    #     fi
 
-#     feh --bg-scale $selected
+    #     feh --bg-scale $selected
 else
     echo "Error: neither nitrogen nor feh found"
 fi

@@ -9,14 +9,26 @@ else
     exit 2
 fi
 
+# On Wayland using hyprpaper
+if [[ -n $WAYLAND_DISPLAY ]]; then
+    # shellcheck disable=SC2012
+    ls "$wallpapers" |sort -R | tail -1 | while read -r selected; do
+        echo "Setting wallpaper to $selected"
+        wall="$wallpapers/$selected"
+        # TODO: fix hardcoded monitor
+        hyprctl hyprpaper preload "$wall" && hyprctl hyprpaper wallpaper "DP-1,$wall"
+    done
+    exit 0
+fi
+
 if command -v nitrogen > /dev/null; then
     nitrogen --set-auto --random "$wallpapers" &> /dev/null
-# elif command -v feh > /dev/null; then
-#     ls "$wallpapers" |sort -R |tail -1 |while read -r selected; do
-#     # Something involving $file, or you can leave
-#     # off the while to just get the filenames
-#     feh --bg-scale $wallpapers/$selected
-#     done
+    # elif command -v feh > /dev/null; then
+    #     ls "$wallpapers" |sort -R |tail -1 |while read -r selected; do
+    #     # Something involving $file, or you can leave
+    #     # off the while to just get the filenames
+    #     feh --bg-scale $wallpapers/$selected
+    #     done
 else
     echo "Error: neither nitrogen nor feh found"
 fi
