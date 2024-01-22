@@ -81,4 +81,3 @@ if [[ -n $CHOSENNAME ]]; then
     sudo sed -i "0,/^#\{0,1\}background=.*/ s||background=$PIXMAPS/$CHOSENNAME|" $GREETER
     # sed "s|background=|background=$PIXMAPS/$CHOSENNAME|g" $GREETER # this changes all occurences
 fi
-
