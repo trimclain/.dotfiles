@@ -11,6 +11,10 @@ fi
 
 # On Wayland using hyprpaper
 if [[ -n $WAYLAND_DISPLAY ]]; then
+    if ! command -v hyprpaper > /dev/null; then
+        echo "Error: hyprpaper not found"
+        exit 1
+    fi
     # shellcheck disable=SC2012
     ls "$wallpapers" |sort -R | tail -1 | while read -r selected; do
         echo "Setting wallpaper to $selected"
