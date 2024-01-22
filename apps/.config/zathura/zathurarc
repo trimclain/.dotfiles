@@ -46,9 +46,9 @@ map [fullscreen] e scroll page-bottom
 # Toggle statusbar
 map <C-s> toggle_statusbar
 
-# Show or hide index
-map <C-i> toggle_index
-map [index] <C-i> toggle_index
+# Show or hide index (I use <C-i> and <C-o> like in vim)
+# map <C-i> toggle_index
+# map [index] <C-i> toggle_index
 
 # Toggle between one and multiple pages per row
 map D toggle_page_mode

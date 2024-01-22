@@ -23,7 +23,6 @@ return {
                 end,
             },
         },
-        ---@class PluginLspOpts
         opts = {
             -- options for vim.diagnostic.config()
             diagnostics = {
@@ -61,7 +60,6 @@ return {
             },
             -- LSP Server Settings
             -- Servers listed here will be autoinstalled
-            ---@type lspconfig.options
             servers = {
                 -- Available servers: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
                 -- pyright = {}, -- breaks nvim on quit, have to kill it (2023-06-17)
@@ -118,7 +116,6 @@ return {
             },
             -- you can do any additional lsp server setup here
             -- return true if you don't want this server to be setup with lspconfig
-            ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
             setup = {
                 -- example to setup with typescript.nvim
                 -- tsserver = function(_, opts)
@@ -129,7 +126,6 @@ return {
                 -- ["*"] = function(server, opts) end,
             },
         },
-        ---@param opts PluginLspOpts
         config = function(_, opts)
             -- TODO:
             -- setup autoformat
@@ -190,7 +186,7 @@ return {
                 all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
             end
 
-            local ensure_installed = {} ---@type string[]
+            local ensure_installed = {}
             for server, server_opts in pairs(servers) do
                 if server_opts then
                     server_opts = server_opts == true and {} or server_opts

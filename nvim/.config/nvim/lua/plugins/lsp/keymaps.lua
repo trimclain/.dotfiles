@@ -1,15 +1,12 @@
 local M = {}
 
----@type PluginLspKeys
 M._keys = nil
 
----@return (LazyKeys|{has?:string})[]
 function M.get()
     local format = require("plugins.lsp.format").format
     if M._keys then
         return M._keys
     end
-    ---@class PluginLspKeys
     -- stylua: ignore
     M._keys =  {
         { "<leader>li", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
@@ -81,7 +78,6 @@ function M.has(buffer, method)
     return false
 end
 
----@return (LazyKeys|{has?:string})[]
 function M.resolve(buffer)
     local Keys = require("lazy.core.handler.keys")
     if not Keys.resolve then

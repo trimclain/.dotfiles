@@ -636,6 +636,7 @@
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=1
   # Custom icon.
   # typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_EXPANSION='⭐'
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_EXPANSION=' ' # default: ' '
 
   #######################[ direnv: direnv status (https://direnv.net/) ]########################
   # Direnv color.
