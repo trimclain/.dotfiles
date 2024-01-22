@@ -136,7 +136,8 @@ keys = [
     Key(
         [mod],
         "b",
-        lazy.spawn([browser, " --profile-directory=Default"]),
+        lazy.spawn(browser),
+        # lazy.spawn([browser, " --profile-directory=Default"]),
         desc="Launch browser"
     ),
 
