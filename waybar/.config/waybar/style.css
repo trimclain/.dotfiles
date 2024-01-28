@@ -1,79 +1,114 @@
+/* Credit to https://github.com/ericmurphyxyz/dotfiles */
+
+@define-color base   #1e1e2e;
+@define-color mantle #181825;
+@define-color crust  #11111b;
+
+@define-color text     #cdd6f4;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+
+@define-color blue      #89b4fa;
+@define-color lavender  #b4befe;
+@define-color sapphire  #74c7ec;
+@define-color sky       #89dceb;
+@define-color teal      #94e2d5;
+@define-color green     #a6e3a1;
+@define-color yellow    #f9e2af;
+@define-color peach     #fab387;
+@define-color maroon    #eba0ac;
+@define-color red       #f38ba8;
+@define-color mauve     #cba6f7;
+@define-color pink      #f5c2e7;
+@define-color flamingo  #f2cdcd;
+@define-color rosewater #f5e0dc;
+
 * {
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "JetBrainsMono Nerd Font", "Ubuntu Nerd Font";
-    font-size: 22;
-    border: none;
-    padding: 0;
-    margin: 0;
+    /* font-family: JetBrainsMono Nerd Font Mono; */
+    font-family: CaskaydiaCove Nerd Font Mono;
+    font-size: 13px;
 }
 
 window#waybar {
-    background-color: rgba(0, 0, 0, 0.3);
-    /* background-color: rgba(26, 27, 38, 0); */
-    /* background-color: #1e1e1e; */
-    /* background-color: #1e1e1e; */
-    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
-    color: #ffffff;
+    background-color: @crust;
+    color: @text;
     transition-property: background-color;
-    transition-duration: 0.5s;
+    transition-duration: .5s;
 }
 
 window#waybar.hidden {
     opacity: 0.2;
 }
 
-#workspaces {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+ */
+
+window#waybar.termite {
+    background-color: #3F3F3F;
 }
 
-#workspaces button {
-    padding: 0 10px;
-    /* padding-right: 10px; */
-    background-color: transparent;
-    color: #a9a9a9;
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
+button {
     /* Use box-shadow instead of border so the text isn't offset */
     box-shadow: inset 0 -3px transparent;
-    /* Avoid rounded borders under each workspace name */
+    /* Avoid rounded borders under each button name */
     border: none;
     border-radius: 0;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+
 #workspaces button:hover {
-    /* cursor: pointer; */
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    /* box-shadow: inset 0 -3px #ffffff; */
-    /* color: #bf616a; */
-    color: #ffffff;
+    background: @surface0;
+    border: @surface0;
 }
 
-#workspaces button.focused {
-    /* background-color: #64727d; */
-    color: #ffffff;
-    /* box-shadow: inset 0 -3px #ffffff; */
+#workspaces button {
+    padding: 0 5px;
+    margin: 5px 0 5px 5px;
+    color: @text;
+    background-color: @surface0;
+    border-radius: 15px;
+    border: @surface0;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#workspaces button.selected {
+    background-color: @text;
+}
+
+#workspaces button.empty {
+    background-color: @crust;
 }
 
 #workspaces button.active {
-    /* color: #ff9e64; */
-    color: #ffffff;
+    background-color: @text;
+    border-style: none;
+    padding: 0 6px;
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
-}
-
-/* #mode { */
-/*   background-color: #64727d; */
-/*   border-bottom: 3px solid #ffffff; */
-/* } */
-
-#window {
-    /* border-radius: 20px; */
-    /* padding-left: 10px; */
-    /* padding-right: 10px; */
-    color: #64727d;
+    background-color: @red;
+    color: @crust;
 }
 
 #clock,
@@ -83,15 +118,23 @@ window#waybar.hidden {
 #disk,
 #temperature,
 #backlight,
+#language,
+#submap,
 #network,
 #pulseaudio,
-#custom-media,
+#wireplumber,
+#custom-power,
+#custom-updates,
 #tray,
 #mode,
 #idle_inhibitor,
+#scratchpad,
 #mpd {
-    padding: 0 10px;
-    color: #ffffff;
+    padding: 0 12px;
+    background-color: @base;
+    color: @crust;
+    border-radius: 15px;
+    margin: 5px 0;
 }
 
 #window,
@@ -109,214 +152,81 @@ window#waybar.hidden {
     margin-right: 0;
 }
 
-#clock {
-    /* color: #c0caf5; */
-    color: #ffffff;
-    /* color: #bf616a; */
-}
-
-#clock:hover {
-    /* cursor: pointer; */
-    background: rgba(0, 0, 0, 0.2);
-    /* border: None; */
-    box-shadow: None;
-    /* box-shadow: inset 0 -3px #ffffff; */
-    /* color: #bf616a; */
-}
-
-#battery {
-    color: #a3be8c;
-    /* background-color: #90b1b1; */
-}
-
-#battery.charging,
-#battery.plugged {
-    color: #26a65b;
-    /* background-color: #26a65b; */
-}
-
-@keyframes blink {
-    to {
-        background-color: rgba(30, 34, 42, 0.5);
-        color: #abb2bf;
-    }
-}
-
-#battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #abb2bf;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
 label:focus {
     background-color: #000000;
 }
 
-#cpu {
-    background-color: #2ecc71;
-    color: #000000;
+#clock {
+    color: @text;
 }
 
-#memory {
-    background-color: #9b59b6;
+#submap {
+    background-color: @red;
+    color: @crust;
 }
-
-#disk {
-    background-color: #964b00;
-}
-
-#backlight {
-    /* background-color: #90b1b1; */
-    color: #d7ba7d;
-}
-
-#network {
-    padding: 2.5px;
-    /* color: #1abc9c; */
-    color: #ffffff;
-}
-
-#network:hover {
-    /* cursor: pointer; */
-    background: rgba(0, 0, 0, 0.2);
-    /* border: None; */
-    box-shadow: None;
-    /* box-shadow: inset 0 -3px #ffffff; */
-    /* color: #bf616a; */
-}
-
-#custom-launcher {
-    color: #ffffff;
-    /* border: None; */
-    /* margin-right: 0px; */
-    /* padding-right: 0px; */
-    padding: 0 10px;
-}
-
-#custom-launcher:hover {
-    /* padding-right: 1px; */
-    /* cursor: pointer; */
-    background: rgba(0, 0, 0, 0.2);
-    /* border: None; */
-    box-shadow: None;
-    /* box-shadow: inset 0 -3px #ffffff; */
-    /* color: #bf616a; */
-}
-
-#network.disconnected {
-    background-color: #f53c3c;
-}
-
+/* #custom-updates { */
 #pulseaudio {
-    /* padding: 1px; */
-    /* background-color: #B48EAD; */
-    /* color: #bb9af7; */
-    color: #ffffff;
-}
-
-#pulseaudio:hover {
-    /* cursor: pointer; */
-    background: rgba(0, 0, 0, 0.2);
-    /* border: None; */
-    box-shadow: None;
-    /* box-shadow: inset 0 -3px #ffffff; */
-    /* color: #bf616a; */
+    color: @red;
 }
 
 #pulseaudio.muted {
-    /* background-color: #90b1b1; */
-    /* color: #2a5c45; */
-    color: #f53c3c;
-}
-
-#custom-media {
-    background-color: #66cc99;
-    color: #2a5c45;
-    min-width: 100px;
-}
-
-#custom-media.custom-spotify {
-    background-color: #66cc99;
-}
-
-#custom-media.custom-vlc {
-    background-color: #ffa000;
-}
-
-#temperature {
-    background-color: #f0932b;
-}
-
-#temperature.critical {
-    background-color: #eb4d4b;
-}
-
-#tray > .passive {
-    -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-    -gtk-icon-effect: highlight;
-    background-color: #eb4d4b;
-}
-
-#idle_inhibitor {
-    background-color: #2d3436;
-}
-
-#idle_inhibitor.activated {
-    background-color: #ecf0f1;
-    color: #2d3436;
-}
-
-#mpd {
-    background-color: #66cc99;
-    color: #2a5c45;
-}
-
-#mpd.disconnected {
-    background-color: #f53c3c;
-}
-
-#mpd.stopped {
-    background-color: #90b1b1;
-}
-
-#mpd.paused {
-    background-color: #51a37a;
+    color: @overlay1;
 }
 
 #language {
-    background: #00b093;
-    color: #740864;
-    padding: 0 5px;
-    margin: 0 5px;
-    min-width: 16px;
+    color: @peach;
 }
 
-#keyboard-state {
-    background: #97e1ad;
-    color: #000000;
-    padding: 0 0px;
-    margin: 0 5px;
-    min-width: 16px;
+/* #disk { */
+#network {
+    color: @yellow;
+}
+
+#network.disconnected {
+    color: @overlay1;
+}
+
+#memory {
+    color: @green;
+}
+
+#temperature  {
+    color: @blue;
+}
+
+#temperature.critical  {
+    background-color: @red;
+    color: @crust;
+}
+
+#battery {
+    color: @lavender;
+}
+
+#battery.warning:not(.charging) {
+    background-color: @red;
+    color: @crust;
+}
+
+#custom-power {
+    color: @mauve;
 }
 
 #keyboard-state > label {
     padding: 0 5px;
 }
 
-#custom-spotify {
-    padding: 0 10px;
-    margin: 0 4px;
-    /* background-color: #1db954; */
-    color: #abb2bf;
-}
-
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
 }
+
+#scratchpad {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+    background-color: transparent;
+}
+
+/* vim: ft=sass
+ */
