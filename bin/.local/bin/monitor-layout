@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: refactor
+
 ## Functions
 check_if_command_exists() {
     if ! command -v "$1" > /dev/null; then
@@ -16,7 +18,6 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
     if [[ "$DESKTOP_SESSION" == "hyprland" ]]; then
         connectedOutputs=$(hyprctl monitors all | awk '$1 == "Monitor"{print $2}')
 
-        # Repeating code
         monitors=()
         for display in $connectedOutputs; do
             monitors+=("$display")
@@ -24,14 +25,24 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
 
         intern=${monitors[0]}
         extern=${monitors[1]}
-        # End Repeating code
-        echo "intern: $intern; extern: $extern"
 
         if [[ -z $extern ]]; then
-            echo "Error: external monitor not connected"
-            exit 1
+            exit
         fi
 
+        if [ "$1" = "--first" ]; then
+            # Enable first monitor, turn off second one
+            hyprctl keyword monitor "$intern",preferred,auto,auto > /dev/null
+            hyprctl keyword monitor "$extern",disable > /dev/null
+        elif [ "$1" = "--second" ]; then
+            # Enable second monitor and make it primary, disable first monitor
+            hyprctl keyword monitor "$intern",disable > /dev/null
+            hyprctl keyword monitor "$extern",preferred,auto,auto > /dev/null
+        elif [ "$1" = "--startup" ]; then
+            # If there's a connected hmdi output, make --second
+            hyprctl keyword monitor "$intern",disable > /dev/null
+            hyprctl keyword monitor "$extern",preferred,auto,auto > /dev/null
+        fi
     fi
 else
     ###########################################################################
