@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
-# TODO: refactor
-
-## Functions
 check_if_command_exists() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
     fi
 }
-## End Functions
+
 
 if [[ -n $WAYLAND_DISPLAY ]]; then
     ###########################################################################
@@ -18,31 +15,30 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
     if [[ "$DESKTOP_SESSION" == "hyprland" ]]; then
         connectedOutputs=$(hyprctl monitors all | awk '$1 == "Monitor"{print $2}')
 
-        monitors=()
-        for display in $connectedOutputs; do
-            monitors+=("$display")
-        done
-
-        intern=${monitors[0]}
-        extern=${monitors[1]}
-
-        if [[ -z $extern ]]; then
-            exit
-        fi
-
-        if [ "$1" = "--first" ]; then
-            # Enable first monitor, turn off second one
-            hyprctl keyword monitor "$intern",preferred,auto,auto > /dev/null
-            hyprctl keyword monitor "$extern",disable > /dev/null
-        elif [ "$1" = "--second" ]; then
-            # Enable second monitor and make it primary, disable first monitor
-            hyprctl keyword monitor "$intern",disable > /dev/null
-            hyprctl keyword monitor "$extern",preferred,auto,auto > /dev/null
-        elif [ "$1" = "--startup" ]; then
-            # If there's a connected hmdi output, make --second
-            hyprctl keyword monitor "$intern",disable > /dev/null
-            hyprctl keyword monitor "$extern",preferred,auto,auto > /dev/null
-        fi
+        setup_first() {
+            hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
+            hyprctl keyword monitor "$2",disable > /dev/null
+            hyprctl dispatch workspace 1 > /dev/null
+        }
+        setup_second() {
+            hyprctl keyword monitor "$1",disable > /dev/null
+            hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
+            hyprctl dispatch workspace 1 > /dev/null
+        }
+        setup_extend() {
+            hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
+            hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
+            hyprctl dispatch workspace 1 > /dev/null
+        }
+        setup_duplicate() {
+            # TODO: implement
+            # hyprctl keyword monitor "$intern",preferred,auto,auto > /dev/null
+            # hyprctl keyword monitor "$extern",preferred,auto,auto > /dev/null
+            return
+        }
+    else
+        echo "Error: $DESKTOP_SESSION not supported"
+        exit 1
     fi
 else
     ###########################################################################
@@ -52,60 +48,55 @@ else
 
     # get info from xrandr
     connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
-
     # Get the number of enabled monitors:
     # number=$(xrandr --listmonitors | grep Monitors | awk '{print $NF}')
-    # Get the names of enabled monitors
-    # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
-
-    monitors=()
-    for display in $connectedOutputs; do
-        monitors+=("$display")
-    done
-
-    intern=${monitors[0]}
-    extern=${monitors[1]}
-
-    # FIX: am I doing the right thing here? this gets ran on every startup, even
-    # without the external monitor connected
-    if [[ -z $extern ]]; then
-        echo "Error: external monitor not connected"
-        exit 1
-    fi
 
     # TODO: add --mode and --rate
     # xrandr --output DVI-D-0 --mode 2560x1440 --rate 59.95
 
-    if [ "$1" = "--first" ]; then
-        # Enable first monitor, turn off second one
-        xrandr --output "$intern" --auto --output "$extern" --off
+    setup_first() {
+        xrandr --output "$1" --auto --output "$2" --off
+    }
+    setup_second() {
+        xrandr --output "$2" --auto --primary --output "$1" --off
+    }
+    setup_extend() {
+        xrandr --output "$2" --auto --right-of "$1" --output "$1" --auto
+    }
+    setup_duplicate() {
+        xrandr --output "$2" --same-as "$1" --auto
+    }
+fi
 
-    elif [ "$1" = "--second" ]; then
-        # Enable second monitor and make it primary, disable first monitor
-        xrandr --output "$extern" --auto --primary --output "$intern" --off
+monitors=()
+for display in $connectedOutputs; do
+    monitors+=("$display")
+done
 
-        # TODO: when first and second monitor have different resolutions, don't use auto,
-        # use their resolution instead
-        # problem found in awesomewm
-    elif [ "$1" = "--extend" ]; then
-        # Enable dual monitor setup, primary is the monitor, which was primary before
-        xrandr --output "$extern" --auto --right-of "$intern" --output "$intern" --auto
+intern=${monitors[0]}
+extern=${monitors[1]}
 
-        # TODO: when duplicating monitors with different resolutions, using auto also
-        # doesn't work.
-    elif [ "$1" = "--duplicate" ]; then
-        # Enable duplicate monitor setup
-        xrandr --output "$extern" --same-as "$intern" --auto
+if [[ -z $extern ]]; then
+    exit
+fi
 
-    elif [ "$1" = "--startup" ]; then
-        # If there's a connected hmdi output, make --second
-        if [[ -n $extern ]]; then
-            xrandr --output "$extern" --auto --primary --output "$intern" --off
-            # Reload awesome, if it's currently runnings
-            # if [[ $DESKTOP_SESSION == "awesome" ]]; then
-            #     awesome-client 'awesome.restart()' &> /dev/null
-            #     exit 0
-            # fi
-        fi
-    fi
+if [ "$1" = "--first" ]; then
+    # Enable first monitor, turn off second one
+    setup_first "$intern" "$extern"
+elif [ "$1" = "--second" ]; then
+    # Enable second monitor and make it primary, disable first monitor
+    setup_second "$intern" "$extern"
+    # TODO: XORG: when first and second monitor have different resolutions,
+    # don't use auto, use their resolution instead; problem found in awesomewm
+elif [ "$1" = "--extend" ]; then
+    # Enable dual monitor setup, primary is the monitor, which was primary before
+    setup_extend "$intern" "$extern"
+    # TODO: XORG: when duplicating monitors with different resolutions,
+    # using auto also doesn't work.
+elif [ "$1" = "--duplicate" ]; then
+    # Enable duplicate monitor setup
+    setup_duplicate "$intern" "$extern"
+elif [ "$1" = "--startup" ]; then
+    # If there's a connected hmdi output, make --second
+    setup_second "$intern" "$extern"
 fi
