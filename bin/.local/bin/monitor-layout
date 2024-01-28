@@ -9,63 +9,92 @@ check_if_command_exists() {
 }
 ## End Functions
 
-check_if_command_exists xrandr
+if [[ -n $WAYLAND_DISPLAY ]]; then
+    ###########################################################################
+    # WAYLAND
+    ###########################################################################
+    if [[ "$DESKTOP_SESSION" == "hyprland" ]]; then
+        connectedOutputs=$(hyprctl monitors all | awk '$1 == "Monitor"{print $2}')
 
-# get info from xrandr
-connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
+        # Repeating code
+        monitors=()
+        for display in $connectedOutputs; do
+            monitors+=("$display")
+        done
 
-# Get the number of enabled monitors:
-# number=$(xrandr --listmonitors | grep Monitors | awk '{print $NF}')
-# Get the names of enabled monitors
-# activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+        intern=${monitors[0]}
+        extern=${monitors[1]}
+        # End Repeating code
+        echo "intern: $intern; extern: $extern"
 
-monitors=()
-for display in $connectedOutputs; do
-    monitors+=("$display")
-done
+        if [[ -z $extern ]]; then
+            echo "Error: external monitor not connected"
+            exit 1
+        fi
 
-intern=${monitors[0]}
-extern=${monitors[1]}
+    fi
+else
+    ###########################################################################
+    # XORG
+    ###########################################################################
+    check_if_command_exists xrandr
 
-# FIX: am I doing the right thing here? this gets ran on every startup, even
-# without the external monitor connected
-if [[ -z $extern ]]; then
-    echo "Error: external monitor not connected"
-    exit 1
-fi
+    # get info from xrandr
+    connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
 
-# TODO: add --mode and --rate
-# xrandr --output DVI-D-0 --mode 2560x1440 --rate 59.95
+    # Get the number of enabled monitors:
+    # number=$(xrandr --listmonitors | grep Monitors | awk '{print $NF}')
+    # Get the names of enabled monitors
+    # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
 
-if [ "$1" = "--first" ]; then
-    # Enable first monitor, turn off second one
-    xrandr --output "$intern" --auto --output "$extern" --off
+    monitors=()
+    for display in $connectedOutputs; do
+        monitors+=("$display")
+    done
 
-elif [ "$1" = "--second" ]; then
-    # Enable second monitor and make it primary, disable first monitor
-    xrandr --output "$extern" --auto --primary --output "$intern" --off
+    intern=${monitors[0]}
+    extern=${monitors[1]}
 
-# TODO: when first and second monitor have different resolutions, don't use auto,
-# use their resolution instead
-# problem found in awesomewm
-elif [ "$1" = "--extend" ]; then
-    # Enable dual monitor setup, primary is the monitor, which was primary before
-    xrandr --output "$extern" --auto --right-of "$intern" --output "$intern" --auto
+    # FIX: am I doing the right thing here? this gets ran on every startup, even
+    # without the external monitor connected
+    if [[ -z $extern ]]; then
+        echo "Error: external monitor not connected"
+        exit 1
+    fi
 
-# TODO: when duplicating monitors with different resolutions, using auto also
-# doesn't work.
-elif [ "$1" = "--duplicate" ]; then
-    # Enable duplicate monitor setup
-    xrandr --output "$extern" --same-as "$intern" --auto
+    # TODO: add --mode and --rate
+    # xrandr --output DVI-D-0 --mode 2560x1440 --rate 59.95
 
-elif [ "$1" = "--startup" ]; then
-    # If there's a connected hmdi output, make --second
-    if [[ -n $extern ]]; then
+    if [ "$1" = "--first" ]; then
+        # Enable first monitor, turn off second one
+        xrandr --output "$intern" --auto --output "$extern" --off
+
+    elif [ "$1" = "--second" ]; then
+        # Enable second monitor and make it primary, disable first monitor
         xrandr --output "$extern" --auto --primary --output "$intern" --off
-        # Reload awesome, if it's currently runnings
-        # if [[ $DESKTOP_SESSION == "awesome" ]]; then
-        #     awesome-client 'awesome.restart()' &> /dev/null
-        #     exit 0
-        # fi
+
+        # TODO: when first and second monitor have different resolutions, don't use auto,
+        # use their resolution instead
+        # problem found in awesomewm
+    elif [ "$1" = "--extend" ]; then
+        # Enable dual monitor setup, primary is the monitor, which was primary before
+        xrandr --output "$extern" --auto --right-of "$intern" --output "$intern" --auto
+
+        # TODO: when duplicating monitors with different resolutions, using auto also
+        # doesn't work.
+    elif [ "$1" = "--duplicate" ]; then
+        # Enable duplicate monitor setup
+        xrandr --output "$extern" --same-as "$intern" --auto
+
+    elif [ "$1" = "--startup" ]; then
+        # If there's a connected hmdi output, make --second
+        if [[ -n $extern ]]; then
+            xrandr --output "$extern" --auto --primary --output "$intern" --off
+            # Reload awesome, if it's currently runnings
+            # if [[ $DESKTOP_SESSION == "awesome" ]]; then
+            #     awesome-client 'awesome.restart()' &> /dev/null
+            #     exit 0
+            # fi
+        fi
     fi
 fi

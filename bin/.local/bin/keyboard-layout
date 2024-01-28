@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ -n $WAYLAND_DISPLAY ]]; then
+    echo "Error: Wayland is not supported"
+    exit 1
+fi
+
 # Set the keyboard layout
 if [[ -n "$1" ]]; then
     if [[ "$1" == "--german" ]]; then
