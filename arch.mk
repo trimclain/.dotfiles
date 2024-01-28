@@ -177,10 +177,19 @@ qtile:
 hyprland:
 	@echo "==================================================================="
 	$(INSTALL) hyprland
-	@# Post Install Apps: wofi (wayland rofi)?
+	@# QT Wayland Support
+	$(INSTALL) qt5-wayland qt6-wayland
+	@# Better Desktop Portal
 	$(INSTALL) xdg-desktop-portal-hyprland
-	@# Install waybar (statusbar) and swaybg (set wallpaper)
-	$(INSTALL) waybar swaybg
+	@# File picker
+	$(INSTALL) xdg-desktop-portal-gtk
+	@# Authentification Agent (optional)
+	$(INSTALL) polkit-kde-agent
+	@# Post Install Apps
+	$(INSTALL) wl-clipboard dunst rofi feh
+	@# Install waybar (statusbar) and hyprpaper (wallpaper engine)
+	$(INSTALL) waybar hyprpaper
+	@# Color Picker: https://wiki.hyprland.org/Useful-Utilities/Color-Pickers/
 
 #============================================ Terminal ============================================
 alacritty:
@@ -208,6 +217,7 @@ thorium: ## Install Thorium Browser
 telegram: ## Install Telegram Desktop
 	$(INSTALL) telegram-desktop
 
+# TODO: choose a wayland altenative: https://wiki.hyprland.org/Useful-Utilities/App-Clients/#discord
 discord: ## Install Discord
 	@# $(INSTALL) discord
 	@# Flatpak version is more up to date
