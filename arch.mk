@@ -187,8 +187,8 @@ hyprland:
 	$(INSTALL) polkit-kde-agent
 	@# Post Install Apps
 	$(INSTALL) wl-clipboard dunst rofi feh
-	@# Install waybar (statusbar) and hyprpaper (wallpaper engine)
-	$(INSTALL) waybar hyprpaper
+	@# Install waybar (statusbar), hyprpaper (wallpaper engine), screen locker
+	$(INSTALL) waybar hyprpaper waylock
 	@# Color Picker: https://wiki.hyprland.org/Useful-Utilities/Color-Pickers/
 
 #============================================ Terminal ============================================
