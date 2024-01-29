@@ -7,6 +7,14 @@ check_if_command_exists() {
     fi
 }
 
+FIRST_WIDTH="1366"
+FIRST_HEIGHT="768"
+FIRST_RES="${FIRST_WIDTH}x${FIRST_HEIGHT}"
+
+SECOND_WIDTH="1920"
+SECOND_HEIGHT="1080"
+SECOND_RES="${SECOND_WIDTH}x${SECOND_HEIGHT}"
+
 
 if [[ -n $WAYLAND_DISPLAY ]]; then
     ###########################################################################
@@ -16,18 +24,22 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
         connectedOutputs=$(hyprctl monitors all | awk '$1 == "Monitor"{print $2}')
 
         setup_first() {
+            # Args: name,resolution,position,scale
             hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
             hyprctl keyword monitor "$2",disable > /dev/null
             hyprctl dispatch workspace 1 > /dev/null
         }
         setup_second() {
             hyprctl keyword monitor "$1",disable > /dev/null
-            hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
+            # Force 1920x1080 since it doesn't always detect recommended resolution correctly
+            # hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
+            hyprctl keyword monitor "$2","$SECOND_RES",auto,auto > /dev/null
             hyprctl dispatch workspace 1 > /dev/null
         }
         setup_extend() {
-            hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
-            hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
+            # first on the left of second
+            hyprctl keyword monitor "$1,$FIRST_RES,0x0,auto" > /dev/null
+            hyprctl keyword monitor "$2,$SECOND_RES,${FIRST_WIDTH}x0,auto" > /dev/null
             hyprctl dispatch workspace 1 > /dev/null
         }
         setup_duplicate() {
