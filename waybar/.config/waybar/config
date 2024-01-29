@@ -1,8 +1,8 @@
 {
     "layer": "top",
-    // "height": 36,
+    "height": 36,
     // TODO:
-    "height": 24, // default: 30 (to be removed for auto height)
+    // "height": 24, // default: 30 (to be removed for auto height)
     // "width": 1280, // Waybar width
     "spacing": 5, // Gaps between modules (4px)
     // Choose the order of the modules
@@ -68,7 +68,7 @@
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Tray
     "tray": {
         // "icon-size": 21,
-        "spacing": 10
+        "spacing": 7
     },
     // "disk": {
     //     "interval": 300,
