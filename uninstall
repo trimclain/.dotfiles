@@ -26,7 +26,9 @@ STOW_FOLDERS = [
     "wezterm",  # 17
     "apps",  # 18
     "dunst",  # 19
-    "qtile"  # 20
+    "qtile",  # 20
+    "hyprland",  # 21
+    "waybar",  # 22
 ]
 
 STOW_CONFIGS = [
@@ -51,6 +53,8 @@ STOW_CONFIGS = [
     ".config/mimeapps.list",  # 18
     ".config/dunst",  # 19
     ".config/qtile",  # 20
+    ".config/hypr",  # 21
+    ".config/waybar",  # 22
 ]
 
 STOW_DICT = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
