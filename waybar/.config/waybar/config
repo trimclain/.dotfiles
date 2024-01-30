@@ -81,13 +81,14 @@
         //"format": "󰕾 {volume}%",
         //"format-muted": "󰖁 {volume}%",
         // "on-click": "pavucontrol"
-        "format": "{icon} {volume}%",
+        "format": "{icon} {volume}%{format_source}",
         "format-bluetooth": "{icon} {volume}%",
         "format-bluetooth-muted": "婢{icon}",
         "format-muted": "婢", //"",
-        // TODO: as soon as I implement micro mute
-        // "format-source": "{volume}% ",
-        // "format-source-muted": "",
+        // "format-source": " {volume}%",
+        // "format-source": "",
+        "format-source": "",
+        "format-source-muted": " ()",
         "format-icons": {
             "headphone": "",
             "hands-free": "",
