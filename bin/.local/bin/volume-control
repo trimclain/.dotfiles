@@ -18,13 +18,17 @@ get_volume() {
     pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'
 }
 
-get_muted_status() {
+get_volume_muted_status() {
     pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
+}
+
+get_micro_muted_status() {
+    pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'
 }
 
 display_volume(){
     value=$(get_volume)
-    status=$(get_muted_status)
+    status=$(get_volume_muted_status)
     [ "$status" = "no" ] && echo "墳 $value%" || echo "婢 $value%"
 }
 
@@ -36,6 +40,13 @@ notify() {
     fi
 }
 
+notify_micro() {
+    if command -v dunstify > /dev/null; then
+        dunstify -a "volume-control" -r 7777 -u low -t 1500 "$1"
+    else
+        notify-send "$1" -t 350
+    fi
+}
 send_notification() {
     if  [ "$2" = "increase" ]; then
         notify "$1" ""
@@ -57,6 +68,7 @@ main() {
     VOLUME_DOWN="pactl set-sink-volume @DEFAULT_SINK@ -5%"
     VOLUME_UNMUTE="pactl set-sink-mute @DEFAULT_SINK@ 0"
     MUTE_TOGGLE="pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    MICRO_MUTE_TOGGLE="pactl set-source-mute @DEFAULT_SOURCE@ toggle"
 
     # Use alsa-utils instead of pactl if found
     # if command -v amixer > /dev/null; then
@@ -90,12 +102,23 @@ main() {
         mode="decrease"
     elif [ "$1" = "--toggle-mute" ]; then
         $MUTE_TOGGLE
-        status=$(get_muted_status)
+        status=$(get_volume_muted_status)
         if [ "$status" = "no" ]; then
             mode="unmuted"
         elif [ "$status" = "yes" ]; then
             mode="muted"
         fi
+    elif [ "$1" = "--toggle-micro-mute" ]; then
+        $MICRO_MUTE_TOGGLE
+        status=$(get_micro_muted_status)
+        if [ "$status" = "no" ]; then
+            # unmuted
+            notify_micro ""
+        elif [ "$status" = "yes" ]; then
+            # muted
+            notify_micro ""
+        fi
+        return
     fi
 
     # removed in favor of direct use of display_volume
