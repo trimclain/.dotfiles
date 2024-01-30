@@ -23,7 +23,7 @@ vimdir:
 
 getnf: ## Install the Nerd Font installer
 	@if [ ! -f ~/.local/bin/getnf ]; then echo -n "Installing getnf... " &&\
-		curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/install.sh | sh &&\
+		curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/install.sh | bash &&\
 		echo "Done"; fi
 
 wallpapers:
@@ -36,6 +36,11 @@ bluetooth:
 	@echo "Setting up bluetooth..."
 	$(INSTALL) bluez bluez-utils
 	sudo systemctl enable --now bluetooth.service
+
+brightnessctl:
+	@echo "Installing brightnessctl..."
+	@git clone https://github.com/Hummer12007/brightnessctl /tmp/brightnessctl &&\
+		cd /tmp/brightnessctl && ./configure && sudo make install && rm -rf /tmp/brightnessctl
 
 
 ###################################################################################################
@@ -167,13 +172,14 @@ zap:
 awesome:
 	@echo "==================================================================="
 	$(INSTALL) awesome dmenu rofi slock dunst picom feh nitrogen polybar
+	@make brightnessctl
 
 qtile:
 	@echo "==================================================================="
 	@# Install qtile, python-psutil (for cpu widget and more)
 	$(INSTALL) qtile python-psutil dmenu rofi slock dunst picom feh nitrogen
+	@make brightnessctl
 
-# TODO:
 hyprland:
 	@echo "==================================================================="
 	$(INSTALL) hyprland
@@ -189,6 +195,8 @@ hyprland:
 	$(INSTALL) wl-clipboard dunst rofi feh
 	@# Install waybar (statusbar), hyprpaper (wallpaper engine), screen locker
 	$(INSTALL) waybar hyprpaper waylock
+	@# Try gammastep?
+	@make brightnessctl
 	@# Color Picker: https://wiki.hyprland.org/Useful-Utilities/Color-Pickers/
 
 #============================================ Terminal ============================================
@@ -313,7 +321,7 @@ install: ## Setup arch after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir getnf wallpapers bluetooth\
+.PHONY: all help vimdir getnf wallpapers bluetooth brightnessctl\
 	python rust julia golang g \
 	n uninstall_n export_node_modules import_node_modules typescript tectonic \
 	paru flatpak\
