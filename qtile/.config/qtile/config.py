@@ -243,11 +243,18 @@ keys = [
         run_command("~/.local/bin/volume-control --toggle-mute"),
         desc="Toggle mute volume"
     ),
-    #  TODO: Command to toggle mute microphone
-    #  pacmd list-sources | \
-    #      grep -oP 'index: \d+' | \
-    #      awk '{ print $2 }' | \
-    #      xargs -I{} pactl set-source-mute {} toggle
+    Key(
+        [],
+        "XF86AudioMicMute",
+        run_command("~/.local/bin/volume-control --toggle-micro-mute"),
+        desc="Toggle mute microphone"
+    ),
+    Key(
+        [alt],
+        "p",
+        run_command("~/.local/bin/volume-control --toggle-micro-mute"),
+        desc="Toggle mute microphone"
+    ),
 
     # Keyboard layout
     Key(
