@@ -4,7 +4,7 @@
 # Brightness Control
 #
 # Description: Update brightness and get notifications about it
-# Dependencies: notify-send, xrandr
+# Dependencies: notify-send, brightnessctl or xrandr (only for Xorg)
 ###############################################################################
 
 check_if_command_exists() {
@@ -23,7 +23,6 @@ notify() {
 }
 
 send_notification() {
-    # Send notification
     if  [ "$2" = "increase" ] || [ "$2" = "full" ] || [ "$2" = "half" ]; then
         notify "$1" "🔆 "
     elif [ "$2" = "decrease" ] || [ "$2" = "zero" ]; then
@@ -34,67 +33,91 @@ send_notification() {
 }
 
 main() {
-
-    check_if_command_exists xrandr
     check_if_command_exists notify-send
 
     mode="unknown"
 
-    # get info from xrandr
-    connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
-    # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+    if command -v brightnessctl > /dev/null; then
 
-    monitors=()
-    for display in $connectedOutputs; do
-        monitors+=("$display")
-    done
-
-    intern=${monitors[0]}
-
-    current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
-    new="$current"
-    # Increase Brightness
-    if [ "$1" = "--increase" ]; then
-        mode="increase"
-        new=$(awk "BEGIN {print $current+0.1}")
-        # don't got out of range
-        if [[ $new == 1.1 ]]; then
-            # still show current even if out of range
-            output=$(awk "BEGIN {print $current*100}")
-            notify "$output" "🔆 "
-            exit 0
+        # TODO: it's possible to get the permission error - cover it
+        if [ "$1" = "--increase" ]; then
+            mode="increase"
+            brightnessctl s +10% -q
+        elif [ "$1" = "--decrease" ]; then
+            mode="decrease"
+            brightnessctl s 10%- -q
+        elif [ "$1" = "--full" ]; then
+            mode="full"
+            brightnessctl s 100% -q
+        elif [ "$1" = "--zero" ]; then
+            mode="zero"
+            brightnessctl s 0% -q
+        elif [ "$1" = "--half" ]; then
+            mode="half"
+            brightnessctl s 50% -q
         fi
 
-    # Decrease Brightness
-    elif [ "$1" = "--decrease" ]; then
-        mode="decrease"
-        new=$(awk "BEGIN {print $current-0.1}")
+        output=$(brightnessctl g -P)
 
-        # don't got out of range, but allow 0
-        if [[ $new == -0.1 ]]; then
-            # still show current even if out of range
-            output=$(awk "BEGIN {print $current*100}")
-            notify "$output" "🔅 "
-            exit 0
+    elif [[ -z $WAYLAND_DISPLAY ]]; then
+        ####### use xrandr if on xorg and no brightnessctl found #######
+        check_if_command_exists xrandr
+        check_if_command_exists notify-send
+
+        # get info from xrandr
+        connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
+        # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+
+        monitors=()
+        for display in $connectedOutputs; do
+            monitors+=("$display")
+        done
+
+        intern=${monitors[0]}
+
+        current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
+        new="$current"
+        if [ "$1" = "--increase" ]; then
+            mode="increase"
+            new=$(awk "BEGIN {print $current+0.1}")
+            # don't got out of range
+            if [[ $new == 1.1 ]]; then
+                # still show current even if out of range
+                output=$(awk "BEGIN {print $current*100}")
+                notify "$output" "🔆 "
+                exit 0
+            fi
+
+        elif [ "$1" = "--decrease" ]; then
+            mode="decrease"
+            new=$(awk "BEGIN {print $current-0.1}")
+
+            # don't got out of range, but allow 0
+            if [[ $new == -0.1 ]]; then
+                # still show current even if out of range
+                output=$(awk "BEGIN {print $current*100}")
+                notify "$output" "🔅 "
+                exit 0
+            fi
+        elif [ "$1" = "--full" ]; then
+            mode="full"
+            new=1
+        elif [ "$1" = "--zero" ]; then
+            mode="zero"
+            new=0
+        elif [ "$1" = "--half" ]; then
+            mode="half"
+            new=0.5
         fi
-    elif [ "$1" = "--full" ]; then
-        mode="full"
-        new=1
-    elif [ "$1" = "--zero" ]; then
-        mode="zero"
-        new=0
-    elif [ "$1" = "--half" ]; then
-        mode="half"
-        new=0.5
+
+        # Set Brightness
+        xrandr --output "$intern" --brightness "$new"
+
+        output=$(awk "BEGIN {print $new*100}")
     fi
 
-    # Set Brightness
-    xrandr --output "$intern" --brightness "$new"
-
     # Write new brightness to a file so it can be read less resource intensive
-    output=$(awk "BEGIN {print $new*100}")
     echo "$output%" > ~/.actual_brightness
-
     send_notification "$output" "$mode"
 }
 
