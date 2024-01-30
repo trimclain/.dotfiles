@@ -821,14 +821,15 @@ local globalkeys = mytable.join(
     awful.key({}, "XF86AudioMute", function()
         spawn_terminal_command("$HOME/.local/bin/volume-control", "--toggle-mute")
         -- beautiful.volume.update()
-    end, { description = "toggle mute volume", group = "hotkeys" })
-
-    -- TODO:
-    -- Command to toggle mute microphone
-    -- pacmd list-sources | \
-    --     grep -oP 'index: \d+' | \
-    --     awk '{ print $2 }' | \
-    --     xargs -I{} pactl set-source-mute {} toggle
+    end, { description = "toggle mute volume", group = "hotkeys" }),
+    awful.key({}, "XF86AudioMicMute", function()
+        spawn_terminal_command("$HOME/.local/bin/volume-control", "--toggle-micro-mute")
+        -- beautiful.volume.update()
+    end, { description = "toggle mute microphone", group = "hotkeys" }),
+    awful.key({ altkey }, "p", function()
+        spawn_terminal_command("$HOME/.local/bin/volume-control", "--toggle-micro-mute")
+        -- beautiful.volume.update()
+    end, { description = "toggle mute microphone", group = "hotkeys" })
 
     -- Copy primary to clipboard (terminals to gtk) -- !replace xsel with xclip!
     -- awful.key({ modkey }, "c", function()
