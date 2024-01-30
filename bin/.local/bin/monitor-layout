@@ -70,10 +70,10 @@ else
         xrandr --output "$1" --auto --output "$2" --off
     }
     setup_second() {
-        xrandr --output "$2" --auto --primary --output "$1" --off
+        xrandr --output "$2" --mode "$SECOND_RES" --primary --output "$1" --off
     }
     setup_extend() {
-        xrandr --output "$2" --auto --right-of "$1" --output "$1" --auto
+        xrandr --output "$2" --mode "$SECOND_RES" --right-of "$1" --output "$1" --auto
     }
     setup_duplicate() {
         xrandr --output "$2" --same-as "$1" --auto
