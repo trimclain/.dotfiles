@@ -1,0 +1,67 @@
+#!/bin/sh
+
+###############################################################################
+# Screenshot Tool
+#
+# Description: Take screenshot of entire screen or selected region
+# and save it to clipboard
+# Dependencies: on Xorg: flameshot; on Wayland: grim, slurp
+###############################################################################
+
+# Make sure dependencies are installed
+check_if_command_exists() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
+        exit 1
+    fi
+}
+
+# Show help if no argument is passed
+show_help(){
+    echo "Usage: screenshot [screen|region]"
+    echo "screen: screenshot entire screen"
+    echo "region: screenshot selected window"
+}
+
+##########################################
+# Screenshot full screen to clipboard
+##########################################
+screen() {
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        check_if_command_exists grim
+        grim - | wl-copy
+        if command -v "notify-send" > /dev/null; then
+            notify-send "Screenshot" "Screen saved to clipboard"
+        fi
+    else
+        check_if_command_exists flameshot
+        flameshot screen -c
+    fi
+}
+
+##########################################
+# Screenshot selected region to clipboard
+##########################################
+region() {
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        check_if_command_exists grim
+        check_if_command_exists slurp
+        REGION=$(slurp 2> /dev/null)
+        if [ -z "$REGION" ]; then
+            exit
+        fi
+        grim -g "$REGION" - | wl-copy
+        if command -v "notify-send" > /dev/null; then
+            notify-send "Screenshot" "Region saved to clipboard"
+        fi
+    else
+        check_if_command_exists flameshot
+        flameshot gui -c
+    fi
+}
+
+case "$1" in
+    screen) screen ;;
+    region) region ;;
+    *) show_help ;;
+esac
