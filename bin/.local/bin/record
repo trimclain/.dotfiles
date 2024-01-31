@@ -1,14 +1,19 @@
 #!/bin/sh
 
-# Make sure ffmpeg and xorg-xwininfo are installed
+###############################################################################
+# Screen Recorder
+#
+# Description: Record screen or window (region on wayland) without audio
+# Dependencies: on Xorg: ffmpeg, xorg-xwininfo; on Wayland: wf-recorder, slurp
+###############################################################################
+
+# Make sure dependencies are installed
 check_if_command_exists() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
     fi
 }
-check_if_command_exists ffmpeg
-check_if_command_exists xwininfo
 
 # Show help if no argument is passed
 show_help(){
@@ -34,33 +39,49 @@ killrecording() {
 # Record screen without audio
 #######################################
 screen() {
-    ffmpeg \
-        -hide_banner \
-        -loglevel error \
-        -f x11grab \
-        -show-region 1 \
-        -framerate 30 \
-        -i "$DISPLAY" \
-        -c:v libx264 -qp 0 -r 30 \
-        "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        check_if_command_exists wf-recorder
+        wf-recorder --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 & echo $! > /tmp/recordingpid
+    else
+        check_if_command_exists ffmpeg
+        ffmpeg \
+            -hide_banner \
+            -loglevel error \
+            -f x11grab \
+            -show-region 1 \
+            -framerate 30 \
+            -i "$DISPLAY" \
+            -c:v libx264 -qp 0 -r 30 \
+            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+    fi
 }
 
 #######################################
 # Record selected window without audio
+# On Wayland it's a region
 #######################################
-
 window() {
-    WINID=$(xwininfo | grep "Window id" | awk '{print $4}')
-    ffmpeg \
-        -hide_banner \
-        -loglevel error \
-        -f x11grab \
-        -show_region 1 \
-        -window_id "$WINID" \
-        -framerate 30 \
-        -i "$DISPLAY" \
-        -c:v libx264 -qp 0 -r 30 \
-        "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        check_if_command_exists wf-recorder
+        check_if_command_exists slurp
+        wf-recorder \
+            -g "$(slurp)" \
+            --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 & echo $! > /tmp/recordingpid
+    else
+        check_if_command_exists ffmpeg
+        check_if_command_exists xwininfo
+        WINID=$(xwininfo | grep "Window id" | awk '{print $4}')
+        ffmpeg \
+            -hide_banner \
+            -loglevel error \
+            -f x11grab \
+            -show_region 1 \
+            -window_id "$WINID" \
+            -framerate 30 \
+            -i "$DISPLAY" \
+            -c:v libx264 -qp 0 -r 30 \
+            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+    fi
 }
 
 case "$1" in
