@@ -195,6 +195,8 @@ hyprland:
 	$(INSTALL) wl-clipboard dunst rofi feh
 	@# Install waybar (statusbar), hyprpaper (wallpaper engine), screen locker
 	$(INSTALL) waybar hyprpaper waylock
+	@# Screen recording and screenshot tools
+	@(INSTALL) wf-recorder grim slurp
 	@# Try gammastep?
 	@make brightnessctl
 	@# Color Picker: https://wiki.hyprland.org/Useful-Utilities/Color-Pickers/
