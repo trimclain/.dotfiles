@@ -50,7 +50,7 @@ set textwidth=80                        " wrap lines at 80 characters with gq
 set signcolumn=yes                      " enable error-column
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
 set timeoutlen=500                      " time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
-set clipboard+=unnamedplus              " allows vim to access the system clipboard
+set clipboard^=unnamedplus              " allows vim to access the system clipboard
 set autoindent                          " make
 set smartindent                         " indenting
 set smarttab                            " smarter
