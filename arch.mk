@@ -118,6 +118,8 @@ flatpak: ## Install flatpak
 nvim_reqs:
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
+	@# Lua linter
+	$(INSTALL) luacheck
 	@# Need yad or zenity for the color picker plugin, xclip for clipboard+, tree-sitter if I want cli
 	$(INSTALL) yad xclip
 	@# Install what :checkhealth recommends
