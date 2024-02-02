@@ -1,0 +1,180 @@
+// A smaller bar for display size 1366x768
+{
+    "layer": "top",
+    "height": 36,
+    // TODO:
+    // "height": 24, // default: 30 (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 5, // Gaps between modules (4px)
+    // Choose the order of the modules
+    "modules-left": ["clock", "hyprland/submap"],
+    "modules-center": ["hyprland/workspaces"],
+    // qtile: tray, volume, brightness, layout, memory, temperature, battery, exit button
+    // polybar: volume brightness xkeyboard wlan eth smemory temperature battery powermenu
+    "modules-right": [
+        "tray",
+        // "disk",
+        "pulseaudio",
+        // TODO:
+        // "backlight",
+        "hyprland/language",
+        // "network",
+        "memory",
+        "temperature",
+        "battery",
+        "custom/power"
+    ],
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#workspaces
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "urgent": "",
+            // "urgent": "",
+            // "active": "",
+            // "active": "",
+            "active": "",
+            // "default": ""
+            // "default": ""
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": []
+        },
+        "sort-by-number": true,
+        "disable-scroll": true,
+        // "all-outputs": true,
+        "on-click": "activate"
+    },
+    // SOMEDAY: https://github.com/Alexays/Waybar/wiki/Module:-Clock#example
+    "clock": {
+        // "timezone": "America/New_York",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        // icons: " ", " "," ",
+        // "format": " {:%H:%M   %a, %b %d}"
+        "format": "{: %a, %b %d %H:%M}",
+        // "format-alt": "{:%Y-%m-%d}"
+        "format-alt": "{: %A %d/%m/%Y %H:%M}"
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#submap
+    "hyprland/submap": {
+        "format": " {}",
+        "tooltip": false
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Tray
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 7
+    },
+    // "disk": {
+    //     "interval": 300,
+    //     "format": "󰋊 {free}",
+    //     "path": "/"
+    // },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-PulseAudio
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        //"format": "󰕾 {volume}%",
+        //"format-muted": "󰖁 {volume}%",
+        // "on-click": "pavucontrol"
+        "format": "{icon} {volume}%{format_source}",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-bluetooth-muted": "婢{icon}",
+        "format-muted": "婢", //"",
+        // "format-source": " {volume}%",
+        // "format-source": "",
+        "format-source": "",
+        "format-source-muted": " ()",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", "墳", ""]
+        }
+    },
+    // TODO: make it work
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Backlight
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#language
+    "hyprland/language": {
+        "format": " {}",
+        "format-en": "en",
+        "format-ru": "ru",
+        "format-de": "de"
+        // Get with `hyprctl devices`
+        // "keyboard-name": "at-translated-set-2-keyboard"
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Network
+    "network": {
+        "interval": 1, // default: 60
+        "format-wifi": "󰖩 {essid}",
+        "format-disconnected": "睊",
+        "format-ethernet": "說 {ipaddr}", // ﲁ 
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+        "tooltip-format-ethernet": "󰸇 {bandwidthUpBytes} | 󰮏 {bandwidthDownBytes}",
+        "tooltip-format-disconnected": "Disconnected",
+        "max-length": 50
+        // format-icons
+        // "on-click": "rofi-wifi-menu"
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Memory
+    "memory": {
+        // "format": "{percentage}% "
+        // "format": " {used:0.2f} GiB ({percentage}%)",
+        "format": " {used:0.2f} GiB",
+        "tooltip-format": "{used:0.2f} GiB / {total:0.2f} GiB",
+        "interval": 1, // default: 30
+        "on-click": "kitty -e htop"
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Temperature
+    "temperature": {
+        // "interval":  1, // default: 10
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 85,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": false
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Battery
+    "battery": {
+        "interval": 1, // default: 60
+        "states": {
+            // "good": 95,
+            "warning": 30
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": "󰂄 {capacity}%",
+        // "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        // "format-icons": ["", "", "", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Custom
+    "custom/power": {
+        "format": "󰤆",
+        "on-click": "$HOME/.local/bin/powermenu"
+    }
+}
+// vim: ft=jsonc
