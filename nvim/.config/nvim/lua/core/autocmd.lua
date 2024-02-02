@@ -41,12 +41,13 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 })
 
 -- Fix a bug with cmdheight on vim resize TODO: remove this when it's fixed
+-- FIX: even this doesn't work properly
 vim.api.nvim_create_autocmd({ "VimResized" }, {
     callback = function()
         local old_cmdheight = vim.o.cmdheight
         if old_cmdheight > 1 then
             vim.notify("Resizing cmdheight from " .. old_cmdheight, vim.log.levels.INFO, { title = "Thank You Neovim" })
-            vim.o.cmdheight = 1
+            vim.opt.cmdheight = 1
         end
     end,
     desc = "Fix nvim bug with cmdheight on vim resize",
