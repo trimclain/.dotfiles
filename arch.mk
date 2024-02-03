@@ -201,7 +201,8 @@ hyprland:
 	@(INSTALL) wf-recorder grim slurp
 	@# Try gammastep?
 	@make brightnessctl
-	@# Color Picker: https://wiki.hyprland.org/Useful-Utilities/Color-Pickers/
+	@# Color Picker
+	@# $(PARUINSTALL) hyprpicker-git
 
 #============================================ Terminal ============================================
 alacritty:
