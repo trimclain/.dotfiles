@@ -44,7 +44,9 @@
             </table>
         </td>
         <td>
-            <img src="https://github.com/trimclain/.dotfiles/assets/84108846/12d5daeb-6cf2-483e-a71d-96ba29580350" alt="screenshot">
+<!--             Qtile Screenshot: -->
+<!--             <img src="https://github.com/trimclain/.dotfiles/assets/84108846/12d5daeb-6cf2-483e-a71d-96ba29580350" alt="screenshot"> -->
+            <img src="https://github.com/trimclain/.dotfiles/assets/84108846/8bea4b86-d94d-46a1-aa2d-f8aeef3d7b1e" alt="screenshot">
         </td>
     </tr>
 </table>
