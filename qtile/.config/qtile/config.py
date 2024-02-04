@@ -537,7 +537,7 @@ class Widget:
         # not_charging_char="", # default: "*"
         # notify_below=15, #default: None
         format="{char} {percent:2.0%}",
-        update_interval=1.0, # default: 60
+        update_interval=1.0,  # default: 60
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#textbox
