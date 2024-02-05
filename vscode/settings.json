@@ -10,6 +10,7 @@
     // Colorschemes (note/10):
     // "workbench.colorTheme": "Rosé Pine Moon", // (9.5)
     // "workbench.colorTheme": "Dobri Next -C05- Electron", // (9.5)
+    // "workbench.colorTheme": "poimandres", // TODO:
     "workbench.colorTheme": "Electron", // (9.5)
     // "workbench.colorTheme": "Dobri Next -C09- Eve", // (8.5)
     // "workbench.colorTheme": "Andromeda Italic Bordered", // (8) (pretty bright colors)

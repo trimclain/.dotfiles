@@ -241,9 +241,9 @@ discord: ## Install Discord
 spotify: ## Install Spotify
 	$(INSTALL) ncspot
 
-# Lol
-vscodium: ## Install VSCodium
-	$(PARUINSTALL) vscodium-bin
+# I have to sometimes
+vscode: ## Install VSCode (VSCodium)
+	$(PARUINSTALL) vscodium-bin vscodium-bin-marketplace
 
 office: ## Install LibreOffice
 	$(INSTALL) libreoffice-still
@@ -335,7 +335,7 @@ install: ## Setup arch after new installation
 	zsh zap\
 	awesome qtile hyprland\
 	alacritty kitty wezterm\
-	brave chrome thorium telegram discord spotify vscodium office\
+	brave chrome thorium telegram discord spotify vscode office\
 	anki uninstall_anki pomo uninstall_pomo\
 	apps\
 	install

@@ -50,7 +50,7 @@
     dir                     # current directory
     vcs                     # git status
 
-    background_jobs         # presence of background jobs
+    # background_jobs         # presence of background jobs
     # direnv                  # direnv status (https://direnv.net/)
     # asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)

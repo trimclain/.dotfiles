@@ -34,6 +34,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
             # Force 1920x1080 since it doesn't always detect recommended resolution correctly
             # hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
             hyprctl keyword monitor "$2","$SECOND_RES",auto,auto > /dev/null
+            # FIX: For some reason this gets ignored and we are on workspace 3
             hyprctl dispatch workspace 1 > /dev/null
         }
         setup_extend() {
