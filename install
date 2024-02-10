@@ -118,11 +118,15 @@ def backup(location: str) -> None:
             os.mkdir(BACKUP_FOLDER)
         # if a backup already exist, add backup2
         basename = os.path.basename(location)
-        name, ext = basename.split(".")
+        # TODO: refactor
+        if os.path.isfile(full_path):
+            name, ext = basename.split(".")
+        else:
+            name = basename
         count = len([el for el in os.listdir(BACKUP_FOLDER) if name in el])
         if count > 0:
             # turn settings.json into settings1.json and not settings.json1
-            if "." in basename:
+            if os.path.isfile(full_path):
                 new_name = name + str(count + 1) + "." + ext
             else:
                 new_name = basename + str(count + 1)
