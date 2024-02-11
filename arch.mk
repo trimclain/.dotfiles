@@ -298,6 +298,8 @@ install: ## Setup arch after new installation
 	@echo "==================================================================="
 	@echo Installing everything...
 	@echo "==================================================================="
+	@# symlink my configs
+	@./install --linux
 	@# global langs
 	@make python
 	@make rust
@@ -307,8 +309,10 @@ install: ## Setup arch after new installation
 	@ $(INSTALL) network-manager-applet nm-connection-editor
 	@# window manager
 	@make qtile
+	@# TODO: hyprland
 	@# terminal
 	@make kitty
+	@make alacritty
 	@# system fonts + my fonts
 	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
 	@# TODO: automate nerd font install
@@ -320,8 +324,6 @@ install: ## Setup arch after new installation
 	@make n
 	@# editor
 	@make nvim
-	@# symlink my configs
-	./install --linux
 	@echo "========================== DONE ==================================="
 
 #==================================================================================================
