@@ -28,6 +28,8 @@ map J zoom out
 # Next/Previous page
 map u navigate previous
 map d navigate next
+map <Left> navigate previous
+map <Right> navigate next
 map [fullscreen] u navigate previous
 map [fullscreen] d navigate next
 
