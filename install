@@ -54,7 +54,11 @@ STOW_CONFIGS = [
     ".config/.stylua.toml",  # 15
     ".xprofile",  # 16
     ".config/wezterm",  # 17
-    ".config/mimeapps.list",  # 18
+    [
+        ".config/mimeapps.list",  # 18
+        ".config/user-dirs.dirs",
+        ".config/user-dirs.locale",
+    ],
     ".config/dunst",  # 19
     ".config/qtile",  # 20
     ".config/hypr",  # 21
@@ -169,7 +173,12 @@ def get_config_names():  # -> list[str]: -- not supported in 3.7
     if to_stow:
         # check for existing files to backup
         for ind in to_stow:
-            backup(STOW_CONFIGS[ind])
+            conf = STOW_CONFIGS[ind]
+            if isinstance(conf, list):
+                for loc in conf:
+                    backup(loc)
+            else:
+                backup(conf)
             names.append(STOW_FOLDERS[ind])
         return names
 
