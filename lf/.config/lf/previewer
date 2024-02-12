@@ -56,8 +56,8 @@ batorcat() {
     shift
     if command -v bat > /dev/null 2>&1; then
         bat --color=always --style=plain --pager=never "$file" "$@"
-        # thanks ubuntu
     elif command -v batcat > /dev/null 2>&1; then
+        # thanks ubuntu
         batcat --color=always --style=plain --pager=never "$file" "$@"
     else
         cat "$file"
@@ -91,9 +91,13 @@ case "$(printf "%s\n" "$(readlink -f "$1")" | awk '{print tolower($0)}')" in
 
         # Works only with ueberzugpp
     *.pdf)
-        [ ! -f "${CACHE}.jpg" ] && \
-            pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
-        image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
+        ## PREVIEW IMAGE:
+        # [ ! -f "${CACHE}.jpg" ] && \
+            #     pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
+        # image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
+
+        ## PRINT METADATA:
+        pdfinfo "$1"
         ;;
 
         # *.avi|*.mp4|*.wmv|*.dat|*.3gp|*.ogv|*.mkv|*.mpg|*.mpeg|*.vob|*.fl[icv]|*.m2v|*.mov|*.webm|*.ts|*.mts|*.m4v|*.r[am]|*.qt|*.divx)
@@ -102,12 +106,25 @@ case "$(printf "%s\n" "$(readlink -f "$1")" | awk '{print tolower($0)}')" in
         #     image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
         #     ;;
     *.bmp|*.jpg|*.jpeg|*.png|*.xpm|*.webp|*.gif|*.jfif)
-        image "$1" "$2" "$3" "$4" "$5"
+        ## PREVIEW IMAGE:
+        # image "$1" "$2" "$3" "$4" "$5"
+
+        ## PRINT METADATA: requires imagemagick
+        identify -format "%f %m %G %[colorspace] %b\n" "$1"
         ;;
     *.svg)
-        [ ! -f "${CACHE}.jpg" ] && \
-            convert "$1" "${CACHE}.jpg"
-        image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
+        ## PREVIEW IMAGE: requires imagemagick
+        # [ ! -f "${CACHE}.jpg" ] && \
+            #     convert "$1" "${CACHE}.jpg"
+        # image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
+
+        ## PRINT METADATA: requires imagemagick
+        identify "$1"
+        ;;
+    *.ttf)
+        ## PREVIEW IMAGE: requires imagemagick
+        # TODO: can this be opened in the terminal?
+        #display "$1"
         ;;
     *)
         batorcat "$1"
