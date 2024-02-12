@@ -198,7 +198,7 @@ hyprland:
 	@# Install waybar (statusbar), hyprpaper (wallpaper engine), screen locker
 	$(INSTALL) waybar hyprpaper waylock
 	@# Screen recording and screenshot tools
-	@(INSTALL) wf-recorder grim slurp
+	$(INSTALL) wf-recorder grim slurp
 	@# Try gammastep?
 	@make brightnessctl
 	@# Color Picker
@@ -246,7 +246,7 @@ vscode: ## Install VSCode (VSCodium)
 	$(PARUINSTALL) vscodium-bin vscodium-bin-marketplace
 
 office: ## Install LibreOffice
-	$(INSTALL) libreoffice-still
+	$(INSTALL) libreoffice-fresh
 
 #============================================= Study ==============================================
 anki:
