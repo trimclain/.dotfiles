@@ -63,19 +63,19 @@ end
 -- List available fonts: wezterm ls-fonts --list-system
 local fonts = {
     "BlexMono Nerd Font Mono",
-    "Cascadia Code",
+    "CaskaydiaCove Nerd Font Mono",
     "JetBrainsMono Nerd Font Mono",
     "DejaVuSansM Nerd Font",
     "JetBrains Mono", -- pre-installed
 }
 -- config.font = wezterm.font_with_fallback({ fonts[2], fonts[#fonts - 1], fonts[#fonts] })
-config.font_size = 13.0
+config.font_size = 14.0
 
 local cascadia_code = {
-    { family = "Cascadia Code", weight = "DemiLight", stretch = "Normal", style = "Normal" },
-    { family = "Cascadia Code", weight = "DemiLight", stretch = "Normal", style = "Italic" },
-    { family = "Cascadia Code", weight = "DemiBold", stretch = "Normal", style = "Normal" },
-    { family = "Cascadia Code", weight = "DemiBold", stretch = "Normal", style = "Italic" },
+    { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiLight", stretch = "Normal", style = "Normal" },
+    { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiLight", stretch = "Normal", style = "Italic" },
+    { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiBold", stretch = "Normal", style = "Normal" },
+    { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiBold", stretch = "Normal", style = "Italic" },
 }
 config.font = wezterm.font_with_fallback(cascadia_code)
 
