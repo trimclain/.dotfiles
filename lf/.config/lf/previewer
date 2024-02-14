@@ -119,7 +119,7 @@ case "$(printf "%s\n" "$(readlink -f "$1")" | awk '{print tolower($0)}')" in
         # image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
 
         ## PRINT METADATA: requires imagemagick
-        identify "$1"
+        identify -format "%f %m %G %[colorspace] %b\n" "$1"
         ;;
     *.ttf)
         ## PREVIEW IMAGE: requires imagemagick
