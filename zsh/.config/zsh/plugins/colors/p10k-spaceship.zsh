@@ -500,8 +500,8 @@
     (( VCS_STATUS_NUM_CONFLICTED )) && newres+="${conflicted}~"
 
     # BE_LIKE_STARSHIP:
-    # ✘ if have deleted files. other icons: 
-    (( VCS_STATUS_NUM_STAGED_DELETED || VCS_STATUS_NUM_UNSTAGED_DELETED )) && newres+="${modified}"
+    # ✘ if have deleted files. other icons: 
+    (( VCS_STATUS_NUM_STAGED_DELETED || VCS_STATUS_NUM_UNSTAGED_DELETED )) && newres+="${modified}✘"
 
     # !42 if have unstaged changes.
     # (( VCS_STATUS_NUM_UNSTAGED   )) && res+=" ${modified}!${VCS_STATUS_NUM_UNSTAGED}"
