@@ -45,7 +45,7 @@ dynamic_padding = true
 history = 5000 # default: 10000
 
 # {{{ Font configuration
-# Find fonts using `fc-list : family style`
+# Find fonts with: fc-list : family style
 
 # ###############################################################################
 # # Hasklug Nerd Font Mono (8.7/10)
@@ -102,20 +102,26 @@ history = 5000 # default: 10000
 # family = "JetBrainsMono Nerd Font Mono"
 
 ###############################################################################
-# Cascadia Code Nerd Font Mono (9/10)
+# Maple Nerd Font Mono (9/10)
 ###############################################################################
 [font.normal]
-family = "CaskaydiaCove Nerd Font Mono"
-style = "SemiLight"
-[font.bold]
-family = "CaskaydiaCove Nerd Font Mono"
-style = "SemiBold"
-[font.italic]
-family = "CaskaydiaCove Nerd Font Mono"
-style = "SemiLight Italic"
-[font.bold_italic]
-family = "CaskaydiaCove Nerd Font Mono"
-style = "SemiBold Italic"
+family = "Maple Mono NF"
+
+# ###############################################################################
+# # Cascadia Code Nerd Font Mono (9/10)
+# ###############################################################################
+# [font.normal]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiLight"
+# [font.bold]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiBold"
+# [font.italic]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiLight Italic"
+# [font.bold_italic]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiBold Italic"
 
 ###############################################################################
 
