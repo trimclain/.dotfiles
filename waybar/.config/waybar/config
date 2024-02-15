@@ -31,10 +31,10 @@
             "urgent": "",
             // "urgent": "",
             // "active": "",
-            // "active": "",
+            // "active": ""
             "active": "",
             // "default": ""
-            // "default": ""
+            // "default": ""
             "default": ""
         },
         "persistent-workspaces": {
@@ -54,11 +54,11 @@
     "clock": {
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        // icons: " ", " "," ",
-        // "format": " {:%H:%M   %a, %b %d}"
-        "format": "{: %a, %b %d %H:%M}",
+        // icons: "󰃰 ", "󰃶 "," ",
+        // "format": " {:%H:%M  󰃶 %a, %b %d}"
+        "format": "{:󰃶 %a, %b %d %H:%M}",
         // "format-alt": "{:%Y-%m-%d}"
-        "format-alt": "{: %A %d/%m/%Y %H:%M}"
+        "format-alt": "{:󰃶 %A %d/%m/%Y %H:%M}"
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#submap
     "hyprland/submap": {
@@ -82,21 +82,21 @@
         //"format-muted": "󰖁 {volume}%",
         // "on-click": "pavucontrol"
         "format": "{icon} {volume}%{format_source}",
-        "format-bluetooth": "{icon} {volume}%",
-        "format-bluetooth-muted": "婢{icon}",
-        "format-muted": "婢", //"",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-bluetooth-muted": "󰖁 {icon}",
+        "format-muted": "󰖁 ",
         // "format-source": " {volume}%",
         // "format-source": "",
         "format-source": "",
         "format-source-muted": " ()",
         "format-icons": {
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            "hands-free": "󰋐",
+            "headset": "󰋎",
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", "墳", ""]
+            "default": ["", "", "󰕾", ""]
         }
     },
     // TODO: make it work
@@ -119,8 +119,8 @@
     "network": {
         "interval": 1, // default: 60
         "format-wifi": "󰖩 {essid}",
-        "format-disconnected": "睊",
-        "format-ethernet": "說 {ipaddr}", // ﲁ 
+        "format-disconnected": "󰖪",
+        "format-ethernet": "󰣺 {ipaddr}", // 󰛳
         "tooltip-format": "{ifname} via {gwaddr} 󰊗",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
         "tooltip-format-ethernet": "󰸇 {bandwidthUpBytes} | 󰮏 {bandwidthDownBytes}",
@@ -132,7 +132,7 @@
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Memory
     "memory": {
         // "format": "{percentage}% "
-        "format": " {used:0.2f} GiB ({percentage}%)",
+        "format": "󰍛 {used:0.2f} GiB ({percentage}%)",
         "tooltip-format": "{used:0.2f} GiB / {total:0.2f} GiB",
         "interval": 1, // default: 30
         "on-click": "kitty -e htop"
@@ -155,20 +155,13 @@
             "warning": 30
         },
         "format": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
         "format-plugged": "󰂄 {capacity}%",
         // "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         // "format-icons": ["", "", "", "", ""]
-        "format-icons": [
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        ]
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Custom
     "custom/power": {

@@ -29,7 +29,7 @@ get_micro_muted_status() {
 display_volume(){
     value=$(get_volume)
     status=$(get_volume_muted_status)
-    [ "$status" = "no" ] && echo "墳 $value%" || echo "婢 $value%"
+    [ "$status" = "no" ] && echo "󰕾 $value%" || echo "󰖁 $value%"
 }
 
 notify() {
@@ -51,9 +51,9 @@ send_notification() {
     if  [ "$2" = "increase" ]; then
         notify "$1" ""
     elif [ "$2" = "decrease" ]; then
-        notify "$1" "奔"
+        notify "$1" ""
     elif [ "$2" = "muted" ]; then
-        notify "$1" "婢"
+        notify "$1" "󰖁"
     elif [ "$2" = "unmuted" ]; then
         notify "$1" ""
     else
