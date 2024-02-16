@@ -6,7 +6,7 @@ all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@echo "Installing some basic tools..."
-	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr jq
+	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr jq rsync
 	@# For netstat, ifconfig and more
 	@$(INSTALL) net-tools
 	@# Some scripts like getnf need this
@@ -307,7 +307,7 @@ apps: ## Install btop, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv,
 	@make thorium
 	@make telegram
 
-# Remote Desktop Connection: AnyDesk, RustDesk
+# Remote Desktop Connection: AnyDesk (anydesk-bin), RustDesk (rustdesk-bin)
 
 #==================================================================================================
 install: ## Setup arch after new installation
