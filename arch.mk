@@ -6,7 +6,7 @@ all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@echo "Installing some basic tools..."
-	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr
+	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr jq
 	@# For netstat, ifconfig and more
 	@$(INSTALL) net-tools
 	@# Some scripts like getnf need this
@@ -191,18 +191,34 @@ hyprland:
 	$(INSTALL) xdg-desktop-portal-hyprland
 	@# File picker
 	$(INSTALL) xdg-desktop-portal-gtk
-	@# Authentification Agent (optional)
+	@# Authentification Agent for gui sudo popups
 	$(INSTALL) polkit-kde-agent
 	@# Post Install Apps
 	$(INSTALL) wl-clipboard dunst rofi feh
-	@# Install waybar (statusbar), hyprpaper (wallpaper engine), screen locker
+	@# Utils: waybar (statusbar), hyprpaper (wallpaper engine), screen locker
 	$(INSTALL) waybar hyprpaper waylock
 	@# Screen recording and screenshot tools
 	$(INSTALL) wf-recorder grim slurp
-	@# Try gammastep?
+	@# Brightness: Try gammastep?
 	@make brightnessctl
+	@# GTK Settings Editor for changing cursor and icon themes
+	$(INSTALL) nwg-look
+	@# Themes and Icons
+	$(INSTALL) gnome-themes-extra
+	@#make cursor
 	@# Color Picker
 	@# $(PARUINSTALL) hyprpicker-git
+
+cursor:
+	@# Install volantes-cursors theme
+	@# Problem: building takes a little too long
+	@# Alternative: download manually from https://www.pling.com/p/1356095/
+	$(INSTALL) inkscape xorg-xcursorgen
+	@if [[ -d /usr/share/icons/volantes-cursors ]]; then echo "[volantes-cursors]: Already installed";\
+		else echo "Installing volantes-cursors theme..." &&\
+		git clone https://github.com/varlesh/volantes-cursors.git /tmp/volantes-cursors &&\
+		pushd /tmp/volantes-cursors && export NO_AT_BRIDGE=1 && export DBUS_SESSION_BUS_ADDRESS=disabled &&\
+		make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
 
 #============================================ Terminal ============================================
 alacritty:
@@ -313,8 +329,10 @@ install: ## Setup arch after new installation
 	@# terminal
 	@make kitty
 	@make alacritty
-	@# system fonts + my fonts
+	@# fonts
 	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
+	$(INSTALL) terminus-font
+	$(PARUINSTALL) ttf-maple
 	@# TODO: automate nerd font install
 	@make getnf
 	@# shell
@@ -335,7 +353,7 @@ install: ## Setup arch after new installation
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide uninstall_neovide\
 	zsh zap\
-	awesome qtile hyprland\
+	awesome qtile hyprland cursor\
 	alacritty kitty wezterm\
 	brave chrome thorium telegram discord spotify vscode office\
 	anki uninstall_anki pomo uninstall_pomo\
