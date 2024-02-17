@@ -316,9 +316,10 @@ install: ## Setup arch after new installation
 	@echo "==================================================================="
 	@# symlink my configs
 	@./install --linux
-	@# global langs
+	@# programming languages
 	@make python
 	@make rust
+	@make golang
 	@# aur helper
 	@make paru
 	@# network manager extras
