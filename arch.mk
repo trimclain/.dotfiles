@@ -286,11 +286,11 @@ pomo:
 	@# go is required to build pomo
 	@# altenative installation: paru -S pomo-git
 	@echo "==================================================================="
-	@echo "Installing pomo (simple CLI for Pomodoro)..."
-	git clone https://github.com/kevinschoon/pomo.git ~/pomo
-	cd ~/pomo && make
-	cp ~/pomo/bin/pomo ~/.local/bin/
-	rm -rf ~/pomo
+	@if [[ -f ~/.local/bin/pomo ]]; then echo "[pomo]: Already installed"; else\
+		echo "Installing pomo (simple CLI for Pomodoro)..." &&\
+		git clone https://github.com/kevinschoon/pomo.git /tmp/pomo &&\
+		pushd /tmp/pomo && make && cp /tmp/pomo/bin/pomo ~/.local/bin/ &&\
+		popd && rm -rf /tmp/pomo && echo "Done"; fi
 	@# pomo init
 
 uninstall_pomo:
