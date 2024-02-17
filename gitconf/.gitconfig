@@ -1,6 +1,6 @@
 [user]
-	name = Arthur McLain
-	email = mclain.it@gmail.com
+    name = Arthur McLain
+    email = mclain.it@gmail.com
 [init]
     defaultBranch = main
 [alias]
@@ -8,3 +8,5 @@
     root = rev-parse --show-toplevel
 [pull]
     rebase = false
+[rerere]
+    enabled = true
