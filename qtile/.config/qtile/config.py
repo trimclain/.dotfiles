@@ -461,7 +461,7 @@ class Widget:
             "Button5": run_command("~/.local/bin/display-brightness --decrease"),
         },
         padding=5,
-        fmt=" {}",
+        fmt="󰃝 {}",
         cmd=os.path.expanduser("~/.config/qtile/scripts/get-brightness.sh"),
         update_interval=0.01,
         # foreground=colors[7],
@@ -486,7 +486,7 @@ class Widget:
         mouse_callbacks={"Button1": lazy.spawn(terminal + " -e htop")},
         format="{MemUsed: .2f} {mm}",
         measure_mem="G",
-        fmt="{}",
+        fmt="󰍛{}",
         padding=5,
         update_interval=1.0,
         # foreground=colors[9],
@@ -515,7 +515,7 @@ class Widget:
         },
         # format="%a %d/%m/%Y %H:%M",
         format="%a, %b %d %H:%M",
-        # fmt=" {}",
+        # fmt="󰃰 {}",
         fmt="󰥔 {}",
     )
 
@@ -525,16 +525,16 @@ class Widget:
     # dep: python-dbus-next
     battery = dict(
         # mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
-        charge_char="",
+        charge_char="󰂄",
         # full_char = "",
-        full_char="",
+        full_char="󰁹",
         # discharge_char="",
         # discharge_char = "",
-        discharge_char="",
+        discharge_char="󰁾",
         # empty_char = "",
-        empty_char="",
-        unknown_char="",
-        # not_charging_char="", # default: "*"
+        empty_char="󰂎",
+        unknown_char="󰂑",
+        # not_charging_char="󰂑", # default: "*"
         # notify_below=15, #default: None
         format="{char} {percent:2.0%}",
         update_interval=1.0,  # default: 60
