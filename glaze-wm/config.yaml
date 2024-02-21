@@ -127,6 +127,15 @@ window_rules:
   - command: "resize borders 0px -7px -7px -7px"
     match_process_name: "steam"
 
+  # Move applications to specific workspaces
+  # - command: "move to workspace 1"
+  #   match_process_name: "Code"
+  # - command: "move to workspace 2"
+  #   match_process_name: "chrome"
+  # - command: "move to workspace 3"
+  #   match_process_name: "msedge"
+
+
 binding_modes:
   - name: "resize"
     keybindings:
