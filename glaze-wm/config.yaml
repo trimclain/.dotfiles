@@ -79,7 +79,7 @@ bar:
       padding: "0 8px"
 
 workspaces:
-    - name: "1"
+  - name: "1"
     #display_name: ""
     #keep_alive: true
     # bind_to_monitor: 1
