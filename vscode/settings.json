@@ -11,11 +11,12 @@
     // "workbench.colorTheme": "Rosé Pine Moon", // (9.5)
     // "workbench.colorTheme": "Dobri Next -C05- Electron", // (9.5)
     // "workbench.colorTheme": "poimandres", // TODO:
-    "workbench.colorTheme": "Electron", // (9.5)
+    // "workbench.colorTheme": "Electron", // (9.5)
+    "workbench.colorTheme": "Andromeda Bordered", // (9) (pretty bright colors)
+    // "workbench.colorTheme": "Andromeda Italic Bordered", // (8.5) (pretty bright colors)
     // "workbench.colorTheme": "Dobri Next -C09- Eve", // (8.5)
-    // "workbench.colorTheme": "Andromeda Italic Bordered", // (8) (pretty bright colors)
     // "workbench.colorTheme": "Shades of Purple (Super Dark)", // (8) (high contrast)
-    // "workbench.colorTheme": "Default Dark Modern", // (hate green comments)
+    // "workbench.colorTheme": "Default Dark+", // (hate green comments)
     "workbench.iconTheme": "vscode-icons",
     // "workbench.activityBar.visible": false,
     "workbench.sideBar.location": "right",
