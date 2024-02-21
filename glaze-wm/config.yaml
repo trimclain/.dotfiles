@@ -135,7 +135,6 @@ window_rules:
   # - command: "move to workspace 3"
   #   match_process_name: "msedge"
 
-
 binding_modes:
   - name: "resize"
     keybindings:
