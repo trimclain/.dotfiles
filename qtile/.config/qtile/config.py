@@ -331,8 +331,8 @@ groups = []
 group_names = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["", "", "", "", "", "ﭮ"]
-# , , , 
-group_labels = ["  " for i in range(len(group_names))]
+# , , , 
+group_labels = ["  " for i in range(len(group_names))]
 
 # INFO: match wm_class: https://docs.qtile.org/en/latest/manual/config/groups.html#example
 # or https://wiki.archlinux.org/title/Qtile#Group_Rules
