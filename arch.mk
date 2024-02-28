@@ -299,7 +299,7 @@ uninstall_pomo:
 
 #==================================================================================================
 
-apps: ## Install btop, okular, lf, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, chafa, thorium, telegram
+apps: ## Install btop, okular, lf, chafa, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
 	@echo "==================================================================="
 	@echo Installing apps...
 	@echo "==================================================================="
