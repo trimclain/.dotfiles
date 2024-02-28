@@ -84,7 +84,7 @@
         "format": "{icon} {volume}%{format_source}",
         "format-bluetooth": "{icon} {volume}%",
         "format-bluetooth-muted": "󰖁 {icon}",
-        "format-muted": "󰖁 ",
+        "format-muted": "󰖁",
         // "format-source": " {volume}%",
         // "format-source": "",
         "format-source": "",
