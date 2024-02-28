@@ -1,3 +1,10 @@
 .backup
-.zcompdump
+
+# python
 __pycache__
+
+# zsh
+.zcompdump
+
+# ncspot
+userstate.cbor
