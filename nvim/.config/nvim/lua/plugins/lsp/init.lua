@@ -216,9 +216,14 @@ return {
         -- "stevearc/conform.nvim" -- for formatters
         -- "mfussenegger/nvim-lint" -- for linters
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "mason.nvim" },
+        dependencies = {
+            "mason.nvim",
+            -- "gbprod/none-ls-luacheck.nvim",
+        },
         opts = function()
             local nls = require("null-ls")
+
+            -- nls.register(require("none-ls-luacheck.diagnostics.luacheck"))
             return {
                 root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
                 sources = {
@@ -231,20 +236,18 @@ return {
                     -- nls.builtins.formatting.ruff.with({ -- an extremely fast python formatter/linter, written in rust
                     --     extra_args = { "--ignore", "E501" }, -- ignore long lines
                     -- }),
-                    nls.builtins.formatting.autopep8,
+                    -- TODO: replace with ruff (https://github.com/astral-sh/ruff-lsp/?tab=readme-ov-file#setup)
+                    -- nls.builtins.formatting.autopep8,
                     nls.builtins.formatting.isort,
                     nls.builtins.formatting.stylua,
-                    nls.builtins.formatting.beautysh,
+                    nls.builtins.formatting.shfmt, -- switched from beautysh
 
                     -- Linters
-                    nls.builtins.diagnostics.ruff.with({
-                        extra_args = { "--ignore", "E501" }, -- ignore long lines
-                    }),
-                    nls.builtins.diagnostics.luacheck,
-                    nls.builtins.diagnostics.shellcheck,
-                    -- nls.builtins.diagnostics.eslint_d, -- Once spawned, the server will continue to run in the background.
-                    -- This is normal and not related to null-ls.
-                    -- You can stop it by running eslint_d stop from the command line.
+                    -- nls.builtins.diagnostics.ruff.with({ -- TODO: use ruff lsp
+                    --     extra_args = { "--ignore", "E501" }, -- ignore long lines
+                    -- }),
+                    -- TODO: replace with eslint-language-server
+                    -- nls.builtins.diagnostics.eslint_d,
 
                     -- Hover
                     nls.builtins.hover.printenv.with({ -- shows the value for the current environment variable under the cursor
@@ -274,18 +277,19 @@ return {
             },
             ensure_installed = {
                 -- Formatters
-                "autopep8",
-                "beautysh",
+                -- "autopep8",
                 "isort",
                 "prettierd",
                 "stylua",
+                "shfmt", -- "beautysh",
 
                 -- Linters
-                "eslint_d",
-                "ruff",
-                -- "selene",
-                "shellcheck",
-                "stylelint", -- css linter
+                -- "eslint_d", -- need config file, annoying
+                -- "luacheck", -- "selene",
+                -- TODO: switch to ruff-lsp
+                -- "ruff",
+                "shellcheck", -- extends bashls
+                -- "stylelint", -- css linter
             },
         },
         config = function(_, opts)
