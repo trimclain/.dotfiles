@@ -147,11 +147,12 @@ return {
         -- BookMark = "",
         BookMark = " ",
         BoxChecked = "",
-        -- Bug = "",
-        Bug = " ",
+        -- Bug = " ",
+        Bug = " ", -- referenced
         -- Calendar = "",
         Calendar = " ",
-        Check = " ",
+        -- Check = " ",
+        Check = " ", -- referenced
         ChevronRight = "",
         ChevronDown = "",
         ChevronShortDown = "",
@@ -160,6 +161,7 @@ return {
         ChevronShortUp = "",
         -- Circle = "",
         Circle = "●",  -- referenced
+        Clock = " ", -- referenced
         Close = " ",
         -- CloudDownload = "",
         CloudDownload = " ",
@@ -181,8 +183,8 @@ return {
         Files = " ",
         FindFile = "󰈞",
         FindText = "󰊄",
-        -- Fire = "",
-        Fire = " ",
+        -- Fire = " ",
+        Fire = " ",  -- referenced
         Folder = "󰉋 ",
         FolderOpen = " ",
         FolderSymlink = "",
@@ -196,6 +198,7 @@ return {
         -- List = "",
         List = " ",
         Lock = " ", -- referenced
+        Message = "󰍩 ", --referenced
         MidCircle = "",
         MidDottedCircle = " ",
         MidUnfilledCircle = " ",
@@ -215,6 +218,8 @@ return {
         SignIn = " ",
         -- SignOut = "",
         SignOut = " ",
+        -- Speedometer = "⏲ ",
+        Speedometer = "󰾆 ", -- referenced
         Stacks = "",
         Tab = "󰌒 ", -- referenced
         -- Table = "",
@@ -232,14 +237,12 @@ return {
         Watches = "󰂥",
     },
     misc = {
-        -- Robot = "ﮧ",
         Robot = " ",
-        -- Squirrel = "",
+        -- Squirrel = " ",
         Squirrel = " ",
-        -- Tag = "",
+        -- Tag = " ",
         Tag = " ",
         Vim = " ", -- referenced
-        -- Watch = "",
         Watch = " ",
     },
 }
