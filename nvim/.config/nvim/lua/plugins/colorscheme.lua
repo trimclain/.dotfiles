@@ -1,16 +1,5 @@
 return {
     {
-        "LunarVim/darkplus.nvim",
-        lazy = false,
-        priority = 1000,
-        cond = CONFIG.ui.colorscheme == "darkplus",
-        config = function()
-            -- require("darkplus").setup()
-            vim.cmd.colorscheme("darkplus")
-        end,
-    },
-
-    {
         "catppuccin/nvim",
         name = "catppuccin",
         lazy = false,
@@ -260,6 +249,17 @@ return {
     },
 
     {
+        "LunarVim/darkplus.nvim",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "darkplus",
+        config = function()
+            -- require("darkplus").setup()
+            vim.cmd.colorscheme("darkplus")
+        end,
+    },
+
+    {
         "LunarVim/primer.nvim",
         lazy = false,
         priority = 1000,
@@ -413,6 +413,24 @@ return {
         cond = CONFIG.ui.colorscheme == "zephyr",
         config = function()
             vim.cmd.colorscheme("zephyr")
+        end,
+    },
+
+    {
+        "olivercederborg/poimandres.nvim",  -- too bright comments (try #4D5064)
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "poimandres",
+        opts = {
+            bold_vert_split = false, -- use bold vertical separators
+            dim_nc_background = false, -- dim 'non-current' window backgrounds
+            disable_background = false, -- disable background
+            disable_float_background = false, -- disable background for floats
+            disable_italics = false, -- disable italics
+        },
+        config = function(_, opts)
+            require("poimandres").setup(opts)
+            vim.cmd.colorscheme("poimandres")
         end,
     },
 
