@@ -1,7 +1,7 @@
 local Util = require("core.util")
 
 return {
-    -- lspconfig
+    -- LSP Configuration & Plugins
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
@@ -11,9 +11,7 @@ return {
             "williamboman/mason-lspconfig.nvim",
             {
                 "hrsh7th/cmp-nvim-lsp",
-                cond = function()
-                    return Util.has_plugin("nvim-cmp")
-                end,
+                cond = Util.has_plugin("nvim-cmp"),
             },
             {
                 "smjonas/inc-rename.nvim",
@@ -179,7 +177,7 @@ return {
                 require("lspconfig")[server].setup(server_opts)
             end
 
-            -- get all the servers that are available thourgh mason-lspconfig
+            -- get all the servers that are available through mason-lspconfig
             local have_mason, mlsp = pcall(require, "mason-lspconfig")
             local all_mslp_servers = {}
             if have_mason then
@@ -206,15 +204,37 @@ return {
         end,
     },
 
+    -- TODO:
+    -- {
+    --     "stevearc/conform.nvim",
+    --     opts = {
+    --         -- notify_on_error = false,
+    --         -- format_on_save = {
+    --         --     timeout_ms = 500,
+    --         --     lsp_fallback = true,
+    --         -- },
+    --         formatters_by_ft = {
+    --             lua = { "stylua" },
+    --             sh = { "shfmt" }, -- beautysh
+    --             -- Conform can also run multiple formatters sequentially
+    --             python = { "isort", "autopep8" }, -- ruff
+    --             --
+    --             -- You can use a sub-list to tell conform to run *until* a formatter
+    --             -- is found.
+    --             javascript = { { "prettierd", "prettier" } },
+    --         },
+    --     },
+    -- },
+
+    -- TODO:
+    -- "mfussenegger/nvim-lint" -- for linters
+    -- https://github.com/LazyVim/LazyVim/blob/e5babf289c5ccd91bcd068bfc623335eb76cbc1f/lua/lazyvim/plugins/linting.lua
+
     -- Formatters and Linters
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
     -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
     {
         "nvimtools/none-ls.nvim",
-        -- TODO: someday
-        -- Use these replacement plugins:
-        -- "stevearc/conform.nvim" -- for formatters
-        -- "mfussenegger/nvim-lint" -- for linters
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "mason.nvim",
