@@ -508,6 +508,7 @@ return {
         keys = {
             { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
         },
+        -- TODO: https://superuser.com/questions/887712/how-do-i-change-the-hilighted-length-of-git-commit-messages-in-vim
         config = function()
             local neogit = require("neogit")
             neogit.setup({

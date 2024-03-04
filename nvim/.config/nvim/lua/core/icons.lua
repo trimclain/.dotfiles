@@ -151,8 +151,8 @@ return {
         Bug = " ", -- referenced
         -- Calendar = "",
         Calendar = " ",
-        -- Check = " ",
-        Check = " ", -- referenced
+        -- Check = " ",
+        Check = " ", -- referenced
         ChevronRight = "",
         ChevronDown = "",
         ChevronShortDown = "",
