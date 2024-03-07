@@ -266,16 +266,18 @@ office: ## Install LibreOffice
 
 #============================================= Study ==============================================
 anki:
+	@# ANKI_VERSION = 23.12.1
+	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
 	@echo "==================================================================="
 	@echo "Installing Anki..."
-	@# Install a hardcoded version
-	wget https://github.com/ankitects/anki/releases/download/2.1.65/anki-2.1.65-linux-qt6.tar.zst
+	@# Install the latest version
+	wget https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-$(ANKI_VERSION)-linux-qt6.tar.zst
 	@# Unpack it
-	tar xaf ./anki-2.1.65-linux-qt6.tar.zst
+	tar xaf ./anki-$(ANKI_VERSION)-linux-qt6.tar.zst
 	@# Run the installation script
-	cd ./anki-2.1.65-linux-qt6 && sudo ./install.sh
+	cd ./anki-$(ANKI_VERSION)-linux-qt6 && sudo ./install.sh
 	@# Delete the folder and the archive
-	rm -r ./anki-2.1.65-linux-qt6.tar.zst ./anki-2.1.65-linux-qt6
+	rm -r ./anki-$(ANKI_VERSION)-linux-qt6.tar.zst ./anki-$(ANKI_VERSION)-linux-qt6
 
 uninstall_anki:
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
