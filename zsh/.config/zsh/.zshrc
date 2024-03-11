@@ -324,7 +324,7 @@ alias py="python3"
 alias cp="cp -iv" \
     mv="mv -iv" \
     rm="rm -vI"
-# rsync= "rsync -avuP"
+# rsync= "rsync -ahvuP"
 # mkd="mkdir -pv"
 
 alias grep='grep --color=auto'
@@ -437,8 +437,6 @@ elif [[ "$_PROMT_THEME" == "zap" ]]; then
     # Zap Prompt
     plug "zap-zsh/zap-prompt"
 fi
-
-# SOMEDAY: eval "$(starship init zsh)"
 
 # Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
