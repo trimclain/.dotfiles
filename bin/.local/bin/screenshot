@@ -9,7 +9,7 @@
 ###############################################################################
 
 # Make sure dependencies are installed
-check_if_command_exists() {
+ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
@@ -28,13 +28,13 @@ show_help(){
 ##########################################
 screen() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
-        check_if_command_exists grim
+        ensure_installed grim
         grim - | wl-copy
         if command -v "notify-send" > /dev/null; then
             notify-send "Screenshot" "Screen saved to clipboard"
         fi
     else
-        check_if_command_exists flameshot
+        ensure_installed flameshot
         flameshot screen -c
     fi
 }
@@ -44,8 +44,8 @@ screen() {
 ##########################################
 region() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
-        check_if_command_exists grim
-        check_if_command_exists slurp
+        ensure_installed grim
+        ensure_installed slurp
         REGION=$(slurp 2> /dev/null)
         if [ -z "$REGION" ]; then
             exit
@@ -55,7 +55,7 @@ region() {
             notify-send "Screenshot" "Region saved to clipboard"
         fi
     else
-        check_if_command_exists flameshot
+        ensure_installed flameshot
         flameshot gui -c
     fi
 }

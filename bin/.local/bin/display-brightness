@@ -7,7 +7,7 @@
 # Dependencies: notify-send, brightnessctl or xrandr (only for Xorg)
 ###############################################################################
 
-check_if_command_exists() {
+ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
@@ -33,7 +33,7 @@ send_notification() {
 }
 
 main() {
-    check_if_command_exists notify-send
+    ensure_installed notify-send
 
     mode="unknown"
 
@@ -61,8 +61,8 @@ main() {
 
     elif [[ -z $WAYLAND_DISPLAY ]]; then
         ####### use xrandr if on xorg and no brightnessctl found #######
-        check_if_command_exists xrandr
-        check_if_command_exists notify-send
+        ensure_installed xrandr
+        ensure_installed notify-send
 
         # get info from xrandr
         connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')

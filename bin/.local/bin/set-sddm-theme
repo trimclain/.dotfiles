@@ -4,13 +4,13 @@
 # Set the theme for SDDM
 ###############################################################################
 
-check_if_command_exists() {
+ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
     fi
 }
-check_if_command_exists sddm
+ensure_installed sddm
 
 CONF=/etc/sddm.conf
 THEMES=/usr/share/sddm/themes

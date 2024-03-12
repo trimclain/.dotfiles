@@ -8,7 +8,7 @@
 ###############################################################################
 
 # Make sure dependencies are installed
-check_if_command_exists() {
+ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
@@ -40,10 +40,10 @@ killrecording() {
 #######################################
 screen() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
-        check_if_command_exists wf-recorder
+        ensure_installed wf-recorder
         wf-recorder --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 & echo $! > /tmp/recordingpid
     else
-        check_if_command_exists ffmpeg
+        ensure_installed ffmpeg
         ffmpeg \
             -hide_banner \
             -loglevel error \
@@ -62,14 +62,14 @@ screen() {
 #######################################
 window() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
-        check_if_command_exists wf-recorder
-        check_if_command_exists slurp
+        ensure_installed wf-recorder
+        ensure_installed slurp
         wf-recorder \
             -g "$(slurp)" \
             --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 & echo $! > /tmp/recordingpid
     else
-        check_if_command_exists ffmpeg
-        check_if_command_exists xwininfo
+        ensure_installed ffmpeg
+        ensure_installed xwininfo
         WINID=$(xwininfo | grep "Window id" | awk '{print $4}')
         ffmpeg \
             -hide_banner \

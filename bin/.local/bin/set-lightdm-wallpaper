@@ -9,7 +9,7 @@
 ###############################################################################
 
 ## Functions
-check_if_command_exists() {
+ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
@@ -17,7 +17,7 @@ check_if_command_exists() {
 }
 ## End Functions
 
-check_if_command_exists lightdm
+ensure_installed lightdm
 
 if [[ -n $PERSONAL ]]; then
     WALLPAPERS=$PERSONAL/media/wallpapers
@@ -30,8 +30,8 @@ if [[ ! -d $WALLPAPERS ]]; then
     exit 1
 fi
 
-check_if_command_exists fzf
-check_if_command_exists feh
+ensure_installed fzf
+ensure_installed feh
 
 PIXMAPS=/usr/share/pixmaps
 GREETER=/etc/lightdm/lightdm-gtk-greeter.conf

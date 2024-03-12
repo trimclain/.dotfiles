@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-check_if_command_exists() {
+ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
@@ -57,7 +57,7 @@ else
     ###########################################################################
     # XORG
     ###########################################################################
-    check_if_command_exists xrandr
+    ensure_installed xrandr
 
     # get info from xrandr
     connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')

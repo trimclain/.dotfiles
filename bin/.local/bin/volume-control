@@ -7,7 +7,7 @@
 # Dependencies: notify-send, pactl
 ###############################################################################
 
-check_if_command_exists() {
+ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
@@ -62,8 +62,8 @@ send_notification() {
 }
 
 main() {
-    check_if_command_exists notify-send
-    check_if_command_exists pactl
+    ensure_installed notify-send
+    ensure_installed pactl
     VOLUME_UP="pactl set-sink-volume @DEFAULT_SINK@ +5%"
     VOLUME_DOWN="pactl set-sink-volume @DEFAULT_SINK@ -5%"
     VOLUME_UNMUTE="pactl set-sink-mute @DEFAULT_SINK@ 0"
