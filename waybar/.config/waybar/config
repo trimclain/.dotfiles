@@ -56,9 +56,9 @@
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         // icons: "󰃰 ", "󰃶 "," ",
         // "format": " {:%H:%M  󰃶 %a, %b %d}"
-        "format": "{:󰃶 %a, %b %d %H:%M}",
+        "format": "󰃶 {:%a, %b %d %H:%M}",
         // "format-alt": "{:%Y-%m-%d}"
-        "format-alt": "{:󰃶 %A %d/%m/%Y %H:%M}"
+        "format-alt": "󰃶 {:%A %d/%m/%Y %H:%M}"
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#submap
     "hyprland/submap": {
