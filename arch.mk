@@ -6,11 +6,13 @@ all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@echo "Installing some basic tools..."
-	@$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr jq rsync
+	$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr jq rsync
+	# For paccache to clean pacman cache
+	$(INSTALL) pacman-contrib
 	@# For netstat, ifconfig and more
-	@$(INSTALL) net-tools
+	$(INSTALL) net-tools
 	@# Some scripts like getnf need this
-	@$(INSTALL) xdg-user-dirs
+	$(INSTALL) xdg-user-dirs
 
 help: ## Print this help menu
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
@@ -210,6 +212,7 @@ hyprland:
 	@# $(PARUINSTALL) hyprpicker-git
 
 cursor:
+	@# Other themes: https://github.com/ful1e5/Bibata_Cursor
 	@# Install volantes-cursors theme
 	@# Problem: building takes a little too long
 	@# Alternative: download manually from https://www.pling.com/p/1356095/
@@ -328,7 +331,6 @@ install: ## Setup arch after new installation
 	@ $(INSTALL) network-manager-applet nm-connection-editor
 	@# window manager
 	@make qtile
-	@# TODO: hyprland
 	@# terminal
 	@make kitty
 	@make alacritty
@@ -338,6 +340,7 @@ install: ## Setup arch after new installation
 	$(PARUINSTALL) ttf-maple
 	@# TODO: automate nerd font install
 	@make getnf
+	@~/.local/bin/getnf -i CascadiaCode,JetBrainsMono
 	@# shell
 	@make zsh
 	$(INSTALL) tmux
