@@ -211,6 +211,11 @@ hyprland:
 	@# Color Picker
 	@# $(PARUINSTALL) hyprpicker-git
 
+fix-nvidialand:
+	@# Whenever Hyprland is updated, this needs to be run (if using nvidia)
+	sudo sed -i 's|^Exec=Hyprland|Exec=env LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia WLR_NO_HARDWARE_CURSORS=1 Hyprland|g' \
+		/usr/share/wayland-sessions/hyprland.desktop
+
 cursor:
 	@# Other themes: https://github.com/ful1e5/Bibata_Cursor
 	@# Install volantes-cursors theme
@@ -359,7 +364,7 @@ install: ## Setup arch after new installation
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide uninstall_neovide\
 	zsh zap\
-	awesome qtile hyprland cursor\
+	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
 	brave chrome thorium telegram discord spotify vscode office\
 	anki uninstall_anki pomo uninstall_pomo\
