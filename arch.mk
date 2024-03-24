@@ -217,6 +217,7 @@ fix-nvidialand:
 		/usr/share/wayland-sessions/hyprland.desktop
 
 cursor:
+	@# TODO: use hyprland-cursors
 	@# Other themes: https://github.com/ful1e5/Bibata_Cursor
 	@# Install volantes-cursors theme
 	@# Problem: building takes a little too long
