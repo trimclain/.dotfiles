@@ -32,16 +32,16 @@ order += "tztime local"
 wireless _first_ {
         # format_up = "W: (%quality at %essid) (%bitrate / %frequency) %ip"
         # format_up = "🆆 %quality at %essid"
-        # format_up = "直 %quality at %essid"
+        # format_up = "󰖩 %quality at %essid"
         format_up = "  %essid (%quality)"
         # format_down = "🆆 ⬇"
-        format_down = "睊"
+        format_down = "󰖪"
 }
 
 ethernet _first_ {
         # format_up = "E: %ip (%speed)"
         format_up = "🅴 %ip (%speed)"
-        # format_up = "  %ip (%speed)"
+        # format_up = "󰈀  %ip (%speed)"
         # format_down = "🅴 ⬇"
         format_down = "🅴 "
 }
@@ -54,13 +54,13 @@ battery all {
         # status_bat = 🔋
         status_bat = 
         # status_chr = ⚡
-        status_chr = 
+        status_chr = 󰂄
         # status_unk = 🤔
         # status_unk = 🗿
-        status_unk = 
+        status_unk = 󰂑
         # status_full = 😃
         # status_full = 🟢
-        status_full = 
+        status_full = 󰁹
 }
 
 # disk "/" {
@@ -73,7 +73,7 @@ battery all {
 
 cpu_usage {
     # format = "💻 at %usage ( 1: [%cpu0] 2: [%cpu1] 3: [%cpu2] 4: [%cpu3] )"
-    format = " cpu: %usage"
+    format = " cpu: %usage"
 }
 
 cpu_temperature 0 {
@@ -92,9 +92,9 @@ cpu_temperature 0 {
 
 volume master {
         # format = "🔊: %volume"
-        format = "墳 %volume"
+        format = "󰕾 %volume"
         # format_muted = "🔇 (%volume)"
-        format_muted = "婢 (%volume)"
+        format_muted = "󰖁 (%volume)"
         device = "default"
         mixer = "Master"
         mixer_idx = 0
@@ -102,5 +102,5 @@ volume master {
 
 tztime local {
         # format = "%Y-%m-%d %H:%M:%S"
-        format = " %a %d/%m/%Y %H:%M"
+        format = "󰃰 %a %d/%m/%Y %H:%M"
 }

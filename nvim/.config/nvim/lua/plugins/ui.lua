@@ -199,10 +199,11 @@ return {
             local formatters = {
                 function()
                     local formatters = formatters_list()
-                    local label = " Style:"
+                    local icon = icons.ui.Paragraph
+                    local label = icon .. "Style:"
                     if formatters == "" then
-                        -- return " ∅"
-                        return "%#WinSeparator#  Style %*"
+                        -- return icon .. "∅"
+                        return "%#WinSeparator# " .. icon .. "Style %*"
                     end
                     return vim.fn.join({ "", label, formatters }, " ")
                 end,

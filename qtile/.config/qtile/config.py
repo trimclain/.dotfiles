@@ -330,7 +330,7 @@ keys = [
 groups = []
 group_names = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["1", "2", "3", "4", "5", "6"]
-# group_labels = ["", "", "", "", "", "ﭮ"]
+# group_labels = ["", "", "", "", "", "󰙯"]
 # , , , 
 group_labels = ["  " for i in range(len(group_names))]
 
