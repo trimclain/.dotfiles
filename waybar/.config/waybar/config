@@ -10,7 +10,6 @@
     "modules-center": ["hyprland/workspaces"],
     // qtile: tray, volume, brightness, layout, memory, temperature, battery, exit button
     // polybar: volume brightness xkeyboard wlan eth smemory temperature battery powermenu
-    // TODO: too long for 1366x768
     "modules-right": [
         "tray",
         // "disk",
