@@ -384,8 +384,7 @@ addToPATH "$HOME/.local/bin"
 addToPATH "$N_PREFIX/bin" # n-insall for node versions
 addToPATH "$HOME/.juliaup/bin" # julia
 
-# Used if rustup is installed from https://rustup.rs/ (not relevant on arch)
-addToPATH "~/.cargo/bin" # rust btw
+addToPATH "$HOME/.cargo/bin" # rust btw
 
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
 if [[ -n $GOROOT ]]; then
