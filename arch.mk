@@ -157,6 +157,15 @@ purge_nvim: uninstall_nvim clean_nvim
 neovide:
 	$(INSTALL) neovide
 
+docker: ## Install docker
+	@echo "==================================================================="
+	@if command -v zsh > /dev/null; then echo "[docker]: Already installed";\
+		else echo "Installing Docker..." && $(INSTALL) docker &&\
+		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
+		echo "Done"; fi
+
+# Install act from AUR to run github actions locally
+
 #============================================== Zsh ===============================================
 zsh: ## Install zsh
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
@@ -363,7 +372,7 @@ install: ## Setup arch after new installation
 	n uninstall_n export_node_modules import_node_modules typescript tectonic \
 	paru flatpak\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
-	neovide uninstall_neovide\
+	neovide docker\
 	zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
