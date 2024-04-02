@@ -82,30 +82,33 @@ workspaces:
   - name: "1"
     #display_name: ""
     #keep_alive: true
-    # bind_to_monitor: 1
+    bind_to_monitor: 1
   - name: "2"
     #display_name: ""
     #keep_alive: true
-    # bind_to_monitor: 1
+    bind_to_monitor: 1
   - name: "3"
     #display_name: ""
     #keep_alive: true
-    # bind_to_monitor: 1
+    bind_to_monitor: 1
   - name: "4"
     #display_name: ""
     #keep_alive: true
-    # bind_to_monitor: 1
+    bind_to_monitor: 1
   - name: "5"
     #display_name: ""
     #keep_alive: true
-    # bind_to_monitor: 1
+    bind_to_monitor: 1
   - name: "6"
     #display_name: ""
     #keep_alive: true
-    # bind_to_monitor: 1
+    bind_to_monitor: 1
   - name: "7"
+    bind_to_monitor: 2
   - name: "8"
+    bind_to_monitor: 2
   - name: "9"
+    bind_to_monitor: 2
 
 window_rules:
   # Task Manager requires admin privileges to manage and should be ignored unless running
