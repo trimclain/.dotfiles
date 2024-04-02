@@ -189,14 +189,24 @@
         "when": "!editorFocus"
     },
     {
-        "key": "shift+alt+r",
-        "command": "workbench.action.reloadWindow"
-        // "when": "isDevelopment"
-    },
-    {
         "key": "ctrl+r",
         "command": "-workbench.action.reloadWindow",
         "when": "isDevelopment"
+    },
+    {
+        "key": "ctrl+alt+r",
+        "command": "-workbench.action.terminal.sendSequence",
+        "when": "accessibilityModeEnabled && terminalFocus"
+    },
+    {
+        "key": "ctrl+alt+r",
+        "command": "-workbench.action.terminal.runRecentCommand",
+        "when": "terminalFocus && terminalHasBeenCreated && !accessibilityModeEnabled || terminalFocus && terminalProcessSupported && !accessibilityModeEnabled"
+    },
+    {
+        "key": "ctrl+alt+r", // reserve shift+alt+r for windows managers
+        "command": "workbench.action.reloadWindow"
+        // "when": "isDevelopment"
     },
 
     // Github Copilot accept suggestion
