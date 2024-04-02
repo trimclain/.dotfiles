@@ -10,7 +10,7 @@
     // Colorschemes (note/10):
     // "workbench.colorTheme": "Rosé Pine Moon", // (9.5)
     // "workbench.colorTheme": "Dobri Next -C05- Electron", // (9.5)
-    // "workbench.colorTheme": "poimandres", // TODO: ?
+    // "workbench.colorTheme": "poimandres", // (?)
     // "workbench.colorTheme": "Electron", // (9.5)
     "workbench.colorTheme": "Andromeda Bordered", // (9) (pretty bright colors)
     // "workbench.colorTheme": "Andromeda Italic Bordered", // (8.5) (pretty bright colors)
@@ -24,6 +24,8 @@
     "update.showReleaseNotes": false,
     "telemetry.telemetryLevel": "off",
     "security.workspace.trust.enabled": false,
+    
+    "vsicons.dontShowNewVersionMessage": true,
 
     // Format a file on save. A formatter must be available, the file must not be saved after delay, and the editor must not be shutting down.
     "editor.formatOnSave": false,
