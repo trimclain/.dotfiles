@@ -266,11 +266,11 @@ fi
 
 bindkey '^ ' autosuggest-accept
 
-if [[ -f ~/.local/bin/tmux-sessionizer ]]; then
+if [[ -f ~/.local/bin/pctl ]]; then
     # open dotfiles in tmux (use -s with bindkey when binding to custom command)
-    bindkey -s ^q "^utmux-sessionizer $DOTFILES\n"
-    # start tmux-sessionizer
-    bindkey -s ^t "^utmux-sessionizer\n"
+    bindkey -s ^q "^upctl open $DOTFILES\n"
+    # start ex-tmux-sessionizer
+    bindkey -s ^t "^upctl open\n"
 fi
 
 if [[ -f ~/.local/bin/tmux-chtsh ]]; then

@@ -18,8 +18,11 @@ function M.join(...)
 end
 
 --- Check if a file exists
----@param name string path to the file
+---@param name string? path to the file
 function M.file_exists(name)
+    if not name then
+        return false
+    end
     return vim.fn.filereadable(name) == 1
 end
 
@@ -113,7 +116,7 @@ end
 
 --- Choose a project to work on from my $PROJECTLIST using Telescope
 M.open_project = function()
-    local projectlist = M.join(os.getenv("HOME"), ".projectlist")
+    local projectlist = os.getenv("PROJECTLIST")
     if not M.file_exists(projectlist) then
         vim.notify("Project List not found", vim.log.levels.ERROR, { title = "Project Manager" })
         return
