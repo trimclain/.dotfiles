@@ -8,7 +8,7 @@ killall -q waybar
 activeMonitors=$(hyprctl monitors | awk '$1 == "Monitor"{print $2}')
 monitors=()
 for display in $activeMonitors; do
-    monitors+=($display)
+    monitors+=("$display")
 done
 MAIN_MONITOR=${monitors[0]}
 SECOND_MONITOR=${monitors[1]}
@@ -16,7 +16,7 @@ SECOND_MONITOR=${monitors[1]}
 resolutions=()
 monitorResolutions=$(hyprctl monitors | awk -F@ '/ at / {print $1}')
 for res in $monitorResolutions; do
-    resolutions+=($res)
+    resolutions+=("$res")
 done
 MAIN_RES=${resolutions[0]}
 SECOND_RES=${resolutions[1]}
