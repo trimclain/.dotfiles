@@ -7,7 +7,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
     if [[ "$DESKTOP_SESSION" == "hyprland" ]]; then
         # Toggle between us,ru and de
         CURRENT=$(hyprctl getoption input:kb_layout | awk '/str/ {print $2}')
-        if [[ "$CURRENT" == '"de"' ]]; then
+        if [[ "$CURRENT" == 'de' ]]; then
             hyprctl keyword input:kb_layout us,ru > /dev/null
         else
             hyprctl keyword input:kb_layout de > /dev/null
