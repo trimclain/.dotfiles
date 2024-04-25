@@ -501,6 +501,7 @@ return {
     {
         "NeogitOrg/neogit",
         -- dir = "~/projects/open-source/nvim-plugins/neogit",
+        branch = "nightly",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
