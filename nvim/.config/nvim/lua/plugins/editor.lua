@@ -428,10 +428,7 @@ return {
     {
         "akinsho/toggleterm.nvim",
         version = "*",
-        keys = {
-            { [[<C-\>]], desc = "Toggle Terminal" },
-        },
-        -- event = "VeryLazy",
+        event = "VeryLazy",
         opts = {
             open_mapping = [[<c-\>]],
             -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
@@ -475,6 +472,13 @@ return {
                 htop:toggle()
             end
             vim.keymap.set("n", "<leader>th", "<cmd>lua _HTOP_TOGGLE()<cr>", { desc = "Open HTOP in Terminal" })
+
+            -- Lazygit
+            -- local lazygit = open_in_toggleterm("lazygit")
+            -- function _LAZYGIT_TOGGLE()
+            --     lazygit:toggle()
+            -- end
+            -- vim.keymap.set("n", "<leader>gs", "<cmd>lua _LAZYGIT_TOGGLE()<cr>", { desc = "Open Lazygit in Terminal" })
         end,
     },
 
@@ -501,7 +505,8 @@ return {
     {
         "NeogitOrg/neogit",
         -- dir = "~/projects/open-source/nvim-plugins/neogit",
-        branch = "nightly",
+        -- https://github.com/NeogitOrg/neogit/tree/68a3e90e9d1ed9e362317817851d0f34b19e426b?tab=readme-ov-file#configuration
+        commit = "68a3e90", -- pin until it's fixed
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
@@ -513,6 +518,7 @@ return {
         config = function()
             local neogit = require("neogit")
             neogit.setup({
+                disable_commit_confirmation = true, -- config relevant for pinned commit
                 disable_insert_on_commit = true, -- "auto", "true" or "false"
                 -- Change the default way of opening neogit
                 kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
@@ -521,24 +527,20 @@ return {
                 -- Automatically show console if a command takes more than console_timeout milliseconds
                 --auto_show_console = true,
                 -- override/add mappings
-                commit_editor = {
+                -- commit_editor = {
+                commit_popup = { -- config relevant for pinned commit
                     kind = "split", -- default: "auto"
                 },
                 signs = {
                     -- { CLOSED, OPENED }
                     section = { Icons.ArrowClosed, Icons.ArrowOpen }, -- default: { ">", "v" },
                     item = { Icons.ArrowClosedSmall, Icons.ArrowOpenSmall }, -- default: { ">", "v" },
-                    hunk = { "", "" },
-                    -- hunk = { "", "" },
+                    -- hunk = { "", "" },
+                    hunk = { "", "" },
                 },
                 mappings = {
-                    -- TODO: await the fix
-                    -- commit_editor = {
-                    --     ["q"] = false,
-                    --     ["<c-c><c-c>"] = false, -- default: "Submit"
-                    --     ["<c-c><c-k>"] = false, -- default: "Abort"
-                    -- },
-                    popup = {
+                    -- popup = {
+                    status = { -- config relevant for pinned commit
                         ["P"] = "PullPopup",
                         ["p"] = "PushPopup",
                     },
