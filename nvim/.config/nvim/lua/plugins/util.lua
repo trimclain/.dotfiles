@@ -81,6 +81,7 @@ return {
     -- advanced note taking, project/task management
     {
         "nvim-neorg/neorg",
+        commit = "086891d", -- it updates too fast for me to care
         build = ":Neorg sync-parsers",
         ft = "norg",
         dependencies = {
