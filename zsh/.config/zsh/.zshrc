@@ -408,6 +408,11 @@ if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
     source "$SDKMAN_DIR/bin/sdkman-init.sh"
 fi
 
+# enable zoxide
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh --cmd cd)"
+fi
+
 ###############################################################################
 # Plugins
 ###############################################################################
@@ -439,10 +444,6 @@ fi
 
 # Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
-
-# Jump around directories
-# Alternative: https://github.com/ajeetdsouza/zoxide
-plug "rupa/z"
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
