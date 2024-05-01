@@ -183,3 +183,8 @@ addToPATH "$HOME/.juliaup/bin" # julia
 if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
     source "$SDKMAN_DIR/bin/sdkman-init.sh"
 fi
+
+# enable zoxide
+if command -v zoxide > /dev/null; then
+    eval "$(zoxide init zsh --cmd cd)"
+fi
