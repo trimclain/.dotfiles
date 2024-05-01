@@ -138,8 +138,8 @@ nvim_build_reqs:
 nvim: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
 		else make nvim_build_reqs && echo "Installing Neovim..." &&\
-		git clone https://github.com/neovim/neovim ~/neovim && pushd ~/neovim/ &&\
-		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf ~/neovim &&\
+		git clone https://github.com/neovim/neovim /tmp/neovim && pushd /tmp/neovim/ &&\
+		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf /tmp/neovim &&\
 		make nvim_reqs && echo "Done"; fi
 
 uninstall_nvim:
@@ -159,7 +159,7 @@ neovide:
 
 docker: ## Install docker
 	@echo "==================================================================="
-	@if command -v zsh > /dev/null; then echo "[docker]: Already installed";\
+	@if command -v docker > /dev/null; then echo "[docker]: Already installed";\
 		else echo "Installing Docker..." && $(INSTALL) docker &&\
 		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
 		echo "Done"; fi
@@ -167,13 +167,16 @@ docker: ## Install docker
 # Install act from AUR to run github actions locally
 
 #============================================== Zsh ===============================================
+zoxide:
+	$(INSTALL) zoxide
+
 zsh: ## Install zsh
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
-		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done" && make zap; fi
+		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done" && make zap && make zoxide; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
+	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /bin/zsh &&\
 		echo "Successfully switched to ZSH."; else echo "[zsh]: Already in use"; fi
 
 zap:
@@ -373,7 +376,7 @@ install: ## Setup arch after new installation
 	paru flatpak\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide docker\
-	zsh zap\
+	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
 	brave chrome thorium telegram discord spotify vscode office\
