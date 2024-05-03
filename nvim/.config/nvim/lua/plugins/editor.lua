@@ -549,17 +549,14 @@ return {
                 },
             })
 
-            -- FIX:
             -- Close Neogit after `git push`
-            -- vim.api.nvim_create_autocmd("User", {
-            --     -- pattern = "NeogitPushComplete",
-            --     pattern = "NeogitPullComplete",
-            --     group = vim.api.nvim_create_augroup("trimclain_close_neogit_after_push", { clear = true }),
-            --     -- callback = neogit.close,
-            --     callback = function()
-            --         vim.notify("Neogit Push Complete", vim.log.levels.INFO, { title = "Trimclain Neogit" })
-            --     end,
-            -- })
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "NeogitPushComplete",
+                group = vim.api.nvim_create_augroup("trimclain_close_neogit_after_push", { clear = true }),
+                callback = function()
+                    neogit.close()
+                end,
+            })
         end,
     },
 
