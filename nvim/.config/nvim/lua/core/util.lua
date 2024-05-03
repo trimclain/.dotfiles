@@ -158,8 +158,9 @@ end
 
 --- Fuzzy find in current buffer
 M.curr_buf_search = function()
-    local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
-    require("telescope.builtin").current_buffer_fuzzy_find(opt)
+    -- FIX: broken with any theme
+    -- local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
+    require("telescope.builtin").current_buffer_fuzzy_find({ previewer = false })
 end
 
 -------------------------------------------------------------------------------

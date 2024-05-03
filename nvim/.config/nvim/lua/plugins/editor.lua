@@ -201,6 +201,8 @@ return {
             defaults = {
                 prompt_prefix = Icons.Telescope, -- default: " ",
                 selection_caret = Icons.Forward, -- default: " ",
+                -- multi_icons = Icons.Check, -- default: "+",
+                -- path_display = { "shorten" }, -- default: smart (I think)
                 -- border = CONFIG.ui.border ~= "none",
                 set_env = { ["COLORTERM"] = "truecolor" }, -- default: nil
                 vimgrep_arguments = {
