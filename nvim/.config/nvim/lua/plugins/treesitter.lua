@@ -51,6 +51,11 @@ return {
                 "css",
                 -- "dockerfile",
                 -- "graphql",
+
+                "go",
+                "gomod",
+                "gosum",
+
                 "html",
                 "java",
                 "javascript",
