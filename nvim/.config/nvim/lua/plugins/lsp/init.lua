@@ -60,24 +60,33 @@ return {
             -- Servers listed here will be autoinstalled
             servers = {
                 -- Available servers: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
+                gopls = {
+                    analyses = {
+                        unusedparams = true,
+                    },
+                    staticcheck = true,
+                    gofumpt = true,
+                },
                 -- pyright = {}, -- breaks nvim on quit, have to kill it (2023-06-17)
                 jedi_language_server = {},
+                bashls = {},
+                marksman = {}, -- markdown
+                dockerls = {},
+
                 html = {},
                 cssls = {},
                 emmet_ls = {},
                 -- tailwindcss = {},
                 tsserver = {},
                 volar = {}, -- vue-language-server
-                bashls = {},
-                marksman = {}, -- markdown
-                vimls = {},
+                graphql = {},
+                jsonls = {},
+
                 -- yamlls = {},
                 -- texlab = {}, -- latex
-                graphql = {},
                 -- julials = {}, -- https://github.com/williamboman/mason-lspconfig.nvim/blob/main/lua/mason-lspconfig/server_configurations/julials/README.md
                 -- ansiblels = {},
-                dockerls = {},
-                jsonls = {},
+                vimls = {},
                 lua_ls = {
                     -- mason = false, -- set to false if you don't want this server to be installed with mason
                     settings = {
@@ -231,8 +240,8 @@ return {
     -- https://github.com/LazyVim/LazyVim/blob/e5babf289c5ccd91bcd068bfc623335eb76cbc1f/lua/lazyvim/plugins/linting.lua
 
     -- Formatters and Linters
-    -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-    -- Sources: https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+    -- Sources: https://github.com/nvimtools/none-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+    -- Sources: https://github.com/nvimtools/none-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
     {
         "nvimtools/none-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
@@ -261,6 +270,7 @@ return {
                     nls.builtins.formatting.isort,
                     nls.builtins.formatting.stylua,
                     nls.builtins.formatting.shfmt, -- switched from beautysh
+                    nls.builtins.formatting.gofumpt,
 
                     -- Linters
                     -- nls.builtins.diagnostics.ruff.with({ -- TODO: use ruff lsp
@@ -302,6 +312,7 @@ return {
                 "prettierd",
                 "stylua",
                 "shfmt", -- "beautysh",
+                "gofumpt",
 
                 -- Linters
                 -- "eslint_d", -- need config file, annoying
