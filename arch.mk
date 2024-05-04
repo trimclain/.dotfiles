@@ -232,17 +232,18 @@ fix-nvidialand:
 		/usr/share/wayland-sessions/hyprland.desktop
 
 cursor:
-	@# TODO: use hyprland-cursors
-	@# Other themes: https://github.com/ful1e5/Bibata_Cursor
+	@# TODO: use hyprcursor
+	@# https://github.com/ful1e5/Bibata_Cursor
+	$(PARUINSTALL) bibata-cursor-theme-bin
 	@# Install volantes-cursors theme
 	@# Problem: building takes a little too long
 	@# Alternative: download manually from https://www.pling.com/p/1356095/
-	$(INSTALL) inkscape xorg-xcursorgen
-	@if [[ -d /usr/share/icons/volantes-cursors ]]; then echo "[volantes-cursors]: Already installed";\
-		else echo "Installing volantes-cursors theme..." &&\
-		git clone https://github.com/varlesh/volantes-cursors.git /tmp/volantes-cursors &&\
-		pushd /tmp/volantes-cursors && export NO_AT_BRIDGE=1 && export DBUS_SESSION_BUS_ADDRESS=disabled &&\
-		make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
+	@#$(INSTALL) inkscape xorg-xcursorgen
+	@#if [[ -d /usr/share/icons/volantes-cursors ]]; then echo "[volantes-cursors]: Already installed";\
+		#else echo "Installing volantes-cursors theme..." &&\
+		#git clone https://github.com/varlesh/volantes-cursors.git /tmp/volantes-cursors &&\
+		#pushd /tmp/volantes-cursors && export NO_AT_BRIDGE=1 && export DBUS_SESSION_BUS_ADDRESS=disabled &&\
+		#make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
 
 #============================================ Terminal ============================================
 alacritty:
