@@ -203,6 +203,9 @@ hyprland:
 	$(INSTALL) qt5-wayland qt6-wayland
 	@# Better Desktop Portal
 	$(INSTALL) xdg-desktop-portal-hyprland
+	@# FIX: make this work
+	@# Screensharing under XWayland (for Discord)
+	@# $(PARUINSTALL) xwaylandvideobridge-git
 	@# File picker
 	$(INSTALL) xdg-desktop-portal-gtk
 	@# Authentification Agent for gui sudo popups
