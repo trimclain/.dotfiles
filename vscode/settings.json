@@ -3,7 +3,7 @@
     // - vscodevim.vim: Vim emulation for Visual Studio Code
     // - tobias-z.vscode-harpoon: A vscode clone of the vim plugin Harpoon created by The Primeagen
     // - vscode-icons-team.vscode-icons: Icons for Visual Studio Code
-    // - wayou.vscode-todo-highlight: highlight TODOs, FIXMEs, and any keywords, annotations...
+    //  - Gruntfuggly.todo-tree: Show TODO, FIXME, etc. comment tags in a tree view
     // - eamodio.gitlens: Supercharge Git
 
     "workbench.startupEditor": "none",
@@ -18,7 +18,7 @@
     // "workbench.colorTheme": "Shades of Purple (Super Dark)", // (8) (high contrast)
     // "workbench.colorTheme": "Default Dark+", // (hate green comments)
     "workbench.iconTheme": "vscode-icons",
-    // "workbench.activityBar.visible": false,
+    // "workbench.activityBar.location": "hidden",
     "workbench.sideBar.location": "right",
 
     "update.showReleaseNotes": false,
@@ -35,7 +35,9 @@
     //  - modificationsIfAvailable: Will attempt to format modifications only (requires source control). If source control can't be used, then the whole file will be formatted.
     // "editor.formatOnSaveMode": "file",
 
-    "breadcrumbs.enabled": true,
+    "breadcrumbs.enabled": false,
+    "editor.stickyScroll.enabled": true,
+    "editor.stickyScroll.maxLineCount": 3,
     "window.zoomLevel": 0.7,
     "editor.fontSize": 16, // default: 14
     // To find the exact font name: Control Panel -> Appearance and Personalization -> Fonts -> Find the font name
@@ -291,6 +293,11 @@
             "before": ["<leader>", "e"],
             "commands": [ "revealInExplorer" ],
         },
+        // debugger
+        {
+            "before": ["<leader>", "d"],
+            "commands": ["debug.openView"]
+        },
         // nice to have
         { "before": ["leader", "w"], "commands": [":w"], "silent": true },
         { "before": ["leader", "q"], "commands": [":q"], "silent": true },
@@ -315,6 +322,15 @@
         {
             "before": ["]", "h"],
             "commands": ["workbench.action.editor.nextChange"]
+        },
+        // todo tags
+        {
+            "before": ["]", "t"],
+            "commands": ["todo-tree.goToNext"],
+        },
+        {
+            "before": ["[", "t"],
+            "commands": ["todo-tree.goToPrevious"],
         },
         // lsp code actions
         // {
@@ -412,42 +428,77 @@
     //-------------------------------------------------------------------------
     // TODO Comments Extension
     //-------------------------------------------------------------------------
-    "todohighlight.isEnable": true,
-    "todohighlight.isCaseSensitive": true,
-    "todohighlight.keywords": [
-        // "DEBUG:",
-        // "REVIEW:",
-        // "FIXME",
-        {
-            "text": "NOTE:",
-            "color": "white",
-            "backgroundColor": "#10B981"
-            // "overviewRulerColor": "grey"
-        },
-        {
-            "text": "INFO:",
-            "color": "white",
-            "backgroundColor": "#10B981"
-            // "overviewRulerColor": "grey"
-        },
-        {
-            "text": "HACK:",
-            "color": "black",
-            "backgroundColor": "#FBBF24",
-            "isWholeLine": false
-        },
-        {
-            "text": "FIX:",
-            "color": "white",
-            "backgroundColor": "#DC2626",
-            "isWholeLine": false
-        },
-        {
-            "text": "TODO:",
-            "color": "white",
-            "backgroundColor": "#2563EB"
-        }
+    "todo-tree.highlights.enabled": true,
+    // Editor schemes to find TODOs in. To find TODOs in settings files, for instance, add `vscode-userdata` or for output windows, add `output`.
+    "todo-tree.general.schemes": [
+        "file",
+        "ssh",
+        "untitled",
+        "vscode-userdata",
+        "vscode-notebook-cell"
     ],
+    "todo-tree.highlights.defaultHighlight": {
+        "type": "text",
+        // "opacity": 70,
+        "gutterIcon": true
+    },
+    "todo-tree.highlights.customHighlight": {
+        "NOTE": {
+            "icon": "note",
+            "foreground": "#FFFFFF",
+            "background": "#10B981",
+            "iconColour": "#10B981"
+        },
+        "TODO": {
+            "icon": "check",
+            "foreground": "#FFFFFF",
+            "background": "#2563EB",
+            "iconColour": "#2563EB"
+        },
+        "INFO": {
+            "icon": "note",
+            "foreground": "#FFFFFF",
+            "background": "#10B981",
+            "iconColour": "#10B981"
+        },
+        "FIXME": {
+            "icon": "flame",
+            "foreground": "#FFFFFF",
+            "background": "#DC2626",
+            "iconColour": "#DC2626"
+        },
+        "HACK": {
+            "icon": "tools",
+            "foreground": "#000000",
+            "background": "#FBBF24",
+            "iconColour": "#FBBF24"
+        },
+        // "[ ]": {
+        //     "icon": "check",
+        //        "icon": "issue-draft"
+        //     "foreground": "black",
+        //     "background": "white",
+        //     "iconColour": "yellow"
+        // },
+        // "[x]": {
+        //     "icon": "check",
+        //        "icon": "issue-closed"
+        //     "foreground": "white",
+        //     "background": "green",
+        //     "iconColour": "green"
+        // }
+    },
+    "todo-tree.general.tags": [
+        "NOTE",
+        "TODO",
+        "INFO",
+        "FIXME",
+        "HACK",
+        // "[ ]",
+        // "[x]"
+    ],
+    // Match "TODO:" but not "TODO"
+    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^[ \\t]*(-|\\d+.))\\s*($TAGS):"
 }
 
 // vim:ft=jsonc
