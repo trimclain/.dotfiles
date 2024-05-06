@@ -335,6 +335,7 @@ apps: ## Install btop, okular, lf, chafa, pcmanfm, sxiv, flameshot, zathura, ncd
 	@make telegram
 
 # Remote Desktop Connection: AnyDesk (anydesk-bin), RustDesk (rustdesk-bin)
+# Virtual Machines: paru -S quickgui-bin
 
 #==================================================================================================
 install: ## Setup arch after new installation
