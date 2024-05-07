@@ -13,9 +13,9 @@
 #                                                                             #
 ###############################################################################
 
+import subprocess
 import os
 import shutil
-import subprocess
 
 # from bars.dt import statusbar as dtbar
 from libqtile import bar, hook, layout, widget
@@ -33,40 +33,53 @@ browser = "thorium-browser"
 if shutil.which(browser) is None:
     browser = "firefox"
 
-arch_color = "#1793D0"
-# muted = "#6E6A86"
-# subtle = "#908cAA"
-rose = "#EBBCBA"
-pine = "#31748F"
-foam = "#9CCFD8"
-iris = "#C4A7E7"
+#################################### COLORS ###################################
+text_color = "#cdd6f4"
+muted_color = "#7f849c"
+dark_muted_color = "#1e1e2e"
+bar_background = "#11111b"
+widget_background = "#313244"
+active_border="#5e81ac"
+inactive_border="#11111b"
 
-main_color = iris
+blue_color     ="#89b4fa"
+lavender_color ="#b4befe"
+sapphire_color ="#74c7ec"
+sky_color      ="#89dceb"
+teal_color     ="#94e2d5"
+green_color    ="#a6e3a1"
+yellow_color   ="#f9e2af"
+peach_color    ="#fab387"
+maroon_color   ="#eba0ac"
+red_color      ="#f38ba8"
+mauve_color    ="#cba6f7"
+pink_color     ="#f5c2e7"
+flamingo_color ="#f2cdcd"
+rosewater_color="#f5e0dc"
+
 float_color = "#E1ACFF",  # dt colors
+###############################################################################
 
 # Theme defaults
 bar_defaults = dict(
-    size=24,  # height of the bar
+    size=30,  # height of the bar
     # background=["#222222", "#111111"], # dt background
-    background="#15181A",
-    margin=[8, 8, 0, 8],  # top, right, bottom, left
+    background=bar_background,
+    # margin=[8, 8, 0, 8],  # top, right, bottom, left
     # border_width=[0, 0, 2, 0],  # Draw top and bottom borders
     # border_color=["#FF00FF", "#000000", "#FF00FF", "#000000"]
-    border_color=main_color
+    border_color=widget_background
 )
 
 floating_layout_defaults = {
-    # "border_focus": arch_color,
     "border_focus": float_color,
     "border_normal": "#1D2330",
-    # "border_focus": "#F07178",  # my awesome colors
-    # "border_normal": "#282a36"
     "border_width": 2,
 }
 
 layout_defaults = floating_layout_defaults.copy()
 layout_defaults.update({
-    "border_focus": main_color,
+    "border_focus": active_border,
     "margin": 8,  # gaps
 })
 
@@ -78,12 +91,10 @@ widget_defaults = dict(
     # font="CaskaydiaCove NFM",
     font="CaskaydiaCove Nerd Font Mono",
     fontsize=13,
-    padding=3,
+    padding=10,
     borderwidth=2,
-    # border = "#d75f5f",
-    background="#292a30",
-    foreground="#ffffff",
-    # foreground="#CDD6F4"
+    background=bar_background,
+    foreground=text_color,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -130,6 +141,8 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
 
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+
     # Terminal
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Browser
@@ -153,6 +166,9 @@ keys = [
 
     ################################ LAYOUT ###################################
     # Switch between windows
+    # TODO: is this it?
+    # Key([mod], "h", lazy.screen.prevgroup(skip_managed=True)),
+    # Key([mod], "l", lazy.screen.nextgroup(skip_managed=True)),
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -186,8 +202,6 @@ keys = [
     # Key([mod], "m", lazy.layout.maximize(), desc="Toggle between min and max sizes"),
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating"),
-
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
 
     # Switch layouts
     Key([mod], "Tab", lazy.next_layout(), desc="Switch between layouts"),
@@ -284,8 +298,8 @@ keys = [
     # autopep8: on
 
     # Switch focus to specific monitor (out of three)
-    Key([mod], "i", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
-    Key([mod], "o", lazy.to_screen(1), desc="Keyboard focus to monitor 2"),
+    Key([mod], "o", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
+    Key([mod], "i", lazy.to_screen(1), desc="Keyboard focus to monitor 2"),
     # Key([mod], "u", lazy.to_screen(2), desc="Keyboard focus to monitor 3"),
 
     ############################### KEYCHORD ##################################
@@ -329,19 +343,35 @@ keys = [
 # {{{ Groups and Layouts
 groups = []
 group_names = ["1", "2", "3", "4", "5", "6"]
+group_names2 = ["7", "8", "9"]
+group_label = ""
 # group_labels = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["", "", "", "", "", "󰙯"]
-# , , , 
-group_labels = ["  " for i in range(len(group_names))]
 
 # INFO: match wm_class: https://docs.qtile.org/en/latest/manual/config/groups.html#example
 # or https://wiki.archlinux.org/title/Qtile#Group_Rules
+
+# Main Screen
 for i in range(len(group_names)):
     groups.append(
         Group(
             name=group_names[i],
             layout="monadtall",
-            label=group_labels[i]
+            # , , , 
+            # label=" " + group_names[i] + " ",
+            screen_affinity=0,
+        )
+    )
+
+# Second Screen
+for i in range(len(group_names2)):
+    groups.append(
+        Group(
+            name=group_names2[i],
+            layout="monadtall",
+            # , , , 
+            # label=" " + group_names2[i] + " ",
+            screen_affinity=1,
         )
     )
 
@@ -352,7 +382,8 @@ for i in groups:
             Key(
                 [mod],
                 i.name,
-                lazy.group[i.name].toscreen(),
+                # TODO: is this the answer?
+                lazy.group[i.name].toscreen(i.screen_affinity),
                 desc="Switch to group {}".format(i.name),
             ),
             # mod + shift + letter of group = move focused window to group
@@ -395,48 +426,56 @@ class Widget:
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#groupbox
-    groupbox = dict(
-        active=widget_defaults["foreground"],
-        inactive=['#444444', '#333333'],
+    main_groupbox = dict(
+        active=text_color,
+        inactive=widget_background,
 
-        highlight_method="border",  # "border", "block", "text", "line"
-        highlight_color=["#3D8BFF", main_color],
-        # highlight_color=["#3D8BFF", "#1276A6"],
-        # highlight_color=["#000000", "#282828"],  # default
+        highlight_method="block",  # "border", "block", "text", "line"
+        highlight_color=widget_background,
 
-        this_current_screen_border=layout_defaults["border_focus"],
-        this_screen_border=layout_defaults["border_focus"],
-        other_screen_border='#444444',
+        this_current_screen_border=muted_color, # on screen 1, border screen 1
+        this_screen_border=dark_muted_color, # on screen 1, border screen 2
+        other_current_screen_border=muted_color, # on screen 2, border screen 2
+        other_screen_border=dark_muted_color, # on screen 2, border screen 1
 
-        urgent_text=widget_defaults["foreground"],
-        urgent_border="#FF0000",
+        urgent_alert_method="border",  # "border", "block", "text", "line"
+        urgent_text=text_color,
+        urgent_border="#f38ba8",
 
         disable_drag=True,
+        use_mouse_wheel=False,
         # hide_unused = True, # like i3
-        # margin=-5,
-        # padding=3,
+        padding=7,
+        margin_x=0,
+        margin_y=3,
+        visible_groups=group_names
     )
+
+    mini_groupbox = main_groupbox.copy()
+    mini_groupbox.update({
+        "visible_groups": group_names2
+    })
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#sep
     sep = dict(
         size_percent=100,
         linewidth=0,
         padding=5,
-        # foreground=layout_defaults["border_normal"],
-        # foreground=colors[2],
-        # background=colors[0]
+        # background=widget_background
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#windowname
     window_name = dict(
         for_current_screen=True,
         # format="",  # default: "{state}{name}",
+        # background=widget_background
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#systray
     systray = dict(
         icon_size=15,  # default: 20
-        padding=5,
+        # padding=5,
+        # background=widget_background
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#genpollcommand
@@ -446,11 +485,11 @@ class Widget:
             "Button4": run_command("~/.local/bin/volume-control --increase"),
             "Button5": run_command("~/.local/bin/volume-control --decrease"),
         },
-        padding=5,
+        # padding=5,
         cmd=os.path.expanduser("~/.config/qtile/scripts/get-volume.sh"),
         update_interval=0.01,
-        # foreground=colors[7],
-        # background=colors[0],
+        # background=widget_background
+        foreground=red_color
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#genpollcommand
@@ -460,12 +499,12 @@ class Widget:
             "Button4": run_command("~/.local/bin/display-brightness --increase"),
             "Button5": run_command("~/.local/bin/display-brightness --decrease"),
         },
-        padding=5,
+        # padding=5,
         fmt="󰃝 {}",
         cmd=os.path.expanduser("~/.config/qtile/scripts/get-brightness.sh"),
         update_interval=0.01,
-        # foreground=colors[7],
-        # background=colors[0],
+        # background=widget_background
+        foreground=peach_color
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#keyboardlayout
@@ -475,10 +514,10 @@ class Widget:
             "Button3": run_command("~/.local/bin/keyboard-layout --german"),
         },
         fmt=" {}",
-        padding=5,
+        # padding=5,
         configured_keyboards=["us", "ru"],
-        # foreground=colors[8],
-        # background=colors[0],
+        # background=widget_background
+        foreground=yellow_color
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#memory
@@ -487,10 +526,10 @@ class Widget:
         format="{MemUsed: .2f} {mm}",
         measure_mem="G",
         fmt="󰍛{}",
-        padding=5,
+        # padding=5,
         update_interval=1.0,
-        # foreground=colors[9],
-        # background=colors[0],
+        # background=widget_background
+        foreground=green_color
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#thermalsensor
@@ -498,7 +537,9 @@ class Widget:
         mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
         format="{temp:.0f}{unit}",
         fmt=" {}",
-        threshold=90
+        threshold=90,
+        # background=widget_background
+        foreground=blue_color
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#clock
@@ -517,6 +558,7 @@ class Widget:
         format="%a, %b %d %H:%M",
         # fmt="󰃰 {}",
         fmt="󰥔 {}",
+        # background=widget_background
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#batteryicon
@@ -538,6 +580,8 @@ class Widget:
         # notify_below=15, #default: None
         format="{char} {percent:2.0%}",
         update_interval=1.0,  # default: 60
+        # background=widget_background
+        foreground=lavender_color
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#textbox
@@ -547,45 +591,13 @@ class Widget:
         },
         # fmt="  ",
         fmt=" 󰐥 ",
-        padding=0,
-        background=main_color,
-        # background="#7A7B8C",
+        padding=2,
+        background=widget_background,
+        foreground=mauve_color
     )
 
 
-def my_mini_bar_1():
-    return [
-        widget.Sep(**Widget.sep),
-        widget.Image(**Widget.logo),
-        widget.Sep(**Widget.sep),
-        widget.GroupBox(**Widget.groupbox),
-        widget.Sep(**Widget.sep),
-        widget.CurrentLayoutIcon(padding=0, scale=0.7),
-        widget.Sep(**Widget.sep),
-        widget.WindowName(**Widget.window_name),
-
-        widget.Spacer(),
-        widget.Clock(**Widget.clock),
-        widget.Spacer(),
-    ]
-
-
-def my_mini_bar_2():
-    return [
-        widget.Sep(**Widget.sep),
-        widget.Image(**Widget.logo),
-        widget.Sep(**Widget.sep),
-        widget.CurrentLayoutIcon(padding=0, scale=0.7),
-        widget.Sep(**Widget.sep),
-        widget.WindowName(**Widget.window_name),
-
-        widget.Spacer(),
-        widget.GroupBox(**Widget.groupbox),
-        widget.Spacer(),
-    ]
-
-
-def my_mini_bar_3():
+def my_mini_bar():
     return [
         widget.Sep(**Widget.sep),
         widget.Clock(**Widget.clock),
@@ -597,78 +609,12 @@ def my_mini_bar_3():
         # widget.WindowName(**Widget.window_name),
 
         widget.Spacer(),
-        widget.GroupBox(**Widget.groupbox),
+        widget.GroupBox(**Widget.mini_groupbox),
         widget.Spacer(),
     ]
 
 
-def my_bar_1():
-    """First design"""
-    return [
-        widget.Sep(**Widget.sep),
-        widget.Image(**Widget.logo),
-        widget.Sep(**Widget.sep),
-        widget.GroupBox(**Widget.groupbox),
-        widget.Sep(**Widget.sep),
-        widget.CurrentLayoutIcon(padding=0, scale=0.7),
-        widget.Sep(**Widget.sep),
-        widget.WindowName(**Widget.window_name),
-
-        widget.Spacer(),
-        widget.Clock(**Widget.clock),
-        widget.Spacer(),
-
-        # on Wayland use widget.StatusNotifier(),
-        widget.Systray(**Widget.systray),
-        widget.Sep(**Widget.sep),
-        widget.GenPollCommand(**Widget.volume),
-        widget.GenPollCommand(**Widget.brightness),
-        widget.KeyboardLayout(**Widget.keyboard_layout),
-        widget.Sep(**Widget.sep),
-        widget.Memory(**Widget.memory),
-        widget.Sep(**Widget.sep),
-        widget.ThermalSensor(**Widget.thermal_sensor),
-        widget.Sep(**Widget.sep),
-        widget.Battery(**Widget.battery),
-        widget.Sep(**Widget.sep),
-        widget.TextBox(**Widget.exit_button),
-    ]
-
-
-def my_bar_2():
-    """Second design"""
-    return [
-        widget.Sep(**Widget.sep),
-        widget.Image(**Widget.logo),
-        widget.Sep(**Widget.sep),
-        widget.CurrentLayoutIcon(padding=0, scale=0.7),
-        widget.Sep(**Widget.sep),
-        widget.WindowName(**Widget.window_name),
-
-        widget.Spacer(),
-        widget.GroupBox(**Widget.groupbox),
-        widget.Spacer(),
-
-        # on Wayland use widget.StatusNotifier(),
-        widget.Systray(**Widget.systray),
-        widget.Sep(**Widget.sep),
-        widget.GenPollCommand(**Widget.volume),
-        # widget.GenPollCommand(**Widget.brightness),
-        widget.KeyboardLayout(**Widget.keyboard_layout),
-        widget.Sep(**Widget.sep),
-        widget.Memory(**Widget.memory),
-        widget.Sep(**Widget.sep),
-        widget.ThermalSensor(**Widget.thermal_sensor),
-        widget.Sep(**Widget.sep),
-        widget.Battery(**Widget.battery),
-        widget.Sep(**Widget.sep),
-        widget.Clock(**Widget.clock),
-        widget.Sep(**Widget.sep),
-        widget.TextBox(**Widget.exit_button),
-    ]
-
-
-def my_bar_3():
+def my_bar():
     """Third design"""
     return [
         # widget.Sep(**Widget.sep),
@@ -679,7 +625,7 @@ def my_bar_3():
         # widget.WindowName(**Widget.window_name),
 
         widget.Spacer(),
-        widget.GroupBox(**Widget.groupbox),
+        widget.GroupBox(**Widget.main_groupbox),
         widget.Spacer(),
 
         # on Wayland use widget.StatusNotifier(),
@@ -702,8 +648,8 @@ def my_bar_3():
 
 
 screens = [
-    Screen(top=bar.Bar(widgets=my_bar_3(), **bar_defaults)),
-    Screen(top=bar.Bar(widgets=my_mini_bar_3(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=my_bar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=my_mini_bar(), **bar_defaults)),
 ]
 # }}}
 
@@ -737,7 +683,7 @@ floating_layout = layout.Floating(
     ], **floating_layout_defaults
 )
 auto_fullscreen = True
-focus_on_window_activation = "smart"
+focus_on_window_activation = "urgent" # IMPORTANT: default is "smart", urgent flag is never set
 reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
