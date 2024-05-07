@@ -23,17 +23,18 @@ function M.format()
     if vim.b.autoformat == false then
         return
     end
-    local ft = vim.bo[buf].filetype
-    local have_nls = #require("null-ls.sources").get_available(ft, "NULL_LS_FORMATTING") > 0
+    -- local ft = vim.bo[buf].filetype
+    -- local have_nls = #require("null-ls.sources").get_available(ft, "NULL_LS_FORMATTING") > 0
 
     vim.lsp.buf.format(vim.tbl_deep_extend("force", {
         bufnr = buf,
-        filter = function(client)
-            if have_nls then
-                return client.name == "null-ls"
-            end
-            return client.name ~= "null-ls"
-        end,
+        -- TODO: understand what is Folke cooking here
+        -- filter = function(client)
+        --     if have_nls then
+        --         return client.name == "null-ls"
+        --     end
+        --     return client.name ~= "null-ls"
+        -- end,
     }, require("core.util").opts("nvim-lspconfig").format or {}))
 end
 

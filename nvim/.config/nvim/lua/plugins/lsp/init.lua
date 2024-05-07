@@ -67,8 +67,14 @@ return {
                     staticcheck = true,
                     gofumpt = true,
                 },
-                -- pyright = {}, -- breaks nvim on quit, have to kill it (2023-06-17)
-                jedi_language_server = {},
+                -- pyright = {}, -- slow startup
+                ruff_lsp = {
+                    init_options = {
+                        settings = {
+                            args = { "--ignore", "E501" }, -- ignore long lines
+                        },
+                    },
+                },
                 bashls = {},
                 marksman = {}, -- markdown
                 dockerls = {},
@@ -262,20 +268,12 @@ return {
                         extra_filetypes = { "toml" },
                         disabled_filetypes = { "markdown" },
                     }),
-                    -- nls.builtins.formatting.ruff.with({ -- an extremely fast python formatter/linter, written in rust
-                    --     extra_args = { "--ignore", "E501" }, -- ignore long lines
-                    -- }),
-                    -- TODO: replace with ruff (https://github.com/astral-sh/ruff-lsp/?tab=readme-ov-file#setup)
-                    -- nls.builtins.formatting.autopep8,
                     nls.builtins.formatting.isort,
                     nls.builtins.formatting.stylua,
                     nls.builtins.formatting.shfmt, -- switched from beautysh
                     nls.builtins.formatting.gofumpt,
 
                     -- Linters
-                    -- nls.builtins.diagnostics.ruff.with({ -- TODO: use ruff lsp
-                    --     extra_args = { "--ignore", "E501" }, -- ignore long lines
-                    -- }),
                     -- TODO: replace with eslint-language-server
                     -- nls.builtins.diagnostics.eslint_d,
 
@@ -317,8 +315,6 @@ return {
                 -- Linters
                 -- "eslint_d", -- need config file, annoying
                 -- "luacheck", -- "selene",
-                -- TODO: switch to ruff-lsp
-                -- "ruff",
                 "shellcheck", -- extends bashls
                 -- "stylelint", -- css linter
             },
