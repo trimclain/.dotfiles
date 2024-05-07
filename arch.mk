@@ -289,6 +289,9 @@ vscode: ## Install VSCode (VSCodium)
 office: ## Install LibreOffice
 	$(INSTALL) libreoffice-fresh
 
+quickemu: ## Install Quickemu (Virtual Machine Manager)
+	$(PARUINSTALL) qemu-desktop quickgui-bin
+
 #============================================= Study ==============================================
 anki:
 	@# ANKI_VERSION = 23.12.1
@@ -335,7 +338,6 @@ apps: ## Install btop, okular, lf, chafa, pcmanfm, sxiv, flameshot, zathura, ncd
 	@make telegram
 
 # Remote Desktop Connection: AnyDesk (anydesk-bin), RustDesk (rustdesk-bin)
-# Virtual Machines: paru -S quickgui-bin
 
 #==================================================================================================
 install: ## Setup arch after new installation
@@ -384,7 +386,7 @@ install: ## Setup arch after new installation
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
-	brave chrome thorium telegram discord spotify vscode office\
+	brave chrome thorium telegram discord spotify vscode office quickemu\
 	anki uninstall_anki pomo uninstall_pomo\
 	apps\
 	install
