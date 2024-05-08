@@ -2,6 +2,10 @@
 
 # TODO: fixt this
 
+# INFO: currently it works as follows:
+# XORG: nwg-look for gtk, ~/.Xresources for everything else
+# WAYLAND: nwg-look for gtk, hyprland for everything else
+
 # Source: https://wiki.archlinux.org/title/Cursor_themes#Configuration
 
 # fifo="/tmp/themes_script.fifo"
