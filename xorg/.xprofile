@@ -7,23 +7,27 @@ $HOME/.local/bin/monitor-layout --startup
 # Sets the delay and rate for keyboard auto-repeat
 xset r rate 400 25
 
+# Disable DPMS and prevent screen from blanking
+xset s off -dpms
+#xset dpms 0 0 0
+
+# NOTE: If using xset in xinitrc does not work, specify settings within a file in /etc/X11/xorg.conf.d/,
+# see https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Configuration
+
 # Eats 80% of my RAM, disabled for now
 # Enable transparency and other visual effects
-# picom -b
-
-# Disable screen blanking
-# xset s off && xset -dpms
+#picom -b
 
 # Enable notifications
 # in awesomewm naughty is used; in qtile I do it elsewhere
-# dunst &
+#dunst &
 
 # Hide mouse when typing
-# xbanish &
+#xbanish &
 
 # remap caps to another escape
-# setxkbmap -option caps:escape
+#setxkbmap -option caps:escape
 # swap escape and caps
-# setxkbmap -option caps:swapescape
+#setxkbmap -option caps:swapescape
 
 # vim:ft=conf
