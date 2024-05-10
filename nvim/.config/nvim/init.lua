@@ -45,6 +45,7 @@ CONFIG = {
         border = "none",
         italic_comments = true,
         ghost_text = false,
+        inlay_hints = false,
 
         -- plugins
         neoscroll = false,
