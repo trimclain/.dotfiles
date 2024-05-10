@@ -32,20 +32,6 @@ function M.dir_exists(name)
     return vim.fn.isdirectory(name) == 1
 end
 
--------------------------------------------------------------------------------
--- From lazyvim.util.init.lua
--------------------------------------------------------------------------------
----@param on_attach function(client, buffer)
-function M.on_attach(on_attach)
-    vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-            local buffer = args.buf
-            local client = vim.lsp.get_client_by_id(args.data.client_id)
-            on_attach(client, buffer)
-        end,
-    })
-end
-
 --- Check if a plugin is installed and enabled
 ---@param plugin string
 function M.has_plugin(plugin)
