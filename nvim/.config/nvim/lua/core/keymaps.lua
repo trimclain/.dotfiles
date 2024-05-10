@@ -98,7 +98,7 @@ keymap("n", "k", '(v:count > 5 ? "m\'" . v:count : "") . "k"', { expr = true })
 keymap("n", "j", '(v:count > 5 ? "m\'" . v:count : "") . "j"', { expr = true })
 
 -- Open tmux-sessionizer
-keymap("n", "<C-t>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+keymap("n", "<C-t>", "<cmd>silent !tmux neww pctl open<CR>")
 
 -- stylua: ignore start
 keymap("n", "gx", Util.open_url, add_desc("Open URL under cursor"))
