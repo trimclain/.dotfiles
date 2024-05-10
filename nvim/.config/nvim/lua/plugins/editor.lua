@@ -845,6 +845,10 @@ return {
         config = function(_, opts)
             require("illuminate").configure(opts)
 
+            vim.keymap.set("n", "<leader>oi", function()
+                require("illuminate").toggle()
+            end, { desc = "Toggle Vim [I]lluminate" })
+
             local function map(key, dir, buffer)
                 vim.keymap.set("n", key, function()
                     require("illuminate")["goto_" .. dir .. "_reference"](false)

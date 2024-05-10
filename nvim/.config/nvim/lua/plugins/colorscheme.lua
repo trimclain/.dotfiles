@@ -233,7 +233,7 @@ return {
                         -- hl.NeogitDiffDeleteHighlight = { fg = c.ui.base, bg = c.syntax.red }
                         -- hl.NeogitDiffAdd = { fg = c.ui.base, bg = c.syntax.green }
                         -- hl.NeogitDiffAddHighlight = { fg = c.ui.base, bg = c.syntax.green }
-                        if CONFIG.ui.cursorline then
+                        if CONFIG.ui.illuminate then
                             hl.IlluminatedWordText = { fg = c.none, bg = "#31363d" }
                             hl.IlluminatedWordRead = { fg = c.none, bg = "#31363d" }
                             hl.IlluminatedWordWrite = { fg = c.none, bg = "#31363d" }

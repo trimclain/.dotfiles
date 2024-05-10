@@ -103,23 +103,19 @@ keymap("n", "<C-t>", "<cmd>silent !tmux neww pctl open<CR>")
 -- stylua: ignore start
 keymap("n", "gx", Util.open_url, add_desc("Open URL under cursor"))
 keymap("n", "gX", Util.open_github_url, add_desc("Open Github URL under cursor"))
-keymap("n", "<leader>mx", Util.toggle_executable, add_desc("Make Current File Executable"))
+keymap("n", "<leader>mx", Util.toggle_executable, add_desc("Make Current File E[x]ecutable"))
 
 -- Toggles
-keymap("n", "<leader>ow", function() Util.toggle_option("wrap") end, add_desc("Toggle Current Buffer Line Wrap"))
-keymap("n", "<leader>on", function() Util.toggle_option("number") end, add_desc("Toggle Current Buffer Line Numbers"))
-keymap("n", "<leader>or", function() Util.toggle_option("relativenumber") end, add_desc("Toggle Current Buffer Relative Numbers"))
-keymap("n", "<leader>ol", function() Util.toggle_option("cursorline") end, add_desc("Toggle Current Buffer Cursorline"))
-keymap("n", "<leader>os", function() Util.toggle_option("spell") end, add_desc("Toggle Current Buffer Spell"))
-keymap("n", "<leader>ot", Util.toggle_shiftwidth, add_desc("Toggle Shiftwidth"))
-keymap("n", "<leader>od", Util.toggle_diagnostics, add_desc("Toggle LSP Diagnostics"))
-keymap("n", "<leader>oc", Util.toggle_conceallevel, add_desc("Toggle Conceallevel"))
+keymap("n", "<leader>ow", function() Util.toggle_option("wrap") end, add_desc("Toggle Current Buffer Line [W]rap"))
+keymap("n", "<leader>on", function() Util.toggle_option("number") end, add_desc("Toggle Current Buffer Line [N]umbers"))
+keymap("n", "<leader>or", function() Util.toggle_option("relativenumber") end, add_desc("Toggle Current Buffer [R]elative Numbers"))
+keymap("n", "<leader>ol", function() Util.toggle_option("cursorline") end, add_desc("Toggle Current Buffer Cursor[L]ine"))
+keymap("n", "<leader>os", function() Util.toggle_option("spell") end, add_desc("Toggle Current Buffer [S]pell"))
+keymap("n", "<leader>ot", Util.toggle_shiftwidth, add_desc("Toggle [T]ab Width"))
+keymap("n", "<leader>od", Util.toggle_diagnostics, add_desc("Toggle LSP [D]iagnostics"))
+keymap("n", "<leader>oc", Util.toggle_conceallevel, add_desc("Toggle [C]onceallevel"))
 
-if CONFIG.ui.illuminate then
-    keymap("n", "<leader>oi", function() require("illuminate").toggle() end, add_desc("Toggle Vim Illuminate"))
-end
-
-keymap("n", "<leader>fp", Util.open_project, add_desc("Open Project"))
+keymap("n", "<leader>fp", Util.open_project, add_desc("Open [P]roject"))
 -- stylua: ignore end
 
 -------------------------------------------------------------------------------

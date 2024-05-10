@@ -105,16 +105,6 @@ return {
                 "hrsh7th/cmp-nvim-lsp-signature-help",
                 enabled = CONFIG.lsp.show_signature_help,
             },
-            -- {
-            --     "ray-x/lsp_signature.nvim",
-            --     event = { "BufReadPre", "BufNewFile" },
-            --     opts = {
-            --         hint_prefix = "🐼 ", -- Panda for parameter
-            --         handler_opts = {
-            --             border = CONFIG.ui.border,
-            --         },
-            --     },
-            -- },
             {
                 "zbirenbaum/copilot-cmp",
                 enabled = CONFIG.lsp.enable_copilot,
