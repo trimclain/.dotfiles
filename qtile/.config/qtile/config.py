@@ -39,8 +39,8 @@ muted_color = "#7f849c"
 dark_muted_color = "#1e1e2e"
 bar_background = "#11111b"
 widget_background = "#313244"
-active_border="#5e81ac"
-inactive_border="#11111b"
+active_border = "#5e81ac"
+inactive_border = "#11111b"
 
 blue_color     ="#89b4fa"
 lavender_color ="#b4befe"
@@ -57,7 +57,7 @@ pink_color     ="#f5c2e7"
 flamingo_color ="#f2cdcd"
 rosewater_color="#f5e0dc"
 
-float_color = "#E1ACFF",  # dt colors
+float_color = "#E1ACFF"  # dt colors
 ###############################################################################
 
 # Theme defaults
@@ -68,7 +68,7 @@ bar_defaults = dict(
     # margin=[8, 8, 0, 8],  # top, right, bottom, left
     # border_width=[0, 0, 2, 0],  # Draw top and bottom borders
     # border_color=["#FF00FF", "#000000", "#FF00FF", "#000000"]
-    border_color=widget_background
+    border_color=widget_background,
 )
 
 floating_layout_defaults = {
@@ -88,8 +88,8 @@ widget_defaults = dict(
     # font="sans", # default
     # font="JetBrainsMono Nerd Font Mono",
     # font="BlexMono Nerd Font Mono",
-    # font="CaskaydiaCove NFM",
-    font="CaskaydiaCove Nerd Font Mono",
+    # font="CaskaydiaCove Nerd Font Mono",
+    font="Maple Mono NF",
     fontsize=13,
     padding=10,
     borderwidth=2,
@@ -137,6 +137,7 @@ def get_command_output(cmd):
 # }}}
 
 # {{{ Key Bindings
+# fmt: off
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -176,10 +177,10 @@ keys = [
     # Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
 
     # Move windows
-    # autopep8: off
+    # fmt: off
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    # autopep8: on
+    # fmt: on
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
@@ -285,17 +286,17 @@ keys = [
     ),
 
     # Treetab controls
-    # autopep8: off
+    # fmt: off
     # Key([mod, "shift"], "h", lazy.layout.move_left(), desc="Move up a section in treetab"),
     # Key([mod, "shift"], "l", lazy.layout.move_right(), desc="Move down a section in treetab"),
-    # autopep8: on
+    # fmt: on
 
     ################################ SCREEN ###################################
     # Switch between monitors
-    # autopep8: off
+    # fmt: off
     Key([mod], "period", lazy.next_screen(), desc="Move focus to next monitor"),
     Key([mod], "comma", lazy.prev_screen(), desc="Move focus to prev monitor"),
-    # autopep8: on
+    # fmt: on
 
     # Switch focus to specific monitor (out of three)
     Key([mod], "o", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
@@ -306,12 +307,12 @@ keys = [
 
     # Monitor layout
     KeyChord([alt], "m", [
-        # autopep8: off
+        # fmt: off
         Key([], "1", run_command("~/.local/bin/monitor-layout --first"), desc="First monitor"),
         Key([], "2", run_command("~/.local/bin/monitor-layout --second"), desc="Second monitor"),
         Key([], "e", run_command("~/.local/bin/monitor-layout --extend"), desc="Extend monitor"),
         Key([], "d", run_command("~/.local/bin/monitor-layout --duplicate"), desc="Duplicate monitor"),
-        # autopep8: on
+        # fmt: on
     ]),
 
     # Browser Profiles
@@ -338,6 +339,8 @@ keys = [
     #     Key([], "p", lazy.spawn("systemctl poweroff"), desc="Poweroff"),
     # ])
 ]
+# fmt: on
+
 # }}}
 
 # {{{ Groups and Layouts
@@ -384,6 +387,7 @@ for i in groups:
                 i.name,
                 # TODO: is this the answer?
                 lazy.group[i.name].toscreen(i.screen_affinity),
+                # Key([mod], "o", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
                 desc="Switch to group {}".format(i.name),
             ),
             # mod + shift + letter of group = move focused window to group
@@ -655,13 +659,13 @@ screens = [
 
 # {{{ Mouse Config and Other Setting
 # Drag floating layouts.
+# fmt: off
 mouse = [
-    # autopep8: off
     Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-    # autopep8: on
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
+# fmt: on
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
@@ -680,10 +684,12 @@ floating_layout = layout.Floating(
         Match(wm_class="Yad"),  # yad boxes
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-    ], **floating_layout_defaults
+    ],
+    **floating_layout_defaults
 )
 auto_fullscreen = True
-focus_on_window_activation = "urgent" # IMPORTANT: default is "smart", urgent flag is never set
+# IMPORTANT: default is "smart", urgent flag is never set
+focus_on_window_activation = "urgent"
 reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
