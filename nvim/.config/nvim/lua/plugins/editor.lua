@@ -418,7 +418,7 @@ return {
                 mode = { "v" },
                 ["<leader>g"] = { name = "+git" },
                 ["<leader>gh"] = { name = "+hunks" }, -- FIX:
-                ["<leader>l"] = { name = "+lsp" }, -- FIX:
+                ["<leader>l"] = { name = "+lsp" },
                 ["<leader>r"] = { name = "+refactor" },
             }
             wk.register(nkeymaps)
@@ -754,19 +754,17 @@ return {
         opts = {
             label = {
                 rainbow = {
-                    enabled = true,
+                    enabled = false,
                 },
             },
             modes = {
                 search = {
-                    -- enabled = false,
-                    -- highlight = { backdrop = true },
-                    jump = { history = true, register = true, nohlsearch = true },
+                    enabled = false,
                 },
                 char = {
                     jump_labels = true,
-                    -- multi_line = false,
-                    -- highlight = { backdrop = false },
+                    multi_line = false,
+                    highlight = { backdrop = false },
                 },
             },
         },
@@ -883,14 +881,12 @@ return {
     -- Detect tabstop and shiftwidth automatically
     { "tpope/vim-sleuth" },
 
-    -- TODO: ?
     -- auto remove search highlight and rehighlight when using n or N
     -- {
     --     "nvimdev/hlsearch.nvim",
     --     config = true,
     -- },
 
-    -- TODO: ?
     -- incsearch for :linenum<cr>
     -- {
     --     "nacro90/numb.nvim",
