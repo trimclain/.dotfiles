@@ -167,9 +167,7 @@ keys = [
 
     ################################ LAYOUT ###################################
     # Switch between windows
-    # TODO: is this it?
-    # Key([mod], "h", lazy.screen.prevgroup(skip_managed=True)),
-    # Key([mod], "l", lazy.screen.nextgroup(skip_managed=True)),
+    # TODO: can I combine layout.left with moving to the left screen if it exists
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -298,22 +296,24 @@ keys = [
     Key([mod], "comma", lazy.prev_screen(), desc="Move focus to prev monitor"),
     # fmt: on
 
-    # Switch focus to specific monitor (out of three)
-    Key([mod], "o", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
-    Key([mod], "i", lazy.to_screen(1), desc="Keyboard focus to monitor 2"),
-    # Key([mod], "u", lazy.to_screen(2), desc="Keyboard focus to monitor 3"),
-
     ############################### KEYCHORD ##################################
+    # Docs: https://docs.qtile.org/en/latest/manual/config/keys.html#keychords
 
     # Monitor layout
-    KeyChord([alt], "m", [
-        # fmt: off
-        Key([], "1", run_command("~/.local/bin/monitor-layout --first"), desc="First monitor"),
-        Key([], "2", run_command("~/.local/bin/monitor-layout --second"), desc="Second monitor"),
-        Key([], "e", run_command("~/.local/bin/monitor-layout --extend"), desc="Extend monitor"),
-        Key([], "d", run_command("~/.local/bin/monitor-layout --duplicate"), desc="Duplicate monitor"),
-        # fmt: on
-    ]),
+    # fmt: off
+    KeyChord(
+        [alt],
+        "m",
+        [
+            Key([], "1", run_command("~/.local/bin/monitor-layout --first"), desc="First monitor"),
+            Key([], "2", run_command("~/.local/bin/monitor-layout --second"), desc="Second monitor"),
+            Key([], "e", run_command("~/.local/bin/monitor-layout --extend"), desc="Extend monitor"),
+            Key([], "d", run_command("~/.local/bin/monitor-layout --duplicate"), desc="Duplicate monitor")
+        ],
+        # mode=True,
+        name="monitor-layout"
+    ),
+    # fmt: on
 
     # Browser Profiles
     # KeyChord([mod], "b", [
@@ -330,14 +330,6 @@ keys = [
     #         desc="Launch browser with the second profile"
     #     ),
     # ]),
-
-    # System control
-    # KeyChord([mod], "0", [
-    #     Key([], "s", lazy.spawn("systemctl suspend"), desc="Suspend"),
-    #     Key([], "e", lazy.shutdown(), desc="Logout"),
-    #     Key([], "r", lazy.spawn("systemctl reboot"), desc="Reboot"),
-    #     Key([], "p", lazy.spawn("systemctl poweroff"), desc="Poweroff"),
-    # ])
 ]
 # fmt: on
 
@@ -385,9 +377,9 @@ for i in groups:
             Key(
                 [mod],
                 i.name,
-                # TODO: is this the answer?
+                # I never want to choose a group and not go to it's monitor
+                lazy.to_screen(i.screen_affinity),
                 lazy.group[i.name].toscreen(i.screen_affinity),
-                # Key([mod], "o", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
                 desc="Switch to group {}".format(i.name),
             ),
             # mod + shift + letter of group = move focused window to group
@@ -429,6 +421,46 @@ class Widget:
         margin_y=2,
     )
 
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#sep
+    sep = dict(
+        size_percent=100,
+        linewidth=0,
+        padding=5,
+        # background=widget_background
+    )
+
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#clock
+    clock = dict(
+        mouse_callbacks={
+            # Get current month as notification
+            "Button1": run_command("~/.config/qtile/scripts/calendar.sh --today"),
+            # Get whole year in a new terminal
+            "Button3": lazy.spawn(
+                terminal + " -e " + os.path.expanduser(
+                    "~/.config/qtile/scripts/calendar.sh"
+                )
+            ),
+        },
+        # format="%a %d/%m/%Y %H:%M",
+        format="%a, %b %d %H:%M",
+        # fmt="󰃰 {}",
+        fmt="󰥔 {}",
+        # background=widget_background
+    )
+
+    chord = dict(
+        mouse_callbacks={},
+        fmt="{}",
+        # background=widget_background
+    )
+
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#windowname
+    window_name = dict(
+        for_current_screen=True,
+        # format="",  # default: "{state}{name}",
+        # background=widget_background
+    )
+
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#groupbox
     main_groupbox = dict(
         active=text_color,
@@ -459,21 +491,6 @@ class Widget:
     mini_groupbox.update({
         "visible_groups": group_names2
     })
-
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#sep
-    sep = dict(
-        size_percent=100,
-        linewidth=0,
-        padding=5,
-        # background=widget_background
-    )
-
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#windowname
-    window_name = dict(
-        for_current_screen=True,
-        # format="",  # default: "{state}{name}",
-        # background=widget_background
-    )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#systray
     systray = dict(
@@ -546,27 +563,8 @@ class Widget:
         foreground=blue_color
     )
 
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#clock
-    clock = dict(
-        mouse_callbacks={
-            # Get current month as notification
-            "Button1": run_command("~/.config/qtile/scripts/calendar.sh --today"),
-            # Get whole year in a new terminal
-            "Button3": lazy.spawn(
-                terminal + " -e " + os.path.expanduser(
-                    "~/.config/qtile/scripts/calendar.sh"
-                )
-            ),
-        },
-        # format="%a %d/%m/%Y %H:%M",
-        format="%a, %b %d %H:%M",
-        # fmt="󰃰 {}",
-        fmt="󰥔 {}",
-        # background=widget_background
-    )
-
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#batteryicon
-    # TODO: update when discharging like polybar
+    # SOMEDAY: update when discharging like polybar
     # https://qtile-extras.readthedocs.io/en/stable/manual/ref/widgets.html#upowerwidget
     # dep: python-dbus-next
     battery = dict(
@@ -619,12 +617,13 @@ def my_mini_bar():
 
 
 def my_bar():
-    """Third design"""
     return [
         # widget.Sep(**Widget.sep),
         # widget.Image(**Widget.logo),
         widget.Sep(**Widget.sep),
         widget.Clock(**Widget.clock),
+        widget.Sep(**Widget.sep),
+        widget.Chord(**Widget.chord),
         # widget.Sep(**Widget.sep),
         # widget.WindowName(**Widget.window_name),
 
