@@ -13,7 +13,7 @@ return {
                         function()
                             require("treesitter-context").go_to_context()
                         end,
-                        desc = "Jump to context (upwards)",
+                        desc = "TS: Jump to context (upwards)",
                     },
                 },
                 config = function()
@@ -44,44 +44,50 @@ return {
                 enable = true,
                 disable = { "julia" }, -- sadly broken right now
             },
-            -- one of "all", "maintained" (parsers with maintainers), or a list of languages
             ensure_installed = {
+                "python",
                 "bash",
-                "c",
-                "css",
-                -- "dockerfile",
-                -- "graphql",
+                "make",
 
                 "go",
                 "gomod",
                 "gosum",
 
-                "html",
                 "java",
-                "javascript",
-                "json",
-                "jsonc",
-                "julia",
                 -- "kotlin",
+                -- "rust",
+
+                "html",
+                "css",
+                "scss",
+                "javascript",
+                "typescript",
+                "tsx",
+                "vue",
+
+                "julia",
                 "latex",
-                "lua",
-                "make",
+
                 "markdown",
                 "markdown_inline",
-                "python",
-                "query", -- treesitter query
-                "rasi", -- rofi config syntax highlighting
                 "regex",
-                -- "rust",
-                "scss",
+
+                "json",
+                "jsonc",
+                "rasi", -- rofi config syntax highlighting
+                "toml",
+                "yaml",
+
                 "sql",
-                -- "toml",
-                "tsx",
-                "typescript",
+                -- "dockerfile",
+                -- "graphql",
+
+                -- should always be installed
+                "c",
                 "vim",
                 "vimdoc",
-                "vue",
-                "yaml",
+                "lua",
+                "query", -- treesitter query
             },
             incremental_selection = {
                 enable = true,
@@ -94,6 +100,9 @@ return {
             },
         },
         config = function(_, opts)
+            -- Prefer git instead of curl in order to improve connectivity in some environments
+            require("nvim-treesitter.install").prefer_git = true
+
             require("nvim-treesitter.configs").setup(opts)
         end,
     },

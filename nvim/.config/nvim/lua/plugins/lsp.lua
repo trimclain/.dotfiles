@@ -200,7 +200,7 @@ return {
         config = function(_, opts)
             require("conform").setup(opts)
 
-            -- TODO: make this a toggle
+            -- SOMEDAY: make this a toggle (see core.util for old stuff)
             -- vim.api.nvim_create_user_command("FormatDisable", function()
             --     vim.b.disable_autoformat = true
             -- end, {
@@ -212,6 +212,7 @@ return {
             -- end, {
             --     desc = "Re-enable autoformat-on-save",
             -- })
+            --         vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
         end,
     },
 
