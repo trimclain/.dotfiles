@@ -47,7 +47,6 @@ return {
                             focusable = false,
                             style = "minimal",
                             border = CONFIG.ui.border,
-                            -- FIX: what is this warning bruh (need linter to see)
                             source = "always", -- or "if_many"
                             header = "",
                             prefix = "",
@@ -70,9 +69,7 @@ return {
                     map("gt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
                     map("K", vim.lsp.buf.hover, "Hover Documentation")
                     map("gK", vim.lsp.buf.signature_help, "Signature Help")
-
-                    -- TODO: use these keymap?
-                    --map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+                    map("<leader>ls", require("telescope.builtin").lsp_document_symbols, "Document [S]ymbols")
 
                     -- Diagnostic keymaps
                     local function diagnostic_goto(next, severity)
@@ -103,21 +100,16 @@ return {
                         vim.lsp.buf.code_action,
                         { buffer = event.buf, desc = "LSP: Code [A]ction" }
                     )
-                    -- TODO: use these keymap?
-                    -- map(
-                    --     "<leader>lA",
-                    --     function()
-                    --         vim.lsp.buf.code_action({
-                    --             context = {
-                    --                 only = {
-                    --                     "source",
-                    --                 },
-                    --                 diagnostics = {},
-                    --             },
-                    --         })
-                    --     end,
-                    --     "Source Action"
-                    -- )
+                    map("<leader>lA", function()
+                        vim.lsp.buf.code_action({
+                            context = {
+                                only = {
+                                    "source",
+                                },
+                                diagnostics = {},
+                            },
+                        })
+                    end, "Source [A]ction")
 
                     -- Inlay Hints
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -216,49 +208,15 @@ return {
         end,
     },
 
-    -- TODO:
-    -- "mfussenegger/nvim-lint" -- for linters
+    -- linting
     -- https://github.com/LazyVim/LazyVim/blob/e5babf289c5ccd91bcd068bfc623335eb76cbc1f/lua/lazyvim/plugins/linting.lua
-
-    -- Formatters and Linters
-    -- Sources: https://github.com/nvimtools/none-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-    -- {
-    --     "nvimtools/none-ls.nvim",
-    --     event = { "BufReadPre", "BufNewFile" },
-    --     dependencies = {
-    --         "mason.nvim",
-    --         -- "gbprod/none-ls-luacheck.nvim",
-    --     },
-    --     opts = function()
-    --         local nls = require("null-ls")
-
-    --         -- nls.register(require("none-ls-luacheck.diagnostics.luacheck"))
-    --         return {
-    --             root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
-    --             sources = {
-
-    --                 -- Linters
-    --                 -- TODO: replace with eslint-language-server
-    --                 -- nls.builtins.diagnostics.eslint_d,
-
-    --                 -- Hover
-    --                 nls.builtins.hover.printenv.with({ -- shows the value for the current environment variable under the cursor
-    --                     filetypes = { "zsh", "sh", "dosbatch", "ps1" },
-    --                 }),
-    --                 -- nls.builtins.hover.dictionary.with({ -- shows the first available definition for the current word under the cursor
-    --                 --     filetypes = { "org", "text", "markdown" },
-    --                 -- }),
-    --             },
-    --         }
-    --     end,
-    -- },
+    -- "mfussenegger/nvim-lint"
 
     -- cmdline tools and lsp servers
     {
         "williamboman/mason.nvim",
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
-            -- TODO: 9 ms startup time???? Ur joking...
             "WhoIsSethDaniel/mason-tool-installer.nvim",
         },
         cmd = "Mason",
@@ -274,11 +232,12 @@ return {
             },
         },
         config = function(_, opts)
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            if Util.has_plugin("cmp_nvim_lsp") then
-                capabilities =
-                    vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-            end
+            local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+            local capabilities = vim.tbl_deep_extend(
+                "force",
+                vim.lsp.protocol.make_client_capabilities(),
+                has_cmp and cmp_nvim_lsp.default_capabilities() or {}
+            )
 
             -- LSP Server Settings
             -- Servers listed here will be autoinstalled
@@ -359,14 +318,6 @@ return {
                             },
                             workspace = {
                                 checkThirdParty = false,
-                                -- TODO:?
-                                -- library = {
-                                --     vim.fn.expand("$VIMRUNTIME"),
-                                --     require("neodev.config").types(),
-                                --     "${3rd}/busted/library",
-                                --     "${3rd}/luassert/library",
-                                --     "${3rd}/luv/library",
-                                -- },
                             },
                         },
                     },
