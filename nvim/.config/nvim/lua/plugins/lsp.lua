@@ -126,92 +126,6 @@ return {
         end,
     },
 
-    -- autoformat
-    {
-        "stevearc/conform.nvim",
-        -- event = { "BufWritePre" },
-        cmd = { "ConformInfo" },
-        keys = {
-            {
-                "<leader>lf",
-                function()
-                    require("conform").format({ async = true, lsp_fallback = true })
-                end,
-                mode = "",
-                desc = "LSP: [F]ormat buffer",
-            },
-        },
-        opts = {
-            -- notify_on_error = false,
-            format_on_save = function(bufnr)
-                -- Disable with a global or buffer-local variable
-                if not CONFIG.lsp.format_on_save or vim.b[bufnr].disable_autoformat then
-                    return
-                end
-                local disable_filetypes = { c = true, cpp = true }
-                return {
-                    timeout_ms = 500,
-                    lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-                }
-            end,
-            formatters_by_ft = {
-                lua = { "stylua" },
-                sh = { "shfmt" }, -- beautysh
-                go = { "gofumpt" },
-                -- run multiple formatters sequentially
-                python = { "isort", "autopep8" }, -- ruff
-                -- use a sub-list to tell conform to run *until* a formatter is found
-
-                javascript = { { "prettierd", "prettier" } },
-                javascriptreact = { { "prettierd", "prettier" } },
-                typescript = { { "prettierd", "prettier" } },
-                typescriptreact = { { "prettierd", "prettier" } },
-                vue = { { "prettierd", "prettier" } },
-                css = { { "prettierd", "prettier" } },
-                scss = { { "prettierd", "prettier" } },
-                html = { { "prettierd", "prettier" } },
-                json = { { "prettierd", "prettier" } },
-                jsonc = { { "prettierd", "prettier" } },
-                jaml = { { "prettierd", "prettier" } },
-                toml = { { "prettierd", "prettier" } },
-                -- graphql = { { "prettierd", "prettier" } },
-                -- svelte = { { "prettierd", "prettier" } },
-                -- astro = { { "prettierd", "prettier" } },
-            },
-            formatters = {
-                prettierd = {
-                    prepend_args = { "--tab-width=4" }, -- "--jsx-single-quote", "--no-semi", "--single-quote",
-                },
-                -- shfmt = {
-                --     -- The base args are { "-filename", "$FILENAME" } so the final args will be
-                --     -- { "-i", "2", "-filename", "$FILENAME" }
-                --     prepend_args = { "-i", "2" },
-                -- }
-            },
-        },
-        config = function(_, opts)
-            require("conform").setup(opts)
-
-            -- SOMEDAY: make this a toggle (see core.util for old stuff)
-            -- vim.api.nvim_create_user_command("FormatDisable", function()
-            --     vim.b.disable_autoformat = true
-            -- end, {
-            --     desc = "Disable autoformat-on-save",
-            --     bang = true,
-            -- })
-            -- vim.api.nvim_create_user_command("FormatEnable", function()
-            --     vim.b.disable_autoformat = false
-            -- end, {
-            --     desc = "Re-enable autoformat-on-save",
-            -- })
-            --         vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
-        end,
-    },
-
-    -- linting
-    -- https://github.com/LazyVim/LazyVim/blob/e5babf289c5ccd91bcd068bfc623335eb76cbc1f/lua/lazyvim/plugins/linting.lua
-    -- "mfussenegger/nvim-lint"
-
     -- cmdline tools and lsp servers
     {
         "williamboman/mason.nvim",
@@ -220,7 +134,7 @@ return {
             "WhoIsSethDaniel/mason-tool-installer.nvim",
         },
         cmd = "Mason",
-        keys = { { "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" } },
+        keys = { { "<leader>lm", "<cmd>Mason<cr>", desc = "[M]ason" } },
         opts = {
             ui = {
                 icons = {
@@ -232,6 +146,8 @@ return {
             },
         },
         config = function(_, opts)
+            require("mason").setup(opts)
+
             local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
             local capabilities = vim.tbl_deep_extend(
                 "force",
@@ -336,11 +252,10 @@ return {
                 -- Linters
                 -- "eslint_d", -- need config file, annoying
                 -- "luacheck", -- "selene",
-                "shellcheck", -- extends bashls
+                "markdownlint",
                 -- "stylelint", -- css linter
+                "shellcheck", -- extends bashls
             }
-
-            require("mason").setup(opts)
 
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, formatters_and_linters)
@@ -354,6 +269,190 @@ return {
                         require("lspconfig")[server_name].setup(server)
                     end,
                 },
+            })
+        end,
+    },
+
+    -- autoformat
+    {
+        "stevearc/conform.nvim",
+        -- event = { "BufWritePre" },
+        cmd = { "ConformInfo" },
+        keys = {
+            {
+                "<leader>lf",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                mode = "",
+                desc = "LSP: [F]ormat buffer",
+            },
+            {
+                "<leader>lc",
+                function()
+                    require("conform.health").show_window()
+                end,
+                mode = "n",
+                desc = "LSP: [C]onform Info",
+            },
+        },
+        opts = {
+            -- notify_on_error = false,
+            format_on_save = function(bufnr)
+                -- Disable with a global or buffer-local variable
+                if not CONFIG.lsp.format_on_save or vim.b[bufnr].disable_autoformat then
+                    return
+                end
+                local disable_filetypes = { c = true, cpp = true }
+                return {
+                    timeout_ms = 500,
+                    lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+                }
+            end,
+            formatters_by_ft = {
+                lua = { "stylua" },
+                sh = { "shfmt" }, -- beautysh
+                go = { "gofumpt" },
+                -- run multiple formatters sequentially
+                python = { "isort", "autopep8" }, -- ruff
+                -- use a sub-list to tell conform to run *until* a formatter is found
+
+                javascript = { { "prettierd", "prettier" } },
+                javascriptreact = { { "prettierd", "prettier" } },
+                typescript = { { "prettierd", "prettier" } },
+                typescriptreact = { { "prettierd", "prettier" } },
+                vue = { { "prettierd", "prettier" } },
+                css = { { "prettierd", "prettier" } },
+                scss = { { "prettierd", "prettier" } },
+                html = { { "prettierd", "prettier" } },
+                json = { { "prettierd", "prettier" } },
+                jsonc = { { "prettierd", "prettier" } },
+                jaml = { { "prettierd", "prettier" } },
+                toml = { { "prettierd", "prettier" } },
+                -- graphql = { { "prettierd", "prettier" } },
+                -- svelte = { { "prettierd", "prettier" } },
+                -- astro = { { "prettierd", "prettier" } },
+            },
+            formatters = {
+                prettierd = {
+                    prepend_args = { "--tab-width=4" }, -- "--jsx-single-quote", "--no-semi", "--single-quote",
+                },
+                -- shfmt = {
+                --     -- The base args are { "-filename", "$FILENAME" } so the final args will be
+                --     -- { "-i", "2", "-filename", "$FILENAME" }
+                --     prepend_args = { "-i", "2" },
+                -- }
+            },
+        },
+        config = function(_, opts)
+            require("conform").setup(opts)
+
+            -- SOMEDAY: make this a toggle (see core.util for old stuff)
+            -- vim.api.nvim_create_user_command("FormatDisable", function()
+            --     vim.b.disable_autoformat = true
+            -- end, {
+            --     desc = "Disable autoformat-on-save",
+            --     bang = true,
+            -- })
+            -- vim.api.nvim_create_user_command("FormatEnable", function()
+            --     vim.b.disable_autoformat = false
+            -- end, {
+            --     desc = "Re-enable autoformat-on-save",
+            -- })
+            --         vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+        end,
+    },
+
+    -- linting
+    {
+        "mfussenegger/nvim-lint",
+        event = { "BufReadPre", "BufNewFile" },
+        opts = {
+            -- Event to trigger linters
+            events = { "BufWritePost", "BufReadPost", "InsertLeave" },
+            linters_by_ft = {
+                markdown = { "markdownlint" }, -- { "vale" }
+                -- dockerfile = { "hadolint" },
+                -- json = { "jsonlint" },
+                -- Use the "*" filetype to run linters on all filetypes.
+                -- ['*'] = { 'global linter' },
+                -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
+                -- ['_'] = { 'fallback linter' },
+                -- ["*"] = { "typos" },
+            },
+            linters = {
+                -- use selene only when a selene.toml file is present
+                -- selene = {
+                --     -- dynamically enable/disable linters based on the context.
+                --     condition = function(ctx)
+                --         return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
+                --     end,
+                -- },
+            },
+        },
+        config = function(_, opts)
+            local M = {}
+
+            local lint = require("lint")
+            for name, linter in pairs(opts.linters) do
+                if type(linter) == "table" and type(lint.linters[name]) == "table" then
+                    lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
+                else
+                    lint.linters[name] = linter
+                end
+            end
+            lint.linters_by_ft = opts.linters_by_ft
+
+            function M.debounce(ms, fn)
+                local timer = vim.uv.new_timer()
+                return function(...)
+                    local argv = { ... }
+                    timer:start(ms, 0, function()
+                        timer:stop()
+                        vim.schedule_wrap(fn)(unpack(argv))
+                    end)
+                end
+            end
+
+            -- Credit: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/plugins/linting.lua
+            function M.lint()
+                -- Use nvim-lint's logic first:
+                -- * checks if linters exist for the full filetype first
+                -- * otherwise will split filetype by "." and add all those linters
+                -- * this differs from conform.nvim which only uses the first filetype that has a formatter
+                local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+
+                -- Create a copy of the names table to avoid modifying the original.
+                names = vim.list_extend({}, names)
+
+                -- Add fallback linters.
+                if #names == 0 then
+                    vim.list_extend(names, lint.linters_by_ft["_"] or {})
+                end
+
+                -- Add global linters.
+                vim.list_extend(names, lint.linters_by_ft["*"] or {})
+
+                -- Filter out linters that don't exist or don't match the condition.
+                local ctx = { filename = vim.api.nvim_buf_get_name(0) }
+                ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
+                names = vim.tbl_filter(function(name)
+                    local linter = lint.linters[name]
+                    if not linter then
+                        vim.notify("Linter not found: " .. name, vim.log.levels.WARN, { title = "Nvim Lint" })
+                    end
+                    return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
+                end, names)
+
+                -- Run linters.
+                if #names > 0 then
+                    lint.try_lint(names)
+                end
+            end
+
+            vim.api.nvim_create_autocmd(opts.events, {
+                group = vim.api.nvim_create_augroup("trimclain_lint", { clear = true }),
+                callback = M.debounce(100, M.lint),
             })
         end,
     },
