@@ -13,9 +13,9 @@
 #                                                                             #
 ###############################################################################
 
-import subprocess
 import os
 import shutil
+import subprocess
 
 # from bars.dt import statusbar as dtbar
 from libqtile import bar, hook, layout, widget
@@ -33,7 +33,7 @@ browser = "thorium-browser"
 if shutil.which(browser) is None:
     browser = "firefox"
 
-#################################### COLORS ###################################
+# ================================== COLORS ===================================
 text_color = "#cdd6f4"
 muted_color = "#7f849c"
 dark_muted_color = "#1e1e2e"
@@ -42,20 +42,20 @@ widget_background = "#313244"
 active_border = "#5e81ac"
 inactive_border = "#11111b"
 
-blue_color     ="#89b4fa"
-lavender_color ="#b4befe"
-sapphire_color ="#74c7ec"
-sky_color      ="#89dceb"
-teal_color     ="#94e2d5"
-green_color    ="#a6e3a1"
-yellow_color   ="#f9e2af"
-peach_color    ="#fab387"
-maroon_color   ="#eba0ac"
-red_color      ="#f38ba8"
-mauve_color    ="#cba6f7"
-pink_color     ="#f5c2e7"
-flamingo_color ="#f2cdcd"
-rosewater_color="#f5e0dc"
+blue_color = "#89b4fa"
+lavender_color = "#b4befe"
+sapphire_color = "#74c7ec"
+sky_color = "#89dceb"
+teal_color = "#94e2d5"
+green_color = "#a6e3a1"
+yellow_color = "#f9e2af"
+peach_color = "#fab387"
+maroon_color = "#eba0ac"
+red_color = "#f38ba8"
+mauve_color = "#cba6f7"
+pink_color = "#f5c2e7"
+flamingo_color = "#f2cdcd"
+rosewater_color = "#f5e0dc"
 
 float_color = "#E1ACFF"  # dt colors
 ###############################################################################
@@ -137,7 +137,6 @@ def get_command_output(cmd):
 # }}}
 
 # {{{ Key Bindings
-# fmt: off
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -165,7 +164,7 @@ keys = [
     # System control
     Key([mod], "0", run_command("~/.local/bin/powermenu"), desc="Power Menu"),
 
-    ################################ LAYOUT ###################################
+    # ============================== LAYOUT ===================================
     # Switch between windows
     # TODO: can I combine layout.left with moving to the left screen if it exists
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -205,7 +204,7 @@ keys = [
     # Switch layouts
     Key([mod], "Tab", lazy.next_layout(), desc="Switch between layouts"),
 
-    ############################### HOTKEYS ###################################
+    # ============================= HOTKEYS ===================================
     # Take a screenshot
     Key(
         [mod],
@@ -289,14 +288,14 @@ keys = [
     # Key([mod, "shift"], "l", lazy.layout.move_right(), desc="Move down a section in treetab"),
     # fmt: on
 
-    ################################ SCREEN ###################################
+    # ============================== SCREEN ===================================
     # Switch between monitors
     # fmt: off
     Key([mod], "period", lazy.next_screen(), desc="Move focus to next monitor"),
     Key([mod], "comma", lazy.prev_screen(), desc="Move focus to prev monitor"),
     # fmt: on
 
-    ############################### KEYCHORD ##################################
+    # ============================= KEYCHORD ==================================
     # Docs: https://docs.qtile.org/en/latest/manual/config/keys.html#keychords
 
     # Monitor layout
@@ -331,7 +330,6 @@ keys = [
     #     ),
     # ]),
 ]
-# fmt: on
 
 # }}}
 
@@ -469,10 +467,10 @@ class Widget:
         highlight_method="block",  # "border", "block", "text", "line"
         highlight_color=widget_background,
 
-        this_current_screen_border=muted_color, # on screen 1, border screen 1
-        this_screen_border=dark_muted_color, # on screen 1, border screen 2
-        other_current_screen_border=muted_color, # on screen 2, border screen 2
-        other_screen_border=dark_muted_color, # on screen 2, border screen 1
+        this_current_screen_border=muted_color,  # on screen 1, border screen 1
+        this_screen_border=dark_muted_color,  # on screen 1, border screen 2
+        other_current_screen_border=muted_color,  # on screen 2, border screen 2
+        other_screen_border=dark_muted_color,  # on screen 2, border screen 1
 
         urgent_alert_method="border",  # "border", "block", "text", "line"
         urgent_text=text_color,
