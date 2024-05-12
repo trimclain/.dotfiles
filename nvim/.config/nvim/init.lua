@@ -33,12 +33,12 @@ CONFIG = {
     },
     ui = {
         -- Colorschemes (note/10):
+        -- astrospeed (10)
         -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9), astrotheme (9)
         -- darkplus (8.5), primer-dark (8), nightfox (8), vscode (8), gruvbox (8)
         -- github-dark (7), onedark (7), kanagawa (7), zephyr (7), poimandres (7)
         -- embark(6), sonokai (6), omni (6),
-        -- colorscheme = "darkplus",
-        colorscheme = "astrotheme",
+        colorscheme = "astrospeed",
         transparent_background = false,
         cursorline = true,
         -- border = "rounded", -- see `:h nvim_open_win()`

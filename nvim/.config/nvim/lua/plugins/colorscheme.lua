@@ -216,11 +216,10 @@ return {
         priority = 1000,
         cond = CONFIG.ui.colorscheme == "astrotheme",
         opts = {
-            palette = "astrodark", -- String of the default palette to use when calling `:colorscheme astrotheme`
+            palette = "astrodark",
             style = {
                 transparent = CONFIG.ui.transparent_background,
                 inactive = false,
-                -- border = CONFIG.ui.border ~= "none",
                 border = false,
                 title_invert = true,
                 italic_comments = CONFIG.ui.italic_comments,
@@ -253,12 +252,22 @@ return {
     },
 
     {
+        "trimclain/astrospeed",
+        dir = "~/projects/open-source/nvim-plugins/astrospeed",
+        lazy = false,
+        priority = 1000,
+        cond = CONFIG.ui.colorscheme == "astrospeed",
+        config = function()
+            vim.cmd.colorscheme("astrospeed")
+        end,
+    },
+
+    {
         "LunarVim/darkplus.nvim",
         lazy = false,
         priority = 1000,
         cond = CONFIG.ui.colorscheme == "darkplus",
         config = function()
-            -- require("darkplus").setup()
             vim.cmd.colorscheme("darkplus")
         end,
     },
@@ -421,7 +430,7 @@ return {
     },
 
     {
-        "olivercederborg/poimandres.nvim",  -- too bright comments (try #4D5064)
+        "olivercederborg/poimandres.nvim", -- too bright comments (try #4D5064)
         lazy = false,
         priority = 1000,
         cond = CONFIG.ui.colorscheme == "poimandres",

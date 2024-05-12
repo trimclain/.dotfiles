@@ -367,11 +367,12 @@ return {
     {
         "mfussenegger/nvim-lint",
         event = { "BufReadPre", "BufNewFile" },
+        enabled = false, -- only because I don't use any linters right now
         opts = {
             -- Event to trigger linters
             events = { "BufWritePost", "BufReadPost", "InsertLeave" },
             linters_by_ft = {
-                markdown = { "markdownlint" }, -- { "vale" }
+                -- markdown = { "markdownlint" }, -- { "vale" }
                 -- dockerfile = { "hadolint" },
                 -- json = { "jsonlint" },
                 -- Use the "*" filetype to run linters on all filetypes.
