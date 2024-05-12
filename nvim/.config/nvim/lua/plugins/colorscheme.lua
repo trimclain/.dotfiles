@@ -217,9 +217,14 @@ return {
         cond = CONFIG.ui.colorscheme == "astrotheme",
         opts = {
             palette = "astrodark",
+            termguicolors = true,
+            terminal_colors = false, -- default: true
+            dev = false,
             style = {
                 transparent = CONFIG.ui.transparent_background,
                 inactive = false,
+                float = true,
+                neotree = true,
                 border = false,
                 title_invert = true,
                 italic_comments = CONFIG.ui.italic_comments,
