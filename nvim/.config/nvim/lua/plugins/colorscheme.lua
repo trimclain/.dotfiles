@@ -258,7 +258,7 @@ return {
 
     {
         "trimclain/astrospeed",
-        dir = "~/projects/open-source/nvim-plugins/astrospeed",
+        -- dir = "~/projects/open-source/nvim-plugins/astrospeed",
         lazy = false,
         priority = 1000,
         cond = CONFIG.ui.colorscheme == "astrospeed",
