@@ -59,6 +59,11 @@ bar:
       # Documentation on formatting date/time string:
       # https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
       time_formatting: "ddd dd/MM/yyyy HH:mm"
+    - type: "binding mode"
+      # background: "#ffffff33"
+      margin: "0 4px 0 0"
+      padding: "0 8px"
+
     # - type: "window title"
   components_center:
     - type: "workspaces"
@@ -73,10 +78,6 @@ bar:
     #   background: "#ffffff33"
     #   margin: "0 4px"
     #   padding: "0 8px"
-    - type: "binding mode"
-      background: "#ffffff33"
-      margin: "0 4px 0 0"
-      padding: "0 8px"
 
 workspaces:
   - name: "1"
@@ -137,6 +138,10 @@ window_rules:
   #   match_process_name: "chrome"
   # - command: "move to workspace 3"
   #   match_process_name: "msedge"
+  # - command: "move to workspace 8"
+  #   match_process_name: "olk"
+  # - command: "move to workspace 9"
+  #   match_process_name: "ms-teams"
 
 binding_modes:
   - name: "resize"
