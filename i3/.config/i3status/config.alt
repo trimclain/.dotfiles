@@ -35,7 +35,7 @@ wireless _first_ {
         # format_up = "󰖩 %quality at %essid"
         format_up = "  %essid (%quality)"
         # format_down = "🆆 ⬇"
-        format_down = "󰖪"
+        format_down = "󰖪 "
 }
 
 ethernet _first_ {
@@ -73,7 +73,7 @@ battery all {
 
 cpu_usage {
     # format = "💻 at %usage ( 1: [%cpu0] 2: [%cpu1] 3: [%cpu2] 4: [%cpu3] )"
-    format = " cpu: %usage"
+    format = "   cpu: %usage"
 }
 
 cpu_temperature 0 {
@@ -102,5 +102,5 @@ volume master {
 
 tztime local {
         # format = "%Y-%m-%d %H:%M:%S"
-        format = "󰃰 %a %d/%m/%Y %H:%M"
+        format = "󰃰  %a %d/%m/%Y %H:%M"
 }
