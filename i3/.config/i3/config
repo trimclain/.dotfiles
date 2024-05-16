@@ -26,15 +26,14 @@ new_float normal
 # Hide borders
 hide_edge_borders none
 
-# Change borders
-bindsym $mod+u border none
-bindsym $mod+y border pixel 1
-bindsym $mod+n border normal
+# # Change borders
+# bindsym $mod+u border none
+# bindsym $mod+y border pixel 1
+# bindsym $mod+n border normal
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-# font pango:MesloLGS NF Regular 10
-font pango:JetBrainsMono-Regular 11
+font pango:MapleMono-NF-Regular 11
 
 # Run on system start
 # Give me that Natural Scrolling
@@ -103,7 +102,7 @@ set $myTerm kitty
 bindsym $mod+Return exec $myTerm
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 
 # change focus
