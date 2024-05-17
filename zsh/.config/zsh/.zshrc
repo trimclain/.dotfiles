@@ -57,12 +57,6 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 # Exchange the meanings of `+' and `-' when used with a number to specify a directory in the stack
 setopt pushdminus
-# If a command starts with a space, don't add it to a history
-setopt histignorespace
-# Don't save older commands that duplicate newer ones
-setopt histsavenodups
-# When using !! or !<number>, don't expand the command before running it
-setopt nohistverify
 # Allow comments in the interactive shell
 setopt interactive_comments
 # Don't kill jobs when exiting shell
@@ -77,9 +71,13 @@ setopt always_to_end
 # Disable highlighting on paste
 zle_highlight=('paste:none')
 
-# Completion
+# Completion (`man zshmodules`)
 # Highlight seleceted options on <Tab>
 zstyle ':completion:*' menu select
+# Make completion case insensitive when using small letters
+#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+# Make ls colors work with completion (TODO: for some reason directories are red)
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Disable all error sounds
 unsetopt BEEP
@@ -127,13 +125,24 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
 
-# History
+## History
 export HISTFILE=$HOME/.zsh_history
 # export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export HISTSIZE=1000
 export SAVEHIST=50000
 export HISTORY_IGNORE="(ls|la|l|cd|cd -|cd ..|history|vim)"
+# Share history across all zsh sessions
 setopt sharehistory
+# If a command starts with a space, don't add it to a history
+setopt hist_ignore_space
+# Don't save older commands that duplicate newer ones
+setopt hist_save_no_dups
+# Do the same as above but also in the current session
+#setopt hist_ignore_all_dups
+# Don't show duplicates in history search
+setopt hist_find_no_dups
+# When using !! or !<number>, don't expand the command before running it
+setopt nohistverify
 
 export N_PREFIX="$HOME/.n"
 
@@ -211,9 +220,14 @@ key[Shift-Tab]="${terminfo[kcbt]}"
 [[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"       down-line-or-history
 [[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"       backward-char
 [[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"      forward-char
-[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"     history-beginning-search-backward
-[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"   history-beginning-search-forward
+# [[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"     history-beginning-search-backward
+[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"     history-search-backward
+# [[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"   history-beginning-search-forward
+[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"   history-search-forward
 [[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}"  reverse-menu-complete
+
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
 
 # (https://wiki.archlinux.org/title/zsh#Shift,_Alt,_Ctrl_and_Meta_modifiers)
 # Jump by word Using Ctrl + Left/Right
@@ -236,13 +250,13 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
     add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
-# From /usr/share/doc/fzf/examples/key-bindings.zsh
-# CTRL-R - Paste the selected command from history into the command line
-__fzfcmd() {
-    [ -n "$TMUX_PANE" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "$FZF_TMUX_OPTS" ]; } &&
-    echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
-}
 if command -v fzf > /dev/null; then
+    # From /usr/share/doc/fzf/examples/key-bindings.zsh
+    # CTRL-R - Paste the selected command from history into the command line
+    __fzfcmd() {
+        [ -n "$TMUX_PANE" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "$FZF_TMUX_OPTS" ]; } &&
+            echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
+        }
     fzf-history-widget() {
         local selected num
         setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
@@ -444,6 +458,8 @@ fi
 
 # Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
+
+# plug "zsh-users/zsh-completions"
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"
