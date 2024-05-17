@@ -138,7 +138,7 @@ nvim_build_reqs:
 nvim: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
 		else make nvim_build_reqs && echo "Installing Neovim..." &&\
-		git clone https://github.com/neovim/neovim /tmp/neovim && pushd /tmp/neovim/ &&\
+		git clone --depth=1 https://github.com/neovim/neovim /tmp/neovim && pushd /tmp/neovim/ &&\
 		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf /tmp/neovim &&\
 		make nvim_reqs && echo "Done"; fi
 
