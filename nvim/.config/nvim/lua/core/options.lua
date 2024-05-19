@@ -1,7 +1,7 @@
 local options = {
     clipboard = "unnamedplus", -- allows neovim to access the system clipboard
     colorcolumn = "80", -- vertical column to see 80 characters
-    completeopt = { "menuone", "noselect" }, -- required by nvim-cmp
+    completeopt = { "menu", "menuone", "noselect" }, -- list of options for insert mode completion (for nvim-cmp)
     conceallevel = 0, -- so that `` is visible in markdown files
     cursorline = CONFIG.ui.cursorline, -- highlight current line
     expandtab = true, -- use spaces instead of tabs
@@ -132,7 +132,7 @@ vim.o.foldlevelstart = 0 -- 0 (all folds closed), 1 (some folds closed), 99 (no 
 -- vim.opt.diffopt:append 'vertical,context:99'
 
 -- Disable search count wrap and startup messages
-vim.opt.shortmess:append({ s = true, I = true })
+vim.opt.shortmess:append({ s = true, I = true }) -- c = true
 
 -- Disable health checks for these providers.
 -- vim.g.loaded_python3_provider = 0

@@ -15,6 +15,9 @@ local t = ls.text_node
 -- local d = ls.dynamic_node
 -- local r = ls.restore_node
 
+-- NOTE: for future snippets use fmt
+-- local fmt = require("luasnip.extras.fmt").fmt
+
 return {
 	s("trig", t("loaded!")),
 

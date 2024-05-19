@@ -115,7 +115,6 @@ return {
         end,
     },
 
-    -- TODO: find out how to make plenary work
     -- run tests
     {
         "nvim-neotest/neotest",
