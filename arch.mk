@@ -294,7 +294,6 @@ quickemu: ## Install Quickemu (Virtual Machine Manager)
 
 #============================================= Study ==============================================
 anki:
-	@# ANKI_VERSION = 23.12.1
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
 	@echo "==================================================================="
 	@echo "Installing Anki..."

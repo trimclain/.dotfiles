@@ -336,8 +336,17 @@ keys = [
 # {{{ Groups and Layouts
 groups = []
 group_names = ["1", "2", "3", "4", "5", "6"]
+# Get class name: xprop WM_CLASS | awk -F, '{print $2}'
+group_matches = [
+    [],  # "1"
+    [Match(wm_class="Anki")],  # "2"
+    [],  # "3"
+    [],  # "4"
+    [],  # "5"
+    [],  # "6"
+]
 group_names2 = ["7", "8", "9"]
-group_label = ""
+# group_label = ""
 # group_labels = ["1", "2", "3", "4", "5", "6"]
 # group_labels = ["", "", "", "", "", "󰙯"]
 
@@ -349,6 +358,7 @@ for i in range(len(group_names)):
     groups.append(
         Group(
             name=group_names[i],
+            matches=group_matches[i],
             layout="monadtall",
             # , , , 
             # label=" " + group_names[i] + " ",
