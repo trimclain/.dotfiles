@@ -542,7 +542,7 @@ class Widget:
             # switch to german on right click
             "Button3": run_command("~/.local/bin/keyboard-layout --german"),
         },
-        fmt=" {}",
+        fmt="  {}",  # need extra space until Maple Mono NF fixes icon sizes
         # padding=5,
         configured_keyboards=["us", "ru"],
         # background=widget_background
@@ -571,7 +571,7 @@ class Widget:
         foreground=blue_color
     )
 
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#batteryicon
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#battery
     # SOMEDAY: update when discharging like polybar
     # https://qtile-extras.readthedocs.io/en/stable/manual/ref/widgets.html#upowerwidget
     # dep: python-dbus-next
@@ -590,6 +590,7 @@ class Widget:
         # notify_below=15, #default: None
         format="{char} {percent:2.0%}",
         update_interval=1.0,  # default: 60
+        show_short_text=False,
         # background=widget_background
         foreground=lavender_color
     )
