@@ -24,15 +24,17 @@ vimdir:
 	@echo "Done"
 
 getnf: ## Install the Nerd Font installer
-	@if [ ! -f ~/.local/bin/getnf ]; then echo -n "Installing getnf... " &&\
-		curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/install.sh | bash &&\
-		echo "Done"; fi
+	@if [ ! -f ~/.local/bin/getnf ]; then \
+		curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash; fi
 
 wallpapers:
 	@echo "Installing wallpapers..."
 	@mkdir -p ~/personal/media/
 	@git clone --depth=1 https://github.com/trimclain/wallpapers ~/personal/media/wallpapers
 	@echo "Done"
+
+maple_fonts:
+	@./bin/.local/bin/install_maple_mono.sh
 
 bluetooth:
 	@echo "Setting up bluetooth..."
@@ -361,8 +363,8 @@ install: ## Setup arch after new installation
 	@# fonts
 	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
 	$(INSTALL) terminus-font
-	$(PARUINSTALL) ttf-maple
-	@# TODO: automate nerd font install
+	@# $(PARUINSTALL) ttf-maple
+	@make maple_fonts
 	@make getnf
 	@~/.local/bin/getnf -i CascadiaCode,JetBrainsMono
 	@# shell
@@ -376,7 +378,7 @@ install: ## Setup arch after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir getnf wallpapers bluetooth brightnessctl\
+.PHONY: all help vimdir getnf wallpapers maple_fonts bluetooth brightnessctl\
 	python rust julia golang g \
 	n uninstall_n export_node_modules import_node_modules typescript tectonic \
 	paru flatpak\
