@@ -238,7 +238,12 @@ return {
                 untracked = { text = "▎" },
             },
             signcolumn = CONFIG.git.show_signcolumn, -- Toggle with `:Gitsigns toggle_signs`
-            current_line_blame = CONFIG.git.show_blame, -- Toggle with `:Gitsigns toggle_current_line_blame`
+            current_line_blame = CONFIG.git.show_line_blame, -- Toggle with `:Gitsigns toggle_current_line_blame`
+            current_line_blame_opts = {
+                delay = 500,
+            },
+            current_line_blame_formatter = "    <author>, <author_time:%R> - <summary>",
+            current_line_blame_formatter_nc = "    <author>",
             on_attach = function(buffer)
                 local gs = package.loaded.gitsigns
 
@@ -259,6 +264,9 @@ return {
                 map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
                 -- stylua: ignore start
                 map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
+                map("n", "<leader>ght", gs.toggle_current_line_blame, "Toggle Current Line Blame")
+                map("n", "<leader>ghl", gs.toggle_linehl, "Toggle Line Highlight")
+                map("n", "<leader>ghw", gs.toggle_word_diff, "Toggle Word Diff")
                 map("n", "<leader>ghd", gs.diffthis, "Diff This")
                 map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
                 -- stylua: ignore end

@@ -61,7 +61,7 @@ CONFIG = {
         builder_type = "bot", -- "bot": bottom horizontal split, "vert": right vertical split, "float": floating window
     },
     git = {
-        show_blame = false,
+        show_line_blame = true,
         show_signcolumn = true,
     },
 }
