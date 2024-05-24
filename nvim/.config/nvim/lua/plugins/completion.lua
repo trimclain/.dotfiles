@@ -123,6 +123,7 @@ return {
                     },
                     { name = "luasnip" },
                     { name = "path" },
+                    { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
                     {
                         name = "spell",
                         option = {
@@ -132,7 +133,6 @@ return {
                             end,
                         },
                     },
-                    { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
                 }),
                 -- use defaults for sorting stragegy
                 sorting = require("cmp.config.default")().sorting,
