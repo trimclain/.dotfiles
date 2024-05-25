@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Install latest Maple Mono Release/Pre-release
 # Reason: AUR gets only latest release and the guy likes Pre-releases
