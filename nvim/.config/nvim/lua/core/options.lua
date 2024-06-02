@@ -1,5 +1,5 @@
 local options = {
-    clipboard = "unnamedplus", -- allows neovim to access the system clipboard
+    clipboard = "unnamedplus", -- allow neovim to access the system clipboard
     colorcolumn = "80", -- vertical column to see 80 characters
     completeopt = { "menu", "menuone", "noselect" }, -- list of options for insert mode completion (for nvim-cmp)
     conceallevel = 0, -- so that `` is visible in markdown files
@@ -36,6 +36,7 @@ local options = {
     virtualedit = "block", -- allows cursor to move where there is no text in visual block mode
     winminwidth = 5, -- minimum window width
     wrap = false, -- display lines as one long line
+    splitkeep = "screen" -- keep the text on the same screen line when working with splits
     -- confirm = true -- confirm to save changes before exiting modified buffer
     -- splitbelow = true, -- force all horizontal splits to go below current window
     -- writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
@@ -47,10 +48,6 @@ local options = {
 
 for k, v in pairs(options) do
     vim.opt[k] = v
-end
-
-if vim.fn.has("nvim-0.9.0") == 1 then
-    vim.opt.splitkeep = "screen"
 end
 
 -----------------------------------------------------------------------------------------------------------------------

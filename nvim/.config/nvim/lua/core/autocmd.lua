@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function(event)
         unpack = unpack or table.unpack
-        local row, col = unpack(vim.api.nvim_buf_get_mark(event.buf, '"')) -- when this is available, change unpack to table.unpack
+        local row, col = unpack(vim.api.nvim_buf_get_mark(event.buf, '"'))
         if row > 0 and row <= vim.api.nvim_buf_line_count(event.buf) then
             vim.api.nvim_win_set_cursor(0, { row, col })
             vim.cmd.normal("zz")
