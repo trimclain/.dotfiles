@@ -20,15 +20,12 @@ CONFIG = {
         tabwidth = 4,
     },
     ui = {
-        -- Colorschemes (note/10):
-        -- catppuccin (9), tokyonight (9), rose-pine (9), tundra (9), astrotheme (9)
-        -- primer-dark (8.5), nightfox (8), vscode (8), gruvbox (8)
-        -- github-dark (7), onedark (7), kanagawa (7), zephyr (7)
-        -- embark(6), sonokai (6), omni (6),
-        colorscheme = "astrotheme",
+        -- astrospeed, primer-dark, vscode
+        colorscheme = "astrospeed",
         transparent_background = false,
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
+        cursorline = true,
         ghost_text = false,
     },
     git = {
@@ -41,23 +38,23 @@ CONFIG = {
 -- OPTIONS
 -- require("core.options")
 -------------------------------------------------------------------------------
-local tabwidth = CONFIG.opts.tabwidth
-
 local options = {
-    clipboard = "unnamedplus", -- allows neovim to access the system clipboard
+    clipboard = "unnamedplus", -- allow neovim to access the system clipboard
     colorcolumn = "80", -- vertical column to see 80 characters
-    completeopt = { "menu", "menuone", "noselect" }, -- required by nvim-cmp
+    completeopt = { "menu", "menuone", "noselect" }, -- list of options for insert mode completion (for nvim-cmp)
     conceallevel = 0, -- so that `` is visible in markdown files
+    cursorline = CONFIG.ui.cursorline, -- highlight current line
     expandtab = true, -- use spaces instead of tabs
     fileencoding = "utf-8", -- the encoding written to a file
-    hlsearch = true, -- highlight all matches on previous search pattern
+    hlsearch = false, -- highlight all matches on previous search pattern
     ignorecase = true, -- ignore case in search patterns
+    inccommand = "split", -- show effects of :substitute in a preview window
     mouse = "a", -- enable the mouse
     number = true, -- print line numbers
     relativenumber = true, -- set relative numbered lines
     ruler = true, -- show the line and column number of the cursor position in the bottom right
     scrolloff = 4, -- start scrolling when 4 lines away from the bottom
-    shiftwidth = tabwidth, -- the number of spaces inserted for each indentation level
+    shiftwidth = CONFIG.opts.tabwidth, -- the number of spaces inserted for each indentation level
     showcmd = true, -- show partial commands in the last line of the screen
     showmatch = true, -- show matching brackets
     showmode = false, -- dont show mode since we have a statusline
@@ -65,20 +62,22 @@ local options = {
     signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
     smartcase = true, -- except when using capital letters
     smartindent = true, -- do smart autoindenting when starting a new line
-    softtabstop = tabwidth, -- insert 4 spaces for <Tab> and <BS> keypresses
+    softtabstop = CONFIG.opts.tabwidth, -- insert 4 spaces for <Tab> and <BS> keypresses (don't set with tpope/vim-sleuth)
     spell = false, -- enable or disable spellcheck
     spelllang = { "en" }, -- languages used in spellcheck, install new from https://www.mirrorservice.org/pub/vim/runtime/spell/
     splitright = true, -- force all vertical splits to go to the right of current window
     swapfile = false, -- don't create a swapfile
-    tabstop = tabwidth, -- insert 4 spaces for \t
+    tabstop = CONFIG.opts.tabwidth, -- insert 4 spaces for a <Tab>
     termguicolors = true, -- set term gui colors (most terminals support this)
     textwidth = 80, -- maximum width of text that is being inserted, used by `gq` command
     timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
-    undofile = true, -- enable persistent undo
+    undofile = true, -- enable undo history
     undolevels = 10000, -- maximum number of changes that can be undone
     updatetime = 200, -- faster completion (4000ms default)
+    virtualedit = "block", -- allows cursor to move where there is no text in visual block mode
     winminwidth = 5, -- minimum window width
     wrap = false, -- display lines as one long line
+    splitkeep = "screen", -- keep the text on the same screen line when working with splits
     -- confirm = true -- confirm to save changes before exiting modified buffer
     -- splitbelow = true, -- force all horizontal splits to go below current window
     -- writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
@@ -86,60 +85,97 @@ local options = {
     -- pumblend = 10 -- popup blend
     -- pumheight = 10 -- maximum number of entries in a popup
     -- showtabline = 2, -- always show tabs
-    -- cursorline = true, -- highlight current line
 }
 
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
-if vim.fn.has("nvim-0.9.0") == 1 then
-    vim.opt.splitkeep = "screen"
-end
-
+-----------------------------------------------------------------------------------------------------------------------
 -- Settings for Neovide or GUI nvim
+-----------------------------------------------------------------------------------------------------------------------
 if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
-    vim.opt.guifont = "CaskaydiaCove Nerd Font Mono:h14"
-    -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
-    vim.api.nvim_create_user_command(
-        "FontSize",
-        function(cmd)
-            local current_font = vim.opt.guifont._value
-            -- no gui font set (shouldn't be the case but still checking)
-            if current_font == "" then
+    vim.opt.guifont = "CaskaydiaCove NFM:h14"
+    vim.api.nvim_create_user_command("FontSize", function(cmd)
+        local current_font = vim.o.guifont
+        -- no gui font set (shouldn't be the case but still checking)
+        if current_font == "" then
+            return
+        end
+
+        local parts = vim.split(vim.trim(cmd.args), "%s+")
+        -- more than 1 argument
+        if #parts > 1 then
+            return
+        end
+
+        local font_parts = vim.split(current_font, ":")
+        if #parts == 1 and parts[1] ~= "" then
+            -- argument not a number
+            if not tonumber(parts[1]) then
                 return
             end
-
-            local parts = vim.split(vim.trim(cmd.args), "%s+")
-            -- more than 1 argument
-            if #parts > 1 then
-                return
-            end
-
-            local font_parts = vim.split(current_font, ":")
-            if #parts == 1 and parts[1] ~= "" then
-                -- argument not a number
-                if not tonumber(parts[1]) then
-                    return
-                end
-                -- set the font size to the given one
-                vim.opt.guifont = font_parts[1] .. ":h" .. parts[1]
-            else
-                -- toggle sizes between 14 and 12
-                local new_size = font_parts[2] == "h14" and "h12" or "h14"
-                vim.opt.guifont = font_parts[1] .. ":" .. new_size
-            end
-        end,
-        { nargs = "?", desc = "Update gui font size" }
-    )
+            -- set the font size to the given one
+            vim.opt.guifont = font_parts[1] .. ":h" .. parts[1]
+        else
+            -- toggle sizes between 14 and 12
+            local new_size = font_parts[2] == "h14" and "h12" or "h14"
+            vim.opt.guifont = font_parts[1] .. new_size
+        end
+    end, { nargs = "?", desc = "Update gui font size" })
 end
 if vim.g.neovide then
-    vim.g.neovide_transparency = 1 -- 0.95
+    vim.g.neovide_transparency = 0.95
     -- vim.g.neovide_cursor_trail_legnth = 0
     -- vim.g.neovide_cursor_animation_length = 0
 end
+-----------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------
+-- UI characters
+-----------------------------------------------------------------------------------------------------------------------
+-- List mode (`:h 'list'`)
+vim.opt.list = true
+vim.opt.listchars = {
+    eol = "↲", -- "↴", "⤶", ""
+    nbsp = "␣", -- ""
+    tab = "󰌒 ", -- "▸ ", "󰌒 ", "<->"
+    trail = " ",
+    -- lead = "⋅", -- "␣", "", "_"
+}
+
+-- fillchars (`:h 'fillchars'`)
+vim.opt.fillchars = {
+    eob = " ", -- empty lines at the end of a buffer
+    -- fold = " ", -- filling 'foldtext'
+    foldopen = "", -- mark the beginning of a fold
+    foldclose = "", -- show a closed fold
+    foldsep = " ", -- open fold middle marker
+    -- msgsep = "─", -- message separator 'display'
+}
+-----------------------------------------------------------------------------------------------------------------------
+
+-- Folding.
+vim.o.foldcolumn = "1"
+vim.o.foldlevelstart = 0 -- 0 (all folds closed), 1 (some folds closed), 99 (no folds closed)
+-- vim.o.foldmethod = "expr" -- "manual", "indent", "expr", "marker", "syntax", "diff",
+-- vim.wo.foldtext = 'v:lua.vim.treesitter.foldtext()'
+-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+
+-- Diff mode settings.
+-- Setting the context to a very large number disables folding.
+-- vim.opt.diffopt:append 'vertical,context:99'
+
+-- Disable search count wrap and startup messages
+vim.opt.shortmess:append({ s = true, I = true }) -- c = true
+
+-- Disable health checks for these providers.
+-- vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
 
 -- "o" gets overwritten on startup, so I have an autocommand to fix it
 -- see https://vi.stackexchange.com/questions/9366/set-formatoptions-in-vimrc-is-being-ignored
@@ -278,8 +314,8 @@ keymap("n", "Q", "<cmd>qa<cr>", opts) -- remap Q to :qa
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
 keymap("n", "N", "Nzzzv", opts) -- and backwards
 
-keymap("n", "<C-u>", "<C-u>zz", opts) -- keep it centered when scrolling up
-keymap("n", "<C-d>", "<C-d>zz", opts) -- and down
+-- keymap("n", "<C-u>", "<C-u>zz", opts) -- keep it centered when scrolling up
+-- keymap("n", "<C-d>", "<C-d>zz", opts) -- and down
 
 keymap("n", "J", "mzJ`z", opts) -- keep it centered when joining lines
 keymap("i", ",", ",<c-g>u", opts) -- set a break point for undo after ,
@@ -295,7 +331,7 @@ keymap("v", "<S-l>", ">gv", opts) -- feels natural
 keymap("v", "y", "myy`y", opts) -- Maintain the cursor position
 keymap("v", "Y", "myy`y", opts) -- when yanking a visual selection
 keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank it
-keymap("n", "<leader>d", '"_d', add_desc("Delete to black hole"))
+-- keymap("n", "<leader>d", '"_d', add_desc("Delete to black hole"))
 keymap("i", "<C-r>", "<C-r>+", opts) -- paste from clipboard in insert mode
 keymap("c", "<C-r>", "<C-r>+", opts) -- paste from clipboard in command mode
 keymap("n", "<leader>r.", ":%s/\\<<c-r><c-w>\\>/", add_desc("Replace Word Vim Style"))
@@ -376,25 +412,12 @@ require("lazy").setup({
         end,
     },
     {
-        "AstroNvim/astrotheme",
+        "trimclain/astrospeed",
         lazy = false,
         priority = 1000,
-        cond = CONFIG.ui.colorscheme == "astrotheme",
-        opts = {
-            palette = "astrodark", -- String of the default palette to use when calling `:colorscheme astrotheme`
-            style = {
-                transparent = CONFIG.ui.transparent_background,
-                inactive = false,
-                -- border = CONFIG.ui.border ~= "none",
-                border = false,
-                title_invert = true,
-                italic_comments = CONFIG.ui.italic_comments,
-                simple_syntax_colors = true,
-            },
-        },
-        config = function(_, opts)
-            require("astrotheme").setup(opts)
-            vim.cmd.colorscheme("astrotheme")
+        cond = CONFIG.ui.colorscheme == "astrospeed",
+        config = function()
+            vim.cmd.colorscheme("astrospeed")
         end,
     },
     -- file explorer
@@ -463,6 +486,11 @@ require("lazy").setup({
                             end
                         end
                     end,
+                    -- Copy file name
+                    ["y"] = function(state)
+                        local node = state.tree:get_node()
+                        vim.fn.setreg("+", node.name)
+                    end,
                 },
             },
             default_component_configs = {
@@ -479,14 +507,13 @@ require("lazy").setup({
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
-        version = false, -- telescope did only one release, so use HEAD for now
+        branch = "0.1.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
         keys = {
             { "<C-p>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-            -- stylua: ignore
-            { "<C-f>", function() curr_buf_search() end, desc = "Fzf Buffer" },
+            { "<C-f>", curr_buf_search, desc = "Fzf Buffer" },
             { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
 
             { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
@@ -597,6 +624,7 @@ require("lazy").setup({
             pickers = {
                 find_files = {
                     previewer = false,
+                    hidden = true,
                 },
                 git_files = {
                     previewer = false,
@@ -668,16 +696,22 @@ require("lazy").setup({
             ensure_installed = {
                 "html",
                 "javascript",
+                "python",
+
                 "json",
                 "jsonc",
-                "lua",
+                "xml",
+
                 "markdown",
                 "markdown_inline",
-                "python",
                 "regex",
+
+                -- should always be installed
+                "c",
                 "vim",
                 "vimdoc",
-                "xml",
+                "lua",
+                "query", -- treesitter query
             },
             incremental_selection = {
                 enable = true,
@@ -689,8 +723,10 @@ require("lazy").setup({
                 },
             },
         },
-        ---@param opts TSConfig
         config = function(_, opts)
+            -- Prefer git instead of curl in order to improve connectivity in some environments
+            require("nvim-treesitter.install").prefer_git = true
+
             require("nvim-treesitter.configs").setup(opts)
         end,
     },
@@ -737,6 +773,13 @@ require("lazy").setup({
                     -- Show autocomplete options without typing anything
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.abort(),
+                    ["<C-y>"] = cmp.mapping(
+                        cmp.mapping.confirm({
+                            behavior = cmp.ConfirmBehavior.Insert,
+                            select = true,
+                        }),
+                        { "i", "c" }
+                    ),
                     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                     -- ["<S-CR>"] = cmp.mapping.confirm({
                     --   behavior = cmp.ConfirmBehavior.Replace,
@@ -769,13 +812,13 @@ require("lazy").setup({
                 sources = cmp.config.sources({
                     -- { name = "nvim_lsp_signature_help" },
                     -- { name = "nvim_lsp" },
-                    {
-                        name = "latex_symbols",
-                        option = {
-                            -- @usage 0 (mixed) | 1 (julia) | 2 (latex)
-                            strategy = 0,
-                        },
-                    },
+                    -- {
+                    --     name = "latex_symbols",
+                    --     option = {
+                    --         -- @usage 0 (mixed) | 1 (julia) | 2 (latex)
+                    --         strategy = 0,
+                    --     },
+                    -- },
                     { name = "luasnip" },
                     { name = "path" },
                     {
@@ -789,13 +832,16 @@ require("lazy").setup({
                     },
                     { name = "buffer", keyword_length = 1 }, -- keyword_length specifies word length to start suggestions
                 }),
+                -- use defaults for sorting stragegy
+                sorting = require("cmp.config.default")().sorting,
                 formatting = {
+                    -- fields = { "kind", "abbr", "menu" },
                     fields = { "abbr", "menu" },
                     format = function(entry, item)
                         item.menu = ({
                             -- nvim_lsp = "[LSP]",
                             -- nvim_lsp_signature_help = "[sign]",
-                            latex_symbols = "[symb]",
+                            -- latex_symbols = "[symb]",
                             luasnip = "[snip]",
                             path = "[path]",
                             spell = "[spell]",
@@ -989,10 +1035,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank({
             -- higroup = "IncSearch",
             -- higroup = "Substitute",
-            higroup = "Search",
-            timeout = 100,
+            -- higroup = "Search",
+            higroup = "Visual",
+            timeout = 75,
             on_macro = true,
             on_visual = true,
+            priority = 250,
         })
     end,
     desc = "Highlight text on yank",
@@ -1015,6 +1063,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
         local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"'))
         if row > 0 and row <= vim.api.nvim_buf_line_count(0) then
             vim.api.nvim_win_set_cursor(0, { row, col })
+            vim.cmd.normal("zz")
         end
     end,
     desc = "Return to last known cursor position",
@@ -1052,6 +1101,23 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     desc = "Set these filetypes to close with q-press and to not be in the buffers list",
     group = augroup("close_with_q"),
 })
+
+-- Hide cursorline in insert mode
+if CONFIG.ui.cursorline then
+    local cursorline_toggle = augroup("cursorline_toggle")
+    vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+        pattern = "*",
+        command = "set cursorline",
+        desc = "Enable cursorline in normal mode",
+        group = cursorline_toggle,
+    })
+    vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+        pattern = "*",
+        command = "set nocursorline",
+        desc = "Disable cursorline in insert mode",
+        group = cursorline_toggle,
+    })
+end
 
 -- set conceallevel for markdown files
 vim.api.nvim_create_autocmd("BufEnter", {
