@@ -3,7 +3,7 @@
     // - vscodevim.vim: Vim emulation for Visual Studio Code
     // - tobias-z.vscode-harpoon: A vscode clone of the vim plugin Harpoon created by The Primeagen
     // - vscode-icons-team.vscode-icons: Icons for Visual Studio Code
-    //  - Gruntfuggly.todo-tree: Show TODO, FIXME, etc. comment tags in a tree view
+    // - Gruntfuggly.todo-tree: Show TODO, FIXME, etc. comment tags in a tree view
     // - eamodio.gitlens: Supercharge Git
 
     "workbench.startupEditor": "none",
@@ -473,20 +473,6 @@
             "background": "#FBBF24",
             "iconColour": "#FBBF24"
         },
-        // "[ ]": {
-        //     "icon": "check",
-        //        "icon": "issue-draft"
-        //     "foreground": "black",
-        //     "background": "white",
-        //     "iconColour": "yellow"
-        // },
-        // "[x]": {
-        //     "icon": "check",
-        //        "icon": "issue-closed"
-        //     "foreground": "white",
-        //     "background": "green",
-        //     "iconColour": "green"
-        // }
     },
     "todo-tree.general.tags": [
         "NOTE",
@@ -494,11 +480,8 @@
         "INFO",
         "FIXME",
         "HACK",
-        // "[ ]",
-        // "[x]"
     ],
-    // Match "TODO:" but not "TODO"
-    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^[ \\t]*(-|\\d+.))\\s*($TAGS):"
+    "todo-tree.regex.regex": "($TAGS):"
 }
 
 // vim:ft=jsonc
