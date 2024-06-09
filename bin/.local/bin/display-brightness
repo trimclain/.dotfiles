@@ -37,6 +37,7 @@ main() {
 
     mode="unknown"
 
+    # TODO: maybe use this on both wayland and xorg
     if command -v brightnessctl > /dev/null; then
 
         # TODO: it's possible to get the permission error - cover it

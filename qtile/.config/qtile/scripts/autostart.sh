@@ -14,3 +14,6 @@ run_in_background nitrogen --restore
 run_in_background dunst
 # Get the correct current brightness on system startup
 #~/.config/qtile/scripts/get-brightness-on-startup.sh
+
+# Pull my repos
+run_in_background ~/.local/bin/pctl pull
