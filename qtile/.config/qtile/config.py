@@ -542,7 +542,7 @@ class Widget:
             # switch to german on right click
             "Button3": run_command("~/.local/bin/keyboard-layout --german"),
         },
-        fmt=" {}",
+        fmt=' <span text_transform="lowercase">{}</span>',
         # padding=5,
         configured_keyboards=["us", "ru"],
         # background=widget_background
