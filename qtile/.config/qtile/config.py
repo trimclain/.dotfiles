@@ -511,6 +511,7 @@ class Widget:
     volume = dict(
         # increase/decrease volume on scroll
         mouse_callbacks={
+            "Button1": run_command("~/.local/bin/volume-control --toggle-mute"),
             "Button4": run_command("~/.local/bin/volume-control --increase"),
             "Button5": run_command("~/.local/bin/volume-control --decrease"),
         },
