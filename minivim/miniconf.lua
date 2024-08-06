@@ -20,8 +20,7 @@ CONFIG = {
         tabwidth = 4,
     },
     ui = {
-        -- astrospeed, primer-dark, vscode
-        colorscheme = "astrospeed",
+        colorscheme = "astrospeed", -- astrospeed, primer-dark, vscode
         transparent_background = false,
         border = "rounded", -- see ':h nvim_open_win'
         italic_comments = true,
@@ -46,7 +45,7 @@ local options = {
     cursorline = CONFIG.ui.cursorline, -- highlight current line
     expandtab = true, -- use spaces instead of tabs
     fileencoding = "utf-8", -- the encoding written to a file
-    hlsearch = false, -- highlight all matches on previous search pattern
+    hlsearch = true, -- highlight all matches on previous search pattern
     ignorecase = true, -- ignore case in search patterns
     inccommand = "split", -- show effects of :substitute in a preview window
     mouse = "a", -- enable the mouse
@@ -97,7 +96,8 @@ end
 if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
-    vim.opt.guifont = "CaskaydiaCove NFM:h14"
+    vim.opt.guifont = "CaskaydiaCove Nerd Font Mono:h14"
+    -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
     vim.api.nvim_create_user_command("FontSize", function(cmd)
         local current_font = vim.o.guifont
         -- no gui font set (shouldn't be the case but still checking)
@@ -122,12 +122,12 @@ if vim.g.neovide or vim.fn.has("gui_running") == 1 then
         else
             -- toggle sizes between 14 and 12
             local new_size = font_parts[2] == "h14" and "h12" or "h14"
-            vim.opt.guifont = font_parts[1] .. new_size
+            vim.opt.guifont = font_parts[1] .. ":" .. new_size
         end
     end, { nargs = "?", desc = "Update gui font size" })
 end
 if vim.g.neovide then
-    vim.g.neovide_transparency = 0.95
+    vim.g.neovide_transparency = 1 -- 0.95
     -- vim.g.neovide_cursor_trail_legnth = 0
     -- vim.g.neovide_cursor_animation_length = 0
 end
@@ -203,8 +203,9 @@ vim.cmd("com! W w")
 -------------------------------------------------------------------------------
 --- Fuzzy find in current buffer
 local curr_buf_search = function()
-    local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
-    require("telescope.builtin").current_buffer_fuzzy_find(opt)
+    -- FIX: broken with any theme
+    -- local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
+    require("telescope.builtin").current_buffer_fuzzy_find({ previewer = false })
 end
 
 --- Send INFO notifications
@@ -942,6 +943,45 @@ require("lazy").setup({
                 mode = { "i", "s" },
             },
         },
+    },
+    -- git client
+    {
+        "NeogitOrg/neogit",
+        -- https://github.com/NeogitOrg/neogit/tree/68a3e90e9d1ed9e362317817851d0f34b19e426b?tab=readme-ov-file#configuration
+        commit = "68a3e90", -- pin until it's fixed
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        cmd = "Neogit",
+        keys = {
+            { "<leader>gs", "<cmd>Neogit<cr>", desc = "status" },
+        },
+        config = function()
+            local neogit = require("neogit")
+            neogit.setup({
+                disable_commit_confirmation = true, -- config relevant for pinned commit
+                disable_insert_on_commit = true, -- "auto", "true" or "false"
+                kind = "tab", -- "tab", "split", "split_above", "vsplit", "floating"
+                commit_popup = { -- config relevant for pinned commit
+                    kind = "split", -- default: "auto"
+                },
+                mappings = {
+                    status = { -- config relevant for pinned commit
+                        ["P"] = "PullPopup",
+                        ["p"] = "PushPopup",
+                    },
+                },
+            })
+
+            -- Close Neogit after `git push`
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "NeogitPushComplete",
+                group = vim.api.nvim_create_augroup("trimclain_close_neogit_after_push", { clear = true }),
+                callback = function()
+                    neogit.close()
+                end,
+            })
+        end,
     },
     -- undotree
     {
