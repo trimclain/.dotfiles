@@ -1023,6 +1023,30 @@ require("lazy").setup({
             vim.g.startuptime_tries = 10
         end,
     },
+    -- advanced note taking, project/task management
+    {
+        "nvim-neorg/neorg",
+        build = ":Neorg sync-parsers",
+        ft = "norg",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require("neorg").setup({
+                load = {
+                    ["core.defaults"] = {}, -- Loads default behaviour
+                    ["core.concealer"] = { -- Adds pretty icons to your documents
+                        config = {
+                            icon_preset = "basic", -- "basic" (default), "diamond", "varied"
+                        },
+                    },
+                },
+            })
+
+            vim.keymap.set("n", "<leader>nc", "<cmd>Neorg toggle-concealer<cr>", { desc = "Toggle Neorg Concealer" })
+        end,
+    },
 }, {
     defaults = {
         lazy = false, -- should plugins be lazy-loaded?
@@ -1161,10 +1185,19 @@ end
 
 -- set conceallevel for markdown files
 vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = "*.md",
+    pattern = { "*.md", "*.norg" },
     callback = function()
-        vim.opt_local.conceallevel = 1
+        vim.opt_local.conceallevel = 2
     end,
     desc = "Set Conceallevel for markdown",
     group = augroup("set_conceallevel_markdown"),
 })
+
+if vim.fn.has("win32") == 1 then
+    -- Restore cursor shape (needed only on Windows Terminal)
+    vim.api.nvim_create_autocmd("VimLeave", {
+        command = 'set guicursor= | call chansend(v:stderr, "\x1b[ q")',
+        desc = "Restore windows terminal cursor shape",
+        group = augroup("restore_cursor_shape"),
+    })
+end
