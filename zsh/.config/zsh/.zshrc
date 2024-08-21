@@ -293,23 +293,37 @@ if [[ -f ~/.local/bin/tmux-chtsh ]]; then
 fi
 # bindkey -s ^b "^uchange-wallpaper\n"
 
-# Use lf to switch directories and bind it to ctrl-o
+# Use lf with ueberzugpp to switch directories and bind it to ctrl-o
 if command -v lf > /dev/null; then
-    lfcd () {
+    lfubcd() {
+        # This is a wrapper for lfub wrapper implementing lfcd functionality
+        if ! command -v lf > /dev/null; then
+            echo "lf: command not found"
+            exit 1
+        fi
+
+        LFUB="$HOME/.config/lf/lfub"
+
+        if [[ ! -f "$LFUB" ]]; then
+            echo "lfub: file not found"
+            exit 1
+        fi
+
         tmp="$(mktemp)"
 
         # needed by the previewer
         [ ! -d "$HOME/.cache/lf" ] && mkdir --parents "$HOME/.cache/lf"
 
         # `command` is needed in case `lfcd` is aliased to `lf`
-        command lf -last-dir-path="$tmp" "$@"
+        $LFUB -last-dir-path="$tmp" "$@"
         if [ -f "$tmp" ]; then
             dir="$(cat "$tmp")"
             rm -f "$tmp"
             [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return 0
         fi
     }
-    bindkey -s '^o' '^ulfcd\n'
+
+    bindkey -s '^o' '^ulfubcd\n'
 fi
 
 ###############################################################################

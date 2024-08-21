@@ -21,9 +21,8 @@ set shellopts '-eu'
 # commands accordingly.
 set ifs "\n"
 
-# TODO: unknown option in my older version, works fine on arch
 # use the `dim` attribute instead of underline for the cursor in the preview pane
-# set cursorpreviewfmt "\033[7;2m"
+set cursorpreviewfmt "\033[7;2m"
 
 # leave some space at the top and the bottom of the screen
 set scrolloff 10
@@ -49,17 +48,16 @@ set cleaner ~/.config/lf/cleaner
 
 set ratios 1:2:3
 
-# define a custom 'open' command
-# This command is called when current file is not a directory. You may want to
-# use either file extensions and/or mime types here. Below uses an editor for
-# text files and a file opener for the rest.
-# cmd open ${{
-#     test -L $f && f=$(readlink -f $f)
-#     case $(file --mime-type $f -b) in
-#         text/*) $EDITOR $fx;;
-#         *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
-#     esac
-# }}
+# Custom 'open' command to use an editor for text files and
+# a file opener for the rest.
+# This command is called when current file is not a directory.
+cmd open ${{
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type $f -b) in
+        text/*) $EDITOR $fx;;
+        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
 
 # define a custom 'rename' command without prompt for overwrite
 # cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
@@ -121,6 +119,9 @@ set ratios 1:2:3
 # Bindings
 ###############################################################################
 
+# print defined keymaps with ctrl+?
+map <c-_> maps
+
 ############
 # Defaults in case I forget:
 # <Space> - toggle selection
@@ -131,6 +132,7 @@ map x delete
 # d - cut                                                       - vim
 # p - paste                                                     - vim
 # c - clear copied or cut
+map <esc> clear
 # r - rename
 # : - run builtin command                                       - vim
 # $ - run shell command
@@ -161,7 +163,3 @@ map <backspace> set hidden!
 # execute current file (must be executable)
 # map x $$f
 # map X !$f
-
-# dedicated keys for file opener actions
-# map o &mimeopen $f
-# map O $mimeopen --ask $f

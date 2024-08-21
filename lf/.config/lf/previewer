@@ -1,55 +1,22 @@
 #!/usr/bin/env bash
 
-# Sixel
-image() {
-    if [[ "$TERM" == "alacritty" ]]; then
-        echo "Alacritty doesn't support images"
-        return
-    fi
+################################################################################
+# Requirements: ueberzugpp, imagemagick
+################################################################################
 
-    file=$1
-    w=$2
-    h=$3
-    x=$4
-    y=$5
+# TODO: add $PARUINSTALL ueberzugpp to arch.mk
 
-    if [[ -n $TMUX ]]; then
-        # The only way that works in tmux
-        geometry="$(("$w"-2))x$h"
-        chafa "$file" -s "$geometry"
-    else
-        # This doesn't work at all in lf
-        # chafa "$file" -f sixel -s "$geometry"
-
-        kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$file" < /dev/null > /dev/tty
-        exit 1
-    fi
-}
-
-# Ueberzugpp
+# Preview with Ueberzugpp
 # https://github.com/jstkdng/ueberzugpp/blob/master/scripts/lf/lfub
-# image() {
-#     FILE_PATH="$1"
-#     X=$4
-#     Y=$5
-#     MW=$(($2-1))
-#     MH=$3
-#     ueberzugpp cmd -s $UB_SOCKET -a add -i PREVIEW -x $X -y $Y --max-width $MW --max-height $MH -f "$FILE_PATH"
-#     exit 1
-# }
-
-# Kitty Preview (doesn't work in tmux; works in wezterm)
-# image() {
-#     file=$1
-#     w=$2
-#     h=$3
-#     x=$4
-#     y=$5
-#     # if [[ "$( file -Lb --mime-type "$file")" =~ ^image ]]; then
-#     kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$file" < /dev/null > /dev/tty
-#     exit 1
-#     # fi
-# }
+image() {
+    FILE_PATH="$1"
+    X=$4
+    Y=$5
+    MW=$(($2 - 1))
+    MH=$3
+    ueberzugpp cmd -s "$UB_SOCKET" -a add -i PREVIEW -x "$X" -y "$Y" --max-width "$MW" --max-height "$MH" -f "$FILE_PATH"
+    exit 1
+}
 
 batorcat() {
     file="$1"
@@ -91,40 +58,42 @@ case "$(printf "%s\n" "$(readlink -f "$1")" | awk '{print tolower($0)}')" in
 
         # Works only with ueberzugpp
     *.pdf)
-        ## PREVIEW IMAGE:
+        ## PREVIEW IMAGE: requires poppler, ueberzugpp
         # [ ! -f "${CACHE}.jpg" ] && \
-            #     pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
+        #         pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
         # image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
 
         ## PRINT METADATA:
         pdfinfo "$1"
         ;;
 
+        # TODO:
         # *.avi|*.mp4|*.wmv|*.dat|*.3gp|*.ogv|*.mkv|*.mpg|*.mpeg|*.vob|*.fl[icv]|*.m2v|*.mov|*.webm|*.ts|*.mts|*.m4v|*.r[am]|*.qt|*.divx)
-        #     [ ! -f "${CACHE}.jpg" ] && \
-            #         ffmpegthumbnailer -i "$1" -o "${CACHE}.jpg" -s 0 -q 5
+        #     [ ! -f "${CACHE}.jpg" ] && ffmpegthumbnailer -i "$1" -o "${CACHE}.jpg" -s 0 -q 5
         #     image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
         #     ;;
     *.bmp|*.jpg|*.jpeg|*.png|*.xpm|*.webp|*.gif|*.jfif)
-        ## PREVIEW IMAGE:
-        # image "$1" "$2" "$3" "$4" "$5"
+        ## PREVIEW IMAGE: requires ueberzugpp
+        image "$1" "$2" "$3" "$4" "$5"
 
         ## PRINT METADATA: requires imagemagick
-        identify -format "%f %m %G %[colorspace] %b\n" "$1"
+        # identify -format "%f %m %G %[colorspace] %b\n" "$1"
         ;;
     *.svg)
-        ## PREVIEW IMAGE: requires imagemagick
-        # [ ! -f "${CACHE}.jpg" ] && \
-            #     convert "$1" "${CACHE}.jpg"
-        # image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
+        ## PREVIEW IMAGE: requires imagemagick, ueberzugpp
+        [ ! -f "${CACHE}.jpg" ] && convert "$1" "${CACHE}.jpg"
+        image "${CACHE}.jpg" "$2" "$3" "$4" "$5"
 
         ## PRINT METADATA: requires imagemagick
-        identify -format "%f %m %G %[colorspace] %b\n" "$1"
+        # identify -format "%f %m %G %[colorspace] %b\n" "$1"
         ;;
     *.ttf)
         ## PREVIEW IMAGE: requires imagemagick
         # TODO: can this be opened in the terminal?
         #display "$1"
+
+        ## PRINT METADATA: requires imagemagick
+        identify -format "%f %m %G %[colorspace] %b\n" "$1"
         ;;
     *)
         batorcat "$1"
