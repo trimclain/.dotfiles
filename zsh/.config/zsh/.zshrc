@@ -459,7 +459,8 @@ fi
 # Git aliases (from oh-my-zsh, modified)
 plug "$HOME/.config/zsh/plugins/git-aliases/git-aliases.plugin.zsh"
 
-# plug "zsh-users/zsh-completions"
+# Completion
+#plug "zsh-users/zsh-completions"
 
 # Autosuggestions
 plug "zsh-users/zsh-autosuggestions"

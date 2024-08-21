@@ -33,7 +33,7 @@ if command -v flatpak > /dev/null; then
 fi
 
 # zap
-# This doesn't work, since I zap.zsh needs to be sourced first for zap command
+# This doesn't work, since zap.zsh needs to be sourced first for zap command
 # to exist
 # if [[ -f ~/.local/share/zap/zap.zsh ]] > /dev/null; then
 #     zap update all
