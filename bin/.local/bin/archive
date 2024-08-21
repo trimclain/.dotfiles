@@ -1,29 +1,25 @@
 #!/usr/bin/env bash
 
+###############################################################################
 # Create a zip archive
+###############################################################################
+
 if [[ -f $1 ]]; then
     filename=$(basename -- "$1")
     # extension="${filename##*.}"
-    # TODO: rewrite so it's pretty
-    filename="${filename%.*}"
-    if command -v 7z &> /dev/null; then
-        7z a -tzip "$filename.zip" "$1"
-    elif command -v zip &> /dev/null; then
-        zip -r "$filename.zip" "$1"
-    else
-        echo "Error: zip command not found"
-        exit 1
-    fi
+    name="${filename%.*}"
 elif [[ -d $1 ]]; then
-    if command -v 7z &> /dev/null; then
-        7z a -tzip "$1.zip" "$1"
-    elif command -v zip &> /dev/null; then
-        zip -r "$1.zip" "$1"
-    else
-        echo "Error: zip command not found"
-        exit 1
-    fi
+    name="$1"
 else
     echo "Error: Need a file/folder to archive";
+    exit 1
+fi
+
+if command -v 7z &> /dev/null; then
+    7z a -tzip "$name.zip" "$1"
+elif command -v zip &> /dev/null; then
+    zip -r "$name.zip" "$1"
+else
+    echo "Error: zip command not found"
     exit 1
 fi
