@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+###############################################################################
+# Extract an archive
+#   Usage: extract archive [directory]
+###############################################################################
+
 # Extract Stuff from TJ
 # extract() {
 #      if [ -f $1 ] ; then
@@ -22,60 +27,64 @@
 #      fi
 # }
 
+
+# TODO: add options
+# -k to keep the archive after extraction
+# -f to skip zipinfo part for too large archives
+
 if [[ -z $1 ]]; then
     echo "Error: Need an archive to extract"
     exit 1
 elif [[ ! -f $1 ]]; then
     echo "Error: $1 not found"
     exit 1
+elif ! file "$1" | grep -q "archive"; then
+    echo "Error: $1 is not an archive"
+    exit 1
 fi
 
-# TODO: rewrite so it's pretty
-filename=$(basename -- "$1")
-extension="${filename##*.}"
-# if I want a custom folder name to extract into
+NAME=$(basename -- "$1")
+EXT="${NAME##*.}"
+
 if [[ -n $2 ]]; then
-    filename=$2
-    needfolder=true
+    # use custom directory name
+    NAME=$2
+    NEED_NEW_DIR=true
 else
-    filename="${filename%.*}"
+    NAME="${NAME%.*}"
 fi
-if [[ $extension == "zip" ]]; then
-    # TODO: yeeeeah.... nice code btw
+
+if [[ $EXT == "zip" ]]; then
     if ! command -v unzip &> /dev/null; then
         echo "Error: unzip not found"
         exit 1
     fi
     if [[ -z $2 ]]; then
-        # if there's 1 folder containing every other file in an archive
-        # don't create new folder
-        array=($(zipinfo "$1" \* | awk '{print $NF}'))
-        first="${array[0]}"
-        # tmp=$(mktemp)
-        # zipinfo $1 \* > $tmp
-        # array=($(awk 'ORS=" "{print $NF}' $tmp))
-        # rm -f $tmp
-        # echo "Array is ${array[*]}"
-        first="${array[0]}"
-        # echo "First is $first"
-        needfolder=false
-        for element in "${array[@]}";
-        do
-            # echo "Element is $element"
-            if [[ "$element" != "$first"* ]]; then
-                # echo "$element does not start with $first"
-                needfolder=true
-                break
-            fi
-        done
+        # don't create a new directory if there's one directory containing
+        # every other file in the archive
+        ZIP_ITEMS=()
+        while IFS= read -r line; do
+            ZIP_ITEMS+=("$line")
+        done < <(zipinfo "$1" \* 2>/dev/null | awk '{print $NF}')
+
+        # check if zipinfo failed or there were no files
+        if [[ ${#ZIP_ITEMS[@]} -ne 0 ]]; then
+            for element in "${ZIP_ITEMS[@]}"; do
+                if [[ "$element" != "${ZIP_ITEMS[0]}"* ]]; then
+                    # $element does not start with first item name
+                    NEED_NEW_DIR="true"
+                    break
+                fi
+            done
+        fi
+
     fi
-    if $needfolder; then
-        # echo "NEED FOLDER"
-        echo -n "Extracting files from $1 into $filename... "
-        unzip "$1" -d "$filename" > /dev/null
+
+    if [[ "$NEED_NEW_DIR" == "true" ]]; then
+        echo -n "Extracting files from $1 into $NAME... "
+        unzip "$1" -d "$NAME" > /dev/null
         echo "Done"
     else
-        # echo "DONT NEED FOLDER"
         echo -n "Extracting files from $1... "
         unzip "$1" > /dev/null
         echo "Done"
@@ -84,8 +93,8 @@ if [[ $extension == "zip" ]]; then
 else
     # let 7zip handle every other archive format
     if command -v 7z &> /dev/null; then
-        echo -n "Extracting files from $1 into $filename... "
-        7z x "$1" -o"$filename" > /dev/null
+        echo -n "Extracting files from $1 into $NAME... "
+        7z x "$1" -o"$NAME" > /dev/null
         rm "$1"
         echo "Done"
     else
