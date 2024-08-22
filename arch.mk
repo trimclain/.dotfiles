@@ -117,6 +117,19 @@ flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then echo "[flatpak]: Already installed";\
 		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
 
+docker: ## Install docker
+	@echo "==================================================================="
+	@if command -v docker > /dev/null; then echo "[docker]: Already installed";\
+		else echo "Installing Docker..." && $(INSTALL) docker &&\
+		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
+		echo "Done. Log out and in to use docker without sudo"; fi
+
+# Install act from AUR to run github actions locally
+
+lf: ## Install lf (file manager)
+	$(PARUINSTALL) ueberzugpp
+	$(INSTALL) lf
+
 #============================================= Neovim =============================================
 # or install neovim-nightly-bin with paru
 nvim_reqs:
@@ -158,15 +171,6 @@ purge_nvim: uninstall_nvim clean_nvim
 
 neovide:
 	$(INSTALL) neovide
-
-docker: ## Install docker
-	@echo "==================================================================="
-	@if command -v docker > /dev/null; then echo "[docker]: Already installed";\
-		else echo "Installing Docker..." && $(INSTALL) docker &&\
-		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
-		echo "Done. Log out and in to use docker without sudo"; fi
-
-# Install act from AUR to run github actions locally
 
 #============================================== Zsh ===============================================
 zoxide:
@@ -330,11 +334,11 @@ uninstall_pomo:
 
 #==================================================================================================
 
-apps: ## Install btop, okular, lf, chafa, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
+apps: ## Install btop, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
 	@echo "==================================================================="
 	@echo Installing apps...
 	@echo "==================================================================="
-	$(INSTALL) btop okular lf chafa pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
+	$(INSTALL) btop okular pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
 	@make thorium
 	@make telegram
 
