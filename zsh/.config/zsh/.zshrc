@@ -302,22 +302,22 @@ if command -v lf > /dev/null; then
             exit 1
         fi
 
-        LFUB="$HOME/.config/lf/lfub"
+        local lfub="$HOME/.config/lf/lfub"
 
-        if [[ ! -f "$LFUB" ]]; then
+        if [[ ! -f "$lfub" ]]; then
             echo "lfub: file not found"
             exit 1
         fi
 
-        tmp="$(mktemp)"
+        local tmp="$(mktemp)"
 
         # needed by the previewer
         [ ! -d "$HOME/.cache/lf" ] && mkdir --parents "$HOME/.cache/lf"
 
         # `command` is needed in case `lfcd` is aliased to `lf`
-        $LFUB -last-dir-path="$tmp" "$@"
+        $lfub -last-dir-path="$tmp" "$@"
         if [ -f "$tmp" ]; then
-            dir="$(cat "$tmp")"
+            local dir="$(cat "$tmp")"
             rm -f "$tmp"
             [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return 0
         fi
