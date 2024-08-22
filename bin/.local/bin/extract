@@ -5,80 +5,47 @@
 #   Usage: extract archive [directory]
 ###############################################################################
 
-# Extract Stuff from TJ
-# extract() {
-#      if [ -f $1 ] ; then
-#          case $1 in
-#              *.tar.bz2)   tar xjf $1        ;;
-#              *.tar.gz)    tar xzf $1        ;;
-#              *.bz2)       bunzip2 $1        ;;
-#              *.rar)       7z x $1           ;;
-#              *.gz)        gunzip $1         ;;
-#              *.tar)       tar xf $1         ;;
-#              *.tbz2)      tar xjf $1        ;;
-#              *.tgz)       tar xzf $1        ;;
-#              *.zip)       unzip $1          ;;
-#              *.Z)         uncompress $1     ;;
-#              *.7z)        7z x $1           ;;
-#              *)           echo "'$1' cannot be extracted via extract()" ;;
-#          esac
-#      else
-#          echo "'$1' is not a valid file"
-#      fi
-# }
-
-
 # TODO: add options
 # -k to keep the archive after extraction
 # -f to skip zipinfo part for too large archives
 
-if [[ -z $1 ]]; then
-    echo "Error: Need an archive to extract"
-    exit 1
-elif [[ ! -f $1 ]]; then
-    echo "Error: $1 not found"
-    exit 1
-elif ! file "$1" | grep -q "archive"; then
-    echo "Error: $1 is not an archive"
-    exit 1
-fi
-
-NAME=$(basename -- "$1")
-EXT="${NAME##*.}"
-
-if [[ -n $2 ]]; then
-    # use custom directory name
-    NAME=$2
-    NEED_NEW_DIR=true
-else
-    NAME="${NAME%.*}"
-fi
-
-if [[ $EXT == "zip" ]]; then
+extract_zip() {
     if ! command -v unzip &> /dev/null; then
         echo "Error: unzip not found"
         exit 1
     fi
-    if [[ -z $2 ]]; then
-        # don't create a new directory if there's one directory containing
-        # every other file in the archive
-        ZIP_ITEMS=()
-        while IFS= read -r line; do
-            ZIP_ITEMS+=("$line")
-        done < <(zipinfo "$1" \* 2>/dev/null | awk '{print $NF}')
 
-        # check if zipinfo failed or there were no files
-        if [[ ${#ZIP_ITEMS[@]} -ne 0 ]]; then
-            for element in "${ZIP_ITEMS[@]}"; do
-                if [[ "$element" != "${ZIP_ITEMS[0]}"* ]]; then
-                    # $element does not start with first item name
-                    NEED_NEW_DIR="true"
-                    break
-                fi
-            done
-        fi
+    NAME=$(basename -- "$1")
+    # TODO: implement
+    # if [[ -n $2 ]]; then
+    #     # use custom directory name
+    #     NAME=$2
+    #     NEED_NEW_DIR=true
+    # else
+    NAME="${NAME%.*}"
+    # fi
 
+    # if [[ -z $2 ]]; then
+
+    # don't create a new directory if there's one directory containing
+    # every other file in the archive
+    ZIP_ITEMS=()
+    while IFS= read -r line; do
+        ZIP_ITEMS+=("$line")
+    done < <(zipinfo "$1" \* 2>/dev/null | awk '{print $NF}')
+
+    # check if zipinfo failed or there were no files
+    if [[ ${#ZIP_ITEMS[@]} -ne 0 ]]; then
+        for element in "${ZIP_ITEMS[@]}"; do
+            if [[ "$element" != "${ZIP_ITEMS[0]}"* ]]; then
+                # $element does not start with first item name
+                NEED_NEW_DIR="true"
+                break
+            fi
+        done
     fi
+
+    # fi
 
     if [[ "$NEED_NEW_DIR" == "true" ]]; then
         echo -n "Extracting files from $1 into $NAME... "
@@ -89,16 +56,51 @@ if [[ $EXT == "zip" ]]; then
         unzip "$1" > /dev/null
         echo "Done"
     fi
-    rm "$1"
-else
-    # let 7zip handle every other archive format
-    if command -v 7z &> /dev/null; then
-        echo -n "Extracting files from $1 into $NAME... "
-        7z x "$1" -o"$NAME" > /dev/null
-        rm "$1"
-        echo "Done"
-    else
+
+    # TODO:
+    # rm "$1"
+}
+
+extract_with_7z() {
+    NAME=$(basename -- "$1")
+    NAME="${NAME%.*}"
+
+    # let 7zip handle .rar and .7z files
+    if ! command -v 7z &> /dev/null; then
         echo "Error: 7z not found"
         exit 1
     fi
-fi
+
+    echo -n "Extracting files from $1 into $NAME... "
+    7z x "$1" -o"$NAME" > /dev/null
+    # rm "$1"
+    echo "Done"
+}
+
+main() {
+    if [[ -z $1 ]]; then
+        echo "Error: Need an archive to extract"
+        exit 1
+    elif [[ ! -f $1 ]]; then
+        echo "Error: $1 not found"
+        exit 1
+    fi
+
+    # extract using file extension
+    case $1 in
+        *.tar.bz2)   tar xjf "$1"           ;;
+        *.tar.gz)    tar xzf "$1"           ;;
+        *.bz2)       bunzip2 "$1"           ;;
+        *.rar)       extract_with_7z "$1"   ;;
+        *.gz)        gunzip "$1"            ;;
+        *.tar)       tar xf "$1"            ;;
+        *.tbz2)      tar xjf "$1"           ;;
+        *.tgz)       tar xzf "$1"           ;;
+        *.zip)       extract_zip "$1"       ;;
+        *.Z)         uncompress "$1"        ;;
+        *.7z)        extract_with_7z "$1"   ;;
+        *)           echo "Error: '$1' cannot be extracted with this program" && exit 1 ;;
+    esac
+}
+
+main "$@"
