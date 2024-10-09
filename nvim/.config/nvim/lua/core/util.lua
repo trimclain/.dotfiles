@@ -12,8 +12,7 @@ end
 ---@vararg string
 ---@return string
 function M.join(...)
-    local uv = vim.loop
-    local path_sep = uv.os_uname().version:match("Windows") and "\\" or "/"
+    local path_sep = vim.uv.os_uname().version:match("Windows") and "\\" or "/"
     return table.concat({ ... }, path_sep)
 end
 
@@ -66,7 +65,7 @@ end
 M.in_git_worktree = function()
     return require("telescope.utils").get_os_command_output(
         { "git", "rev-parse", "--is-inside-work-tree" },
-        vim.loop.cwd()
+        vim.uv.cwd()
     )[1] == "true"
 end
 

@@ -223,7 +223,7 @@ return {
                         return ""
                     end
 
-                    -- TODO: notify when it's a new status
+                    -- notify when it's a new status
                     local status_known = status == "Normal" or status == "InProgress" or status == "Warning"
                     if status ~= "" and not status_known then
                         vim.notify("WOOOW! Unknown status: " .. status, vim.log.levels.INFO, { title = "Copilot News" })
