@@ -26,56 +26,53 @@ return {
             --     -- ["<cr>"] = "RET",
             --     -- ["<tab>"] = "TAB",
             -- },
-            window = {
+            win = {
                 border = CONFIG.ui.border,
             },
             layout = {
                 align = "center", -- align columns left, center or right
             },
             show_help = false, -- show help message on the command line when the popup is visible
+            spec = {
+                {
+                    mode = { "n" },
+                    { "g", group = "goto" },
+                    -- {"gz", group = "surround" },
+                    { "]", group = "next" },
+                    { "[", group = "prev" },
+                    -- {"<leader><tab>", group = "tabs" },
+                    -- {"<leader>b", group = "buffer" },
+                    { "<leader>d", group = "document" },
+                    { "<leader>f", group = "find" },
+                    { "<leader>g", group = "git" },
+                    { "<leader>gh", group = "hunks" }, -- FIX:
+                    { "<leader>l", group = "lsp" },
+                    { "<leader>m", group = "make" },
+                    { "<leader>n", group = "neorg/neotest" },
+                    { "<leader>o", group = "options" },
+                    { "<leader>p", group = "plugins" },
+                    { "<leader>r", group = "replace/refactor" },
+                    { "<leader>s", group = "splitjoin" },
+                    { "<leader>t", group = "tab/terminal" },
+                    -- {"<leader>h", group = "tbd" },
+                    -- {"<leader>j", group = "tbd" },
+                    -- {"<leader>k", group = "tbd" },
+                    -- {"<leader>v", group = "tbd" },
+                    -- {"<leader>x", group = "tbd" },
+                    -- {"<leader>c", group = "tbd" },
+                },
+                {
+                    mode = { "v" },
+                    { "<leader>g", group = "+git" },
+                    { "<leader>gh", group = "+hunks" }, -- FIX:
+                    { "<leader>l", group = "+lsp" },
+                    { "<leader>r", group = "+refactor" },
+                },
+            },
         },
         config = function(_, opts)
             local wk = require("which-key")
             wk.setup(opts)
-            local nkeymaps = {
-                mode = { "n" },
-                ["g"] = { name = "+goto" },
-                -- ["gz"] = { name = "+surround" },
-                ["]"] = { name = "+next" },
-                ["["] = { name = "+prev" },
-                -- ["<leader><tab>"] = { name = "+tabs" },
-                -- ["<leader>b"] = { name = "+buffer" },
-                ["<leader>d"] = { name = "+document" },
-                ["<leader>f"] = { name = "+find" },
-                ["<leader>g"] = { name = "+git" },
-                ["<leader>gh"] = { name = "+hunks" }, -- FIX:
-                ["<leader>l"] = { name = "+lsp" },
-                ["<leader>m"] = { name = "+make" },
-                ["<leader>n"] = { name = "+neorg/neotest" },
-                ["<leader>o"] = { name = "+options" },
-                ["<leader>p"] = { name = "+plugins" },
-                ["<leader>r"] = { name = "+replace/refactor" },
-                ["<leader>s"] = { name = "+splitjoin" },
-                ["<leader>t"] = { name = "+tab/terminal" },
-                -- ["<leader>h"] = { name = "+tbd" },
-                -- ["<leader>j"] = { name = "+tbd" },
-                -- ["<leader>k"] = { name = "+tbd" },
-                -- ["<leader>v"] = { name = "+tbd" },
-                -- ["<leader>x"] = { name = "+tbd" },
-                -- ["<leader>c"] = { name = "+tbd" },
-            }
-            -- if Util.has_plugin("noice.nvim") then
-            --   nkeymaps["<leader>sn"] = { name = "+noice" }
-            -- end
-            local vkeymaps = {
-                mode = { "v" },
-                ["<leader>g"] = { name = "+git" },
-                ["<leader>gh"] = { name = "+hunks" }, -- FIX:
-                ["<leader>l"] = { name = "+lsp" },
-                ["<leader>r"] = { name = "+refactor" },
-            }
-            wk.register(nkeymaps)
-            wk.register(vkeymaps)
         end,
     },
 

@@ -375,7 +375,7 @@ keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using 
 -------------------------------------------------------------------------------
 -- Install lazy.nvim if needed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then -- TODO: REMOVE vim.loop after Neovim v0.10 comes out
+if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
         "clone",

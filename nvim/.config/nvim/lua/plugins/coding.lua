@@ -14,14 +14,12 @@ return {
     --     dependencies = { "nvim-treesitter/nvim-treesitter" },
     -- },
 
-    -- TODO: remove in nvim 0.10?
     -- comments
     {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
         dependencies = {
             {
-                -- TODO: remove in nvim 0.10?
                 "JoosepAlviste/nvim-ts-context-commentstring",
                 config = function()
                     vim.g.skip_ts_context_commentstring_module = true

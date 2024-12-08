@@ -198,7 +198,7 @@ return {
                 cssls = {},
                 emmet_ls = {},
                 -- tailwindcss = {},
-                tsserver = {}, -- Extended: https://github.com/pmizio/typescript-tools.nvim
+                ts_ls = {}, -- Extended: https://github.com/pmizio/typescript-tools.nvim
                 volar = {}, -- vue-language-server
                 graphql = {},
                 jsonls = {},
