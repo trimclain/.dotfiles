@@ -17,6 +17,7 @@
 # Docs: https://alacritty.org/config-alacritty.html
 
 # More Colorschemes: https://github.com/alacritty/alacritty-theme
+[general]
 import = [
     # "~/.config/alacritty/themes/machiatto.toml",
     # "~/.config/alacritty/themes/lighthouse.toml",
