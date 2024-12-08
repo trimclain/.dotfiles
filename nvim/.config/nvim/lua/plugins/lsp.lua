@@ -18,7 +18,6 @@ return {
                     require("inc_rename").setup(opts)
                 end,
             },
-            { "folke/neodev.nvim", opts = {} }, -- enable type checking to develop neovim
         },
         config = function()
             vim.api.nvim_create_autocmd("LspAttach", {

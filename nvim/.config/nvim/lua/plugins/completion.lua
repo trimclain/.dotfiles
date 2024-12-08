@@ -112,6 +112,7 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
+                    { name = "lazydev", group_index = 0 }, -- enable type checking to develop neovim (neodev 2.0)
                     { name = "nvim_lsp_signature_help" },
                     { name = "nvim_lsp" },
                     {
@@ -196,6 +197,22 @@ return {
                 }),
             })
         end,
+    },
+
+    -- enable type checking to develop neovim
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        cmd = "LazyDev",
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                -- Only load the lazyvim library when the `LazyVim` global is found
+                { path = "LazyVim", words = { "LazyVim" } },
+                { path = "snacks.nvim", words = { "Snacks" } },
+                { path = "lazy.nvim", words = { "LazyVim" } },
+            },
+        },
     },
 
     -- github copilot
