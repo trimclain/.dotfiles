@@ -405,6 +405,18 @@ return {
         end,
     },
 
+    -- cursor animation like in neovide
+    {
+        "sphamba/smear-cursor.nvim",
+        event = "VeryLazy",
+        enabled = vim.fn.has("nvim-0.10.2") == 1,
+        cond = CONFIG.ui.smear_cursor and vim.g.neovide == nil,
+        opts = {
+            hide_target_hack = true,
+            -- cursor_color = "none",
+        },
+    },
+
     -- easier jumps with f,F,t,T
     {
         "folke/flash.nvim",
