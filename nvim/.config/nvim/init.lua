@@ -48,7 +48,7 @@ CONFIG = {
         inlay_hints = false,
 
         -- plugins
-        neoscroll = false,
+        neoscroll = true,
         smear_cursor = true,
         bufferline = false, -- to force myself to use harpoon more
         dashboard = type == "default",
