@@ -8,7 +8,7 @@ default_keybindings = false
 # Turn nerdfont glyphs on/off (default: false)
 use_nerdfont = false
 # Enable desktop notifications (default: false)
-notify = true
+notify = false
 # Enable gapless playback (default: true)
 gapless = true
 # Reverse play/pause icon meaning (default: false)
