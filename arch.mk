@@ -199,6 +199,7 @@ awesome:
 qtile:
 	@echo "==================================================================="
 	@# Install qtile, python-psutil (for cpu widget and more)
+	@# TODO: install xorg-xwininfo for `record` script
 	$(INSTALL) qtile python-psutil dmenu rofi slock dunst picom feh nitrogen
 	@make brightnessctl
 
