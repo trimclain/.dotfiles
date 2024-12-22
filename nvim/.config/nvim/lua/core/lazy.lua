@@ -1,4 +1,5 @@
 -- Install lazy.nvim if needed
+-- TODO: does this actually work on Windows?
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
     -- install lazy.nvim

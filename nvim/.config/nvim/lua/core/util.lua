@@ -12,6 +12,7 @@ end
 ---@vararg string
 ---@return string
 function M.join(...)
+    -- TODO: replace with vim.fs.joinpath if it's windows compatible
     local path_sep = vim.uv.os_uname().version:match("Windows") and "\\" or "/"
     return table.concat({ ... }, path_sep)
 end

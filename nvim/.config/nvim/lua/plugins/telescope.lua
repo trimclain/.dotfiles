@@ -55,6 +55,17 @@ return {
                 desc = "Dotfiles",
             },
 
+            -- find my projects
+            { "<leader>fp", Util.open_project, desc = "Open [P]roject" },
+
+            -- edit packages
+            {
+                "<leader>pe",
+                ---@diagnostic disable-next-line: param-type-mismatch
+                Util.telescope("find_files", { cwd = Util.join(vim.fn.stdpath("data"), "lazy") }),
+                desc = "Edit Plugins",
+            },
+
             { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
             { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
             { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
@@ -66,9 +77,7 @@ return {
             { "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Resume Last Search" },
             { "<leader>fR", "<cmd>Telescope registers<cr>", desc = "Registers" },
             { "<leader>fa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-
-            -- stylua: ignore
-            { "<leader>fc", Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
+            { "<leader>fc", Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme w/ preview" },
 
             -- git
             { "<leader>gb", "<cmd>Telescope git_branches<cr>", desc = "branches" },

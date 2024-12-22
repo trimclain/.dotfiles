@@ -25,6 +25,7 @@ return {
                     -- Load local snippets if present
                     -- vim.fn.getcwd() .. "/.snippets",
                     -- Global snippets
+                    -- TODO: does this actually work on Windows?
                     vim.fn.stdpath("config") .. "/snippets",
                 },
             })
