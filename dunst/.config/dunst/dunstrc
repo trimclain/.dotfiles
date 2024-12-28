@@ -4,7 +4,7 @@
 [global]
     follow = mouse                      # default: none
     width = (0, 400)                    # default: 300
-    height = 300                        # default: 300
+    height = (0, 300)                   # default:  (0, 300)
     offset = 10x40                      # default: 10x50
     notification_limit = 0              # default: 20
     padding = 10                        # default: 8
