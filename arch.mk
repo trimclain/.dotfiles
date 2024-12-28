@@ -6,7 +6,7 @@ all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@echo "Installing some basic tools..."
-	$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat p7zip unzip tldr jq rsync
+	$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat 7zip unzip tldr jq rsync
 	# For paccache to clean pacman cache
 	$(INSTALL) pacman-contrib
 	@# For netstat, ifconfig and more
