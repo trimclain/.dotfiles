@@ -1,4 +1,5 @@
 local Util = require("core.util")
+local Icons = require("core.icons")
 
 return {
 
@@ -98,8 +99,6 @@ return {
         event = "VeryLazy",
         cond = CONFIG.ui.lualine,
         opts = function()
-            local icons = require("core.icons")
-
             -----------------------------------------------------------------------------------------------------------
             -- Conditions to disable sections
             -----------------------------------------------------------------------------------------------------------
@@ -199,7 +198,7 @@ return {
             local formatters = {
                 function()
                     local formatters = formatters_list()
-                    local icon = icons.ui.Paragraph
+                    local icon = Icons.ui.Paragraph
                     local label = icon .. "Style:"
                     if formatters == "" then
                         -- return icon .. "∅"
@@ -229,7 +228,7 @@ return {
                         vim.notify("WOOOW! Unknown status: " .. status, vim.log.levels.INFO, { title = "Copilot News" })
                     end
 
-                    return icons.kinds.Copilot -- .. (status or "")
+                    return Icons.kinds.Copilot -- .. (status or "")
                 end,
                 cond = function()
                     local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
@@ -283,7 +282,7 @@ return {
                 }
 
                 local m = vim.api.nvim_get_mode().mode
-                return icons.misc.Vim .. modes[m]
+                return Icons.misc.Vim .. modes[m]
                 -- return "󰀘"
             end
 
@@ -292,7 +291,7 @@ return {
             -- Show the size of tabs
             local spaces = {
                 function()
-                    return icons.ui.Tab .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
+                    return Icons.ui.Tab .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
                 end,
                 cond = hide_in_width,
             }
@@ -301,7 +300,7 @@ return {
             local autoformat = function()
                 if CONFIG.lsp.format_on_save then
                     -- ""
-                    return icons.ui.DoubleCheck
+                    return Icons.ui.DoubleCheck
                 end
                 -- "", ""
                 return ""
@@ -345,9 +344,9 @@ return {
                             "diff",
                             -- colored = CONFIG.ui.colorscheme ~= "primer-dark",
                             symbols = {
-                                added = icons.git.Add,
-                                modified = icons.git.Mod,
-                                removed = icons.git.Remove,
+                                added = Icons.git.Add,
+                                modified = Icons.git.Mod,
+                                removed = Icons.git.Remove,
                             },
                             cond = hide_in_width,
                         },
@@ -356,10 +355,10 @@ return {
                             -- colored = CONFIG.ui.colorscheme ~= "primer-dark",
                             sections = { "error", "warn" },
                             symbols = {
-                                error = icons.diagnostics.Error,
-                                warn = icons.diagnostics.Warn,
-                                info = icons.diagnostics.Info,
-                                hint = icons.diagnostics.Hint,
+                                error = Icons.diagnostics.Error,
+                                warn = Icons.diagnostics.Warn,
+                                info = Icons.diagnostics.Info,
+                                hint = Icons.diagnostics.Hint,
                             },
                             cond = hide_in_width,
                         },
@@ -379,10 +378,10 @@ return {
                             -- spaces to leave in the window for other components
                             shorting_target = math.floor(vim.go.columns * 0.8), -- (default: 40)
                             symbols = {
-                                modified = icons.ui.Circle, -- default: "[+]"
-                                readonly = icons.ui.Lock, -- default: "[-]"
+                                modified = Icons.ui.Circle, -- default: "[+]"
+                                readonly = Icons.ui.Lock, -- default: "[-]"
                                 unnamed = "", -- default: "[No Name]"
-                                newfile = icons.ui.NewFile, -- default: "[New]"
+                                newfile = Icons.ui.NewFile, -- default: "[New]"
                             },
                             cond = hide_in_width_100,
                         },
@@ -462,9 +461,9 @@ return {
         cond = CONFIG.ui.indentline,
         opts = {
             indent = {
-                char = require("core.icons").ui.LineLeft,
+                char = Icons.ui.LineLeft,
                 -- char = "│",
-                tab_char = require("core.icons").ui.LineLeft,
+                tab_char = Icons.ui.LineLeft,
                 -- tab_char = "│",
             },
             scope = { enabled = false },
@@ -492,7 +491,7 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         cond = CONFIG.ui.indentline,
         opts = {
-            symbol = require("core.icons").ui.LineLeft,
+            symbol = Icons.ui.LineLeft,
             -- symbol = "│",
             options = { try_as_border = true },
         },
@@ -588,15 +587,15 @@ return {
                     header = logo,
                     -- stylua: ignore
                     center = {
-                        { action = Util.telescope("files"),                    desc = " Find file",       icon = " ", key = "f" }, -- " "
-                        -- { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
-                        { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
-                        { action = "Telescope live_grep",                                      desc = " Find string",     icon = " ", key = "s" },
-                        { action = "TodoTelescope keywords=TODO,FIX",                          desc = " Find todos",      icon = "󰄵 ", key = "t" },
-                        -- { action = ":e $MYVIMRC | cd " .. vim.fn.stdpath("config"),            desc = " Config",          icon = " ", key = "c" },
-                        { action = Util.config_files,                          desc = " Config",          icon = " ", key = "c" },
-                        { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
-                        { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
+                        -- TODO: use icons no?
+                        { action = Util.telescope("files"),                                    desc = " Find file",       icon = Icons.ui.Search, key = "f" },
+                        -- { action = "ene | startinsert",                                        desc = " New file",        icon = Icons.ui.File, key = "n" },
+                        { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = Icons.ui.Files, key = "r" },
+                        { action = "Telescope live_grep",                                      desc = " Find string",     icon = Icons.ui.List, key = "s" },
+                        { action = "TodoTelescope keywords=TODO,FIX",                          desc = " Find todos",      icon = Icons.ui.BoxChecked, key = "t" },
+                        { action = Util.config_files,                                          desc = " Config",          icon = Icons.ui.Gear, key = "c" },
+                        { action = "Lazy",                                                     desc = " Lazy",            icon = Icons.ui.Lazy, key = "l" },
+                        { action = "qa",                                                       desc = " Quit",            icon = Icons.ui.SignOut, key = "q" },
                     },
                     footer = function()
                         local stats = require("lazy").stats()
@@ -629,7 +628,7 @@ return {
                 table.insert(
                     opts.config.center,
                     2,
-                    { action = Util.open_project, desc = " Open project", icon = " ", key = "p" }
+                    { action = Util.open_project, desc = " Open project", icon = Icons.ui.GitFolder, key = "p" }
                 )
             end
 
@@ -658,7 +657,7 @@ return {
     {
         "j-hui/fidget.nvim",
         event = "LspAttach",
-        tag = "legacy",
+        tag = "legacy", -- TODO: update to later tag
         cond = CONFIG.ui.spinner,
         opts = {
             text = {

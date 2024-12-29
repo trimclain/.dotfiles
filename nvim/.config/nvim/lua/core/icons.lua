@@ -21,13 +21,13 @@ return {
         Debug = "",
         Trace = "✎",
     },
-    git = { -- referenced
+    git = {
         -- Add = " ",
-        Add = " ",
+        Add = " ", -- referenced
         -- Mod = " ",
-        Mod = " ",
+        Mod = " ", -- referenced
         -- Remove = " ",
-        Remove = " ",
+        Remove = " ", -- referenced
         Ignore = " ",
         Rename = " ",
         -- Diff = "",
@@ -53,7 +53,7 @@ return {
         -- Constructor = " ",
         -- Constructor = " ",
         Constructor = " ",
-        Copilot = " ",
+        Copilot = " ",
         -- Enum = " ",
         Enum = " ",
         -- EnumMember = " ",
@@ -113,16 +113,7 @@ return {
         Object = " ",
         String = " ",
     },
-    documents = {
-        -- File = "",
-        -- Files = "",
-        -- Folder = "",
-        -- OpenFolder = "",
-        File = " ",
-        Files = " ",
-        Folder = " ",
-        OpenFolder = " ",
-    },
+    -- TODO: fix duplicates
     ui = {
         ArrowCircleDown = "",
         ArrowCircleLeft = "",
@@ -147,7 +138,8 @@ return {
         BoldLineLeft = "▎",
         -- BookMark = "",
         BookMark = " ",
-        BoxChecked = "",
+        -- BoxChecked = "",
+        BoxChecked = "󰄵 ", -- referenced
         -- Bug = " ",
         Bug = " ", -- referenced
         -- Calendar = "",
@@ -179,25 +171,30 @@ return {
         Ellipsis = "",
         EmptyFolder = "",
         EmptyFolderOpen = "",
-        File = "",
+        -- File = " ",
+        File = " ",
         FileSymlink = "",
-        Files = " ",
+        Files = " ", -- referenced
         FindFile = "󰈞",
         FindText = "󰊄",
         -- Fire = " ",
         Fire = " ",  -- referenced
+        -- Folder = " ",
         Folder = "󰉋 ",
+        -- FolderOpen = " ",
         FolderOpen = " ",
         FolderSymlink = "",
         Forward = "  ", -- referenced
-        -- Gear = "",
-        Gear = " ",
+        -- Gear = " ",
+        Gear = " ", -- referenced
+        GitFolder = " ", -- referenced
         History = " ",
+        Lazy = "󰒲 ", -- referenced
         Lightbulb = " ",
         LineLeft = "▏", -- referenced
         LineMiddle = "│",
-        -- List = "",
-        List = " ",
+        -- List = " ",
+        List = " ", -- referenced
         Lock = " ", -- referenced
         Message = "󰍩 ", --referenced
         MidCircle = "",
@@ -215,11 +212,12 @@ return {
         -- Project = "",
         Project = " ",
         Scopes = "",
-        Search = " ",
+        -- Search = " ",
+        Search = " ", -- referenced
         -- SignIn = "",
         SignIn = " ",
-        -- SignOut = "",
-        SignOut = " ",
+        -- SignOut = " ",
+        SignOut = " ", -- referenced
         -- Speedometer = "⏲ ",
         Speedometer = "󰾆 ", -- referenced
         Stacks = "",
