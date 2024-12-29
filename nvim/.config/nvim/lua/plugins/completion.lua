@@ -26,7 +26,8 @@ return {
             },
             {
                 "zbirenbaum/copilot-cmp",
-                enabled = CONFIG.lsp.enable_copilot,
+                enabled = CONFIG.lsp.enable_copilot and vim.fn.executable("node") == 1,
+                cond = vim.g.neovide == nil,
                 dependencies = "copilot.lua",
                 opts = {},
                 config = function(_, opts)
@@ -163,7 +164,7 @@ return {
             }
 
             -- if copilot is enabled update priority
-            if CONFIG.lsp.enable_copilot then
+            if CONFIG.lsp.enable_copilot and vim.fn.executable("node") == 1 then
                 table.insert(opts.sources, 1, { name = "copilot", group_index = 2 })
                 table.insert(opts.sorting.comparators, 1, require("copilot_cmp.comparators").prioritize)
             end
@@ -220,7 +221,8 @@ return {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
         build = ":Copilot auth",
-        enabled = CONFIG.lsp.enable_copilot,
+        enabled = CONFIG.lsp.enable_copilot and vim.fn.executable("node") == 1,
+        cond = vim.g.neovide == nil,
         opts = {
             suggestion = { enabled = false },
             panel = { enabled = false },
