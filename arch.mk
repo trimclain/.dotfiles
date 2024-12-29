@@ -333,6 +333,10 @@ uninstall_pomo:
 	rm -f ~/.local/bin/pomo
 	rm -rf ~/.local/share/pomo
 
+syncthing:
+	$(INSTALL) syncthing
+	systemctl enable --now syncthing@$$USER.service
+
 #==================================================================================================
 
 apps: ## Install btop, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
