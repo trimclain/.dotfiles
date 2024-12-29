@@ -1,0 +1,37 @@
+###############################################################################
+#                                                                             #
+#    ████████╗██████╗ ██╗███╗   ███╗ ██████╗██╗      █████╗ ██╗███╗   ██╗     #
+#    ╚══██╔══╝██╔══██╗██║████╗ ████║██╔════╝██║     ██╔══██╗██║████╗  ██║     #
+#       ██║   ██████╔╝██║██╔████╔██║██║     ██║     ███████║██║██╔██╗ ██║     #
+#       ██║   ██╔══██╗██║██║╚██╔╝██║██║     ██║     ██╔══██║██║██║╚██╗██║     #
+#       ██║   ██║  ██║██║██║ ╚═╝ ██║╚██████╗███████╗██║  ██║██║██║ ╚████║     #
+#       ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝     #
+#                                                                             #
+#        Arthur McLain (trimclain)                                            #
+#        mclain.it@gmail.com                                                  #
+#        https://github.com/trimclain                                         #
+#                                                                             #
+###############################################################################
+
+font-family = "GeistMono Nerd Font Mono"
+font-size = 14
+font-feature = -liga
+
+theme = "Dark Pastel"
+# match astrotheme background
+background = #1A1D23
+# 1 is fully opaque and 0 is fully transparent
+#background-opacity = 1
+
+# default: 2
+#window-padding-x = 0
+#window-padding-y = 0
+window-decoration = false
+#window-padding-balance = true
+confirm-close-surface = false
+
+# block (default), bar, underline, block_hollow
+cursor-style = bar
+cursor-style-blink = false
+
+mouse-hide-while-typing = true

@@ -27,7 +27,8 @@ from libqtile.log_utils import logger
 mod = "mod1"
 alt = "mod4"
 
-terminal = "alacritty"  # "alacritty", "kitty", "wezterm"
+terminal = "alacritty"  # "alacritty", "kitty", "wezterm", "ghostty"
+terminal2 = "ghostty"
 
 browser = "thorium-browser"
 if shutil.which(browser) is None:
@@ -145,6 +146,8 @@ keys = [
 
     # Terminal
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    # Alt Terminal
+    Key([alt], "Return", lazy.spawn(terminal2), desc="Launch other terminal"),
     # Browser
     Key(
         [mod],
