@@ -13,8 +13,6 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
--- TODO: new navigation: no bufferline, use tabs as workspaces with tabby, switch between buffers using telescope and harpoon
-
 -- Fast way to switch to minimal (in terms of ui) config
 local type = "default" --- @usage: "default" | "minimal"
 
@@ -47,9 +45,12 @@ CONFIG = {
         ghost_text = false,
         inlay_hints = false,
 
+        -- TODO: disable lsp servers if no node found
+
         -- plugins
         neoscroll = true,
         smear_cursor = true,
+        -- workflow: no bufferline, use tabs as workspaces with tabby, switch between buffers using telescope and harpoon
         bufferline = false, -- to force myself to use harpoon more
         dashboard = type == "default",
         illuminate = type == "default",
