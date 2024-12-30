@@ -17,6 +17,7 @@ elif [[ $OS == arch ]]; then
         sudo pacman -Syu --noconfirm
     fi
     # apt autoremove
+    # TODO: this should be a loop, since deleting each time creates new orphans
     orphans=$(pacman -Qdtq)
     if [[ -n $orphans ]]; then
         # shellcheck disable=SC2086
