@@ -40,20 +40,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     group = augroup("resize_splits"),
 })
 
--- Fix a bug with cmdheight on vim resize TODO: remove this when it's fixed
--- FIX: even this doesn't work properly
-vim.api.nvim_create_autocmd({ "VimResized" }, {
-    callback = function()
-        local old_cmdheight = vim.o.cmdheight
-        if old_cmdheight > 1 then
-            vim.notify("Resizing cmdheight from " .. old_cmdheight, vim.log.levels.INFO, { title = "Thank You Neovim" })
-            vim.opt.cmdheight = 1
-        end
-    end,
-    desc = "Fix nvim bug with cmdheight on vim resize",
-    group = augroup("fix_nvim_bug_with_cmdheight"),
-})
-
 -- Restore cursor position
 vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function(event)

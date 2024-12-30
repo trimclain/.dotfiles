@@ -587,7 +587,6 @@ return {
                     header = logo,
                     -- stylua: ignore
                     center = {
-                        -- TODO: use icons no?
                         { action = Util.telescope("files"),                                    desc = " Find file",       icon = Icons.ui.Search, key = "f" },
                         -- { action = "ene | startinsert",                                        desc = " New file",        icon = Icons.ui.File, key = "n" },
                         { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = Icons.ui.Files, key = "r" },

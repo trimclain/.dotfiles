@@ -1,5 +1,3 @@
-local Util = require("core.util")
-
 return {
     -- measure startuptime
     {
@@ -16,7 +14,6 @@ return {
     --     cmd = "StartupTime",
     -- },
 
-    -- TODO:?
     -- session management
     -- {
     --     "folke/persistence.nvim",
@@ -30,7 +27,6 @@ return {
     --     },
     -- },
 
-    -- TODO:?
     -- neovim in browser
     -- {
     --     "glacambre/firenvim",
@@ -169,11 +165,9 @@ return {
     --     end,
     -- },
 
-    -- TODO:?
     -- Plugin for automated bullet lists in markdown
     -- use "dkarter/bullets.vim"
 
-    -- TODO:?
     -- Plugin to generate table of contents for Markdown files
     -- use "mzlogin/vim-markdown-toc"
 
@@ -213,8 +207,7 @@ return {
         enabled = vim.fn.executable("npm") == 1,
     },
 
-    -- TODO: switch to this for markdown preview?
-    -- -- markdown preview
+    -- markdown preview alternative using deno
     -- {
     --     "toppair/peek.nvim",
     --     build = "deno task --quiet build:fast",
@@ -301,10 +294,16 @@ return {
         enabled = vim.fn.executable("zenity") == 1 or vim.fn.executable("yad") == 1,
     },
 
-    -- TODO:?
-    -- -- color picker in neovim
+    -- color picker alternatives:
     -- {
     --     "uga-rosa/ccc.nvim",
+    -- },
+    -- {
+    --     "nvzone/minty",
+    --     dependencies = {
+    --         "nvzone/volt",
+    --     },
+    --     cmd = { "Shades", "Huefy" },
     -- },
 
     -- LaTeX support
@@ -322,11 +321,9 @@ return {
     -- library used by other plugins
     { "nvim-lua/plenary.nvim", lazy = true },
 
-    -- TODO:?
     -- For aligning tables
     -- { "godlygeek/tabular" }
 
-    -- TODO:?
     -- makes some plugins dot-repeatable like flash.nvim
     ---{ "tpope/vim-repeat", event = "VeryLazy" },
 }

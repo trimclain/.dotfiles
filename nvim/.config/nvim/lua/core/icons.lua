@@ -233,6 +233,9 @@ return {
         TriangleShortArrowLeft = "",
         TriangleShortArrowRight = "",
         TriangleShortArrowUp = "",
+        UnicodeBallotX = "✗", -- referenced
+        UnicodeCheck = "✓", -- referenced
+        UnicodeCircleArrow = "⟳", -- referenced
         Watches = "󰂥",
     },
     misc = {

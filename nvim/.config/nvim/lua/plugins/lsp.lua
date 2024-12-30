@@ -1,4 +1,5 @@
 local Util = require("core.util")
+local Icons = require("core.icons")
 
 return {
     -- LSP Configuration & Plugins
@@ -32,7 +33,7 @@ return {
                     })
 
                     -- configure diagnostics
-                    for name, icon in pairs(require("core.icons").diagnostics) do
+                    for name, icon in pairs(Icons.diagnostics) do
                         name = "DiagnosticSign" .. name
                         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
                     end
@@ -46,7 +47,7 @@ return {
                             focusable = false,
                             style = "minimal",
                             border = CONFIG.ui.border,
-                            source = "always", -- or "if_many"
+                            source = "if_many",
                             header = "",
                             prefix = "",
                         },
@@ -137,9 +138,9 @@ return {
         opts = {
             ui = {
                 icons = {
-                    package_installed = "✓",
-                    package_uninstalled = "✗",
-                    package_pending = "⟳",
+                    package_installed = Icons.ui.UnicodeCheck,
+                    package_uninstalled = Icons.ui.UnicodeBallotX,
+                    package_pending = Icons.ui.UnicodeCircleArrow,
                 },
                 border = CONFIG.ui.border,
             },
@@ -251,7 +252,7 @@ return {
                 -- Linters
                 -- "eslint_d", -- need config file, annoying
                 -- "luacheck", -- "selene",
-                "markdownlint",
+                -- "markdownlint",
                 -- "stylelint", -- css linter
                 "shellcheck", -- extends bashls
             }
@@ -261,6 +262,8 @@ return {
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
             require("mason-lspconfig").setup({
+                ensure_installed = {},
+                automatic_installation = false,
                 handlers = {
                     function(server_name)
                         local server = servers[server_name] or {}
@@ -366,7 +369,7 @@ return {
     {
         "mfussenegger/nvim-lint",
         event = { "BufReadPre", "BufNewFile" },
-        enabled = false, -- only because I don't use any linters right now
+        enabled = false, -- I don't use any linters right now
         opts = {
             -- Event to trigger linters
             events = { "BufWritePost", "BufReadPost", "InsertLeave" },
@@ -407,7 +410,9 @@ return {
                 local timer = vim.uv.new_timer()
                 return function(...)
                     local argv = { ... }
+                    ---@diagnostic disable-next-line: need-check-nil
                     timer:start(ms, 0, function()
+                        ---@diagnostic disable-next-line: need-check-nil
                         timer:stop()
                         vim.schedule_wrap(fn)(unpack(argv))
                     end)
