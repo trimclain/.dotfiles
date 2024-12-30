@@ -275,6 +275,9 @@ chrome: ## Install Google Chrome Browser
 thorium: ## Install Thorium Browser
 	$(PARUINSTALL) thorium-browser-bin
 
+zen: ## Install Zen Browser
+	$(PARUINSTALL) zen-browser-bin
+
 telegram: ## Install Telegram Desktop
 	$(INSTALL) telegram-desktop
 
@@ -396,7 +399,7 @@ install: ## Setup arch after new installation
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
-	brave chrome thorium telegram discord spotify vscode office quickemu\
-	anki uninstall_anki pomo uninstall_pomo\
+	brave chrome thorium zen telegram discord spotify vscode office quickemu\
+	anki uninstall_anki pomo uninstall_pomo syncthing\
 	apps\
 	install
