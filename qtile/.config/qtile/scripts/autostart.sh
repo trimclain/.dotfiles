@@ -16,4 +16,8 @@ run_in_background dunst
 #~/.config/qtile/scripts/get-brightness-on-startup.sh
 
 # Pull my repos
-run_in_background ~/.local/bin/pctl pull
+# TODO: this doesn't work since the variable $PROJECTLIST is missing
+#run_in_background ~/.local/bin/pctl pull
+
+# Nextcloud for synchronization
+#run_in_background nextcloud --background
