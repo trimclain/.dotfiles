@@ -164,7 +164,7 @@ return {
             }
 
             -- if copilot is enabled update priority
-            if CONFIG.lsp.enable_copilot and vim.fn.executable("node") == 1 then
+            if CONFIG.lsp.enable_copilot and vim.fn.executable("node") == 1 and vim.g.neovide == nil then
                 table.insert(opts.sources, 1, { name = "copilot", group_index = 2 })
                 table.insert(opts.sorting.comparators, 1, require("copilot_cmp.comparators").prioritize)
             end
