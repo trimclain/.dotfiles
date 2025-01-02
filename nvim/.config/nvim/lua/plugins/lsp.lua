@@ -5,6 +5,8 @@ return {
     -- LSP Configuration & Plugins
     {
         "neovim/nvim-lspconfig",
+        -- TODO: do I need this for neovide?
+        -- cond = vim.fn.executable("node"),
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "mason.nvim",

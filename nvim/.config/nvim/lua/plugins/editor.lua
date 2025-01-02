@@ -45,7 +45,7 @@ return {
                     { "<leader>d", group = "document" },
                     { "<leader>f", group = "find" },
                     { "<leader>g", group = "git" },
-                    { "<leader>gh", group = "hunks" }, -- FIX:
+                    { "<leader>gh", group = "hunks" },
                     { "<leader>l", group = "lsp" },
                     { "<leader>m", group = "make" },
                     { "<leader>n", group = "neorg/neotest" },
@@ -64,7 +64,7 @@ return {
                 {
                     mode = { "v" },
                     { "<leader>g", group = "+git" },
-                    { "<leader>gh", group = "+hunks" }, -- FIX:
+                    { "<leader>gh", group = "+hunks" },
                     { "<leader>l", group = "+lsp" },
                     { "<leader>r", group = "+refactor" },
                 },

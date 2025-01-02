@@ -40,9 +40,6 @@ set autoquit
 # Commands and Functions
 ###############################################################################
 
-# TODO: update to use a different method
-# TODO: make sure all necessary commands in the previewer exists,
-# if not notify-send about it
 set previewer ~/.config/lf/previewer
 set cleaner ~/.config/lf/cleaner
 

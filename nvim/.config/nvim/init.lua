@@ -45,8 +45,6 @@ CONFIG = {
         ghost_text = false,
         inlay_hints = false,
 
-        -- TODO: disable lsp servers if no node found
-
         -- plugins
         neoscroll = true,
         smear_cursor = true,

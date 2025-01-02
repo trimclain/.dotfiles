@@ -4,7 +4,8 @@
 # Requirements: ueberzugpp, imagemagick
 ################################################################################
 
-# TODO: add $PARUINSTALL ueberzugpp to arch.mk
+# TODO: make sure all necessary commands in the previewer exists,
+# if not notify-send about it
 
 # Preview with Ueberzugpp
 # https://github.com/jstkdng/ueberzugpp/blob/master/scripts/lf/lfub

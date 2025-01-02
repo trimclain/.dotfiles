@@ -17,6 +17,8 @@ run_in_background dunst
 
 # Pull my repos
 # TODO: this doesn't work since the variable $PROJECTLIST is missing
+# CONSIDER: sometimes I want to fetch to remember what I
+# need to install on a new system
 #run_in_background ~/.local/bin/pctl pull
 
 # Nextcloud for synchronization

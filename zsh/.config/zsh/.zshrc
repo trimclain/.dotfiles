@@ -363,13 +363,6 @@ if (( $+commands[eza] )); then
     alias l='ls -lha'
     alias ll='ls -lh'
     alias tree='ll --tree --level=2'
-# TODO: delete some time later
-elif (( $+commands[exa] )); then
-    alias ls='exa --group-directories-first --icons'
-    alias la='ls -a'
-    alias l='ls -lha'
-    alias ll='ls -lh'
-    alias tree='ll --tree --level=2'
 else
     alias ls="ls --color=auto --group-directories-first"
     alias la="ls -A"

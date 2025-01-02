@@ -13,7 +13,9 @@
 #                                                                             #
 ###############################################################################
 
+################################# DEPRECATED ##################################
 # Configuration for Alacritty version < 0.13
+################################# DEPRECATED ##################################
 
 # Import additional configuration files
 #
@@ -64,7 +66,6 @@ env:
     # Forcing a constant device pixel ratio using the WINIT_X11_SCALE_FACTOR
     # environment variable may be sufficient to fix the different font size
     # issue:
-    # TODO: can I set this separate for every monitor?
     WINIT_X11_SCALE_FACTOR: "1.1"
 
 window:
