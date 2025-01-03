@@ -27,6 +27,9 @@ background = #1A1D23
 #window-padding-x = 0
 #window-padding-y = 0
 window-decoration = false
+# FIX: implement
+# https://github.com/ghostty-org/ghostty/issues/2023
+gtk-titlebar = false
 #window-padding-balance = true
 confirm-close-surface = false
 
