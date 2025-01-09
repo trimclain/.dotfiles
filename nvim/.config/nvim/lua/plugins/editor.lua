@@ -381,7 +381,7 @@ return {
             -- mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
             mappings = {},
             hide_cursor = false, -- Hide cursor while scrolling (default: true)
-            stop_eof = false, -- Stop at <EOF> when scrolling downwards (default: true)
+            stop_eof = true, -- Stop at <EOF> when scrolling downwards (default: true)
             respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
             -- Docs: https://github.com/karb94/neoscroll.nvim?tab=readme-ov-file#easing-functions
             easing = "sine", -- Default easing function. Options: linear, quadratic, cubic, quartic, quintic, circular, sine
