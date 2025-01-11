@@ -26,10 +26,14 @@ background = #1A1D23
 # default: 2
 #window-padding-x = 0
 #window-padding-y = 0
-window-decoration = false
-# FIX: implement
-# https://github.com/ghostty-org/ghostty/issues/2023
+
+# This makes no sense but the only way to have zero borders is this:
+# Both gtk-titlebar and gtk-adwaita must be false.
+# It doesn't matter if window-decoration is true or false.
+#window-decoration = false
 gtk-titlebar = false
+gtk-adwaita = false
+
 #window-padding-balance = true
 confirm-close-surface = false
 
