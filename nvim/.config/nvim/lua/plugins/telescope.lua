@@ -47,8 +47,8 @@ return {
                     "git_files",
                     -- Yup, why would $HOME on windows be $HOME and not $HOMEPATH or $USERPROFILE
                     {
-                        cwd = vim.fn.has("win32") == 1 and Util.join(os.getenv("HOMEPATH"), "dotfiles")
-                            or Util.join(os.getenv("HOME"), ".dotfiles"),
+                        cwd = vim.fn.has("win32") == 1 and vim.fs.joinpath(vim.env.HOMEPATH, "dotfiles")
+                            or vim.fs.joinpath(vim.env.HOME, ".dotfiles"),
                         prompt_title = "Dotfiles",
                     }
                 ),
@@ -61,8 +61,7 @@ return {
             -- edit packages
             {
                 "<leader>pe",
-                ---@diagnostic disable-next-line: param-type-mismatch
-                Util.telescope("find_files", { cwd = Util.join(vim.fn.stdpath("data"), "lazy") }),
+                Util.telescope("find_files", { cwd = vim.fn.stdpath("data") .. "/lazy" }),
                 desc = "Edit Plugins",
             },
 

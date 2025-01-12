@@ -8,15 +8,6 @@ function _G.P(obj)
     return obj
 end
 
---- Join path segments to a full path
----@vararg string
----@return string
-function M.join(...)
-    -- TODO: replace with vim.fs.joinpath if it's windows compatible
-    local path_sep = vim.uv.os_uname().version:match("Windows") and "\\" or "/"
-    return table.concat({ ... }, path_sep)
-end
-
 --- Check if a file exists
 ---@param name string? path to the file
 function M.file_exists(name)

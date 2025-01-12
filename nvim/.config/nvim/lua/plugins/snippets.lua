@@ -1,6 +1,8 @@
 return {
     {
+        -- PERF: this takes 18-20 ms on startup even though it's lazy loaded... Why??
         "L3MON4D3/LuaSnip",
+        -- cond = false,
         version = "v2.*",
         dependencies = {
             "rafamadriz/friendly-snippets",
@@ -25,7 +27,6 @@ return {
                     -- Load local snippets if present
                     -- vim.fn.getcwd() .. "/.snippets",
                     -- Global snippets
-                    -- TODO: does this actually work on Windows?
                     vim.fn.stdpath("config") .. "/snippets",
                 },
             })

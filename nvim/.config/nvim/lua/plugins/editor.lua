@@ -441,9 +441,13 @@ return {
     },
 
     -- harpoon btw
+    -- PERF: this takes 7-8 ms on startup even though it's lazy loaded... Why??
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
         -- dir = "~/projects/open-source/nvim-plugins/harpoon",
         -- stylua: ignore
         keys = function()

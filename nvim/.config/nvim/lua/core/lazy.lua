@@ -1,25 +1,24 @@
--- Install lazy.nvim if needed
--- TODO: does this actually work on Windows?
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim" -- yes, this does work on Windows
 if not vim.uv.fs_stat(lazypath) then
-    -- install lazy.nvim
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
-    })
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out, "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
-vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+vim.opt.rtp:prepend(lazypath)
 
--- Make space a leader key. This needs to happen before lazy.nvim setup.
-vim.keymap.set("", "<Space>", "<Nop>")
+-- set a leader key before lazy.nvim setup
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Any lua file in ~/.config/nvim/lua/plugins/*.lua will be automatically sourced
+-- Any lua file in ~/.config/nvim/lua/plugins/*.lua will be automatically imported
 require("lazy").setup("plugins", {
     defaults = {
         lazy = false, -- should plugins be lazy-loaded?
@@ -32,9 +31,13 @@ require("lazy").setup("plugins", {
     -- try to load one of these colorschemes when starting an installation during startup
     install = { colorscheme = { CONFIG.ui.colorscheme, "habamax" } },
     ui = { border = CONFIG.ui.border },
+    checker = {
+        -- automatically check for plugin updates
+        enabled = false,
+    },
     change_detection = {
         -- automatically check for config file changes and reload the ui
-        enabled = false, -- maybe later
+        enabled = false,
         -- notify = false, -- get a notification when changes are found
     },
     performance = {

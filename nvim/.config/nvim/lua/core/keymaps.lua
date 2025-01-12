@@ -119,6 +119,7 @@ keymap("n", "<leader>oc", Util.toggle_conceallevel, add_desc("Toggle [C]oncealle
 -------------------------------------------------------------------------------
 
 -- Lazy
+keymap("n", "<leader>L", "<cmd>Lazy home<cr>", add_desc("Open Lazy"))
 keymap("n", "<leader>pl", "<cmd>Lazy home<cr>", add_desc("Open Lazy"))
 keymap("n", "<leader>ps", "<cmd>Lazy sync<cr>", add_desc("Lazy Sync"))
 keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>", add_desc("Lazy Profile"))
