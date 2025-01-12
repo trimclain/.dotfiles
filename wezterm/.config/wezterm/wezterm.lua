@@ -13,104 +13,43 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
--- Why I stopped using wezterm for now:
--- 1. After I do `nohup xdg-open "$filename" &>/dev/null &` some number of times, my PC freezes when I exit wezterm
---    This might be fixed, if I set "no_hup and no_check_jobs" options in zshrc
--- 2. Only on AwesomeWM: When changing the font size, it also changes the windows size (can be fixed by maximizing the window)
--- 3. On Qtile: Extremely Slow
+-- Docs: https://wezfurlong.org/wezterm/config/files.html#configuration-files
 
--- As soon as these things get fixed, I'm coming back to it
--- Reasons:
--- 1. Config in Lua (I love lua)
--- 2. Easily setup fallback fonts
--- 3. Helpful error messages (for example when a char can't be rendered with my current fonts)
--- 4. Changes in config apply instantly in same window
--- 5. Supports sixel AND kitty image format
--- 5. Written in rust (btw)
-
--- Pull in the wezterm API
 local wezterm = require("wezterm")
+local config = wezterm.config_builder()
 
--- This table will hold the configuration.
-local config = {}
-
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
-if wezterm.config_builder then
-    config = wezterm.config_builder()
-end
-
--------------------------------------------------------------------------------
--- Fonts to try:
--- "MonoLisa Nerd Font",
--- "SF Mono",
--- "DankMono Nerd Font",
--- "Monego Ligatures",
--- "Comic Code Ligatures",
--- "Operator Mono Lig",
--- "Gintronic",
--- "Cascadia Code",
--- "FiraCode Nerd Font Mono",
--- "Victor Mono",
--- "Inconsolata",
--- "TempleOS",
--- "Apercu Pro"
-
+-- {{{ Fonts
 -- List available fonts: wezterm ls-fonts --list-system
 local fonts = {
-    "BlexMono Nerd Font Mono",
-    "Maple Mono NF",
-    "CaskaydiaCove Nerd Font Mono",
-    "JetBrainsMono Nerd Font Mono",
-    "DejaVuSansM Nerd Font",
-    "JetBrains Mono", -- pre-installed
+    geist = "GeistMono Nerd Font Mono", -- has no italics
+    maple = "Maple Mono NF",
+    cascadia = {
+        { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiLight", stretch = "Normal", style = "Normal" },
+        { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiLight", stretch = "Normal", style = "Italic" },
+        { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiBold", stretch = "Normal", style = "Normal" },
+        { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiBold", stretch = "Normal", style = "Italic" },
+    },
+    blex = "BlexMono Nerd Font Mono",
+    jetbrains = "JetBrainsMono Nerd Font Mono",
+    -- "JetBrains Mono", -- pre-installed
 }
-config.font = wezterm.font_with_fallback({ fonts[2], fonts[#fonts - 1], fonts[#fonts] })
+config.font = wezterm.font(fonts.geist) -- takes a string
+-- config.font = wezterm.font_with_fallback(fonts.cascadia) -- takes a table
 config.font_size = 14.0
-
--- local cascadia_code = {
---     { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiLight", stretch = "Normal", style = "Normal" },
---     { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiLight", stretch = "Normal", style = "Italic" },
---     { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiBold", stretch = "Normal", style = "Normal" },
---     { family = "CaskaydiaCove Nerd Font Mono", weight = "DemiBold", stretch = "Normal", style = "Italic" },
--- }
--- config.font = wezterm.font_with_fallback(cascadia_code)
-
--- config.window_background_opacity = 0.85
--- config.color_scheme = "Catppuccin Macchiato"
--- config.color_scheme = "GitHub Dark"
-
--- Set background to same color as neovim
--- config.colors = {}
--- config.colors.background = "#21262d"
-config.color_scheme = "Campbell (Gogh)"
-
--- https://github.com/samuelngs/apple-emoji-linux/releases/tag/v16.4
--- local emoji_fonts={ "Apple Color Emoji", "Joypixels", "Twemoji", "Noto Color Emoji", "Noto Emoji" }
--- config.font = wezterm.font_with_fallback({ fonts[1], emoji_fonts[1], emoji_fonts[2] })
 
 -- https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist
 -- config.harfbuzz_features = { "calt", "liga", "zero", "-ss01", "ss02", "-ss03", "ss04", "ss05", "ss06", "ss07", "-ss08", "-ss09" }
 -- to disable something add =0 to the end or - at the beginning
 config.harfbuzz_features = {
-    "calt", -- Ligatures -> <=> ===
+    "calt=0", -- Ligatures -> <=> ===
+    "liga=0",
+    "clig=0",
     -- "zero" -- 0
 }
+-- }}}
 
--- config.automatically_reload_config = true
-config.disable_default_key_bindings = true
-config.enable_tab_bar = false
--- config.show_new_tab_button_in_tab_bar = false
--- config.hide_tab_bar_if_only_one_tab= false
--- config.enable_scroll_bar = false
-
-config.default_cursor_style = "SteadyBar" -- SteadyBlock, BlinkingBlock, SteadyUnderline, BlinkingUnderline, SteadyBar, or BlinkingBar
-config.animation_fps = 1
-config.cursor_blink_ease_in = 'Constant'
-config.cursor_blink_ease_out = 'Constant'
-
-config.scrollback_lines = 5000 -- default: 3500
-
+-- {{{ General
+-- Docs: https://wezfurlong.org/wezterm/config/lua/config/window_padding.html
 -- config.window_padding = {
 --     left = 30,
 --     right = 30,
@@ -118,43 +57,82 @@ config.scrollback_lines = 5000 -- default: 3500
 --     bottom = 30,
 -- }
 
------------------------------------------------------------------------------------------------------------------------
--- Keybindings
------------------------------------------------------------------------------------------------------------------------
-local act = wezterm.action
+-- config.automatically_reload_config = false
+config.adjust_window_size_when_changing_font_size = false
 
+config.audible_bell = "Disabled" -- default: "SystemBeep"
+
+-- Disable the title bar but enable the resizable border
+-- config.window_decorations = "RESIZE"
+
+-- Extra: https://wezfurlong.org/wezterm/config/lua/config/win32_system_backdrop.html
+-- config.window_background_opacity = 0.85
+
+-- config.enable_tab_bar = false
+-- config.show_new_tab_button_in_tab_bar = false
+config.hide_tab_bar_if_only_one_tab = true
+-- config.enable_scroll_bar = false
+
+-- Docs: https://wezfurlong.org/wezterm/config/lua/config/animation_fps.html
+config.animation_fps = 1
+config.cursor_blink_ease_in = "Constant"
+config.cursor_blink_ease_out = "Constant"
+
+config.scrollback_lines = 5000 -- default: 3500
+
+config.default_cursor_style = "SteadyBar" -- SteadyBlock (default), BlinkingBlock, SteadyUnderline, BlinkingUnderline, SteadyBar, or BlinkingBar
+
+-- -- Use wezterm.gui.enumerate_gpus() in Debug Overlay (ctrl+shift+l) to see the list
+-- local gpus = wezterm.gui.enumerate_gpus()
+-- config.webgpu_preferred_adapter = gpus[1]
+-- -- config.webgpu_force_fallback_adapter = true
+-- config.front_end = "WebGpu" -- OpenGL (default), Software (CPU), WebGpu (DirectX 12 on Windows)
+
+config.check_for_updates = false
+-- }}}
+
+-- {{{ Colorscheme
+config.color_scheme = "Campbell (Gogh)"
+config.colors = { background = "#1A1D23" } -- match astrotheme background
+-- }}}
+
+-- {{{ Keybindings
+
+-- config.disable_default_mouse_bindings = true
+
+-- INFO: to check default keys
+-- https://wezfurlong.org/wezterm/config/default-keys.html
+-- or
+-- wezterm show-keys --lua (after commenting line below)
+config.disable_default_key_bindings = true
+
+-- INFO: available keybind commands
+-- https://wezfurlong.org/wezterm/config/lua/keyassignment/index.html#available-key-assignments
+local act = wezterm.action
 config.keys = {
     -- Font Size
     { key = "-", mods = "CTRL", action = act.DecreaseFontSize },
-    { key = "_", mods = "CTRL", action = act.DecreaseFontSize },
     { key = "_", mods = "SHIFT|CTRL", action = act.DecreaseFontSize },
-    { key = "-", mods = "SHIFT|CTRL", action = act.DecreaseFontSize },
     { key = "0", mods = "CTRL", action = act.ResetFontSize },
-    { key = "0", mods = "SHIFT|CTRL", action = act.ResetFontSize },
-    { key = ")", mods = "CTRL", action = act.ResetFontSize },
-    { key = ")", mods = "SHIFT|CTRL", action = act.ResetFontSize },
-    { key = "+", mods = "CTRL", action = act.IncreaseFontSize },
     { key = "+", mods = "SHIFT|CTRL", action = act.IncreaseFontSize },
     { key = "=", mods = "CTRL", action = act.IncreaseFontSize },
-    { key = "=", mods = "SHIFT|CTRL", action = act.IncreaseFontSize },
 
     -- Copy and Paste
-    { key = "C", mods = "SHIFT|CTRL", action = act.CopyTo("Clipboard") },
     { key = "c", mods = "SHIFT|CTRL", action = act.CopyTo("Clipboard") },
-    { key = "V", mods = "SHIFT|CTRL", action = act.PasteFrom("Clipboard") },
     { key = "v", mods = "SHIFT|CTRL", action = act.PasteFrom("Clipboard") },
 
-    { key = "K", mods = "SHIFT|CTRL", action = act.ClearScrollback("ScrollbackOnly") },
-    { key = "k", mods = "SHIFT|CTRL", action = act.ClearScrollback("ScrollbackOnly") },
-    { key = "L", mods = "SHIFT|CTRL", action = act.ShowDebugOverlay },
+    -- Tabs
+    { key = "t", mods = "SHIFT|CTRL", action = act.SpawnTab("CurrentPaneDomain") },
+    { key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
+    { key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
+
+    -- Debug Overlay and Command Palette
     { key = "l", mods = "SHIFT|CTRL", action = act.ShowDebugOverlay },
-    { key = "P", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
     { key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
-    -- { key = "R", mods = "SHIFT|CTRL", action = act.ReloadConfiguration },
     -- { key = "r", mods = "SHIFT|CTRL", action = act.ReloadConfiguration },
 }
+--- }}}
 
------------------------------------------------------------------------------------------------------------------------
-
--- and finally, return the configuration to wezterm
 return config
+
+-- vim:fileencoding=utf-8:foldmethod=marker
