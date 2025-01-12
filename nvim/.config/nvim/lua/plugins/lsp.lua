@@ -5,7 +5,7 @@ return {
     -- LSP Configuration & Plugins
     {
         "neovim/nvim-lspconfig",
-        -- TODO: do I need this for neovide?
+        -- TODO: do I need this for neovide? (bashls errors, but pylsp doesn't)
         -- cond = vim.fn.executable("node"),
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
