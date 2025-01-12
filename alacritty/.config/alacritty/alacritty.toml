@@ -19,13 +19,6 @@
 # More Colorschemes: https://github.com/alacritty/alacritty-theme
 [general]
 import = [
-    # "~/.config/alacritty/themes/machiatto.toml",
-    # "~/.config/alacritty/themes/lighthouse.toml",
-    # "~/.config/alacritty/themes/dracula.toml",
-    # "~/.config/alacritty/themes/blood_moon.toml",
-    # "~/.config/alacritty/themes/doom_one.toml",
-    # "~/.config/alacritty/themes/palenight.toml",
-    # "~/.config/alacritty/themes/ubuntu.toml",
     # "~/.config/alacritty/themes/campbell.toml",
     # "~/.config/alacritty/themes/xterm.toml",
     "~/.config/alacritty/themes/hyper.toml",
