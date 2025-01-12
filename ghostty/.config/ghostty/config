@@ -38,7 +38,9 @@ gtk-adwaita = false
 confirm-close-surface = false
 
 # block (default), bar, underline, block_hollow
-cursor-style = bar
+cursor-style = block
+# TODO: this does't work.
 cursor-style-blink = false
+shell-integration-features = no-cursor,no-sudo,title
 
 mouse-hide-while-typing = true
