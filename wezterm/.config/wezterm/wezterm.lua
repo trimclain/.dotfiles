@@ -92,7 +92,8 @@ config.check_for_updates = false
 -- }}}
 
 -- {{{ Colorscheme
-config.color_scheme = "Campbell (Gogh)"
+-- config.color_scheme = "Campbell (Gogh)"
+config.color_scheme = 'Dark Pastel'
 config.colors = { background = "#1A1D23" } -- match astrotheme background
 -- }}}
 
