@@ -100,7 +100,11 @@ else
     export EDITOR="$(which nvim)"
 fi
 
-export VISUAL=$EDITOR
+if command -v neovide > /dev/null; then
+    export VISUAL=$(which neovide)
+else
+    export VISUAL=$EDITOR
+fi
 
 ###############################################################################
 # Less

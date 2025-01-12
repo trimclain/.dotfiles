@@ -47,7 +47,7 @@ CONFIG = {
 
         -- plugins
         neoscroll = true,
-        smear_cursor = true,
+        smear_cursor = false, -- found out about kitty's cursor trail
         -- workflow: no bufferline, use tabs as workspaces with tabby, switch between buffers using telescope and harpoon
         bufferline = false, -- to force myself to use harpoon more
         dashboard = type == "default",
