@@ -1,5 +1,6 @@
 return {
     -- auto completion
+    -- TODO: has a ton of integrations, document them or smth
     {
         "hrsh7th/nvim-cmp",
         version = false, -- last release is way too old

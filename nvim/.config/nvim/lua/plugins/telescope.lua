@@ -1,8 +1,8 @@
 local Util = require("core.util")
 local Icons = require("core.icons").ui
 
+-- Fuzzy Finder
 return {
-    -- Fuzzy Finder
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
@@ -230,6 +230,7 @@ return {
             pickers = {
                 find_files = {
                     previewer = false,
+                    -- TODO: add only if not on Windows
                     hidden = true,
                 },
                 -- live_grep = {
