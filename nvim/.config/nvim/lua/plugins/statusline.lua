@@ -1,41 +1,42 @@
-local Icons = require("core.icons")
-
 return {
+    -- TODO: switch out, 20 ms startup time is too bad
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
         cond = CONFIG.ui.lualine,
         opts = function()
+            local Icons = require("core.icons")
+
             -----------------------------------------------------------------------------------------------------------
             -- Conditions to disable sections
             -----------------------------------------------------------------------------------------------------------
-            -- Don't show a section when vim has less than 80 columns
-            local hide_in_width = function()
-                return vim.fn.winwidth(0) > 80
+            local hide_in_width = function(min_width)
+                if min_width then
+                    return vim.api.nvim_win_get_width(0) > min_width
+                end
+                return vim.api.nvim_win_get_width(0) > 80
             end
 
-            local hide_in_width_100 = function()
-                return vim.fn.winwidth(0) > 100
+            local ui_filetypes = {
+                "undotree",
+                "lspinfo",
+                "mason",
+                "null-ls-info",
+                "NeogitStatus",
+                "NeogitCommitMessage",
+                "spectre_panel",
+                "TelescopePrompt",
+                "Trouble",
+                "DressingSelect",
+                "",
+            }
+
+            local disable_for_ui_filetypes = function()
+                return not vim.tbl_contains(ui_filetypes, vim.bo.filetype)
             end
 
-            -- Don't show a section in ui filetypes
-            local show_lsp_section = function()
-                local buf_ft = vim.bo.filetype
-                local ui_filetypes = {
-                    "help",
-                    "undotree",
-                    "lspinfo",
-                    "mason",
-                    "null-ls-info",
-                    "NeogitStatus",
-                    "NeogitCommitMessage",
-                    "spectre_panel",
-                    "TelescopePrompt",
-                    "Trouble",
-                    "DressingSelect",
-                    "",
-                }
-                return not vim.tbl_contains(ui_filetypes, buf_ft)
+            local disable_for_ui_and_help_filetypes = function()
+                return not vim.tbl_contains(vim.tbl_extend("force", { "help" }, ui_filetypes), vim.bo.filetype)
             end
 
             -----------------------------------------------------------------------------------------------------------
@@ -94,7 +95,7 @@ return {
                     return vim.fn.join({ label, servers, "" }, " ")
                 end,
                 cond = function()
-                    return hide_in_width() and show_lsp_section()
+                    return hide_in_width() and disable_for_ui_and_help_filetypes()
                 end,
                 padding = { right = 0 },
                 -- Alternate: dont show when empty
@@ -114,7 +115,7 @@ return {
                     return vim.fn.join({ "", label, formatters }, " ")
                 end,
                 cond = function()
-                    return hide_in_width() and show_lsp_section()
+                    return hide_in_width() and disable_for_ui_and_help_filetypes()
                 end,
                 padding = { right = 0 },
             }
@@ -290,7 +291,9 @@ return {
                                 unnamed = "", -- default: "[No Name]"
                                 newfile = Icons.ui.NewFile, -- default: "[New]"
                             },
-                            cond = hide_in_width_100,
+                            cond = function()
+                                return hide_in_width(100) and disable_for_ui_filetypes()
+                            end,
                         },
                         -----------------------------------------------------------------------------------------------
 

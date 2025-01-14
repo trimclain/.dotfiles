@@ -82,7 +82,7 @@ return {
             -- end
 
             -- Since I don't have tmux in neovide, add a project manager to dashboard
-            if vim.g.neovide ~= nil then
+            if vim.g.neovide == true then
                 table.insert(
                     opts.config.center,
                     2,

@@ -6,6 +6,7 @@ return {
         dependencies = {
             {
                 "JoosepAlviste/nvim-ts-context-commentstring",
+                dependencies = "nvim-treesitter",
                 config = function()
                     vim.g.skip_ts_context_commentstring_module = true
                     require("ts_context_commentstring").setup({
@@ -15,7 +16,7 @@ return {
             },
         },
         config = function()
-            -- FIX: remove the warning
+            ---@diagnostic disable-next-line: missing-fields
             require("Comment").setup({
                 ignore = "^$", -- ignores empty lines
                 pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),

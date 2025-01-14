@@ -1,6 +1,7 @@
 return {
     -- auto completion
     -- TODO: has a ton of integrations, document them or smth
+    -- TODO: try blink?
     {
         "hrsh7th/nvim-cmp",
         version = false, -- last release is way too old
@@ -300,7 +301,7 @@ return {
     -- close tags using treesitter
     {
         "windwp/nvim-ts-autotag",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        dependencies = "nvim-treesitter",
         event = "InsertEnter",
         config = true,
     },

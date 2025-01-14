@@ -94,7 +94,7 @@ end
 
 --- Choose a project to work on from my $PROJECTLIST using Telescope
 M.open_project = function()
-    local projectlist = os.getenv("PROJECTLIST")
+    local projectlist = vim.env.PROJECTLIST
     if not M.file_exists(projectlist) then
         vim.notify("Project List not found", vim.log.levels.ERROR, { title = "Project Manager" })
         return
@@ -110,8 +110,7 @@ M.open_project = function()
     pickers
         .new({
             results_title = "My Projects",
-            ---@diagnostic disable-next-line: missing-parameter
-            finder = finders.new_oneshot_job({ "cat", projectlist }),
+            finder = finders.new_oneshot_job({ "cat", projectlist }, {}),
             sorter = sorters.get_fuzzy_file(),
             attach_mappings = function(_, map)
                 -- Define custom action when an item is selected
@@ -372,7 +371,7 @@ end
 ---@param path string The path of the file to open with the system opener
 function M.system_open(path)
     local cmd
-    if vim.fn.has("win32") == 1 and vim.fn.executable("explorer") == 1 then
+    if jit.os:find("Windows") and vim.fn.executable("explorer") == 1 then
         cmd = { "cmd.exe", "/K", "explorer" }
     elseif vim.fn.has("unix") == 1 and vim.fn.executable("xdg-open") == 1 then
         cmd = { "xdg-open" }

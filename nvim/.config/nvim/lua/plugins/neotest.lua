@@ -1,11 +1,11 @@
+-- run tests
 return {
-    -- run tests
     {
         "nvim-neotest/neotest",
         dependencies = {
-            "nvim-lua/plenary.nvim",
+            "plenary.nvim",
+            "nvim-treesitter",
             "antoinemadec/FixCursorHold.nvim",
-            "nvim-treesitter/nvim-treesitter",
             "nvim-neotest/neotest-plenary",
         },
         -- stylua: ignore
@@ -16,7 +16,7 @@ return {
             { "<leader>ns", function() require("neotest").summary.toggle() end, desc = "Neotest Toggle Summary" },
             { "<leader>no", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Neotest Show Output" },
             { "<leader>nO", function() require("neotest").output_panel.toggle() end, desc = "Neotest Toggle Output Panel" },
-            { "<leader>nS", function() require("neotest").run.stop() end, desc = "Stop" },
+            { "<leader>nS", function() require("neotest").run.stop() end, desc = "Neotest Stop" },
         },
         config = function()
             ---@diagnostic disable-next-line: missing-fields

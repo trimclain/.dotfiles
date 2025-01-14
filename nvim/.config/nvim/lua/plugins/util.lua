@@ -1,5 +1,9 @@
--- TODO: what to do with the others?
 return {
+    -- the GOATs used by others:
+    { "nvim-lua/plenary.nvim", lazy = true }, -- library used by other plugins
+    { "nvim-tree/nvim-web-devicons", lazy = true }, -- icons
+    { "MunifTanjim/nui.nvim", lazy = true }, -- ui components
+
     -- measure startuptime
     {
         "dstein64/vim-startuptime",
@@ -74,12 +78,74 @@ return {
     --     enabled = vim.fn.executable("latexmk") == 1,
     -- },
 
-    -- library used by other plugins
-    { "nvim-lua/plenary.nvim", lazy = true },
-
     -- For aligning tables
     -- { "godlygeek/tabular" }
 
     -- makes some plugins dot-repeatable like flash.nvim
     ---{ "tpope/vim-repeat", event = "VeryLazy" },
+
+    -- I use snippets instead, but in case I want here's the link
+    -- wisely add "end" in Ruby, Vimscript, Lua, etc
+    -- {
+    --     "RRethy/nvim-treesitter-endwise",
+    --     dependencies = { "nvim-treesitter/nvim-treesitter" },
+    -- },
+
+    -- I might find a use fo this one later
+    -- tab out from parentheses, quotes, and similar contexts
+    -- {
+    --     "abecodes/tabout.nvim",
+    --     dependencies = { "nvim-treesitter/nvim-treesitter" },
+    -- },
+
+    -- from plugin/ui.lua
+    -- foldcolumn
+    -- { "kevinhwang91/nvim-ufo" },
+
+    -- SOMEDAY: in case I want to replace the command line with a ui
+    -- noicer ui
+    -- NOTE: this plugin includes fidget.nvim
+    -- {
+    --   "folke/noice.nvim",
+    --   event = "VeryLazy",
+    --   opts = {
+    --     lsp = {
+    --       override = {
+    --         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+    --         ["vim.lsp.util.stylize_markdown"] = true,
+    --       },
+    --     },
+    --     presets = {
+    --       bottom_search = true,
+    --       command_palette = true,
+    --       long_message_to_split = true,
+    --     },
+    --   },
+    --   -- stylua: ignore
+    --   keys = {
+    --     { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
+    --     { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
+    --     { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
+    --     { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
+    --     { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
+    --     { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
+    --   },
+    -- },
+
+    -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
+    {
+        "j-hui/fidget.nvim",
+        event = "LspAttach",
+        tag = "legacy", -- TODO: update to later tag
+        cond = CONFIG.ui.spinner,
+        opts = {
+            text = {
+                spinner = CONFIG.ui.spinner_type,
+            },
+            window = {
+                relative = "editor", -- where to anchor, either "win" or "editor" (default: "win")
+                blend = CONFIG.ui.transparent_background and 0 or 100, -- &winblend for the window (default: 100)
+            },
+        },
+    },
 }

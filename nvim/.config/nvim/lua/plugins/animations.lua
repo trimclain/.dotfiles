@@ -19,6 +19,7 @@ return {
             local neoscroll = require("neoscroll")
             neoscroll.setup(opts)
 
+            -- stylua: ignore
             local keymaps = {
                 ["<C-u>"] = function() neoscroll.ctrl_u({ duration = 250 }) end;
                 ["<C-d>"] = function() neoscroll.ctrl_d({ duration = 250 }) end;
@@ -31,9 +32,8 @@ return {
                 ["zb"]    = function() neoscroll.zb({ half_win_duration = 250 }) end;
             }
             for key, func in pairs(keymaps) do
-                vim.keymap.set({ 'n', 'v', 'x' }, key, func)
+                vim.keymap.set({ "n", "v", "x" }, key, func)
             end
-
         end,
     },
 

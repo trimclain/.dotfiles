@@ -18,11 +18,15 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Any lua file in ~/.config/nvim/lua/plugins/*.lua will be automatically imported
+-- Any lua file in ~/.config/nvim/lua/plugins/*.lua will be automatically required
 require("lazy").setup("plugins", {
     defaults = {
         lazy = false, -- should plugins be lazy-loaded?
         version = false, -- always use the latest git commit
+    },
+    local_spec = true, -- load project specific .lazy.lua spec files (turn off for now until I need it)
+    rocks = {
+        enabled = false, -- turn off for now until I need it
     },
     dev = {
         path = "~/projects/personal",
