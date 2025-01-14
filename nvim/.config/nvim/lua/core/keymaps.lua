@@ -151,3 +151,9 @@ end, { desc = "Remap <C-b> to build with color" })
 vim.api.nvim_create_user_command("EmptyRegisters", function()
     Util.empty_registers()
 end, { desc = "Empty :registers" })
+
+-- Fix the bug in kitty with tmux, where sometimes whenever I open another window
+-- and kitty gets resized, cmdheight is randomly set to 30.
+vim.api.nvim_create_user_command("FixCmdheight", function()
+    vim.opt.cmdheight = 1
+end, { desc = "Restore cmdheight" })

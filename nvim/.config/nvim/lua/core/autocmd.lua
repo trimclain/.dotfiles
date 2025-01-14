@@ -117,6 +117,23 @@ if CONFIG.ui.cursorline then
     })
 end
 
+-- Fix a bug with kitty and cmdheight on kitty(vim) resize
+vim.api.nvim_create_autocmd({ "VimResized", "WinResized" }, {
+    callback = function(event)
+        local old_cmdheight = vim.o.cmdheight
+        if old_cmdheight > 1 then
+            vim.notify(
+                "Event fired: " .. event.event .. "\nResizing cmdheight from " .. old_cmdheight,
+                vim.log.levels.INFO,
+                { title = "Thank You Kitty and Neovim" }
+            )
+            vim.opt.cmdheight = 1
+        end
+    end,
+    desc = "Fix nvim/kitty bug with cmdheight on vim resize",
+    group = augroup("fix_nvim_bug_with_cmdheight"),
+})
+
 -----------------------------------------------------------------------------------------------------------------------
 -- Filetypes
 -----------------------------------------------------------------------------------------------------------------------
