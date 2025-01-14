@@ -220,6 +220,7 @@ end
 ---@param path string The path of the file to open with the system opener
 local function system_open(path)
     local cmd
+    -- TODO: use jit.os:find("Windows") instead of vim.fn.has("win32") == 1
     if vim.fn.has("win32") == 1 and vim.fn.executable("explorer") == 1 then
         cmd = { "cmd.exe", "/K", "explorer" }
     elseif vim.fn.has("unix") == 1 and vim.fn.executable("xdg-open") == 1 then

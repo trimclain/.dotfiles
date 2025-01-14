@@ -1,12 +1,20 @@
 [user]
     name = Arthur McLain
     email = mclain.it@gmail.com
+
 [init]
     defaultBranch = main
+
 [alias]
     hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
     root = rev-parse --show-toplevel
+
 [pull]
     rebase = false
+
+; to forget about `git branch --set-upstream-to`
+[push]
+	autoSetupRemote = true
+
 [rerere]
     enabled = true
