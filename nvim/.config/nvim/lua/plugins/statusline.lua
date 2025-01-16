@@ -1,5 +1,4 @@
 return {
-    -- TODO: switch out, 20 ms startup time is too bad
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",

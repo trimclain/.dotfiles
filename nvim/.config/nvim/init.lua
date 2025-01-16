@@ -28,6 +28,8 @@ CONFIG = {
         virtual_text = false,
         show_signature_help = true,
         enable_copilot = vim.fn.has("unix") == 1 and vim.fn.has("wsl") == 0,
+        -- use blink.cmp or nvim-cmp
+        use_blink_completion = false,
     },
     ui = {
         -- Colorschemes (note/10):

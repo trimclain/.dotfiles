@@ -1,5 +1,4 @@
 -- documentation comments
--- TODO: works with luasnip
 return {
     {
         "danymat/neogen",
@@ -35,7 +34,7 @@ return {
             },
         },
         opts = {
-            snippet_engine = "luasnip", -- use provided engine to place the annotations
+            snippet_engine = CONFIG.lsp.use_blink_completion and "nvim" or "luasnip", -- use provided engine to place the annotations
             languages = {
                 -- Supported languages: https://github.com/danymat/neogen#configuration
                 lua = {

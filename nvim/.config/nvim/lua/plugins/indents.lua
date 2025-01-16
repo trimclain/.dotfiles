@@ -1,5 +1,6 @@
 local Icons = require("core.icons")
 
+-- Alternative: https://www.lazyvim.org/plugins/ui#snacksnvim
 return {
     -- indent guides for Neovim
     {

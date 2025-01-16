@@ -1,6 +1,7 @@
 local Util = require("core.util")
 local Icons = require("core.icons")
 
+-- Alternative: https://www.lazyvim.org/plugins/ui#snacksnvim-1
 return {
     {
         "nvimdev/dashboard-nvim",
