@@ -8,6 +8,7 @@ return {
     -- preview markdown files in browser
     {
         "iamcco/markdown-preview.nvim",
+        enabled = vim.fn.executable("npm") == 1,
         build = "cd app && npx --yes yarn install", -- Lazy sync doesn't run `git restore .` so it can't pull
         ft = { "markdown" },
         config = function()
@@ -38,7 +39,6 @@ return {
                 let g:mkdp_browserfunc = "OpenMarkdownPreview"
             ]])
         end,
-        enabled = vim.fn.executable("npm") == 1,
     },
 
     -- markdown preview alternative using deno

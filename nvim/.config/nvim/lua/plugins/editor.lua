@@ -12,15 +12,7 @@ return {
         },
     },
 
-    -- buffer remove (other options: https://github.com/famiu/bufdelete.nvim)
-    {
-        "echasnovski/mini.bufremove",
-        -- stylua: ignore
-        keys = {
-            { "<leader>q", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-        },
-    },
-
+    -- Alternative: "stevearc/quicker.nvim"
     -- TODO: someday
     -- better diagnostics list and others
     -- {
@@ -137,9 +129,6 @@ return {
             { "[[", desc = "Prev Reference" },
         },
     },
-
-    -- Detect tabstop and shiftwidth automatically
-    { "tpope/vim-sleuth" },
 
     -- auto remove search highlight and rehighlight when using n or N
     -- {

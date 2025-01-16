@@ -1,5 +1,6 @@
 local Icons = require("core.icons")
 
+-- Alternative: https://github.com/echasnovski/mini.hipatterns (combines colorizer)
 return {
     {
         "folke/todo-comments.nvim",

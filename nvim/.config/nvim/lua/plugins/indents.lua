@@ -7,8 +7,6 @@ return {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         event = { "BufReadPost", "BufNewFile" },
-        -- for setting shiftwidth and tabstop automatically
-        -- dependencies = "tpope/vim-sleuth",
         cond = CONFIG.ui.indentline,
         opts = {
             indent = {
@@ -50,7 +48,6 @@ return {
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
                 callback = function()
-                    ---@diagnostic disable-next-line: inject-field
                     vim.b.miniindentscope_disable = true
                 end,
             })
@@ -60,4 +57,6 @@ return {
         end,
     },
 
+    -- Detect tabstop and shiftwidth automatically
+    { "tpope/vim-sleuth" },
 }
