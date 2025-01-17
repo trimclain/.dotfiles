@@ -59,8 +59,13 @@ keymap("n", "<C-Left>", ":vertical resize -5<cr>", opts)
 keymap("n", "<C-Right>", ":vertical resize +5<cr>", opts)
 
 --
+-- Execute lua/vim code
+keymap("n", "<leader>x", ":.lua<cr>", { desc = "Source Current Lua Line" })
+keymap("v", "<leader>x", ":lua<cr>", { desc = "Source Selected Lua Lines" })
+keymap("n", "<leader><cr>", "<cmd>source %<cr>", add_desc("Source Lua/Vim Buffer"))
+
+--
 -- Very Useful Stuff
-keymap("n", "<leader><cr>", "<cmd>source %<cr>", add_desc("Source Buffer"))
 keymap("n", "gp", "`[v`]", add_desc("Select recently pasted text"))
 keymap("n", "Q", "<cmd>qa<cr>", opts) -- remap Q to :qa
 keymap("n", "n", "nzzzv", opts) -- keep it centered when searching forward
