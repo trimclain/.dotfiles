@@ -3,7 +3,7 @@ return {
         "akinsho/bufferline.nvim",
         dependencies = "nvim-web-devicons",
         event = { "BufNewFile", "BufReadPre" },
-        cond = CONFIG.ui.bufferline,
+        cond = CONFIG.plugins.bufferline,
         -- keys = {
         --   { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
         --   { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },

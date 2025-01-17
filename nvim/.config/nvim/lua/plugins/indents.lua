@@ -5,7 +5,7 @@ return {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         event = { "BufReadPost", "BufNewFile" },
-        cond = CONFIG.ui.indentline,
+        cond = CONFIG.plugins.indentline,
         opts = function()
             local Icons = require("core.icons")
             return {
@@ -39,7 +39,7 @@ return {
         "echasnovski/mini.indentscope",
         version = false, -- wait till new 0.7.0 release to put it back on semver
         event = { "BufReadPre", "BufNewFile" },
-        cond = CONFIG.ui.indentline,
+        cond = CONFIG.plugins.indentline,
         opts = function()
             local Icons = require("core.icons")
             return {

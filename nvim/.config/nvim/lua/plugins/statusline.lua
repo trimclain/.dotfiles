@@ -2,7 +2,7 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
-        cond = CONFIG.ui.lualine,
+        cond = CONFIG.plugins.lualine,
         opts = function()
             local Icons = require("core.icons")
 

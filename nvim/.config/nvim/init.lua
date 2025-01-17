@@ -28,8 +28,6 @@ CONFIG = {
         virtual_text = false,
         show_signature_help = true,
         enable_copilot = vim.fn.has("unix") == 1 and vim.fn.has("wsl") == 0,
-        -- use blink.cmp or nvim-cmp
-        use_blink_completion = false,
     },
     ui = {
         -- Colorschemes (note/10):
@@ -46,11 +44,20 @@ CONFIG = {
         italic_comments = true,
         ghost_text = false,
         inlay_hints = false,
+    },
+    git = {
+        show_line_blame = true,
+        show_signcolumn = true,
+    },
+    plugins = {
+        -- use blink.cmp or nvim-cmp
+        use_blink_completion = false,
+        -- use fzf-lua or telescope.nvim
+        use_fzf_lua = true,
 
-        -- plugins
         neoscroll = true,
         smear_cursor = false, -- found out about kitty's cursor trail
-        -- workflow: no bufferline, use tabs as workspaces with tabby, switch between buffers using telescope and harpoon
+        -- workflow: no bufferline, use tabs as workspaces with tabby(?), switch between buffers using telescope and harpoon
         bufferline = false, -- to force myself to use harpoon more
         dashboard = type == "default",
         illuminate = type == "default",
@@ -61,10 +68,6 @@ CONFIG = {
 
         -- Builder
         builder_type = "bot", -- "bot": bottom horizontal split, "vert": right vertical split, "float": floating window
-    },
-    git = {
-        show_line_blame = true,
-        show_signcolumn = true,
     },
 }
 

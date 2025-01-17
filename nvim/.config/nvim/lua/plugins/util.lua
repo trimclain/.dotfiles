@@ -137,10 +137,10 @@ return {
         "j-hui/fidget.nvim",
         event = "LspAttach",
         tag = "legacy", -- TODO: update to later tag
-        cond = CONFIG.ui.spinner,
+        cond = CONFIG.plugins.spinner,
         opts = {
             text = {
-                spinner = CONFIG.ui.spinner_type,
+                spinner = CONFIG.plugins.spinner_type,
             },
             window = {
                 relative = "editor", -- where to anchor, either "win" or "editor" (default: "win")

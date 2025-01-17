@@ -241,7 +241,7 @@ return {
                         -- I like the color from hop.nvim
                         hl.FlashLabel = { fg = c.ui.base, bg = "#ff007c", bold = true }
 
-                        if CONFIG.ui.illuminate then
+                        if CONFIG.plugins.illuminate then
                             hl.IlluminatedWordText = { fg = c.none, bg = "#31363d" }
                             hl.IlluminatedWordRead = { fg = c.none, bg = "#31363d" }
                             hl.IlluminatedWordWrite = { fg = c.none, bg = "#31363d" }
@@ -358,7 +358,7 @@ return {
                 },
                 modules = {
                     cmp = true,
-                    dashboard = CONFIG.ui.dashboard,
+                    dashboard = CONFIG.plugins.dashboard,
                     fidget = true,
                     gitsigns = true,
                     indent_blankline = true,

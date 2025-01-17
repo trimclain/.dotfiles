@@ -1,4 +1,4 @@
-if not CONFIG.lsp.use_blink_completion then
+if not CONFIG.plugins.use_blink_completion then
     return {}
 end
 
@@ -203,11 +203,14 @@ return {
         cmd = "LazyDev",
         opts = {
             library = {
+                -- Only load luvit types when the `vim.uv` word is found
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                -- Only load the lazyvim library when the `LazyVim` global is found
-                { path = "LazyVim", words = { "LazyVim" } },
-                { path = "snacks.nvim", words = { "Snacks" } },
-                { path = "lazy.nvim", words = { "LazyVim" } },
+                --{ path = "LazyVim", words = { "LazyVim" } },
+                --{ path = "snacks.nvim", words = { "Snacks" } },
+                --{ path = "lazy.nvim", words = { "LazyVim" } },
+                -- -- Load the wezterm types when the `wezterm` module is required
+                -- -- Needs `justinsgithub/wezterm-types` to be installed
+                --{ path = "wezterm-types", mods = { "wezterm" } },
             },
         },
     },

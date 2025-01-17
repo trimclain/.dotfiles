@@ -83,7 +83,7 @@ return {
     -- instances.
     {
         "RRethy/vim-illuminate",
-        cond = CONFIG.ui.illuminate,
+        cond = CONFIG.plugins.illuminate,
         event = { "BufReadPost", "BufNewFile" },
         opts = {
             delay = 200,

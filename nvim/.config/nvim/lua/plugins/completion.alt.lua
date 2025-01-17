@@ -1,4 +1,4 @@
-if CONFIG.lsp.use_blink_completion then
+if CONFIG.plugins.use_blink_completion then
     return {}
 end
 
@@ -148,15 +148,16 @@ return {
                         local icons = require("core.icons").kinds
                         item.kind = icons[item.kind] or ""
                         item.menu = ({
-                            copilot = "[copilot]",
-                            nvim_lsp = "[LSP]",
-                            nvim_lsp_signature_help = "[sign]",
-                            latex_symbols = "[symb]",
-                            luasnip = "[snip]",
-                            path = "[path]",
-                            spell = "[spell]",
                             buffer = "[buf]",
                             cmdline = "[cmd]",
+                            copilot = "[copilot]",
+                            latex_symbols = "[symb]",
+                            lazydev = "[dev]",
+                            luasnip = "[snip]",
+                            nvim_lsp = "[LSP]",
+                            nvim_lsp_signature_help = "[sign]",
+                            path = "[path]",
+                            spell = "[spell]",
                         })[entry.source.name]
                         return item
                     end,
@@ -211,11 +212,14 @@ return {
         cmd = "LazyDev",
         opts = {
             library = {
+                -- Only load luvit types when the `vim.uv` word is found
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                -- Only load the lazyvim library when the `LazyVim` global is found
-                { path = "LazyVim", words = { "LazyVim" } },
-                { path = "snacks.nvim", words = { "Snacks" } },
-                { path = "lazy.nvim", words = { "LazyVim" } },
+                --{ path = "LazyVim", words = { "LazyVim" } },
+                --{ path = "snacks.nvim", words = { "Snacks" } },
+                --{ path = "lazy.nvim", words = { "LazyVim" } },
+                -- -- Load the wezterm types when the `wezterm` module is required
+                -- -- Needs `justinsgithub/wezterm-types` to be installed
+                --{ path = "wezterm-types", mods = { "wezterm" } },
             },
         },
     },

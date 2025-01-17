@@ -34,7 +34,7 @@ return {
             },
         },
         opts = {
-            snippet_engine = CONFIG.lsp.use_blink_completion and "nvim" or "luasnip", -- use provided engine to place the annotations
+            snippet_engine = CONFIG.plugins.use_blink_completion and "nvim" or "luasnip", -- use provided engine to place the annotations
             languages = {
                 -- Supported languages: https://github.com/danymat/neogen#configuration
                 lua = {

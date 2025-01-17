@@ -3,7 +3,7 @@ return {
     -- althernative: https://github.com/declancm/cinnamon.nvim
     {
         "karb94/neoscroll.nvim",
-        cond = CONFIG.ui.neoscroll,
+        cond = CONFIG.plugins.neoscroll,
         event = { "BufReadPost" },
         opts = {
             -- All these keys will be mapped to their corresponding default scrolling animation
@@ -42,7 +42,7 @@ return {
         "sphamba/smear-cursor.nvim",
         event = "VeryLazy",
         enabled = vim.fn.has("nvim-0.10.2") == 1,
-        cond = CONFIG.ui.smear_cursor and vim.g.neovide == nil,
+        cond = CONFIG.plugins.smear_cursor and vim.g.neovide == nil,
         opts = {
             hide_target_hack = true,
             -- cursor_color = "none",
