@@ -4,9 +4,7 @@ return {
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
+        dependencies = "plenary.nvim",
         -- dir = "~/projects/open-source/nvim-plugins/harpoon",
         -- stylua: ignore
         keys = function()

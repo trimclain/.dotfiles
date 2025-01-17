@@ -9,6 +9,7 @@ return {
         cmd = "Telescope",
         branch = "0.1.x",
         dependencies = {
+            "plenary.nvim",
             {
                 "nvim-telescope/telescope-fzf-native.nvim", -- make telescope 20-200 times faster
                 build = "make",
@@ -17,7 +18,6 @@ return {
                 end,
                 enabled = vim.fn.executable("make") == 1,
             },
-            "nvim-lua/plenary.nvim",
         },
         keys = {
             -- find files

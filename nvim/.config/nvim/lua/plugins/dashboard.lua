@@ -1,14 +1,14 @@
-local Util = require("core.util")
-local Icons = require("core.icons")
-
 -- Alternative: https://www.lazyvim.org/plugins/ui#snacksnvim-1
 return {
     {
         "nvimdev/dashboard-nvim",
         enabled = CONFIG.ui.dashboard,
         event = "VimEnter",
-        dependencies = { { "nvim-tree/nvim-web-devicons" } },
+        dependencies = "nvim-web-devicons",
         opts = function()
+            local Util = require("core.util")
+            local Icons = require("core.icons")
+
             local winheight = vim.fn.winheight(0)
 
             -- big screen winheight: 36

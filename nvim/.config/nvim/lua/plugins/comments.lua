@@ -1,4 +1,4 @@
--- Comment plugin with has some nice keybindings
+-- Comment plugin with some nice keybindings
 return {
     {
         "numToStr/Comment.nvim",

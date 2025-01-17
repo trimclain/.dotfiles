@@ -1,5 +1,4 @@
 return {
-
     -- Alternative: https://github.com/echasnovski/mini.hipatterns (combines todo-comments)
     -- preview colors in neovim
     {

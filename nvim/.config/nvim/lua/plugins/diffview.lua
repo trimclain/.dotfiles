@@ -2,9 +2,7 @@
 return {
     {
         "sindrets/diffview.nvim",
-        dependencies = {
-            "nvim-web-devicons",
-        },
+        dependencies = "nvim-web-devicons",
         cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
         keys = {
             {

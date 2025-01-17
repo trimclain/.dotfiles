@@ -1,5 +1,3 @@
-local Icons = require("core.icons")
-
 -- Alternative: https://www.lazyvim.org/plugins/ui#snacksnvim
 return {
     -- indent guides for Neovim
@@ -8,29 +6,32 @@ return {
         main = "ibl",
         event = { "BufReadPost", "BufNewFile" },
         cond = CONFIG.ui.indentline,
-        opts = {
-            indent = {
-                char = Icons.ui.LineLeft,
-                -- char = "│",
-                tab_char = Icons.ui.LineLeft,
-                -- tab_char = "│",
-            },
-            scope = { enabled = false },
-            exclude = {
-                filetypes = {
-                    "Trouble",
-                    "alpha",
-                    "dashboard",
-                    "lazy",
-                    "mason",
-                    "neo-tree",
-                    "notify",
-                    "neogitstatus",
-                    "undotree",
-                    "toggleterm",
+        opts = function()
+            local Icons = require("core.icons")
+            return {
+                indent = {
+                    char = Icons.ui.LineLeft,
+                    -- char = "│",
+                    tab_char = Icons.ui.LineLeft,
+                    -- tab_char = "│",
                 },
-            },
-        },
+                scope = { enabled = false },
+                exclude = {
+                    filetypes = {
+                        "Trouble",
+                        "alpha",
+                        "dashboard",
+                        "lazy",
+                        "mason",
+                        "neo-tree",
+                        "notify",
+                        "neogitstatus",
+                        "undotree",
+                        "toggleterm",
+                    },
+                },
+            }
+        end,
     },
 
     -- active indent guide and indent text objects
@@ -39,11 +40,14 @@ return {
         version = false, -- wait till new 0.7.0 release to put it back on semver
         event = { "BufReadPre", "BufNewFile" },
         cond = CONFIG.ui.indentline,
-        opts = {
-            symbol = Icons.ui.LineLeft,
-            -- symbol = "│",
-            options = { try_as_border = true },
-        },
+        opts = function()
+            local Icons = require("core.icons")
+            return {
+                symbol = Icons.ui.LineLeft,
+                -- symbol = "│",
+                options = { try_as_border = true },
+            }
+        end,
         init = function()
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },

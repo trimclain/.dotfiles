@@ -7,8 +7,8 @@ return {
         build = ":Neorg sync-parsers",
         ft = "norg",
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
+            "plenary.nvim",
+            "nvim-treesitter",
         },
         config = function()
             require("neorg").setup({

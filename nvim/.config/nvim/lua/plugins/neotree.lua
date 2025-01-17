@@ -6,9 +6,9 @@ return {
         cmd = "Neotree",
         branch = "v3.x",
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim",
+            "plenary.nvim",
+            "nvim-web-devicons",
+            "nui.nvim",
         },
         keys = {
             {
@@ -22,7 +22,7 @@ return {
         init = function()
             vim.g.neo_tree_remove_legacy_commands = 1
             if vim.fn.argc() == 1 then
-                -- FIX:
+                ---@diagnostic disable-next-line: param-type-mismatch
                 local stat = vim.uv.fs_stat(vim.fn.argv(0))
                 if stat and stat.type == "directory" then
                     require("neo-tree")
