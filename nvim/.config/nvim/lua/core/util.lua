@@ -61,6 +61,11 @@ M.in_git_worktree = function()
     )[1] == "true"
 end
 
+-------------------------------------------------------------------------------
+-- Telescope
+-------------------------------------------------------------------------------
+-- TODO: update for fzf-lua
+
 -- Return a function that calls telescope.
 ---@param builtin string
 ---@param opts table | nil
@@ -130,8 +135,6 @@ M.open_project = function()
         })
         :find()
 end
-
--------------------------------------------------------------------------------
 
 --- Fuzzy find in current buffer
 M.curr_buf_search = function()

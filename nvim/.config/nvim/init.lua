@@ -53,7 +53,7 @@ CONFIG = {
         -- use blink.cmp or nvim-cmp
         use_blink_completion = false,
         -- use fzf-lua or telescope.nvim
-        use_fzf_lua = true,
+        use_fzf_lua = vim.fn.executable("fzf") == 1 and false,
 
         neoscroll = true,
         smear_cursor = false, -- found out about kitty's cursor trail

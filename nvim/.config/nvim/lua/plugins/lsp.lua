@@ -7,9 +7,19 @@ return {
     {
         "neovim/nvim-lspconfig",
         -- TODO: do I need this for neovide? (bashls errors, but pylsp doesn't)
-        -- cond = vim.fn.executable("node"),
+        -- cond = vim.fn.executable("node") == 1,
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
+            -- used by some keymaps
+            {
+                "nvim-telescope/telescope.nvim",
+                cond = not CONFIG.plugins.use_fzf_lua,
+            },
+            {
+                "ibhagwan/fzf-lua",
+                cond = CONFIG.plugins.use_fzf_lua,
+            },
+
             "mason.nvim",
             {
                 "hrsh7th/cmp-nvim-lsp",
@@ -64,15 +74,25 @@ return {
                     end
 
                     map("<leader>li", "<cmd>LspInfo<cr>", "[L]sp [I]nfo")
-                    map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-                    map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+
+                    if CONFIG.plugins.use_fzf_lua then
+                        map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
+                        map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
+                        map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
+                        map("gt", require("fzf-lua").lsp_typedefs, "[G]oto [T]ype Definition")
+                        map("<leader>ls", require("fzf-lua").lsp_document_symbols, "Document [S]ymbols")
+                    else
+                        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+                        map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+                        map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+                        map("gt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
+                        map("<leader>ls", require("telescope.builtin").lsp_document_symbols, "Document [S]ymbols")
+                    end
+
                     map("gl", vim.diagnostic.open_float, "[G]et [L]ine Diagnostics")
                     map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-                    map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-                    map("gt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
                     map("K", vim.lsp.buf.hover, "Hover Documentation")
                     map("gK", vim.lsp.buf.signature_help, "Signature Help")
-                    map("<leader>ls", require("telescope.builtin").lsp_document_symbols, "Document [S]ymbols")
 
                     -- Diagnostic keymaps
                     local function diagnostic_goto(next, severity)

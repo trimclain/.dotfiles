@@ -36,6 +36,14 @@ return {
                 vim.split(string.rep("\n", padding_bot), "\n")
             )
 
+            -- actions using fzf-lua or telescope
+            local use_fzf_lua = CONFIG.plugins.use_fzf_lua
+            local files_action = use_fzf_lua and "FzfLua files" or Util.telescope("files")
+            local oldfiles_action = use_fzf_lua and "FzfLua oldfiles" or "Telescope oldfiles"
+            local live_grep_action = use_fzf_lua and "FzfLua live_grep" or "Telescope live_grep"
+            local todo_action = use_fzf_lua and "TodoFzfLua keywords=TODO,FIX" or "TodoTelescope keywords=TODO,FIX"
+            local config_action = use_fzf_lua and "lua vim.notify('Broken')" or Util.config_files
+
             local opts = {
                 theme = "doom",
                 hide = {
@@ -47,12 +55,12 @@ return {
                     header = logo,
                     -- stylua: ignore
                     center = {
-                        { action = Util.telescope("files"),                                    desc = " Find file",       icon = Icons.ui.Search, key = "f" },
+                        { action = files_action,                                               desc = " Find file",       icon = Icons.ui.Search, key = "f" },
                         -- { action = "ene | startinsert",                                        desc = " New file",        icon = Icons.ui.File, key = "n" },
-                        { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = Icons.ui.Files, key = "r" },
-                        { action = "Telescope live_grep",                                      desc = " Find string",     icon = Icons.ui.List, key = "s" },
-                        { action = "TodoTelescope keywords=TODO,FIX",                          desc = " Find todos",      icon = Icons.ui.BoxChecked, key = "t" },
-                        { action = Util.config_files,                                          desc = " Config",          icon = Icons.ui.Gear, key = "c" },
+                        { action = oldfiles_action,                                            desc = " Recent files",    icon = Icons.ui.Files, key = "r" },
+                        { action = live_grep_action,                                           desc = " Find string",     icon = Icons.ui.List, key = "s" },
+                        { action = todo_action,                                                desc = " Find todos",      icon = Icons.ui.BoxChecked, key = "t" },
+                        { action = config_action,                                              desc = " Config",          icon = Icons.ui.Gear, key = "c" },
                         { action = "Lazy",                                                     desc = " Lazy",            icon = Icons.ui.Lazy, key = "l" },
                         { action = "qa",                                                       desc = " Quit",            icon = Icons.ui.SignOut, key = "q" },
                     },
@@ -83,7 +91,7 @@ return {
             -- end
 
             -- Since I don't have tmux in neovide, add a project manager to dashboard
-            if vim.g.neovide == true then
+            if vim.g.neovide == true and not CONFIG.plugins.use_fzf_lua then
                 table.insert(
                     opts.config.center,
                     2,

@@ -241,12 +241,12 @@ return {
         },
     },
 
-    -- PERF: it takes 20 ms to load on startup
     {
+        -- PERF: it takes 15-25 ms to load on startup
         "L3MON4D3/LuaSnip",
         version = "v2.*",
-        lazy = true,
         dependencies = {
+            -- PERF: it takes 8 ms to load on startup
             "rafamadriz/friendly-snippets",
             config = function()
                 require("luasnip.loaders.from_vscode").lazy_load()
