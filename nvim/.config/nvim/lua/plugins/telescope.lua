@@ -2,6 +2,7 @@ local Util = require("core.util")
 local Icons = require("core.icons").ui
 
 -- Fuzzy Finder
+-- Alternative: "ibhagwan/fzf-lua"
 return {
     {
         "nvim-telescope/telescope.nvim",
