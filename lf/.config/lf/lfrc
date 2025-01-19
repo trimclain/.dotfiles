@@ -124,11 +124,13 @@ map <c-_> maps
 # <Space> - toggle selection
 # v - invert selection
 # u - undo all selection                                        - vim
-# y - copy                                                      - vim
+# old: y
+map c copy
 map x delete
 # d - cut                                                       - vim
 # p - paste                                                     - vim
-# c - clear copied or cut
+# old: c - clear copied or cut
+map <c-l> clear
 map <esc> clear
 # r - rename
 # : - run builtin command                                       - vim
