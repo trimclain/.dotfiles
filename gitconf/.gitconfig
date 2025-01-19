@@ -7,6 +7,8 @@
 
 [alias]
     hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+    # remote log diff
+    rld = hist HEAD..origin/main
     root = rev-parse --show-toplevel
 
 [pull]
