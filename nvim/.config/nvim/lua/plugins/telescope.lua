@@ -134,7 +134,7 @@ return {
         opts = function()
             local Icons = require("core.icons").ui
 
-            return {
+            local opts = {
                 defaults = {
                     prompt_prefix = Icons.Telescope, -- default: " ",
                     selection_caret = Icons.Forward, -- default: " ",
@@ -244,8 +244,6 @@ return {
                 pickers = {
                     find_files = {
                         previewer = false,
-                        -- TODO: add only if not on Windows
-                        hidden = true,
                     },
                     -- live_grep = {
                     --     vimgrep_arguments = {
@@ -285,6 +283,12 @@ return {
                     },
                 },
             }
+
+            if not jit.os:find("Windows") then
+                opts.pickers.find_files.hidden = true
+            end
+
+            return opts
         end,
     },
 }

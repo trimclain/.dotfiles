@@ -1,6 +1,7 @@
 -- TODO: where to put the others?
 return {
 
+    -- TODO: move to a separate file and maybe replace with "MagicDuck/grug-far.nvim"
     -- search/replace in multiple files
     {
         "nvim-pack/nvim-spectre",

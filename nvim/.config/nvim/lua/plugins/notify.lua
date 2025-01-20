@@ -34,4 +34,24 @@ return {
             end
         end,
     },
+
+
+    -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
+    -- TODO: both this and notify have same capabilities in their latest versions. I should really pick one.
+    -- Or go with snacks.nvim/mini.nvim alternative.
+    {
+        "j-hui/fidget.nvim",
+        event = "LspAttach",
+        tag = "legacy",
+        cond = CONFIG.plugins.spinner,
+        opts = {
+            text = {
+                spinner = CONFIG.plugins.spinner_type,
+            },
+            window = {
+                relative = "editor", -- where to anchor, either "win" or "editor" (default: "win")
+                blend = CONFIG.ui.transparent_background and 0 or 100, -- &winblend for the window (default: 100)
+            },
+        },
+    },
 }

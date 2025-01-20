@@ -1,4 +1,5 @@
 -- preview HTML, CSS and JS in browser
+-- Alternative: "brianhuster/live-preview.nvim"
 return {
     {
         "turbio/bracey.vim",
@@ -10,9 +11,20 @@ return {
             { "<leader>mb", "<cmd>Bracey<cr>", desc = "Open Preview (Live Server)" },
         },
         config = function()
-            -- Open preview in a new window
-            -- TODO: fix hardcoded browser
-            vim.g.bracey_browser_command = "brave-browser --new-window"
+            -- Detect installed browser
+            local browserlist = {
+                "thorium-browser",
+                "google-chrome",
+                "brave",
+                "brave-browser",
+            }
+            for _, browser in ipairs(browserlist) do
+                if vim.fn.executable(browser) == 1 then
+                    -- Open preview in a new window
+                    vim.g.bracey_browser_command = browser .. " --new-window"
+                    break
+                end
+            end
         end,
     },
 }
