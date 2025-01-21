@@ -1,18 +1,6 @@
 -- TODO: where to put the others?
 return {
 
-    -- TODO: move to a separate file and maybe replace with "MagicDuck/grug-far.nvim"
-    -- search/replace in multiple files
-    {
-        "nvim-pack/nvim-spectre",
-        -- stylua: ignore
-        keys = {
-            { "<leader>rr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-            { "<leader>rw", function() require("spectre").open_visual({ select_word = true }) end, desc = "Replace Word (Spectre)" },
-            { "<leader>rf", function() require("spectre").open_file_search() end, desc = "Replace Buffer (Spectre)" },
-        },
-    },
-
     -- Alternative: "stevearc/quicker.nvim"
     -- TODO: someday
     -- better diagnostics list and others

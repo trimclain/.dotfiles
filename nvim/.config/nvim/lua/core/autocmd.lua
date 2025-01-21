@@ -78,6 +78,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "man", -- nvim man pages
         "startuptime", -- dstein64/vim-startuptime
         "spectre_panel", -- nvim-pack/nvim-spectre
+        "grug-far", -- MagicDuck/grug-far.nvim
         "neotest-output", -- nvim-neotest/neotest
         "neotest-summary", -- nvim-neotest/neotest
     },
