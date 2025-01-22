@@ -136,8 +136,8 @@ return {
 
             local opts = {
                 defaults = {
-                    prompt_prefix = Icons.Telescope, -- default: " ",
-                    selection_caret = Icons.Forward, -- default: " ",
+                    prompt_prefix = Icons.Telescope .. " ", -- default: " ",
+                    selection_caret = Icons.Forward .. " ", -- default: " ",
                     -- multi_icons = Icons.Check, -- default: "+",
                     -- path_display = { "shorten" }, -- default: smart (I think)
                     -- border = CONFIG.ui.border ~= "none",

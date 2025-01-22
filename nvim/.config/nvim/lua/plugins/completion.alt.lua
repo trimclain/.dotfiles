@@ -146,7 +146,7 @@ return {
                     fields = { "kind", "abbr", "menu" },
                     format = function(entry, item)
                         local icons = require("core.icons").kinds
-                        item.kind = icons[item.kind] or ""
+                        item.kind = icons[item.kind] .. " " or ""
                         item.menu = ({
                             buffer = "[buf]",
                             cmdline = "[cmd]",

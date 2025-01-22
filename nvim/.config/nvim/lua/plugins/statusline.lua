@@ -251,9 +251,9 @@ return {
                             "diff",
                             -- colored = CONFIG.ui.colorscheme ~= "primer-dark",
                             symbols = {
-                                added = Icons.git.Add,
-                                modified = Icons.git.Mod,
-                                removed = Icons.git.Remove,
+                                added = Icons.git.Add .. " ",
+                                modified = Icons.git.Mod .. " ",
+                                removed = Icons.git.Remove .. " ",
                             },
                             cond = hide_in_width,
                         },
