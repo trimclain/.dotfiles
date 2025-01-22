@@ -34,11 +34,14 @@ return {
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("trimclain_lsp_attach", { clear = true }),
                 callback = function(event)
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    local methods = vim.lsp.protocol.Methods
+
                     -- adjust the border for LSP floating windows
-                    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+                    vim.lsp.handlers[methods.textDocument_hover] = vim.lsp.with(vim.lsp.handlers.hover, {
                         border = CONFIG.ui.border,
                     })
-                    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+                    vim.lsp.handlers[methods.textDocument_signatureHelp] = vim.lsp.with(vim.lsp.handlers.signature_help, {
                         border = CONFIG.ui.border,
                     })
 
@@ -73,13 +76,17 @@ return {
                     map("<leader>li", "<cmd>LspInfo<cr>", "[L]sp [I]nfo")
 
                     if CONFIG.plugins.use_fzf_lua then
-                        map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
+                        if client and client.supports_method(methods.textDocument_definition) then
+                            map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
+                        end
                         map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
                         map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
                         map("gt", require("fzf-lua").lsp_typedefs, "[G]oto [T]ype Definition")
                         map("<leader>ls", require("fzf-lua").lsp_document_symbols, "Document [S]ymbols")
                     else
-                        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+                        if client and client.supports_method(methods.textDocument_definition) then
+                            map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+                        end
                         map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
                         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
                         map("gt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
@@ -132,7 +139,6 @@ return {
                     end, "Source [A]ction")
 
                     -- Inlay Hints
-                    local client = vim.lsp.get_client_by_id(event.data.client_id)
                     if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
                         if CONFIG.ui.inlay_hints then
                             vim.lsp.inlay_hint.enable()
