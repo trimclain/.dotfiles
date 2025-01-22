@@ -55,14 +55,14 @@ return {
                     header = logo,
                     -- stylua: ignore
                     center = {
-                        { action = files_action,                                               desc = " Find file",       icon = Icons.ui.Search, key = "f" },
-                        -- { action = "ene | startinsert",                                        desc = " New file",        icon = Icons.ui.File, key = "n" },
-                        { action = oldfiles_action,                                            desc = " Recent files",    icon = Icons.ui.Files, key = "r" },
-                        { action = live_grep_action,                                           desc = " Find string",     icon = Icons.ui.List, key = "s" },
-                        { action = todo_action,                                                desc = " Find todos",      icon = Icons.ui.BoxChecked, key = "t" },
-                        { action = config_action,                                              desc = " Config",          icon = Icons.ui.Gear, key = "c" },
-                        { action = "Lazy",                                                     desc = " Lazy",            icon = Icons.ui.Lazy, key = "l" },
-                        { action = "qa",                                                       desc = " Quit",            icon = Icons.ui.SignOut, key = "q" },
+                        { action = files_action,                                               desc = "  Find file",       icon = Icons.ui.Search, key = "f" },
+                        -- { action = "ene | startinsert",                                        desc = "  New file",        icon = Icons.ui.File, key = "n" },
+                        { action = oldfiles_action,                                            desc = "  Recent files",    icon = Icons.ui.Files, key = "r" },
+                        { action = live_grep_action,                                           desc = "  Find string",     icon = Icons.ui.List, key = "s" },
+                        { action = todo_action,                                                desc = "  Find todos",      icon = Icons.ui.BoxChecked, key = "t" },
+                        { action = config_action,                                              desc = "  Config",          icon = Icons.ui.Gear, key = "c" },
+                        { action = "Lazy",                                                     desc = "  Lazy",            icon = Icons.ui.Lazy, key = "l" },
+                        { action = "qa",                                                       desc = "  Quit",            icon = Icons.ui.SignOut, key = "q" },
                     },
                     footer = function()
                         local stats = require("lazy").stats()
