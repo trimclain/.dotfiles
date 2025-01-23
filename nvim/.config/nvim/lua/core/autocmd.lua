@@ -56,7 +56,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- Trim whitespaces on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-    command = [[%s/\s\+$//e]],
+    callback = function()
+        if vim.bo.filetype ~= "markdown" then
+            vim.cmd("%s/\\s\\+$//e")
+        end
+    end,
     desc = "Delete useless whitespaces when saving the file",
     group = augroup("trim_whitespace_on_save"),
 })

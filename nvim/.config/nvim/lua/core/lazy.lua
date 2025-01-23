@@ -24,7 +24,7 @@ require("lazy").setup("plugins", {
         lazy = false, -- should plugins be lazy-loaded?
         version = false, -- always use the latest git commit
     },
-    local_spec = true, -- load project specific .lazy.lua spec files (turn off for now until I need it)
+    local_spec = false, -- load project specific .lazy.lua spec files (turn off for now until I need it)
     rocks = {
         enabled = false, -- turn off for now until I need it
     },
