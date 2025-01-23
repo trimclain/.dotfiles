@@ -10,6 +10,7 @@ return {
         cond = not CONFIG.plugins.use_fzf_lua,
         cmd = "Telescope",
         branch = "0.1.x",
+        -- TODO: add ripgrep as a dependency
         dependencies = {
             "plenary.nvim",
             {
@@ -18,7 +19,7 @@ return {
                 config = function()
                     require("telescope").load_extension("fzf")
                 end,
-                enabled = vim.fn.executable("make") == 1,
+                enabled = vim.fn.executable("gcc") == 1 and vim.fn.executable("make") == 1,
             },
         },
         keys = function()

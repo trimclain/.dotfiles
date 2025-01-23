@@ -189,7 +189,7 @@ return {
                 }
 
                 local m = vim.api.nvim_get_mode().mode
-                return Icons.misc.Vim .. modes[m]
+                return Icons.misc.Vim .. " " .. modes[m]
                 -- return "󰀘"
             end
 
