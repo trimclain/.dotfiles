@@ -105,7 +105,7 @@ return {
             local formatters = {
                 function()
                     local formatters = formatters_list()
-                    local icon = Icons.ui.Paragraph
+                    local icon = Icons.ui.Paragraph .. " "
                     local label = icon .. "Style:"
                     if formatters == "" then
                         -- return icon .. "∅"
@@ -135,7 +135,7 @@ return {
                         vim.notify("WOOOW! Unknown status: " .. status, vim.log.levels.INFO, { title = "Copilot News" })
                     end
 
-                    return Icons.kinds.Copilot -- .. (status or "")
+                    return Icons.kinds.Copilot .. " " -- .. (status or "")
                 end,
                 cond = function()
                     local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
@@ -198,7 +198,7 @@ return {
             -- Show the size of tabs
             local spaces = {
                 function()
-                    return Icons.ui.Tab .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
+                    return Icons.ui.Tab .. " " .. vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
                 end,
                 cond = hide_in_width,
             }
@@ -207,7 +207,7 @@ return {
             local autoformat = function()
                 if CONFIG.lsp.format_on_save then
                     -- ""
-                    return Icons.ui.DoubleCheck
+                    return Icons.ui.DoubleCheck .. " "
                 end
                 -- "", ""
                 return ""
@@ -262,10 +262,10 @@ return {
                             -- colored = CONFIG.ui.colorscheme ~= "primer-dark",
                             sections = { "error", "warn" },
                             symbols = {
-                                error = Icons.diagnostics.Error,
-                                warn = Icons.diagnostics.Warn,
-                                info = Icons.diagnostics.Info,
-                                hint = Icons.diagnostics.Hint,
+                                error = Icons.diagnostics.Error .. " ",
+                                warn = Icons.diagnostics.Warn .. " ",
+                                info = Icons.diagnostics.Info .. " ",
+                                hint = Icons.diagnostics.Hint .. " ",
                             },
                             cond = hide_in_width,
                         },

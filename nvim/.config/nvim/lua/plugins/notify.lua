@@ -35,7 +35,6 @@ return {
         end,
     },
 
-
     -- UI for nvim-lsp's progress handler (loading animation at startup on bottom right)
     -- TODO: both this and notify have same capabilities in their latest versions. I should really pick one.
     -- Or go with snacks.nvim/mini.nvim alternative.

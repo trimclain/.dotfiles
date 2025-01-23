@@ -43,26 +43,26 @@ return {
                     map("n", "]h", gs.next_hunk, "Next Hunk")
                     map("n", "[h", gs.prev_hunk, "Prev Hunk")
 
-                -- Actions
-                -- stylua: ignore
-                map("v", "<leader>hs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Stage Hunk")
+                    -- Actions
+                    -- stylua: ignore
+                    map("v", "<leader>hs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Stage Hunk")
                     map("n", "<leader>hs", gs.stage_hunk, "Stage Hunk")
-                -- stylua: ignore
-                map("v", "<leader>hr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Reset Hunk")
+                    -- stylua: ignore
+                    map("v", "<leader>hr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Reset Hunk")
                     map("n", "<leader>hr", gs.reset_hunk, "Reset Hunk")
 
                     map("n", "<leader>hS", gs.stage_buffer, "Stage Buffer")
                     map("n", "<leader>hu", gs.undo_stage_hunk, "Undo Stage Hunk")
                     map("n", "<leader>hR", gs.reset_buffer, "Reset Buffer")
                     map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk")
-                -- stylua: ignore
-                map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, "Blame Line")
+                    -- stylua: ignore
+                    map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, "Blame Line")
                     map("n", "<leader>ht", gs.toggle_current_line_blame, "Toggle Current Line Blame")
                     map("n", "<leader>hl", gs.toggle_linehl, "Toggle Line Highlight")
                     map("n", "<leader>hw", gs.toggle_word_diff, "Toggle Word Diff")
                     map("n", "<leader>hd", gs.diffthis, "Diff This")
-                -- stylua: ignore
-                map("n", "<leader>hD", function() gs.diffthis("~") end, "Diff This ~")
+                    -- stylua: ignore
+                    map("n", "<leader>hD", function() gs.diffthis("~") end, "Diff This ~")
                     -- map("n", "<leader>hd", gs.toggle_deleted)
 
                     -- Text object

@@ -116,6 +116,7 @@ return {
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
+                    -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
                     { name = "lazydev", group_index = 0 }, -- enable type checking to develop neovim (neodev 2.0)
                     { name = "nvim_lsp_signature_help" },
                     { name = "nvim_lsp" },

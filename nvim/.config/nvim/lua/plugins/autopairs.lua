@@ -10,7 +10,7 @@ return {
             --     javascript = {'template_string'},
             --     java = false,-- don't check treesitter on java
             -- },
-            disable_filetype = { "TelescopePrompt", "spectre_panel", "vim", "text", "markdown" },
+            disable_filetype = { "TelescopePrompt", "spectre_panel", "grug-far", "vim", "text", "markdown" },
             disable_in_macro = true, -- disable when recording or executing a macro
             -- I use this instead of surround for now
             fast_wrap = {

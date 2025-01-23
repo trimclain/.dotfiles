@@ -30,9 +30,15 @@ return {
                     return
                 end
                 local disable_filetypes = { c = true, cpp = true }
+                local lsp_format_opt
+                if disable_filetypes[vim.bo[bufnr].filetype] then
+                    lsp_format_opt = "never"
+                else
+                    lsp_format_opt = "fallback"
+                end
                 return {
                     timeout_ms = 500,
-                    lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+                    lsp_format = lsp_format_opt,
                 }
             end,
             formatters_by_ft = {
@@ -53,7 +59,7 @@ return {
                 html = { "prettierd", "prettier", stop_after_first = true },
                 json = { "prettierd", "prettier", stop_after_first = true },
                 jsonc = { "prettierd", "prettier", stop_after_first = true },
-                jaml = { "prettierd", "prettier", stop_after_first = true },
+                yaml = { "prettierd", "prettier", stop_after_first = true },
                 toml = { "prettierd", "prettier", stop_after_first = true },
                 -- graphql = { { "prettierd", "prettier" } },
                 -- svelte = { { "prettierd", "prettier" } },
