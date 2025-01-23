@@ -96,8 +96,8 @@ end
 if vim.g.neovide or vim.fn.has("gui_running") == 1 then
     -- vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h12"
     -- vim.opt.guifont = "BlexMono Nerd Font Mono:h14"
-    vim.opt.guifont = "CaskaydiaCove Nerd Font Mono:h14"
-    -- vim.opt.guifont = "BlexMono Nerd Font Mono:h12"
+    -- vim.opt.guifont = "CaskaydiaCove Nerd Font Mono:h14"
+    vim.opt.guifont = "GeistMono Nerd Font Mono:h14"
     vim.api.nvim_create_user_command("FontSize", function(cmd)
         local current_font = vim.o.guifont
         -- no gui font set (shouldn't be the case but still checking)
@@ -220,7 +220,6 @@ end
 ---@param path string The path of the file to open with the system opener
 local function system_open(path)
     local cmd
-    -- TODO: use jit.os:find("Windows") instead of vim.fn.has("win32") == 1
     if vim.fn.has("win32") == 1 and vim.fn.executable("explorer") == 1 then
         cmd = { "cmd.exe", "/K", "explorer" }
     elseif vim.fn.has("unix") == 1 and vim.fn.executable("xdg-open") == 1 then
@@ -374,8 +373,6 @@ keymap("n", "<leader>pr", "<cmd>Lazy restore<cr>", add_desc("Lazy Restore using 
 -- PLUGINS
 -- require("core.lazy")
 -------------------------------------------------------------------------------
--- Install lazy.nvim if needed
--- TODO: does this actually work on Windows?
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({
@@ -627,7 +624,6 @@ require("lazy").setup({
             pickers = {
                 find_files = {
                     previewer = false,
-                    hidden = true,
                 },
                 git_files = {
                     previewer = false,
@@ -644,6 +640,12 @@ require("lazy").setup({
                 },
             },
         },
+        config = function(_, opts)
+            if vim.fn.has("win32") == 0 then
+                opts.pickers.find_files.hidden = true
+            end
+            require("telescope").setup(opts)
+        end,
     },
     -- treesitter
     {
@@ -750,7 +752,6 @@ require("lazy").setup({
             local cmp = require("cmp")
 
             local has_words_before = function()
-                unpack = unpack or table.unpack
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
                 return col ~= 0
                     and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -1125,7 +1126,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 -- Restore cursor position
 vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function()
-        unpack = unpack or table.unpack
         local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"'))
         if row > 0 and row <= vim.api.nvim_buf_line_count(0) then
             vim.api.nvim_win_set_cursor(0, { row, col })
@@ -1138,7 +1138,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- Trim whitespaces on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-    command = "%s/\\s\\+$//e",
+    callback = function()
+        if vim.bo.filetype ~= "markdown" then
+            vim.cmd("%s/\\s\\+$//e")
+        end
+    end,
     desc = "Delete useless whitespaces when saving the file",
     group = augroup("trim_whitespace_on_save"),
 })
@@ -1195,11 +1199,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup("set_conceallevel_markdown"),
 })
 
-if vim.fn.has("win32") == 1 then
-    -- Restore cursor shape (needed only on Windows Terminal)
-    vim.api.nvim_create_autocmd("VimLeave", {
-        command = 'set guicursor= | call chansend(v:stderr, "\x1b[ q")',
-        desc = "Restore windows terminal cursor shape",
-        group = augroup("restore_cursor_shape"),
-    })
-end
+-- TODO: do I still need this since I'm on wezterm now
+-- if vim.fn.has("win32") == 1 then
+--     -- Restore cursor shape (needed only on Windows Terminal)
+--     vim.api.nvim_create_autocmd("VimLeave", {
+--         command = 'set guicursor= | call chansend(v:stderr, "\x1b[ q")',
+--         desc = "Restore windows terminal cursor shape",
+--         group = augroup("restore_cursor_shape"),
+--     })
+-- end
