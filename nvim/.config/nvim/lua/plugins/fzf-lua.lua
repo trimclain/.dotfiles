@@ -3,6 +3,8 @@ return {
         "ibhagwan/fzf-lua",
         enabled = vim.fn.executable("fzf") == 1,
         cond = CONFIG.plugins.use_fzf_lua,
+        cmd = "FzfLua",
+        -- TODO: depends on fzf, bat, ripgrep, fd
         dependencies = { "nvim-web-devicons" },
         keys = function()
             -- local Util = require("core.util")
@@ -116,41 +118,45 @@ return {
             -- local actions = require 'fzf-lua.actions'
 
             -- TODO: https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#customization
+            -- and https://www.lazyvim.org/extras/editor/fzf#fzf-lua
             return {
-                -- -- Make stuff better combine with the editor.
-                -- fzf_colors = {
-                --     bg = { 'bg', 'Normal' },
-                --     gutter = { 'bg', 'Normal' },
-                --     info = { 'fg', 'Conditional' },
-                --     scrollbar = { 'bg', 'Normal' },
-                --     separator = { 'fg', 'Comment' },
-                -- },
+                "default-title",
+                -- Make stuff better combine with the editor.
+                fzf_colors = {
+                    bg = { "bg", "Normal" },
+                    gutter = { "bg", "Normal" },
+                    info = { "fg", "Conditional" },
+                    scrollbar = { "bg", "Normal" },
+                    separator = { "fg", "Comment" },
+                },
                 -- fzf_opts = {
                 --     ['--info'] = 'default',
-                --     ['--layout'] = 'reverse-list',
+                --     -- ['--layout'] = 'reverse-list',
                 -- },
-                -- keymap = {
-                --     builtin = {
-                --         ['<C-/>'] = 'toggle-help',
-                --         ['<C-a>'] = 'toggle-fullscreen',
-                --         ['<C-i>'] = 'toggle-preview',
-                --         ['<C-f>'] = 'preview-page-down',
-                --         ['<C-b>'] = 'preview-page-up',
-                --     },
-                --     fzf = {
-                --         ['alt-s'] = 'toggle',
-                --         ['alt-a'] = 'toggle-all',
-                --     },
-                -- },
-                -- winopts = {
-                --     height = 0.7,
-                --     width = 0.55,
-                --     preview = {
-                --         scrollbar = false,
-                --         layout = 'vertical',
-                --         vertical = 'up:40%',
-                --     },
-                -- },
+                winopts = {
+                    height = 0.7,
+                    width = 0.55,
+                    border = CONFIG.ui.border,
+                    preview = {
+                        border = CONFIG.ui.border,
+                        scrollbar = false,
+                        layout = "vertical",
+                        vertical = "up:40%",
+                    },
+                },
+                keymap = {
+                    -- builtin = {
+                    --     ["<C-/>"] = "toggle-help",
+                    --     ["<C-a>"] = "toggle-fullscreen",
+                    --     ["<C-i>"] = "toggle-preview",
+                    --     -- ["<C-f>"] = "preview-page-down",
+                    --     -- ["<C-b>"] = "preview-page-up",
+                    -- },
+                    -- fzf = {
+                    --     ["alt-s"] = "toggle",
+                    --     ["alt-a"] = "toggle-all",
+                    -- },
+                },
                 -- defaults = { git_icons = false },
                 -- -- Configuration for specific commands.
                 -- files = {
