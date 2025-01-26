@@ -1,15 +1,13 @@
 return {
-    -- Alternative: https://github.com/echasnovski/mini.hipatterns (combines todo-comments)
     -- preview colors in neovim
     {
-        "NvChad/nvim-colorizer.lua",
+        "catgoose/nvim-colorizer.lua",
         event = { "BufReadPost", "BufNewFile" },
         -- keys = {
         --     { "<leader>cr",  "<cmd>ColorizerReloadAllBuffers<cr>", desc = "ColorizeReload" },
         -- },
         config = function()
             require("colorizer").setup({
-                filetypes = { "*" },
                 user_default_options = {
                     AARRGGBB = true, -- 0xAARRGGBB hex codes
                     css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB, RRGGBBAA
@@ -26,6 +24,7 @@ return {
                     -- example use: cmp_menu, cmp_docs
                     always_update = false,
                 },
+                filetypes = { "*" },
                 -- all the sub-options of filetypes apply to buftypes
                 buftypes = {
                     "*",
@@ -50,15 +49,29 @@ return {
         end,
     },
 
-    -- color picker alternatives:
+    -- -- alternative to colorizer and colorpicker in one plugin:
     -- {
     --     "uga-rosa/ccc.nvim",
+    --     event = { "BufReadPost", "BufNewFile" },
+    --     keys = {
+    --         { "<M-c>", "<cmd>CccPick<cr>", desc = "Open Colorpicker" },
+    --     },
+    --     opts = {
+    --         win_opts = {
+    --             border = CONFIG.ui.border,
+    --         },
+    --         -- highlight_mode = "virtual", -- "fg" | "bg" (default) | "foreground" | "background" | "virtual"
+    --         -- virtual_symbol = " ■ ", -- default: " ● "
+    --         highlighter = {
+    --             auto_enable = true, -- enable colorizer
+    --         },
+    --     },
     -- },
+
+    -- can't make it work for some reason
     -- {
     --     "nvzone/minty",
-    --     dependencies = {
-    --         "nvzone/volt",
-    --     },
+    --     dependencies = "nvzone/volt",
     --     cmd = { "Shades", "Huefy" },
     -- },
 }
