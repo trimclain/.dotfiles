@@ -1,4 +1,4 @@
--- run tests
+-- run tests in neovim
 return {
     {
         "nvim-neotest/neotest",

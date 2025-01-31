@@ -1,3 +1,4 @@
+-- fzf in neovim
 return {
     {
         "ibhagwan/fzf-lua",

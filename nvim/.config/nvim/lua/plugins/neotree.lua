@@ -1,5 +1,4 @@
-local Icons = require("core.icons").ui
-
+-- file tree
 return {
     {
         "nvim-neo-tree/neo-tree.nvim",
@@ -29,58 +28,62 @@ return {
                 end
             end
         end,
-        opts = {
-            filesystem = {
-                filtered_items = {
-                    hide_dotfiles = false,
-                    hide_hidden = false, -- for Windows
+        opts = function()
+            local Icons = require("core.icons").ui
+
+            return {
+                filesystem = {
+                    filtered_items = {
+                        hide_dotfiles = false,
+                        hide_hidden = false, -- for Windows
+                    },
+                    bind_to_cwd = false, -- true creates a 2-way binding between vim's cwd and neo-tree's root
+                    follow_current_file = {
+                        enabled = true,
+                    },
                 },
-                bind_to_cwd = false, -- true creates a 2-way binding between vim's cwd and neo-tree's root
-                follow_current_file = {
-                    enabled = true,
-                },
-            },
-            popup_border_style = CONFIG.ui.border == "none" and "rounded" or CONFIG.ui.border,
-            window = {
-                position = "float", -- left, right, float, current (like netrw)
-                width = 35,
-                mappings = {
-                    ["<space>"] = "none",
-                    ["w"] = "none",
-                    ["<tab>"] = "open",
-                    -- Open allowed filetypes with xdg-open
-                    ["o"] = function(state)
-                        local node = state.tree:get_node()
-                        local ext = node.name:match("^.+(%..+)$")
-                        local extensions = { ".pdf", ".jpg", ".jpeg", ".png", ".html" }
-                        for _, extension in pairs(extensions) do
-                            if ext == extension then
-                                -- vim.notify(
-                                --     "Opened " .. node.name,
-                                --     vim.log.levels.INFO,
-                                --     { title = "NeoTree: System Open Files" }
-                                -- )
-                                require("core.util").system_open(node.path)
-                                require("neo-tree.command").execute({ toggle = true })
-                                break
+                popup_border_style = CONFIG.ui.border == "none" and "rounded" or CONFIG.ui.border,
+                window = {
+                    position = "float", -- left, right, float, current (like netrw)
+                    width = 35,
+                    mappings = {
+                        ["<space>"] = "none",
+                        ["w"] = "none",
+                        ["<tab>"] = "open",
+                        -- Open allowed filetypes with xdg-open
+                        ["o"] = function(state)
+                            local node = state.tree:get_node()
+                            local ext = node.name:match("^.+(%..+)$")
+                            local extensions = { ".pdf", ".jpg", ".jpeg", ".png", ".html" }
+                            for _, extension in pairs(extensions) do
+                                if ext == extension then
+                                    -- vim.notify(
+                                    --     "Opened " .. node.name,
+                                    --     vim.log.levels.INFO,
+                                    --     { title = "NeoTree: System Open Files" }
+                                    -- )
+                                    require("core.util").system_open(node.path)
+                                    require("neo-tree.command").execute({ toggle = true })
+                                    break
+                                end
                             end
-                        end
-                    end,
-                    -- Copy file name
-                    ["y"] = function(state)
-                        local node = state.tree:get_node()
-                        vim.fn.setreg("+", node.name)
-                    end,
+                        end,
+                        -- Copy file name
+                        ["y"] = function(state)
+                            local node = state.tree:get_node()
+                            vim.fn.setreg("+", node.name)
+                        end,
+                    },
                 },
-            },
-            default_component_configs = {
-                indent = {
-                    with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-                    expander_collapsed = Icons.ArrowClosedSmall,
-                    expander_expanded = Icons.ArrowOpenSmall,
-                    expander_highlight = "NeoTreeExpander",
+                default_component_configs = {
+                    indent = {
+                        with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+                        expander_collapsed = Icons.ArrowClosedSmall,
+                        expander_expanded = Icons.ArrowOpenSmall,
+                        expander_highlight = "NeoTreeExpander",
+                    },
                 },
-            },
-        },
+            }
+        end,
     },
 }

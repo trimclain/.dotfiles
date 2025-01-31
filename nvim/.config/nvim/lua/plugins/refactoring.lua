@@ -1,4 +1,4 @@
--- Refactoring btw
+-- refactoring btw
 return {
     {
         "ThePrimeagen/refactoring.nvim",

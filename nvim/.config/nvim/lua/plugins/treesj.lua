@@ -1,4 +1,4 @@
--- Split/join blocks of code.
+-- split/join blocks of code.
 return {
     {
         "Wansmer/treesj",

@@ -1,4 +1,4 @@
--- Fuzzy Finder
+-- fuzzy finder
 
 -- Alternative: "ibhagwan/fzf-lua"
 -- Only telescope downside for now: go to definition has no option

@@ -1,4 +1,4 @@
--- Git decorations
+-- git decorations
 return {
     {
         "lewis6991/gitsigns.nvim",

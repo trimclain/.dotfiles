@@ -1,4 +1,4 @@
--- Save the window layout when closing a buffer.
+-- save the window layout when closing a buffer
 return {
     {
         "echasnovski/mini.bufremove",

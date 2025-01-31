@@ -1,3 +1,4 @@
+-- bufferline
 return {
     {
         "akinsho/bufferline.nvim",

@@ -1,4 +1,4 @@
--- Select and input UI.
+-- select and input UI
 return {
     {
         "stevearc/dressing.nvim",
