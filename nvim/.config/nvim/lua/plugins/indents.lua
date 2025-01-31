@@ -17,18 +17,7 @@ return {
                 },
                 scope = { enabled = false },
                 exclude = {
-                    filetypes = {
-                        "Trouble",
-                        "alpha",
-                        "dashboard",
-                        "lazy",
-                        "mason",
-                        "neo-tree",
-                        "notify",
-                        "neogitstatus",
-                        "undotree",
-                        "toggleterm",
-                    },
+                    filetypes = require("core.util").get_disabled_filetypes(),
                 },
             }
         end,
@@ -49,7 +38,7 @@ return {
         end,
         init = function()
             vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+                pattern = require("core.util").get_disabled_filetypes(),
                 callback = function()
                     vim.b.miniindentscope_disable = true
                 end,

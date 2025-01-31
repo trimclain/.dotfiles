@@ -5,6 +5,7 @@ return {
         cond = CONFIG.plugins.lualine,
         opts = function()
             local Icons = require("core.icons")
+            local Util = require("core.util")
 
             -----------------------------------------------------------------------------------------------------------
             -- Conditions to disable sections
@@ -16,26 +17,12 @@ return {
                 return vim.api.nvim_win_get_width(0) > 80
             end
 
-            local ui_filetypes = {
-                "undotree",
-                "lspinfo",
-                "mason",
-                "null-ls-info",
-                "NeogitStatus",
-                "NeogitCommitMessage",
-                "spectre_panel",
-                "TelescopePrompt",
-                "Trouble",
-                "DressingSelect",
-                "",
-            }
-
             local disable_for_ui_filetypes = function()
-                return not vim.tbl_contains(ui_filetypes, vim.bo.filetype)
+                return not vim.tbl_contains(Util.get_disabled_filetypes("no_help"), vim.bo.filetype)
             end
 
             local disable_for_ui_and_help_filetypes = function()
-                return not vim.tbl_contains(vim.tbl_extend("force", { "help" }, ui_filetypes), vim.bo.filetype)
+                return not vim.tbl_contains(Util.get_disabled_filetypes(), vim.bo.filetype)
             end
 
             -----------------------------------------------------------------------------------------------------------
@@ -43,6 +30,7 @@ return {
             -----------------------------------------------------------------------------------------------------------
 
             -- Get the list of active lsp servers
+            -- DEPRECATED
             local function lsp_list()
                 local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
                 local buf_client_names = {}
@@ -57,6 +45,7 @@ return {
             end
 
             -- Get the list of active formatters and linters
+            -- DEPRECATED
             local function formatters_list()
                 local buf_ft = vim.bo.filetype
                 local nls_sources = require("null-ls.sources")
@@ -83,6 +72,7 @@ return {
                 return table.concat(formatter_names, ", ")
             end
 
+            -- DEPRECATED
             local lsp_servers = {
                 function()
                     local servers = lsp_list()
@@ -102,6 +92,7 @@ return {
                 component_separators = "",
             }
 
+            -- DEPRECATED
             local formatters = {
                 function()
                     local formatters = formatters_list()

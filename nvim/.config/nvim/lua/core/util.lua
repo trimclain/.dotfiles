@@ -8,6 +8,55 @@ function _G.P(obj)
     return obj
 end
 
+--- Return the list of filetypes where the plugins should be disabled
+---@param type string | nil
+---@return table
+M.get_disabled_filetypes = function(type)
+    local disabled_filetypes = {
+        -- "checkhealth", -- nvim health (quits with q by default)
+        "grug-far", -- MagicDuck/grug-far.nvim
+        "man", -- nvim man pages
+        "neotest-output", -- nvim-neotest/neotest
+        "neotest-summary", -- nvim-neotest/neotest
+        "qf", -- nvim quickfix list
+        "spectre_panel", -- nvim-pack/nvim-spectre
+        "startuptime", -- dstein64/vim-startuptime
+    }
+
+    local ui_filetypes = {
+        "aerial",
+        "alpha",
+        "dashboard",
+        "dirvish",
+        "DressingSelect",
+        "Empty",
+        "fugitive",
+        "lazy",
+        "mason",
+        "neo-tree",
+        "NeogitCommitMessage",
+        "NeogitStatus",
+        "notify",
+        "Outline",
+        "packer",
+        "TelescopePrompt",
+        "toggleterm",
+        "Trouble",
+        "undotree",
+    }
+
+    if type == "close_with_q" then
+        return vim.list_extend({ "help" }, disabled_filetypes)
+    end
+
+    -- exclude help filetype
+    if type == "no_help" then
+        return vim.list_extend(disabled_filetypes, ui_filetypes)
+    end
+
+    return vim.list_extend(vim.list_extend({ "help" }, disabled_filetypes), ui_filetypes)
+end
+
 --- Check if a file exists
 ---@param name string? path to the file
 function M.file_exists(name)

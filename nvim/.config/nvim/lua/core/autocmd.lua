@@ -76,16 +76,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 -- Close these filetypes with a single keypress instead of :q
 vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = {
-        "qf", -- QuickFixList
-        "help", -- nvim help
-        "man", -- nvim man pages
-        "startuptime", -- dstein64/vim-startuptime
-        "spectre_panel", -- nvim-pack/nvim-spectre
-        "grug-far", -- MagicDuck/grug-far.nvim
-        "neotest-output", -- nvim-neotest/neotest
-        "neotest-summary", -- nvim-neotest/neotest
-    },
+    pattern = require("core.util").get_disabled_filetypes("close_with_q"),
     callback = function(event)
         vim.bo[event.buf].buflisted = false
         vim.keymap.set("n", "q", "<cmd>quit<cr>", { buffer = event.buf, silent = true })

@@ -16,6 +16,7 @@ return {
             large_file_overrides = {
                 providers = { "lsp" },
             },
+            filetypes_denylist = require("core.util").get_disabled_filetypes(),
         },
         config = function(_, opts)
             require("illuminate").configure(opts)
