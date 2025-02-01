@@ -10,7 +10,6 @@ return {
         cond = not CONFIG.plugins.use_fzf_lua,
         cmd = "Telescope",
         branch = "0.1.x",
-        -- TODO: add ripgrep as a dependency
         dependencies = {
             "plenary.nvim",
             {

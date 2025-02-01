@@ -5,7 +5,6 @@ return {
         enabled = vim.fn.executable("fzf") == 1,
         cond = CONFIG.plugins.use_fzf_lua,
         cmd = "FzfLua",
-        -- TODO: depends on fzf, bat, ripgrep, fd
         dependencies = { "nvim-web-devicons" },
         keys = function()
             -- local Util = require("core.util")

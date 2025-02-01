@@ -71,6 +71,29 @@ CONFIG = {
     },
 }
 
+-- -- Check for neovim dependencies:
+-- -- gcc: nvim-treesitter
+-- -- make: telescope-fzf-native
+-- -- ripgrep: telescope, grug-far, todo-comments, fzf-lua
+-- -- node: mason, nvim-lspconfig
+-- -- fzf: fzf-lua
+-- -- fd: fzf-lua
+-- -- bat: fzf-lua
+-- local dependencies = {
+--     "gcc",
+--     "make",
+--     "ripgrep",
+--     "node",
+--     "fzf",
+--     "fd",
+--     "bat",
+-- }
+-- for _, dep in ipairs(dependencies) do
+--     if vim.fn.executable(dep) == 0 then
+--         vim.notify("Missing dependency: " .. dep, vim.log.levels.WARN, { title = "My Neovim Dependencies" })
+--     end
+-- end
+
 require("core.options")
 require("core.autocmd")
 require("core.lazy")
