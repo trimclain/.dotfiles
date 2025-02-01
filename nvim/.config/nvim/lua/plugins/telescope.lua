@@ -92,6 +92,9 @@ return {
                 { "<leader>gb", "<cmd>Telescope git_branches<cr>", desc = "branches" },
                 { "<leader>gl", "<cmd>Telescope git_commits<CR>", desc = "commits" },
 
+                -- rebind from which-key
+                { "z=", "<cmd>Telescope spell_suggest<cr>", desc = "Spelling suggestions" },
+
                 -- search
                 -- {
                 --   "<leader>ss",
@@ -268,6 +271,9 @@ return {
                         previewer = false,
                         initial_mode = "normal",
                         -- initial_mode = "insert" -- or "normal"
+                    },
+                    spell_suggest = {
+                        theme = "dropdown",
                     },
                     colorscheme = {
                         theme = "dropdown",
