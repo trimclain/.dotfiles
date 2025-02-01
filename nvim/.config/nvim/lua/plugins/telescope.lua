@@ -82,6 +82,7 @@ return {
                 { "<leader>fR", "<cmd>Telescope registers<cr>", desc = "Registers" },
                 { "<leader>fa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
                 { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+                { "<leader>fq", "<cmd>Telescope quickfix<cr>", desc = "Quickfix Items" },
                 {
                     "<leader>fc",
                     Util.telescope("colorscheme", { enable_preview = true }),
