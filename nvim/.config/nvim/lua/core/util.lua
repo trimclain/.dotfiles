@@ -125,12 +125,11 @@ function M.telescope(builtin, opts, theme)
         builtin = params.builtin
 
         -- theme can be "dropdown", "cursor" or "ivy"
-        -- if params.theme == "default" then
-        -- FIX: broken with any theme, stick to default for now
-        opts = params.opts or {}
-        -- else
-        --     opts = require("telescope.themes").get_dropdown(params.opts or {})
-        -- end
+        if params.theme == "default" then
+            opts = params.opts or {}
+        else
+            opts = require("telescope.themes").get_dropdown(params.opts or {})
+        end
 
         -- for `files`, git_files or find_files will be chosen depending on .git
         if builtin == "files" then
@@ -187,9 +186,9 @@ end
 
 --- Fuzzy find in current buffer
 M.curr_buf_search = function()
-    -- FIX: broken with any theme
-    -- local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
-    require("telescope.builtin").current_buffer_fuzzy_find({ previewer = false })
+    local opt = require("telescope.themes").get_dropdown({ height = 10, previewer = false })
+    require("telescope.builtin").current_buffer_fuzzy_find(opt)
+    -- require("telescope.builtin").current_buffer_fuzzy_find({ previewer = false })
 end
 
 -------------------------------------------------------------------------------
