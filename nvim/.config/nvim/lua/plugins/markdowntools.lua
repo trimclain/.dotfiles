@@ -10,11 +10,15 @@ return {
         "iamcco/markdown-preview.nvim",
         enabled = vim.fn.executable("npm") == 1,
         build = "cd app && npx --yes yarn install", -- Lazy sync doesn't run `git restore .` so it can't pull
+        -- build = function() vim.fn["mkdp#util#install"]() end, # it's possible to install without npm/yarn
+        -- cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         ft = { "markdown" },
+        init = function()
+            vim.g.mkdp_filetypes = { "markdown" }
+        end,
         config = function()
             vim.g.mkdp_auto_close = 0 -- don't auto close current preview window when change to another buffer
             vim.g.mkdp_echo_preview_url = 1 -- echo preview page url in command line when open preview page
-            vim.g.mkdp_filetypes = { "markdown" }
 
             -- Detect installed browser
             local browserlist = {
