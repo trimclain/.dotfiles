@@ -272,7 +272,7 @@ wezterm:
 	$(INSTALL) wezterm
 
 #==================================================================================================
-# SOMEDAY: obs-studio kdenlive inkscape gimp
+# SOMEDAY: obs-studio (flatpak install) kdenlive inkscape gimp
 brave: ## Install Brave Browser
 	$(PARUINSTALL) brave-bin
 
