@@ -76,8 +76,28 @@ zle_highlight=('paste:none')
 zstyle ':completion:*' menu select
 # Make completion case insensitive when using small letters
 #zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-# Make ls colors work with completion (TODO: for some reason directories are red)
+
+###############################################################################
+# INFO: ANSI escape codes define how colors are displayed.
+
+# They are structured as:
+# Foreground Colors (Text): 30-37
+# Background Colors: 40-47
+# Bright Versions (Bold): 90-97 (Foreground), 100-107 (Background)
+# Color    Foreground    Background
+# Black        30            40
+# Red          31            41
+# Green        32            42
+# Yellow       33            43
+# Blue         34            44
+# Magenta      35            45
+# Cyan         36            46
+# White        37            47
+
+# Make ls colors work with completion
+eval "$(dircolors -b)"
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+###############################################################################
 
 # Disable all error sounds
 unsetopt BEEP
