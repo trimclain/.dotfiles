@@ -10,13 +10,14 @@
     # remote log diff
     rld = hist HEAD..origin/main
     root = rev-parse --show-toplevel
+    undo = reset --soft HEAD^
 
 [pull]
     rebase = false
 
 ; to forget about `git branch --set-upstream-to`
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
 
 [rerere]
     enabled = true
