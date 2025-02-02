@@ -77,15 +77,23 @@ g: ## Install g, the go version manager
 		curl -sSL https://git.io/g-install | sh -s -- -y &&\
 		echo "Done"; else echo "[golang]: Already installed"; fi
 
-n: ## Install n, the node version manager
-	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
-	@if [ ! -d ~/.n ]; then echo "Installing n (nodejs version manager) with latest stable node and npm versions..." &&\
-		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash;\
-		else curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n; fi &&\
-		echo "Done"; else echo "[n]: Already installed"; fi
+# START DEPRECATED (IN FAVOR OF FNM)
+# n: ## Install n, the node version manager
+# 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
+# 	@if [ ! -d ~/.n ]; then echo "Installing n (nodejs version manager) with latest stable node version..." &&\
+# 		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash;\
+# 		else curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n; fi &&\
+# 		echo "Done"; else echo "[n]: Already installed"; fi
 
-uninstall_n:
-	@n-uninstall
+# uninstall_n:
+# 	@n-uninstall
+# END DEPRECATED
+
+fnm: ## Install Fast Node Manager
+	@if [ ! -d "$FNM_PATH" ]; then echo "Installing fnm (fast node manager) with latest stable node version..." &&\
+		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell &&\
+		eval "$(fnm env)" && fnm install --lts && echo "Done";\
+		else echo "[fnm]: Already installed"; fi
 
 export_node_modules:
 	@echo "Exporting global node modules to .npm_modules"
@@ -382,7 +390,7 @@ install: ## Setup arch after new installation
 	@make zsh
 	$(INSTALL) tmux
 	@# node
-	@make n
+	@make fnm
 	@# editor
 	@make nvim
 	@echo "========================== DONE ==================================="
@@ -391,7 +399,7 @@ install: ## Setup arch after new installation
 
 .PHONY: all help vimdir getnf wallpapers maple_fonts bluetooth brightnessctl\
 	python rust julia golang g \
-	n uninstall_n export_node_modules import_node_modules typescript tectonic \
+	fnm export_node_modules import_node_modules typescript tectonic \
 	paru flatpak\
 	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
 	neovide docker\

@@ -164,7 +164,9 @@ setopt hist_find_no_dups
 # When using !! or !<number>, don't expand the command before running it
 setopt nohistverify
 
-export N_PREFIX="$HOME/.n"
+export FNM_PATH="$XDG_DATA_HOME/fnm"
+# DEPRECATED (use fnm instead)
+#export N_PREFIX="$HOME/.n"
 
 export GOPATH="$HOME/.go"
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
@@ -427,7 +429,9 @@ addToPATH() {
 addToPATH "/usr/local/bin"
 addToPATH "$HOME/.local/bin"
 
-addToPATH "$N_PREFIX/bin" # n-insall for node versions
+addToPATH "$FNM_PATH" # fast node manager
+# DEPRECATED (use fnm instead)
+#addToPATH "$N_PREFIX/bin" # n-insall for node versions
 addToPATH "$HOME/.juliaup/bin" # julia
 
 addToPATH "$HOME/.cargo/bin" # rust btw
@@ -457,6 +461,12 @@ fi
 # enable zoxide
 if (( $+commands[zoxide] )); then
     eval "$(zoxide init zsh --cmd cd)"
+fi
+
+# enable fnm
+if [ -d "$FNM_PATH" ]; then
+    # maybe someday: https://github.com/Schniz/fnm/blob/master/docs/configuration.md#--use-on-cd
+    eval "$(fnm env --shell zsh)"
 fi
 
 ###############################################################################
