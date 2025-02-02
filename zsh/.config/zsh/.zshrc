@@ -375,8 +375,13 @@ alias cp="cp -iv" \
 # rsync= "rsync -ahvuP"
 # mkd="mkdir -pv"
 
-alias grep='grep --color=auto'
 # zsh specific syntax for checking if command exists
+if (( $+commands[rg] )); then
+    alias grep='rg'
+else
+    alias grep='grep --color=auto'
+fi
+
 if (( $+commands[eza] )); then
     alias ls='eza --group-directories-first --icons=always'
     alias la='ls -a'
