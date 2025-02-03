@@ -67,7 +67,7 @@ return {
                 "vue",
 
                 "julia",
-                "latex",
+                -- "latex", -- needs tree-sitter CLI installed
 
                 "markdown",
                 "markdown_inline",
