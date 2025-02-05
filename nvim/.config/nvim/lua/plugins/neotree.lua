@@ -62,7 +62,7 @@ return {
                                     --     vim.log.levels.INFO,
                                     --     { title = "NeoTree: System Open Files" }
                                     -- )
-                                    require("core.util").system_open(node.path)
+                                    vim.ui.open(node.path)
                                     require("neo-tree.command").execute({ toggle = true })
                                     break
                                 end

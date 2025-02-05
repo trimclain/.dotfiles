@@ -415,26 +415,6 @@ function M.toggle_executable()
     end
 end
 
--------------------------------------------------------------------------------
--- From astronvim/utils/init.lua
--------------------------------------------------------------------------------
---- Open a URL with the current operating system
----@param path string The path of the file to open with the system opener
-function M.system_open(path)
-    local cmd
-    if jit.os:find("Windows") and vim.fn.executable("explorer") == 1 then
-        cmd = { "cmd.exe", "/K", "explorer" }
-    elseif vim.fn.has("unix") == 1 and vim.fn.executable("xdg-open") == 1 then
-        cmd = { "xdg-open" }
-    elseif (vim.fn.has("mac") == 1 or vim.fn.has("unix") == 1) and vim.fn.executable("open") == 1 then
-        cmd = { "open" }
-    end
-    if not cmd then
-        vim.notify("Available system opening tool not found!", vim.log.levels.ERROR)
-    end
-    vim.fn.jobstart(vim.fn.extend(cmd, { path }), { detach = true })
-end
-
 --- Find URL in current line and open it with the current operating system
 function M.open_url()
     --- regex used for matching a valid URL/URI string
@@ -443,7 +423,7 @@ function M.open_url()
     local url = vim.fn.matchstr(vim.fn.getline("."), url_matcher)
     if url ~= "" then
         notify("Opened " .. url, "URL Handler")
-        M.system_open(url)
+        vim.ui.open(url)
     else
         notify("No URL found", "URL Handler")
     end
@@ -455,7 +435,7 @@ function M.open_github_url()
     if url ~= "" then
         url = "https://github.com/" .. url
         notify("Opened " .. url, "Github URL Handler")
-        M.system_open(url)
+        vim.ui.open(url)
     else
         notify("No Github URL found", "Github URL Handler")
     end
