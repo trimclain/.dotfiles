@@ -82,20 +82,19 @@ return {
             -- Use conform for gq.
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
-            -- TODO: implement this
-            -- SOMEDAY: make this a toggle (see core.util for old stuff)
-            -- vim.api.nvim_create_user_command("FormatDisable", function()
-            --     vim.b.disable_autoformat = true
-            -- end, {
-            --     desc = "Disable autoformat-on-save",
-            --     bang = true,
-            -- })
-            -- vim.api.nvim_create_user_command("FormatEnable", function()
-            --     vim.b.disable_autoformat = false
-            -- end, {
-            --     desc = "Re-enable autoformat-on-save",
-            -- })
-            --         vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+            if CONFIG.lsp.format_on_save then
+                vim.api.nvim_create_user_command("FormatDisable", function()
+                    vim.b.disable_autoformat = true
+                end, {
+                    desc = "Disable autoformat-on-save for current buffer",
+                    bang = true,
+                })
+                vim.api.nvim_create_user_command("FormatEnable", function()
+                    vim.b.disable_autoformat = false
+                end, {
+                    desc = "Re-enable autoformat-on-save for current buffer",
+                })
+            end
         end,
     },
 }
