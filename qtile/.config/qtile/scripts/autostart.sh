@@ -6,20 +6,14 @@ run_in_background(){
     fi
 }
 
-# Network Manager
-run_in_background nm-applet
 # Set the wallpaper
 run_in_background nitrogen --restore
 # Enable notifications
 run_in_background dunst
+# Network Manager
+run_in_background nm-applet
 # Get the correct current brightness on system startup
 #~/.config/qtile/scripts/get-brightness-on-startup.sh
-
-# Pull my repos
-# TODO: this doesn't work since the variable $PROJECTLIST is missing
-# CONSIDER: sometimes I want to fetch to remember what I
-# need to install on a new system
-#run_in_background ~/.local/bin/pctl pull
 
 # Nextcloud for synchronization
 #run_in_background nextcloud --background
