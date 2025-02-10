@@ -9,28 +9,28 @@ return {
                 function()
                     require("neogen").generate({ type = "func" })
                 end,
-                desc = "Generate annotations for current function",
+                desc = "Neogen: annotate current function",
             },
             {
                 "<leader>dc",
                 function()
                     require("neogen").generate({ type = "class" })
                 end,
-                desc = "Generate annotations for current class",
+                desc = "Neogen: annotate current class",
             },
             {
                 "<leader>dt",
                 function()
                     require("neogen").generate({ type = "type" })
                 end,
-                desc = "Generate annotations for current type",
+                desc = "Neogen: annotate current type",
             },
             {
                 "<leader>df",
                 function()
                     require("neogen").generate({ type = "file" })
                 end,
-                desc = "Generate annotations for current file",
+                desc = "Neogen: annotate current file",
             },
         },
         opts = {
