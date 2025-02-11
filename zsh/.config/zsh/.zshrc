@@ -49,7 +49,9 @@ fi
 # Zsh Settings
 ###############################################################################
 
-# `man zshoptions` for description
+# Docs:
+# use `man zshoptions` for description
+# use `setopt` to list active options or `set -o` to see all options with their status
 
 # Make cd push the old directory onto the directory stack
 setopt auto_pushd
@@ -148,10 +150,10 @@ export DOTFILES="$HOME/.dotfiles"
 ## History
 export HISTFILE=$HOME/.zsh_history
 # export HISTFILE="$XDG_STATE_HOME/zsh/history"
-export HISTSIZE=1000
-export SAVEHIST=50000
+export HISTSIZE=20000
+export SAVEHIST=20000
 export HISTORY_IGNORE="(ls|la|l|cd|cd -|cd ..|history|vim)"
-# Share history across all zsh sessions
+# Share history across all zsh sessions (combines append_history & inc_append_history)
 setopt sharehistory
 # If a command starts with a space, don't add it to a history
 setopt hist_ignore_space
