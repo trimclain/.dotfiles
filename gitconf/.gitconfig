@@ -11,6 +11,8 @@
     rld = hist HEAD..origin/main
     root = rev-parse --show-toplevel
     undo = reset --soft HEAD^
+    # update remote branch list
+    urbl = remote update origin --prune
 
 [pull]
     rebase = false
