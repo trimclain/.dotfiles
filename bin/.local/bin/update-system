@@ -31,6 +31,7 @@ fi
 # flatpak
 if command -v flatpak > /dev/null; then
     flatpak update -y
+    flatpak uninstall --unused -y
 fi
 
 # zap
