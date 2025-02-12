@@ -271,8 +271,7 @@ kitty:
 wezterm:
 	$(INSTALL) wezterm
 
-#==================================================================================================
-# SOMEDAY: obs-studio (flatpak install) kdenlive inkscape gimp
+#============================================ Browser =============================================
 brave: ## Install Brave Browser
 	$(PARUINSTALL) brave-bin
 
@@ -284,6 +283,13 @@ thorium: ## Install Thorium Browser
 
 zen: ## Install Zen Browser
 	$(PARUINSTALL) zen-browser-bin
+
+vivaldi: ## Install Vivaldi Browser
+	$(INSTALL) vivaldi
+
+#==================================================================================================
+
+# SOMEDAY: kdenlive inkscape gimp
 
 telegram: ## Install Telegram Desktop
 	@# $(INSTALL) telegram-desktop
@@ -299,6 +305,10 @@ discord: ## Install Discord
 
 spotify: ## Install Spotify
 	$(INSTALL) ncspot
+
+obs: ## Install OBS Studio
+	@make flatpak
+	$(FLATINSTALL) flathub com.obsproject.Studio
 
 # I have to sometimes
 vscode: ## Install VSCode (VSCodium)
