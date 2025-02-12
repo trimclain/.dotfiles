@@ -286,14 +286,15 @@ zen: ## Install Zen Browser
 	$(PARUINSTALL) zen-browser-bin
 
 telegram: ## Install Telegram Desktop
-	$(INSTALL) telegram-desktop
+	@# $(INSTALL) telegram-desktop
+	@make flatpak
+	$(FLATINSTALL) flathub org.telegram.desktop
 
 # TODO: choose a wayland altenative: https://wiki.hyprland.org/Useful-Utilities/App-Clients/#discord
 discord: ## Install Discord
 	@# $(INSTALL) discord
 	@# Flatpak version is more up to date
-	@if ! command -v flatpak &> /dev/null; then echo "Installing flatpak..." &&\
-		$(INSTALL) flatpak && echo "Done"; fi
+	@make flatpak
 	$(FLATINSTALL) flathub com.discordapp.Discord
 
 spotify: ## Install Spotify
@@ -346,6 +347,8 @@ uninstall_pomo:
 syncthing:
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
+
+# TODO: figure out nextcloud-client synchronization
 
 #==================================================================================================
 
