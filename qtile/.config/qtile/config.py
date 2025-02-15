@@ -29,7 +29,8 @@ alt = "mod4"
 
 terminal = "kitty"  # "alacritty", "kitty", "wezterm", "ghostty"
 
-browser = "thorium-browser"
+# browser = "thorium-browser"
+browser = "zen-browser"
 if shutil.which(browser) is None:
     browser = "firefox"
 
