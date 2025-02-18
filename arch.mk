@@ -304,9 +304,14 @@ discord: ## Install Discord
 	$(FLATINSTALL) flathub com.discordapp.Discord
 
 spotify: ## Install Spotify
+	@make flatpak
+	$(FLATINSTALL) flathub com.spotify.Client
+
+ncspot: ## Install ncspot (ncurses Spotify client)
 	$(INSTALL) ncspot
 
 obs: ## Install OBS Studio
+	@# Flatpak version is the only official version
 	@make flatpak
 	$(FLATINSTALL) flathub com.obsproject.Studio
 
@@ -419,7 +424,8 @@ install: ## Setup arch after new installation
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
-	brave chrome thorium zen telegram discord spotify vscode office quickemu\
+	brave chrome thorium zen vivaldi\
+	telegram discord spotify ncspot obs vscode office quickemu\
 	anki uninstall_anki pomo uninstall_pomo syncthing\
 	apps\
 	install
