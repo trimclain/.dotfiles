@@ -172,7 +172,7 @@ uninstall_nvim:
 
 clean_nvim:
 	@echo "Uninstalling Neovim Leftovers..."
-	@rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
+	@rm -rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 	@echo "Done"
 
 purge_nvim: uninstall_nvim clean_nvim
