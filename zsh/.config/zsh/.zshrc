@@ -413,6 +413,31 @@ if (( $+commands[fdfind] )); then
     alias fd="fdfind"
 fi
 
+if (( $+commands[fd] )); then
+    grep-string-recursive-in-cwd() {
+        local yellow='\033[1;33m'
+        local blue='\033[1;34m'
+        local red='\033[1;31m'
+        local reset='\033[0m'
+
+        local string_to_grep
+        if [[ -z "$1" ]]; then
+            print -n "${yellow}Enter string: ${reset}"
+            read -r string_to_grep
+            echo -e "${blue}Searching...${reset}\n"
+        else
+            string_to_grep="$1"
+            echo -e "${blue}Searching${reset} for \"$string_to_grep\"\n"
+        fi
+
+        if ! fd --type file --type symlink --hidden --no-ignore | grep "$string_to_grep"; then
+            echo -e "${red}Pattern not found${reset}"
+        fi
+    }
+    bindkey -s '^p' '^ugrep-string-recursive-in-cwd\n'
+fi
+
+
 [[ -f ~/.local/bin/extract ]] && alias ex=extract
 [[ -f ~/.local/bin/archive ]] && alias ar=archive
 
