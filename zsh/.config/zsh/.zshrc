@@ -183,6 +183,16 @@ export SDKMAN_DIR="$HOME/.sdkman"
 ###############################################################################
 
 # https://unix.stackexchange.com/questions/433273/changing-cursor-style-based-on-mode-in-both-zsh-and-vim
+# Cursor Shapes Explained:
+# Escape Code   Cursor Shape
+#   \e[0 q       Default cursor
+#   \e[1 q       Blinking block cursor
+#   \e[2 q       Steady block cursor
+#   \e[3 q       Blinking underscore cursor
+#   \e[4 q       Steady underscore cursor
+#   \e[5 q       Blinking bar cursor
+#   \e[6 q       Steady bar cursor
+
 bindkey -v
 export KEYTIMEOUT=1
 
@@ -190,22 +200,22 @@ export KEYTIMEOUT=1
 function zle-keymap-select {
     if [[ ${KEYMAP} == vicmd ]] ||
     [[ $1 = 'block' ]]; then
-        echo -ne '\e[1 q'
+        echo -ne '\e[2 q'
     elif [[ ${KEYMAP} == main ]] ||
     [[ ${KEYMAP} == viins ]] ||
     [[ ${KEYMAP} = '' ]] ||
     [[ $1 = 'beam' ]]; then
-        echo -ne '\e[5 q'
+        echo -ne '\e[6 q'
     fi
 }
 zle -N zle-keymap-select
 zle-line-init() {
     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
+    echo -ne "\e[6 q"
 }
 zle -N zle-line-init
-echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+echo -ne '\e[6 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
 
 # Edit line in vim with ctrl-e
 autoload edit-command-line;
