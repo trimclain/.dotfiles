@@ -13,6 +13,8 @@
     undo = reset --soft HEAD^
     # update remote branch list
     urbl = remote update origin --prune
+    # delete branch locally and remotely
+    db = "!f() { git branch -D $1; git push origin --delete $1; }; f"
 
 [pull]
     rebase = false
