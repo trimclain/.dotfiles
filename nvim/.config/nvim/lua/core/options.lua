@@ -1,6 +1,6 @@
 local options = {
     clipboard = "unnamedplus", -- allow neovim to access the system clipboard
-    colorcolumn = "80", -- vertical column to see 80 characters
+    colorcolumn = "+0", -- vertical column of same width as textwidth
     completeopt = { "menu", "menuone", "noselect" }, -- list of options for insert mode completion (for nvim-cmp)
     conceallevel = 0, -- so that `` is visible in markdown files
     cursorline = CONFIG.ui.cursorline, -- highlight current line
@@ -28,7 +28,7 @@ local options = {
     swapfile = false, -- don't create a swapfile
     tabstop = CONFIG.opts.tabwidth, -- insert 4 spaces for a <Tab>
     termguicolors = true, -- set term gui colors (most terminals support this)
-    textwidth = 80, -- maximum width of text that is being inserted, used by `gq` command
+    textwidth = 80, -- maximum width of text that is being inserted, used by `gq` command (can be modified by editorconfig)
     timeoutlen = 500, -- time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
     undofile = true, -- enable undo history
     undolevels = 10000, -- maximum number of changes that can be undone
