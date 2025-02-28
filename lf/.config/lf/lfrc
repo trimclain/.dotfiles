@@ -112,6 +112,34 @@ cmd open ${{
 #     rm -rf $1
 # }}
 
+# Command to create new files and directories
+# Docs: https://github.com/gokcehan/lf/wiki/Tips#creating-new-directories
+cmd create ${{
+    # Assign default value if $1 is unset
+    path="${1:-}"
+
+    # Check if the path is empty
+    if [ -z "$path" ]; then
+        lf -remote "send $id echo 'Usage: :create <path>'"
+        exit 0
+    fi
+
+    # Determine if the path ends with a '/'
+    if [ "${path: -1}" = "/" ]; then
+        # Create directory
+        mkdir -p -- "$path"
+        lf -remote "send $id echo 'Directory \"$path\" created.'"
+    else
+        # Create parent directories and the file
+        mkdir -p -- "$(dirname "$path")"
+        touch -- "$path"
+        lf -remote "send $id echo 'File \"$path\" created.'"
+    fi
+
+    # Select the newly created file or directory in lf
+    lf -remote "send $id select \"$(printf '%s' "$path" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
+}}
+
 ###############################################################################
 # Bindings
 ###############################################################################
@@ -119,20 +147,21 @@ cmd open ${{
 # print defined keymaps with ctrl+?
 map <c-_> maps
 
-############
-# Defaults in case I forget:
+## This block contains defaults key bindings for lf (more at `man lf(1)`)
 # <Space> - toggle selection
 # v - invert selection
 # u - undo all selection                                        - vim
-# old: y
+# y - copy
 map c copy
-map x delete
-# d - cut                                                       - vim
+map x cut
+# old: d - cut                                                       - vim
 # p - paste                                                     - vim
+map d delete
 # old: c - clear copied or cut
 map <c-l> clear
 map <esc> clear
 # r - rename
+map a push :create<space>
 # : - run builtin command                                       - vim
 # $ - run shell command
 # % - run shell command and pipe input/output into lf
@@ -147,7 +176,6 @@ map <esc> clear
 # e - launch an editor
 # i - launch a pager (like what `less` uses)
 # w - launch a shell
-############
 
 # unmap gh (it was set to "cd --")
 map gh
