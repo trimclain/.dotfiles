@@ -167,8 +167,6 @@ setopt hist_find_no_dups
 setopt nohistverify
 
 export FNM_PATH="$XDG_DATA_HOME/fnm"
-# DEPRECATED (use fnm instead)
-#export N_PREFIX="$HOME/.n"
 
 export GOPATH="$HOME/.go"
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
@@ -456,31 +454,29 @@ fi
 ###############################################################################
 
 # add folders to the beginning of $PATH
-addToPATH() {
-    if [[ -d "$1" ]] && [[ ! :$PATH: == *":$1:"* ]]; then
+add_to_PATH() {
+    if [[ -d "$1" ]] && [[ ! "$PATH" =~ (^|:)$1(:|$) ]]; then
         export PATH="$1:$PATH"
     fi
 }
 
 # Make sure ~/.local/bin and /usr/local/bin are in $PATH.
-addToPATH "/usr/local/bin"
-addToPATH "$HOME/.local/bin"
+add_to_PATH "/usr/local/bin"
+add_to_PATH "$HOME/.local/bin"
 
-addToPATH "$FNM_PATH" # fast node manager
-# DEPRECATED (use fnm instead)
-#addToPATH "$N_PREFIX/bin" # n-insall for node versions
-addToPATH "$HOME/.juliaup/bin" # julia
+add_to_PATH "$FNM_PATH" # fast node manager
+add_to_PATH "$HOME/.juliaup/bin" # julia
 
-addToPATH "$HOME/.cargo/bin" # rust btw
+add_to_PATH "$HOME/.cargo/bin" # rust btw
 
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
 if [[ -n $GOROOT ]]; then
-    addToPATH "$GOROOT/bin" # golang
-    addToPATH "$GOPATH/bin"
+    add_to_PATH "$GOROOT/bin" # golang
+    add_to_PATH "$GOPATH/bin"
 fi
 
 # I want to use the tools mason installs outside of neovim aswell
-addToPATH "$XDG_DATA_HOME/nvim/mason/bin"
+add_to_PATH "$XDG_DATA_HOME/nvim/mason/bin"
 
 # Load aliases from .bash_aliases and/or .zsh_aliases if they exist
 if [[ -f ~/.zsh_aliases ]]; then
