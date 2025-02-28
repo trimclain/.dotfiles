@@ -65,16 +65,17 @@ return {
                 -- svelte = { { "prettierd", "prettier" } },
                 -- astro = { { "prettierd", "prettier" } },
             },
-            formatters = {
-                prettierd = {
-                    prepend_args = { "--tab-width=4" }, -- "--jsx-single-quote", "--no-semi", "--single-quote",
-                },
-                -- shfmt = {
-                --     -- The base args are { "-filename", "$FILENAME" } so the final args will be
-                --     -- { "-i", "2", "-filename", "$FILENAME" }
-                --     prepend_args = { "-i", "2" },
-                -- }
-            },
+            -- formatters = {
+            --     prettierd = {
+            --         -- use .editorconfig instead
+            --         --prepend_args = { "--tab-width=4" }, -- "--jsx-single-quote", "--no-semi", "--single-quote",
+            --     },
+            --     -- shfmt = {
+            --     --     -- The base args are { "-filename", "$FILENAME" } so the final args will be
+            --     --     -- { "-i", "2", "-filename", "$FILENAME" }
+            --     --     prepend_args = { "-i", "2" },
+            --     -- }
+            -- },
         },
         config = function(_, opts)
             require("conform").setup(opts)
