@@ -27,7 +27,10 @@ from libqtile.log_utils import logger
 mod = "mod1"
 alt = "mod4"
 
-terminal = "kitty"  # "alacritty", "kitty", "wezterm", "ghostty"
+# defined in /etc/environment
+terminal = os.getenv("TERMINAL")
+if terminal is None:
+    terminal = "kitty"  # "alacritty", "kitty", "wezterm", "ghostty"
 
 # browser = "zen-browser"
 # NOTE: thorium-browser freezes with enabled hardware acceleration on arch

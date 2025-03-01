@@ -1,7 +1,6 @@
 configuration {
   modi: [run,drun,window];
-    // default: "rofi-sensible-terminal"
-    terminal: "kitty";
+    // terminal: "rofi-sensible-terminal"
     show-icons:               false;
     display-drun:             " Apps";
     display-run:              " Run";
