@@ -143,15 +143,18 @@ lf: ## Install lf (file manager)
 nvim_reqs:
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
+	@# Need yad or zenity for the color picker plugin, xclip for clipboard+, tree-sitter cli
+	$(INSTALL) yad xclip tree-sitter-cli
+	@make tectonic
+
+	@# TODO: do I need this?
 	@# Lua linter
 	$(INSTALL) luacheck
-	@# Need yad or zenity for the color picker plugin, xclip for clipboard+, tree-sitter if I want cli
-	$(INSTALL) yad xclip
-	@# Install what :checkhealth recommends
+
+	@# TODO: do I need these?
 	@# Need pynvim for Bracey
-	$(INSTALL) python-pynvim
-	npm install -g neovim
-	@make tectonic
+	@#$(INSTALL) python-pynvim
+	@# npm install -g neovim
 
 nvim_build_reqs:
 	@# Neovim build prerequisites
@@ -176,6 +179,10 @@ clean_nvim:
 	@echo "Done"
 
 purge_nvim: uninstall_nvim clean_nvim
+
+neovim: ## Install neovim package
+	@make nvim_reqs
+	$(INSTALL) neovim
 
 neovide:
 	$(INSTALL) neovide

@@ -3,6 +3,7 @@
 return {
     {
         "turbio/bracey.vim",
+        -- NOTE: needs python3-pynvim installed
         enabled = vim.fn.executable("npm") == 1,
         build = "npm ci --prefix server", -- Lazy sync doesn't run `git restore .` so it can't pull.
         ft = "html",

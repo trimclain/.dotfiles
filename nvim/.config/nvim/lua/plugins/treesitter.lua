@@ -29,6 +29,50 @@ return {
         --   { "<bs>", desc = "Decrement selection", mode = "x" },
         -- },
         opts = {
+            ensure_installed = {
+                "python",
+                "bash",
+                "make",
+
+                -- "go",
+                -- "gomod",
+                -- "gosum",
+
+                "java",
+                -- "kotlin",
+                -- "rust",
+
+                "html",
+                "css",
+                "scss",
+                "javascript",
+                "typescript",
+                -- "tsx",
+                "vue",
+
+                -- "julia",
+                -- "latex", -- needs tree-sitter CLI installed
+
+                "markdown",
+                "markdown_inline",
+                "regex",
+
+                "json",
+                "jsonc",
+                "toml",
+                "yaml",
+
+                "sql",
+                -- "dockerfile",
+                -- "graphql",
+
+                -- should always be installed
+                "c",
+                "vim",
+                "vimdoc",
+                "lua",
+                "query", -- treesitter query
+            },
             highlight = {
                 enable = true,
                 -- disable slow treesitter highlight for large files
@@ -45,51 +89,6 @@ return {
                 enable = true,
                 disable = { "julia" }, -- sadly broken right now
             },
-            ensure_installed = {
-                "python",
-                "bash",
-                "make",
-
-                "go",
-                "gomod",
-                "gosum",
-
-                "java",
-                -- "kotlin",
-                -- "rust",
-
-                "html",
-                "css",
-                "scss",
-                "javascript",
-                "typescript",
-                "tsx",
-                "vue",
-
-                "julia",
-                -- "latex", -- needs tree-sitter CLI installed
-
-                "markdown",
-                "markdown_inline",
-                "regex",
-
-                "json",
-                "jsonc",
-                "rasi", -- rofi config syntax highlighting
-                "toml",
-                "yaml",
-
-                "sql",
-                -- "dockerfile",
-                -- "graphql",
-
-                -- should always be installed
-                "c",
-                "vim",
-                "vimdoc",
-                "lua",
-                "query", -- treesitter query
-            },
             incremental_selection = {
                 enable = true,
                 keymaps = {
@@ -103,6 +102,11 @@ return {
         config = function(_, opts)
             -- Prefer git instead of curl in order to improve connectivity in some environments
             require("nvim-treesitter.install").prefer_git = true
+
+            -- automatically install missing parsers when entering buffer if `tree-sitter` cli is installed
+            if vim.fn.executable("tree-sitter") == 1 then
+                opts.auto_install = true
+            end
 
             require("nvim-treesitter.configs").setup(opts)
         end,
