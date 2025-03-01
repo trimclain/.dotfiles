@@ -2,21 +2,26 @@ return {
     -- preview colors in neovim
     {
         "catgoose/nvim-colorizer.lua",
-        event = { "BufReadPost", "BufNewFile" },
+        event = "VeryLazy",
         -- keys = {
         --     { "<leader>cr",  "<cmd>ColorizerReloadAllBuffers<cr>", desc = "ColorizeReload" },
         -- },
         config = function()
             require("colorizer").setup({
+                lazy_load = true,
                 user_default_options = {
                     AARRGGBB = true, -- 0xAARRGGBB hex codes
                     css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB, RRGGBBAA
                     ccs_fn = true,
                     -- Available modes for `mode`: foreground, background,  virtualtext
                     mode = "background", -- set the display mode
-                    -- Available methods are false / true / "normal" / "lsp" / "both"
-                    -- True is same as normal
-                    tailwind = false, -- Enable tailwind colors
+                    -- Tailwind colors:  boolean|"normal"|"lsp"|"both".  True sets to "normal"
+                    tailwind = "normal", -- Enable tailwind colors
+                    tailwind_opts = { -- Options for highlighting tailwind names
+                        -- When using tailwind = "both", update tailwind names from LSP results.
+                        -- See: https://github.com/catgoose/nvim-colorizer.lua?tab=readme-ov-file#tailwind
+                        update_names = false,
+                    },
                     -- parsers can contain values used in |user_default_options|
                     sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
                     virtualtext = "■",
