@@ -7,6 +7,7 @@ ensure_installed() {
     fi
 }
 
+# TODO: this is not always the case
 FIRST_WIDTH="1366"
 FIRST_HEIGHT="768"
 FIRST_RES="${FIRST_WIDTH}x${FIRST_HEIGHT}"
@@ -86,8 +87,13 @@ for display in $connectedOutputs; do
     monitors+=("$display")
 done
 
-intern=${monitors[0]}
-extern=${monitors[1]}
+if [[ ${monitors[0]} == *HDMI* ]]; then
+    intern=${monitors[1]}
+    extern=${monitors[0]}
+else
+    intern=${monitors[0]}
+    extern=${monitors[1]}
+fi
 
 if [[ -z $extern ]]; then
     exit
