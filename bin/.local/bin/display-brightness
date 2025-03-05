@@ -15,7 +15,8 @@ ensure_installed() {
 }
 
 notify() {
-    if command -v dunstify > /dev/null; then
+    # TODO: wait till bugfix libnotify update
+    if command -v dunstifault > /dev/null; then
         dunstify -a "brightness-control" -r 5555 -u low -h int:value:"$1" -t 1500 "$2 Brightness: ${1}%"
     else
         notify-send "$2 ${1}%" -t 350
