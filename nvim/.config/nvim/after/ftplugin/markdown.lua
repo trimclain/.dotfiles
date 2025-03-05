@@ -21,13 +21,15 @@ local toggle_inserting_checkboxes = function()
 end
 vim.keymap.set("n", "<leader>td", toggle_inserting_checkboxes, opts)
 
---- Check or uncheck the checkbox in current line
+--- Check/uncheck the checkbox or convert the list item into the checkbox in current line
 local toggle_checkbox = function()
     local line = vim.api.nvim_get_current_line()
     if vim.startswith(line, "- [ ] ") then
         vim.api.nvim_set_current_line("- [x] " .. string.sub(line, 7))
     elseif vim.startswith(line, "- [x] ") then
         vim.api.nvim_set_current_line("- [ ] " .. string.sub(line, 7))
+    elseif vim.startswith(line, "- ") then
+        vim.api.nvim_set_current_line("- [ ] " .. string.sub(line, 3))
     end
 end
 vim.keymap.set("n", "<C-s>", toggle_checkbox, opts)
