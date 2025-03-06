@@ -1,26 +1,28 @@
-[Default Applications]
-text/html=thorium-browser.desktop
-x-scheme-handler/http=thorium-browser.desktop
-x-scheme-handler/https=thorium-browser.desktop
-x-scheme-handler/about=thorium-browser.desktop
-x-scheme-handler/unknown=thorium-browser.desktop
-video/mp4=thorium-browser.desktop
-image/jpeg=sxiv.desktop
-image/png=sxiv.desktop
-image/svg+xml=sxiv.desktop
-application/pdf=org.pwmt.zathura.desktop
-application/javascript=neovide.desktop
-text/markdown=neovide.desktop
-text/css=neovide.desktop
-audio/mpeg=mpv.desktop;
-
 [Added Associations]
+application/javascript=neovide.desktop;
 application/pdf=okularApplication_pdf.desktop;FoxitReader.desktop;
+audio/mpeg=mpv.desktop;
 image/jpeg=org.nomacs.ImageLounge.desktop;feh.desktop;
 image/png=org.nomacs.ImageLounge.desktop;feh.desktop;
 image/svg+xml=thorium-browser.desktop;
-video/mp4=smplayer.desktop;
-application/javascript=neovide.desktop;
-text/markdown=neovide.desktop;
+image/vnd.microsoft.icon=sxiv-2.desktop;
 text/css=neovide.desktop;
+text/markdown=neovide.desktop;
+video/mp4=smplayer.desktop;
+
+[Default Applications]
+application/javascript=neovide.desktop
+application/pdf=org.pwmt.zathura.desktop
 audio/mpeg=mpv.desktop;
+image/jpeg=sxiv.desktop
+image/png=sxiv.desktop
+image/svg+xml=sxiv.desktop
+image/vnd.microsoft.icon=sxiv.desktop;
+text/css=neovide.desktop
+text/html=thorium-browser.desktop
+text/markdown=neovide.desktop
+video/mp4=thorium-browser.desktop
+x-scheme-handler/about=thorium-browser.desktop
+x-scheme-handler/http=thorium-browser.desktop
+x-scheme-handler/https=thorium-browser.desktop
+x-scheme-handler/unknown=thorium-browser.desktop
