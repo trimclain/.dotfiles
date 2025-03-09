@@ -40,10 +40,14 @@ return {
                     -- adjust the border for LSP floating windows
                     vim.lsp.handlers[methods.textDocument_hover] = vim.lsp.with(vim.lsp.handlers.hover, {
                         border = CONFIG.ui.border,
+                        -- Disable the 'No information available' notification in .tsx with hover on tailwind class
+                        -- https://github.com/neovim/neovim/blob/25d3b92d071c77aec40f3e78d27537220fc68d70/runtime/lua/vim/lsp/handlers.lua#L360
+                        silent = true,
                     })
-                    vim.lsp.handlers[methods.textDocument_signatureHelp] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-                        border = CONFIG.ui.border,
-                    })
+                    vim.lsp.handlers[methods.textDocument_signatureHelp] =
+                        vim.lsp.with(vim.lsp.handlers.signature_help, {
+                            border = CONFIG.ui.border,
+                        })
 
                     -- configure diagnostics
                     for name, icon in pairs(Icons.diagnostics) do
