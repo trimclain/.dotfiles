@@ -33,8 +33,7 @@ display_volume(){
 }
 
 notify() {
-    # TODO: wait till bugfix libnotify update
-    if command -v dunstifault > /dev/null; then
+    if command -v dunstify > /dev/null; then
         dunstify -a "volume-control" -r 7777 -u low -h int:value:"$1" -t 1500 "$2 Volume: ${1}%"
     else
         notify-send "$2 ${1}%" -t 350
@@ -42,8 +41,7 @@ notify() {
 }
 
 notify_micro() {
-    # TODO: wait till bugfix libnotify update
-    if command -v dunstifault > /dev/null; then
+    if command -v dunstify > /dev/null; then
         dunstify -a "volume-control" -r 7777 -u low -t 1500 "$1"
     else
         notify-send "$1" -t 350
