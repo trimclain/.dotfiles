@@ -46,6 +46,7 @@ muted_color = "#7f849c"
 dark_muted_color = "#1e1e2e"
 bar_background = "#11111b"
 widget_background = "#313244"
+normal_border = "#1D2330"
 active_border = "#5e81ac"
 inactive_border = "#11111b"
 
@@ -64,7 +65,10 @@ pink_color = "#f5c2e7"
 flamingo_color = "#f2cdcd"
 rosewater_color = "#f5e0dc"
 
-float_color = "#E1ACFF"  # dt colors
+# float_color = "#E1ACFF"  # dt colors
+float_color = mauve_color
+# tile_layout_border = "#FFB86C"
+tile_layout_border = flamingo_color
 ###############################################################################
 
 # Theme defaults
@@ -80,7 +84,7 @@ bar_defaults = dict(
 
 floating_layout_defaults = {
     "border_focus": float_color,
-    "border_normal": "#1D2330",
+    "border_normal": normal_border,
     "border_width": 2,
 }
 
@@ -88,6 +92,13 @@ layout_defaults = floating_layout_defaults.copy()
 layout_defaults.update({
     "border_focus": active_border,
     "margin": 8,  # gaps
+})
+
+tile_layout_defaults = floating_layout_defaults.copy()
+tile_layout_defaults.update({
+    "border_focus": tile_layout_border,
+    "margin": 8,  # gaps (int or list of ints [N E S W])
+    "ratio": 0.5,  # default: 0.618
 })
 
 widget_defaults = dict(
@@ -404,6 +415,7 @@ for i in groups:
         ]
     )
 
+# Docs: https://docs.qtile.org/en/latest/manual/ref/layouts.html
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Max(),
@@ -415,7 +427,7 @@ layouts = [
     layout.Floating(**floating_layout_defaults),
     # layout.TreeTab(),
     # layout.RatioTile(),
-    # layout.Tile(),
+    layout.Tile(**tile_layout_defaults),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
