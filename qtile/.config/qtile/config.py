@@ -180,7 +180,6 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    # Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
 
     # Move windows
     # fmt: off
@@ -208,7 +207,7 @@ keys = [
     Key([mod], "n", lazy.layout.reset(), desc="Reset all window sizes"),
     # Key([mod], "m", lazy.layout.maximize(), desc="Toggle between min and max sizes"),
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating"),
+    Key([mod], "space", lazy.window.toggle_floating(), desc="Toggle floating"),
 
     # Switch layouts
     Key([mod], "Tab", lazy.next_layout(), desc="Switch between layouts"),
