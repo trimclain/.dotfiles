@@ -464,10 +464,17 @@ class Widget:
         # background=widget_background
     )
 
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#chord
     chord = dict(
         mouse_callbacks={},
         fmt="{}",
         # background=widget_background
+    )
+
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#currentlayouticon
+    cur_layout_icon = dict(
+        padding=0,
+        scale=0.5
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#windowname
@@ -641,8 +648,10 @@ def my_bar():
         widget.Sep(**Widget.sep),
         widget.Clock(**Widget.clock),
         widget.Sep(**Widget.sep),
+        widget.CurrentLayoutIcon(**Widget.cur_layout_icon),
+        widget.Sep(**Widget.sep),
         widget.Chord(**Widget.chord),
-        # widget.Sep(**Widget.sep),
+        widget.Sep(**Widget.sep),
         # widget.WindowName(**Widget.window_name),
 
         widget.Spacer(),
@@ -651,8 +660,6 @@ def my_bar():
 
         # on Wayland use widget.StatusNotifier(),
         widget.Systray(**Widget.systray),
-        # widget.Sep(**Widget.sep),
-        # widget.CurrentLayoutIcon(padding=0, scale=0.7),
         widget.Sep(**Widget.sep),
         widget.GenPollCommand(**Widget.volume),
         widget.GenPollCommand(**Widget.brightness),
