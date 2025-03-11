@@ -91,12 +91,13 @@ layout_defaults.update({
 })
 
 widget_defaults = dict(
-    # use ` kitty +list-fonts | grep <fontname>` to find a font
+    # use (not in tmux) ` kitty +list-fonts | grep <fontname>` to find a font
     # font="sans", # default
     # font="JetBrainsMono Nerd Font Mono",
     # font="BlexMono Nerd Font Mono",
     # font="CaskaydiaCove Nerd Font Mono",
-    font="Maple Mono NF",
+    # font="Maple Mono NF",
+    font="GeistMono Nerd Font Mono",
     fontsize=13,
     padding=10,
     borderwidth=2,
