@@ -9,61 +9,54 @@ from pathlib import Path
 CWD = os.path.join(Path.home(), ".dotfiles")
 BACKUP_FOLDER = os.path.join(CWD, ".backup")
 
-STOW_FOLDERS = [
-    "bin",  # 0
-    "bash",  # 1
-    "i3",  # 2
-    "awesome",  # 3
-    "polybar",  # 4
-    "nvim",  # 5
-    "chtsh",  # 6
-    "tmux",  # 7
-    "vim",  # 8
-    "zsh",  # 9
-    "kitty",  # 10
-    "alacritty",  # 11
-    "rofi",  # 12
-    "picom",  # 13
-    "lf",  # 14
-    "stylua",  # 15
-    "xorg",  # 16
-    "wezterm",  # 17
-    "apps",  # 18
-    "dunst",  # 19
-    "qtile",  # 20
-    "hyprland",  # 21
-    "waybar",  # 22
-]
+CONFIGS = {
+    # dev
+    "bin": "",
+    "chtsh": "",
+    "stylua": ".config/.stylua.toml",
 
-STOW_CONFIGS = [
-    "",  # 0
-    ".bashrc",  # 1
-    ".config/i3",  # 2
-    ".config/awesome",  # 3
-    ".config/polybar",  # 4
-    ".config/nvim",  # 5
-    "",  # 6
-    ".tmux.conf",  # 7
-    ".vimrc",  # 8
-    ".zshrc",  # 9
-    ".config/kitty",  # 10
-    ".config/alacritty",  # 11
-    ".config/rofi",  # 12
-    ".config/picom",  # 13
-    ".config/lf",  # 14
-    ".config/.stylua.toml",  # 15
-    ".xprofile",  # 16
-    ".config/wezterm",  # 17
-    [
-        ".config/mimeapps.list",  # 18
+    # shell
+    "bash": ".bashrc",
+    "zsh": ".zshrc",
+    "tmux": ".tmux.conf",
+
+    # wm
+    "i3": ".config/i3",
+    "awesome": ".config/awesome",
+    "qtile": ".config/qtile",
+    "hyprland": ".config/hypr",
+
+    # bar
+    "polybar": ".config/polybar",
+    "waybar": ".config/waybar",
+
+    # editor
+    "nvim": ".config/nvim",
+    "vim": ".vimrc",
+
+    # terminal
+    "kitty": ".config/kitty",
+    "alacritty": ".config/alacritty",
+    "wezterm": ".config/wezterm",
+    "ghostty": ".config/ghostty",
+
+    # wm utils
+    "xorg": ".xprofile",
+    "rofi": ".config/rofi",
+    "picom": ".config/picom",
+    "dunst": ".config/dunst",
+
+    # apps
+    "apps": [
+        ".config/mimeapps.list",
         ".config/user-dirs.dirs",
         ".config/user-dirs.locale",
     ],
-    ".config/dunst",  # 19
-    ".config/qtile",  # 20
-    ".config/hypr",  # 21
-    ".config/waybar",  # 22
-]
+    "lf": ".config/lf",
+    "ncspot": ".config/ncspot",
+    "pomo": ".config/pomo",
+    "fastfetch": ".config/fastfetch",
+}
 
 # Get the mode, default to normal
 if len(sys.argv) == 1:
@@ -73,11 +66,6 @@ elif len(sys.argv) == 2:
 else:
     print("Too many arguments! Try again.")
     sys.exit(1)
-
-
-def is_tool(name):
-    """Check whether `name` is in PATH and marked as executable."""
-    return shutil.which(name) is not None
 
 
 def exists(path: str) -> bool:
@@ -141,51 +129,53 @@ def backup(location: str) -> None:
         shutil.move(full_path, backup_path)
 
 
-def get_config_names():  # -> list[str]: -- not supported in 3.7
+def get_config_names():  # -> list[str]: -- not supported in 3.7 (on debian)
     """Get the names of configs to install
 
     Returns:
         List of names
     """
-    names = []
-    to_stow = []
+    # Small installation
+    if MODE == "-s" or MODE == "--small":
+        return ["bin", "bash", "chtsh", "tmux", "vim"]
+    # Normal mode (good for wsl)
+    if MODE == "--normal":
+        return ["bin", "nvim", "chtsh", "tmux", "zsh"]
     # Full installation (combine small and normal)
     if MODE == "-f" or MODE == "--full":
-        # indexex of folders to stow
-        to_stow = [0, 1, 5, 6, 7, 8, 9]
-    # Small installation
-    elif MODE == "-s" or MODE == "--small":
-        to_stow = [0, 1, 6, 7, 8]
+        return ["bin", "bash", "nvim", "chtsh", "tmux", "vim", "zsh"]
     # Linux installation
-    elif MODE == "-l" or MODE == "--linux":
-        # autopep8: off
-        to_stow = [0, 5, 6, 7, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
-        # autopep8: on
+    if MODE == "-l" or MODE == "--linux":
+        return [
+            "bin",
+            "nvim",
+            "chtsh",
+            "tmux",
+            "zsh",
+            "kitty",
+            "rofi",
+            "picom",
+            "lf",
+            "stylua",
+            "xorg",
+            "wezterm",
+            "apps",
+            "dunst",
+            "qtile",
+            "hyprland",
+            "waybar",
+        ]
     # Remote server installation
-    elif MODE == "--server":
-        to_stow = [0, 1, 7, 8]
-    # Normal mode (good for wsl)
-    elif MODE == "--normal":
-        to_stow = [0, 5, 6, 7, 9]
-    else:
-        print("Error:", MODE, "argument doesn't exist")
-        sys.exit(1)
-    if to_stow:
-        # check for existing files to backup
-        for ind in to_stow:
-            conf = STOW_CONFIGS[ind]
-            if isinstance(conf, list):
-                for loc in conf:
-                    backup(loc)
-            else:
-                backup(conf)
-            names.append(STOW_FOLDERS[ind])
-        return names
+    if MODE == "--server":
+        return ["bin", "bash", "tmux", "vim"]
+
+    print("Error:", MODE, "argument doesn't exist")
+    sys.exit(1)
 
 
 def install():
     # Check if stow is installed
-    if not is_tool("stow"):
+    if not shutil.which("stow"):
         print("Error: stow not found")
         sys.exit(1)
 
@@ -194,9 +184,16 @@ def install():
         print("Error: not in", CWD)
         sys.exit(1)
 
-    # Stow
     names = get_config_names()
-    for name in names:  # pyright: ignore [reportOptionalIterable]
+    for name in names:
+        conf = CONFIGS[name]
+        # Backup
+        if isinstance(conf, list):
+            for loc in conf:
+                backup(loc)
+        else:
+            backup(conf)
+        # Stow
         subprocess.run(["stow", "-vR", name])
     # print("Done")
 
