@@ -1,89 +1,78 @@
 #!/usr/bin/env python3
 
 import os
-import subprocess
 from pathlib import Path
 from shutil import which
+from subprocess import run
 
-STOW_FOLDERS = [
-    "bin",  # 0
-    "bash",  # 1
-    "i3",  # 2
-    "awesome",  # 3
-    "polybar",  # 4
-    "nvim",  # 5
-    "chtsh",  # 6
-    "tmux",  # 7
-    "vim",  # 8
-    "zsh",  # 9
-    "kitty",  # 10
-    "alacritty",  # 11
-    "rofi",  # 12
-    "picom",  # 13
-    "lf",  # 14
-    "stylua",  # 15
-    "xorg",  # 16
-    "wezterm",  # 17
-    "apps",  # 18
-    "dunst",  # 19
-    "qtile",  # 20
-    "hyprland",  # 21
-    "waybar",  # 22
-]
+CONFIGS = {
+    # dev
+    "bin": "",
+    "chtsh": "",
+    "stylua": ".config/.stylua.toml",
 
-STOW_CONFIGS = [
-    "",  # 0
-    ".bashrc",  # 1
-    ".config/i3",  # 2
-    ".config/awesome",  # 3
-    ".config/polybar",  # 4
-    ".config/nvim",  # 5
-    "",  # 6
-    ".tmux.conf",  # 7
-    ".vimrc",  # 8
-    ".zshrc",  # 9
-    ".config/kitty",  # 10
-    ".config/alacritty",  # 11
-    ".config/rofi",  # 12
-    ".config/picom",  # 13
-    ".config/lf",  # 14
-    ".config/.stylua.toml",  # 15
-    ".xprofile",  # 16
-    ".config/wezterm",  # 17
-    ".config/mimeapps.list",  # 18
-    ".config/dunst",  # 19
-    ".config/qtile",  # 20
-    ".config/hypr",  # 21
-    ".config/waybar",  # 22
-]
+    # shell
+    "bash": ".bashrc",
+    "zsh": ".zshrc",
+    "tmux": ".tmux.conf",
 
-STOW_DICT = dict(zip(STOW_FOLDERS, STOW_CONFIGS))
-NO_CONFIG_FOLDERS = [
-    STOW_FOLDERS[i] for i in range(len(STOW_FOLDERS)) if not STOW_CONFIGS[i]
-]
+    # wm
+    "i3": ".config/i3",
+    "awesome": ".config/awesome",
+    "qtile": ".config/qtile",
+    "hyprland": ".config/hypr",
 
+    # bar
+    "polybar": ".config/polybar",
+    "waybar": ".config/waybar",
 
-def is_tool(name):
-    """Check whether `name` is in PATH and marked as executable."""
-    return which(name) is not None
+    # editor
+    "nvim": ".config/nvim",
+    "vim": ".vimrc",
+
+    # terminal
+    "kitty": ".config/kitty",
+    "alacritty": ".config/alacritty",
+    "wezterm": ".config/wezterm",
+    "ghostty": ".config/ghostty",
+
+    # wm utils
+    "xorg": ".xprofile",
+    "rofi": ".config/rofi",
+    "picom": ".config/picom",
+    "dunst": ".config/dunst",
+
+    # apps
+    "apps": [
+        ".config/mimeapps.list",
+        ".config/user-dirs.dirs",
+        ".config/user-dirs.locale",
+    ],
+    "lf": ".config/lf",
+    "ncspot": ".config/ncspot",
+    "pomo": ".config/pomo",
+    "fastfetch": ".config/fastfetch",
+}
+
+NO_CONFIG_FOLDERS = [key for key, value in CONFIGS.items() if value == ""]
 
 
 def main():
     did_smth = False
-    for folder, config in STOW_DICT.items():
+    for folder, config in CONFIGS.items():
         configpath = os.path.join(Path.home(), config)
         # check if file/folder exists and is a symlink
         if os.path.islink(configpath):
-            if is_tool("stow"):
-                subprocess.run(["stow", "-vD", folder])
+            if which("stow"):
+                run(["stow", "-vD", folder])
             else:
-                subprocess.run(["rm", "-r", configpath])
+                run(["rm", "-r", configpath])
                 print("Removing symlink to", folder)
             did_smth = True
     # bin and chtsh (have to use stow)
-    if is_tool("stow"):
+    if which("stow"):
         for folder in NO_CONFIG_FOLDERS:
-            subprocess.run(["stow", "-vD", folder])
+            run(["stow", "-vD", folder])
     if not did_smth:
         print("There are no jobs")
 
