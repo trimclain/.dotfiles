@@ -104,27 +104,29 @@ def backup(location: str) -> None:
     # filter empty strings
     if not location:
         return
+
     full_path = fullpath(location)
     if exists(full_path) and not os.path.islink(full_path):
-        if not exists(BACKUP_FOLDER):
+        if not os.path.isdir(BACKUP_FOLDER):
             os.mkdir(BACKUP_FOLDER)
-        # if a backup already exist, add backup2
+
         basename = os.path.basename(location)
-        # TODO: refactor
-        if os.path.isfile(full_path):
+        name, ext = basename, ""
+        if os.path.isfile(full_path) and "." in basename:
             name, ext = basename.split(".")
-        else:
-            name = basename
+
+        # if a backup already exist, add backup2
         count = len([el for el in os.listdir(BACKUP_FOLDER) if name in el])
         if count > 0:
             # turn settings.json into settings1.json and not settings.json1
-            if os.path.isfile(full_path):
-                new_name = name + str(count + 1) + "." + ext
+            if ext:
+                new_name = f"{name}{count + 1}.{ext}"
             else:
-                new_name = basename + str(count + 1)
-            backup_path = os.path.join(BACKUP_FOLDER, new_name)
+                new_name = f"{name}{count + 1}"
         else:
-            backup_path = os.path.join(BACKUP_FOLDER, basename)
+            new_name = basename
+
+        backup_path = os.path.join(BACKUP_FOLDER, new_name)
         print("Found existing", location, "-> Moving it to", backup_path)
         shutil.move(full_path, backup_path)
 
