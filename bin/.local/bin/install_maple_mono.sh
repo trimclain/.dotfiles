@@ -1,25 +1,34 @@
 #!/usr/bin/env bash
 
 # Install latest Maple Mono Release/Pre-release
-# Reason: AUR gets only latest release and the guy likes Pre-releases
+#
+# Reason: AUR (ttf-maple-beta-nf) gets only latest release
+#         and the author (subframe7536) likes pre-releases
 # Requires: curl, unzip, fc-cache (fontconfig)
+#
+# Usage: install_maple_mono.sh [v6|lts]
 
 FONT_DIR="$HOME/.local/share/fonts"
-URL=https://api.github.com/repos/subframe7536/maple-font/releases
+API_URL="https://api.github.com/repos/subframe7536/maple-font/releases"
+RELEASE_URL="https://github.com/subframe7536/maple-font/releases"
 
 # Get latest release
-TAG_NAMES=$(curl -s "$URL" |
-	awk -v RS=',' -F'"' '/tag_name/ {print $4}')
+TAG_NAMES=$(curl -s "$API_URL" |
+    awk -v RS=',' -F'"' '/tag_name/ {print $4}')
 
 RELEASES=()
 while IFS= read -r line; do
-	RELEASES+=("$line")
+    RELEASES+=("$line")
 done <<<"$TAG_NAMES"
 
 if [[ -n "$1" ]]; then
-	latest="v6.4"
+    if [[ "$1" == "v6" ]]; then
+        latest="v6.4"
+    else
+        latest="v7.0"
+    fi
 else
-	latest="${RELEASES[0]}"
+    latest="${RELEASES[0]}"
 fi
 
 
@@ -29,7 +38,7 @@ echo "Installing MapleMono-NF $latest"
 pushd /tmp || exit
 
 opts=("--location" "--remote-header-name" "--remote-name" "--progress-bar")
-curl "${opts[@]}" "https://github.com/subframe7536/maple-font/releases/download/$latest/MapleMono-NF.zip"
+curl "${opts[@]}" "$RELEASE_URL/download/$latest/MapleMono-NF.zip"
 
 rm -rf "$FONT_DIR/MapleMono-NF"
 mkdir -p "$FONT_DIR/MapleMono-NF"
