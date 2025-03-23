@@ -322,6 +322,13 @@ obs: ## Install OBS Studio
 	@make flatpak
 	$(FLATINSTALL) flathub com.obsproject.Studio
 
+vlc:
+	echo "Installing VLC with pause-click-plugin..."
+	$(INSTALL) vlc
+	$(PARUINSTALL) vlc-pause-click-plugin
+	echo "Now enable the plugin following instruction at"
+	echo "https://github.com/nurupo/vlc-pause-click-plugin?tab=readme-ov-file#usage"
+
 # I have to sometimes
 vscode: ## Install VSCode (VSCodium)
 	$(PARUINSTALL) vscodium-bin vscodium-bin-marketplace
@@ -432,7 +439,7 @@ install: ## Setup arch after new installation
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
 	brave chrome thorium zen vivaldi\
-	telegram discord spotify ncspot obs vscode office quickemu\
+	telegram discord spotify ncspot obs vlc vscode office quickemu\
 	anki uninstall_anki pomo uninstall_pomo syncthing\
 	apps\
 	install
