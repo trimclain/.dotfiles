@@ -200,6 +200,9 @@ nnoremap <leader>l <C-w>l
 " Better quality of life
 vnoremap < <gv
 vnoremap > >gv
+" Feels natural
+vnoremap <S-h> <gv
+vnoremap <S-l> >gv
 
 " Navigate buffers
 nnoremap <silent> <S-l> :bnext<cr>
