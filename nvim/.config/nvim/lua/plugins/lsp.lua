@@ -50,13 +50,17 @@ return {
                         })
 
                     -- configure diagnostics
-                    for name, icon in pairs(Icons.diagnostics) do
-                        name = "DiagnosticSign" .. name
-                        vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-                    end
                     vim.diagnostic.config({
                         underline = true,
                         update_in_insert = false,
+                        signs = {
+                            text = {
+                                [vim.diagnostic.severity.ERROR] = Icons.diagnostics.Error,
+                                [vim.diagnostic.severity.WARN] = Icons.diagnostics.Warn,
+                                [vim.diagnostic.severity.INFO] = Icons.diagnostics.Info,
+                                [vim.diagnostic.severity.HINT] = Icons.diagnostics.Hint,
+                            },
+                        },
                         virtual_text = CONFIG.lsp.virtual_text and { spacing = 4, source = "if_many", prefix = "●" }
                             or false,
                         severity_sort = true,
