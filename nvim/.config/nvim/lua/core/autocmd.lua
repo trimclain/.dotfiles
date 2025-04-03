@@ -58,7 +58,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("BufWritePre", {
     callback = function()
         if vim.bo.filetype ~= "markdown" then
+            -- To restore the cursor position if I want to someday
+            -- let l:save = winsaveview()
             vim.cmd("%s/\\s\\+$//e")
+            -- call winrestview(l:save)
         end
     end,
     desc = "Delete useless whitespaces when saving the file",
