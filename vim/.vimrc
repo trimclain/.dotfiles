@@ -232,14 +232,31 @@ nnoremap <silent> <leader>gs :G<cr>
 " Toggle Netrw
 let g:netrw_opened = 0
 function! NetrwToggle()
+    " always open NetRW in the leftmost split
     if g:netrw_opened == 1
-        " move to the most left split
-        execute 'wincmd H'
-        execute 'close'
+        " I need to tp back only if I'm on netrw on close
+        if &filetype ==# 'netrw'
+            if exists("g:netrw_prev_winid")
+                call win_gotoid(g:netrw_prev_winid)
+            endif
+        endif
+
+        " the leftmost window is always 1
+        execute '1close'
     else
-        " TODO:
-        " let g:netrw_opened = 1
+        " to tp back on close
+        let g:netrw_prev_winid = win_getid()
+
+        " move to the most left since Vex goes only left of current split
+        let window_count = tabpagewinnr(tabpagenr(), '$')
+        if window_count > 1
+            " this is overkill by 1, in case I forget
+            execute window_count . "wincmd h"
+        endif
+
+        " 15% looks nice only with 1 split
         execute '15Vex'
+        vertical resize 35
     endif
 endfunction
 
