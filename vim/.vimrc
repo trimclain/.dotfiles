@@ -229,6 +229,9 @@ nnoremap <silent> <leader>gs :G<cr>
 " nnoremap <leader>gj :diffget //3<cr>
 " nnoremap <leader>gf :diffget //2<cr>
 
+" Open Undotree
+nnoremap <silent> <leader>u :UndotreeToggle<cr>
+
 " Toggle Netrw
 let g:netrw_opened = 0
 function! NetrwToggle()
@@ -259,12 +262,28 @@ function! NetrwToggle()
         vertical resize 35
     endif
 endfunction
-
-
-" Explorer (make it toggle)
 nnoremap <silent> <leader>e :call NetrwToggle()<cr>
-" Open Undotree
-nnoremap <silent> <leader>u :UndotreeToggle<cr>
+
+" Builder.nvim implementation
+function! Build()
+    write
+    if &filetype ==# 'python'
+        execute '!python3 %'
+    elseif &filetype ==# 'sh'
+        " bash, shell, zsh -> all will run in bash coz why not
+        execute '!bash %'
+    elseif &filetype ==# 'vim'
+        execute 'source %'
+    else
+        if executable(expand("%:p"))
+            execute '!./%'
+        else
+            execute '!chmod +x %'
+            execute '!./%'
+        endif
+    endif
+endfunction
+nnoremap <silent> <C-b> :call Build()<cr>
 
 " Start a Project Search
 nnoremap <leader>fs :Rg<space>
@@ -323,7 +342,7 @@ lnoremap <C-c> <esc>
 " -- Sometimes them fingers do be fat
 com! Q q
 com! Qa qa
-" com! X x      " TODO: any workarounds?
+com! X x
 com! W w
 
 " #############################################################################
@@ -337,23 +356,6 @@ function! TrimWhitespace()
     call winrestview(l:save)
 endfunction
 
-" Check the filetype to know how to run the file
-function! UpdateRunCommand()
-    if &filetype ==# 'python'
-        " python
-        nnoremap <silent> <C-b> :w<cr> :!python3 %<cr>
-    elseif &filetype ==# 'sh'
-        " bash, shell, zsh -> all will run in bash coz why not
-        nnoremap <silent> <C-b> :w<cr> :!bash %<cr>
-    elseif &filetype ==# 'vim'
-        " vim
-        nnoremap <silent> <C-b> :w<cr> :source %<cr>
-    else
-        " other filetypes, need to be executable (TODO: write the check)
-        nnoremap <silent> <C-b> :w <cr> :!./% <cr>
-    endif
-endfunction
-
 " Close these filetypes with a single keypress instead of :q
 function! UnlistBuffers()
     nnoremap <silent> <buffer> q :close<cr>
@@ -364,7 +366,6 @@ endfunction
 augroup trimclain
     autocmd!
     autocmd BufWritePre * :call TrimWhitespace()
-    autocmd BufEnter * :call UpdateRunCommand()
     autocmd FileType qf,help,netrw,fugitive :call UnlistBuffers()
 augroup END
 
