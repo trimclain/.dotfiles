@@ -237,6 +237,13 @@ keys = [
         run_command("flameshot gui -c"),
         desc="Take a screenshot with gui to clipboard"
     ),
+    # I'm kinda used to this on windows
+    Key(
+        [alt, "shift"],
+        "s",
+        run_command("flameshot gui -c"),
+        desc="Take a screenshot with gui to clipboard"
+    ),
 
     # X screen locker
     Key([alt], "l", run_command("slock"), desc="Lock the screen"),
