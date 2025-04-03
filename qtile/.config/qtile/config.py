@@ -515,6 +515,7 @@ class Widget:
 
         disable_drag=True,
         use_mouse_wheel=False,
+        toggle=False,  # toggling of group when clicking on same group name
         # hide_unused = True, # like i3
         padding=7,
         margin_x=0,
