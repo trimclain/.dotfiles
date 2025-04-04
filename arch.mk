@@ -51,11 +51,10 @@ brightnessctl:
 #                                            Languages                                            #
 ###################################################################################################
 
-# TODO: switch to pyenv for version control
-# TODO: switch to virtualenv (venv comes built-in, but has less features)
-
 python: ## Install python3, pip
 	$(INSTALL) python python-pip
+	@# extremely fast python package and project manager
+	$(INSTALL) uv
 
 python_modules:
 	$(INSTALL) python-numpy python-matplotlib jupyter-notebook
