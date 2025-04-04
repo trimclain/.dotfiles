@@ -22,6 +22,7 @@ filetype plugin indent on
 
 set path+=**                            " expand the search whe gf or :find
 
+set autoread                            " when a file has been changed outside of Vim, automatically read it again
 set nocompatible                        " disable compatibility to vi
 set encoding=utf-8                      " pretty straight-forward
 set completeopt=menu,menuone,noselect   " list of options for Insert mode completion
@@ -342,7 +343,6 @@ lnoremap <C-c> <esc>
 " -- Sometimes them fingers do be fat
 com! Q q
 com! Qa qa
-com! X x
 com! W w
 
 " #############################################################################
