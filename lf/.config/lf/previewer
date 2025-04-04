@@ -4,8 +4,16 @@
 # Requirements: ueberzugpp, imagemagick
 ################################################################################
 
-# TODO: make sure all necessary commands in the previewer exists,
-# if not notify-send about it
+ensure_installed() {
+    if ! command -v "$1" > /dev/null; then
+        notify-send "LF Preview Error" "$1 not found"
+        exit 1
+    fi
+}
+
+ensure_installed ueberzugpp
+ensure_installed magick
+
 
 # Preview with Ueberzugpp
 # https://github.com/jstkdng/ueberzugpp/blob/master/scripts/lf/lfub
