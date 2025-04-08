@@ -33,9 +33,6 @@ if terminal is None:
     terminal = "kitty"  # "alacritty", "kitty", "wezterm", "ghostty"
 
 # browser = "zen-browser"
-# NOTE: thorium-browser freezes with enabled hardware acceleration on arch
-# This problem has somethign to do with electron.
-# Solution: disable hardware acceleration in the browser settings or use zen
 browser = "thorium-browser"
 if shutil.which(browser) is None:
     browser = "firefox"
