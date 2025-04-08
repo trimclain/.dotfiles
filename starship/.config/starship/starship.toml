@@ -1,6 +1,9 @@
 # Get editor completions based on the config schema
 "$schema" = "https://starship.rs/config-schema.json"
 
+# A continuation prompt that displays two filled-in arrows
+#continuation_prompt = '▶▶ ' # default: "[∙](bright-black) "
+
 # Docs: https://starship.rs/config/
 # Default: format = "$all"
 # which is almost (other than order and $fill) equivalent to
@@ -8,21 +11,13 @@
 format = """
 $username\
 $hostname\
-$localip\
-$shlvl\
 $singularity\
-$kubernetes\
 $directory\
 $vcsh\
-$fossil_branch\
-$fossil_metrics\
 $git_branch\
 $git_commit\
 $git_state\
-$git_metrics\
 $git_status\
-$hg_branch\
-$pijul_channel\
 $docker_context\
 $package\
 $c\
@@ -35,7 +30,6 @@ $dotnet\
 $elixir\
 $elm\
 $erlang\
-$fennel\
 $gleam\
 $golang\
 $guix_shell\
@@ -75,26 +69,18 @@ $nix_shell\
 $conda\
 $meson\
 $spack\
-$memory_usage\
 $aws\
 $gcloud\
 $openstack\
-$azure\
-$nats\
-$direnv\
 $env_var\
 $crystal\
 $custom\
-$sudo\
 $cmd_duration\
 $jobs\
 $battery\
 $fill\
 $time\
-$status\
-$os\
 $container\
-$shell\
 $line_break\
 $character"""
 
