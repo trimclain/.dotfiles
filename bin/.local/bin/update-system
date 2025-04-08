@@ -1,27 +1,47 @@
 #!/usr/bin/env bash
 
 OS=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
+APTCONFIRM=''
+PACMANCONFIRM=''
+FLATPAKCONFIRM=''
+
+if [[ -n $1 ]]; then
+    if [[ $1 == "--help" || $1 == "-h" ]]; then
+        echo "Update the system packages and clean up unused packages."
+        echo ""
+        echo "Usage: update-system [flag]"
+        echo "Flags:"
+        echo "  --help, -h   Show this help message"
+        echo "  --yes, -y    Autoconfirm all updates"
+        exit 0
+    fi
+    if [[ $1 == "--yes" || $1 == "-y" ]]; then
+        APTCONFIRM='-y'
+        PACMANCONFIRM='--noconfirm'
+        FLATPAKCONFIRM='-y'
+    fi
+fi
 
 # package manager updates
 if [[ $OS == ubuntu ]]; then
     sudo apt update
-    sudo apt upgrade -y
+    sudo apt upgrade $APTCONFIRM
     # see https://www.networkworld.com/article/3453032/cleaning-up-with-apt-get.html
     # sudo apt clean -y
-    sudo apt autoclean -y
-    sudo apt autoremove -y
+    sudo apt autoclean $APTCONFIRM
+    sudo apt autoremove $APTCONFIRM
 elif [[ $OS == arch ]]; then
     if command -v paru > /dev/null; then
-        paru -Syu --noconfirm
+        paru -Syu $PACMANCONFIRM
     else
-        sudo pacman -Syu --noconfirm
+        sudo pacman $PACMANCONFIRM
     fi
     # apt autoremove
     # TODO: this should be a loop, since deleting each time creates new orphans
     orphans=$(pacman -Qdtq)
     if [[ -n $orphans ]]; then
         # shellcheck disable=SC2086
-        sudo pacman -R --noconfirm $orphans
+        sudo pacman -R $orphans $PACMANCONFIRM
     fi
 else
     echo "Error: OS not supported"
@@ -30,13 +50,6 @@ fi
 
 # flatpak
 if command -v flatpak > /dev/null; then
-    flatpak update -y
-    flatpak uninstall --unused -y
+    flatpak update $FLATPAKCONFIRM
+    flatpak uninstall --unused $FLATPAKCONFIRM
 fi
-
-# zap
-# This doesn't work, since zap.zsh needs to be sourced first for zap command
-# to exist
-# if [[ -f ~/.local/share/zap/zap.zsh ]] > /dev/null; then
-#     zap update all
-# fi
