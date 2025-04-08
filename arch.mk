@@ -192,7 +192,7 @@ zoxide:
 
 zsh: ## Install zsh
 	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
-		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done" && make zap && make zoxide; fi
+		else echo "Installing Zsh..." && $(INSTALL) zsh starship && echo "Done" && make zap && make zoxide; fi
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac

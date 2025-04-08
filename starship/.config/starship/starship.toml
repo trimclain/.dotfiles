@@ -1,0 +1,121 @@
+# Get editor completions based on the config schema
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Docs: https://starship.rs/config/
+# Default: format = "$all"
+# which is almost (other than order and $fill) equivalent to
+# Note: a lot in here a disabled
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$fossil_branch\
+$fossil_metrics\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$pijul_channel\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$fennel\
+$gleam\
+$golang\
+$guix_shell\
+$haskell\
+$haxe\
+$helm\
+$java\
+$julia\
+$kotlin\
+$gradle\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$opa\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$quarto\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$solidity\
+$swift\
+$terraform\
+$typst\
+$vlang\
+$vagrant\
+$zig\
+$buf\
+$nix_shell\
+$conda\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$nats\
+$direnv\
+$env_var\
+$crystal\
+$custom\
+$sudo\
+$cmd_duration\
+$jobs\
+$battery\
+$fill\
+$time\
+$status\
+$os\
+$container\
+$shell\
+$line_break\
+$character"""
+
+
+# Docs: https://starship.rs/config/#python
+[python]
+symbol = " " # default: "🐍 "
+version_format = "v${major}.${minor}" # default: "v${raw}"
+
+# Docs: https://starship.rs/config/#command-duration
+[cmd_duration]
+min_time = 3000 # default: 2000
+# SOMEDAY: $duration has no space, e.g. 16m40s. Create a PR to allow that.
+format = "took [$duration]($style) "
+
+# Docs: https://starship.rs/config/#fill
+[fill]
+symbol = " " # default: "."
+
+# Docs: https://starship.rs/config/#time
+[time]
+disabled = false
+format = "[$time]($style) " # default: "at [$time]($style) "
+time_format = "%T"
