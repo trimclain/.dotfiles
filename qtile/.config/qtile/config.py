@@ -579,6 +579,26 @@ class Widget:
         # padding=5,
         configured_keyboards=["us", "ru"],
         # background=widget_background
+        # TODO: figure out colors
+        foreground=yellow_color
+    )
+
+    # define variables for automatic wlan/eth interface detection
+    WLAN_INTERFACE = get_command_output(
+        "ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep wl")
+    ETH_INTERFACE = get_command_output(
+        "ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep en")
+
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#wlan
+    # requirement: python-iwlib
+    wlan = dict(
+        use_ethernet=True,
+        interface=WLAN_INTERFACE,
+        format="󰖩 {essid}",
+        ethernet_interface=ETH_INTERFACE,
+        # TODO: PR (wip)
+        ethernet_message="󰣺 {ipaddr}",
+        # background=widget_background,
         foreground=yellow_color
     )
 
@@ -681,6 +701,8 @@ def my_bar():
         widget.GenPollCommand(**Widget.volume),
         widget.GenPollCommand(**Widget.brightness),
         widget.KeyboardLayout(**Widget.keyboard_layout),
+        widget.Sep(**Widget.sep),
+        widget.Wlan(**Widget.wlan),
         widget.Sep(**Widget.sep),
         widget.Memory(**Widget.memory),
         widget.Sep(**Widget.sep),
