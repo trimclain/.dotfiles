@@ -598,6 +598,7 @@ class Widget:
         ethernet_interface=ETH_INTERFACE,
         # TODO: PR (wip)
         ethernet_message="󰣺 {ipaddr}",
+        disconnected_message="󰖪",
         # background=widget_background,
         foreground=yellow_color
     )
