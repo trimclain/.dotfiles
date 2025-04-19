@@ -596,7 +596,7 @@ class Widget:
         interface=WLAN_INTERFACE,
         format="󰖩 {essid}",
         ethernet_interface=ETH_INTERFACE,
-        # TODO: PR (wip)
+        # TODO: this will not work unless I make ethernet_message_format
         ethernet_message="󰣺 {ipaddr}",
         disconnected_message="󰖪",
         # background=widget_background,
