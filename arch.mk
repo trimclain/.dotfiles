@@ -212,9 +212,21 @@ awesome:
 
 qtile:
 	@echo "==================================================================="
-	@# Install qtile, python-psutil (for cpu widget and more), python-iwlib (for wlan widget)
+	@# Install
+	@# - qtile
+	@# - python-psutil (for cpu widget and more)
+	@# - python-iwlib (for wlan widget)
+	@# - python-libcst (for qtile migrate)
 	@# Dev Deps: xorg-server-xephyr (x11), xorg-server-xvfb (x11-headless), graphviz (for docs)
-	$(INSTALL) qtile python-psutil python-iwlib dmenu rofi slock dunst picom feh nitrogen
+	$(INSTALL) qtile python-psutil python-iwlib python-libcst
+	@# Install
+	@# - dmenu and rofi (app and command launchers)
+	@# - slock (screen locker)
+	@# - dunst (notification daemon)
+	@# - picom (compositor for transparency and shadows)
+	@# - feh (image viewer and wallpaper setter)
+	@# - nitrogen (wallpaper setter)
+	$(INSTALL) dmenu rofi slock dunst picom feh nitrogen
 	@make brightnessctl
 
 hyprland:
