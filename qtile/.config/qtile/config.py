@@ -249,13 +249,13 @@ keys = [
     Key(
         [],
         "XF86MonBrightnessUp",
-        run_command("~/.local/bin/display-brightness --increase"),
+        run_command("~/.local/bin/brightness-control --increase"),
         desc="Increase brightness by 10%"
     ),
     Key(
         [],
         "XF86MonBrightnessDown",
-        run_command("~/.local/bin/display-brightness --decrease"),
+        run_command("~/.local/bin/brightness-control --decrease"),
         desc="Decrease brightness by 10%"
     ),
 
@@ -548,7 +548,7 @@ class Widget:
             "Button5": run_command("~/.local/bin/volume-control --decrease"),
         },
         # padding=5,
-        cmd=os.path.expanduser("~/.config/qtile/scripts/get-volume.sh"),
+        cmd=os.path.expanduser("~/.local/bin/volume-control --get-volume").split(" "),
         update_interval=0.01,
         # background=widget_background
         foreground=red_color
@@ -558,12 +558,11 @@ class Widget:
     brightness = dict(
         # increase/decrease volume on scroll
         mouse_callbacks={
-            "Button4": run_command("~/.local/bin/display-brightness --increase"),
-            "Button5": run_command("~/.local/bin/display-brightness --decrease"),
+            "Button4": run_command("~/.local/bin/brightness-control --increase"),
+            "Button5": run_command("~/.local/bin/brightness-control --decrease"),
         },
         # padding=5,
-        fmt="󰃝 {}",
-        cmd=os.path.expanduser("~/.config/qtile/scripts/get-brightness.sh"),
+        cmd=os.path.expanduser("~/.local/bin/brightness-control --get-brightness").split(" "),
         update_interval=0.01,
         # background=widget_background
         foreground=peach_color
