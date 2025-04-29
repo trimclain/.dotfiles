@@ -32,20 +32,26 @@ send_notification() {
     fi
 }
 
-get_brightness() {
-    if [[ -f ~/.actual_brightness ]]; then
-        # Has %
-        cat ~/.actual_brightness
-    elif command -v brightnessctl > /dev/null; then
-        echo "$(brightnessctl g -P)%"
+update_actual_brightness(){
+    if command -v brightnessctl > /dev/null; then
+        output="$(brightnessctl g -P)%"
     elif [[ -z $WAYLAND_DISPLAY ]]; then
-        # NOTE: this leads to 'zsh: broken pipe', can use subshell (run in ()) to avoid
+        # NOTE: this leads to 'zsh: broken pipe' in zsh, use subshell (run in ()) to avoid
         current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
-        output=$(awk "BEGIN {print $current*100}")
-        echo "${output}%"
+        output_value=$(awk "BEGIN {print $current*100}")
+        output="${output_value}%"
     else
-        echo "N/A"
+        output="N/A"
     fi
+
+    echo "$output" > ~/.actual_brightness
+}
+
+get_brightness() {
+    if [[ ! -f ~/.actual_brightness ]]; then
+        update_actual_brightness
+    fi
+    cat ~/.actual_brightness
 }
 
 display_brightness(){
@@ -55,7 +61,14 @@ display_brightness(){
 main() {
     ensure_installed notify-send
 
-    # For the statusbar
+    # Run this on startup to handles the case when the brightness was changed
+    # in another session using a different method
+    if [ "$1" = "--update-actual-brightness" ]; then
+        update_actual_brightness
+        exit 0
+    fi
+
+    # To be used by the statusbar
     if [ "$1" = "--get-brightness" ]; then
         display_brightness
         exit 0
@@ -140,6 +153,11 @@ main() {
         xrandr --output "$intern" --brightness "$new"
 
         output=$(awk "BEGIN {print $new*100}")
+
+        # TODO:
+        # # use wlr-randr if on wayland and no brightnessctl found
+        # current=$(wlr-randr | grep -oP '(?<=Brightness: )\d+(\.\d+)?')
+        # output=$(awk "BEGIN {print $current*100}")
     fi
 
     # Write new brightness to a file so it can be read less resource intensive
