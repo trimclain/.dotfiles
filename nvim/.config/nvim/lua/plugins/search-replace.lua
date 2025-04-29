@@ -28,6 +28,7 @@ return {
                         keymaps = { help = "?" },
                         prefills = {
                             filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+                            flags = "--hidden",
                         },
                     })
                 end,
