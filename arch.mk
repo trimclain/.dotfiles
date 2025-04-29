@@ -124,6 +124,10 @@ flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then echo "[flatpak]: Already installed";\
 		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
 
+# Good app to manage appimages: Gear Lever
+# gearlever:
+# 	$(FLATINSTALL) flathub it.mijorus.gearlever
+
 docker: ## Install docker
 	@echo "==================================================================="
 	@if command -v docker > /dev/null; then echo "[docker]: Already installed";\
