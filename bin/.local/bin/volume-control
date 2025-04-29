@@ -3,8 +3,8 @@
 ###############################################################################
 # Volume Control
 #
-# Description: Update volume and get notifications about it
-# Dependencies: notify-send, pactl
+# Description: Control volume and microphone and get notifications about it
+# Dependencies: dunstify or notify-send, pactl
 ###############################################################################
 
 ensure_installed() {
@@ -12,24 +12,6 @@ ensure_installed() {
         echo "Error: $1 not found"
         exit 1
     fi
-}
-
-get_volume() {
-    pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'
-}
-
-get_volume_muted_status() {
-    pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
-}
-
-get_micro_muted_status() {
-    pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'
-}
-
-display_volume(){
-    value=$(get_volume)
-    status=$(get_volume_muted_status)
-    [ "$status" = "no" ] && echo "󰕾 $value%" || echo "󰖁 $value%"
 }
 
 notify() {
@@ -47,8 +29,9 @@ notify_micro() {
         notify-send "$1" -t 350
     fi
 }
+
 send_notification() {
-    if  [ "$2" = "increase" ]; then
+    if [ "$2" = "increase" ]; then
         notify "$1" ""
     elif [ "$2" = "decrease" ]; then
         notify "$1" ""
@@ -56,9 +39,32 @@ send_notification() {
         notify "$1" "󰖁"
     elif [ "$2" = "unmuted" ]; then
         notify "$1" ""
+    elif [ "$2" = "microphone_muted" ]; then
+        notify_micro ""
+    elif [ "$2" = "microphone_unmuted" ]; then
+        notify_micro ""
     else
-        notify-send  'Volume Control' 'Error: something went wrong' -t 3000 -u critical
+        notify-send 'Volume Control' 'Error: something went wrong' -t 3000 -u critical
     fi
+}
+
+get_volume() {
+    pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'
+}
+
+get_volume_muted_status() {
+    pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
+}
+
+get_micro_muted_status() {
+    pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'
+}
+
+display_volume() {
+    value=$(get_volume)
+    status=$(get_volume_muted_status)
+    [ "$status" = "no" ] && echo "󰕾 $value%" || echo "󰖁 $value%"
+    # TODO: add N/A?
 }
 
 main() {
@@ -78,7 +84,7 @@ main() {
     # fi
 
     # Use pamixer instead of pactl if found
-    # if command -v amixer > /dev/null; then
+    # if command -v pamixer > /dev/null; then
     #     VOLUME_UP="pamixer -i 5 --allow-boost"
     #     VOLUME_DOWN="pamixer -d 5 --allow-boost"
     #     VOLUME_UNMUTE="pamixer -u"
@@ -112,17 +118,15 @@ main() {
         $MICRO_MUTE_TOGGLE
         status=$(get_micro_muted_status)
         if [ "$status" = "no" ]; then
-            # unmuted
-            notify_micro ""
+            mode="microphone_unmuted"
         elif [ "$status" = "yes" ]; then
-            # muted
-            notify_micro ""
+            mode="microphone_muted"
         fi
-        return
     fi
 
     # removed in favor of direct use of display_volume
     # reason: difficult to handle the event of inserting/removing headphones
+    # note: qtile bar on startup has a delay before displaying volume
     #write new volume to a file so it can be read less resource intensive
     #output=$(display_volume)
     #echo "$output" > ~/.actual_volume
