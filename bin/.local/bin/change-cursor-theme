@@ -4,6 +4,12 @@
 # XORG: nwg-look for gtk, ~/.Xresources for everything else
 # WAYLAND: nwg-look for gtk, hyprland for everything else
 
+# NOTE: I put this info here to sort out later:
+# To set gtk to prefer dark theme:
+#gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+# Or maybe edit ~/.config/gtk-3.0/settings.ini and add (not tested):
+#gtk-application-prefer-dark-theme=1
+
 # TODO: fix this
 
 echo "BROKEN! Don't use this until you fix it!"
