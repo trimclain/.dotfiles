@@ -43,6 +43,7 @@ elif [[ $OS == arch ]]; then
         # shellcheck disable=SC2086
         sudo pacman -R $orphans $PACMANCONFIRM
     fi
+    # NOTE: use my paccache-clear script as well
 else
     echo "Error: OS not supported"
     exit 1

@@ -3,12 +3,18 @@
 # shellcheck disable=SC2086
 
 # Script to clean pacman and paru cache
+# Requirements: paccache command from pacman-contrib package
+
 # Src: https://gist.github.com/ericmurphyxyz/37baa4c9da9d3b057a522f20a9ad6eba
 # Based on scripts from albertored11 and luukvbaal
 # https://gist.github.com/albertored11/bfc0068f4e43ca0d7ce0af968f7314db
 # https://gist.github.com/luukvbaal/2c697b5e068471ee989bff8a56507142
 
+# NOTE: paru -Scc might be interesting/similar
+
 # INFO: run paccache -rvk2 && paccache -ruvk0
+
+# TODO: I want this to talk back what it did
 
 # The location of the cache for paru
 AUR_CACHE_DIR=$HOME/.cache/paru/clone
