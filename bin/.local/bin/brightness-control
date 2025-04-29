@@ -23,16 +23,16 @@ notify() {
 }
 
 send_notification() {
-    if  [ "$2" = "increase" ] || [ "$2" = "full" ] || [ "$2" = "half" ]; then
+    if [ "$2" = "increase" ] || [ "$2" = "full" ] || [ "$2" = "half" ]; then
         notify "$1" "🔆 "
     elif [ "$2" = "decrease" ] || [ "$2" = "zero" ]; then
         notify "$1" "🔅 "
     else
-        notify-send  'Brightness Control' 'Error: something went wrong' -t 3000 -u critical
+        notify-send 'Brightness Control' 'Error: something went wrong' -t 3000 -u critical
     fi
 }
 
-update_actual_brightness(){
+update_actual_brightness() {
     if command -v brightnessctl > /dev/null; then
         output="$(brightnessctl g -P)%"
     elif [[ -z $WAYLAND_DISPLAY ]]; then
@@ -54,7 +54,7 @@ get_brightness() {
     cat ~/.actual_brightness
 }
 
-display_brightness(){
+display_brightness() {
     echo "󰃝 $(get_brightness)"
 }
 
