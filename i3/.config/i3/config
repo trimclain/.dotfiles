@@ -88,8 +88,8 @@ bindsym XF86AudioMute exec --no-startup-id "~/.local/bin/volume-control --toggle
 bindsym XF86AudioMicMute exec --no-startup-id "~/.local/bin/volume-control --toggle-micro-mute"
 
 # Use xrandr to adjust screen brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id "display-brightness --increase"
-bindsym XF86MonBrightnessDown exec --no-startup-id "display-brightness --decrease"
+bindsym XF86MonBrightnessUp exec --no-startup-id "brightness-control --increase"
+bindsym XF86MonBrightnessDown exec --no-startup-id "brightness-control --decrease"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -264,9 +264,9 @@ bindsym $mod+m mode "$mode_monitor"
 set $mode_brightness (0)%, (5)0%, (1)00%
 mode "$mode_brightness" {
     # run ~/.fehbg to auto recize background image
-    bindsym 0 exec --no-startup-id "display-brightness --zero"
-    bindsym 5 exec --no-startup-id "display-brightness --half"
-    bindsym 1 exec --no-startup-id "display-brightness --full"
+    bindsym 0 exec --no-startup-id "brightness-control --zero"
+    bindsym 5 exec --no-startup-id "brightness-control --half"
+    bindsym 1 exec --no-startup-id "brightness-control --full"
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"

@@ -82,8 +82,8 @@ bindsym $mod+d exec dmenu_run
 # bindsym XF86AudioMicMute exec --no-startup-id "~/.local/bin/volume-control --toggle-micro-mute"
 
 # Use xrandr to adjust screen brightness
-# bindsym XF86MonBrightnessUp exec --no-startup-id "display-brightness --increase"
-# bindsym XF86MonBrightnessDown exec --no-startup-id "display-brightness --decrease"
+# bindsym XF86MonBrightnessUp exec --no-startup-id "brightness-control --increase"
+# bindsym XF86MonBrightnessDown exec --no-startup-id "brightness-control --decrease"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod

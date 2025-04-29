@@ -4,7 +4,7 @@
 # Brightness Control
 #
 # Description: Update brightness and get notifications about it
-# Dependencies: notify-send, brightnessctl or xrandr (only for Xorg)
+# Dependencies: dunstify or notify-send, brightnessctl or xrandr (only for Xorg)
 ###############################################################################
 
 ensure_installed() {
@@ -32,8 +32,34 @@ send_notification() {
     fi
 }
 
+get_brightness() {
+    if [[ -f ~/.actual_brightness ]]; then
+        # Has %
+        cat ~/.actual_brightness
+    elif command -v brightnessctl > /dev/null; then
+        echo "$(brightnessctl g -P)%"
+    elif [[ -z $WAYLAND_DISPLAY ]]; then
+        # NOTE: this leads to 'zsh: broken pipe', can use subshell (run in ()) to avoid
+        current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
+        output=$(awk "BEGIN {print $current*100}")
+        echo "${output}%"
+    else
+        echo "N/A"
+    fi
+}
+
+display_brightness(){
+    echo "󰃝 $(get_brightness)"
+}
+
 main() {
     ensure_installed notify-send
+
+    # For the statusbar
+    if [ "$1" = "--get-brightness" ]; then
+        display_brightness
+        exit 0
+    fi
 
     mode="unknown"
 
@@ -67,7 +93,6 @@ main() {
 
         # get info from xrandr
         connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
-        # activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
 
         monitors=()
         for display in $connectedOutputs; do

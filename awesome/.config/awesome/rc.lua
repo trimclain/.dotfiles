@@ -406,21 +406,21 @@ local sysmap = {
 --     {
 --         "0",
 --         function()
---             spawn_terminal_command("$HOME/.local/bin/display-brightness", "--zero")
+--             spawn_terminal_command("$HOME/.local/bin/brightness-control", "--zero")
 --         end,
 --         "0%",
 --     },
 --     {
 --         "5",
 --         function()
---             spawn_terminal_command("$HOME/.local/bin/display-brightness", "--half")
+--             spawn_terminal_command("$HOME/.local/bin/brightness-control", "--half")
 --         end,
 --         "50%",
 --     },
 --     {
 --         "1",
 --         function()
---             spawn_terminal_command("$HOME/.local/bin/display-brightness", "--full")
+--             spawn_terminal_command("$HOME/.local/bin/brightness-control", "--full")
 --         end,
 --         "100%",
 --     },
@@ -803,10 +803,10 @@ local globalkeys = mytable.join(
 
     -- Use xrandr to adjust screen brightness
     awful.key({}, "XF86MonBrightnessUp", function()
-        spawn_terminal_command("$HOME/.local/bin/display-brightness", "--increase")
+        spawn_terminal_command("$HOME/.local/bin/brightness-control", "--increase")
     end, { description = "brightness +10%", group = "hotkeys" }),
     awful.key({}, "XF86MonBrightnessDown", function()
-        spawn_terminal_command("$HOME/.local/bin/display-brightness", "--decrease")
+        spawn_terminal_command("$HOME/.local/bin/brightness-control", "--decrease")
     end, { description = "brightness -10%", group = "hotkeys" }),
 
     -- Use pactl and pacmd to adjust volume with PulseAudio.
