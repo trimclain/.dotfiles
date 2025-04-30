@@ -548,7 +548,8 @@ class Widget:
             "Button5": run_command("~/.local/bin/volume-control --decrease"),
         },
         # padding=5,
-        cmd=os.path.expanduser("~/.local/bin/volume-control --get-volume").split(" "),
+        cmd=os.path.expanduser(
+            "~/.local/bin/volume-control --get-volume").split(" "),
         update_interval=0.01,
         # background=widget_background
         foreground=red_color
@@ -562,7 +563,8 @@ class Widget:
             "Button5": run_command("~/.local/bin/brightness-control --decrease"),
         },
         # padding=5,
-        cmd=os.path.expanduser("~/.local/bin/brightness-control --get-brightness").split(" "),
+        cmd=os.path.expanduser(
+            "~/.local/bin/brightness-control --get-brightness").split(" "),
         update_interval=0.01,
         # background=widget_background
         foreground=peach_color
@@ -582,6 +584,18 @@ class Widget:
         foreground=yellow_color
     )
 
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#memory
+    memory = dict(
+        mouse_callbacks={"Button1": lazy.spawn(terminal + " -e htop")},
+        format="{MemUsed: .2f} {mm}",
+        measure_mem="G",
+        fmt="󰍛{}",
+        # padding=5,
+        update_interval=1.0,
+        # background=widget_background
+        foreground=green_color
+    )
+
     # define variables for automatic wlan/eth interface detection
     WLAN_INTERFACE = get_command_output(
         "ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep wl")
@@ -594,24 +608,13 @@ class Widget:
         use_ethernet=True,
         interface=WLAN_INTERFACE,
         format="󰖩 {essid}",
+        # format="󰤨 {essid}",
         ethernet_interface=ETH_INTERFACE,
-        # TODO: migrate to ethernet_message_format from 0.32.0
+        # TODO: migrate to ethernet_message_format from v0.32.0
         ethernet_message="󰣺 {ipaddr}",
         disconnected_message="󰖪",
         # background=widget_background,
-        foreground=yellow_color
-    )
-
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#memory
-    memory = dict(
-        mouse_callbacks={"Button1": lazy.spawn(terminal + " -e htop")},
-        format="{MemUsed: .2f} {mm}",
-        measure_mem="G",
-        fmt="󰍛{}",
-        # padding=5,
-        update_interval=1.0,
-        # background=widget_background
-        foreground=green_color
+        foreground=sky_color
     )
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#thermalsensor
@@ -702,9 +705,9 @@ def my_bar():
         widget.GenPollCommand(**Widget.brightness),
         widget.KeyboardLayout(**Widget.keyboard_layout),
         widget.Sep(**Widget.sep),
-        widget.Wlan(**Widget.wlan),
-        widget.Sep(**Widget.sep),
         widget.Memory(**Widget.memory),
+        widget.Sep(**Widget.sep),
+        widget.Wlan(**Widget.wlan),
         widget.Sep(**Widget.sep),
         widget.ThermalSensor(**Widget.thermal_sensor),
         widget.Sep(**Widget.sep),
