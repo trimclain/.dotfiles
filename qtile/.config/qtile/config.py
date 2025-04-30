@@ -47,8 +47,10 @@ normal_border = "#1D2330"
 active_border = "#5e81ac"
 inactive_border = "#11111b"
 
+# Catppuccin Mocha Palette
 blue_color = "#89b4fa"
 lavender_color = "#b4befe"
+lavender_latte_color = "#7287fd"  # imposter from latte palette
 sapphire_color = "#74c7ec"
 sky_color = "#89dceb"
 teal_color = "#94e2d5"
@@ -503,17 +505,20 @@ class Widget:
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#groupbox
     main_groupbox = dict(
         active=text_color,
+        # block_highlight_text_color=lavender_latte_color,
         inactive=widget_background,
 
-        highlight_method="block",  # "border", "block", "text", "line"
-        highlight_color=widget_background,
+        highlight_method="line",  # "border", "block", "text", "line"
+        # highlight_color=widget_background,  # when using "line" highlight method
+        highlight_color=lavender_latte_color,  # when using "line" highlight method
 
-        this_current_screen_border=muted_color,  # on screen 1, border screen 1
+        this_current_screen_border=lavender_latte_color,  # on screen 1, border screen 1
         this_screen_border=dark_muted_color,  # on screen 1, border screen 2
-        other_current_screen_border=muted_color,  # on screen 2, border screen 2
-        other_screen_border=dark_muted_color,  # on screen 2, border screen 1
+        # Not sure if these do something.
+        # other_current_screen_border=lavender_latte_color,  # on screen 2, border screen 2
+        # other_screen_border=dark_muted_color,  # on screen 2, border screen 1
 
-        urgent_alert_method="border",  # "border", "block", "text", "line"
+        urgent_alert_method="line",  # "border", "block", "text", "line"
         urgent_text=text_color,
         urgent_border="#f38ba8",
 
@@ -521,9 +526,9 @@ class Widget:
         use_mouse_wheel=False,
         toggle=False,  # toggling of group when clicking on same group name
         # hide_unused = True, # like i3
-        padding=7,
+        padding=7,  # padding_y makes no difference
         margin_x=0,
-        margin_y=3,
+        margin_y=5,
         visible_groups=group_names
     )
 
