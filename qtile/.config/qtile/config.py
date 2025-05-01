@@ -118,6 +118,8 @@ extension_defaults = widget_defaults.copy()
 
 # {{{ Helper Functions
 
+INSTALLED_COMMANDS = []
+
 
 @lazy.function
 def run_command(qtile, cmd):
@@ -131,10 +133,12 @@ def run_command(qtile, cmd):
     else:
         command = list(cmd)
 
-    if shutil.which(command[0]) is None:
-        subprocess.run(["notify-send", f'"Error: {command[0]} not found"'])
-    else:
-        subprocess.run(command)
+    if not command[0] in INSTALLED_COMMANDS:
+        if shutil.which(command[0]) is None:
+            subprocess.run(["notify-send", f'"Error: {command[0]} not found"'])
+            return
+        INSTALLED_COMMANDS.append(command[0])
+    subprocess.run(command)
 
 
 def get_command_output(cmd):
@@ -150,6 +154,26 @@ def get_command_output(cmd):
         return subprocess.check_output(cmd, shell=True, text=True).strip()
     except subprocess.CalledProcessError as e:
         logger.error(f"error in get_command_output({cmd}): {e}")
+
+
+@lazy.function
+def toggle_wifi(qtile):
+    """Toggle wifi on and off.
+    Requirement: NetworkManager.
+
+    Returns:
+        None
+    """
+
+    # This check makes it at least 200ms slower
+    # if shutil.which("nmcli") is None:
+    #     subprocess.run(["notify-send", '"Error: nmcli not found"'])
+    #     return
+
+    if get_command_output("nmcli radio wifi") == "enabled":
+        subprocess.run("nmcli radio wifi off".split(" "))
+    else:
+        subprocess.run("nmcli radio wifi on".split(" "))
 
 
 # }}}
@@ -610,6 +634,10 @@ class Widget:
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#wlan
     # requirement: python-iwlib
     wlan = dict(
+        mouse_callbacks={
+            "Button1": toggle_wifi(),
+            "Button3": lazy.spawn("nm-connection-editor"),
+        },
         use_ethernet=True,
         interface=WLAN_INTERFACE,
         format="󰖩 {essid}",
