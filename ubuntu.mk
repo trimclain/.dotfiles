@@ -191,7 +191,9 @@ server: ## install everything I need for my server
 	@# Usefull tools
 	@echo "Installing some usefull programms..."
 	@# stow to symlink files, 7zip for extracting archives
-	$(INSTALL) curl stow ripgrep fzf fd-find htop btop tree p7zip-full
+	$(INSTALL) curl stow ripgrep fzf fd-find htop btop tree p7zip-full ncdu neofetch
+	@# I love to mail on crontab error
+	$(INSTALL) mailutils
 	./install --server
 
 
