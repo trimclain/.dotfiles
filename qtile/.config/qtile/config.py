@@ -106,8 +106,8 @@ widget_defaults = dict(
     # font="JetBrainsMono Nerd Font Mono",
     # font="BlexMono Nerd Font Mono",
     # font="CaskaydiaCove Nerd Font Mono",
-    # font="Maple Mono NF",
-    font="GeistMono Nerd Font Mono",
+    font="Maple Mono NF",
+    # font="GeistMono Nerd Font Mono",
     fontsize=13,
     padding=10,
     borderwidth=2,
@@ -640,8 +640,8 @@ class Widget:
         },
         use_ethernet=True,
         interface=WLAN_INTERFACE,
-        format="󰖩 {essid}",
-        # format="󰤨 {essid}",
+        # format="󰖩 {essid}",
+        format="󰤨 {essid}",  # this looks good with Maple Mono NF
         ethernet_interface=ETH_INTERFACE,
         # TODO: migrate to ethernet_message_format from v0.32.0
         ethernet_message="󰣺 {ipaddr}",
