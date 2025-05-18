@@ -368,7 +368,8 @@ alias szrc="exec zsh"
 
 # Kittens
 if [[ $TERM == "xterm-kitty" ]]; then
-    alias ssh="kitty +kitten ssh"
+    # alias ssh="kitty +kitten ssh"  # kitten doesn't display motd
+    alias ssh="TERM=xterm-256color ssh"
     # preview images in kitty
     alias icat="kitty +kitten icat"
 fi
