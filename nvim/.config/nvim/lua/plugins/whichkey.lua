@@ -60,8 +60,7 @@ return {
                 },
                 {
                     mode = { "v" },
-                    { "<leader>g", group = "+git" },
-                    { "<leader>gh", group = "+hunks" },
+                    { "<leader>h", group = "+hunks" },
                     { "<leader>l", group = "+lsp" },
                     { "<leader>r", group = "+refactor" },
                 },
