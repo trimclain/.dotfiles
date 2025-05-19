@@ -89,7 +89,7 @@ keymap("v", "<S-h>", "<gv", opts) -- feels
 keymap("v", "<S-l>", ">gv", opts) -- natural
 keymap("v", "y", "myy`y", opts) -- maintain the cursor position
 keymap("v", "Y", "myy`y", opts) -- when yanking a visual selection
-keymap("v", "p", '"_dP', opts) -- when replacing a higlighted text, don't yank it
+keymap("v", "p", "P", opts) -- when replacing a higlighted text, don't yank it
 -- keymap("n", "<leader>d", '"_d', add_desc("Delete to blackhole"))
 keymap("i", "<C-r>", "<C-r>+", opts) -- paste from clipboard in insert mode
 keymap("c", "<C-r>", "<C-r>+", opts) -- paste from clipboard in command mode

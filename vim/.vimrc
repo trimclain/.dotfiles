@@ -321,7 +321,7 @@ nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 
 " When replacing a higlighted text, don't yank it
-vnoremap p "_dP
+vnoremap p P
 
 " Esc is too far and I don't like <C-[>
 " Normal, Visual, Select, Operator-pending
