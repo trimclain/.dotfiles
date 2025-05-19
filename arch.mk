@@ -140,6 +140,8 @@ docker: ## Install docker
 lf: ## Install lf (file manager)
 	$(PARUINSTALL) ueberzugpp
 	$(INSTALL) lf
+	@# install previewer requirements
+	$(INSTALL) imagemagick poppler
 
 #============================================= Neovim =============================================
 # or install neovim-nightly-bin with paru
