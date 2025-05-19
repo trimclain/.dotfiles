@@ -76,3 +76,7 @@ cd ~/.dotfiles && make
 ```
 make install
 ```
+
+
+## Note
+Neovim config is in a [separate repository](https://github.com/trimclain/nvim).
