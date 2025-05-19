@@ -27,46 +27,55 @@ getnf: ## Install the Nerd Font installer
 	@if [ ! -f ~/.local/bin/getnf ]; then \
 		curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash; fi
 
-wallpapers:
+wallpapers: ## Install 1GB of nice 16:9 wallpapers
 	@echo "Installing wallpapers..."
 	@mkdir -p ~/personal/media/
 	@git clone --depth=1 https://github.com/trimclain/wallpapers ~/personal/media/wallpapers
 	@echo "Done"
 
-maple_fonts:
+maple_fonts: ## Install Maple Mono fonts
 	@./bin/.local/bin/install_maple_mono.sh
 
-bluetooth:
+bluetooth: ## Setup bluetooth
 	@echo "Setting up bluetooth..."
-	$(INSTALL) bluez bluez-utils
+	$(INSTALL) bluez bluez-utils blueberry
 	sudo systemctl enable --now bluetooth.service
 
-brightnessctl:
-	@echo "Installing brightnessctl..."
-	@git clone https://github.com/Hummer12007/brightnessctl /tmp/brightnessctl &&\
-		cd /tmp/brightnessctl && ./configure && sudo make install && rm -rf /tmp/brightnessctl
+brightnessctl: ## Install a brightness control tool
+	@# NOTE: there's a package in arch extra, but it's extremely outdated due to latest release being in 2020
+	@if command -v brightnessctl &> /dev/null; then \
+		echo "[brightnessctl]: Already installed";\
+	else \
+		echo "Installing brightnessctl..." &&\
+		git clone --depth=1 https://github.com/Hummer12007/brightnessctl /tmp/brightnessctl &&\
+		cd /tmp/brightnessctl &&\
+		./configure &&\
+		sudo make install &&\
+		rm -rf /tmp/brightnessctl &&\
+		echo "Done";\
+	fi
 
 
 ###################################################################################################
 #                                            Languages                                            #
 ###################################################################################################
 
-python: ## Install python3, pip
+python: ## Install python3, pip and uv
 	$(INSTALL) python python-pip
 	@# extremely fast python package and project manager
 	$(INSTALL) uv
 
-python_modules:
+python_modules: ## Install numpy, matplotlib and jupyter-notebook
 	$(INSTALL) python-numpy python-matplotlib jupyter-notebook
 
 rust: ## Install rustup, the rust version manager
 	$(INSTALL) rustup
 	rustup default stable
 
-julia:
+julia: ## Install julia
 	$(INSTALL) julia
 
-golang:
+golang: ## Install julia
 	$(INSTALL) go
 
 g: ## Install g, the go version manager
@@ -75,6 +84,9 @@ g: ## Install g, the go version manager
 		export GOROOT="$$HOME/.golang" && export GOPATH="$$HOME/.go" && \
 		curl -sSL https://git.io/g-install | sh -s -- -y &&\
 		echo "Done"; else echo "[golang]: Already installed"; fi
+
+tectonic: ## Install tectonic, a LaTeX engine
+	$(INSTALL) tectonic
 
 # START DEPRECATED (IN FAVOR OF FNM)
 # n: ## Install n, the node version manager
@@ -94,21 +106,16 @@ fnm: ## Install Fast Node Manager
 		eval "$(fnm env)" && fnm install --lts && echo "Done";\
 		else echo "[fnm]: Already installed"; fi
 
-export_node_modules:
+export_node_modules: ## Export your global node modules to ./.npm_modules
 	@echo "Exporting global node modules to .npm_modules"
 	npm list --global --parseable --depth=0 | sed '1d' | awk '{gsub(/\/.*\//,"",$1); print}' > .npm_modules
 
-import_node_modules:
+import_node_modules: ## Import your global node modules from ./.npm_modules
 	@if [ -f .npm_modules ]; then echo "Installing global node modules from .npm_modules" &&\
 		xargs npm install --global < .npm_modules; else echo "[node modules]: .npm_modules file not found"; fi
 
-typescript:
-	@# Install tsc and ts-node
+typescript: ## Install tsc and ts-node
 	npm install -g typescript ts-node
-
-# LaTeX engine
-tectonic:
-	$(INSTALL) tectonic
 
 ###################################################################################################
 #                                             Software                                            #
@@ -135,7 +142,7 @@ docker: ## Install docker
 		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
 		echo "Done. Log out and in to use docker without sudo"; fi
 
-# Install act from AUR to run github actions locally
+# Install act from arch/extra to run github actions locally
 
 lf: ## Install lf (file manager)
 	$(PARUINSTALL) ueberzugpp
@@ -144,56 +151,55 @@ lf: ## Install lf (file manager)
 	$(INSTALL) imagemagick poppler
 
 #============================================= Neovim =============================================
-# or install neovim-nightly-bin with paru
-nvim_reqs:
+nvim_reqs: ## Install my neovim requirements (yad, xclip, tree-sitter-cli, tectonic)
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
 	@# Need yad or zenity for the color picker plugin, xclip for clipboard+, tree-sitter cli
+	@# NOTE: use wl-clipboard on wayland
 	$(INSTALL) yad xclip tree-sitter-cli
 	@make tectonic
 
-	@# TODO: do I need this?
 	@# Lua linter
-	$(INSTALL) luacheck
-
-	@# TODO: do I need these?
+	@#$(INSTALL) luacheck
+	@# TODO: do I need this?
 	@# Need pynvim for Bracey
 	@#$(INSTALL) python-pynvim
-	@# npm install -g neovim
 
-nvim_build_reqs:
+nvim_build_reqs: ## Install neovim build prerequisites
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
 	$(INSTALL) base-devel cmake unzip ninja curl
 
-nvim: ## Install neovim by building it from source
+# or install neovim-nightly-bin with paru
+nvim_dev: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
 		else make nvim_build_reqs && echo "Installing Neovim..." &&\
 		git clone --depth=1 https://github.com/neovim/neovim /tmp/neovim && pushd /tmp/neovim/ &&\
 		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf /tmp/neovim &&\
 		make nvim_reqs && echo "Done"; fi
 
-uninstall_nvim:
+# TODO: this works only if nvim was install with `make nvim_dev`
+uninstall_nvim_dev: ## Uninstall neovim that was built from source
 	@if command -v nvim > /dev/null; then echo "Uninstalling Neovim..." &&\
 		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
 		echo "Done"; fi
 
-clean_nvim:
+clean_nvim: ## Uninstall neovim packages, remove state and cache files
 	@echo "Uninstalling Neovim Leftovers..."
 	@rm -rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 	@echo "Done"
 
-purge_nvim: uninstall_nvim clean_nvim
+purge_nvim: uninstall_nvim_dev clean_nvim  ## Uninstall neovim installed from source and remove all it's leftovers
 
 neovim: ## Install neovim package
 	@make nvim_reqs
 	$(INSTALL) neovim
 
-neovide:
+neovide: ## Install neovide
 	$(INSTALL) neovide
 
 #============================================== Zsh ===============================================
-zoxide:
+zoxide: ## Install zoxide (a smart cd command)
 	$(INSTALL) zoxide
 
 zsh: ## Install zsh
@@ -205,18 +211,18 @@ zsh: ## Install zsh
 	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /bin/zsh &&\
 		echo "Successfully switched to ZSH."; else echo "[zsh]: Already in use"; fi
 
-zap:
+zap: ## Install zap-zsh (a zsh plugin manager)
 	@if [[ -d ~/.local/share/zap ]]; then echo "[zap-zsh]: Already installed";\
 		else echo "Installing zap-zsh..." && git clone https://github.com/zap-zsh/zap ~/.local/share/zap;\
 		echo "Done"; fi
 
 #========================================= Window Manager =========================================
-awesome:
+awesome: ## Install AwesomeWM with all dependencies
 	@echo "==================================================================="
 	$(INSTALL) awesome dmenu rofi slock dunst picom feh nitrogen polybar
 	@make brightnessctl
 
-qtile:
+qtile: ## Install QTile with all dependencies
 	@echo "==================================================================="
 	@# Install
 	@# - qtile
@@ -235,7 +241,7 @@ qtile:
 	$(INSTALL) dmenu rofi slock dunst picom feh nitrogen
 	@make brightnessctl
 
-hyprland:
+hyprland: ## Install Hyprland with all dependencies
 	@echo "==================================================================="
 	$(INSTALL) hyprland
 	@# QT Wayland Support
@@ -265,12 +271,12 @@ hyprland:
 	@# Color Picker
 	@# $(PARUINSTALL) hyprpicker-git
 
-fix-nvidialand:
+fix-nvidialand: ## Fix hyprland on nvidia (WIP)
 	@# Whenever Hyprland is updated, this needs to be run (if using nvidia)
 	sudo sed -i 's|^Exec=Hyprland|Exec=env LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia WLR_NO_HARDWARE_CURSORS=1 Hyprland|g' \
 		/usr/share/wayland-sessions/hyprland.desktop
 
-cursor:
+cursor: ## Install my cursor theme (Bibata)
 	@# TODO: use hyprcursor
 	@# https://github.com/ful1e5/Bibata_Cursor
 	$(PARUINSTALL) bibata-cursor-theme-bin
@@ -285,15 +291,15 @@ cursor:
 		#make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
 
 #============================================ Terminal ============================================
-alacritty:
+alacritty: ## Install Alacritty
 	$(INSTALL) alacritty
 
-kitty:
+kitty: ## Install Kitty
 	@echo "==================================================================="
 	@# imagemagick is required to display uncommon image formats in kitty
 	$(INSTALL) imagemagick kitty
 
-wezterm:
+wezterm: ## Install Wezterm
 	$(INSTALL) wezterm
 
 #============================================ Browser =============================================
@@ -340,7 +346,7 @@ obs: ## Install OBS Studio
 	@make flatpak
 	$(FLATINSTALL) flathub com.obsproject.Studio
 
-vlc:
+vlc: ## Install VLC
 	echo "Installing VLC with pause-click-plugin..."
 	$(INSTALL) vlc
 	$(PARUINSTALL) vlc-pause-click-plugin
@@ -358,7 +364,7 @@ quickemu: ## Install Quickemu (Virtual Machine Manager)
 	$(PARUINSTALL) qemu-desktop quickgui-bin
 
 #============================================= Study ==============================================
-anki:
+anki: ## Install Anki
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
 	@echo "==================================================================="
 	@echo "Installing Anki..."
@@ -371,12 +377,12 @@ anki:
 	@# Delete the folder and the archive
 	rm -r ./anki-$(ANKI_VERSION)-linux-qt6.tar.zst ./anki-$(ANKI_VERSION)-linux-qt6
 
-uninstall_anki:
+uninstall_anki: # Uninstall Anki
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
-pomo:
+pomo: ## Install pomo (TUI Pomodoro timer)
 	@# go is required to build pomo
 	@# altenative installation: paru -S pomo-git
 	@echo "==================================================================="
@@ -387,11 +393,11 @@ pomo:
 		popd && rm -rf /tmp/pomo && echo "Done"; fi
 	@# pomo init
 
-uninstall_pomo:
+uninstall_pomo: # ## Uninstall pomo
 	rm -f ~/.local/bin/pomo
 	rm -rf ~/.local/share/pomo
 
-syncthing:
+syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
 
@@ -442,17 +448,16 @@ install: ## Setup arch after new installation
 	@# node
 	@make fnm
 	@# editor
-	@make nvim
+	@make neovim
 	@echo "========================== DONE ==================================="
 
 #==================================================================================================
 
 .PHONY: all help vimdir getnf wallpapers maple_fonts bluetooth brightnessctl\
-	python rust julia golang g \
-	fnm export_node_modules import_node_modules typescript tectonic \
-	paru flatpak\
-	nvim_reqs nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim\
-	neovide docker\
+	python python_modules rust julia golang g tectonic\
+	fnm export_node_modules import_node_modules typescript\
+	paru flatpak docker lf\
+	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
