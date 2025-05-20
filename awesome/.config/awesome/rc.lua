@@ -1143,7 +1143,7 @@ end)
 -- local operating_system = get_os_output("awk -F= '$1==\"ID\" { print $2 ;}' /etc/os-release")
 
 -- Set the wallpaper
-spawn_terminal_command("nitrogen", "--restore")
+spawn_terminal_command("$HOME/.fehbg")
 -- Set my keyboard layout
 spawn_terminal_command("$HOME/.local/bin/keyboard-layout")
 -- Update current brightness for my custom script

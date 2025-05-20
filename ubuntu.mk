@@ -279,11 +279,6 @@ awesome:
 	@# librewolf -- i got better, and slock and dmenu -- were there
 	$(INSTALL) awesome
 
-nitrogen:
-	@echo "==================================================================="
-	@echo "Installing nitrogen..."
-	$(INSTALL) nitrogen
-
 polybar:
 	@# Install better winbar
 	@echo "==================================================================="
@@ -456,7 +451,7 @@ discord:
 
 ###############################################################################
 # Install .deb app with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs golang rust kitty awesome nitrogen polybar picom rofi ## in addition to "make install" install kitty, awesome, nitrogen, polybar, picom, rofi and my config for these
+linux_install: font_install tmux zsh nvim nodejs golang rust kitty awesome feh polybar picom rofi ## in addition to "make install" install kitty, awesome, feh, polybar, picom, rofi and my config for these
 	@# My ususal installation on Linux
 	@echo "========================== DONE ==================================="
 
@@ -475,7 +470,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
-	i3 awesome nitrogen polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
+	i3 awesome polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular zoom discord \
 	linux_install linux_software

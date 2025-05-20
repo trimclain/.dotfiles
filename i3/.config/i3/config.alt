@@ -37,7 +37,6 @@ font pango:MapleMono-NF-Regular 10
 # exec_always --no-startup-id "setxkbmap -option 'grp:win_space_toggle'"
 #
 # Set the wallpaper and enable picom for transparency
-# exec_always --no-startup-id "nitrogen --restore"
 exec_always --no-startup-id "~/.fehbg"
 # exec_always --no-startup-id "picom"
 

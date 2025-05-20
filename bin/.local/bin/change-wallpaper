@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+###############################################################################
+# Wallpaper Setter
+#
+# Description: Set new wallpaper
+# Dependencies: waypaper, feh (for X11), hyprpaper (for Wayland)
+###############################################################################
+
 if [[ -d $HOME/personal/media/wallpapers ]]; then
     wallpapers="$HOME/personal/media/wallpapers"
 elif [[ -d $HOME/wallpapers/ ]]; then
@@ -9,35 +16,34 @@ else
     exit 2
 fi
 
-# On Wayland using hyprpaper
-if [[ -n $WAYLAND_DISPLAY ]]; then
-    if ! command -v hyprpaper > /dev/null; then
-        echo "Error: hyprpaper not found"
+ensure_installed() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
         exit 1
     fi
-    selected=$(find "$wallpapers" | grep '.png\|.jpg\|.jpeg' | fzf)
-    if [[ -z $selected ]]; then
-        exit 0
-    fi
-    echo "Setting wallpaper to $selected"
-    # TODO: fix hardcoded monitor
-    hyprctl hyprpaper preload "$selected" > /dev/null && hyprctl hyprpaper wallpaper "DP-1,$selected" > /dev/null
-    exit 0
-fi
+}
 
+ensure_installed waypaper
 
-if command -v nitrogen > /dev/null; then
-    nitrogen "$wallpapers" &
-    # elif command -v feh > /dev/null; then
-    #     images_folder=~/personal/images
+if [[ -n $WAYLAND_DISPLAY ]]; then
+    ensure_installed hyprpaper
 
-    #     selected=$(find $images_folder | grep '.png\|.jpg\|.jpeg' | fzf)
+    # TODO: test on Wayland
+    waypaper --backend hyprpaper --folder "$wallpapers" > /dev/null &
 
-    #     if [[ -z $selected ]]; then
-    #         exit 0
-    #     fi
-
-    #     feh --bg-scale $selected
+    # if ! command -v hyprpaper > /dev/null; then
+    #     echo "Error: hyprpaper not found"
+    #     exit 1
+    # fi
+    # selected=$(find "$wallpapers" | grep '.png\|.jpg\|.jpeg' | fzf)
+    # if [[ -z $selected ]]; then
+    #     exit 0
+    # fi
+    # echo "Setting wallpaper to $selected"
+    # # TODO: fix hardcoded monitor
+    # hyprctl hyprpaper preload "$selected" > /dev/null && hyprctl hyprpaper wallpaper "DP-1,$selected" > /dev/null
 else
-    echo "Error: neither nitrogen nor feh found"
+    ensure_installed feh
+    waypaper --backend feh --folder "$wallpapers" > /dev/null &
 fi
+

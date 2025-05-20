@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+###############################################################################
+# Random Wallpaper Setter
+#
+# Description: Set new random wallpaper
+# Dependencies: waypaper, feh (for X11), hyprpaper (for Wayland)
+###############################################################################
+
 if [[ -d $HOME/personal/media/wallpapers ]]; then
     wallpapers="$HOME/personal/media/wallpapers"
 elif [[ -d $HOME/wallpapers/ ]]; then
@@ -9,30 +16,30 @@ else
     exit 2
 fi
 
-# On Wayland using hyprpaper
-if [[ -n $WAYLAND_DISPLAY ]]; then
-    if ! command -v hyprpaper > /dev/null; then
-        echo "Error: hyprpaper not found"
+ensure_installed() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
         exit 1
     fi
-    # shellcheck disable=SC2012
-    ls "$wallpapers" |sort -R | tail -1 | while read -r selected; do
-        echo "Setting wallpaper to $selected"
-        wall="$wallpapers/$selected"
-        # TODO: fix hardcoded monitor
-        hyprctl hyprpaper preload "$wall" && hyprctl hyprpaper wallpaper "DP-1,$wall"
-    done
-    exit 0
-fi
+}
 
-if command -v nitrogen > /dev/null; then
-    nitrogen --set-auto --random "$wallpapers" &> /dev/null
-    # elif command -v feh > /dev/null; then
-    #     ls "$wallpapers" |sort -R |tail -1 |while read -r selected; do
-    #     # Something involving $file, or you can leave
-    #     # off the while to just get the filenames
-    #     feh --bg-scale $wallpapers/$selected
-    #     done
+ensure_installed waypaper
+
+if [[ -n $WAYLAND_DISPLAY ]]; then
+    ensure_installed hyprpaper
+
+    # TODO: test on Wayland
+    waypaper --backend hyprpaper --random --folder "$wallpapers" > /dev/null &
+
+    # # shellcheck disable=SC2012
+    # ls "$wallpapers" |sort -R | tail -1 | while read -r selected; do
+    #     echo "Setting wallpaper to $selected"
+    #     wall="$wallpapers/$selected"
+    #     # TODO: fix hardcoded monitor
+    #     hyprctl hyprpaper preload "$wall" && hyprctl hyprpaper wallpaper "DP-1,$wall"
+    # done
+    # exit 0
 else
-    echo "Error: neither nitrogen nor feh found"
+    ensure_installed feh
+    waypaper --backend feh --random --folder ~/personal/media/wallpapers >/dev/null
 fi

@@ -219,7 +219,8 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 #========================================= Window Manager =========================================
 awesome: ## Install AwesomeWM with all dependencies
 	@echo "==================================================================="
-	$(INSTALL) awesome dmenu rofi slock dunst picom feh nitrogen polybar
+	$(INSTALL) awesome dmenu rofi slock dunst picom feh polybar
+	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
 qtile: ## Install QTile with all dependencies
@@ -237,8 +238,9 @@ qtile: ## Install QTile with all dependencies
 	@# - dunst (notification daemon)
 	@# - picom (compositor for transparency and shadows)
 	@# - feh (image viewer and wallpaper setter)
-	@# - nitrogen (wallpaper setter)
-	$(INSTALL) dmenu rofi slock dunst picom feh nitrogen
+	@# - waypaper (wallpaper setter)
+	$(INSTALL) dmenu rofi slock dunst picom feh
+	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
 hyprland: ## Install Hyprland with all dependencies
@@ -257,8 +259,9 @@ hyprland: ## Install Hyprland with all dependencies
 	$(INSTALL) polkit-kde-agent
 	@# Post Install Apps
 	$(INSTALL) wl-clipboard dunst rofi feh
-	@# Utils: waybar (statusbar), hyprpaper (wallpaper engine), screen locker
-	$(INSTALL) waybar hyprpaper waylock
+	@# Utils: waybar (statusbar), screen locker, hyprpaper (wallpaper engine), waypaper (GUI wallpaper manager)
+	$(INSTALL) waybar waylock hyprpaper
+	$(PARUINSTALL) waypaper
 	@# Screen recording and screenshot tools
 	$(INSTALL) wf-recorder grim slurp
 	@# Brightness: Try gammastep?
