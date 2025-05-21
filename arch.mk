@@ -75,10 +75,14 @@ rust: ## Install rustup, the rust version manager
 sdkman: ## Install the SDK Manager, a tool for managing Java, Groovy and Kotlin versions
 	@echo "==================================================================="
 	@# Install sdkman to install Java, Groovy, Kotlin etc.
-	@# Unusual requirement: zip
-	@if [ ! -d ~/.sdkman ]; then echo "Installing the Software Development Kit Manager..." &&\
+	@if [ ! -d ~/.sdkman ]; then \
+		echo "Installing the Software Development Kit Manager..." &&\
+		$(INSTALL) zip unzip &&\
 		curl -s https://get.sdkman.io | bash && \
-		echo "Done"; else echo "[sdkman]: Already installed"; fi
+		echo "Done"; \
+	else \
+		echo "[sdkman]: Already installed"; \
+	fi
 
 uninstall_sdkman: ## Uninstall SDKMAN
 	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\

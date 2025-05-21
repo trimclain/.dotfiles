@@ -138,9 +138,14 @@ uninstall_julia:
 sdkman:
 	@echo "==================================================================="
 	@# Install sdkman to install Java, Groovy, Kotlin etc.
-	@if [ ! -d ~/.sdkman ]; then echo "Installing the Software Development Kit Manager..." &&\
+	@if [ ! -d ~/.sdkman ]; then \
+		echo "Installing the Software Development Kit Manager..." &&\
+		$(INSTALL) zip unzip &&\
 		curl -s https://get.sdkman.io | bash && \
-		echo "Done"; else echo "[sdkman]: Already installed"; fi
+		echo "Done"; \
+	else \
+		echo "[sdkman]: Already installed"; \
+	fi
 
 uninstall_sdkman:
 	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\
