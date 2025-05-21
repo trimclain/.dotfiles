@@ -6,7 +6,7 @@ all:
 	@# Make sure these folders exist
 	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@echo "Installing some basic tools..."
-	$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat 7zip unzip tldr jq rsync
+	$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat 7zip zip unzip tldr jq rsync
 	# For paccache to clean pacman cache
 	$(INSTALL) pacman-contrib
 	@# For netstat, ifconfig and more
@@ -71,6 +71,18 @@ python_modules: ## Install numpy, matplotlib and jupyter-notebook
 rust: ## Install rustup, the rust version manager
 	$(INSTALL) rustup
 	rustup default stable
+
+sdkman: ## Install the SDK Manager, a tool for managing Java, Groovy and Kotlin versions
+	@echo "==================================================================="
+	@# Install sdkman to install Java, Groovy, Kotlin etc.
+	@# Unusual requirement: zip
+	@if [ ! -d ~/.sdkman ]; then echo "Installing the Software Development Kit Manager..." &&\
+		curl -s https://get.sdkman.io | bash && \
+		echo "Done"; else echo "[sdkman]: Already installed"; fi
+
+uninstall_sdkman: ## Uninstall SDKMAN
+	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\
+		rm -rf ~/.sdkman && echo "Done"; fi
 
 julia: ## Install julia
 	$(INSTALL) julia
@@ -457,7 +469,7 @@ install: ## Setup arch after new installation
 #==================================================================================================
 
 .PHONY: all help vimdir getnf wallpapers maple_fonts bluetooth brightnessctl\
-	python python_modules rust julia golang g tectonic\
+	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic\
 	fnm export_node_modules import_node_modules typescript\
 	paru flatpak docker lf\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
