@@ -39,7 +39,7 @@ local fonts = {
 }
 -- config.font = wezterm.font(fonts.maple) -- takes a string
 -- Apparently \u{e6b8} is missing in MapleMonoNF, so use fallback for now
-config.font = wezterm.font_with_fallback({fonts.maple, fonts.geist}) -- takes a table
+config.font = wezterm.font_with_fallback({ fonts.maple, fonts.geist }) -- takes a table
 config.font_size = 14.0
 
 -- https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist
@@ -98,7 +98,7 @@ config.check_for_updates = false
 
 -- {{{ Colorscheme
 -- config.color_scheme = "Campbell (Gogh)"
-config.color_scheme = 'Dark Pastel'
+config.color_scheme = "Dark Pastel"
 config.colors = { background = "#1A1D23" } -- match astrotheme background
 -- }}}
 
