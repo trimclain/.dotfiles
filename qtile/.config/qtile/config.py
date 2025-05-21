@@ -37,6 +37,10 @@ browser = "thorium-browser"
 if shutil.which(browser) is None:
     browser = "firefox"
 
+process_viewer = "btop"
+if shutil.which(process_viewer) is None:
+    process_viewer = "htop"
+
 # ================================== COLORS ===================================
 text_color = "#cdd6f4"
 muted_color = "#7f849c"
@@ -615,7 +619,9 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#memory
     memory = dict(
-        mouse_callbacks={"Button1": lazy.spawn(terminal + " -e htop")},
+        mouse_callbacks={
+            "Button1": lazy.spawn(terminal + " -e " + process_viewer)
+        },
         format="{MemUsed: .2f} {mm}",
         measure_mem="G",
         fmt="󰍛{}",
