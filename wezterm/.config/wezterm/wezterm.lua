@@ -20,6 +20,10 @@ local config = wezterm.config_builder()
 
 -- {{{ Fonts
 -- List available fonts: wezterm ls-fonts --list-system
+-- INFO: gucharmap is a great app for searching missing glyphs
+-- Another great method:
+--   `wezterm ls-fonts --codepoints "e6b8"` for missing \u{e6b8} or
+--   `wezterm ls-fonts --text ""` with pasted icon
 local fonts = {
     geist = "GeistMono Nerd Font Mono", -- has no italics
     maple = "Maple Mono NF",
@@ -33,8 +37,9 @@ local fonts = {
     jetbrains = "JetBrainsMono Nerd Font Mono",
     -- "JetBrains Mono", -- pre-installed
 }
-config.font = wezterm.font(fonts.geist) -- takes a string
--- config.font = wezterm.font_with_fallback(fonts.cascadia) -- takes a table
+-- config.font = wezterm.font(fonts.maple) -- takes a string
+-- Apparently \u{e6b8} is missing in MapleMonoNF, so use fallback for now
+config.font = wezterm.font_with_fallback({fonts.maple, fonts.geist}) -- takes a table
 config.font_size = 14.0
 
 -- https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist
