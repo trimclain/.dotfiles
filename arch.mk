@@ -104,18 +104,6 @@ g: ## Install g, the go version manager
 tectonic: ## Install tectonic, a LaTeX engine
 	$(INSTALL) tectonic
 
-# START DEPRECATED (IN FAVOR OF FNM)
-# n: ## Install n, the node version manager
-# 	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
-# 	@if [ ! -d ~/.n ]; then echo "Installing n (nodejs version manager) with latest stable node version..." &&\
-# 		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash;\
-# 		else curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n; fi &&\
-# 		echo "Done"; else echo "[n]: Already installed"; fi
-
-# uninstall_n:
-# 	@n-uninstall
-# END DEPRECATED
-
 fnm: ## Install Fast Node Manager
 	@if [ ! -d "$FNM_PATH" ]; then echo "Installing fnm (fast node manager) with latest stable node version..." &&\
 		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell &&\
@@ -130,8 +118,8 @@ import_node_modules: ## Import your global node modules from ./.npm_modules
 	@if [ -f .npm_modules ]; then echo "Installing global node modules from .npm_modules" &&\
 		xargs npm install --global < .npm_modules; else echo "[node modules]: .npm_modules file not found"; fi
 
-typescript: ## Install tsc and ts-node
-	npm install -g typescript ts-node
+typescript: ## Install tsc, ts-node and pnpm
+	npm install -g typescript ts-node pnpm
 
 ###################################################################################################
 #                                             Software                                            #
