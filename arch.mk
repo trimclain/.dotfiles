@@ -227,6 +227,7 @@ awesome: ## Install AwesomeWM with all dependencies
 	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
+# INFO: use xdotool to simulate mouse andkeyboard input, manage windows, etc.
 qtile: ## Install QTile with all dependencies
 	@echo "==================================================================="
 	@# Install
