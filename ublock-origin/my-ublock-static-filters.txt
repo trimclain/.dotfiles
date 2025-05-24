@@ -1,0 +1,76 @@
+! =================================================================================================
+! Filters to remove distraction from YouTube
+!
+! Docs: https://www.reddit.com/r/uBlockOrigin/wiki/solutions/youtube/
+! Usage: Copy this file to your uBlock Origin "My Filters" section
+! =================================================================================================
+
+
+!! Section: Shorts
+! YT Homepage and Subscriptions (Grid View) - Hide the Shorts section
+youtube.com##[is-shorts]
+! YT Menu - Hide the Shorts button
+www.youtube.com###guide [title="Shorts"], .ytd-mini-guide-entry-renderer[title="Shorts"]
+! YT Search - Hide Shorts
+www.youtube.com##ytd-search ytd-video-renderer:has([overlay-style="SHORTS"])
+! YT Search, Channels, Subscriptions (List View) and Sidebar/Below Player Recommendations - Hide the Shorts sections
+www.youtube.com##ytd-reel-shelf-renderer
+! YT Channels - Hide the Shorts tab
+www.youtube.com##[tab-title="Shorts"]
+! YT Subscriptions - Hide Shorts - Grid View
+www.youtube.com##ytd-browse[page-subtype="subscriptions"] ytd-grid-video-renderer:has([overlay-style="SHORTS"])
+! YT Subscriptions - Hide Shorts - List View
+www.youtube.com##ytd-browse[page-subtype="subscriptions"] ytd-video-renderer:has([overlay-style="SHORTS"])
+! YT Subscriptions - New Layout - Hide Shorts
+www.youtube.com##ytd-browse[page-subtype="subscriptions"] ytd-rich-item-renderer:has([overlay-style="SHORTS"])
+! YT Sidebar - Hide Shorts
+www.youtube.com###related ytd-compact-video-renderer:has([overlay-style="SHORTS"])
+
+! YT Mobile - Hide the Shorts Menu button
+m.youtube.com##ytm-pivot-bar-item-renderer:has(>.pivot-shorts)
+! YT Mobile - Hide the Shorts sections
+m.youtube.com##ytm-reel-shelf-renderer
+m.youtube.com##ytm-rich-section-renderer:has([d^="M17.77,10.32l-1.2"])
+! YT Mobile - Hide Shorts in search results
+m.youtube.com##ytm-search ytm-video-with-context-renderer:has([data-style="SHORTS"])
+! YT Mobile - Hide the Shorts button on Channels
+m.youtube.com##[tab-title="Shorts"]
+
+
+!! Section: Suggested videos
+! YT Home - Hide videos based on channel names
+youtube.com##ytd-browse[page-subtype="home"] ytd-rich-item-renderer:has(#avatar-link:is([title="Full Channel Name"], [title*="Partial Channel Name"], [title="Case Insensitive Channel Name"i]))
+! YT Home - Hide videos based on their titles
+youtube.com##ytd-browse[page-subtype="home"] ytd-rich-item-renderer:has(#video-title-link:is([title*="Partial Match"], [title*="Case-Insensitive Partial Match"i], [title~="Space-separated-aka-Whole-word-match"]))
+! YT Sidebar - Hide videos based on channel names
+youtube.com###related ytd-compact-video-renderer:has(#text.ytd-channel-name[title]:is([title="Full Channel name"], [title="Case-insensitive Full Channel name"i]))
+! YT Sidebar - Hide videos based on their titles
+youtube.com###related ytd-compact-video-renderer:has(#video-title:is([title*="Partial Match"], [title*="Case-Insensitive Partial Match"i], [title~="Space-separated-aka-Whole-word-match"]))
+! Mobile YT - Hide videos based on channel URLs
+m.youtube.com##ytm-media-item .media-channel a:not([class]):is([href="/@ChannelURL"], [href="/@AnotherChannelURL"]):upward(ytm-media-item)
+! YT Home - No Videos
+www.youtube.com##ytd-browse[page-subtype="home"]
+! YT Videos - No Sidebar
+www.youtube.com##ytd-watch-flexy #secondary
+! YT Videos - Sidebar Without Recommendations
+www.youtube.com##ytd-watch-flexy #secondary
+
+
+!! Section: Recommend after pause
+youtube-nocookie.com,youtube.com##.ytp-pause-overlay, .show-video-thumbnail-button
+~youtube-nocookie.com,~youtube.com##iframe ~ #topvbar > #rvid
+
+
+!! Section: Video annotations
+/annotations_module.js$script,xhr,important,domain=youtube.com
+/endscreen.js$script,xhr,important,domain=youtube.com
+youtube.com##.ytp-ce-element.ytp-ce-video
+youtube.com##.ytp-ce-element.ytp-ce-channel
+youtube.com##.ytp-ce-element.ytp-ce-website
+youtube.com##.ytp-ce-element.ytp-ce-playlist
+youtube.com##.ytp-cards-teaser
+youtube.com##.ytp-button.ytp-cards-button
+youtube.com##.ytp-button.branding-img-container
+youtube.com##.ytp-suggested-action
+youtube.com##.ytp-quality-menu .ytp-menuitem:has(.ytp-premium-label)
+youtube.com##ytd-popup-container > tp-yt-paper-dialog > ytd-mealbar-promo-renderer, ytd-popup-container > tp-yt-paper-dialog > yt-mealbar-promo-renderer:has-text(/Claim Offer|Join now|Not Now|No thanks|YouTube TV|live TV|Live TV|movies|sports|Try it free|unlimited DVR|watch NFL/)
