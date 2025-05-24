@@ -55,7 +55,9 @@
             <!-- Qtile Screenshot: -->
             <!-- <img src="https://github.com/trimclain/.dotfiles/assets/84108846/12d5daeb-6cf2-483e-a71d-96ba29580350" alt="screenshot"> -->
             <!-- Hyrpland Screenshot: -->
-            <img src="https://github.com/trimclain/.dotfiles/assets/84108846/8bea4b86-d94d-46a1-aa2d-f8aeef3d7b1e" alt="screenshot">
+            <!-- <img src="https://github.com/trimclain/.dotfiles/assets/84108846/8bea4b86-d94d-46a1-aa2d-f8aeef3d7b1e" alt="screenshot"> -->
+            <!-- Qtile Screenshot: -->
+            <img src="https://github.com/user-attachments/assets/eb0abb1e-0faf-4c0e-a62f-fee91766e5a8" alt="screenshot">
         </td>
     </tr>
 </table>
