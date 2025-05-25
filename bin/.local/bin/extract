@@ -3,6 +3,7 @@
 ###############################################################################
 # Extract an archive
 #   Usage: extract archive [directory]
+#   Requirements: unzip, tar, bunzip2, gunzip, 7z, uncompress, zipinfo
 ###############################################################################
 
 # TODO: add options

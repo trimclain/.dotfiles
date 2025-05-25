@@ -174,6 +174,7 @@ map a push :create<space>
 # z - toggle option or change it's value
 # s - sort by
 # e - launch an editor
+map E $~/.local/bin/extract "$f"
 # i - launch a pager (like what `less` uses)
 # w - launch a shell
 
