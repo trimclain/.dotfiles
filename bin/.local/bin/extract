@@ -6,15 +6,27 @@
 #   Requirements: unzip, tar, bunzip2, gunzip, 7z, uncompress, zipinfo
 ###############################################################################
 
+VERBOSE='false'
+
 # TODO: add options
+# -s to disable print messages
 # -k to keep the archive after extraction
 # -f to skip zipinfo part for too large archives
 
-extract_zip() {
-    if ! command -v unzip &> /dev/null; then
-        echo "Error: unzip not found"
+ensure_installed() {
+    if ! command -v "$1" > /dev/null; then
+        echo "Error: $1 not found"
         exit 1
     fi
+}
+
+raise() {
+    echo "Error: $1"
+    exit 1
+}
+
+extract_zip() {
+    ensure_installed unzip
 
     NAME=$(basename -- "$1")
     # TODO: implement
@@ -49,13 +61,13 @@ extract_zip() {
     # fi
 
     if [[ "$NEED_NEW_DIR" == "true" ]]; then
-        echo -n "Extracting files from $1 into $NAME... "
+        [[ "$VERBOSE" == "true" ]] && echo -n "Extracting files from $1 into $NAME... "
         unzip "$1" -d "$NAME" > /dev/null
-        echo "Done"
+        [[ "$VERBOSE" == "true" ]] && echo "Done"
     else
-        echo -n "Extracting files from $1... "
+        [[ "$VERBOSE" == "true" ]] && echo -n "Extracting files from $1... "
         unzip "$1" > /dev/null
-        echo "Done"
+        [[ "$VERBOSE" == "true" ]] && echo "Done"
     fi
 
     # TODO:
@@ -67,24 +79,19 @@ extract_with_7z() {
     NAME="${NAME%.*}"
 
     # let 7zip handle .rar and .7z files
-    if ! command -v 7z &> /dev/null; then
-        echo "Error: 7z not found"
-        exit 1
-    fi
+    ensure_installed 7z
 
-    echo -n "Extracting files from $1 into $NAME... "
+    [[ "$VERBOSE" == "true" ]] && echo -n "Extracting files from $1 into $NAME... "
     7z x "$1" -o"$NAME" > /dev/null
     # rm "$1"
-    echo "Done"
+    [[ "$VERBOSE" == "true" ]] && echo "Done"
 }
 
 main() {
     if [[ -z $1 ]]; then
-        echo "Error: Need an archive to extract"
-        exit 1
+        raise "Need an archive to extract"
     elif [[ ! -f $1 ]]; then
-        echo "Error: $1 not found"
-        exit 1
+        raise "'$1' does not exist"
     fi
 
     # extract using file extension
@@ -101,7 +108,7 @@ main() {
         *.zip)       extract_zip "$1"       ;;
         *.Z)         uncompress "$1"        ;;
         *.7z)        extract_with_7z "$1"   ;;
-        *)           echo "Error: '$1' cannot be extracted with this program" && exit 1 ;;
+        *)           raise "'$1' cannot be extracted with this program" ;;
     esac
 }
 
