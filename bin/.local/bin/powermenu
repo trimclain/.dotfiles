@@ -10,11 +10,20 @@
 TITLE="Power Menu"
 
 if command -v rofi > /dev/null; then
-    # fix current hyprland issue
+    MENU=(
+        rofi
+        -dmenu
+        -i
+        -no-custom
+        -p "$TITLE"
+        -window-title "$TITLE"
+        -hover-select
+        -me-select-entry ''
+        -me-accept-entry MousePrimary
+    )
     if [[ $DESKTOP_SESSION == "hyprland" ]]; then
-        MENU=(rofi -dmenu -i -no-custom -p "$TITLE" -window-title "$TITLE" -normal-window -steal-focus)
-    else
-        MENU=(rofi -dmenu -i -no-custom -p "$TITLE" -window-title "$TITLE")
+        # fix current hyprland issue
+        MENU+=(-normal-window -steal-focus)
     fi
 elif command -v dmenu > /dev/null; then
     MENU=(dmenu -i -p "$TITLE:")
