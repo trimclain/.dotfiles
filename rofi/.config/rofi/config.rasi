@@ -1,5 +1,5 @@
 configuration {
-  modi: [run,drun,window];
+    modi: [run,drun,window];
     // terminal: "rofi-sensible-terminal"
     show-icons:               false;
     display-drun:             " Apps";
@@ -10,6 +10,11 @@ configuration {
     click-to-exit:            true;
     location:                 0;
     sidebar-mode:             true;
+
+    // Highlight an entry under the mouse pointer
+    hover-select: true;
+    // Accept the entry with left click
+    me-accept-entry: "!MousePrimary";
 }
 
 @theme "kabinspace"
@@ -20,7 +25,9 @@ configuration {
     //----------------------------------------------------------------------
     // font:                     "JetBrainsMono Nerd Font Mono 12";
     // font:                     "CaskaydiaCove NFM 13";
-    font:                     "CaskaydiaCove Nerd Font Mono 13";
+    // font:                     "CaskaydiaCove Nerd Font Mono 13";
+    font:                     "GeistMono Nerd Font Mono 12";
+    // font:                     "Maple Mono NF 12";
     background-color:         @background;
 }
 
