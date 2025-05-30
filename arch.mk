@@ -330,6 +330,11 @@ vivaldi: ## Install Vivaldi Browser
 
 # SOMEDAY: kdenlive inkscape gimp
 
+thunderbird: ## Install Thunderbird
+	$(INSTALL) thunderbird
+	@# @make flatpak
+	@# $(FLATINSTALL) flathub org.mozilla.Thunderbird
+
 telegram: ## Install Telegram Desktop
 	@# $(INSTALL) telegram-desktop
 	@make flatpak
@@ -470,7 +475,7 @@ install: ## Setup arch after new installation
 	awesome qtile hyprland fix-nvidialand cursor\
 	alacritty kitty wezterm\
 	brave chrome thorium zen vivaldi\
-	telegram discord spotify ncspot obs vlc vscode office quickemu\
+	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
 	anki uninstall_anki pomo uninstall_pomo syncthing\
 	apps\
 	install
