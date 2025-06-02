@@ -38,6 +38,8 @@ choice=$(printf " Logout\n Reboot\n Shutdown" | "${MENU[@]}")
 
 if [[ "$choice" == " Logout" ]]; then
     loginctl kill-user "$UID"
+# TODO: https://youtu.be/4JWeU78A95c?si=N5evljtZ0Y5wKGvn&t=383
+# TODO: man slock -> xorg.conf
 # elif [[ "$choice" == " Suspend" ]]; then
 #     systemctl suspend
 elif [[ "$choice" == " Reboot" ]]; then
