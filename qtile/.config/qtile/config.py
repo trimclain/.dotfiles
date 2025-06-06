@@ -577,6 +577,7 @@ class Widget:
         # increase/decrease volume on scroll
         mouse_callbacks={
             "Button1": run_command("~/.local/bin/volume-control --toggle-mute"),
+            "Button3": lazy.spawn("pavucontrol"),
             "Button4": run_command("~/.local/bin/volume-control --increase"),
             "Button5": run_command("~/.local/bin/volume-control --decrease"),
         },
@@ -694,6 +695,7 @@ class Widget:
     exit_button = dict(
         mouse_callbacks={
             "Button1": run_command("~/.local/bin/powermenu"),
+            "Button3": lazy.spawn("rofi -show drun"),
         },
         # fmt="  ",
         fmt=" 󰐥 ",
