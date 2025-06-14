@@ -694,7 +694,7 @@ class Widget:
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#textbox
     exit_button = dict(
         mouse_callbacks={
-            "Button1": run_command("~/.local/bin/powermenu"),
+            "Button1": run_command("~/.local/bin/powermenu --use-powertheme"),
             "Button3": lazy.spawn("rofi -show drun"),
         },
         # fmt="  ",

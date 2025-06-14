@@ -8,7 +8,7 @@
 ###############################################################################
 
 TITLE="  "
-ROFI_THEME="${1:-default}" # accept "powertheme" argument
+ROFI_THEME="${1:-default}" # accepts "--use-powertheme"
 
 if command -v rofi > /dev/null; then
     # man rofi-dmenu for more options
@@ -27,7 +27,7 @@ if command -v rofi > /dev/null; then
     fi
 
     if [[ -f ~/.config/rofi/themes/powermenu.rasi ]]; then
-        if [[ "$ROFI_THEME" == "powertheme" ]]; then
+        if [[ "$ROFI_THEME" == "--use-powertheme" ]]; then
             MENU+=(-theme ~/.config/rofi/themes/powermenu.rasi)
             TITLE=" Power Menu"
         fi
