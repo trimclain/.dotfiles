@@ -1,0 +1,19 @@
+# Git
+\.git
+\.gitignore
+
+# Files
+Makefile
+.*.md
+.*.mk
+.*install
+
+# Directories
+fonts
+glaze-wm
+minivim
+mue
+ublock-origin
+vscode
+
+# vim: ft=gitignore
