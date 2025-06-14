@@ -1,15 +1,22 @@
+// Credit: https://github.com/kabinspace/dotfiles
+// More Themes: https://github.com/adi1090x/rofi
 configuration {
-    modi: [run,drun,window];
+    // modi: [run,drun,window];
+    modi: [drun];
     // terminal: "rofi-sensible-terminal"
     show-icons:               false;
-    display-drun:             " Apps";
-    display-run:              " Run";
-    display-window:           " Window";
+    // In sidebar mode, a list of all enabled modes is shown at the bottom
+    //sidebar-mode:             true;
+    // Use these with sidebar-mode
+    //display-drun:             " Apps";
+    //display-run:              " Run";
+    //display-window:           " Window";
+    display-drun:             "  ";
+    display-run:              "  ";
     drun-display-format:      "{name}";
     disable-history:          false;
     click-to-exit:            true;
     location:                 0;
-    sidebar-mode:             true;
 
     // Highlight an entry under the mouse pointer
     hover-select: true;
@@ -18,6 +25,7 @@ configuration {
 }
 
 @theme "kabinspace"
+// @theme "onedark"
 
 * {
     //----------------------------------------------------------------------
@@ -39,10 +47,40 @@ window {
     height:                   0px;
 }
 
+// https://davatorium.github.io/rofi/current/rofi-theme.5/#layout
+inputbar {
+    spacing:                  4px;
+    text-color:               @foreground;
+    border:                   0px;
+    border-color:             @selected;
+    border-radius:            0px;
+    // https://davatorium.github.io/rofi/current/rofi-theme.5/#children
+    // children:                 [ textbox-prompt-colon,entry ];
+    children:                 [ prompt,entry ];
+}
+
+mainbox {
+    border:                   0px;
+    border-color:             @selected;
+    spacing:                  15px;
+    padding:                  30px;
+}
+
+// https://davatorium.github.io/rofi/current/rofi-theme.5/#textbox-widget
 textbox-prompt-colon {
     expand:                   false;
     // str:                      " 󰍉 ";
-    str:                      "  ";
+    // str:                      "  ";
+    str:                      ":";
+    padding:                  8px 4px 4px 4px; // top right bottom left
+    text-color:               @background;
+    background-color:         @foreground;
+    border-radius:            8px;
+}
+
+prompt {
+    expand:                   false;
+    // placeholder:              "  ";
     padding:                  8px 4px 4px 4px; // top right bottom left
     text-color:               @background;
     background-color:         @foreground;
@@ -65,22 +103,6 @@ entry {
 case-indicator {
     spacing:                  0;
     text-color:               @foreground;
-}
-
-inputbar {
-    spacing:                  4px;
-    text-color:               @foreground;
-    border:                   0px;
-    border-color:             @selected;
-    border-radius:            0px;
-    children:                 [ textbox-prompt-colon,entry ];
-}
-
-mainbox {
-    border:                   0px;
-    border-color:             @selected;
-    spacing:                  15px;
-    padding:                  30px;
 }
 
 listview {
