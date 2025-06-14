@@ -328,7 +328,11 @@ vivaldi: ## Install Vivaldi Browser
 
 #==================================================================================================
 
-# SOMEDAY: kdenlive inkscape gimp
+# SOMEDAY: kdenlive inkscape gimp lazydocker
+# FLATPAKS:
+#   io.github.flattool.Warehouse - control complex Flatpak options
+#   io.github.flattool.Ignition - add, remove, and modify startup entries
+#   ca.desrt.dconf-editor - dconf editor
 
 thunderbird: ## Install Thunderbird
 	$(INSTALL) thunderbird
