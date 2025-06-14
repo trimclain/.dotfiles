@@ -4,19 +4,19 @@
 # Power Menu
 #
 # Description: Logout, shutdown, reboot or suspend
-# Dependencies: rofi or dmenu
+# Dependencies: rofi (or dmenu), slock
 ###############################################################################
 
-TITLE="Power Menu"
+TITLE="  "
+ROFI_THEME="${1:-default}" # accept "powertheme" argument
 
 if command -v rofi > /dev/null; then
+    # man rofi-dmenu for more options
     MENU=(
         rofi
         -dmenu
         -i
         -no-custom
-        -p "$TITLE"
-        -window-title "$TITLE"
         -hover-select
         -me-select-entry ''
         -me-accept-entry MousePrimary
@@ -25,6 +25,18 @@ if command -v rofi > /dev/null; then
         # fix current hyprland issue
         MENU+=(-normal-window -steal-focus)
     fi
+
+    if [[ -f ~/.config/rofi/themes/powermenu.rasi ]]; then
+        if [[ "$ROFI_THEME" == "powertheme" ]]; then
+            MENU+=(-theme ~/.config/rofi/themes/powermenu.rasi)
+            TITLE=" Power Menu"
+        fi
+    fi
+
+    MENU+=(
+        -p "$TITLE"
+        -window-title "$TITLE"
+    )
 elif command -v dmenu > /dev/null; then
     MENU=(dmenu -i -p "$TITLE:")
 else
@@ -32,18 +44,14 @@ else
     exit 1
 fi
 
-# " Logout", " Reboot"
-choice=$(printf " Logout\n Reboot\n Shutdown" | "${MENU[@]}")
-# choice=$(printf " Logout\n Suspend\n Reboot\n Shutdown" | "${MENU[@]}")
+# " Logout"
+choice=$(printf " Sleep\n Reboot\n Shutdown" | "${MENU[@]}")
 
-if [[ "$choice" == " Logout" ]]; then
-    loginctl kill-user "$UID"
-# TODO: https://youtu.be/4JWeU78A95c?si=N5evljtZ0Y5wKGvn&t=383
-# TODO: man slock -> xorg.conf
-# elif [[ "$choice" == " Suspend" ]]; then
-#     systemctl suspend
-elif [[ "$choice" == " Reboot" ]]; then
-    systemctl reboot
-elif [[ "$choice" == " Shutdown" ]]; then
-    systemctl poweroff
-fi
+case "$choice" in
+    # "󰅜 Kill") ps -u "$USER" -o pid,comm,%cpu,%mem | dmenu -i -c -l 10 -p Kill: | awk '{print $1}' | xargs -r kill ;;
+    # " Logout") loginctl kill-user "$UID" ;;
+    " Suspend") slock systemctl suspend -i ;;
+    " Reboot") systemctl reboot -i ;;
+    " Shutdown") systemctl poweroff -i ;;
+    *) exit 0 ;;
+esac
