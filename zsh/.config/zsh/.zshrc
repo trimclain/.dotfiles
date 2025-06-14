@@ -326,15 +326,19 @@ if [[ -f ~/.local/bin/tmux-chtsh ]]; then
 fi
 # bindkey -s ^b "^uchange-wallpaper\n"
 
-# Use lf with ueberzugpp to switch directories and bind it to ctrl-o
-if command -v lf > /dev/null; then
+# Use yazi or lf with ueberzugpp to switch directories and bind it to ctrl-o
+if command -v yazi > /dev/null; then
+    yazicd() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        IFS= read -r -d '' cwd < "$tmp"
+        [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+        rm -f -- "$tmp"
+    }
+    bindkey -s '^o' '^uyazicd\n'
+elif command -v lf > /dev/null; then
     lfubcd() {
         # This is a wrapper for lfub wrapper implementing lfcd functionality
-        if ! command -v lf > /dev/null; then
-            echo "lf: command not found"
-            exit 1
-        fi
-
         local lfub="$HOME/.config/lf/lfub"
 
         if [[ ! -f "$lfub" ]]; then

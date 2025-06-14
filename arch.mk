@@ -154,6 +154,11 @@ lf: ## Install lf (file manager)
 	@# install previewer requirements
 	$(INSTALL) imagemagick poppler
 
+yazi: ## Install yazi (file manager)
+	$(INSTALL) yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide imagemagick
+	@# takes ~5 minutes to install, not sure it's worth for just previewing svg
+	@#$(PARUINSTALL) resvg
+
 #============================================= Neovim =============================================
 nvim_reqs: ## Install my neovim requirements (yad, xclip, tree-sitter-cli, tectonic)
 	@# Things my neovim needs
@@ -473,7 +478,7 @@ install: ## Setup arch after new installation
 .PHONY: all help vimdir getnf wallpapers maple_fonts bluetooth brightnessctl\
 	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic\
 	fnm export_node_modules import_node_modules typescript\
-	paru flatpak docker lf\
+	paru flatpak docker lf yazi\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
