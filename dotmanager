@@ -1,0 +1,316 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+CWD = os.path.join(Path.home(), ".dotfiles")
+BACKUP_FOLDER = os.path.join(CWD, ".backup")
+
+CONFIGS = {
+    # dev
+    "bin": "",
+    "chtsh": "",
+    "stylua": ".config/.stylua.toml",
+    "luacheck": ".config/luacheck",
+
+    # shell tools
+    "bash": ".bashrc",
+    "zsh": ".zshrc",
+    "tmux": ".tmux.conf",
+    "starship": ".config/starship",
+
+    # wm
+    "i3": ".config/i3",
+    "awesome": ".config/awesome",
+    "qtile": ".config/qtile",
+    "hyprland": ".config/hypr",
+
+    # bar
+    "polybar": ".config/polybar",
+    "waybar": ".config/waybar",
+
+    # editor
+    "vim": ".vimrc",
+
+    # terminal
+    "kitty": ".config/kitty",
+    "alacritty": ".config/alacritty",
+    "wezterm": ".config/wezterm",
+    "ghostty": ".config/ghostty",
+
+    # wm utils
+    "xorg": ".xprofile",
+    "rofi": ".config/rofi",
+    "picom": ".config/picom",
+    "dunst": ".config/dunst",
+
+    # apps
+    "apps": [
+        ".config/mimeapps.list",
+        ".config/user-dirs.dirs",
+        ".config/user-dirs.locale",
+    ],
+    "lf": ".config/lf",
+    "yazi": ".config/yazi",
+    "ncspot": ".config/ncspot",
+    "pomo": ".config/pomo",
+    "fastfetch": ".config/fastfetch",
+}
+
+NO_CONFIG_FOLDERS = [key for key, value in CONFIGS.items() if value == ""]
+
+
+def exists(path: str) -> bool:
+    """Check if a given path exists
+
+    Args:
+        path (str): path to a file or a folder
+
+    Returns:
+        True if the path exists
+    """
+    return os.path.isfile(path) or os.path.isdir(path)
+
+
+def fullpath(location: str) -> str:
+    """Add $HOME to the beginning of given path
+
+    Args:
+        location (str): path to file/folder
+
+    Returns:
+        Full path to file/folder
+    """
+    return os.path.join(Path.home(), location)
+
+
+def backup(location: str) -> None:
+    """Create a backup of an existing config
+
+    Args:
+        location (str): path to the config
+
+    Returns:
+        None
+    """
+    if DRY_RUN:
+        return
+
+    # filter empty strings
+    if not location:
+        return
+
+    full_path = fullpath(location)
+    if exists(full_path) and not os.path.islink(full_path):
+        if not os.path.isdir(BACKUP_FOLDER):
+            os.mkdir(BACKUP_FOLDER)
+
+        basename = os.path.basename(location)
+        name, ext = basename, ""
+        if os.path.isfile(full_path) and "." in basename:
+            name, ext = basename.split(".")
+
+        # if a backup already exist, add backup2
+        count = len([el for el in os.listdir(BACKUP_FOLDER) if name in el])
+        if count > 0:
+            # turn settings.json into settings1.json and not settings.json1
+            if ext:
+                new_name = f"{name}{count + 1}.{ext}"
+            else:
+                new_name = f"{name}{count + 1}"
+        else:
+            new_name = basename
+
+        backup_path = os.path.join(BACKUP_FOLDER, new_name)
+        print("Found existing", location, "-> Moving it to", backup_path)
+        shutil.move(full_path, backup_path)
+
+
+def get_config_names(mode) -> list[str]:
+    """Get the names of configs to install
+
+    Returns:
+        List of names
+    """
+    # Small installation
+    if mode == "small":
+        return ["bin", "bash", "chtsh", "tmux", "vim"]
+    # Normal mode (good for wsl)
+    if mode == "normal":
+        # TODO: handle nvim being moved
+        return ["bin", "zsh", "chtsh", "tmux"]
+    # Full installation (combine small and normal)
+    if mode == "full":
+        # TODO: handle nvim being moved
+        return ["bin", "bash", "chtsh", "tmux", "vim", "zsh"]
+    # Linux installation
+    if mode == "linux":
+        # TODO: handle nvim being moved
+        return [
+            "bin",
+            "chtsh",
+            "tmux",
+            "zsh",
+            "kitty",
+            "rofi",
+            "picom",
+            # "lf",
+            "yazi",
+            "stylua",
+            "xorg",
+            "wezterm",
+            "apps",
+            "dunst",
+            "qtile",
+            "hyprland",
+            "waybar",
+        ]
+    # Remote server installation
+    if mode == "server":
+        return ["bin", "bash", "tmux", "vim"]
+
+    print("Error:", mode, "argument doesn't exist")
+    sys.exit(1)
+
+
+def install(mode):
+    # Check if stow is installed
+    if not shutil.which("stow"):
+        print("Error: stow not found")
+        sys.exit(1)
+
+    # Check if in ~/.dotfiles
+    if os.getcwd() != CWD:
+        # NOTE: --target=DIR could be used to specify the target directory
+        print("Error: not in", CWD)
+        sys.exit(1)
+
+    names = get_config_names(mode)
+    for name in names:
+        conf = CONFIGS[name]
+        # Backup
+        if isinstance(conf, list):
+            for loc in conf:
+                backup(loc)
+        else:
+            backup(conf)
+        # Stow
+        command = ["stow", "--verbose", "--restow", name]
+        if DRY_RUN:
+            command.append("--simulate")
+        subprocess.run(command)
+
+
+def unixpool_install():
+    # Install tmux-sessionizer, bash, vim, tmux, i3
+    if not DRY_RUN:
+        subprocess.run(
+            [
+                "mkdir",
+                "-p",
+                fullpath(".local/bin"),
+                fullpath(".config"),
+                fullpath(".config/i3"),
+                fullpath(".config/i3status"),
+            ]
+        )
+    pairs = [
+        (
+            ".dotfiles/bin/.local/bin/set-random-wallpaper",
+            ".local/bin/set-random-wallpaper",
+        ),
+        (".dotfiles/bash/.bashrc", ".bashrc"),
+        (".dotfiles/bash/.bash_profile", ".bash_profile"),
+        (".dotfiles/vim/.vimrc", ".vimrc"),
+        (".dotfiles/tmux/.tmux.conf", ".tmux.conf"),
+        (".dotfiles/i3/.config/i3/config.alt", ".config/i3/config"),
+        (".dotfiles/i3/.config/i3status/config.alt", ".config/i3status/config"),
+    ]
+
+    for pair in pairs:
+        if not DRY_RUN:
+            backup(pair[1])
+            subprocess.run(
+                [
+                    "ln",
+                    "-s",
+                    fullpath(pair[0]),
+                    fullpath(pair[1]),
+                ]
+            )
+        print("Adding symlink to", pair[1])
+    # print("Done")
+
+
+def uninstall():
+    did_smth = False
+    for name, config in CONFIGS.items():
+        if not isinstance(config, str) or config == "":
+            continue
+
+        configpath = os.path.join(Path.home(), config)
+        # check if file/folder exists and is a symlink
+        if os.path.islink(configpath):
+            if shutil.which("stow"):
+                command = ["stow", "--verbose", "--delete", name]
+                if DRY_RUN:
+                    command.append("--simulate")
+                subprocess.run(command)
+            else:
+                if not DRY_RUN:
+                    subprocess.run(["rm", "-r", configpath])
+                print("Removing symlink to", name)
+            did_smth = True
+    # bin and chtsh (have to use stow)
+    if shutil.which("stow"):
+        for name in NO_CONFIG_FOLDERS:
+            if not DRY_RUN:
+                subprocess.run(["stow", "-vD", name])
+    if not did_smth:
+        print("There are no jobs")
+
+
+def main():
+
+    parser = argparse.ArgumentParser(
+        description="Dotfiles Manager",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument("-d", "--dry-run", action="store_true", help="perform a dry run without making any changes")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--small", action="store_true", help=f"install {', '.join(get_config_names('small'))} configs")
+    group.add_argument("--normal", action="store_true", help=f"install {', '.join(get_config_names('normal'))} configs")
+    group.add_argument("--full", action="store_true", help=f"install {', '.join(get_config_names('full'))} configs")
+    group.add_argument("--linux", action="store_true", help=f"install {', '.join(get_config_names('linux'))} configs")
+    group.add_argument("--server", action="store_true", help=f"install {', '.join(get_config_names('server'))} configs")
+    group.add_argument("--unixpool", action="store_true", help='manually symlink bash, vim, tmux, i3 configs')
+    group.add_argument("--uninstall", action="store_true", help="uninstall all configs")
+    args = parser.parse_args()
+
+    global DRY_RUN
+    DRY_RUN = args.dry_run
+
+    if args.small:
+        install("small")
+    elif args.normal:
+        install("normal")
+    elif args.full:
+        install("full")
+    elif args.linux:
+        install("linux")
+    elif args.server:
+        install("server")
+    elif args.unixpool:
+        unixpool_install()
+    elif args.uninstall:
+        uninstall()
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()

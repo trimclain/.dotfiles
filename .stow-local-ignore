@@ -7,9 +7,12 @@ Makefile
 .*.md
 .*.mk
 .*install
+dotmanager
 
 # Directories
 fonts
+fontconfig
+gitconf
 glaze-wm
 minivim
 mue
