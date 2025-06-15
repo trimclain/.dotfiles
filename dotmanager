@@ -97,11 +97,12 @@ def backup(location: str) -> None:
     Returns:
         None
     """
-    if DRY_RUN:
-        return
-
     # filter empty strings
     if not location:
+        return
+
+    if DRY_RUN:
+        print("DRY_RUN: Would backup", location)
         return
 
     full_path = fullpath(location)
@@ -141,15 +142,12 @@ def get_config_names(mode) -> list[str]:
         return ["bin", "bash", "chtsh", "tmux", "vim"]
     # Normal mode (good for wsl)
     if mode == "normal":
-        # TODO: handle nvim being moved
         return ["bin", "zsh", "chtsh", "tmux"]
     # Full installation (combine small and normal)
     if mode == "full":
-        # TODO: handle nvim being moved
         return ["bin", "bash", "chtsh", "tmux", "vim", "zsh"]
     # Linux installation
     if mode == "linux":
-        # TODO: handle nvim being moved
         return [
             "bin",
             "chtsh",
@@ -175,6 +173,23 @@ def get_config_names(mode) -> list[str]:
 
     print("Error:", mode, "argument doesn't exist")
     sys.exit(1)
+
+
+def install_nvim(backup_and_replace=False, dev=False):
+    location = os.path.expanduser("~/.config/nvim")
+    if os.path.isdir(location):
+        if not backup_and_replace:
+            print("Nvim config already exists. Aborting...")
+            return
+        backup(".config/nvim")
+
+    url = "https://github.com/trimclain/nvim"
+    if dev:
+        url = "git@github.com:trimclain/nvim"
+    command = ["git", "clone", url, location]
+    print("Installing my neovim config...")
+    if not DRY_RUN:
+        subprocess.run(command)
 
 
 def install(mode):
@@ -203,6 +218,12 @@ def install(mode):
         if DRY_RUN:
             command.append("--simulate")
         subprocess.run(command)
+
+    if mode not in ["small", "server"]:
+        if os.getlogin() == "trimclain":
+            install_nvim(backup_and_replace=True, dev=True)
+        else:
+            install_nvim(backup_and_replace=True)
 
 
 def unixpool_install():
@@ -283,9 +304,9 @@ def main():
     parser.add_argument("-d", "--dry-run", action="store_true", help="perform a dry run without making any changes")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--small", action="store_true", help=f"install {', '.join(get_config_names('small'))} configs")
-    group.add_argument("--normal", action="store_true", help=f"install {', '.join(get_config_names('normal'))} configs")
-    group.add_argument("--full", action="store_true", help=f"install {', '.join(get_config_names('full'))} configs")
-    group.add_argument("--linux", action="store_true", help=f"install {', '.join(get_config_names('linux'))} configs")
+    group.add_argument("--normal", action="store_true", help=f"install {', '.join(get_config_names('normal'))}, nvim configs")
+    group.add_argument("--full", action="store_true", help=f"install {', '.join(get_config_names('full'))}, nvim configs")
+    group.add_argument("--linux", action="store_true", help=f"install {', '.join(get_config_names('linux'))}, nvim configs")
     group.add_argument("--server", action="store_true", help=f"install {', '.join(get_config_names('server'))} configs")
     group.add_argument("--unixpool", action="store_true", help='manually symlink bash, vim, tmux, i3 configs')
     group.add_argument("--uninstall", action="store_true", help="uninstall all configs")
