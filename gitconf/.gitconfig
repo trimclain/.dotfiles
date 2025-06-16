@@ -16,8 +16,9 @@
     # delete branch locally and remotely
     db = "!f() { git branch -D $1; git push origin --delete $1; }; f"
 
+; to use `git pull` without merge commits
 [pull]
-    rebase = false
+    ff = only
 
 ; to forget about `git branch --set-upstream-to`
 [push]
