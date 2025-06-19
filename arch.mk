@@ -383,7 +383,8 @@ office: ## Install LibreOffice
 	$(INSTALL) libreoffice-fresh
 
 quickemu: ## Install Quickemu (Virtual Machine Manager)
-	$(PARUINSTALL) qemu-desktop quickgui-bin
+	@#$(INSTALL) qemu-desktop # wait for release 4.9.8+
+	$(PARUINSTALL) quickemu-git quickgui-bin
 
 #============================================= Study ==============================================
 anki: ## Install Anki
