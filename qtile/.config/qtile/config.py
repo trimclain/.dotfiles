@@ -614,7 +614,6 @@ class Widget:
         # padding=5,
         configured_keyboards=["us", "ru"],
         # background=widget_background
-        # TODO: figure out colors
         foreground=yellow_color
     )
 
@@ -648,7 +647,9 @@ class Widget:
         use_ethernet=True,
         interface=WLAN_INTERFACE,
         # format="󰖩 {essid}",
-        format="󰤨 {essid}",  # this looks good with Maple Mono NF
+        # format="󰤨 {essid}",  # this looks good with Maple Mono NF
+        # SSID is too long on smaller resolutions. TODO: can I make this dynamic?
+        format="󰤨",
         ethernet_interface=ETH_INTERFACE,
         # TODO: migrate to ethernet_message_format from v0.32.0
         ethernet_message="󰣺 {ipaddr}",

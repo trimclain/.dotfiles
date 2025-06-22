@@ -270,6 +270,7 @@ def unixpool_install():
 def uninstall():
     did_smth = False
     for name, config in CONFIGS.items():
+        # TODO: should somehow unlink the apps too
         if not isinstance(config, str) or config == "":
             continue
 
