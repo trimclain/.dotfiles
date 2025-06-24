@@ -17,6 +17,14 @@ raise() {
     exit 1
 }
 
+remove_archive() {
+    if [[ "$KEEP_ARCHIVES" != "true" ]]; then
+        [[ "$VERBOSE" != "true" ]] || echo -n "Removing archive '$1'... "
+        rm -f "$1"
+        [[ "$VERBOSE" != "true" ]] || echo "Done"
+    fi
+}
+
 extract_zip() {
     ensure_installed unzip
 
@@ -62,8 +70,7 @@ extract_zip() {
         [[ "$VERBOSE" != "true" ]] || echo "Done"
     fi
 
-    # TODO:
-    # rm "$1"
+    remove_archive "$1"
 }
 
 extract_with_7z() {
@@ -74,7 +81,7 @@ extract_with_7z() {
 
     [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $name... "
     7z x "$1" -o"$name" > /dev/null
-    # rm "$1"
+    remove_archive "$1"
     [[ "$VERBOSE" != "true" ]] || echo "Done"
 }
 
@@ -83,8 +90,9 @@ show_help() {
     echo "Extracts archive(s). In case of zip files, smartly detect if a new directory to extract the content to is needed."
     echo
     echo "Options:"
-    echo "  -h, --help           Display this help message and exit."
+    echo "  -h, --help           Display this help message."
     echo "  -s, --silent         Disable verbose output."
+    echo "  -k, --keep           Keep the archive(s) after extraction."
     echo "  -t, --to <name>      Extract to a specific directory. Only works with one archive."
     exit 0
 }
@@ -113,17 +121,21 @@ extract_archive() {
 
 main() {
     VERBOSE='true'
-    ARCHIVES=()
+    KEEP_ARCHIVES='false'
     EXTRACT_TO=''
+    ARCHIVES=()
 
     # TODO: add options
-    # -k to keep the archive after extraction
     # -f to skip zipinfo part for too large archives
     while true; do
         case $1 in
             -h | --help) show_help ;;
             -s | --silent)
                 readonly VERBOSE='false'
+                shift
+                ;;
+            -k | --keep)
+                readonly KEEP_ARCHIVES='true'
                 shift
                 ;;
             -t | --to)
