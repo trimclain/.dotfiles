@@ -6,13 +6,6 @@
 #   Requirements: unzip, tar, bunzip2, gunzip, 7z, uncompress, zipinfo
 ###############################################################################
 
-VERBOSE='false'
-
-# TODO: add options (CURRENT WIP)
-# -s to disable print messages
-# -k to keep the archive after extraction
-# -f to skip zipinfo part for too large archives
-
 ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
@@ -28,31 +21,33 @@ raise() {
 extract_zip() {
     ensure_installed unzip
 
-    NAME=$(basename -- "$1")
+    local name
+    name=$(basename -- "$1")
     # TODO: implement
     # if [[ -n $2 ]]; then
     #     # use custom directory name
     #     NAME=$2
     #     NEED_NEW_DIR=true
     # else
-    NAME="${NAME%.*}"
+    name="${name%.*}"
     # fi
 
     # if [[ -z $2 ]]; then
 
     # don't create a new directory if there's one directory containing
     # every other file in the archive
-    ZIP_ITEMS=()
+    local -a zip_items
     while IFS= read -r line; do
-        ZIP_ITEMS+=("$line")
-    done < <(zipinfo "$1" \* 2>/dev/null | awk '{print $NF}')
+        zip_items+=("$line")
+    done < <(zipinfo "$1" \* 2> /dev/null | awk '{print $NF}')
 
     # check if zipinfo failed or there were no files
-    if [[ ${#ZIP_ITEMS[@]} -ne 0 ]]; then
-        for element in "${ZIP_ITEMS[@]}"; do
-            if [[ "$element" != "${ZIP_ITEMS[0]}"* ]]; then
+    local need_new_dir='false'
+    if [[ ${#zip_items[@]} -ne 0 ]]; then
+        for element in "${zip_items[@]}"; do
+            if [[ "$element" != "${zip_items[0]}"* ]]; then
                 # $element does not start with first item name
-                NEED_NEW_DIR="true"
+                readonly need_new_dir='true'
                 break
             fi
         done
@@ -60,9 +55,9 @@ extract_zip() {
 
     # fi
 
-    if [[ "$NEED_NEW_DIR" == "true" ]]; then
-        [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $NAME... "
-        unzip "$1" -d "$NAME" > /dev/null
+    if [[ "$need_new_dir" == "true" ]]; then
+        [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $name... "
+        unzip "$1" -d "$name" > /dev/null
         [[ "$VERBOSE" != "true" ]] || echo "Done"
     else
         [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1... "
@@ -75,87 +70,86 @@ extract_zip() {
 }
 
 extract_with_7z() {
-    NAME=$(basename -- "$1")
-    NAME="${NAME%.*}"
+    name=$(basename -- "$1")
+    name="${name%.*}"
 
-    # let 7zip handle .rar and .7z files
     ensure_installed 7z
 
-    [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $NAME... "
-    7z x "$1" -o"$NAME" > /dev/null
+    [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $name... "
+    7z x "$1" -o"$name" > /dev/null
     # rm "$1"
     [[ "$VERBOSE" != "true" ]] || echo "Done"
 }
 
-# TODO:
 show_help() {
-    echo "Usage: $0 [OPTIONS] [ARCHIVE...]"
-    echo "Extracts an archive smartly detecting if a new directory is needed."
+    echo "Usage: extract [OPTIONS] <ARCHIVES...>"
+    echo "Extracts archive(s). In case of zip files, smartly detect if a new directory to extract the content to is needed."
     echo
     echo "Options:"
     echo "  -h, --help           Display this help message and exit."
-    echo "  -v, --verbose        Enable verbose output."
-    echo "  -o <file>, --output <file>"
-    echo "                       Specify an output file."
-    echo "  --output=<file>      Specify an output file (long format)."
-    echo
-    echo "Examples:"
-    echo "  $0 -v input.txt"
-    echo "  $0 --output results.log script.sh data.csv"
-    echo "  $0 -v --output=errors.log -- -config.ini # -- handles leading dash in file name"
+    echo "  -s, --silent         Disable verbose output."
     exit 0
 }
 
-main() {
-    if [[ -z $1 ]]; then
-        raise "Need an archive to extract"
-    elif [[ ! -f $1 ]]; then
+extract_archive() {
+    if [[ ! -f $1 ]]; then
         raise "'$1' does not exist"
     fi
 
-    # TODO:
-    # while true; do
-    #     case $1 in
-    #         -h | --help)   show_help              ;;
-    #         -v | --verbose)
-    #             VERBOSE='true'
-    #             shift
-    #         ;;
-
-    #         # --- Unknown option handling ---
-    #         -*)
-    #             echo "Error: Unknown option: '$1'" >&2
-    #             show_help # Optionally show help on error
-    #             ;;
-
-    #         # --- Positional arguments (non-options) ---
-    #         *)
-    #             # If no more arguments, break the loop
-    #             if [[ -z "$1" ]]; then
-    #                 break
-    #             fi
-    #             INPUT_FILES+=("$1") # Add to the array
-    #             echo "Found input file: $1"
-    #             shift # Move to the next argument
-    #             ;;
-    #     esac
-    # done
-
     case $1 in
-        *.tar.bz2)   tar xjf "$1"           ;;
-        *.tar.gz)    tar xzf "$1"           ;;
-        *.tar.xz)    tar xJf "$1"           ;;
-        *.bz2)       bunzip2 "$1"           ;;
-        *.rar)       extract_with_7z "$1"   ;;
-        *.gz)        gunzip "$1"            ;;
-        *.tar)       tar xf "$1"            ;;
-        *.tbz2)      tar xjf "$1"           ;;
-        *.tgz)       tar xzf "$1"           ;;
-        *.zip)       extract_zip "$1"       ;;
-        *.Z)         uncompress "$1"        ;;
-        *.7z)        extract_with_7z "$1"   ;;
-        *)           raise "'$1' cannot be extracted with this program" ;;
+        *.tar.bz2) tar xjf "$1" ;;
+        *.tar.gz) tar xzf "$1" ;;
+        *.tar.xz) tar xJf "$1" ;;
+        *.bz2) bunzip2 "$1" ;;
+        *.rar) extract_with_7z "$1" ;;
+        *.gz) gunzip "$1" ;;
+        *.tar) tar xf "$1" ;;
+        *.tbz2) tar xjf "$1" ;;
+        *.tgz) tar xzf "$1" ;;
+        *.zip) extract_zip "$1" ;;
+        *.Z) uncompress "$1" ;;
+        *.7z) extract_with_7z "$1" ;;
+        *) raise "'$1' cannot be extracted with this program" ;;
     esac
+}
+
+main() {
+    VERBOSE='true'
+    ARCHIVES=()
+
+    # TODO: add options (CURRENT WIP)
+    # -k to keep the archive after extraction
+    # -f to skip zipinfo part for too large archives
+    while true; do
+        case $1 in
+            -h | --help) show_help ;;
+            -s | --silent)
+                readonly VERBOSE='false'
+                shift
+                ;;
+
+            -*)
+                echo "Error: Unknown option: '$1'" >&2
+                show_help
+                ;;
+
+            *)
+                if [[ -z "$1" ]]; then
+                    break
+                fi
+                ARCHIVES+=("$1")
+                shift
+                ;;
+        esac
+    done
+
+    if ((${#ARCHIVES[@]} > 0)); then
+        for i in "${ARCHIVES[@]}"; do
+            extract_archive "$i"
+        done
+    else
+        raise "Need an archive to extract"
+    fi
 }
 
 main "$@"
