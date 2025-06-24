@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-./dotmanager --uninstall
+if [[ "$1" == "-u" ]]; then
+    ./dotmanager --uuninstall
+else
+    ./dotmanager --uninstall
+fi
+

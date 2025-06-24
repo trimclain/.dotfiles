@@ -101,12 +101,12 @@ def backup(location: str) -> None:
     if not location:
         return
 
-    if DRY_RUN:
-        print("DRY_RUN: Would backup", location)
-        return
-
     full_path = fullpath(location)
     if exists(full_path) and not os.path.islink(full_path):
+        if DRY_RUN:
+            print("DRY_RUN: Would backup", location)
+            return
+
         if not os.path.isdir(BACKUP_FOLDER):
             os.mkdir(BACKUP_FOLDER)
 
@@ -226,35 +226,33 @@ def install(mode):
             install_nvim(backup_and_replace=True)
 
 
+##############################################################################
+
+UNIXPAIRS = [
+    (".dotfiles/bash/.bashrc", ".bashrc"),
+    (".dotfiles/bash/.bash_profile", ".bash_profile"),
+    (".dotfiles/vim/.vimrc", ".vimrc"),
+    (".dotfiles/tmux/.tmux.conf", ".tmux.conf"),
+    (".dotfiles/i3/.config/i3/config", ".config/i3/config"),
+    (".dotfiles/i3/.config/i3status/config.alt", ".config/i3status/config"),
+]
+
 def unixpool_install():
-    # Install tmux-sessionizer, bash, vim, tmux, i3
+    # Install bash, vim, tmux, i3
     if not DRY_RUN:
         subprocess.run(
             [
                 "mkdir",
                 "-p",
-                fullpath(".local/bin"),
+                # fullpath(".local/bin"),
                 fullpath(".config"),
                 fullpath(".config/i3"),
                 fullpath(".config/i3status"),
             ]
         )
-    pairs = [
-        (
-            ".dotfiles/bin/.local/bin/set-random-wallpaper",
-            ".local/bin/set-random-wallpaper",
-        ),
-        (".dotfiles/bash/.bashrc", ".bashrc"),
-        (".dotfiles/bash/.bash_profile", ".bash_profile"),
-        (".dotfiles/vim/.vimrc", ".vimrc"),
-        (".dotfiles/tmux/.tmux.conf", ".tmux.conf"),
-        (".dotfiles/i3/.config/i3/config.alt", ".config/i3/config"),
-        (".dotfiles/i3/.config/i3status/config.alt", ".config/i3status/config"),
-    ]
-
-    for pair in pairs:
+    for pair in UNIXPAIRS:
+        backup(pair[1])
         if not DRY_RUN:
-            backup(pair[1])
             subprocess.run(
                 [
                     "ln",
@@ -267,6 +265,20 @@ def unixpool_install():
     # print("Done")
 
 
+def unixpool_uninstall():
+    did_smth = False
+    for pair in UNIXPAIRS:
+        configpath = fullpath(pair[1])
+        if os.path.islink(configpath):
+            if not DRY_RUN:
+                os.remove(configpath)
+            print("Removing symlink to", pair[1])
+            did_smth = True
+
+    if not did_smth:
+        print("There are no jobs")
+##############################################################################
+
 def uninstall():
     did_smth = False
     for name, config in CONFIGS.items():
@@ -274,7 +286,7 @@ def uninstall():
         if not isinstance(config, str) or config == "":
             continue
 
-        configpath = os.path.join(Path.home(), config)
+        configpath = fullpath(config)
         # check if file/folder exists and is a symlink
         if os.path.islink(configpath):
             if shutil.which("stow"):
@@ -297,7 +309,6 @@ def uninstall():
 
 
 def main():
-
     parser = argparse.ArgumentParser(
         description="Dotfiles Manager",
         formatter_class=argparse.RawDescriptionHelpFormatter
@@ -309,7 +320,10 @@ def main():
     group.add_argument("--full", action="store_true", help=f"install {', '.join(get_config_names('full'))}, nvim configs")
     group.add_argument("--linux", action="store_true", help=f"install {', '.join(get_config_names('linux'))}, nvim configs")
     group.add_argument("--server", action="store_true", help=f"install {', '.join(get_config_names('server'))} configs")
+
     group.add_argument("--unixpool", action="store_true", help='manually symlink bash, vim, tmux, i3 configs')
+    group.add_argument("--uuninstall", action="store_true", help='uninstall bash, vim, tmux, i3 configs')
+
     group.add_argument("--uninstall", action="store_true", help="uninstall all configs")
     args = parser.parse_args()
 
@@ -328,6 +342,8 @@ def main():
         install("server")
     elif args.unixpool:
         unixpool_install()
+    elif args.uuninstall:
+        unixpool_uninstall()
     elif args.uninstall:
         uninstall()
     else:
