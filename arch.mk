@@ -384,6 +384,7 @@ office: ## Install LibreOffice
 
 quickemu: ## Install Quickemu (Virtual Machine Manager)
 	@#$(INSTALL) qemu-desktop # wait for release 4.9.8+
+	@# INFO: use ctrl+alt+g to free the mouse from the VM
 	$(PARUINSTALL) quickemu-git quickgui-bin
 
 #============================================= Study ==============================================

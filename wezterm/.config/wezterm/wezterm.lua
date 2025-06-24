@@ -37,6 +37,7 @@ local fonts = {
     jetbrains = "JetBrainsMono Nerd Font Mono",
     -- "JetBrains Mono", -- pre-installed
 }
+-- TODO: fix font fallback if have no italics
 -- config.font = wezterm.font(fonts.maple) -- takes a string
 -- Apparently \u{e6b8} is missing in MapleMonoNF, so use fallback for now
 config.font = wezterm.font_with_fallback({ fonts.maple, fonts.geist }) -- takes a table
