@@ -303,6 +303,10 @@ cursor: ## Install my cursor theme (Bibata)
 		#pushd /tmp/volantes-cursors && export NO_AT_BRIDGE=1 && export DBUS_SESSION_BUS_ADDRESS=disabled &&\
 		#make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
 
+#======================================= Desktop Environment ======================================
+# TODO: add kde
+# TODO: make help print lines starting with #==
+
 #============================================ Terminal ============================================
 alacritty: ## Install Alacritty
 	$(INSTALL) alacritty

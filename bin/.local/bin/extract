@@ -8,7 +8,7 @@
 
 VERBOSE='false'
 
-# TODO: add options
+# TODO: add options (CURRENT WIP)
 # -s to disable print messages
 # -k to keep the archive after extraction
 # -f to skip zipinfo part for too large archives
@@ -61,13 +61,13 @@ extract_zip() {
     # fi
 
     if [[ "$NEED_NEW_DIR" == "true" ]]; then
-        [[ "$VERBOSE" == "true" ]] && echo -n "Extracting files from $1 into $NAME... "
+        [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $NAME... "
         unzip "$1" -d "$NAME" > /dev/null
-        [[ "$VERBOSE" == "true" ]] && echo "Done"
+        [[ "$VERBOSE" != "true" ]] || echo "Done"
     else
-        [[ "$VERBOSE" == "true" ]] && echo -n "Extracting files from $1... "
+        [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1... "
         unzip "$1" > /dev/null
-        [[ "$VERBOSE" == "true" ]] && echo "Done"
+        [[ "$VERBOSE" != "true" ]] || echo "Done"
     fi
 
     # TODO:
@@ -81,10 +81,29 @@ extract_with_7z() {
     # let 7zip handle .rar and .7z files
     ensure_installed 7z
 
-    [[ "$VERBOSE" == "true" ]] && echo -n "Extracting files from $1 into $NAME... "
+    [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $NAME... "
     7z x "$1" -o"$NAME" > /dev/null
     # rm "$1"
-    [[ "$VERBOSE" == "true" ]] && echo "Done"
+    [[ "$VERBOSE" != "true" ]] || echo "Done"
+}
+
+# TODO:
+show_help() {
+    echo "Usage: $0 [OPTIONS] [ARCHIVE...]"
+    echo "Extracts an archive smartly detecting if a new directory is needed."
+    echo
+    echo "Options:"
+    echo "  -h, --help           Display this help message and exit."
+    echo "  -v, --verbose        Enable verbose output."
+    echo "  -o <file>, --output <file>"
+    echo "                       Specify an output file."
+    echo "  --output=<file>      Specify an output file (long format)."
+    echo
+    echo "Examples:"
+    echo "  $0 -v input.txt"
+    echo "  $0 --output results.log script.sh data.csv"
+    echo "  $0 -v --output=errors.log -- -config.ini # -- handles leading dash in file name"
+    exit 0
 }
 
 main() {
@@ -94,7 +113,34 @@ main() {
         raise "'$1' does not exist"
     fi
 
-    # extract using file extension
+    # TODO:
+    # while true; do
+    #     case $1 in
+    #         -h | --help)   show_help              ;;
+    #         -v | --verbose)
+    #             VERBOSE='true'
+    #             shift
+    #         ;;
+
+    #         # --- Unknown option handling ---
+    #         -*)
+    #             echo "Error: Unknown option: '$1'" >&2
+    #             show_help # Optionally show help on error
+    #             ;;
+
+    #         # --- Positional arguments (non-options) ---
+    #         *)
+    #             # If no more arguments, break the loop
+    #             if [[ -z "$1" ]]; then
+    #                 break
+    #             fi
+    #             INPUT_FILES+=("$1") # Add to the array
+    #             echo "Found input file: $1"
+    #             shift # Move to the next argument
+    #             ;;
+    #     esac
+    # done
+
     case $1 in
         *.tar.bz2)   tar xjf "$1"           ;;
         *.tar.gz)    tar xzf "$1"           ;;
