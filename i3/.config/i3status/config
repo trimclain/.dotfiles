@@ -1,106 +1,78 @@
-# i3status configuration file.
-# see "man i3status" for documentation.
+###############################################################################
+#                                                                             #
+#    ████████╗██████╗ ██╗███╗   ███╗ ██████╗██╗      █████╗ ██╗███╗   ██╗     #
+#    ╚══██╔══╝██╔══██╗██║████╗ ████║██╔════╝██║     ██╔══██╗██║████╗  ██║     #
+#       ██║   ██████╔╝██║██╔████╔██║██║     ██║     ███████║██║██╔██╗ ██║     #
+#       ██║   ██╔══██╗██║██║╚██╔╝██║██║     ██║     ██╔══██║██║██║╚██╗██║     #
+#       ██║   ██║  ██║██║██║ ╚═╝ ██║╚██████╗███████╗██║  ██║██║██║ ╚████║     #
+#       ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝     #
+#                                                                             #
+#        Arthur McLain (trimclain)                                            #
+#        mclain.it@gmail.com                                                  #
+#        https://github.com/trimclain                                         #
+#                                                                             #
+###############################################################################
 
-# It is important that this file is edited as UTF-8.
-# The following line should contain a sharp s:
-# ß
-# If the above line is not correctly displayed, fix your editor first!
+# Docs: `man i3status`
 
 general {
-        # output_format = "dzen2"
-        output_format = "i3bar"
-        colors = true
-        # dracula config
-        color_good = "#50FA7B"
-        color_degraded = "#F1FA8C"
-        color_bad = "#FF5555"
-        interval = 5
+    output_format = "i3bar"
+    colors = true
+    # dracula config
+    color_good = "#50FA7B"
+    color_degraded = "#F1FA8C"
+    color_bad = "#FF5555"
+    interval = 5
 }
 
-# order += "ipv6"
 order += "wireless _first_"
 order += "ethernet _first_"
-order += "battery all"
-# order += "disk /"
-# order += "load"
-order += "cpu_usage"
-order += "cpu_temperature 0"
-order += "memory"
 order += "volume master"
+order += "memory"
+order += "cpu_temperature 0"
+order += "battery all"
 order += "tztime local"
 
 wireless _first_ {
-        # format_up = "W: (%quality at %essid) (%bitrate / %frequency) %ip"
-        # format_up = "🆆 %quality at %essid"
-        # format_up = "󰖩 %quality at %essid"
-        format_up = "  %essid (%quality)"
-        # format_down = "🆆 ⬇"
-        format_down = "󰖪"
+    format_up = "󰤨  %essid (%quality)"
+    format_down = "󰖪 "
 }
 
 ethernet _first_ {
-        # format_up = "E: %ip (%speed)"
-        format_up = "🅴 %ip (%speed)"
-        # format_up = "󰈀  %ip (%speed)"
-        # format_down = "🅴 ⬇"
-        format_down = "🅴 "
-}
-
-battery all {
-        # format = "%status %percentage %remaining (%emptytime %consumption)"
-        format = "%status %percentage"
-        low_threshold = 30
-        threshold_type = time
-        # status_bat = 🔋
-        status_bat = 
-        # status_chr = ⚡
-        status_chr = 󰂄
-        # status_unk = 🤔
-        # status_unk = 🗿
-        status_unk = 󰂑
-        # status_full = 😃
-        # status_full = 🟢
-        status_full = 󰁹
-}
-
-# disk "/" {
-#         format = "%avail"
-# }
-
-# load {
-#         format = "%1min"
-# }
-
-cpu_usage {
-    # format = "💻 at %usage ( 1: [%cpu0] 2: [%cpu1] 3: [%cpu2] 4: [%cpu3] )"
-    format = " cpu: %usage"
-}
-
-cpu_temperature 0 {
-        # format = "🌡 %degrees °C"
-        format = " %degrees "
-        max_threshold = 80
-        # format_above_threshold = "⚠ Warning 📛: %degrees °C"
-        format_above_threshold = " : %degrees "
-}
-
-memory {
-        format = "🆁 %used / %total (%percentage_used)"
-        threshold_degraded = "20%"
-        format_degraded = "🆁  %available"
+    format_up = "󰣺  %ip"
+    format_down = "󰣼 "
 }
 
 volume master {
-        # format = "🔊: %volume"
-        format = "󰕾 %volume"
-        # format_muted = "🔇 (%volume)"
-        format_muted = "󰖁 (%volume)"
-        device = "default"
-        mixer = "Master"
-        mixer_idx = 0
+    format = "󰕾  %volume"
+    format_muted = "󰖁  (%volume)"
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+}
+
+memory {
+    format = "󰍛  %used"
+    threshold_degraded = "20%"
+    format_degraded = "󰍛  %available"
+}
+
+cpu_temperature 0 {
+    format = " %degrees "
+    max_threshold = 80
+    format_above_threshold = " : %degrees "
+}
+
+battery all {
+    format = "%status %percentage"
+    low_threshold = 30
+    threshold_type = time
+    status_bat = 
+    status_chr = 󰂄
+    status_unk = 󰂑
+    status_full = 󰁹
 }
 
 tztime local {
-        # format = "%Y-%m-%d %H:%M:%S"
-        format = "󰃰 %a %d/%m/%Y %H:%M"
+    format = "󰃰  %a, %b %d %H:%M"
 }
