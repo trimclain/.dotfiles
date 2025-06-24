@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# Extract an archive
-#   Usage: extract archive [directory]
-#   Requirements: unzip, tar, bunzip2, gunzip, 7z, uncompress, zipinfo
+# Extract archive(s)
+# Requirements: unzip, tar, bunzip2, gunzip, 7z, uncompress, zipinfo
 ###############################################################################
 
 ensure_installed() {
@@ -22,38 +21,36 @@ extract_zip() {
     ensure_installed unzip
 
     local name
-    name=$(basename -- "$1")
-    # TODO: implement
-    # if [[ -n $2 ]]; then
-    #     # use custom directory name
-    #     NAME=$2
-    #     NEED_NEW_DIR=true
-    # else
-    name="${name%.*}"
-    # fi
-
-    # if [[ -z $2 ]]; then
-
-    # don't create a new directory if there's one directory containing
-    # every other file in the archive
-    local -a zip_items
-    while IFS= read -r line; do
-        zip_items+=("$line")
-    done < <(zipinfo "$1" \* 2> /dev/null | awk '{print $NF}')
-
-    # check if zipinfo failed or there were no files
     local need_new_dir='false'
-    if [[ ${#zip_items[@]} -ne 0 ]]; then
-        for element in "${zip_items[@]}"; do
-            if [[ "$element" != "${zip_items[0]}"* ]]; then
-                # $element does not start with first item name
-                readonly need_new_dir='true'
-                break
-            fi
-        done
+    name=$(basename -- "$1")
+    if [[ -n "$EXTRACT_TO" ]]; then
+        # use custom directory name
+        name="$EXTRACT_TO"
+        need_new_dir='true'
+    else
+        # remove file extension
+        name="${name%.*}"
     fi
 
-    # fi
+    if [[ -z "$EXTRACT_TO" ]]; then
+        # don't create a new directory if there's one directory containing
+        # every other file in the archive
+        local -a zip_items
+        while IFS= read -r line; do
+            zip_items+=("$line")
+        done < <(zipinfo "$1" \* 2> /dev/null | awk '{print $NF}')
+
+        # check if zipinfo failed or there were no files
+        if [[ ${#zip_items[@]} -ne 0 ]]; then
+            for element in "${zip_items[@]}"; do
+                if [[ "$element" != "${zip_items[0]}"* ]]; then
+                    # $element does not start with first item name
+                    readonly need_new_dir='true'
+                    break
+                fi
+            done
+        fi
+    fi
 
     if [[ "$need_new_dir" == "true" ]]; then
         [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $name... "
@@ -88,6 +85,7 @@ show_help() {
     echo "Options:"
     echo "  -h, --help           Display this help message and exit."
     echo "  -s, --silent         Disable verbose output."
+    echo "  -t, --to <name>      Extract to a specific directory. Only works with one archive."
     exit 0
 }
 
@@ -116,8 +114,9 @@ extract_archive() {
 main() {
     VERBOSE='true'
     ARCHIVES=()
+    EXTRACT_TO=''
 
-    # TODO: add options (CURRENT WIP)
+    # TODO: add options
     # -k to keep the archive after extraction
     # -f to skip zipinfo part for too large archives
     while true; do
@@ -127,12 +126,17 @@ main() {
                 readonly VERBOSE='false'
                 shift
                 ;;
-
+            -t | --to)
+                if [[ -z "$2" ]]; then
+                    raise "Option '$1' requires a name"
+                fi
+                readonly EXTRACT_TO="$2"
+                shift 2
+                ;;
             -*)
                 echo "Error: Unknown option: '$1'" >&2
                 show_help
                 ;;
-
             *)
                 if [[ -z "$1" ]]; then
                     break
@@ -143,13 +147,19 @@ main() {
         esac
     done
 
-    if ((${#ARCHIVES[@]} > 0)); then
-        for i in "${ARCHIVES[@]}"; do
-            extract_archive "$i"
-        done
-    else
+    if ((${#ARCHIVES[@]} == 0)); then
         raise "Need an archive to extract"
     fi
+
+    if [[ -n "$EXTRACT_TO" ]]; then
+        if ((${#ARCHIVES[@]} != 1)); then
+            raise "Multiple archives with destination directory are not supported"
+        fi
+    fi
+
+    for i in "${ARCHIVES[@]}"; do
+        extract_archive "$i"
+    done
 }
 
 main "$@"
