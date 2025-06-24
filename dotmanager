@@ -142,10 +142,10 @@ def get_config_names(mode) -> list[str]:
         return ["bin", "bash", "chtsh", "tmux", "vim"]
     # Normal mode (good for wsl)
     if mode == "normal":
-        return ["bin", "zsh", "chtsh", "tmux"]
+        return ["bin", "zsh", "starship", "chtsh", "tmux"]
     # Full installation (combine small and normal)
     if mode == "full":
-        return ["bin", "bash", "chtsh", "tmux", "vim", "zsh"]
+        return ["bin", "bash", "chtsh", "tmux", "vim", "zsh", "starship"]
     # Linux installation
     if mode == "linux":
         return [
@@ -153,6 +153,7 @@ def get_config_names(mode) -> list[str]:
             "chtsh",
             "tmux",
             "zsh",
+            "starship"
             "kitty",
             "rofi",
             "picom",

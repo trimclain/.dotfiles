@@ -31,6 +31,9 @@ min_time = 3000 # default: 2000
 # SOMEDAY: $duration has no space, e.g. 16m40s. Create a PR to allow that.
 format = "took [$duration]($style) "
 
+[jobs]
+disabled = true
+
 [fill]
 symbol = " " # default: "."
 
