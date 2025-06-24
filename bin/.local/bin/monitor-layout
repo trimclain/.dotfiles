@@ -16,7 +16,6 @@ SECOND_WIDTH="1920"
 SECOND_HEIGHT="1080"
 SECOND_RES="${SECOND_WIDTH}x${SECOND_HEIGHT}"
 
-
 if [[ -n $WAYLAND_DISPLAY ]]; then
     ###########################################################################
     # WAYLAND

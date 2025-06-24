@@ -20,7 +20,6 @@ if [[ ! -f /etc/X11/xorg.conf.d/30-touchpad.conf ]]; then
     xinput set-prop "$TOUCHPAD" 'libinput Natural Scrolling Enabled' 1
     echo "Touchpad: Natural Scrolling Enabled"
 
-
     # Tapping is also very much welcome
     xinput set-prop "$TOUCHPAD" 'libinput Tapping Enabled' 1
     echo "Touchpad: Tapping Enabled"

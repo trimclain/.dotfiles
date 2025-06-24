@@ -11,7 +11,7 @@ if [[ -f $1 ]]; then
 elif [[ -d $1 ]]; then
     name="$1"
 else
-    echo "Error: Need a file/folder to archive";
+    echo "Error: Need a file/folder to archive"
     exit 1
 fi
 

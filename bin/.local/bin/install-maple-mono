@@ -19,7 +19,7 @@ TAG_NAMES=$(curl -s "$API_URL" |
 RELEASES=()
 while IFS= read -r line; do
     RELEASES+=("$line")
-done <<<"$TAG_NAMES"
+done <<< "$TAG_NAMES"
 
 if [[ -n "$1" ]]; then
     if [[ "$1" == "v6" ]]; then
@@ -30,7 +30,6 @@ if [[ -n "$1" ]]; then
 else
     latest="${RELEASES[0]}"
 fi
-
 
 # Install
 echo "Installing MapleMono-NF $latest"

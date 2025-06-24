@@ -16,7 +16,7 @@ ensure_installed() {
 }
 
 # Show help if no argument is passed
-show_help(){
+show_help() {
     echo "Usage: record [screen|window|stop]"
     echo "screen: record entire screen"
     echo "window: record selected window"
@@ -41,7 +41,8 @@ killrecording() {
 screen() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
         ensure_installed wf-recorder
-        wf-recorder --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 & echo $! > /tmp/recordingpid
+        wf-recorder --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
+        echo $! > /tmp/recordingpid
     else
         ensure_installed ffmpeg
         ffmpeg \
@@ -52,7 +53,8 @@ screen() {
             -framerate 30 \
             -i "$DISPLAY" \
             -c:v libx264 -qp 0 -r 30 \
-            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" &
+        echo $! > /tmp/recordingpid
     fi
 }
 
@@ -66,7 +68,8 @@ window() {
         ensure_installed slurp
         wf-recorder \
             -g "$(slurp)" \
-            --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 & echo $! > /tmp/recordingpid
+            --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
+        echo $! > /tmp/recordingpid
     else
         ensure_installed ffmpeg
         ensure_installed xwininfo
@@ -80,7 +83,8 @@ window() {
             -framerate 30 \
             -i "$DISPLAY" \
             -c:v libx264 -qp 0 -r 30 \
-            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" & echo $! > /tmp/recordingpid
+            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" &
+        echo $! > /tmp/recordingpid
     fi
 }
 

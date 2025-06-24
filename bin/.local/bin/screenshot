@@ -17,7 +17,7 @@ ensure_installed() {
 }
 
 # Show help if no argument is passed
-show_help(){
+show_help() {
     echo "Usage: screenshot [screen|region]"
     echo "screen: screenshot entire screen"
     echo "region: screenshot selected window"

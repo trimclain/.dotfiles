@@ -46,4 +46,3 @@ else
     ensure_installed feh
     waypaper --backend feh --folder "$wallpapers" > /dev/null &
 fi
-
