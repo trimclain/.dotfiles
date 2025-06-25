@@ -33,8 +33,8 @@ wallpapers: ## Install 1GB of nice 16:9 wallpapers
 	@git clone --depth=1 https://github.com/trimclain/wallpapers ~/personal/media/wallpapers
 	@echo "Done"
 
-maple_fonts: ## Install Maple Mono fonts
-	@./bin/.local/bin/install_maple_mono.sh
+maple_mono: ## Install Maple Mono fonts
+	@./bin/.local/bin/install-maple-mono
 
 bluetooth: ## Setup bluetooth
 	@echo "Setting up bluetooth..."
@@ -467,7 +467,7 @@ install: ## Setup arch after new installation
 	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
 	$(INSTALL) terminus-font
 	@# $(PARUINSTALL) ttf-maple
-	@make maple_fonts
+	@make maple_mono
 	@make getnf
 	@~/.local/bin/getnf -i CascadiaCode,JetBrainsMono
 	@# shell
@@ -481,7 +481,7 @@ install: ## Setup arch after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir getnf wallpapers maple_fonts bluetooth brightnessctl\
+.PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
 	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic\
 	fnm export_node_modules import_node_modules typescript\
 	paru flatpak docker lf yazi\

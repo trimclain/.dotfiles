@@ -2,8 +2,7 @@
 
 # Install latest Maple Mono Release/Pre-release
 #
-# Reason: AUR (ttf-maple-beta-nf) gets only latest release
-#         and the author (subframe7536) likes pre-releases
+# Reason: all AUR packages are bad
 # Requires: curl, unzip, fc-cache (fontconfig)
 #
 # Usage: install_maple_mono.sh [v6|lts]
@@ -11,6 +10,7 @@
 FONT_DIR="$HOME/.local/share/fonts"
 API_URL="https://api.github.com/repos/subframe7536/maple-font/releases"
 RELEASE_URL="https://github.com/subframe7536/maple-font/releases"
+ARCHIVE_NAME="MapleMono-NF-unhinted.zip"
 
 # Get latest release
 TAG_NAMES=$(curl -s "$API_URL" |
@@ -25,7 +25,7 @@ if [[ -n "$1" ]]; then
     if [[ "$1" == "v6" ]]; then
         latest="v6.4"
     else
-        latest="v7.2"
+        latest="v7.3"
     fi
 else
     latest="${RELEASES[0]}"
@@ -37,13 +37,13 @@ echo "Installing MapleMono-NF $latest"
 pushd /tmp || exit
 
 opts=("--location" "--remote-header-name" "--remote-name" "--progress-bar")
-curl "${opts[@]}" "$RELEASE_URL/download/$latest/MapleMono-NF.zip"
+curl "${opts[@]}" "$RELEASE_URL/download/$latest/$ARCHIVE_NAME"
 
 rm -rf "$FONT_DIR/MapleMono-NF"
 mkdir -p "$FONT_DIR/MapleMono-NF"
-unzip "MapleMono-NF.zip" -d "$FONT_DIR/MapleMono-NF"
+unzip "$ARCHIVE_NAME" -d "$FONT_DIR/MapleMono-NF"
 
-rm -f "MapleMono-NF.zip"
+rm -f "$ARCHIVE_NAME"
 
 popd || exit
 
