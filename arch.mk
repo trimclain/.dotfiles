@@ -128,7 +128,7 @@ typescript: ## Install tsc, ts-node and pnpm
 paru: ## Install paru (the AUR helper)
 	@if command -v paru &> /dev/null; then echo "[paru]: Already installed";\
 		else echo "Installing paru..." && $(INSTALL) base-devel &&\
-		git clone https://aur.archlinux.org/paru.git ~/paru && pushd ~/paru &&\
+		git clone https://aur.archlinux.org/paru-bin.git ~/paru && pushd ~/paru &&\
 		makepkg -si && popd && rm -rf ~/paru && echo "Done"; fi
 
 flatpak: ## Install flatpak
@@ -149,7 +149,7 @@ docker: ## Install docker
 # Install act from arch/extra to run github actions locally
 
 lf: ## Install lf (file manager)
-	$(PARUINSTALL) ueberzugpp
+	$(INSTALL) ueberzugpp
 	$(INSTALL) lf
 	@# install previewer requirements
 	$(INSTALL) imagemagick poppler
