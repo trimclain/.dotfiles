@@ -637,6 +637,11 @@ class Widget:
     ETH_INTERFACE = get_command_output(
         "ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep en")
 
+    # INFO: this requires `iwgetid`, which is part of wireless_tools package,
+    # which is a dependency of python-iwlib
+    # ALT: "nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2-",
+    WLAN_SSID = get_command_output("iwgetid -r")
+
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#wlan
     # requirement: python-iwlib
     wlan = dict(
@@ -647,12 +652,11 @@ class Widget:
         use_ethernet=True,
         interface=WLAN_INTERFACE,
         # format="󰖩 {essid}",
-        # format="󰤨 {essid}",  # this looks good with Maple Mono NF
-        # SSID is too long on smaller resolutions. TODO: can I make this dynamic?
-        format="󰤨",
+        format="󰤨 {essid}",  # this looks good with Maple Mono NF
+        #  TODO: SSID is too long on smaller resolutions. Make this dynamic if longer than 20 characters.
+        # format="󰤨",
         ethernet_interface=ETH_INTERFACE,
-        # TODO: migrate to ethernet_message_format from v0.32.0
-        ethernet_message="󰣺 {ipaddr}",
+        ethernet_message_format="󰣺 {ipaddr}",
         disconnected_message="󰖪",
         # background=widget_background,
         foreground=sky_color
@@ -706,24 +710,7 @@ class Widget:
     )
 
 
-def my_mini_bar():
-    return [
-        widget.Sep(**Widget.sep),
-        widget.Clock(**Widget.clock),
-        # widget.Sep(**Widget.sep),
-        # widget.Image(**Widget.logo),
-        # widget.Sep(**Widget.sep),
-        # widget.CurrentLayoutIcon(padding=0, scale=0.7),
-        # widget.Sep(**Widget.sep),
-        # widget.WindowName(**Widget.window_name),
-
-        widget.Spacer(),
-        widget.GroupBox(**Widget.mini_groupbox),
-        widget.Spacer(),
-    ]
-
-
-def my_bar():
+def main_screen_bar():
     return [
         # widget.Sep(**Widget.sep),
         # widget.Image(**Widget.logo),
@@ -759,9 +746,26 @@ def my_bar():
     ]
 
 
+def second_screen_bar():
+    return [
+        widget.Sep(**Widget.sep),
+        widget.Clock(**Widget.clock),
+        # widget.Sep(**Widget.sep),
+        # widget.Image(**Widget.logo),
+        # widget.Sep(**Widget.sep),
+        # widget.CurrentLayoutIcon(padding=0, scale=0.7),
+        # widget.Sep(**Widget.sep),
+        # widget.WindowName(**Widget.window_name),
+
+        widget.Spacer(),
+        widget.GroupBox(**Widget.mini_groupbox),
+        widget.Spacer(),
+    ]
+
+
 screens = [
-    Screen(top=bar.Bar(widgets=my_bar(), **bar_defaults)),
-    Screen(top=bar.Bar(widgets=my_mini_bar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=main_screen_bar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=second_screen_bar(), **bar_defaults)),
 ]
 # }}}
 
