@@ -112,14 +112,21 @@ extract_zip() {
         fi
     fi
 
-    # TODO: check if $NAME already exists
     if [[ "$need_new_dir" == "true" ]]; then
         [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1 into $name..."
-        unzip "$1" -d "$name"
+        local unzip_flags=(-d "$name")
+        if [[ "$FORCE_OVERWRITE" == "true" ]]; then
+            unzip_flags+=(-o)
+        fi
+        unzip "${unzip_flags[@]}" "$1"
         [[ "$VERBOSE" != "true" ]] || confirm "Done"
     else
         [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1..."
-        unzip "$1"
+        local unzip_flags=()
+        if [[ "$FORCE_OVERWRITE" == "true" ]]; then
+            unzip_flags+=(-o)
+        fi
+        unzip "${unzip_flags[@]}" "$1"
         [[ "$VERBOSE" != "true" ]] || confirm "Done"
     fi
 
@@ -127,22 +134,39 @@ extract_zip() {
 }
 
 extract_with_7z() {
+    ensure_installed 7z
+
+    local need_new_dir='false'
     local name=$(basename "$1")
-    if [[ -n "$EXTRACT_TO" ]]; then
+    # NOTE: $NO_NEW_DIR and $EXTRACT_TO are mutually exclusive
+    if [[ -n "$EXTRACT_TO" && "$NO_NEW_DIR" == "false" ]]; then
         # use custom directory name
         name="$EXTRACT_TO"
+        need_new_dir='true'
     else
         # remove file extension
         name="${name%.*}"
     fi
 
-    ensure_installed 7z
+    if [[ "$need_new_dir" == "true" ]]; then
+        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1 into $name..."
+        local sevenzip_flags=(-o"$name")
+        if [[ "$FORCE_OVERWRITE" == "true" ]]; then
+            sevenzip_flags+=(-aoa)
+        fi
+        7z x "$1" "${sevenzip_flags[@]}"
+        [[ "$VERBOSE" != "true" ]] || confirm "Done"
+    else
+        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1..."
+        local sevenzip_flags=()
+        if [[ "$FORCE_OVERWRITE" == "true" ]]; then
+            sevenzip_flags+=(-aoa)
+        fi
+        7z x "$1" "${sevenzip_flags[@]}"
+        [[ "$VERBOSE" != "true" ]] || confirm "Done"
+    fi
 
-    [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1 into $name..."
-    # TODO: check if $NAME already exists
-    7z x "$1" -o"$name"
     remove_archive "$1"
-    [[ "$VERBOSE" != "true" ]] || confirm "Done"
 }
 
 show_help() {
@@ -152,13 +176,13 @@ show_help() {
     echo "Options:"
     echo "  -h, --help           Display this help message."
     echo "  -s, --silent         Disable verbose output."
+    echo "  -f, --force          Force overwrite existing files. (*)"
     echo "  -k, --keep           Keep the archive(s) after extraction. (*)"
     echo "  -n, --no-dir         Don't check to create new directory. Good for large archives. (*)"
-    echo "  -t, --to <name>      Extract to a specific directory. Only works with one archive. (**)"
+    echo "  -t, --to <name>      Extract to a specific directory. Only works with one archive. (*)"
     echo
     echo "Notes:"
-    echo "  (*) - option works for zip archives only"
-    echo "  (**) - option works for zip, rar and 7z archives"
+    echo "  (*) - option works for zip, rar and 7z archives"
     exit 0
 }
 
@@ -208,6 +232,10 @@ main() {
                 ;;
             -n | --no-dir)
                 readonly NO_NEW_DIR='true'
+                shift
+                ;;
+            -f | --force)
+                readonly FORCE_OVERWRITE='true'
                 shift
                 ;;
             -*)
