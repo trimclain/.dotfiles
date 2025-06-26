@@ -5,33 +5,85 @@
 # Requirements: unzip, tar, bunzip2, gunzip, 7z, uncompress, zipinfo
 ###############################################################################
 
-ensure_installed() {
-    if ! command -v "$1" > /dev/null; then
-        echo "Error: $1 not found"
-        exit 1
-    fi
+# shellcheck disable=SC2155,SC2164
+# Disabled:
+# "Declare and assign separately to avoid masking return values":
+#  https://www.shellcheck.net/wiki/SC2155
+# "Use 'pushd ... || exit' or 'pushd ... || exit' in case pushd fails":
+#  https://www.shellcheck.net/wiki/SC2164
+
+# -e: stop early if an error occurs
+# -o pipefail: prevent silent failures in pipelines
+set -eo pipefail
+
+VERBOSE='true'
+KEEP_ARCHIVES='false'
+NO_NEW_DIR='false'
+FORCE_OVERWRITE='false'
+EXTRACT_TO=''
+
+if command -v tput > /dev/null; then
+    # tput is part of the ncurses package
+    # Colors: https://www.ditig.com/publications/256-colors-cheat-sheet
+    readonly OLIVE=$(tput setaf 3)
+    readonly CYAN=$(tput setaf 6)
+    readonly RED=$(tput setaf 9)
+    readonly GREEN=$(tput setaf 2)
+    readonly RESET=$(tput sgr0)
+else
+    readonly OLIVE="\033[0;33m"
+    readonly CYAN="\033[0;36m"
+    readonly RED="\033[0;31m"
+    readonly GREEN="\033[0;32m"
+    readonly RESET="\033[0m"
+fi
+
+info() {
+    printf "${CYAN}%b${RESET}\n" "$1"
+}
+
+info_inline() {
+    printf "${CYAN}%b${RESET}" "$1"
+}
+
+title() {
+    printf "\n${OLIVE}%b${RESET}\n" "$1"
+}
+
+confirm() {
+    printf "${GREEN}%b${RESET}\n" "$1"
+}
+
+alert() {
+    printf "${RED}%b${RESET}\n" "$1"
 }
 
 raise() {
-    echo "Error: $1"
+    alert "Error: $1" >&2
     exit 1
+}
+
+ensure_installed() {
+    if ! command -v "$1" > /dev/null; then
+        raise "$1 not found"
+    fi
 }
 
 remove_archive() {
     if [[ "$KEEP_ARCHIVES" != "true" ]]; then
-        [[ "$VERBOSE" != "true" ]] || echo -n "Removing archive '$1'... "
+        [[ "$VERBOSE" != "true" ]] || info_inline "Removing archive '$1'... "
         rm -f "$1"
-        [[ "$VERBOSE" != "true" ]] || echo "Done"
+        [[ "$VERBOSE" != "true" ]] || confirm "Done"
     fi
 }
 
 extract_zip() {
     ensure_installed unzip
 
-    local name
     local need_new_dir='false'
-    name=$(basename -- "$1")
-    if [[ -n "$EXTRACT_TO" ]]; then
+    local name=$(basename "$1")
+    # NOTE: $NO_NEW_DIR and $EXTRACT_TO are mutually exclusive
+    if [[ -n "$EXTRACT_TO" && "$NO_NEW_DIR" == "false" ]]; then
         # use custom directory name
         name="$EXTRACT_TO"
         need_new_dir='true'
@@ -40,7 +92,7 @@ extract_zip() {
         name="${name%.*}"
     fi
 
-    if [[ -z "$EXTRACT_TO" ]]; then
+    if [[ -z "$EXTRACT_TO" && "$NO_NEW_DIR" == "false" ]]; then
         # don't create a new directory if there's one directory containing
         # every other file in the archive
         local -a zip_items
@@ -60,29 +112,37 @@ extract_zip() {
         fi
     fi
 
+    # TODO: check if $NAME already exists
     if [[ "$need_new_dir" == "true" ]]; then
-        [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $name... "
-        unzip "$1" -d "$name" > /dev/null
-        [[ "$VERBOSE" != "true" ]] || echo "Done"
+        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1 into $name..."
+        unzip "$1" -d "$name"
+        [[ "$VERBOSE" != "true" ]] || confirm "Done"
     else
-        [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1... "
-        unzip "$1" > /dev/null
-        [[ "$VERBOSE" != "true" ]] || echo "Done"
+        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1..."
+        unzip "$1"
+        [[ "$VERBOSE" != "true" ]] || confirm "Done"
     fi
 
     remove_archive "$1"
 }
 
 extract_with_7z() {
-    name=$(basename -- "$1")
-    name="${name%.*}"
+    local name=$(basename "$1")
+    if [[ -n "$EXTRACT_TO" ]]; then
+        # use custom directory name
+        name="$EXTRACT_TO"
+    else
+        # remove file extension
+        name="${name%.*}"
+    fi
 
     ensure_installed 7z
 
-    [[ "$VERBOSE" != "true" ]] || echo -n "Extracting files from $1 into $name... "
-    7z x "$1" -o"$name" > /dev/null
+    [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1 into $name..."
+    # TODO: check if $NAME already exists
+    7z x "$1" -o"$name"
     remove_archive "$1"
-    [[ "$VERBOSE" != "true" ]] || echo "Done"
+    [[ "$VERBOSE" != "true" ]] || confirm "Done"
 }
 
 show_help() {
@@ -92,8 +152,13 @@ show_help() {
     echo "Options:"
     echo "  -h, --help           Display this help message."
     echo "  -s, --silent         Disable verbose output."
-    echo "  -k, --keep           Keep the archive(s) after extraction."
-    echo "  -t, --to <name>      Extract to a specific directory. Only works with one archive."
+    echo "  -k, --keep           Keep the archive(s) after extraction. (*)"
+    echo "  -n, --no-dir         Don't check to create new directory. Good for large archives. (*)"
+    echo "  -t, --to <name>      Extract to a specific directory. Only works with one archive. (**)"
+    echo
+    echo "Notes:"
+    echo "  (*) - option works for zip archives only"
+    echo "  (**) - option works for zip, rar and 7z archives"
     exit 0
 }
 
@@ -120,13 +185,9 @@ extract_archive() {
 }
 
 main() {
-    VERBOSE='true'
-    KEEP_ARCHIVES='false'
-    EXTRACT_TO=''
-    ARCHIVES=()
-
     # TODO: add options
-    # -f to skip zipinfo part for too large archives
+    # -f (force) to force overwrite existing files
+    ARCHIVES=()
     while true; do
         case $1 in
             -h | --help) show_help ;;
@@ -145,8 +206,12 @@ main() {
                 readonly EXTRACT_TO="$2"
                 shift 2
                 ;;
+            -n | --no-dir)
+                readonly NO_NEW_DIR='true'
+                shift
+                ;;
             -*)
-                echo "Error: Unknown option: '$1'" >&2
+                alert "Unknown option: '$1'"
                 show_help
                 ;;
             *)
@@ -161,6 +226,10 @@ main() {
 
     if ((${#ARCHIVES[@]} == 0)); then
         raise "Need an archive to extract"
+    fi
+
+    if [[ -n "$EXTRACT_TO" && "$NO_NEW_DIR" == "true" ]]; then
+        raise "flags -t|--to with -n|--no-dir are mutually exclusive"
     fi
 
     if [[ -n "$EXTRACT_TO" ]]; then
