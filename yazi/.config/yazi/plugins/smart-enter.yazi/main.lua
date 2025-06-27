@@ -1,6 +1,7 @@
 --- @since 25.5.31
 --- @sync entry
 
+-- Description: Open files or enter directories all in one key!
 -- Credit: https://github.com/yazi-rs/plugins/blob/main/smart-enter.yazi
 
 -- To open multiple selected files, add this to your `~/.config/yazi/init.lua`:

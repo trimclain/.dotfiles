@@ -87,7 +87,9 @@ keymap = [
     { on = "<S-Enter>", run = "open --interactive",          desc = "Open selected files interactively" },
     { on = "y",         run = "yank",                        desc = "Yank selected files (copy)" },
     { on = "x",         run = "yank --cut",                  desc = "Yank selected files (cut)" },
-    { on = "p",         run = "paste",                       desc = "Paste yanked files" },
+    # Plugin: smart-paste
+    { on = "p",         run = "plugin smart-paste",          desc = "Paste yanked files" },
+    # { on = "p",         run = "paste",                       desc = "Paste yanked files" },
     { on = "P",         run = "paste --force",               desc = "Paste yanked files (overwrite if the destination exists)" },
     { on = "-",         run = "link",                        desc = "Symlink the absolute path of yanked files" },
     { on = "_",         run = "link --relative",             desc = "Symlink the relative path of yanked files" },
