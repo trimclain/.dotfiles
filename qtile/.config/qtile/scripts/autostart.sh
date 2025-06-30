@@ -15,5 +15,8 @@ run_in_background nm-applet
 # Get the correct current brightness on system startup
 #~/.local/bin/brightness-control --update-actual-brightness
 
+# Authentication agent for GUI sudo popups
+/usr/lib/polkit-kde-authentication-agent-1
+
 # Nextcloud for synchronization
 #run_in_background nextcloud --background
