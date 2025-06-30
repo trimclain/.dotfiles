@@ -4,6 +4,8 @@
 # Create a zip archive
 ###############################################################################
 
+# TODO: add support for other archive formats
+
 if [[ -f $1 ]]; then
     filename=$(basename -- "$1")
     # extension="${filename##*.}"
