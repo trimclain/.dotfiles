@@ -234,8 +234,8 @@ UNIXPAIRS = [
     (".dotfiles/bash/.bash_profile", ".bash_profile"),
     (".dotfiles/vim/.vimrc", ".vimrc"),
     (".dotfiles/tmux/.tmux.conf", ".tmux.conf"),
-    (".dotfiles/i3/.config/i3/config", ".config/i3/config"),
-    (".dotfiles/i3/.config/i3status/config", ".config/i3status/config"),
+    (".dotfiles/i3/.config/i3", ".config/i3"),
+    (".dotfiles/i3/.config/i3status", ".config/i3status"),
 ]
 
 def unixpool_install():
