@@ -45,13 +45,13 @@ else
 fi
 
 # " Logout"
-choice=$(printf " Sleep\n Reboot\n Shutdown" | "${MENU[@]}")
+choice=$(printf " Suspend\n Reboot\n Poweroff" | "${MENU[@]}")
 
 case "$choice" in
     # "󰅜 Kill") ps -u "$USER" -o pid,comm,%cpu,%mem | dmenu -i -c -l 10 -p Kill: | awk '{print $1}' | xargs -r kill ;;
     # " Logout") loginctl kill-user "$UID" ;;
     " Suspend") slock systemctl suspend -i ;;
     " Reboot") systemctl reboot -i ;;
-    " Shutdown") systemctl poweroff -i ;;
+    " Poweroff") systemctl poweroff -i ;;
     *) exit 0 ;;
 esac
