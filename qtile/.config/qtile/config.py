@@ -640,7 +640,8 @@ class Widget:
     # INFO: this requires `iwgetid`, which is part of wireless_tools package,
     # which is a dependency of python-iwlib
     # ALT: "nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2-",
-    WLAN_SSID = get_command_output("iwgetid -r")
+    # FIX: there's no WIFI connection on startup
+    # WLAN_SSID = get_command_output("iwgetid -r")
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#wlan
     # requirement: python-iwlib
