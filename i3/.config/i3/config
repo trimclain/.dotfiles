@@ -212,18 +212,7 @@ bindsym $mod+m mode "$mode_monitor"
 
 # {{{ Autostart Programs
 
-# Set the wallpaper
-exec_always --no-startup-id "~/.fehbg"
-
-# Enable transparency
-#exec_always --no-startup-id "picom"
-
-# NetworkManager in system tray
-#exec --no-startup-id nm-applet
-
-# Enable multiple languages together with win-space toggle
-# Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
-#exec_always --no-startup-id "setxkbmap -layout us,ru && setxkbmap -option 'grp:win_space_toggle'"
+exec --no-startup-id "~/.config/i3/autostart.sh"
 
 # }}}
 
