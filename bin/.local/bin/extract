@@ -70,10 +70,10 @@ ensure_installed() {
 }
 
 remove_archive() {
-    if [[ "$KEEP_ARCHIVES" != "true" ]]; then
-        [[ "$VERBOSE" != "true" ]] || info_inline "Removing archive '$1'... "
+    if [[ "$KEEP_ARCHIVES" == "false" ]]; then
+        [[ "$VERBOSE" == "false" ]] || info_inline "Removing archive '$1'... "
         rm -f "$1"
-        [[ "$VERBOSE" != "true" ]] || confirm "Done"
+        [[ "$VERBOSE" == "false" ]] || confirm "Done"
     fi
 }
 
@@ -113,21 +113,21 @@ extract_zip() {
     fi
 
     if [[ "$need_new_dir" == "true" ]]; then
-        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1 into $name..."
+        [[ "$VERBOSE" == "false" ]] || info "Extracting content from $1 into $name..."
         local unzip_flags=(-d "$name")
         if [[ "$FORCE_OVERWRITE" == "true" ]]; then
             unzip_flags+=(-o)
         fi
         unzip "${unzip_flags[@]}" "$1"
-        [[ "$VERBOSE" != "true" ]] || confirm "Done"
+        [[ "$VERBOSE" == "false" ]] || confirm "Done"
     else
-        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1..."
+        [[ "$VERBOSE" == "false" ]] || info "Extracting content from $1..."
         local unzip_flags=()
         if [[ "$FORCE_OVERWRITE" == "true" ]]; then
             unzip_flags+=(-o)
         fi
         unzip "${unzip_flags[@]}" "$1"
-        [[ "$VERBOSE" != "true" ]] || confirm "Done"
+        [[ "$VERBOSE" == "false" ]] || confirm "Done"
     fi
 
     remove_archive "$1"
@@ -149,22 +149,99 @@ extract_with_7z() {
     fi
 
     if [[ "$need_new_dir" == "true" ]]; then
-        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1 into $name..."
+        [[ "$VERBOSE" == "false" ]] || info "Extracting content from $1 into $name..."
         local sevenzip_flags=(-o"$name")
         if [[ "$FORCE_OVERWRITE" == "true" ]]; then
             sevenzip_flags+=(-aoa)
         fi
         7z x "$1" "${sevenzip_flags[@]}"
-        [[ "$VERBOSE" != "true" ]] || confirm "Done"
+        [[ "$VERBOSE" == "false" ]] || confirm "Done"
     else
-        [[ "$VERBOSE" != "true" ]] || info "Extracting files from $1..."
+        [[ "$VERBOSE" == "false" ]] || info "Extracting content from $1..."
         local sevenzip_flags=()
         if [[ "$FORCE_OVERWRITE" == "true" ]]; then
             sevenzip_flags+=(-aoa)
         fi
         7z x "$1" "${sevenzip_flags[@]}"
-        [[ "$VERBOSE" != "true" ]] || confirm "Done"
+        [[ "$VERBOSE" == "false" ]] || confirm "Done"
     fi
+
+    remove_archive "$1"
+}
+
+extract_with_tar() {
+    # Is there even a linux system without tar?
+    ensure_installed tar
+
+    [[ "$VERBOSE" == "false" ]] || info "Extracting content from $1..."
+
+    local tar_flags=()
+
+    [[ "$VERBOSE" == "false" ]] || tar_flags+=(--verbose)
+
+    if [[ "$FORCE_OVERWRITE" == "true" ]]; then
+        tar_flags+=(--overwrite)
+    else
+        tar_flags+=(--keep-old-files)
+    fi
+
+    case $1 in
+        *.tar.bz2) tar_flags+=(--extract --bzip2) ;;
+        *.tbz2) tar_flags+=(--extract --bzip2) ;;
+        *.tar.gz) tar_flags+=(--extract --gzip) ;;
+        *.tgz) tar_flags+=(--extract --gzip) ;;
+        *.tar.xz) tar_flags+=(--extract --xz) ;;
+        # TODO: add --lzip, --lzma, --lzop, --zstd
+        *.tar) tar_flags+=(--extract) ;;
+    esac
+
+    tar "${tar_flags[@]}" --file "$1"
+
+    [[ "$VERBOSE" == "false" ]] || confirm "Done"
+
+    remove_archive "$1"
+}
+
+extract_with_bungunzip2() {
+    local extractor
+    case $1 in
+        *.bz2) extractor='bunzip2' ;;
+        *.gz) extractor='gunzip' ;;
+    esac
+
+    ensure_installed "$extractor"
+
+    [[ "$VERBOSE" == "false" ]] || info "Extracting content from $1..."
+
+    local bunzip2_gunzip_flags=()
+
+    [[ "$VERBOSE" == "false" ]] && bunzip2_gunzip_flags+=(--quiet) || bunzip2_gunzip_flags+=(--verbose)
+
+    if [[ "$FORCE_OVERWRITE" == "true" ]]; then
+        bunzip2_gunzip_flags+=(--force)
+    else
+        bunzip2_gunzip_flags+=(--keep)
+    fi
+
+    extractor "${bunzip2_gunzip_flags[@]}" -- "$1"
+
+    remove_archive "$1"
+}
+
+extract_with_uncompress() {
+    ensure_installed uncompress
+
+    [[ "$VERBOSE" == "false" ]] || info "Extracting content from $1..."
+
+    local uncompress_flags=()
+
+    [[ "$VERBOSE" == "false" ]] || uncompress_flags+=(-v)
+
+    if [[ "$FORCE_OVERWRITE" == "true" ]]; then
+        uncompress_flags+=(-f)
+    fi
+
+    uncompress "${uncompress_flags[@]}" -- "$1"
 
     remove_archive "$1"
 }
@@ -176,8 +253,8 @@ show_help() {
     echo "Options:"
     echo "  -h, --help           Display this help message."
     echo "  -s, --silent         Disable verbose output."
-    echo "  -f, --force          Force overwrite existing files. (*)"
-    echo "  -k, --keep           Keep the archive(s) after extraction. (*)"
+    echo "  -f, --force          Force overwrite existing files."
+    echo "  -k, --keep           Keep the archive(s) after extraction."
     echo "  -n, --no-dir         Don't check to create new directory. Good for large archives. (*)"
     echo "  -t, --to <name>      Extract to a specific directory. Only works with one archive. (*)"
     echo
@@ -192,25 +269,17 @@ extract_archive() {
     fi
 
     case $1 in
-        *.tar.bz2) tar xjf "$1" ;;
-        *.tar.gz) tar xzf "$1" ;;
-        *.tar.xz) tar xJf "$1" ;;
-        *.bz2) bunzip2 "$1" ;;
-        *.rar) extract_with_7z "$1" ;;
-        *.gz) gunzip "$1" ;;
-        *.tar) tar xf "$1" ;;
-        *.tbz2) tar xjf "$1" ;;
-        *.tgz) tar xzf "$1" ;;
+        *.tar.bz2 | *.tbz2 | *.tar.gz | *.tgz | *.tar.xz | *.tar) extract_with_tar "$1" ;;
         *.zip) extract_zip "$1" ;;
-        *.Z) uncompress "$1" ;;
+        *.rar) extract_with_7z "$1" ;;
         *.7z) extract_with_7z "$1" ;;
+        *.bz2 | *.gz) extract_with_bungunzip2 "$1" ;;
+        *.Z) extract_with_uncompress "$1" ;;
         *) raise "'$1' cannot be extracted with this program" ;;
     esac
 }
 
 main() {
-    # TODO: add options
-    # -f (force) to force overwrite existing files
     ARCHIVES=()
     while true; do
         case $1 in
@@ -257,7 +326,7 @@ main() {
     fi
 
     if [[ -n "$EXTRACT_TO" && "$NO_NEW_DIR" == "true" ]]; then
-        raise "flags -t|--to with -n|--no-dir are mutually exclusive"
+        raise "Flags -t|--to and -n|--no-dir are mutually exclusive"
     fi
 
     if [[ -n "$EXTRACT_TO" ]]; then
