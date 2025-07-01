@@ -340,6 +340,9 @@ kitty: ## Install Kitty
 wezterm: ## Install Wezterm
 	$(INSTALL) wezterm
 
+ghostty: ## Install Ghostty
+	$(INSTALL) ghostty
+
 #============================================ Browser =============================================
 brave: ## Install Brave Browser
 	$(PARUINSTALL) brave-bin
@@ -510,7 +513,7 @@ install: ## Setup arch after new installation
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
 	kde cosmic\
-	alacritty kitty wezterm\
+	alacritty kitty wezterm ghostty\
 	brave chrome thorium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
 	anki uninstall_anki pomo uninstall_pomo syncthing\
