@@ -18,6 +18,7 @@ if command -v rofi > /dev/null; then
         -i
         -no-custom
         -hover-select
+        -matching prefix
         -me-select-entry ''
         -me-accept-entry MousePrimary
     )
