@@ -321,8 +321,12 @@ cursor: ## Install my cursor theme (Bibata)
 		#make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
 
 #======================================= Desktop Environment ======================================
-kde: ## Install KDE Plasma Desktop Environment
+kde: ## Install KDE Plasma
 	$(INSTALL) plasma-meta kde-applications-meta
+
+cosmic: ## Install COSMIC
+	@echo "==================================================================="
+	$(INSTALL) cosmic-session
 
 #============================================ Terminal ============================================
 alacritty: ## Install Alacritty
@@ -505,6 +509,7 @@ install: ## Setup arch after new installation
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
+	kde cosmic\
 	alacritty kitty wezterm\
 	brave chrome thorium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
