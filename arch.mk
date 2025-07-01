@@ -321,8 +321,8 @@ cursor: ## Install my cursor theme (Bibata)
 		#make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
 
 #======================================= Desktop Environment ======================================
-# TODO: add kde
-# TODO: make help print lines starting with #==
+kde: ## Install KDE Plasma Desktop Environment
+	$(INSTALL) plasma-meta kde-applications-meta
 
 #============================================ Terminal ============================================
 alacritty: ## Install Alacritty
