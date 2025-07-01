@@ -15,8 +15,25 @@ all:
 	$(INSTALL) xdg-user-dirs
 
 help: ## Print this help menu
-	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@cat $(MAKEFILE_LIST) | \
+		awk ' \
+        /^##/ || /^#  +/ { \
+			printf "\033[95m%s\033[0m\n", substr($$0, 0) \
+		}; \
+        /^#=/ { \
+			printf "\033[35m%s\033[0m\n", substr($$0, 0) \
+		}; \
+		/^[a-zA-Z_-]+:.*## .*$$/ { \
+			match($$0, /^[a-zA-Z_-]+/); \
+			target_name = substr($$0, RSTART, RLENGTH); \
+			\
+			comment_start_pos = index($$0, "## "); \
+			\
+			if (comment_start_pos > 0) { \
+				description = substr($$0, comment_start_pos + 3); \
+				printf "\033[36m%-30s\033[0m %s\n", target_name, description \
+			} \
+		}'
 
 vimdir:
 	@echo "Creating directory for undofiles for vim..."
@@ -339,9 +356,9 @@ vivaldi: ## Install Vivaldi Browser
 
 # SOMEDAY: kdenlive inkscape gimp lazydocker
 # FLATPAKS:
-#   io.github.flattool.Warehouse - control complex Flatpak options
-#   io.github.flattool.Ignition - add, remove, and modify startup entries
-#   ca.desrt.dconf-editor - dconf editor
+# - io.github.flattool.Warehouse - control complex Flatpak options
+# - io.github.flattool.Ignition - add, remove, and modify startup entries
+# - ca.desrt.dconf-editor - dconf editor
 
 thunderbird: ## Install Thunderbird
 	$(INSTALL) thunderbird
