@@ -37,12 +37,23 @@ elif [[ $OS == arch ]]; then
         sudo pacman $PACMANCONFIRM
     fi
     # apt autoremove
-    # TODO: this should be a loop, since deleting each time creates new orphans
-    orphans=$(pacman -Qdtq)
-    if [[ -n $orphans ]]; then
-        # shellcheck disable=SC2086
-        sudo pacman -R $orphans $PACMANCONFIRM
-    fi
+    while true; do
+        # Get a list of orphaned packages
+        # -Qdtq: Query, dependencies, not required by others, print only package names
+        orphans=$(pacman -Qdtq)
+
+        if [[ -z "$orphans" ]]; then
+            echo "No more orphaned packages found. Exiting."
+            break
+        else
+            # shellcheck disable=SC2086
+            sudo pacman -Rns $orphans $PACMANCONFIRM
+            # Add a small delay to prevent rapid looping if pacman is very fast
+            # and new orphans appear immediately after removal (unlikely but good practice)
+            sleep 1
+        fi
+    done
+
     # NOTE: use my paccache-clear script as well
 else
     echo "Error: OS not supported"
