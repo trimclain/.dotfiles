@@ -1,37 +1,86 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # shellcheck disable=SC2086
 
 # Script to clean pacman and paru cache
 # Requirements: paccache command from pacman-contrib package
+# Credit: https://gist.github.com/ericmurphyxyz/37baa4c9da9d3b057a522f20a9ad6eba
 
+readonly GREEN="\033[32m"
+readonly YELLOW="\033[33m"
+readonly MAGENTA="\033[35m"
+readonly CYAN="\033[36m"
+readonly RESET="\033[0m"
+
+readonly AUR_CACHE_DIR="$HOME/.cache/paru/clone"
+
+VERBOSE='false'
+DRY_RUN='false'
+
+# NOTE: paru -Scc might be an interesting alternative
 if ! command -v paccache > /dev/null; then
     echo "Command 'paccache' not found. Please install pacman-contrib."
     exit 1
 fi
 
-# Src: https://gist.github.com/ericmurphyxyz/37baa4c9da9d3b057a522f20a9ad6eba
-# Based on scripts from albertored11 and luukvbaal
-# https://gist.github.com/albertored11/bfc0068f4e43ca0d7ce0af968f7314db
-# https://gist.github.com/luukvbaal/2c697b5e068471ee989bff8a56507142
+inform() {
+    echo -e "\n${MAGENTA}$1${RESET}: ${CYAN}$2${RESET} - keeping $3"
+}
 
-# NOTE: paru -Scc might be interesting/similar
+show_help() {
+    echo "Usage: paccache-clear [OPTIONS]"
+    echo ""
+    echo "A simple script to clean pacman and paru cache."
+    echo ""
+    echo "Options:"
+    echo "  -h             Display this help message."
+    echo "  -v             Enable verbose output."
+    echo "  -d             Perform a dry run."
+}
 
-# INFO: run paccache -rvk2 && paccache -ruvk0
+while getopts "hvd" opt; do
+    case "$opt" in
+        h) show_help && exit 0 ;;
+        v) readonly VERBOSE='true' ;;
+        d) readonly DRY_RUN='true' ;;
+        \?)
+            echo "Error: Invalid option -$OPTARG" >&2
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
 
-# TODO: I want this to talk back what it did
+# DRY_RUN toggle
+PACCACHE_FLAGS=()
+if [[ "$DRY_RUN" == "true" ]]; then
+    PACCACHE_FLAGS+=(-d)
+else
+    PACCACHE_FLAGS+=(-r)
+fi
 
-# The location of the cache for paru
-AUR_CACHE_DIR=$HOME/.cache/paru/clone
+# VERBOSE toggle
+if [[ "$VERBOSE" == "true" ]]; then
+    PACCACHE_FLAGS+=(-v)
+fi
 
-# Get all cache directories for AUR helper
+inform "UNINSTALLED PACKAGES" "AUR" "0 versions"
 AUR_CACHE_REMOVED="$(find "$AUR_CACHE_DIR" -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
-# Remove everything for uninstalled AUR packages
-AUR_REMOVED=$(/usr/bin/paccache -ruvk0 $AUR_CACHE_REMOVED | sed '/\.cache/!d' | cut -d \' -f2 | rev | cut -d / -f2- | rev)
-[ -z "$AUR_REMOVED" ] || rm -rf $AUR_REMOVED
+if [[ "$DRY_RUN" == "true" ]]; then
+    AUR_REMOVED=$(paccache -duvk0 $AUR_CACHE_REMOVED | sed '/\.cache/!d' | cut -d \' -f2 | rev | cut -d / -f2- | rev)
+else
+    AUR_REMOVED=$(paccache -ruvk0 $AUR_CACHE_REMOVED | sed '/\.cache/!d' | cut -d \' -f2 | rev | cut -d / -f2- | rev)
+fi
 
-# Keep latest version for uninstalled native packages, keep two latest versions for installed packages
-# Get all cache directories for AUR helper (without removed packages)
+if [ -n "$AUR_REMOVED" ]; then
+    echo -e "${YELLOW}WARNING:${RESET} manually removing the following:"
+    echo "$AUR_REMOVED"
+    rm -rf $AUR_REMOVED
+fi
+
+inform "UNINSTALLED PACKAGES" "PACMAN" "1 version"
+paccache "${PACCACHE_FLAGS[@]}" -uk1
+
+inform "INSTALLED PACKAGES" "PACMAN+AUR" "2 versions"
 AUR_CACHE="$(find "$AUR_CACHE_DIR" -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
-/usr/bin/paccache -qruk1
-/usr/bin/paccache -qrk2 -c /var/cache/pacman/pkg $AUR_CACHE
+paccache "${PACCACHE_FLAGS[@]}" -k2 -c /var/cache/pacman/pkg $AUR_CACHE
