@@ -434,7 +434,12 @@ uninstall_anki: # Uninstall Anki
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
-pomo: ## Install pomo (TUI Pomodoro timer)
+pomodorolm: # Pomodoro Tracker
+	@make flatpak
+	$(FLATINSTALL) flathub org.jousse.vincent.Pomodorolm
+
+# TODO: purge and forget about this garbage
+pomo:
 	@# go is required to build pomo
 	@# altenative installation: paru -S pomo-git
 	@echo "==================================================================="
@@ -445,7 +450,7 @@ pomo: ## Install pomo (TUI Pomodoro timer)
 		popd && rm -rf /tmp/pomo && echo "Done"; fi
 	@# pomo init
 
-uninstall_pomo: # ## Uninstall pomo
+uninstall_pomo: ## Uninstall pomo
 	rm -f ~/.local/bin/pomo
 	rm -rf ~/.local/share/pomo
 
@@ -516,6 +521,6 @@ install: ## Setup arch after new installation
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
-	anki uninstall_anki pomo uninstall_pomo syncthing\
+	anki uninstall_anki pomodorolm pomo uninstall_pomo syncthing\
 	apps\
 	install
