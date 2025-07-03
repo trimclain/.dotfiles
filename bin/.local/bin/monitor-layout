@@ -64,8 +64,8 @@ else
     # Get the number of enabled monitors:
     # number=$(xrandr --listmonitors | grep Monitors | awk '{print $NF}')
 
-    # TODO: add --mode and --rate
-    # xrandr --output DVI-D-0 --mode 2560x1440 --rate 59.95
+    # TODO: add --mode, --rate, --scale
+    # xrandr --output DVI-D-0 --mode 2560x1440 --rate 59.95 --scale 1.5
 
     setup_first() {
         xrandr --output "$1" --auto --output "$2" --off
