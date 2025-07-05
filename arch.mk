@@ -245,7 +245,7 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 #========================================= Window Manager =========================================
 awesome: ## Install AwesomeWM with all dependencies
 	@echo "==================================================================="
-	$(INSTALL) awesome dmenu rofi slock dunst picom feh polybar
+	$(INSTALL) awesome dmenu rofi slock xss-lock dunst picom feh polybar
 	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
@@ -262,11 +262,12 @@ qtile: ## Install QTile with all dependencies
 	@# Install
 	@# - dmenu and rofi (app and command launchers)
 	@# - slock (screen locker)
+	@# - xss-lock (triggers slock on systemd events)
 	@# - dunst (notification daemon)
 	@# - picom (compositor for transparency and shadows)
 	@# - feh (image viewer and wallpaper setter)
 	@# - waypaper (wallpaper setter)
-	$(INSTALL) dmenu rofi slock dunst picom feh
+	$(INSTALL) dmenu rofi slock xss-lock dunst picom feh
 	$(PARUINSTALL) waypaper
 	@make brightnessctl
 

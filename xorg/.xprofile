@@ -2,14 +2,18 @@
 # after the display manager authenticates the user and before the window manager
 
 # Monitor Config
-$HOME/.local/bin/monitor-layout --startup
+~/.local/bin/monitor-layout --startup
 
 # Sets the delay and rate for keyboard auto-repeat
 xset r rate 400 25
 
 # Disable DPMS and prevent screen from blanking
+# Docs: https://wiki.archlinux.org/title/Session_lock#DPMS
 xset s off -dpms
 #xset dpms 0 0 0
+
+# Docs: https://wiki.archlinux.org/title/Session_lock#xss-lock
+xss-lock --transfer-sleep-lock slock &
 
 # Authentication agent for GUI sudo popups
 #/usr/lib/polkit-kde-authentication-agent-1
@@ -17,7 +21,6 @@ xset s off -dpms
 # NOTE: If using xset in xinitrc does not work, specify settings within a file in /etc/X11/xorg.conf.d/,
 # see https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Configuration
 
-# Eats 80% of my RAM, disabled for now
 # Enable transparency and other visual effects
 #picom -b
 
@@ -25,12 +28,9 @@ xset s off -dpms
 # in awesomewm naughty is used; in qtile I do it elsewhere
 #dunst &
 
-# Hide mouse when typing
-#xbanish &
-
-# remap caps to another escape
+# Remap caps to another escape
 #setxkbmap -option caps:escape
-# swap escape and caps
+# Swap escape and caps
 #setxkbmap -option caps:swapescape
 
 # vim:ft=conf
