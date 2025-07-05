@@ -1,0 +1,45 @@
+# dark_pastel theme for Rio Terminal
+[colors]
+# match astrotheme background
+background          = '#1A1D23'
+# background          = '#000000'
+foreground          = '#ffffff'
+cursor              = '#bbbbbb'
+selection-background = '#b5d5ff'
+selection-foreground = '#000000'
+
+# Normal colors (Kitty color0-7)
+black               = '#000000'
+red                 = '#ff5555'
+green               = '#55ff55'
+yellow              = '#ffff55'
+blue                = '#5555ff'
+magenta             = '#ff55ff'
+cyan                = '#55ffff'
+white               = '#bbbbbb'
+
+# Bright/Light colors (Kitty color8-15)
+light-black         = '#545454' # From Kitty color8
+light-red           = '#ff8888' # Brighter red
+light-green         = '#88ff88' # Brighter green
+light-yellow        = '#ffff88' # Brighter yellow
+light-blue          = '#8888ff' # Brighter blue
+light-magenta       = '#ff88ff' # Brighter magenta
+light-cyan          = '#88ffff' # Brighter cyan
+light-white         = '#ffffff' # From Kitty color15 (pure white)
+light-foreground    = '#ffffff' # Same as foreground for pure white
+
+# Dim colors (inferred)
+dim-black           = '#2a2a2a' # Slightly lighter than background, darker than light-black
+dim-red             = '#cc3333' # Dimmer red
+dim-green           = '#33cc33' # Dimmer green
+dim-yellow          = '#cccc33' # Dimmer yellow
+dim-blue            = '#3333cc' # Dimmer blue
+dim-magenta         = '#cc33cc' # Dimmer magenta
+dim-cyan            = '#33cccc' # Dimmer cyan
+dim-white           = '#999999' # Dimmer grey
+dim-foreground      = '#cccccc' # Dimmer white/light grey
+
+# Tab colors (inferred)
+tabs                = '#222222' # Dark grey for inactive tabs
+tabs-active         = '#444444' # Slightly lighter grey for active tabs
