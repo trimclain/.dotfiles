@@ -17,6 +17,9 @@ $time\
 $line_break\
 $character"""
 
+[git_status]
+ignore_submodules = true
+
 # INFO: to use more nerd font icons: https://starship.rs/presets/nerd-font
 
 [directory]
