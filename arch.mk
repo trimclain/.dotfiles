@@ -122,19 +122,16 @@ tectonic: ## Install tectonic, a LaTeX engine
 	$(INSTALL) tectonic
 
 fnm: ## Install Fast Node Manager
-	@if [ ! -d "$FNM_PATH" ]; then echo "Installing fnm (fast node manager) with latest stable node version..." &&\
-		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell &&\
-		export PATH="$$HOME/.local/share/fnm:$$PATH" &&\
-		eval "$(fnm env)" && fnm install --lts && echo "Done";\
-		else echo "[fnm]: Already installed"; fi
-
-export_node_modules: ## Export your global node modules to ./.npm_modules
-	@echo "Exporting global node modules to .npm_modules"
-	npm list --global --parseable --depth=0 | sed '1d' | awk '{gsub(/\/.*\//,"",$1); print}' > .npm_modules
-
-import_node_modules: ## Import your global node modules from ./.npm_modules
-	@if [ -f .npm_modules ]; then echo "Installing global node modules from .npm_modules" &&\
-		xargs npm install --global < .npm_modules; else echo "[node modules]: .npm_modules file not found"; fi
+	@if [ ! -d "$$HOME/.local/share/fnm" && ! -d "$$FNM_PATH" ]; then \
+		echo "Installing fnm (fast node manager) with latest stable node version..."; \
+		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; \
+		export PATH="$$HOME/.local/share/fnm:$$PATH"; \
+		eval "$$(fnm env)"; \
+		fnm install --lts; \
+		echo "Done"; \
+	else \
+		echo "[fnm]: Already installed"; \
+	fi
 
 typescript: ## Install tsc, ts-node and pnpm
 	npm install -g typescript ts-node pnpm
@@ -514,7 +511,7 @@ install: ## Setup arch after new installation
 
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
 	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic\
-	fnm export_node_modules import_node_modules typescript\
+	fnm typescript\
 	paru flatpak docker lf yazi\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
