@@ -420,13 +420,13 @@ anki: ## Install Anki
 	@echo "==================================================================="
 	@echo "Installing Anki..."
 	@# Install the latest version
-	wget https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
+	curl -O https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
 	@# Unpack it
 	tar xaf ./anki-launcher.tar.zst
 	@# Run the installation script
-	cd ./anki-launcher.tar.zst && sudo ./install.sh
+	cd ./anki-launcher && sudo ./install.sh
 	@# Delete the folder and the archive
-	rm -rf ./anki-launcher.tar.zst ./anki-launcher.tar.zst
+	rm -rf ./anki-launcher ./anki-launcher.tar.zst
 
 uninstall_anki: # Uninstall Anki
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
