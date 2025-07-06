@@ -420,7 +420,7 @@ anki: ## Install Anki
 	@echo "==================================================================="
 	@echo "Installing Anki..."
 	@# Install the latest version
-	curl -O https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
+	wget https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
 	@# Unpack it
 	tar xaf ./anki-launcher.tar.zst
 	@# Run the installation script
