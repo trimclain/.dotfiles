@@ -369,23 +369,19 @@ vivaldi: ## Install Vivaldi Browser
 
 thunderbird: ## Install Thunderbird
 	$(INSTALL) thunderbird
-	@# @make flatpak
 	@# $(FLATINSTALL) flathub org.mozilla.Thunderbird
 
 telegram: ## Install Telegram Desktop
 	@# $(INSTALL) telegram-desktop
-	@make flatpak
 	$(FLATINSTALL) flathub org.telegram.desktop
 
 # TODO: choose a wayland altenative: https://wiki.hyprland.org/Useful-Utilities/App-Clients/#discord
 discord: ## Install Discord
 	@# $(INSTALL) discord
 	@# Flatpak version is more up to date
-	@make flatpak
 	$(FLATINSTALL) flathub com.discordapp.Discord
 
 spotify: ## Install Spotify
-	@make flatpak
 	$(FLATINSTALL) flathub com.spotify.Client
 
 ncspot: ## Install ncspot (ncurses Spotify client)
@@ -393,7 +389,6 @@ ncspot: ## Install ncspot (ncurses Spotify client)
 
 obs: ## Install OBS Studio
 	@# Flatpak version is the only official version
-	@make flatpak
 	$(FLATINSTALL) flathub com.obsproject.Studio
 
 vlc: ## Install VLC
@@ -435,7 +430,6 @@ uninstall_anki: # Uninstall Anki
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
 pomodorolm: # Pomodoro Tracker
-	@make flatpak
 	$(FLATINSTALL) flathub org.jousse.vincent.Pomodorolm
 
 # TODO: purge and forget about this garbage
@@ -485,6 +479,8 @@ install: ## Setup arch after new installation
 	@make golang
 	@# aur helper
 	@make paru
+	@# must have
+	@make flatpak
 	@# network manager extras
 	@ $(INSTALL) network-manager-applet nm-connection-editor
 	@# window manager
