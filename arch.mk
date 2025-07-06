@@ -147,7 +147,7 @@ paru: ## Install paru (the AUR helper)
 	@if command -v paru &> /dev/null; then echo "[paru]: Already installed";\
 		else echo "Installing paru..." && $(INSTALL) base-devel &&\
 		git clone https://aur.archlinux.org/paru-bin.git ~/paru && pushd ~/paru &&\
-		makepkg -si && popd && rm -rf ~/paru && echo "Done"; fi
+		makepkg --noconfirm -si && popd && rm -rf ~/paru && echo "Done"; fi
 
 flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then echo "[flatpak]: Already installed";\
