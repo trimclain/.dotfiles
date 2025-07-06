@@ -124,6 +124,7 @@ tectonic: ## Install tectonic, a LaTeX engine
 fnm: ## Install Fast Node Manager
 	@if [ ! -d "$FNM_PATH" ]; then echo "Installing fnm (fast node manager) with latest stable node version..." &&\
 		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell &&\
+		export PATH="$$HOME/.local/share/fnm:$$PATH" &&\
 		eval "$(fnm env)" && fnm install --lts && echo "Done";\
 		else echo "[fnm]: Already installed"; fi
 
