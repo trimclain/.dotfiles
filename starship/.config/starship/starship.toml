@@ -102,14 +102,14 @@ symbol = " "
 [fennel]
 symbol = " "
 
-[fossil_branch]
-symbol = " "
+# [fossil_branch]
+# symbol = " "
 
 [gcloud]
 symbol = "  "
 
-[git_branch]
-symbol = " "
+# [git_branch]
+# symbol = " "
 
 [git_commit]
 tag_symbol = '  '
@@ -126,8 +126,8 @@ symbol = " "
 [haxe]
 symbol = " "
 
-[hg_branch]
-symbol = " "
+# [hg_branch]
+# symbol = " "
 
 [hostname]
 ssh_symbol = " "
