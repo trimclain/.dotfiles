@@ -232,8 +232,8 @@ zsh: ## Install zsh
 	@# Check if zsh is the shell, change if not
 	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
 	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /bin/zsh &&\
-		echo "Successfully switched to ZSH."; else echo "[zsh]: Already in use"; fi
+	@if [[ -z "$$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && sudo chsh -s /bin/zsh $$USER &&\
+		echo "Successfully switched to ZSH. This might work only after reboot."; else echo "[zsh]: Already in use"; fi
 
 zap: ## Install zap-zsh (a zsh plugin manager)
 	@if [[ -d ~/.local/share/zap ]]; then echo "[zap-zsh]: Already installed";\
