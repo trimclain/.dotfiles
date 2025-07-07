@@ -190,8 +190,14 @@ extract_with_tar() {
         *.tbz2) tar_flags+=(--extract --bzip2) ;;
         *.tar.gz) tar_flags+=(--extract --gzip) ;;
         *.tgz) tar_flags+=(--extract --gzip) ;;
+        *.taz) tar_flags+=(--extract --gzip) ;;
         *.tar.xz) tar_flags+=(--extract --xz) ;;
-        # TODO: add --lzip, --lzma, --lzop, --zstd
+        *.txz) tar_flags+=(--extract --xz) ;;
+        *.tar.zst) tar_flags+=(--extract --zstd) ;;
+        *.tzst) tar_flags+=(--extract --zstd) ;;
+        *.tar.lz) tar_flags+=(--extract --lzip) ;;
+        *.tar.lzma) tar_flags+=(--extract --lzma) ;;
+        *.tar.lzo) tar_flags+=(--extract --lzop) ;;
         *.tar) tar_flags+=(--extract) ;;
     esac
 
@@ -269,7 +275,12 @@ extract_archive() {
     fi
 
     case $1 in
-        *.tar.bz2 | *.tbz2 | *.tar.gz | *.tgz | *.tar.xz | *.tar) extract_with_tar "$1" ;;
+        *.tar.bz2 | *.tbz2 | \
+            *.tar.gz | *.tgz | *.taz | \
+            *.tar.xz | *.txz | \
+            *.tar.zst | *.tzst | \
+            *.tar.lz | *.tar.lzma | *.tar.lzo | \
+            *.tar) extract_with_tar "$1" ;;
         *.zip) extract_zip "$1" ;;
         *.rar) extract_with_7z "$1" ;;
         *.7z) extract_with_7z "$1" ;;
