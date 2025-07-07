@@ -148,8 +148,18 @@ paru: ## Install paru (the AUR helper)
 		makepkg --noconfirm -si && popd && rm -rf ~/paru && echo "Done"; fi
 
 flatpak: ## Install flatpak
-	@if command -v flatpak &> /dev/null; then echo "[flatpak]: Already installed";\
-		else echo "Installing flatpak..." && $(INSTALL) flatpak && echo "Done"; fi
+	@if command -v flatpak &> /dev/null; then\
+		echo "[flatpak]: Already installed";\
+	else\
+		echo "Installing flatpak..." &&\
+		$(INSTALL) flatpak &&\
+		echo "Done";\
+	fi
+	@# Arch does this by default:
+	@#if ! flatpak remotes | grep -q "flathub"; then
+	@#echo "[flatpak]: Adding Flathub remote..." &&
+	@#flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
+	@#fi
 
 # Good app to manage appimages: Gear Lever
 # gearlever:
