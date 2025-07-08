@@ -442,22 +442,6 @@ uninstall_anki: # Uninstall Anki
 pomodorolm: # Pomodoro Tracker
 	$(FLATINSTALL) flathub org.jousse.vincent.Pomodorolm
 
-# TODO: purge and forget about this garbage
-pomo:
-	@# go is required to build pomo
-	@# altenative installation: paru -S pomo-git
-	@echo "==================================================================="
-	@if [[ -f ~/.local/bin/pomo ]]; then echo "[pomo]: Already installed"; else\
-		echo "Installing pomo (simple CLI for Pomodoro)..." &&\
-		git clone https://github.com/kevinschoon/pomo.git /tmp/pomo &&\
-		pushd /tmp/pomo && make && cp /tmp/pomo/bin/pomo ~/.local/bin/ &&\
-		popd && rm -rf /tmp/pomo && echo "Done"; fi
-	@# pomo init
-
-uninstall_pomo: ## Uninstall pomo
-	rm -f ~/.local/bin/pomo
-	rm -rf ~/.local/share/pomo
-
 syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
@@ -527,6 +511,6 @@ install: ## Setup arch after new installation
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
-	anki uninstall_anki pomodorolm pomo uninstall_pomo syncthing\
+	anki uninstall_anki pomodorolm syncthing\
 	apps\
 	install
