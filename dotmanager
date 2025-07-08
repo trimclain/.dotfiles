@@ -168,6 +168,9 @@ def get_config_names(mode) -> list[str]:
             "hyprland",
             "waybar",
         ]
+    # Linux on my main machines
+    if mode == "all":
+        return list(CONFIGS.keys())
     # Remote server installation
     if mode == "server":
         return ["bin", "bash", "tmux", "vim"]
@@ -220,7 +223,9 @@ def install(mode):
             command.append("--simulate")
         subprocess.run(command)
 
-    if mode not in ["small", "server"]:
+    if mode == "all":
+        install_nvim()
+    elif mode not in ["small", "server"]:
         if os.getlogin() == "trimclain":
             install_nvim(backup_and_replace=True, dev=True)
         else:
@@ -237,6 +242,7 @@ UNIXPAIRS = [
     (".dotfiles/i3/.config/i3", ".config/i3"),
     (".dotfiles/i3/.config/i3status", ".config/i3status"),
 ]
+
 
 def unixpool_install():
     # Install bash, vim, tmux, i3
@@ -280,6 +286,7 @@ def unixpool_uninstall():
         print("There are no jobs")
 ##############################################################################
 
+
 def uninstall():
     did_smth = False
     for name, config in CONFIGS.items():
@@ -314,12 +321,14 @@ def main():
         description="Dotfiles Manager",
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
+    # fmt: off
     parser.add_argument("-d", "--dry-run", action="store_true", help="perform a dry run without making any changes")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--small", action="store_true", help=f"install {', '.join(get_config_names('small'))} configs")
     group.add_argument("--normal", action="store_true", help=f"install {', '.join(get_config_names('normal'))}, nvim configs")
     group.add_argument("--full", action="store_true", help=f"install {', '.join(get_config_names('full'))}, nvim configs")
     group.add_argument("--linux", action="store_true", help=f"install {', '.join(get_config_names('linux'))}, nvim configs")
+    group.add_argument("--all", action="store_true", help=f"install {', '.join(get_config_names('all'))}, nvim configs")
     group.add_argument("--server", action="store_true", help=f"install {', '.join(get_config_names('server'))} configs")
 
     group.add_argument("--unixpool", action="store_true", help='manually symlink bash, vim, tmux, i3 configs')
@@ -327,6 +336,7 @@ def main():
 
     group.add_argument("--uninstall", action="store_true", help="uninstall all configs")
     args = parser.parse_args()
+    # fmt: on
 
     global DRY_RUN
     DRY_RUN = args.dry_run
@@ -339,6 +349,8 @@ def main():
         install("full")
     elif args.linux:
         install("linux")
+    elif args.all:
+        install("all")
     elif args.server:
         install("server")
     elif args.unixpool:
