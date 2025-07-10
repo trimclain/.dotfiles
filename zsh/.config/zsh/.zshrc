@@ -497,15 +497,15 @@ if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
     source "$SDKMAN_DIR/bin/sdkman-init.sh"
 fi
 
-# enable zoxide
-if (( $+commands[zoxide] )); then
-    eval "$(zoxide init zsh --cmd cd)"
-fi
-
 # enable fnm
 if [ -d "$FNM_PATH" ]; then
     # maybe someday: https://github.com/Schniz/fnm/blob/master/docs/configuration.md#--use-on-cd
     eval "$(fnm env --shell zsh)"
+fi
+
+# enable zoxide
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh --cmd cd)"
 fi
 
 ###############################################################################
