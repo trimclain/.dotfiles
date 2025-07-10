@@ -22,6 +22,7 @@ from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger
+from libqtile.utils import send_notification
 
 # "mod4" is the super key (windows key), "mod1" is the alt key
 mod = "mod1"
@@ -139,7 +140,7 @@ def run_command(qtile, cmd):
 
     if not command[0] in INSTALLED_COMMANDS:
         if shutil.which(command[0]) is None:
-            subprocess.run(["notify-send", f'"Error: {command[0]} not found"'])
+            send_notification("Qtile Run Command", f'"Error: {command[0]} not found"')
             return
         INSTALLED_COMMANDS.append(command[0])
     subprocess.run(command)
@@ -169,9 +170,9 @@ def toggle_wifi(qtile):
         None
     """
 
-    # This check makes it at least 200ms slower
+    # # This check makes it at least 200ms slower
     # if shutil.which("nmcli") is None:
-    #     subprocess.run(["notify-send", '"Error: nmcli not found"'])
+    #     send_notification("Qtile Toggle Wifi", "Error nmcli not found")
     #     return
 
     if get_command_output("nmcli radio wifi") == "enabled":
