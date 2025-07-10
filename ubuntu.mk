@@ -95,23 +95,18 @@ fix_tectonic:
 uninstall_tectonic:
 	@rm -f ~/.local/bin/tectonic
 
-nodejs:
-	@echo "==================================================================="
-	@# With second if check if N_PREFIX is already defined in bashrc/zshrc
-	@if [ ! -d ~/.n ]; then echo "Installing n, nodejs version manager with latest stable node and npm versions..." &&\
-		if [ -z $N_PREFIX ]; then curl -L https://git.io/n-install | N_PREFIX=~/.n bash; else curl -L https://git.io/n-install | N_PREFIX=~/.n bash -s -- -y -n; fi &&\
-		echo "Done"; else echo "[nodejs]: Already installed"; fi
-
-uninstall_nodejs:
-	n-uninstall
-
-export_node_modules:
-	@echo "Exporting global node modules to .npm_modules"
-	npm list --global --parseable --depth=0 | sed '1d' | awk '{gsub(/\/.*\//,"",$1); print}' > .npm_modules
-
-import_node_modules:
-	@if [ -f .npm_modules ]; then echo "Installing global node modules from .npm_modules" &&\
-		xargs npm install --global < .npm_modules; else echo "[node modules]: .npm_modules file not found"; fi
+fnm: ## Install Fast Node Manager
+	@FNM_INSTALL_DIR="$${FNM_PATH:-$$HOME/.local/share/fnm}"; \
+	if [[ ! -d "$$FNM_INSTALL_DIR" ]]; then \
+		echo "Installing fnm (fast node manager) with latest stable node version..."; \
+		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; \
+		export PATH="$$HOME/.local/share/fnm:$$PATH"; \
+		eval "$$(fnm env)"; \
+		fnm install --lts; \
+		echo "Done"; \
+	else \
+		echo "[fnm]: Already installed"; \
+	fi
 
 typescript:
 	@echo "==================================================================="
@@ -471,7 +466,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 .PHONY: all help vimdir getnf ansible tmux zsh zap \
 	nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim \
 	tectonic fix_tectonic uninstall_tectonic \
-	nodejs uninstall_nodejs export_node_modules import_node_modules typescript \
+	fnm typescript \
 	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
 	docker uninstall_docker pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
