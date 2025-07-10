@@ -17,6 +17,7 @@ import os
 import shutil
 import subprocess
 
+import iwlib
 # from bars.dt import statusbar as dtbar
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
@@ -179,6 +180,32 @@ def toggle_wifi(qtile):
         subprocess.run("nmcli radio wifi off".split(" "))
     else:
         subprocess.run("nmcli radio wifi on".split(" "))
+
+
+def get_wlan_ssid(interface_name):
+    """Get the name of connected WLAN SSID
+    Requirement: python-iwlib
+
+    Args:
+        interface_name: the name of WLAN interface
+
+    Returns:
+        Name of SSID or None
+    """
+    try:
+        interface = iwlib.get_iwconfig(interface_name)
+        if "stats" not in interface:
+            return None
+        essid = bytes(interface["ESSID"]).decode()
+        return essid
+    except OSError:
+        logger.error(
+            f"error in get_wlan_essid({interface_name}): "
+            "Probably your wlan device is switched off or "
+            "otherwise not present in your system."
+            "Or the wrong interface_name was passed."
+        )
+        return None
 
 
 # }}}
@@ -634,15 +661,16 @@ class Widget:
 
     # define variables for automatic wlan/eth interface detection
     WLAN_INTERFACE = get_command_output(
-        "ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep wl")
+        "ip -brief link | awk '{print $1}' | grep wl"
+    )
     ETH_INTERFACE = get_command_output(
-        "ip link | awk '/default/ {split($2, a, \":\"); print a[1]}' | grep en")
+        "ip -brief link | awk '{print $1}' | grep en"
+    )
 
-    # INFO: this requires `iwgetid`, which is part of wireless_tools package,
-    # which is a dependency of python-iwlib
-    # ALT: "nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2-",
-    # FIX: there's no WIFI connection on startup
-    # WLAN_SSID = get_command_output("iwgetid -r")
+    # TODO: there's no WIFI connection on startup,
+    # either hook up to modify after detection or
+    # determine screen size and use different config
+    # WLAN_SSID = get_wlan_ssid(WLAN_INTERFACE)
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#wlan
     # requirement: python-iwlib
