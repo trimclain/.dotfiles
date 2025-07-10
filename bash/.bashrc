@@ -30,7 +30,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-export N_PREFIX="$HOME/.n"
+export FNM_PATH="$XDG_DATA_HOME/fnm"
 # export GOROOT="$HOME/.golang"
 # export GOPATH="$HOME/.go"
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -109,8 +109,8 @@ unset color_prompt
 
 
 # Keybinds
-if [[ -f ~/.local/bin/tmux-sessionizer ]]; then
-    bind '"\C-t": "tmux-sessionizer $DOTFILES\n"'
+if [[ -f ~/.local/bin/pctl ]]; then
+    bind '"\C-t": "pctl open $DOTFILES\n"'
 fi
 
 # Disable annoying error sound in terminal
@@ -174,7 +174,7 @@ addToPATH() {
 addToPATH "/usr/local/bin"
 addToPATH "$HOME/.local/bin"
 
-addToPATH "$N_PREFIX/bin" # n-insall for node versions
+addToPATH "$FNM_PATH" # fast node manager
 # addToPATH "$GOROOT/bin" # golang
 # addToPATH "$GOPATH/bin" # also golang
 addToPATH "$HOME/.juliaup/bin" # julia
@@ -182,6 +182,11 @@ addToPATH "$HOME/.juliaup/bin" # julia
 # enable sdkman (jdk version manager)
 if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
     source "$SDKMAN_DIR/bin/sdkman-init.sh"
+fi
+
+# enable fnm
+if [ -d "$FNM_PATH" ]; then
+    eval "$(fnm env --shell bash)"
 fi
 
 # enable zoxide
