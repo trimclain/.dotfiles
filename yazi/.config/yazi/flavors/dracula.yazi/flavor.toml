@@ -35,7 +35,6 @@ border_style  = { fg = "#7282b5" }
 
 # : }}}
 
-
 # : Tabs {{{
 
 [tabs]
@@ -43,7 +42,6 @@ active   = { fg = "#282a36", bg = "#bd93f9", bold = true }
 inactive = { fg = "#bd93f9", bg = "#44475a" }
 
 # : }}}
-
 
 # : Mode {{{
 
@@ -62,7 +60,6 @@ unset_alt  = { fg = "#ffb86c", bg = "#44475a" }
 
 # : }}}
 
-
 # : Status bar {{{
 
 [status]
@@ -80,7 +77,6 @@ progress_error  = { fg = "#ff5555", bg = "#63667d" }
 
 # : }}}
 
-
 # : Pick {{{
 
 [pick]
@@ -89,7 +85,6 @@ active   = { fg = "#ff79c6", bold = true }
 inactive = {}
 
 # : }}}
-
 
 # : Input {{{
 
@@ -101,14 +96,12 @@ selected = { reversed = true }
 
 # : }}}
 
-
 # : Completion {{{
 
 [cmp]
 border = { fg = "#bd93f9" }
 
 # : }}}
-
 
 # : Tasks {{{
 
@@ -118,7 +111,6 @@ title   = {}
 hovered = { fg = "#ff79c6", underline = true }
 
 # : }}}
-
 
 # : Which {{{
 
@@ -132,7 +124,6 @@ separator_style = { fg = "#83869c" }
 
 # : }}}
 
-
 # : Help {{{
 
 [help]
@@ -143,7 +134,6 @@ footer  = { fg = "#44475a", bg = "#f8f8f2" }
 
 # : }}}
 
-
 # : Notify {{{
 
 [notify]
@@ -152,7 +142,6 @@ title_warn  = { fg = "#f1fa8c" }
 title_error = { fg = "#ff5555" }
 
 # : }}}
-
 
 # : File-specific styles {{{
 
