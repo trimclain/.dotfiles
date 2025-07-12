@@ -660,6 +660,7 @@ class Widget:
     )
 
     # define variables for automatic wlan/eth interface detection
+    # TODO: maybe do this under startup hook below?
     WLAN_INTERFACE = get_command_output(
         "ip -brief link | awk '{print $1}' | grep wl"
     )
@@ -792,6 +793,11 @@ def second_screen_bar():
         widget.Spacer(),
     ]
 
+
+# TODO: maybe do this under startup hook below?
+# TODO:
+# Handle 1366x768+0+0
+# primary_screen_resolution = get_command_output("xrandr --query | grep \" primary\" | awk '{print $4}'")
 
 screens = [
     Screen(top=bar.Bar(widgets=main_screen_bar(), **bar_defaults)),
