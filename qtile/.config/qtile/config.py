@@ -141,7 +141,10 @@ def run_command(qtile, cmd):
 
     if not command[0] in INSTALLED_COMMANDS:
         if shutil.which(command[0]) is None:
-            send_notification("Qtile Run Command", f'"Error: {command[0]} not found"')
+            send_notification(
+                "Qtile Run Command",
+                f'"Error: {command[0]} not found"'
+            )
             return
         INSTALLED_COMMANDS.append(command[0])
     subprocess.run(command)
@@ -683,12 +686,27 @@ class Widget:
         use_ethernet=True,
         interface=WLAN_INTERFACE,
         # format="󰖩 {essid}",
-        format="󰤨 {essid}",  # this looks good with Maple Mono NF
-        #  TODO: SSID is too long on smaller resolutions. Make this dynamic if longer than 20 characters.
-        # format="󰤨",
+        # disconnected_message="󰖪",
+        format="󰤨 {essid}",  # this looks good
+        disconnected_message="󰤭",  # with Maple Mono NF
         ethernet_interface=ETH_INTERFACE,
         ethernet_message_format="󰣺 {ipaddr}",
-        disconnected_message="󰖪",
+        # background=widget_background,
+        foreground=sky_color
+    )
+    wlan_no_essid = dict(
+        mouse_callbacks={
+            "Button1": toggle_wifi(),
+            "Button3": lazy.spawn("nm-connection-editor"),
+        },
+        use_ethernet=True,
+        interface=WLAN_INTERFACE,
+        # format="󰖩",
+        # disconnected_message="󰖪",
+        format="󰤨",  # this looks good
+        disconnected_message="󰤭",  # with Maple Mono NF
+        ethernet_interface=ETH_INTERFACE,
+        ethernet_message_format="󰣺 {ipaddr}",
         # background=widget_background,
         foreground=sky_color
     )
@@ -742,6 +760,12 @@ class Widget:
 
 
 def main_screen_bar():
+    primary_screen_resolution = get_command_output(
+        "xrandr --query | grep \" primary\" | awk '{print $4}'"
+    )
+    wlan_config = Widget.wlan
+    if "1366x768" in primary_screen_resolution:
+        wlan_config = Widget.wlan_no_essid
     return [
         # widget.Sep(**Widget.sep),
         # widget.Image(**Widget.logo),
@@ -767,7 +791,7 @@ def main_screen_bar():
         widget.Sep(**Widget.sep),
         widget.Memory(**Widget.memory),
         widget.Sep(**Widget.sep),
-        widget.Wlan(**Widget.wlan),
+        widget.Wlan(**wlan_config),
         widget.Sep(**Widget.sep),
         widget.ThermalSensor(**Widget.thermal_sensor),
         widget.Sep(**Widget.sep),
@@ -793,11 +817,6 @@ def second_screen_bar():
         widget.Spacer(),
     ]
 
-
-# TODO: maybe do this under startup hook below?
-# TODO:
-# Handle 1366x768+0+0
-# primary_screen_resolution = get_command_output("xrandr --query | grep \" primary\" | awk '{print $4}'")
 
 screens = [
     Screen(top=bar.Bar(widgets=main_screen_bar(), **bar_defaults)),
