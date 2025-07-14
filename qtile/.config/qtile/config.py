@@ -663,7 +663,6 @@ class Widget:
     )
 
     # define variables for automatic wlan/eth interface detection
-    # TODO: maybe do this under startup hook below?
     WLAN_INTERFACE = get_command_output(
         "ip -brief link | awk '{print $1}' | grep wl"
     )
