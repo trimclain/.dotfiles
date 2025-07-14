@@ -199,11 +199,11 @@ nnoremap <leader>k <C-w>k
 nnoremap <leader>l <C-w>l
 
 " Better quality of life
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 " Feels natural
-vnoremap <S-h> <gv
-vnoremap <S-l> >gv
+xnoremap <S-h> <gv
+xnoremap <S-l> >gv
 
 " Navigate buffers
 nnoremap <silent> <S-l> :bnext<cr>
@@ -307,21 +307,14 @@ inoremap = =<c-g>u
 inoremap : :<c-g>u
 
 " Move higlighted lines up and down a line
-vnoremap J :m '>+1<cr>gv=gv
-vnoremap K :m '<-2<cr>gv=gv
+xnoremap J :m '>+1<cr>gv=gv
+xnoremap K :m '<-2<cr>gv=gv
 
-" Yank not hurting registry
-nnoremap <leader>y "+y
-vnoremap <leader>y "+y
 " Yank whole file
 nnoremap <leader>Y gg"+yG
 
-" Helpful delete into blackhole buffer
-nnoremap <leader>d "_d
-vnoremap <leader>d "_d
-
 " When replacing a higlighted text, don't yank it
-vnoremap p P
+xnoremap p P
 
 " Esc is too far and I don't like <C-[>
 " Normal, Visual, Select, Operator-pending
