@@ -333,7 +333,7 @@ def main():
     args = parser.parse_args()
     # fmt: on
 
-    if not args.uninstall and not args.uuninstall:
+    if not args.unixpool and not args.uuninstall:
         if not shutil.which("stow"):
             print("Error: stow not found")
             sys.exit(1)
