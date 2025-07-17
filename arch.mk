@@ -213,9 +213,8 @@ nvim_dev: ## Install neovim by building it from source
 		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf /tmp/neovim &&\
 		make nvim_reqs && echo "Done"; fi
 
-# TODO: this works only if nvim was install with `make nvim_dev`
-uninstall_nvim_dev: ## Uninstall neovim that was built from source
-	@if command -v nvim > /dev/null; then echo "Uninstalling Neovim..." &&\
+uninstall_nvim_dev: ## Uninstall neovim that was built from source (e.g. with `make nvim_dev`)
+	@if [[ -f /usr/local/bin/nvim ]]; then echo "Uninstalling Neovim..." &&\
 		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
 		echo "Done"; fi
 
