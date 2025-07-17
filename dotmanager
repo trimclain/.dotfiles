@@ -18,9 +18,15 @@ CONFIGS = {
     "luacheck": ".config/luacheck",
 
     # shell tools
-    "bash": ".bashrc",
-    # FIX: uninstall doesn't touch this since I use $ZDOTDIR
-    "zsh": ".zshrc",
+    "bash": {
+        "bashrc": ".bashrc",
+        "bash_profile": ".bash_profile",
+    },
+    "zsh": {
+        "zshrc": ".zshrc",
+        "zshenv": ".zshenv",
+        "zsh_dir": ".config/zsh",
+    },
     "tmux": ".tmux.conf",
     "starship": ".config/starship",
 
@@ -63,8 +69,6 @@ CONFIGS = {
         "user-dirs.locale": ".config/user-dirs.locale",
     },
 }
-
-NO_CONFIG_FOLDERS = [key for key, value in CONFIGS.items() if value == ""]
 
 
 def exists(path: str) -> bool:
