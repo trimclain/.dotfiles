@@ -19,6 +19,7 @@ CONFIGS = {
 
     # shell tools
     "bash": ".bashrc",
+    # FIX: uninstall doesn't touch this since I use $ZDOTDIR
     "zsh": ".zshrc",
     "tmux": ".tmux.conf",
     "starship": ".config/starship",
@@ -56,11 +57,11 @@ CONFIGS = {
     "flameshot": ".config/flameshot",
     "sxiv": ".config/sxiv",
     "zathura": ".config/zathura",
-    "mime": [  # Multipurpose Internet Mail Extensions
-        ".config/mimeapps.list",
-        ".config/user-dirs.dirs",
-        ".config/user-dirs.locale",
-    ],
+    "mime": {  # Multipurpose Internet Mail Extensions
+        "mimeapps.list": ".config/mimeapps.list",
+        "user-dirs.dirs": ".config/user-dirs.dirs",
+        "user-dirs.locale": ".config/user-dirs.locale",
+    },
 }
 
 NO_CONFIG_FOLDERS = [key for key, value in CONFIGS.items() if value == ""]
@@ -198,11 +199,6 @@ def install_nvim(backup_and_replace=False, dev=False):
 
 
 def install(mode):
-    # Check if stow is installed
-    if not shutil.which("stow"):
-        print("Error: stow not found")
-        sys.exit(1)
-
     # Check if in ~/.dotfiles
     if os.getcwd() != CWD:
         # NOTE: --target=DIR could be used to specify the target directory
@@ -213,12 +209,12 @@ def install(mode):
     for name in names:
         conf = CONFIGS[name]
         # Backup
-        if isinstance(conf, list):
-            for loc in conf:
+        if isinstance(conf, dict):
+            for loc in conf.values():
                 backup(loc)
         else:
             backup(conf)
-        # Stow
+        # Symlink
         command = ["stow", "--verbose", "--restow", name]
         if DRY_RUN:
             command.append("--simulate")
@@ -234,7 +230,6 @@ def install(mode):
 
 
 ##############################################################################
-
 UNIXPAIRS = [
     (".dotfiles/bash/.bashrc", ".bashrc"),
     (".dotfiles/bash/.bash_profile", ".bash_profile"),
@@ -270,7 +265,6 @@ def unixpool_install():
                 ]
             )
         print("Adding symlink to", pair[1])
-    # print("Done")
 
 
 def unixpool_uninstall():
@@ -288,31 +282,31 @@ def unixpool_uninstall():
 ##############################################################################
 
 
-def uninstall():
+def uninstall(name: str, config: str, dir_to_unstow: str = "") -> bool:
+    if config != "" and not os.path.islink(fullpath(config)):
+        return False
+
+    if not dir_to_unstow:
+        dir_to_unstow = name
+    command = ["stow", "--verbose", "--delete", dir_to_unstow]
+    if DRY_RUN:
+        command.append("--simulate")
+    subprocess.run(command)
+    return True
+
+
+def uninstall_everything():
     did_smth = False
     for name, config in CONFIGS.items():
-        # TODO: should somehow unlink the apps too
-        if not isinstance(config, str) or config == "":
-            continue
-
-        configpath = fullpath(config)
-        # check if file/folder exists and is a symlink
-        if os.path.islink(configpath):
-            if shutil.which("stow"):
-                command = ["stow", "--verbose", "--delete", name]
-                if DRY_RUN:
-                    command.append("--simulate")
-                subprocess.run(command)
-            else:
-                if not DRY_RUN:
-                    subprocess.run(["rm", "-r", configpath])
-                print("Removing symlink to", name)
+        if isinstance(config, dict):
+            for n, c in config.items():
+                if uninstall(n, c, name):
+                    did_smth = True
+                    # unstowing given dir_to_unstow removes all links in dict
+                    break
+        elif uninstall(name, config):
             did_smth = True
-    # bin and chtsh (have to use stow)
-    if shutil.which("stow"):
-        for name in NO_CONFIG_FOLDERS:
-            if not DRY_RUN:
-                subprocess.run(["stow", "-vD", name])
+
     if not did_smth:
         print("There are no jobs")
 
@@ -339,6 +333,11 @@ def main():
     args = parser.parse_args()
     # fmt: on
 
+    if not args.uninstall and not args.uuninstall:
+        if not shutil.which("stow"):
+            print("Error: stow not found")
+            sys.exit(1)
+
     global DRY_RUN
     DRY_RUN = args.dry_run
 
@@ -359,7 +358,7 @@ def main():
     elif args.uuninstall:
         unixpool_uninstall()
     elif args.uninstall:
-        uninstall()
+        uninstall_everything()
     else:
         parser.print_help()
 
