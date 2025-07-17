@@ -49,15 +49,18 @@ CONFIGS = {
     "dunst": ".config/dunst",
 
     # apps
-    "apps": [
-        ".config/mimeapps.list",
-        ".config/user-dirs.dirs",
-        ".config/user-dirs.locale",
-    ],
     "lf": ".config/lf",
     "yazi": ".config/yazi",
     "ncspot": ".config/ncspot",
     "fastfetch": ".config/fastfetch",
+    "flameshot": ".config/flameshot",
+    "sxiv": ".config/sxiv",
+    "zathura": ".config/zathura",
+    "mime": [  # Multipurpose Internet Mail Extensions
+        ".config/mimeapps.list",
+        ".config/user-dirs.dirs",
+        ".config/user-dirs.locale",
+    ],
 }
 
 NO_CONFIG_FOLDERS = [key for key, value in CONFIGS.items() if value == ""]
@@ -161,7 +164,6 @@ def get_config_names(mode) -> list[str]:
             "stylua",
             "xorg",
             "wezterm",
-            "apps",
             "dunst",
             "qtile",
             "hyprland",
