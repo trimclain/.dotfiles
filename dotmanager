@@ -48,6 +48,7 @@ CONFIGS = {
     "alacritty": ".config/alacritty",
     "wezterm": ".config/wezterm",
     "ghostty": ".config/ghostty",
+    "rio": ".config/rio",
 
     # wm utils
     "xorg": ".xprofile",
