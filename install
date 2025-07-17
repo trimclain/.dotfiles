@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-./dotmanager "$@"
+if [[ -z "$1" ]]; then
+    ./dotmanager --all
+else
+    ./dotmanager "$@"
+fi

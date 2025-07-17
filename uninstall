@@ -5,4 +5,3 @@ if [[ "$1" == "-u" ]]; then
 else
     ./dotmanager --uninstall
 fi
-
