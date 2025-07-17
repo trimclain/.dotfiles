@@ -191,5 +191,5 @@ fi
 
 # enable zoxide
 if command -v zoxide > /dev/null; then
-    eval "$(zoxide init zsh --cmd cd)"
+    eval "$(zoxide init bash --cmd cd)"
 fi
