@@ -668,9 +668,8 @@ local globalkeys = mytable.join(
     awful.key({ modkey }, "Return", function()
         awful.spawn(terminal)
     end, { description = "open a terminal", group = "launcher" }),
-    -- FIX: for some reason neovide spawns not fully focused
     -- awful.key({ altkey }, "Return", function()
-    --     spawn_terminal_command("~/.cargo/bin/neovide")
+    --     spawn_terminal_command("neovide")
     -- end, { description = "open neovide", group = "launcher" }),
 
     awful.key({ modkey }, "r", function()
