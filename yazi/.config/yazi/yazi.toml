@@ -13,6 +13,8 @@
 #                                                                             #
 ###############################################################################
 
+# Docs: https://yazi-rs.github.io/docs/configuration/overview/
+
 # INFO: this file contains mostly defaults to be used as a reference
 
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
@@ -52,7 +54,7 @@ edit = [
     { run = 'code -w %*', block = true,  desc = "code (block)",   for = "windows" },
 ]
 open = [
-    # orphan=true allows quit yazi without the prompt
+    # NOTE: orphan=true allows quit yazi without the prompt
     { run = 'xdg-open "$1"', orphan = true, desc = "Open", for = "linux" },
     { run = 'open "$@"',                    desc = "Open", for = "macos" },
     { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
@@ -84,7 +86,10 @@ rules = [
     # Image
     { mime = "image/*", use = [ "open", "reveal" ] },
     # Media
-    { mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+    # NOTE: I don't want my video in mpv
+    # { mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+    { mime = "audio/*", use = [ "play", "reveal" ] },
+    { mime = "video/*", use = [ "open", "reveal" ] },
     # Archive
     { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = [ "extract", "reveal" ] },
     # JSON
