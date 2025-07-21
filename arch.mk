@@ -440,6 +440,8 @@ uninstall_anki: # Uninstall Anki
 
 pomodorolm: # Pomodoro Tracker
 	$(FLATINSTALL) flathub org.jousse.vincent.Pomodorolm
+	@# NOTE: to fix "Failed to create GBM buffer of size…" caused by Nvidia GPU run
+	@# flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=1 org.jousse.vincent.Pomodorolm
 
 syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
