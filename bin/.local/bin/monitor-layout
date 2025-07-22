@@ -8,13 +8,13 @@ ensure_installed() {
 }
 
 # TODO: this is not always the case
-FIRST_WIDTH="1366"
-FIRST_HEIGHT="768"
-FIRST_RES="${FIRST_WIDTH}x${FIRST_HEIGHT}"
+INTERNAL_WIDTH="1366"
+INTERNAL_HEIGHT="768"
+INTERNAL_RESOLUTION="${INTERNAL_WIDTH}x${INTERNAL_HEIGHT}"
 
-SECOND_WIDTH="1920"
-SECOND_HEIGHT="1080"
-SECOND_RES="${SECOND_WIDTH}x${SECOND_HEIGHT}"
+EXTERNAL_WIDTH="1920"
+EXTERNAL_HEIGHT="1080"
+EXTERNAL_RESOLUTION="${EXTERNAL_WIDTH}x${EXTERNAL_HEIGHT}"
 
 if [[ -n $WAYLAND_DISPLAY ]]; then
     ###########################################################################
@@ -33,14 +33,14 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
             hyprctl keyword monitor "$1",disable > /dev/null
             # Force 1920x1080 since it doesn't always detect recommended resolution correctly
             # hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
-            hyprctl keyword monitor "$2","$SECOND_RES",auto,auto > /dev/null
+            hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
             # FIX: For some reason this gets ignored and we are on workspace 3
             hyprctl dispatch workspace 1 > /dev/null
         }
         setup_extend() {
             # first on the left of second
-            hyprctl keyword monitor "$1,$FIRST_RES,0x0,auto" > /dev/null
-            hyprctl keyword monitor "$2,$SECOND_RES,${FIRST_WIDTH}x0,auto" > /dev/null
+            hyprctl keyword monitor "$1,$INTERNAL_RESOLUTION,0x0,auto" > /dev/null
+            hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto" > /dev/null
             hyprctl dispatch workspace 1 > /dev/null
         }
         setup_duplicate() {
@@ -68,16 +68,32 @@ else
     # xrandr --output DVI-D-0 --mode 2560x1440 --rate 59.95 --scale 1.5
 
     setup_first() {
-        xrandr --output "$1" --auto --output "$2" --off
+        if [[ "$DRY_RUN" == "true" ]]; then
+            echo "Running 'xrandr --output $1 --auto --output $2 --off'"
+        else
+            xrandr --output "$1" --auto --output "$2" --off
+        fi
     }
     setup_second() {
-        xrandr --output "$2" --mode "$SECOND_RES" --primary --output "$1" --off
+        if [[ "$DRY_RUN" == "true" ]]; then
+            echo "Running 'xrandr --output $2 --mode $EXTERNAL_RESOLUTION --primary --output $1 --off'"
+        else
+            xrandr --output "$2" --mode "$EXTERNAL_RESOLUTION" --primary --output "$1" --off
+        fi
     }
     setup_extend() {
-        xrandr --output "$2" --mode "$SECOND_RES" --right-of "$1" --output "$1" --auto
+        if [[ "$DRY_RUN" == "true" ]]; then
+            echo "Running 'xrandr --output $2 --mode $EXTERNAL_RESOLUTION --right-of $1 --output $1 --auto'"
+        else
+            xrandr --output "$2" --mode "$EXTERNAL_RESOLUTION" --right-of "$1" --output "$1" --auto
+        fi
     }
     setup_duplicate() {
-        xrandr --output "$2" --same-as "$1" --auto
+        if [[ "$DRY_RUN" == "true" ]]; then
+            echo "Running 'xrandr --output $2 --same-as $1 --auto'"
+        else
+            xrandr --output "$2" --same-as "$1" --auto
+        fi
     }
 fi
 
@@ -87,34 +103,44 @@ for display in $connectedOutputs; do
 done
 
 if [[ ${monitors[0]} == *HDMI* ]]; then
-    intern=${monitors[1]}
-    extern=${monitors[0]}
+    INTERNAL=${monitors[1]}
+    EXTERNAL=${monitors[0]}
 else
-    intern=${monitors[0]}
-    extern=${monitors[1]}
+    INTERNAL=${monitors[0]}
+    EXTERNAL=${monitors[1]}
 fi
 
-if [[ -z $extern ]]; then
+if [[ -z $EXTERNAL ]]; then
     exit
 fi
 
-if [ "$1" = "--first" ]; then
+MODE="$1"
+DRY_RUN='false'
+if [[ "$2" == "-d" ]]; then
+    DRY_RUN='true'
+fi
+
+if [[ "$DRY_RUN" == "true" ]]; then
+    echo "Internal: $INTERNAL, External: $EXTERNAL"
+fi
+
+if [ "$MODE" = "--first" ]; then
     # Enable first monitor, turn off second one
-    setup_first "$intern" "$extern"
-elif [ "$1" = "--second" ]; then
+    setup_first "$INTERNAL" "$EXTERNAL"
+elif [ "$MODE" = "--second" ]; then
     # Enable second monitor and make it primary, disable first monitor
-    setup_second "$intern" "$extern"
+    setup_second "$INTERNAL" "$EXTERNAL"
     # TODO: XORG: when first and second monitor have different resolutions,
     # don't use auto, use their resolution instead; problem found in awesomewm
-elif [ "$1" = "--extend" ]; then
+elif [ "$MODE" = "--extend" ]; then
     # Enable dual monitor setup, primary is the monitor, which was primary before
-    setup_extend "$intern" "$extern"
+    setup_extend "$INTERNAL" "$EXTERNAL"
     # TODO: XORG: when duplicating monitors with different resolutions,
     # using auto also doesn't work.
-elif [ "$1" = "--duplicate" ]; then
+elif [ "$MODE" = "--duplicate" ]; then
     # Enable duplicate monitor setup
-    setup_duplicate "$intern" "$extern"
-elif [ "$1" = "--startup" ]; then
+    setup_duplicate "$INTERNAL" "$EXTERNAL"
+elif [ "$MODE" = "--startup" ]; then
     # If there's a connected hmdi output, make --second
-    setup_second "$intern" "$extern"
+    setup_second "$INTERNAL" "$EXTERNAL"
 fi
