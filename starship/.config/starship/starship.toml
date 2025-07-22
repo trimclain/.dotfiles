@@ -35,7 +35,7 @@ $character"""
 
 [git_status]
 ignore_submodules = true
-use_git_executable = true # do not use gitoxide, since it's slower for some reason
+use_git_executable = false # use gitoxide, since it's slow but still faster...
 
 [cmd_duration]
 min_time = 3000 # default: 2000
