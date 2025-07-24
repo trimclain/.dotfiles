@@ -59,7 +59,7 @@ else
     ###########################################################################
     ensure_installed xrandr
 
-    # get info from xrandr
+    # Get info from xrandr
     connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
     # Get the number of enabled monitors:
     # number=$(xrandr --listmonitors | grep Monitors | awk '{print $NF}')
@@ -102,6 +102,7 @@ for display in $connectedOutputs; do
     monitors+=("$display")
 done
 
+# External monitor is not always the first one
 if [[ ${monitors[0]} == *HDMI* ]]; then
     INTERNAL=${monitors[1]}
     EXTERNAL=${monitors[0]}
