@@ -758,68 +758,75 @@ class Widget:
     )
 
 
-def main_screen_bar():
-    primary_screen_resolution = get_command_output(
-        "xrandr --query | grep \" primary\" | awk '{print $4}'"
-    )
-    wlan_config = Widget.wlan
-    if "1366x768" in primary_screen_resolution:
-        wlan_config = Widget.wlan_no_essid
-    return [
-        # widget.Sep(**Widget.sep),
-        # widget.Image(**Widget.logo),
-        widget.Sep(**Widget.sep),
-        widget.Clock(**Widget.clock),
-        widget.Sep(**Widget.sep),
-        widget.CurrentLayoutIcon(**Widget.cur_layout_icon),
-        widget.Sep(**Widget.sep),
-        widget.Chord(**Widget.chord),
-        widget.Sep(**Widget.sep),
-        # widget.WindowName(**Widget.window_name),
+class StatusBar:
+    separator = widget.Sep(**Widget.sep)
+    clock = widget.Clock(**Widget.clock)
 
-        widget.Spacer(),
-        widget.GroupBox(**Widget.main_groupbox),
-        widget.Spacer(),
+    @classmethod
+    def create_primary(cls):
 
-        # on Wayland use widget.StatusNotifier(),
-        widget.Systray(**Widget.systray),
-        widget.Sep(**Widget.sep),
-        widget.GenPollCommand(**Widget.volume),
-        widget.GenPollCommand(**Widget.brightness),
-        widget.KeyboardLayout(**Widget.keyboard_layout),
-        widget.Sep(**Widget.sep),
-        widget.Memory(**Widget.memory),
-        widget.Sep(**Widget.sep),
-        widget.Wlan(**wlan_config),
-        widget.Sep(**Widget.sep),
-        widget.ThermalSensor(**Widget.thermal_sensor),
-        widget.Sep(**Widget.sep),
-        widget.Battery(**Widget.battery),
-        widget.Sep(**Widget.sep),
-        widget.TextBox(**Widget.exit_button),
-    ]
+        primary_screen_resolution = get_command_output(
+            "xrandr --query | grep \" primary\" | awk '{print $4}'"
+        )
+        wlan_config = Widget.wlan
+        if "1366x768" in primary_screen_resolution:
+            wlan_config = Widget.wlan_no_essid
 
+        return [
+            # cls.separator,
+            # widget.Image(**Widget.logo),
+            cls.separator,
+            cls.clock,
+            cls.separator,
+            widget.CurrentLayoutIcon(**Widget.cur_layout_icon),
+            cls.separator,
+            widget.Chord(**Widget.chord),
+            cls.separator,
+            # widget.WindowName(**Widget.window_name),
 
-def second_screen_bar():
-    return [
-        widget.Sep(**Widget.sep),
-        widget.Clock(**Widget.clock),
-        # widget.Sep(**Widget.sep),
-        # widget.Image(**Widget.logo),
-        # widget.Sep(**Widget.sep),
-        # widget.CurrentLayoutIcon(padding=0, scale=0.7),
-        # widget.Sep(**Widget.sep),
-        # widget.WindowName(**Widget.window_name),
+            widget.Spacer(),
+            widget.GroupBox(**Widget.main_groupbox),
+            widget.Spacer(),
 
-        widget.Spacer(),
-        widget.GroupBox(**Widget.mini_groupbox),
-        widget.Spacer(),
-    ]
+            # on Wayland use widget.StatusNotifier(),
+            widget.Systray(**Widget.systray),
+            cls.separator,
+            widget.GenPollCommand(**Widget.volume),
+            widget.GenPollCommand(**Widget.brightness),
+            widget.KeyboardLayout(**Widget.keyboard_layout),
+            cls.separator,
+            widget.Memory(**Widget.memory),
+            cls.separator,
+            widget.Wlan(**wlan_config),
+            cls.separator,
+            widget.ThermalSensor(**Widget.thermal_sensor),
+            cls.separator,
+            widget.Battery(**Widget.battery),
+            cls.separator,
+            widget.TextBox(**Widget.exit_button),
+        ]
+
+    @classmethod
+    def create_secondary(cls):
+        return [
+            cls.separator,
+            cls.clock,
+            # cls.separator,
+            # widget.Image(**Widget.logo),
+            # cls.separator,
+            # widget.CurrentLayoutIcon(padding=0, scale=0.7),
+            # cls.separator,
+            # widget.WindowName(**Widget.window_name),
+
+            widget.Spacer(),
+            widget.GroupBox(**Widget.mini_groupbox),
+            widget.Spacer(),
+        ]
 
 
 screens = [
-    Screen(top=bar.Bar(widgets=main_screen_bar(), **bar_defaults)),
-    Screen(top=bar.Bar(widgets=second_screen_bar(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=StatusBar.create_primary(), **bar_defaults)),
+    Screen(top=bar.Bar(widgets=StatusBar.create_secondary(), **bar_defaults)),
 ]
 # }}}
 
