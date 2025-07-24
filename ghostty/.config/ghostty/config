@@ -13,7 +13,8 @@
 #                                                                             #
 ###############################################################################
 
-# Docs: https://ghostty.org/docs/config
+# Docs: https://ghostty.org/docs/config/reference
+# Defaults: ghostty +show-config --default --docs
 
 # Use ghostty +list-fonts | grep <font>
 # font-family = "GeistMono Nerd Font Mono"
@@ -45,3 +46,11 @@ shell-integration-features = no-cursor,no-sudo,title
 
 #copy-on-select = clipboard
 mouse-hide-while-typing = true
+
+# Shaders
+# TODO: can this work on linux?
+# More: https://github.com/hackrmomo/ghostty-shaders
+# custom-shader = shaders/animated-gradient-shader.glsl
+# custom-shader = shaders/bloom025.glsl
+# custom-shader = shaders/cursor_blaze_no_trail.glsl
+# custom-shader = shaders/cursor_smear.glsl
