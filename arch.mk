@@ -60,6 +60,7 @@ bluetooth: ## Setup bluetooth
 
 brightnessctl: ## Install a brightness control tool
 	@# NOTE: there's a package in arch extra, but it's extremely outdated due to latest release being in 2020
+	@# Requires for you to be in video group: sudo usermod -aG video $USER
 	@if command -v brightnessctl &> /dev/null; then \
 		echo "[brightnessctl]: Already installed";\
 	else \
