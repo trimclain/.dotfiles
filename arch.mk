@@ -266,8 +266,9 @@ qtile: ## Install QTile with all dependencies
 	@# - python-psutil (for cpu widget and more)
 	@# - python-iwlib (for wlan widget)
 	@# - python-libcst (for qtile migrate)
-	@# Dev Deps: xorg-server-xephyr (x11), xorg-server-xvfb (x11-headless), graphviz (for docs)
 	$(INSTALL) qtile python-psutil python-iwlib python-libcst
+	@# Dev Deps: xorg-server-xephyr (x11), xorg-server-xvfb (x11-headless), graphviz (for docs)
+	@#$(INSTALL) xorg-server-xephyr xorg-server-xvfb graphviz
 	@# Install
 	@# - dmenu and rofi (app and command launchers)
 	@# - slock (screen locker)
