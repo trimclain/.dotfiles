@@ -41,5 +41,5 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
     # exit 0
 else
     ensure_installed feh
-    waypaper --backend feh --random --folder ~/personal/media/wallpapers > /dev/null
+    waypaper --backend feh --random --folder "$wallpapers" > /dev/null
 fi
