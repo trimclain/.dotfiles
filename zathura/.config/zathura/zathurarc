@@ -57,46 +57,89 @@ map <C-s> toggle_statusbar
 # Toggle between one and multiple pages per row
 map D toggle_page_mode
 
-#############################
+###############################################################################
 # Colorscheme
-#############################
+###############################################################################
 
+###############################################################################
 # vscode dark zathura colorscheme
+#
+# set default-bg                  "rgba(30, 30, 30, 0.5)"
+# set default-fg                  "rgba(212, 212, 212, 0.5)"
+#
+# set statusbar-bg                "rgba(30, 30, 30, 0.5)"
+# set statusbar-fg                "rgba(128, 128, 128, 0.5)"
+#
+# set inputbar-bg                 "rgba(30, 30, 30, 0.5)"
+# set inputbar-fg                 "rgba(212, 212, 212, 0.5)"
+#
+# set notification-error-bg       "rgba(30, 30, 30, 0.5)"
+# set notification-error-fg       "rgba(244, 71, 71, 0.5)"
+#
+# set notification-warning-bg     "rgba(30, 30, 30, 0.5)"
+# set notification-warning-fg     "rgba(215, 186, 125, 0.5)"
+#
+# set highlight-color             "rgba(0, 122, 204, 0.5)"
+# set highlight-active-color      "rgba(212, 212, 212, 0.5)"
+#
+# set completion-highlight-fg     "rgba(86, 182, 194, 0.5)"
+# set completion-highlight-bg     "rgba(30, 30, 30, 0.5)"
+#
+# set completion-bg               "rgba(30, 30, 30, 0.5)"
+# set completion-fg               "rgba(212, 212, 212, 0.5)"
+#
+# set notification-bg             "rgba(30, 30, 30, 0.5)"
+# set notification-fg             "rgba(212, 212, 212, 0.5)"
+#
+# set recolor-lightcolor          "rgba(30, 30, 30, 0.5)"
+# set recolor-darkcolor           "rgba(212, 212, 212, 0.5)"
+#
+# set index-fg                    "rgba(212, 212, 212, 0.5)"
+# set index-bg                    "rgba(30, 30, 30, 0.5)"
+#
+# set index-active-fg             "rgba(86, 182, 194, 0.5)"
+# set index-active-bg             "rgba(30, 30, 30, 0.5)"
+###############################################################################
 
-set default-bg                  "rgba(30, 30, 30, 0.5)"
-set default-fg                  "rgba(212, 212, 212, 0.5)"
-
-set statusbar-bg                "rgba(30, 30, 30, 0.5)"
-set statusbar-fg                "rgba(128, 128, 128, 0.5)"
-
-set inputbar-bg                 "rgba(30, 30, 30, 0.5)"
-set inputbar-fg                 "rgba(212, 212, 212, 0.5)"
-
-set notification-error-bg       "rgba(30, 30, 30, 0.5)"
-set notification-error-fg       "rgba(244, 71, 71, 0.5)"
-
-set notification-warning-bg     "rgba(30, 30, 30, 0.5)"
-set notification-warning-fg     "rgba(215, 186, 125, 0.5)"
-
-set highlight-color             "rgba(0, 122, 204, 0.5)"
-set highlight-active-color      "rgba(212, 212, 212, 0.5)"
-
-set completion-highlight-fg     "rgba(86, 182, 194, 0.5)"
-set completion-highlight-bg     "rgba(30, 30, 30, 0.5)"
-
-set completion-bg               "rgba(30, 30, 30, 0.5)"
-set completion-fg               "rgba(212, 212, 212, 0.5)"
-
-set notification-bg             "rgba(30, 30, 30, 0.5)"
-set notification-fg             "rgba(212, 212, 212, 0.5)"
-
-set recolor-lightcolor          "rgba(30, 30, 30, 0.5)"
-set recolor-darkcolor           "rgba(212, 212, 212, 0.5)"
-
-set index-fg                    "rgba(212, 212, 212, 0.5)"
-set index-bg                    "rgba(30, 30, 30, 0.5)"
-
-set index-active-fg             "rgba(86, 182, 194, 0.5)"
-set index-active-bg             "rgba(30, 30, 30, 0.5)"
+###############################################################################
+# AstroDark color theme for Zathura
+# Swaps Foreground for Background to get a light version if the user prefers
+#
+# AstroDark color theme
+#
+set notification-error-bg "#F8747E"
+set notification-error-fg "#1A1D23"
+set notification-warning-bg "#EB8332"
+set notification-warning-fg "#1A1D23"
+set notification-bg "#1A1D23"
+set notification-fg "#ADB0BB"
+set completion-bg "#1A1D23"
+set completion-fg "#696C76"
+set completion-group-bg "#1A1D23"
+set completion-group-fg "#696C76"
+set completion-highlight-bg "#16181D"
+set completion-highlight-fg "#ADB0BB"
+set index-bg "#1A1D23"
+set index-fg "#ADB0BB"
+set index-active-bg "#16181D"
+set index-active-fg "#ADB0BB"
+set inputbar-bg "#1A1D23"
+set inputbar-fg "#ADB0BB"
+set statusbar-bg "#1A1D23"
+set statusbar-fg "#ADB0BB"
+set highlight-color "#D09214"
+set highlight-active-color "#75AD47"
+set default-bg "#1A1D23"
+set default-fg "#ADB0BB"
+set render-loading true
+set render-loading-fg "#1A1D23"
+set render-loading-bg "#ADB0BB"
+#
+# Recolor mode settings
+# <C-r> to switch modes
+#
+set recolor-lightcolor "#1A1D23"
+set recolor-darkcolor "#ADB0BB"
+###############################################################################
 
 # vim: ft=conf
