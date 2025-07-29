@@ -6,6 +6,8 @@ set guioptions none
 set statusbar-h-padding 1
 set statusbar-v-padding 1
 set selection-clipboard clipboard
+# don't display "Copied selected text ..." notification
+set selection-notification false
 # start in night-mode
 # set recolor true
 
