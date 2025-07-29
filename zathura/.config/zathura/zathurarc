@@ -168,7 +168,7 @@ map D toggle_page_mode
 # set inputbar-fg                    rgba(205,214,244,1)
 # set inputbar-bg                    rgba(49,50,68,1)
 #
-# set recolor                        "true"
+# # set recolor                        "true"
 # set recolor-lightcolor             rgba(30,30,46,1)
 # set recolor-darkcolor              rgba(205,214,244,1)
 #
@@ -210,9 +210,9 @@ set notification-warning-fg        rgba(250,227,176,1)
 set inputbar-fg                    rgba(76,79,105,1)
 set inputbar-bg                    rgba(204,208,218,1)
 
-set recolor                        "true"
-set recolor-lightcolor             rgba(239,241,245,1)
-set recolor-darkcolor              rgba(76,79,105,1)
+# set recolor                        "true"
+set recolor-lightcolor             rgba(76,79,105,1)
+set recolor-darkcolor              rgba(239,241,245,1)
 
 set index-fg                       rgba(76,79,105,1)
 set index-bg                       rgba(239,241,245,1)
