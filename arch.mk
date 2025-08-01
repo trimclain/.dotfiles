@@ -173,7 +173,10 @@ docker: ## Install docker
 		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
 		echo "Done. Log out and in to use docker without sudo"; fi
 
-# Install act from arch/extra to run github actions locally
+lazydocker: ## Install lazydocker (lazygit for docker)
+	$(PARUINSTALL) lazydocker-bin
+
+# INFO: Install act from arch/extra to run github actions locally
 
 lf: ## Install lf (file manager)
 	$(INSTALL) ueberzugpp
@@ -258,7 +261,7 @@ awesome: ## Install AwesomeWM with all dependencies
 	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
-# INFO: use xdotool to simulate mouse andkeyboard input, manage windows, etc.
+# INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
 qtile: ## Install QTile with all dependencies
 	@echo "==================================================================="
 	@# Install
@@ -372,8 +375,7 @@ vivaldi: ## Install Vivaldi Browser
 
 #==================================================================================================
 
-# SOMEDAY: kdenlive inkscape gimp lazydocker
-# FLATPAKS:
+# Flatpaks I might use someday:
 # - io.github.flattool.Warehouse - control complex Flatpak options
 # - io.github.flattool.Ignition - add, remove, and modify startup entries
 # - ca.desrt.dconf-editor - dconf editor
@@ -420,6 +422,18 @@ quickemu: ## Install Quickemu (Virtual Machine Manager)
 	@#$(INSTALL) qemu-desktop # wait for release 4.9.8+
 	@# INFO: use ctrl+alt+g to free the mouse from the VM
 	$(PARUINSTALL) quickemu-git quickgui-bin
+
+gimp: ## Install GIMP (GNU Image Manipulation Program)
+	@#$(FLATINSTALL) flathub org.gimp.GIMP
+	$(INSTALL) gimp
+
+kdenlive: ## Install Kdenlive (Video Editor)
+	@#$(FLATINSTALL) flathub org.kde.kdenlive
+	$(INSTALL) kdenlive
+
+inkscape: ## Install Inkscape (Vector Graphics Editor)
+	@#$(FLATINSTALL) flathub org.inkscape.Inkscape
+	$(INSTALL) inkscape
 
 #============================================= Study ==============================================
 anki: ## Install Anki
@@ -506,7 +520,7 @@ install: ## Setup arch after new installation
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
 	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic\
 	fnm typescript\
-	paru flatpak docker lf yazi\
+	paru flatpak docker lazydocker lf yazi\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
@@ -514,6 +528,7 @@ install: ## Setup arch after new installation
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
+	gimp kdenlive inkscape\
 	anki uninstall_anki pomodorolm syncthing\
 	apps\
 	install
