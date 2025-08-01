@@ -28,30 +28,25 @@
                 <tr>
                     <td>Terminal</td>
                     <td><a href="https://sw.kovidgoyal.net/kitty/">Kitty</a></td>
+                    <!-- <td><a href="https://alacritty.org/">Alacritty</a></td> -->
                 </tr>
-                <!-- <tr> -->
-                <!--     <td>Terminal</td> -->
-                <!--     <td><a href="https://alacritty.org/">Alacritty</a></td> -->
-                <!-- </tr> -->
                 <tr>
                     <td>Shell</td>
                     <td><a href="https://www.zsh.org">Zsh</a></td>
                 </tr>
-                <!-- <tr> -->
-                <!--     <td>Shell Theme</td> -->
-                <!--     <td><a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a></td> -->
-                <!-- </tr> -->
                 <tr>
                     <td>Shell Theme</td>
                     <td><a href="https://starship.rs/">Starship</a></td>
+                    <!-- <td><a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a></td> -->
                 </tr>
                 <tr>
                     <td>Editor</td>
                     <td><a href="https://neovim.io">Neovim</a></td>
                 </tr>
                 <tr>
-                    <td>File&nbspManager</td>
-                    <td><a href="https://github.com/gokcehan/lf">lf</a></td>
+                    <td>File&nbsp;Manager</td>
+                    <td><a href="https://yazi-rs.github.io/">Yazi</a></td>
+                    <!-- <td><a href="https://github.com/gokcehan/lf">lf</a></td> -->
                 </tr>
             </table>
         </td>
