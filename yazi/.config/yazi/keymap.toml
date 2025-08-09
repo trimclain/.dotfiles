@@ -98,7 +98,9 @@ keymap = [
     { on = "<C-->",     run = "hardlink",                    desc = "Hardlink yanked files" },
     { on = "Y",         run = "unyank",                      desc = "Cancel the yank status" },
     { on = "X",         run = "unyank",                      desc = "Cancel the yank status" },
-    { on = "d",         run = "remove",                      desc = "Trash selected files" },
+    # CUSTOM: don't use the trash
+    { on = "d",         run = "remove --permanently",        desc = "Permanently delete selected files" },
+    # { on = "d",         run = "remove",                      desc = "Trash selected files" },
     { on = "D",         run = "remove --permanently",        desc = "Permanently delete selected files" },
     { on = "a",         run = "create",                      desc = "Create a file (ends with / for directories)" },
     { on = "r",         run = "rename --cursor=before_ext",  desc = "Rename selected file(s)" },
