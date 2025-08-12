@@ -50,7 +50,8 @@ dark_muted_color = "#1e1e2e"
 bar_background = "#11111b"
 widget_background = "#313244"
 normal_border = "#1D2330"
-active_border = "#5e81ac"
+# active_border = "#5e81ac"
+active_border = "#33ccffee"
 inactive_border = "#11111b"
 
 # Catppuccin Mocha Palette
