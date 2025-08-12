@@ -226,5 +226,3 @@ set highlight-color                rgba(87,82,104,0.5)
 set highlight-fg                   rgba(234,118,203,0.5)
 set highlight-active-color         rgba(234,118,203,0.5)
 ###############################################################################
-
-# vim: ft=conf
