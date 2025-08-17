@@ -549,8 +549,9 @@ class Widget:
         # background=widget_background
     )
 
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#currentlayouticon
-    cur_layout_icon = dict(
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#currentlayout
+    current_layout = dict(
+        mode="icon",
         padding=0,
         scale=0.5
     )
@@ -779,7 +780,7 @@ class StatusBar:
             cls.separator,
             cls.clock,
             cls.separator,
-            widget.CurrentLayoutIcon(**Widget.cur_layout_icon),
+            widget.CurrentLayout(**Widget.current_layout),
             cls.separator,
             widget.Chord(**Widget.chord),
             cls.separator,
@@ -815,7 +816,7 @@ class StatusBar:
             # cls.separator,
             # widget.Image(**Widget.logo),
             # cls.separator,
-            # widget.CurrentLayoutIcon(padding=0, scale=0.7),
+            # widget.CurrentLayout(**Widget.current_layout),
             # cls.separator,
             # widget.WindowName(**Widget.window_name),
 
