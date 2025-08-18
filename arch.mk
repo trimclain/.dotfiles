@@ -17,10 +17,10 @@ all:
 help: ## Print this help menu
 	@cat $(MAKEFILE_LIST) | \
 		awk ' \
-        /^##/ || /^#  +/ { \
+		/^##/ || /^#  +/ { \
 			printf "\033[95m%s\033[0m\n", substr($$0, 0) \
 		}; \
-        /^#=/ { \
+		/^#=/ { \
 			printf "\033[35m%s\033[0m\n", substr($$0, 0) \
 		}; \
 		/^[a-zA-Z_-]+:.*## .*$$/ { \
@@ -169,7 +169,7 @@ flatpak: ## Install flatpak
 docker: ## Install docker
 	@echo "==================================================================="
 	@if command -v docker > /dev/null; then echo "[docker]: Already installed";\
-		else echo "Installing Docker..." && $(INSTALL) docker &&\
+		else echo "Installing Docker..." && $(INSTALL) docker docker-buildx &&\
 		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
 		echo "Done. Log out and in to use docker without sudo"; fi
 
