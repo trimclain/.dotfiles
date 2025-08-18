@@ -126,7 +126,7 @@ export ZSH_COMPDUMP=$__ZCOMPDUMPDIR/zcompdump-$ZSH_VERSION
 compinit -d "$ZSH_COMPDUMP"
 
 ###############################################################################
-# Exports
+# Exports (env)
 ###############################################################################
 
 # Preferred editor for local and remote sessions
@@ -138,9 +138,7 @@ fi
 
 export VISUAL=$EDITOR
 
-###############################################################################
-# Less
-###############################################################################
+################################## Less #######################################
 export MANPAGER="nvim +Man!"
 export PAGER=less
 export LESSCHARSET="UTF-8"
@@ -158,10 +156,7 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 ###############################################################################
 
-# Path to my dotfiles
-export DOTFILES="$HOME/.dotfiles"
-
-## History
+################################# History #####################################
 export HISTFILE=$HOME/.zsh_history
 # export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export HISTSIZE=20000
@@ -179,6 +174,14 @@ setopt hist_save_no_dups
 setopt hist_find_no_dups
 # When using !! or !<number>, don't expand the command before running it
 setopt nohistverify
+###############################################################################
+
+# Path to my dotfiles
+export DOTFILES="$HOME/.dotfiles"
+
+# Use docker buildx by default (requires docker-buildx package)
+# Allows 'docker build' to be same as 'docker buildx build'
+export DOCKER_BUILDKIT=1
 
 export FNM_PATH="$XDG_DATA_HOME/fnm"
 
@@ -362,14 +365,14 @@ elif command -v lf > /dev/null; then
         local tmp="$(mktemp)"
 
         # needed by the previewer
-        [ ! -d "$HOME/.cache/lf" ] && mkdir --parents "$HOME/.cache/lf"
+        [[ -d "$HOME/.cache/lf" ]] || mkdir --parents "$HOME/.cache/lf"
 
         # `command` is needed in case `lfcd` is aliased to `lf`
         $lfub -last-dir-path="$tmp" "$@"
-        if [ -f "$tmp" ]; then
+        if [[ -f "$tmp" ]]; then
             local dir="$(cat "$tmp")"
             rm -f "$tmp"
-            [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir" || return 0
+            [[ -d "$dir" ]] && [[ "$dir" != "$(pwd)" ]] && cd "$dir" || return 0
         fi
     }
 
@@ -408,17 +411,17 @@ alias cp="cp -iv" \
 
 # zsh specific syntax for checking if command exists
 if (( $+commands[rg] )); then
-    alias grep='rg'
+    alias grep="rg"
 else
-    alias grep='grep --color=auto'
+    alias grep="grep --color=auto"
 fi
 
 if (( $+commands[eza] )); then
-    alias ls='eza --group-directories-first --icons=always'
-    alias la='ls -a'
-    alias l='ls -lha'
-    alias ll='ls -lh'
-    alias tree='ll --tree --level=2'
+    alias ls="eza --group-directories-first --icons=always"
+    alias la="ls -a"
+    alias l="ls -lha"
+    alias ll="ls -lh"
+    alias tree="ll --tree --level=2"
 else
     alias ls="ls --color=auto --group-directories-first"
     alias la="ls -A"
@@ -479,7 +482,6 @@ add_to_PATH() {
     fi
 }
 
-# Make sure ~/.local/bin and /usr/local/bin are in $PATH.
 add_to_PATH "/usr/local/bin"
 add_to_PATH "$HOME/.local/bin"
 
@@ -488,10 +490,10 @@ add_to_PATH "$HOME/.juliaup/bin" # julia
 
 add_to_PATH "$HOME/.cargo/bin" # rust btw
 
+add_to_PATH "$GOPATH/bin" # binaries installed with 'go install'
 # Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
 if [[ -n $GOROOT ]]; then
     add_to_PATH "$GOROOT/bin" # golang
-    add_to_PATH "$GOPATH/bin"
 fi
 
 # I want to use the tools mason installs outside of neovim aswell
@@ -511,7 +513,7 @@ if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
 fi
 
 # enable fnm
-if [ -d "$FNM_PATH" ]; then
+if [[ -d "$FNM_PATH" ]]; then
     # maybe someday: https://github.com/Schniz/fnm/blob/master/docs/configuration.md#--use-on-cd
     eval "$(fnm env --shell zsh)"
 fi
@@ -526,7 +528,9 @@ fi
 ###############################################################################
 
 # Enable zap (https://github.com/zap-zsh/zap)
-[ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
+if [[ -f "$HOME/.local/share/zap/zap.zsh" ]]; then
+    source "$HOME/.local/share/zap/zap.zsh"
+fi
 
 # Set Prompt Colors
 if [[ "$_PROMPT_THEME" == "starship" ]]; then
