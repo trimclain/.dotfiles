@@ -26,6 +26,19 @@
 # in that folder are managed by zap.
 ###############################################################################
 
+# shellcheck disable=SC1009,SC1056,SC1072,SC1073,SC1083
+# Disabled:
+# "The mentioned parser error was in ...":
+#  https://www.shellcheck.net/wiki/SC1009
+# "Expected a }. If you have one, try a ; or \n in front of it.":
+#  https://www.shellcheck.net/wiki/SC1056
+# "Unexpected keyword/token. Fix any mentioned problems and try again.":
+#  https://www.shellcheck.net/wiki/SC1072
+# "Couldn't parse this (thing). Fix to allow more checks.":
+#  https://www.shellcheck.net/wiki/SC1073
+# "This {/} is literal. Check if ; is missing or quote the expression.":
+#  https://www.shellcheck.net/wiki/SC1083
+
 # Colorscheme
 # Easy to change colorscheme by changing the value of $_PROMPT_THEME
 # Available colorschemes: starship, spaceship, p10k-spaceship, p10k-pure, p10k-robbyrussel, zap
