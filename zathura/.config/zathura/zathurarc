@@ -1,4 +1,4 @@
-# Docs: check awailable options at `man zathurarc`
+# Docs: https://pwmt.org/projects/zathura/documentation or `man zathurarc`
 
 set sandbox none
 # don't show the statusbar on startup
