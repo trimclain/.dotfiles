@@ -435,6 +435,10 @@ inkscape: ## Install Inkscape (Vector Graphics Editor)
 	@#$(FLATINSTALL) flathub org.inkscape.Inkscape
 	$(INSTALL) inkscape
 
+audacity: ## Install Audacity (Audio Editor)
+	@#$(FLATINSTALL) flathub org.audacityteam.Audacity
+	$(INSTALL) audacity
+
 #============================================= Study ==============================================
 anki: ## Install Anki
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
@@ -528,7 +532,7 @@ install: ## Setup arch after new installation
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
-	gimp kdenlive inkscape\
+	gimp kdenlive inkscape audacity\
 	anki uninstall_anki pomodorolm syncthing\
 	apps\
 	install
