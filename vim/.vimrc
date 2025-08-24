@@ -26,7 +26,6 @@ set autoread                            " when a file has been changed outside o
 set nocompatible                        " disable compatibility to vi
 set encoding=utf-8                      " pretty straight-forward
 set completeopt=menu,menuone,noselect   " list of options for Insert mode completion
-" set termguicolors                       " when on, uses |highlight-guifg| and |highlight-guibg| attributes in the terminal (thus using 24-bit color)
 set nowrap                              " pretty clear
 set noshowmode                          " we don't need to see things like -- INSERT -- anymore
 set showmatch                           " when you enter a close-bracket, the cursor briefly jumps to the matching open-bracket
@@ -90,6 +89,12 @@ let g:netrw_hide=0                      " show all files
 let g:netrw_sizestyle='h'               " show human-readable size (1000 base)
 let g:newrw_localrmdir='rm -r'          " remove directory command (default was rmdir)
 
+" Colorschemes (note/10):
+" rosepine_moon (9)
+" gruvbox (7.9), onehalfdark (7)
+" embark(6), sonokai (6)
+let g:vim_colorscheme = 'rosepine_moon'
+
 " #############################################################################
 " Vim Plug Installation
 " #############################################################################
@@ -105,9 +110,23 @@ endif
 " #############################################################################
 call plug#begin('~/.vim/plugged')
 
-" Plug 'gruvbox-community/gruvbox'        " colorscheme
-" Plug 'sainnhe/sonokai'                  " other colorscheme
-Plug 'sonph/onehalf', { 'rtp': 'vim'  } " like atoms one but 1/2
+if g:vim_colorscheme == 'rosepine_moon'
+    Plug 'rose-pine/vim'
+
+elseif g:vim_colorscheme == 'gruvbox'
+    Plug 'gruvbox-community/gruvbox'
+    let g:gruvbox_contrast_dark = 'hard'
+    let g:gruvbox_invert_selection='0'
+elseif g:vim_colorscheme == 'onehalfdark'
+    Plug 'sonph/onehalf', { 'rtp': 'vim'  }
+
+elseif g:vim_colorscheme == 'embark'
+    Plug 'embark-theme/vim'
+elseif g:vim_colorscheme == 'sonokai'
+    let g:sonokai_style = 'andromeda' " options: 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
+    let g:sonokai_better_performance = 1  " options: 0, 1
+    Plug 'sainnhe/sonokai'
+endif
 
 Plug 'tpope/vim-sleuth'                  " detect tabstop and shiftwidth automatically
 Plug 'tpope/vim-fugitive'                " git
@@ -118,6 +137,7 @@ Plug 'moll/vim-bbye'                     " delete buffers and close files withou
 Plug 'mbbill/undotree'                   " undo history
 Plug 'ctrlpvim/ctrlp.vim'                " fuzzy finder
 Plug 'vim-scripts/AutoComplPop'          " the easiest to install autocomple
+" TODO: Plug 'lifepillar/vim-mucomplete'
 Plug 'jiangmiao/auto-pairs'              " autoclose brackets
 Plug 'tweekmonster/startuptime.vim'      " check startuptime
 
@@ -127,26 +147,22 @@ call plug#end()
 " Plugin Settings
 " #############################################################################
 
-" Colorscheme
-if exists('+termguicolors')
+" Colors
+if has('termguicolors')
+    set termguicolors
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8e = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-" let g:gruvbox_contrast_dark = 'hard'
-" let g:gruvbox_invert_selection='0'
-" colorscheme gruvbox
-
 set background=dark
-colorscheme onehalfdark
-" colorscheme sonokai
+execute 'colorscheme' g:vim_colorscheme
 
 " Make the background transparent
-highlight Normal ctermbg=NONE guibg=NONE
+"highlight Normal ctermbg=NONE guibg=NONE
 
 " Lightline
 let g:lightline = {
-      \ 'colorscheme': 'onehalfdark',
+      \ 'colorscheme': g:vim_colorscheme,
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -178,7 +194,7 @@ let g:AutoPairsMapBS=0          " disable BS remap
 " REMAPS
 " #############################################################################
 
-" SET LEADER KEY
+" Set a leader key
 let mapleader = " "
 
 " To exit vim and save files faster
@@ -192,11 +208,11 @@ nnoremap <c-l> :nohlsearch<cr><c-l>
 " Source .vimrc
 nnoremap <silent> <leader><cr> :so ~/.vimrc<cr>
 
-" Easier movement between vim windows
-nnoremap <leader>h <C-w>h
-nnoremap <leader>j <C-w>j
-nnoremap <leader>k <C-w>k
-nnoremap <leader>l <C-w>l
+" " Easier movement between vim windows
+" nnoremap <leader>h <C-w>h
+" nnoremap <leader>j <C-w>j
+" nnoremap <leader>k <C-w>k
+" nnoremap <leader>l <C-w>l
 
 " Better quality of life
 xnoremap < <gv
@@ -208,6 +224,8 @@ xnoremap <S-l> >gv
 " Navigate buffers
 nnoremap <silent> <S-l> :bnext<cr>
 nnoremap <silent> <S-h> :bprevious<cr>
+nnoremap <silent> ]b :bnext<cr>
+nnoremap <silent> [b :bprevious<cr>
 
 " Resizing
 " Use Ctrl + arrows to resize windows
