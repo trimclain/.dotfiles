@@ -379,13 +379,13 @@ function! UnlistBuffers()
     set nobuflisted
 endfunction
 
-augroup trimclain
+augroup trimclain_trim_whitespace_and_unlist_buffers
     autocmd!
     autocmd BufWritePre * :call TrimWhitespace()
     autocmd FileType qf,help,netrw,fugitive :call UnlistBuffers()
 augroup END
 
-augroup autopairs
+augroup trimclain_autopairs
     autocmd!
     " disable most of the stuff for vim files
     au FileType vim let b:AutoPairs = {"(": ")"}
@@ -403,20 +403,20 @@ augroup END
 "     + "n" -- Indent past the formatlistpat, not underneath it.
 "     + "j" -- Auto-remove comments if possible.
 "     - "2" -- I'm not in gradeschool anymore
-augroup filetypeoptions
+augroup trimclain_fix_formatoptions
     autocmd!
     autocmd FileType * :setlocal formatoptions=cqrnj
 augroup END
 
-augroup netrw_toggle
+augroup trimclain_netrw_toggle
     autocmd!
     autocmd FileType netrw let g:netrw_opened = 1
     autocmd FileType netrw autocmd BufWinEnter <buffer> let g:netrw_opened = 1
     autocmd FileType netrw autocmd BufWinLeave <buffer> let g:netrw_opened = 0
 augroup END
 
-" InsertChange or CursorMovedI
-" augroup completion
-"     autocmd!
-"     autocmd CursorMovedI * startinsert | call feedkeys("\<C-x>\<C-o>")
-" augroup END
+" I hate pressing q: by accident
+augroup trimclain_autoclose_commandline_window
+    autocmd!
+    autocmd CmdwinEnter * quit
+augroup END
