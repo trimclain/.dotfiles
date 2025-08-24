@@ -92,7 +92,7 @@ let g:newrw_localrmdir='rm -r'          " remove directory command (default was 
 " Colorschemes (note/10):
 " rosepine_moon (9)
 " gruvbox (7.9), onehalfdark (7)
-" embark(6), sonokai (6)
+" embark(6), sonokai (6), everforest (6)
 let g:vim_colorscheme = 'rosepine_moon'
 
 " #############################################################################
@@ -122,13 +122,18 @@ elseif g:vim_colorscheme == 'onehalfdark'
 
 elseif g:vim_colorscheme == 'embark'
     Plug 'embark-theme/vim'
+
+elseif g:vim_colorscheme == 'everforest'
+    let g:everforest_background = 'hard' " options: 'hard', 'medium'(default), 'soft'
+    let g:everforest_better_performance = 1
+    Plug 'sainnhe/everforest'
 elseif g:vim_colorscheme == 'sonokai'
     let g:sonokai_style = 'andromeda' " options: 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
-    let g:sonokai_better_performance = 1  " options: 0, 1
+    let g:sonokai_better_performance = 1
     Plug 'sainnhe/sonokai'
 endif
 
-Plug 'tpope/vim-sleuth'                  " detect tabstop and shiftwidth automatically
+Plug 'sheerun/vim-polyglot'              " treesitter analog for vim
 Plug 'tpope/vim-fugitive'                " git
 Plug 'tpope/vim-commentary'              " comments
 Plug 'itchyny/lightline.vim'             " statusline
