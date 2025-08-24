@@ -90,10 +90,10 @@ let g:netrw_sizestyle='h'               " show human-readable size (1000 base)
 let g:newrw_localrmdir='rm -r'          " remove directory command (default was rmdir)
 
 " Colorschemes (note/10):
-" rosepine_moon (9)
+" rosepine (9)
 " gruvbox (7.9), onehalfdark (7)
 " embark(6), sonokai (6), everforest (6)
-let g:vim_colorscheme = 'rosepine_moon'
+let g:vim_colorscheme = 'rosepine'
 
 " #############################################################################
 " Vim Plug Installation
@@ -110,7 +110,7 @@ endif
 " #############################################################################
 call plug#begin('~/.vim/plugged')
 
-if g:vim_colorscheme == 'rosepine_moon'
+if g:vim_colorscheme == 'rosepine'
     Plug 'rose-pine/vim'
 
 elseif g:vim_colorscheme == 'gruvbox'
