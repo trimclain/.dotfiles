@@ -65,14 +65,10 @@ set conceallevel=0                      " so that `` is visible in markdown file
 set laststatus=2                        " no statusbar because lightline
 set showtabline=2                       " enable tabline to see buffers using plugins
 set virtualedit=block                   " allows cursor to move where there is no text in visual block mode
+set shortmess+=c                        " whut off completion messages
 " set splitright                          " force all vertical splits to go to the right of current window
 " set mouse=a                             " enable the mouse
 " set cursorline                          " highlight current line
-
-" TODO: still needed?
-" Enable completions using omnifunc
-" set omnifunc=syntaxcomplete#Complete
-set shortmess+=c                        " Shut off completion messages
 
 " Disable ALL sounds and errorbells
 if v:version >= 704
@@ -139,16 +135,15 @@ elseif g:vim_colorscheme == 'sonokai'
     Plug 'sainnhe/sonokai'
 endif
 
-Plug 'sheerun/vim-polyglot'              " treesitter analog for vim
+Plug 'sheerun/vim-polyglot'              " treesitter analog
 Plug 'tpope/vim-fugitive'                " git
 Plug 'tpope/vim-commentary'              " comments
 Plug 'itchyny/lightline.vim'             " statusline
 Plug 'mengelbrecht/lightline-bufferline' " bufferline
-Plug 'moll/vim-bbye'                     " delete buffers and close files without closing your windows
+Plug 'moll/vim-bbye'                     " better :bdelete
 Plug 'mbbill/undotree'                   " undo history
 Plug 'ctrlpvim/ctrlp.vim'                " fuzzy finder
-Plug 'vim-scripts/AutoComplPop'          " the easiest to install autocomple
-" TODO: Plug 'lifepillar/vim-mucomplete'
+Plug 'lifepillar/vim-mucomplete'         " easiest autocomplete
 Plug 'jiangmiao/auto-pairs'              " autoclose brackets
 Plug 'tweekmonster/startuptime.vim'      " check startuptime
 
@@ -196,10 +191,25 @@ let g:lightline = {
 " CtrlP configs
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
+" AutoComplete
+let g:mucomplete#enable_auto_at_startup = 1
+
 " AutoPairs configs
 " The default pairs is {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 " You could also define multibyte pairs such as <!-- -->, <% %> and so on
 let g:AutoPairsMapBS=0          " disable BS remap
+
+" AutoPairs and AutoComplete compatibility (:h mucomplete-compatibility)
+let g:AutoPairsMapSpace = 0
+imap <silent> <expr> <space> pumvisible()
+    \ ? "<space>"
+    \ : "<c-r>=AutoPairsSpace()<cr>"
+
+if !has('patch-8.0.0283')
+    let g:AutoPairsMapCR = 0
+    imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
+    imap <cr> <Plug>MyCR
+endif
 
 " #############################################################################
 " REMAPS
@@ -247,10 +257,6 @@ nnoremap <silent> <C-Right> :vertical resize +5<cr>
 
 " Use Ctrl + Space to open completion menu
 inoremap <C-@> <C-x><C-o>
-
-" Use tab to scroll throug completion options only when a popup windwo is open
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 " Vim-fugitive remaps
 " git status
