@@ -69,14 +69,20 @@ set virtualedit=block                   " allows cursor to move where there is n
 " set mouse=a                             " enable the mouse
 " set cursorline                          " highlight current line
 
+" TODO: still needed?
 " Enable completions using omnifunc
-set omnifunc=syntaxcomplete#Complete
+" set omnifunc=syntaxcomplete#Complete
+set shortmess+=c                        " Shut off completion messages
 
 " Disable ALL sounds and errorbells
-set noerrorbells
-set visualbell
-set t_vb=
-set tm=500
+if v:version >= 704
+    set belloff=all "supported since vim 7.4 (released in 2013)
+else
+    set visualbell
+    set noerrorbells
+    set t_vb=
+    set tm=500
+endif
 
 let loaded_matchparen = 1               " if the cursor is over a bracket, its matching partner is highlighted (1 - disabled)
 
