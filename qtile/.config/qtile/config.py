@@ -896,6 +896,11 @@ def autostart():
     subprocess.run([script])
 
 
+@hook.subscribe.startup
+def run_every_startup():
+    script = os.path.expanduser("~/.config/qtile/scripts/run-every-startup.sh")
+    subprocess.run([script])
+
 # }}}
 
 # vim:foldmethod=marker

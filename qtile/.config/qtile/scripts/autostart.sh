@@ -6,8 +6,6 @@ run_in_background(){
     fi
 }
 
-# Set the wallpaper (NOTE: change if for some reason launching on Wayland)
-run_in_background waypaper --backend feh --restore > /dev/null
 # Enable notifications
 run_in_background dunst
 # Network Manager
