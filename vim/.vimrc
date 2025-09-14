@@ -92,6 +92,7 @@ let g:netrw_sizestyle='h'               " show human-readable size (1000 base)
 let g:newrw_localrmdir='rm -r'          " remove directory command (default was rmdir)
 
 " Colorschemes (note/10):
+" astrotheme (9.5/10) - can be ported later: https://github.com/AstroNvim/astrotheme/blob/main/extras/vim/colors/astrodark.vim
 " rosepine (9)
 " gruvbox (7.9), onehalfdark (7)
 " embark(6), sonokai (6), everforest (6)
