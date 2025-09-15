@@ -439,6 +439,9 @@ audacity: ## Install Audacity (Audio Editor)
 	@#$(FLATINSTALL) flathub org.audacityteam.Audacity
 	$(INSTALL) audacity
 
+vpn: ## Install v2raya
+	$(PARUINSTALL) v2raya-bin
+
 #============================================= Study ==============================================
 anki: ## Install Anki
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
