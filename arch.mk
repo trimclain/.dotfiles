@@ -439,8 +439,10 @@ audacity: ## Install Audacity (Audio Editor)
 	@#$(FLATINSTALL) flathub org.audacityteam.Audacity
 	$(INSTALL) audacity
 
-vpn: ## Install v2raya
-	$(PARUINSTALL) v2raya-bin
+vpn: ## Install Wireguard
+	@# resolvconf is needed for wg-quick
+	$(INSTALL) wireguard-tools openresolv
+	@#$(PARUINSTALL) v2raya-bin
 
 #============================================= Study ==============================================
 anki: ## Install Anki
@@ -535,7 +537,7 @@ install: ## Setup arch after new installation
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
-	gimp kdenlive inkscape audacity\
+	gimp kdenlive inkscape audacity vpn\
 	anki uninstall_anki pomodorolm syncthing\
 	apps\
 	install
