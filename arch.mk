@@ -439,9 +439,10 @@ audacity: ## Install Audacity (Audio Editor)
 	@#$(FLATINSTALL) flathub org.audacityteam.Audacity
 	$(INSTALL) audacity
 
-vpn: ## Install Wireguard
+vpn: ## Install VPN
+	$(INSTALL) networkmanager-openvpn
 	@# resolvconf is needed for wg-quick
-	$(INSTALL) wireguard-tools openresolv
+	@#$(INSTALL) wireguard-tools openresolv
 	@#$(PARUINSTALL) v2raya-bin
 
 #============================================= Study ==============================================
