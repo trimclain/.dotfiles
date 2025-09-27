@@ -83,6 +83,8 @@ setopt no_check_jobs
 setopt print_exit_value
 # move cursor to end after every completion
 setopt always_to_end
+# try to correct the spelling of commands
+setopt correct
 
 # Disable highlighting on paste
 zle_highlight=('paste:none')
