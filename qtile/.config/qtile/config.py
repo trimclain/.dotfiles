@@ -32,7 +32,7 @@ alt = "mod4"
 # defined in /etc/environment
 terminal = os.getenv("TERMINAL")
 if terminal is None:
-    terminal = "kitty"  # "alacritty", "kitty", "wezterm", "ghostty"
+    terminal = "ghostty"  # "alacritty", "kitty", "wezterm", "ghostty"
 
 # browser = "zen-browser"
 browser = "thorium-browser"
