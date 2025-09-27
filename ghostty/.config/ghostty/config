@@ -39,6 +39,8 @@ window-decoration = none
 #window-padding-balance = true
 confirm-close-surface = false
 
+# default, kept for reference in shaders
+cursor-color = #bbbbbb
 # block (default), bar, underline, block_hollow
 cursor-style = block
 cursor-style-blink = false
@@ -48,9 +50,7 @@ shell-integration-features = no-cursor,no-sudo,title
 mouse-hide-while-typing = true
 
 # Shaders
-# TODO: can this work on linux?
-# More: https://github.com/hackrmomo/ghostty-shaders
-# custom-shader = shaders/animated-gradient-shader.glsl
+# More: https://github.com/hackr-sh/ghostty-shaders
 # custom-shader = shaders/bloom025.glsl
 # custom-shader = shaders/cursor_blaze_no_trail.glsl
-# custom-shader = shaders/cursor_smear.glsl
+custom-shader = shaders/cursor_smear.glsl
