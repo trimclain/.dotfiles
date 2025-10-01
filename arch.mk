@@ -366,6 +366,15 @@ chrome: ## Install Google Chrome Browser
 thorium: ## Install Thorium Browser
 	$(PARUINSTALL) thorium-browser-bin
 
+helium: ## Install Helium Browser
+	$(eval HELIUM_VERSION := $(shell curl -fsSL https://github.com/imputnet/helium-linux/releases/latest | grep "<title>Release " | awk '{print $$2}'))
+	@echo "==================================================================="
+	@echo "Installing Helium Browser..."
+	@# Install the latest version
+	curl -LO https://github.com/imputnet/helium-linux/releases/download/$(HELIUM_VERSION)/helium-$(HELIUM_VERSION)-x86_64.AppImage --output-dir ~/downloads
+	@# Add to gearlever
+	flatpak run it.mijorus.gearlever --integrate ~/downloads/helium-$(HELIUM_VERSION)-x86_64.AppImage
+
 zen: ## Install Zen Browser
 	$(PARUINSTALL) zen-browser-bin
 
@@ -535,7 +544,7 @@ install: ## Setup arch after new installation
 	awesome qtile hyprland fix-nvidialand cursor\
 	kde cosmic\
 	alacritty kitty wezterm ghostty\
-	brave chrome thorium zen vivaldi\
+	brave chrome thorium helium zen vivaldi\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
 	gimp kdenlive inkscape audacity vpn\
 	anki uninstall_anki pomodorolm syncthing\
