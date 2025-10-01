@@ -162,9 +162,8 @@ flatpak: ## Install flatpak
 	@#flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
 	@#fi
 
-# Good app to manage appimages: Gear Lever
-# gearlever:
-# 	$(FLATINSTALL) flathub it.mijorus.gearlever
+gearlever: ## manage AppImages
+	$(FLATINSTALL) flathub it.mijorus.gearlever
 
 docker: ## Install docker
 	@echo "==================================================================="
@@ -530,7 +529,7 @@ install: ## Setup arch after new installation
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
 	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic\
 	fnm typescript\
-	paru flatpak docker lazydocker lf yazi\
+	paru flatpak gearlever docker lazydocker lf yazi\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
