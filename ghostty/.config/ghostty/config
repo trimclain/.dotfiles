@@ -32,12 +32,13 @@ background = #1A1D23
 #window-padding-x = 0
 #window-padding-y = 0
 
-# BUG: For some reason, when unfocusde, the border has 2 lines
 window-theme = "ghostty"
 window-decoration = none
 
 #window-padding-balance = true
 confirm-close-surface = false
+
+app-notifications = no-clipboard-copy
 
 # default, kept for reference in shaders
 cursor-color = #bbbbbb
