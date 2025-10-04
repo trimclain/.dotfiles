@@ -388,10 +388,14 @@ fi
 # source this config
 alias szrc="exec zsh"
 
-# Kittens
-if [[ $TERM == "xterm-kitty" ]]; then
-    # alias ssh="kitty +kitten ssh"  # kitten doesn't display motd
+# don't even bother
+if [[ "$TERM" == "xterm-kitty" || "$TERM" == "xterm-ghostty" ]]; then
     alias ssh="TERM=xterm-256color ssh"
+fi
+
+# Kittens
+if [[ "$TERM" == "xterm-kitty" ]]; then
+    # alias ssh="kitty +kitten ssh"  # kitten doesn't display motd
     # preview images in kitty
     alias icat="kitty +kitten icat"
 fi
