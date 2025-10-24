@@ -42,8 +42,11 @@
 # Colorscheme
 # Easy to change colorscheme by changing the value of $_PROMPT_THEME
 # Available colorschemes: starship, spaceship, p10k-spaceship, p10k-pure, p10k-robbyrussel, zap
-# _PROMPT_THEME="p10k-spaceship"
-_PROMPT_THEME="starship"
+if (( $+commands[starship] )); then
+    _PROMPT_THEME="starship"
+else
+    _PROMPT_THEME="p10k-spaceship"
+fi
 
 # Disable XON/XOFF flow control (ctrl-s to freeze, ctrl-q to unfreeze)
 # This should come before powerlevel10k instant prompt feature
@@ -51,7 +54,7 @@ stty -ixon
 # stty start undef stop undef
 
 if [[ "$_PROMPT_THEME" == "p10k-"* ]]; then
-    # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+    # Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
     # Initialization code that may require console input (password prompts, [y/n]
     # confirmations, etc.) must go above this block; everything else may go below.
     if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -301,7 +304,8 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
     add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
-if command -v fzf > /dev/null; then
+# Zsh alternative to 'command -v', should be faster
+if (( $+commands[fzf] )); then
     # From /usr/share/doc/fzf/examples/key-bindings.zsh
     # CTRL-R - Paste the selected command from history into the command line
     __fzfcmd() {
@@ -345,7 +349,7 @@ fi
 # bindkey -s ^b "^uchange-wallpaper\n"
 
 # Use yazi or lf with ueberzugpp to switch directories and bind it to ctrl-o
-if command -v yazi > /dev/null; then
+if (( $+commands[yazi] )); then
     yazicd() {
         local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
         yazi "$@" --cwd-file="$tmp"
@@ -354,7 +358,7 @@ if command -v yazi > /dev/null; then
         rm -f -- "$tmp"
     }
     bindkey -s '^o' '^uyazicd\n'
-elif command -v lf > /dev/null; then
+elif (( $+commands[lf] )); then
     lfubcd() {
         # This is a wrapper for lfub wrapper implementing lfcd functionality
         local lfub="$HOME/.config/lf/lfub"
