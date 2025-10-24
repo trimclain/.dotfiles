@@ -285,6 +285,7 @@ qtile: ## Install QTile with all dependencies
 
 hyprland: ## Install Hyprland with all dependencies
 	@echo "==================================================================="
+	# INFO: Do I automate this somehow? - https://wiki.hypr.land/Nvidia/
 	$(INSTALL) hyprland
 	@# QT Wayland Support
 	$(INSTALL) qt5-wayland qt6-wayland
