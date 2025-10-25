@@ -122,6 +122,9 @@ g: ## Install g, the go version manager
 tectonic: ## Install tectonic, a LaTeX engine
 	$(INSTALL) tectonic
 
+typst: ## Install Typst (better LaTeX) engine
+	$(INSTALL) typst
+
 fnm: ## Install Fast Node Manager
 	@FNM_INSTALL_DIR="$${FNM_PATH:-$$HOME/.local/share/fnm}"; \
 	if [[ ! -d "$$FNM_INSTALL_DIR" ]]; then \
@@ -537,7 +540,7 @@ install: ## Setup arch after new installation
 #==================================================================================================
 
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
-	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic\
+	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic typst\
 	fnm typescript\
 	paru flatpak gearlever docker lazydocker lf yazi\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
