@@ -385,6 +385,13 @@ zen: ## Install Zen Browser
 vivaldi: ## Install Vivaldi Browser
 	$(INSTALL) vivaldi
 
+#======================================== Remote Desktop ==========================================
+anydesk: ## Install AnyDesk
+	$(FLATINSTALL) flathub com.anydesk.Anydesk
+
+rustdesk: ## Install RustDesk
+	$(FLATINSTALL) flathub com.rustdesk.RustDesk
+
 #==================================================================================================
 
 # Flatpaks I might use someday:
@@ -497,8 +504,6 @@ apps: ## Install btop, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, tho
 	@make thorium
 	@make telegram
 
-# Remote Desktop Connection: AnyDesk (anydesk-bin), RustDesk (rustdesk-bin)
-
 #==================================================================================================
 install: ## Setup arch after new installation
 	@echo "==================================================================="
@@ -549,6 +554,7 @@ install: ## Setup arch after new installation
 	kde cosmic\
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium helium zen vivaldi\
+	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
 	gimp kdenlive inkscape audacity vpn\
 	anki uninstall_anki pomodorolm syncthing\
