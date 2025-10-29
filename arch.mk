@@ -191,6 +191,10 @@ yazi: ## Install yazi (file manager)
 	@# takes ~5 minutes to install, not sure it's worth for just previewing svg
 	@#$(PARUINSTALL) resvg
 
+gh: ## Install github-cli
+	$(INSTALL) github-cli
+	gh auth login
+
 #============================================= Neovim =============================================
 nvim_reqs: ## Install my neovim requirements (yad, xclip, tree-sitter-cli, tectonic)
 	@# Things my neovim needs
@@ -547,7 +551,7 @@ install: ## Setup arch after new installation
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
 	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic typst\
 	fnm typescript\
-	paru flatpak gearlever docker lazydocker lf yazi\
+	paru flatpak gearlever docker lazydocker lf yazi gh\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand cursor\
