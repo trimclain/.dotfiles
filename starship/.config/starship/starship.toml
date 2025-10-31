@@ -22,7 +22,7 @@
 #continuation_prompt = '▶▶ ' # default: "[∙](bright-black) "
 
 # Timeout for starship to scan files (in milliseconds)
-scan_timeout = 10 # default: 30
+#scan_timeout = 10 # default: 30
 
 # Docs: https://starship.rs/config/#default-prompt-format
 # Default: format = "$all"
