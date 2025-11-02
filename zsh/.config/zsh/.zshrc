@@ -416,8 +416,9 @@ alias py="python3"
 alias cp="cp -iv" \
     mv="mv -iv" \
     rm="rm -vI"
-# rsync= "rsync -ahvuP"
-# mkd="mkdir -pv"
+#alias rsync= "rsync -ahvuP"
+# recreating syncthing functionality
+alias synchronize="rsync --archive --human-readable --verbose --update --partial --progress --compress --delete-during"
 
 # zsh specific syntax for checking if command exists
 if (( $+commands[rg] )); then
