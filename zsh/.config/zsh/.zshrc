@@ -44,6 +44,7 @@
 # Available colorschemes: starship, spaceship, p10k-spaceship, p10k-pure, p10k-robbyrussel, zap
 if (( $+commands[starship] )); then
     _PROMPT_THEME="starship"
+    # export STARSHIP_LOG="error"
 else
     _PROMPT_THEME="p10k-spaceship"
 fi

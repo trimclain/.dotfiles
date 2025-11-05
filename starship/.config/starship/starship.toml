@@ -21,6 +21,9 @@
 # A continuation prompt that displays two filled-in arrows
 #continuation_prompt = '▶▶ ' # default: "[∙](bright-black) "
 
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout = 1000 # default: 500
+
 # Timeout for starship to scan files (in milliseconds)
 #scan_timeout = 10 # default: 30
 
