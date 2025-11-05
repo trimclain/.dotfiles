@@ -1,6 +1,8 @@
 # Docs: https://pwmt.org/projects/zathura/documentation or `man zathurarc`
 
-set sandbox none
+# follow zathura recommendations
+set database sqlite
+
 # don't show the statusbar on startup
 set guioptions none
 set statusbar-h-padding 1
