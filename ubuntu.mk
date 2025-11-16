@@ -150,7 +150,7 @@ rust:
 	@echo "==================================================================="
 	@# Installing rustup
 	@if [ ! -d ~/.rustup ]; then echo "Installing Rustup..." &&\
-		curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y && \
+		curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path && \
 		echo "Done"; else echo "[rust]: Already installed"; fi
 
 uninstall_rust:
