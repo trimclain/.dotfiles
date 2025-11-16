@@ -21,7 +21,7 @@
 
 # Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
-export EDITOR="/usr/bin/vim"
+export EDITOR="$(which vim)"
 export VISUAL=$EDITOR
 
 # Useful variables to set
@@ -31,8 +31,13 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
 export FNM_PATH="$XDG_DATA_HOME/fnm"
-# export GOROOT="$HOME/.golang"
-# export GOPATH="$HOME/.go"
+
+export GOPATH="$HOME/.go"
+# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
+if [[ -d "$HOME/.golang" ]]; then
+    export GOROOT="$HOME/.golang"
+fi
+
 export SDKMAN_DIR="$HOME/.sdkman"
 
 ###############################################################################
@@ -108,7 +113,9 @@ fi
 unset color_prompt
 
 
+###############################################################################
 # Keybinds
+###############################################################################
 if [[ -f ~/.local/bin/pctl ]]; then
     bind '"\C-t": "pctl open $DOTFILES\n"'
 fi
@@ -116,12 +123,17 @@ fi
 # Disable annoying error sound in terminal
 bind 'set bell-style none'
 
-# My Aliases
-alias ebrc="vim $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
-alias evrc="vim $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
+###############################################################################
+# Aliases
+###############################################################################
+alias ebrc="$EDITOR $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
+alias evrc="$EDITOR $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
 
 alias sbrc="source ~/.bashrc"
 alias godf="cd ~/.dotfiles"
+
+alias py="python3"
+alias activate="source venv/bin/activate"
 
 # add verbosity
 alias cp="cp -iv" \
@@ -142,9 +154,6 @@ elif [ -f ~/.bash_aliases ]; then
     alias showals="cat ~/.bash_aliases"
 fi
 
-alias py="python3"
-alias activate="source venv/bin/activate"
-
 # Load aliases from .zsh_aliases or .bash_aliases if they exist
 if [ -f ~/.zsh_aliases ]; then
     . ~/.zsh_aliases
@@ -163,21 +172,31 @@ if ! shopt -oq posix; then
     fi
 fi
 
+###############################################################################
+# Path
+###############################################################################
+
 # add folders to the beginning of $PATH
-addToPATH() {
-    if [[ -d "$1" ]] && [[ ! :$PATH: == *":$1:"* ]]; then
+add_to_PATH() {
+    if [[ -d "$1" ]] && [[ ! "$PATH" =~ (^|:)$1(:|$) ]]; then
         export PATH="$1:$PATH"
     fi
 }
 
 # Make sure ~/.local/bin and /usr/local/bin are in $PATH.
-addToPATH "/usr/local/bin"
-addToPATH "$HOME/.local/bin"
+add_to_PATH "/usr/local/bin"
+add_to_PATH "$HOME/.local/bin"
 
-addToPATH "$FNM_PATH" # fast node manager
-# addToPATH "$GOROOT/bin" # golang
-# addToPATH "$GOPATH/bin" # also golang
-addToPATH "$HOME/.juliaup/bin" # julia
+add_to_PATH "$FNM_PATH" # fast node manager
+add_to_PATH "$HOME/.juliaup/bin" # julia
+
+add_to_PATH "$HOME/.cargo/bin" # rust btw
+
+add_to_PATH "$GOPATH/bin" # binaries installed with 'go install'
+# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
+if [[ -n $GOROOT ]]; then
+    add_to_PATH "$GOROOT/bin" # golang
+fi
 
 # enable sdkman (jdk version manager)
 if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
