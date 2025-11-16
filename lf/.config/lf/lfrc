@@ -36,6 +36,13 @@ set incsearch
 # automatically quit server when there are no clients left connected
 set autoquit
 
+# enable file and directory information like rangers defaults
+set info size
+set dircounts
+
+# enable automatic file updates by polling the directory status every x seconds
+#set period 1
+
 ###############################################################################
 # Commands and Functions
 ###############################################################################
@@ -140,6 +147,18 @@ cmd create ${{
     lf -remote "send $id select \"$(printf '%s' "$path" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
 }}
 
+# Paste into hovered dir if it is a directory, else paste into cwd
+cmd paste-smart ${{
+    if [ -d "$f" ]; then
+        lf -remote "send $id cd \"$f\""
+        lf -remote "send $id paste"
+        lf -remote "send $id cd .."
+    else
+        lf -remote "send $id paste"
+    fi
+    lf -remote "send $id clear"
+}}
+
 ###############################################################################
 # Bindings
 ###############################################################################
@@ -155,7 +174,9 @@ map <c-_> maps
 map c copy
 map x cut
 # old: d - cut                                                       - vim
-# p - paste                                                     - vim
+map p paste-smart
+map P : paste; clear
+# old: p - paste                                                     - vim
 map d delete
 # old: c - clear copied or cut
 map <c-l> clear
