@@ -471,6 +471,10 @@ vpn: ## Install VPN
 ventoy: ## Install Ventoy (Multiboot USB)
 	@# NOTE: use ventoygui for same GUI as on windows
 	$(PARUINSTALL) ventoy-bin
+
+localsend: ## Install LocalSend (Open Source AirDrop)
+	$(FLATINSTALL) org.localsend.localsend_app
+
 #============================================= Study ==============================================
 anki: ## Install Anki
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
@@ -563,7 +567,7 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
-	gimp kdenlive inkscape audacity vpn\
+	gimp kdenlive inkscape audacity vpn ventoy localsend\
 	anki uninstall_anki pomodorolm syncthing\
 	apps\
 	install
