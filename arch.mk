@@ -468,6 +468,9 @@ vpn: ## Install VPN
 	@#$(INSTALL) wireguard-tools openresolv
 	@#$(PARUINSTALL) v2raya-bin
 
+ventoy: ## Install Ventoy (Multiboot USB)
+	@# NOTE: use ventoygui for same GUI as on windows
+	$(PARUINSTALL) ventoy-bin
 #============================================= Study ==============================================
 anki: ## Install Anki
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
