@@ -1,6 +1,6 @@
 INSTALL = sudo pacman -S --noconfirm --needed
 PARUINSTALL = paru -S --noconfirm --needed
-FLATINSTALL = flatpak install -y --or-update
+FLATINSTALL = flatpak install -y --or-update flathub
 
 all:
 	@# Make sure these folders exist
@@ -166,7 +166,7 @@ flatpak: ## Install flatpak
 	@#fi
 
 gearlever: ## manage AppImages
-	$(FLATINSTALL) flathub it.mijorus.gearlever
+	$(FLATINSTALL) it.mijorus.gearlever
 
 docker: ## Install docker
 	@echo "==================================================================="
@@ -391,10 +391,10 @@ vivaldi: ## Install Vivaldi Browser
 
 #======================================== Remote Desktop ==========================================
 anydesk: ## Install AnyDesk
-	$(FLATINSTALL) flathub com.anydesk.Anydesk
+	$(FLATINSTALL) com.anydesk.Anydesk
 
 rustdesk: ## Install RustDesk
-	$(FLATINSTALL) flathub com.rustdesk.RustDesk
+	$(FLATINSTALL) com.rustdesk.RustDesk
 
 #==================================================================================================
 
@@ -405,27 +405,27 @@ rustdesk: ## Install RustDesk
 
 thunderbird: ## Install Thunderbird
 	$(INSTALL) thunderbird
-	@# $(FLATINSTALL) flathub org.mozilla.Thunderbird
+	@# $(FLATINSTALL) org.mozilla.Thunderbird
 
 telegram: ## Install Telegram Desktop
 	@# $(INSTALL) telegram-desktop
-	$(FLATINSTALL) flathub org.telegram.desktop
+	$(FLATINSTALL) org.telegram.desktop
 
 # TODO: choose a wayland altenative: https://wiki.hyprland.org/Useful-Utilities/App-Clients/#discord
 discord: ## Install Discord
 	@# $(INSTALL) discord
 	@# Flatpak version is more up to date
-	$(FLATINSTALL) flathub com.discordapp.Discord
+	$(FLATINSTALL) com.discordapp.Discord
 
 spotify: ## Install Spotify
-	$(FLATINSTALL) flathub com.spotify.Client
+	$(FLATINSTALL) com.spotify.Client
 
 ncspot: ## Install ncspot (ncurses Spotify client)
 	$(INSTALL) ncspot
 
 obs: ## Install OBS Studio
 	@# Flatpak version is the only official version
-	$(FLATINSTALL) flathub com.obsproject.Studio
+	$(FLATINSTALL) com.obsproject.Studio
 
 vlc: ## Install VLC
 	echo "Installing VLC with pause-click-plugin..."
@@ -447,19 +447,19 @@ quickemu: ## Install Quickemu (Virtual Machine Manager)
 	$(PARUINSTALL) quickemu-git quickgui-bin
 
 gimp: ## Install GIMP (GNU Image Manipulation Program)
-	@#$(FLATINSTALL) flathub org.gimp.GIMP
+	@#$(FLATINSTALL) org.gimp.GIMP
 	$(INSTALL) gimp
 
 kdenlive: ## Install Kdenlive (Video Editor)
-	@#$(FLATINSTALL) flathub org.kde.kdenlive
+	@#$(FLATINSTALL) org.kde.kdenlive
 	$(INSTALL) kdenlive
 
 inkscape: ## Install Inkscape (Vector Graphics Editor)
-	@#$(FLATINSTALL) flathub org.inkscape.Inkscape
+	@#$(FLATINSTALL) org.inkscape.Inkscape
 	$(INSTALL) inkscape
 
 audacity: ## Install Audacity (Audio Editor)
-	@#$(FLATINSTALL) flathub org.audacityteam.Audacity
+	@#$(FLATINSTALL) org.audacityteam.Audacity
 	$(INSTALL) audacity
 
 vpn: ## Install VPN
@@ -488,7 +488,7 @@ uninstall_anki: # Uninstall Anki
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
 pomodorolm: # Pomodoro Tracker
-	$(FLATINSTALL) flathub org.jousse.vincent.Pomodorolm
+	$(FLATINSTALL) org.jousse.vincent.Pomodorolm
 	@# NOTE: to fix "Failed to create GBM buffer of size…" caused by Nvidia GPU run
 	@# flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=1 org.jousse.vincent.Pomodorolm
 
