@@ -286,49 +286,52 @@ qtile: ## Install QTile with all dependencies
 	@# - picom (compositor for transparency and shadows)
 	@# - feh (image viewer and wallpaper setter)
 	@# - waypaper (wallpaper setter)
-	$(INSTALL) dmenu rofi slock xss-lock dunst picom feh
+	@# - polkit-kde-agent (GUI request for sudo password)
+	$(INSTALL) dmenu rofi slock xss-lock dunst picom feh polkit-kde-agent
 	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
 hyprland: ## Install Hyprland with all dependencies
 	@echo "==================================================================="
-	# INFO: Do I automate this somehow? - https://wiki.hypr.land/Nvidia/
+	@#NOTE: this line what I did now
 	$(INSTALL) hyprland
+	@# XDG Desktop Portal handles file pickers, screensharing, etc
+	$(INSTALL) xdg-desktop-portal-hyprland
+	@# XDPH doesn’t implement a file picker so we use this
+	$(INSTALL) xdg-desktop-portal-gtk
+	@# Daemon for GUI applications to be able to request elevated privileges
+	$(INSTALL) hyprpolkitagent
 	@# QT Wayland Support
 	$(INSTALL) qt5-wayland qt6-wayland
-	@# Better Desktop Portal
-	$(INSTALL) xdg-desktop-portal-hyprland
-	@# FIX: make this work
-	@# Screensharing under XWayland (for Discord)
-	@# $(PARUINSTALL) xwaylandvideobridge-git
-	@# File picker
-	$(INSTALL) xdg-desktop-portal-gtk
-	@# Authentification Agent for gui sudo popups
-	$(INSTALL) polkit-kde-agent
 	@# Post Install Apps
 	$(INSTALL) wl-clipboard dunst rofi feh
-	@# Utils: waybar (statusbar), screen locker, hyprpaper (wallpaper engine), waypaper (GUI wallpaper manager)
-	$(INSTALL) waybar waylock hyprpaper
+	@# Utils: waybar (statusbar), hyprlock (screen locker), hyprpaper (wallpaper engine), waypaper (GUI wallpaper manager)
+	$(INSTALL) waybar hyprlock hyprpaper
 	$(PARUINSTALL) waypaper
 	@# Screen recording and screenshot tools
 	$(INSTALL) wf-recorder grim slurp
-	@# Brightness: Try gammastep?
 	@make brightnessctl
 	@# GTK Settings Editor for changing cursor and icon themes
 	$(INSTALL) nwg-look
-	@# Themes and Icons
+
+	@# Themes and Icons (?)
 	$(INSTALL) gnome-themes-extra
 	@#make cursor
 	@# Color Picker
-	@# $(PARUINSTALL) hyprpicker-git
+	@# $(INSTALL) hyprpicker
+	@# FIX: make this work
+	@# Screensharing under XWayland (for Discord)
+	@# $(PARUINSTALL) xwaylandvideobridge-git
 
+# INFO: Do I automate this somehow? - https://wiki.hypr.land/Nvidia/
+# Check https://github.com/basecamp/omarchy/blob/d7841e30b5f54d10ba842f01da91a5863e314afe/install/config/hardware/nvidia.sh
 fix-nvidialand: ## Fix hyprland on nvidia (WIP)
 	@# Whenever Hyprland is updated, this needs to be run (if using nvidia)
 	sudo sed -i 's|^Exec=Hyprland|Exec=env LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia WLR_NO_HARDWARE_CURSORS=1 Hyprland|g' \
 		/usr/share/wayland-sessions/hyprland.desktop
 
+# TODO: update to use hyprcursor
 cursor: ## Install my cursor theme (Bibata)
-	@# TODO: use hyprcursor
 	@# https://github.com/ful1e5/Bibata_Cursor
 	$(PARUINSTALL) bibata-cursor-theme-bin
 	@# Install volantes-cursors theme
