@@ -33,7 +33,8 @@
 
 * {
     /* font-family: JetBrainsMono Nerd Font Mono; */
-    font-family: CaskaydiaCove Nerd Font Mono;
+    /* font-family: CaskaydiaCove Nerd Font Mono; */
+    font-family: Maple Mono NF;
     font-size: 13px;
 }
 
@@ -82,7 +83,8 @@ button {
 }
 
 #workspaces button {
-    padding: 0 5px;
+    padding: 0 4px;
+    /* top, left, bottom, right*/
     margin: 5px 0 5px 5px;
     color: @text;
     background-color: @surface0;
@@ -103,7 +105,7 @@ button {
 #workspaces button.active {
     background-color: @text;
     border-style: none;
-    padding: 0 6px;
+    padding: 0 5px;
 }
 
 #workspaces button.urgent {
@@ -113,23 +115,15 @@ button {
 
 #clock,
 #battery,
-#cpu,
 #memory,
-#disk,
 #temperature,
 #backlight,
 #language,
 #submap,
 #network,
 #pulseaudio,
-#wireplumber,
 #custom-power,
-#custom-updates,
-#tray,
-#mode,
-#idle_inhibitor,
-#scratchpad,
-#mpd {
+#tray {
     padding: 0 12px;
     background-color: @base;
     color: @crust;
@@ -164,7 +158,6 @@ label:focus {
     background-color: @red;
     color: @crust;
 }
-/* #custom-updates { */
 #pulseaudio {
     color: @red;
 }
@@ -173,13 +166,16 @@ label:focus {
     color: @overlay1;
 }
 
-#language {
+#backlight {
     color: @peach;
 }
 
-/* #disk { */
-#network {
+#language {
     color: @yellow;
+}
+
+#network {
+    color: @sky;
 }
 
 #network.disconnected {
@@ -219,14 +215,5 @@ label:focus {
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
 }
-
-#scratchpad {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-#scratchpad.empty {
-    background-color: transparent;
-}
-
 /* vim: ft=sass
  */
