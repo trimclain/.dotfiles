@@ -115,23 +115,15 @@ button {
 
 #clock,
 #battery,
-#cpu,
 #memory,
-#disk,
 #temperature,
 #backlight,
 #language,
 #submap,
 #network,
 #pulseaudio,
-#wireplumber,
 #custom-power,
-#custom-updates,
-#tray,
-#mode,
-#idle_inhibitor,
-#scratchpad,
-#mpd {
+#tray {
     padding: 0 12px;
     background-color: @base;
     color: @crust;
@@ -166,7 +158,6 @@ label:focus {
     background-color: @red;
     color: @crust;
 }
-/* #custom-updates { */
 #pulseaudio {
     color: @red;
 }
@@ -175,13 +166,16 @@ label:focus {
     color: @overlay1;
 }
 
-#language {
+#backlight {
     color: @peach;
 }
 
-/* #disk { */
-#network {
+#language {
     color: @yellow;
+}
+
+#network {
+    color: @sky;
 }
 
 #network.disconnected {
@@ -221,14 +215,5 @@ label:focus {
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
 }
-
-#scratchpad {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-#scratchpad.empty {
-    background-color: transparent;
-}
-
 /* vim: ft=sass
  */
