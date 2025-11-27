@@ -83,7 +83,8 @@ button {
 }
 
 #workspaces button {
-    padding: 0 5px;
+    padding: 0 4px;
+    /* top, left, bottom, right*/
     margin: 5px 0 5px 5px;
     color: @text;
     background-color: @surface0;
@@ -104,7 +105,7 @@ button {
 #workspaces button.active {
     background-color: @text;
     border-style: none;
-    padding: 0 6px;
+    padding: 0 5px;
 }
 
 #workspaces button.urgent {
