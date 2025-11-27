@@ -24,24 +24,41 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
         connectedOutputs=$(hyprctl monitors all | awk '$1 == "Monitor"{print $2}')
 
         setup_first() {
-            # Args: name,resolution,position,scale
-            hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
-            hyprctl keyword monitor "$2",disable > /dev/null
-            hyprctl dispatch workspace 1 > /dev/null
+            if [[ "$DRY_RUN" == "true" ]]; then
+                echo "Running 'hyprctl keyword monitor $1,preferred,auto,auto > /dev/null'"
+                echo "Running 'hyprctl keyword monitor $2,disable > /dev/null'"
+                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+            else
+                # Args: name,resolution,position,scale
+                hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
+                hyprctl keyword monitor "$2",disable > /dev/null
+                hyprctl dispatch workspace 1 > /dev/null
+            fi
         }
         setup_second() {
-            hyprctl keyword monitor "$1",disable > /dev/null
-            # Force 1920x1080 since it doesn't always detect recommended resolution correctly
-            # hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
-            hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
-            # FIX: For some reason this gets ignored and we are on workspace 3
-            hyprctl dispatch workspace 1 > /dev/null
+            if [[ "$DRY_RUN" == "true" ]]; then
+                echo "Running 'hyprctl keyword monitor $1,disable > /dev/null'"
+                echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,auto,auto > /dev/null'"
+                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+            else
+                hyprctl keyword monitor "$1",disable > /dev/null
+                # Force 1920x1080 since it doesn't always detect recommended resolution correctly
+                # hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
+                hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
+                hyprctl dispatch workspace 1 > /dev/null
+            fi
         }
         setup_extend() {
-            # first on the left of second
-            hyprctl keyword monitor "$1,$INTERNAL_RESOLUTION,0x0,auto" > /dev/null
-            hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto" > /dev/null
-            hyprctl dispatch workspace 1 > /dev/null
+            if [[ "$DRY_RUN" == "true" ]]; then
+                echo "Running 'hyprctl keyword monitor $1,$INTERNAL_RESOLUTION,0x0,auto > /dev/null'"
+                echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto > /dev/null'"
+                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+            else
+                # first on the left of second
+                hyprctl keyword monitor "$1,$INTERNAL_RESOLUTION,0x0,auto" > /dev/null
+                hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto" > /dev/null
+                hyprctl dispatch workspace 1 > /dev/null
+            fi
         }
         setup_duplicate() {
             # TODO: implement
