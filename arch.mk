@@ -323,11 +323,11 @@ hyprland: ## Install Hyprland with all dependencies
 	@# Screensharing under XWayland (for Discord)
 	@# $(PARUINSTALL) xwaylandvideobridge-git
 
-# INFO: Do I automate this somehow? - https://wiki.hypr.land/Nvidia/
-# Check https://github.com/basecamp/omarchy/blob/d7841e30b5f54d10ba842f01da91a5863e314afe/install/config/hardware/nvidia.sh
-fix-nvidialand: ## Fix hyprland on nvidia (WIP)
+# NOTE: combine this with nvidia.sh from my bootsrap repo
+fix-nvidialand: ## Add missing Environment Variables for hyprland on nvidia
 	@# Whenever Hyprland is updated, this needs to be run (if using nvidia)
-	sudo sed -i 's|^Exec=Hyprland|Exec=env LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia WLR_NO_HARDWARE_CURSORS=1 Hyprland|g' \
+	@#sudo sed -i 's|^Exec=Hyprland|Exec=env LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia WLR_NO_HARDWARE_CURSORS=1 Hyprland|g' \
+	sudo sed -i 's|^Exec=Hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia __GLX_VENDOR_LIBRARY_NAME=nvidia Hyprland|g' \
 		/usr/share/wayland-sessions/hyprland.desktop
 
 # TODO: update to use hyprcursor
