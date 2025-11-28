@@ -150,9 +150,7 @@ cmd create ${{
 # Paste into hovered dir if it is a directory, else paste into cwd
 cmd paste-smart ${{
     if [ -d "$f" ]; then
-        lf -remote "send $id cd \"$f\""
-        lf -remote "send $id paste"
-        lf -remote "send $id cd .."
+        lf -remote "send $id :cd \"$f\"; paste; cd .."
     else
         lf -remote "send $id paste"
     fi
@@ -167,18 +165,21 @@ cmd paste-smart ${{
 map <c-_> maps
 
 ## This block contains defaults key bindings for lf (more at `man lf(1)`)
+# q - quit
+# quit without changing the directory
+map Q %lf -remote "send $id :cd \"$OLDPWD\"; quit"
 # <Space> - toggle selection
 # v - invert selection
-# u - undo all selection                                        - vim
+# u - undo all selection                                         - vim
 # y - copy
 map c copy
-map x cut
-# old: d - cut                                                       - vim
-map p paste-smart
-map P : paste; clear
-# old: p - paste                                                     - vim
-map d delete
 # old: c - clear copied or cut
+map x cut
+# old: d - cut                                                   - vim
+map d delete
+map p paste-smart
+map P :paste; clear
+# old: p - paste                                                 - vim
 map <c-l> clear
 map <esc> clear
 # r - rename
