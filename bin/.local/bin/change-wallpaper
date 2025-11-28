@@ -3,7 +3,7 @@
 ###############################################################################
 # Wallpaper Setter
 #
-# Description: Set new wallpaper
+# Description: Set new (random) wallpaper
 # Dependencies: waypaper, feh (for X11), hyprpaper (for Wayland)
 ###############################################################################
 
@@ -25,24 +25,18 @@ ensure_installed() {
 
 ensure_installed waypaper
 
+FLAGS=()
+
+if [[ "$1" == "-r" || "$1" == "--random" ]]; then
+    FLAGS+=(--random)
+fi
+
 if [[ -n $WAYLAND_DISPLAY ]]; then
     ensure_installed hyprpaper
-
-    # TODO: test on Wayland
-    waypaper --backend hyprpaper --folder "$wallpapers" > /dev/null &
-
-    # if ! command -v hyprpaper > /dev/null; then
-    #     echo "Error: hyprpaper not found"
-    #     exit 1
-    # fi
-    # selected=$(find "$wallpapers" | grep '.png\|.jpg\|.jpeg' | fzf)
-    # if [[ -z $selected ]]; then
-    #     exit 0
-    # fi
-    # echo "Setting wallpaper to $selected"
-    # # TODO: fix hardcoded monitor
-    # hyprctl hyprpaper preload "$selected" > /dev/null && hyprctl hyprpaper wallpaper "DP-1,$selected" > /dev/null
+    FLAGS+=(--backend hyprpaper)
 else
     ensure_installed feh
-    waypaper --backend feh --folder "$wallpapers" > /dev/null &
+    FLAGS+=(--backend feh)
 fi
+
+waypaper "${FLAGS[@]}" --folder "$wallpapers" > /dev/null &
