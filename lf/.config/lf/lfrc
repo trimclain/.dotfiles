@@ -181,7 +181,7 @@ map p paste-smart
 map P :paste; clear
 # old: p - paste                                                 - vim
 map <c-l> clear
-map <esc> clear
+map <esc> :clear; unselect
 # r - rename
 map a push :create<space>
 # : - run builtin command                                       - vim
