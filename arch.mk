@@ -414,7 +414,6 @@ telegram: ## Install Telegram Desktop
 	@# $(INSTALL) telegram-desktop
 	$(FLATINSTALL) org.telegram.desktop
 
-# TODO: choose a wayland altenative: https://wiki.hyprland.org/Useful-Utilities/App-Clients/#discord
 discord: ## Install Discord
 	@# $(INSTALL) discord
 	@# Flatpak version is more up to date
