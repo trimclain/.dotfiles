@@ -287,7 +287,8 @@ qtile: ## Install QTile with all dependencies
 	@# - feh (image viewer and wallpaper setter)
 	@# - waypaper (wallpaper setter)
 	@# - polkit-kde-agent (GUI request for sudo password)
-	$(INSTALL) dmenu rofi slock xss-lock dunst picom feh polkit-kde-agent
+	@# - xorg-xwininfo (window picker for screen recording)
+	$(INSTALL) dmenu rofi slock xss-lock dunst picom feh polkit-kde-agent xorg-xwininfo
 	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
