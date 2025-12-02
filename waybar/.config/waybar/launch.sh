@@ -27,7 +27,7 @@ if [[ "$MAIN_RES" == "1366x768" ]]; then
     # exec_always "VARIABLE_FOR_WAYBAR=$mySwayVariable envsubst < ~/.config/waybar/config.jsonc > /tmp/waybar.jsonc; pkill waybar; exec waybar -c /tmp/waybar.jsonc"
     # and in waybar conf:
     # "output": "${VARIABLE_FOR_WAYBAR}",
-    waybar -c "$HOME/.config/waybar/mini/config" \
+    waybar -c "$HOME/.config/waybar/mini/config.jsonc" \
         -s "$HOME/.config/waybar/mini/style.css" 2>&1 | tee -a /tmp/waybar.log & disown
 else
     waybar 2>&1 | tee -a /tmp/waybar.log & disown

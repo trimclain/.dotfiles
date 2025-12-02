@@ -183,4 +183,3 @@
         "on-click-right": "rofi -show drun"
     }
 }
-// vim: ft=jsonc
