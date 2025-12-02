@@ -20,7 +20,7 @@
     ],
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#workspaces
     "hyprland/workspaces": {
-        "format": "{icon}",
+        "format": "{name}",
         "format-icons": {
             "urgent": "",
             // "urgent": "",
