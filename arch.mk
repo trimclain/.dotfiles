@@ -294,7 +294,6 @@ qtile: ## Install QTile with all dependencies
 
 hyprland: ## Install Hyprland with all dependencies
 	@echo "==================================================================="
-	@#NOTE: this line what I did now
 	$(INSTALL) hyprland
 	@# XDG Desktop Portal handles file pickers, screensharing, etc
 	$(INSTALL) xdg-desktop-portal-hyprland
@@ -306,8 +305,14 @@ hyprland: ## Install Hyprland with all dependencies
 	$(INSTALL) qt5-wayland qt6-wayland
 	@# Post Install Apps
 	$(INSTALL) wl-clipboard dunst rofi feh
-	@# Utils: waybar (statusbar), hyprlock (screen locker), hyprpaper (wallpaper engine), waypaper (GUI wallpaper manager)
-	$(INSTALL) waybar hyprlock hyprpaper
+	@# Statusbar,
+	$(INSTALL) waybar
+	@# Utils:
+	@# - hyprlock (screen locker)
+	@# - hypridle (idle manager)
+	@# - hyprpaper (wallpaper engine)
+	@# - waypaper (GUI wallpaper manager)
+	$(INSTALL) hyprlock hypridle hyprpaper
 	$(PARUINSTALL) waypaper
 	@# Screen recording and screenshot tools
 	$(INSTALL) wf-recorder grim slurp
