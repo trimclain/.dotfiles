@@ -333,7 +333,7 @@ hyprland: ## Install Hyprland with all dependencies
 fix-nvidialand: ## Add missing Environment Variables for hyprland on nvidia
 	@# Whenever Hyprland is updated, this needs to be run (if using nvidia)
 	@#sudo sed -i 's|^Exec=Hyprland|Exec=env LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia WLR_NO_HARDWARE_CURSORS=1 Hyprland|g' \
-	sudo sed -i 's|^Exec=Hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia __GLX_VENDOR_LIBRARY_NAME=nvidia Hyprland|g' \
+	sudo sed -i 's|^Exec=Hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=x11 Hyprland|g' \
 		/usr/share/wayland-sessions/hyprland.desktop
 
 # TODO: update to use hyprcursor
