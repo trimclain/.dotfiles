@@ -8,10 +8,9 @@ ensure_installed() {
 }
 
 # TODO: this is not always the case
-INTERNAL_WIDTH="1366"
-INTERNAL_HEIGHT="768"
-INTERNAL_RESOLUTION="${INTERNAL_WIDTH}x${INTERNAL_HEIGHT}"
-
+#INTERNAL_WIDTH="1366"
+#INTERNAL_HEIGHT="768"
+#INTERNAL_RESOLUTION="${INTERNAL_WIDTH}x${INTERNAL_HEIGHT}"
 EXTERNAL_WIDTH="1920"
 EXTERNAL_HEIGHT="1080"
 EXTERNAL_RESOLUTION="${EXTERNAL_WIDTH}x${EXTERNAL_HEIGHT}"
@@ -27,37 +26,65 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
             if [[ "$DRY_RUN" == "true" ]]; then
                 echo "Running 'hyprctl keyword monitor $1,preferred,auto,auto > /dev/null'"
                 echo "Running 'hyprctl keyword monitor $2,disable > /dev/null'"
-                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+                # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
             else
                 # Args: name,resolution,position,scale
                 hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
                 hyprctl keyword monitor "$2",disable > /dev/null
-                hyprctl dispatch workspace 1 > /dev/null
+                # hyprctl dispatch workspace 1 > /dev/null
             fi
         }
         setup_second() {
             if [[ "$DRY_RUN" == "true" ]]; then
                 echo "Running 'hyprctl keyword monitor $1,disable > /dev/null'"
-                echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,auto,auto > /dev/null'"
-                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+                echo "Running 'hyprctl keyword monitor $2,preferred,auto,auto > /dev/null'"
+                # echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,auto,auto > /dev/null'"
+                # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
             else
                 hyprctl keyword monitor "$1",disable > /dev/null
-                # Force 1920x1080 since it doesn't always detect recommended resolution correctly
-                # hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
-                hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
-                hyprctl dispatch workspace 1 > /dev/null
+                hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
+                # hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
+                # hyprctl dispatch workspace 1 > /dev/null
             fi
         }
         setup_extend() {
             if [[ "$DRY_RUN" == "true" ]]; then
-                echo "Running 'hyprctl keyword monitor $1,$INTERNAL_RESOLUTION,0x0,auto > /dev/null'"
-                echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto > /dev/null'"
-                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+                # echo "Running 'hyprctl keyword monitor $1,$INTERNAL_RESOLUTION,0x0,auto > /dev/null'"
+                # echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto > /dev/null'"
+                echo "Running 'hyprctl keyword monitor $1,preferred,auto,auto > /dev/null'"
+                echo "Running 'hyprctl keyword monitor $2,preferred,auto-right,auto > /dev/null'"
+
+                echo "Running 'hyprctl keyword workspace 1, monitor:$2, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 2, monitor:$2, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 3, monitor:$2, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 4, monitor:$2, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 5, monitor:$2, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 6, monitor:$2, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 7, monitor:$1, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 8, monitor:$1, default:true > /dev/null'"
+                echo "Running 'hyprctl keyword workspace 9, monitor:$1, default:true > /dev/null'"
+                # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+
+                echo "Running 'waypaper --backend hyprpaper --restore'"
             else
                 # first on the left of second
-                hyprctl keyword monitor "$1,$INTERNAL_RESOLUTION,0x0,auto" > /dev/null
-                hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto" > /dev/null
-                hyprctl dispatch workspace 1 > /dev/null
+                # hyprctl keyword monitor "$1,$INTERNAL_RESOLUTION,0x0,auto" > /dev/null
+                # hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto" > /dev/null
+                hyprctl keyword monitor "$1,preferred,auto,auto" > /dev/null
+                hyprctl keyword monitor "$2,preferred,auto-right,auto" > /dev/null
+
+                hyprctl keyword workspace "1, monitor:$2, default:true" > /dev/null
+                hyprctl keyword workspace "2, monitor:$2, default:true" > /dev/null
+                hyprctl keyword workspace "3, monitor:$2, default:true" > /dev/null
+                hyprctl keyword workspace "4, monitor:$2, default:true" > /dev/null
+                hyprctl keyword workspace "5, monitor:$2, default:true" > /dev/null
+                hyprctl keyword workspace "6, monitor:$2, default:true" > /dev/null
+                hyprctl keyword workspace "7, monitor:$1, default:true" > /dev/null
+                hyprctl keyword workspace "8, monitor:$1, default:true" > /dev/null
+                hyprctl keyword workspace "9, monitor:$1, default:true" > /dev/null
+                # hyprctl dispatch workspace 1 > /dev/null
+
+                waypaper --backend hyprpaper --restore
             fi
         }
         setup_duplicate() {
