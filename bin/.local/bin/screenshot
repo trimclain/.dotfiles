@@ -16,6 +16,14 @@ ensure_installed() {
     fi
 }
 
+notify() {
+    if command -v dunstify > /dev/null; then
+        dunstify -a "screenshot" -u low -t 2000 "Screenshot" "$1 saved to clipboard"
+    else
+        notify-send "Screenshot" "$1 saved to clipboard" -t 2000
+    fi
+}
+
 # Show help if no argument is passed
 show_help() {
     echo "Usage: screenshot [screen|region]"
@@ -30,9 +38,7 @@ screen() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
         ensure_installed grim
         grim - | wl-copy
-        if command -v "notify-send" > /dev/null; then
-            notify-send "Screenshot" "Screen saved to clipboard"
-        fi
+        notify "Screen"
     else
         ensure_installed flameshot
         flameshot screen -c
@@ -51,9 +57,7 @@ region() {
             exit
         fi
         grim -g "$REGION" - | wl-copy
-        if command -v "notify-send" > /dev/null; then
-            notify-send "Screenshot" "Region saved to clipboard"
-        fi
+        notify "Region"
     else
         ensure_installed flameshot
         flameshot gui -c
