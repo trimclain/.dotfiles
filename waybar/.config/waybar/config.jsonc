@@ -164,7 +164,7 @@
     // "width": 1280,
     "spacing": 5, // Gaps between modules in px (default: 4)
     "include": [
-        "~/.config/waybar/default-modules.json"
+        "~/.config/waybar/default-modules.jsonc"
     ],
     "modules-left": ["clock"],
     "modules-center": ["hyprland/workspaces"],
