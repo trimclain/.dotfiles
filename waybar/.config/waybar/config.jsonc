@@ -1,8 +1,12 @@
-{
+[{
     "layer": "top",
+    "output": "${MAIN_MONITOR}",
     "height": 36, // default: 30 (remove for auto height)
     // "width": 1280,
     "spacing": 5, // Gaps between modules in px (default: 4)
+    "include": [
+        "~/.config/waybar/default-modules.jsonc"
+    ],
     "modules-left": ["clock", "hyprland/submap"],
     "modules-center": ["hyprland/workspaces"],
     // qtile: tray, volume, brightness, layout, memory, temperature, battery, exit button
@@ -39,39 +43,10 @@
             "5": [],
             "6": []
         },
+        // "persistent-only": true,
         "sort-by-number": true,
         "disable-scroll": true,
-        // "all-outputs": true,
         "on-click": "activate"
-    },
-    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Clock
-    "clock": {
-        // "timezone": "America/New_York",
-        // icons: "󰃰 ", "󰃶 "," ",
-        // "format": " {:%H:%M  󰃶 %a, %b %d}"
-        // "format": "󰃶 {:%a, %b %d %H:%M}",
-        "format": "󰥔 {:%a, %b %d %H:%M}",
-        // "format-alt": "{:%Y-%m-%d}"
-        "format-alt": "󰃶 {:%A %d/%m/%Y %H:%M}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
-        "calendar": {
-            "mode"          : "year",
-            "mode-mon-col"  : 3,
-            "weeks-pos"     : "right",
-            "on-scroll"     : 1,
-            "format": {
-                "months":     "<span color='#ffead3'><b>{}</b></span>",
-                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
-                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
-            }
-        },
-        "actions":  {
-            "on-click-right": "mode",
-            "on-scroll-up": "shift_up",
-            "on-scroll-down": "shift_down"
-        }
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#submap
     "hyprland/submap": {
@@ -182,4 +157,29 @@
         "on-click": "$HOME/.local/bin/powermenu --use-powertheme",
         "on-click-right": "rofi -show drun"
     }
-}
+}, {
+    "layer": "top",
+    "output": "!${MAIN_MONITOR}", // exclude main monitor
+    "height": 36, // default: 30 (remove for auto height)
+    // "width": 1280,
+    "spacing": 5, // Gaps between modules in px (default: 4)
+    "include": [
+        "~/.config/waybar/default-modules.json"
+    ],
+    "modules-left": ["clock"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": [],
+    // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#workspaces
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "persistent-workspaces": {
+            "7": [],
+            "8": [],
+            "9": []
+        },
+        // "persistent-only": true,
+        "sort-by-number": true,
+        "disable-scroll": true,
+        "on-click": "activate"
+    }
+}]
