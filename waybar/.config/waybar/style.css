@@ -69,7 +69,7 @@ button {
     /* top, left, bottom, right */
     margin: 5px 0 5px 5px;
     color: @text;
-    background-color: @surface1;
+    /* background-color: @surface1; */
     border-radius: 15px;
     /* border: @base; */
     /* border-width: 1px; */
@@ -81,7 +81,8 @@ button {
 }
 
 #workspaces button.empty {
-    background-color: @base;
+    color: @overlay1;
+    /* background-color: @base; */
 }
 
 #workspaces button.active {
