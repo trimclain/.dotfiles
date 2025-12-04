@@ -2,11 +2,12 @@
 {
     "layer": "top",
     "height": 36,
-    // TODO:
-    // "height": 24, // default: 30 (to be removed for auto height)
-    // "width": 1280, // Waybar width
-    "spacing": 5, // Gaps between modules (4px)
-    // Choose the order of the modules
+    // "height": 24, // default: 30 (remove for auto height)
+    // "width": 1280,
+    "spacing": 5, // Gaps between modules in px (default: 4)
+    "include": [
+        "~/.config/waybar/default-modules.jsonc"
+    ],
     "modules-left": ["clock", "hyprland/submap"],
     "modules-center": ["hyprland/workspaces"],
     // qtile: tray, volume, brightness, layout, memory, temperature, battery, exit button
@@ -24,7 +25,7 @@
     ],
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#workspaces
     "hyprland/workspaces": {
-        "format": "{icon}",
+        "format": "{name}",
         "format-icons": {
             "urgent": "",
             // "urgent": "",
@@ -43,20 +44,10 @@
             "5": [],
             "6": []
         },
+        // "persistent-only": true,
         "sort-by-number": true,
         "disable-scroll": true,
-        // "all-outputs": true,
         "on-click": "activate"
-    },
-    // SOMEDAY: https://github.com/Alexays/Waybar/wiki/Module:-Clock#example
-    "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        // icons: "󰃰 ", "󰃶 "," ",
-        // "format": " {:%H:%M  󰃶 %a, %b %d}"
-        "format": "󰃶 {:%a, %b %d %H:%M}",
-        // "format-alt": "{:%Y-%m-%d}"
-        "format-alt": "󰃶 {:%A %d/%m/%Y %H:%M}"
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#submap
     "hyprland/submap": {
@@ -132,7 +123,7 @@
         "format": "󰍛 {used:0.2f} GiB ({percentage}%)",
         "tooltip-format": "{used:0.2f} GiB / {total:0.2f} GiB",
         "interval": 1, // default: 30
-        "on-click": "kitty -e htop"
+        "on-click": "kitty -e btop"
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Temperature
     "temperature": {
@@ -162,7 +153,8 @@
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Custom
     "custom/power": {
-        "format": "󰤆",
+        // "format": "󰤆", // nf-md-power_standby
+        "format": "󰐥", // nf-md-power
         "on-click": "$HOME/.local/bin/powermenu --use-powertheme",
         "on-click-right": "rofi -show drun"
     }
