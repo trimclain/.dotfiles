@@ -39,12 +39,17 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 echo "Running 'hyprctl keyword monitor $1,disable > /dev/null'"
                 echo "Running 'hyprctl keyword monitor $2,preferred,auto,auto > /dev/null'"
                 # echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,auto,auto > /dev/null'"
-                # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+                if [[ "$3" == "--startup" ]]; then
+                    echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+                fi
             else
                 hyprctl keyword monitor "$1",disable > /dev/null
                 hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
                 # hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
-                # hyprctl dispatch workspace 1 > /dev/null
+                if [[ "$3" == "--startup" ]]; then
+                    # we're always on workspace 2 on startup for some reason
+                    hyprctl dispatch workspace 1 > /dev/null
+                fi
             fi
         }
         setup_extend() {
@@ -187,5 +192,5 @@ elif [ "$MODE" = "--duplicate" ]; then
     setup_duplicate "$INTERNAL" "$EXTERNAL"
 elif [ "$MODE" = "--startup" ]; then
     # If there's a connected hmdi output, make --second
-    setup_second "$INTERNAL" "$EXTERNAL"
+    setup_second "$INTERNAL" "$EXTERNAL" "--startup"
 fi
