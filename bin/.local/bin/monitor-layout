@@ -70,14 +70,17 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 echo "Running 'hyprctl keyword workspace 9, monitor:$1, default:true > /dev/null'"
                 # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
 
-                echo "Running 'waypaper --backend hyprpaper --restore'"
+                echo "Running 'waypaper --backend hyprpaper --restore > /dev/null'"
             else
                 # first on the left of second
                 # hyprctl keyword monitor "$1,$INTERNAL_RESOLUTION,0x0,auto" > /dev/null
                 # hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto" > /dev/null
+                # FIX: $2 gets put to the left of $1
                 hyprctl keyword monitor "$1,preferred,auto,auto" > /dev/null
                 hyprctl keyword monitor "$2,preferred,auto-right,auto" > /dev/null
 
+                # FIX: workspace 1 is for some reason on $1 but can be seen on both bars
+                # NOTE: this gets fixed after I empty workspace 1...
                 hyprctl keyword workspace "1, monitor:$2, default:true" > /dev/null
                 hyprctl keyword workspace "2, monitor:$2, default:true" > /dev/null
                 hyprctl keyword workspace "3, monitor:$2, default:true" > /dev/null
@@ -89,7 +92,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 hyprctl keyword workspace "9, monitor:$1, default:true" > /dev/null
                 # hyprctl dispatch workspace 1 > /dev/null
 
-                waypaper --backend hyprpaper --restore
+                waypaper --backend hyprpaper --restore > /dev/null
             fi
         }
         setup_duplicate() {
