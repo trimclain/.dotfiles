@@ -310,9 +310,10 @@ hyprland: ## Install Hyprland with all dependencies
 	@# Utils:
 	@# - hyprlock (screen locker)
 	@# - hypridle (idle manager)
+	@# - hyprsunset (blue light filter utility)
 	@# - hyprpaper (wallpaper engine)
 	@# - waypaper (GUI wallpaper manager)
-	$(INSTALL) hyprlock hypridle hyprpaper
+	$(INSTALL) hyprlock hypridle hyprsunset hyprpaper
 	$(PARUINSTALL) waypaper
 	@# Screen recording and screenshot tools
 	$(INSTALL) wf-recorder grim slurp
