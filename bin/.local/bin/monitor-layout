@@ -54,9 +54,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
         }
         setup_extend() {
             if [[ "$DRY_RUN" == "true" ]]; then
-                # echo "Running 'hyprctl keyword monitor $1,$INTERNAL_RESOLUTION,0x0,auto > /dev/null'"
-                # echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto > /dev/null'"
-                echo "Running 'hyprctl keyword monitor $1,preferred,auto,auto > /dev/null'"
+                echo "Running 'hyprctl keyword monitor $1,preferred,0x0,auto > /dev/null'"
                 echo "Running 'hyprctl keyword monitor $2,preferred,auto-right,auto > /dev/null'"
 
                 echo "Running 'hyprctl keyword workspace 1, monitor:$2, default:true > /dev/null'"
@@ -73,10 +71,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 echo "Running 'waypaper --backend hyprpaper --restore > /dev/null'"
             else
                 # first on the left of second
-                # hyprctl keyword monitor "$1,$INTERNAL_RESOLUTION,0x0,auto" > /dev/null
-                # hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,${INTERNAL_WIDTH}x0,auto" > /dev/null
-                # FIX: $2 gets put to the left of $1
-                hyprctl keyword monitor "$1,preferred,auto,auto" > /dev/null
+                hyprctl keyword monitor "$1,preferred,0x0,auto" > /dev/null
                 hyprctl keyword monitor "$2,preferred,auto-right,auto" > /dev/null
 
                 # FIX: workspace 1 is for some reason on $1 but can be seen on both bars
