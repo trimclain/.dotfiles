@@ -50,6 +50,9 @@ shell-integration-features = no-cursor,no-sudo,title
 #copy-on-select = clipboard
 mouse-hide-while-typing = true
 
+#keybind=clear
+keybind = ctrl+enter=unbind
+
 # Shaders
 # More: https://github.com/hackr-sh/ghostty-shaders
 # custom-shader = shaders/bloom025.glsl
