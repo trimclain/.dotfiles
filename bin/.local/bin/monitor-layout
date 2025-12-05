@@ -71,6 +71,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 echo "Running 'waypaper --backend hyprpaper --restore > /dev/null'"
             else
                 # first on the left of second
+                # TODO: should I force my laptop monitor to stay at scale 1 instead of auto being 1.5?
                 hyprctl keyword monitor "$1,preferred,0x0,auto" > /dev/null
                 hyprctl keyword monitor "$2,preferred,auto-right,auto" > /dev/null
 
