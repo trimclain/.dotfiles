@@ -91,10 +91,11 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
             fi
         }
         setup_duplicate() {
-            # TODO: implement
-            # hyprctl keyword monitor "$intern",preferred,auto,auto > /dev/null
-            # hyprctl keyword monitor "$extern",preferred,auto,auto > /dev/null
-            return
+            if [[ "$DRY_RUN" == "true" ]]; then
+                echo "Running 'hyprctl keyword monitor $1, preferred, auto, 1, mirror, $2 > /dev/null'"
+            else
+                hyprctl keyword monitor "$1, preferred, auto, 1, mirror, $2" > /dev/null
+            fi
         }
     else
         echo "Error: $DESKTOP_SESSION not supported"
