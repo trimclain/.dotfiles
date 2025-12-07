@@ -19,7 +19,7 @@
         "hyprland/language",
         // "network",
         "memory",
-        "temperature",
+        // "temperature",
         "battery",
         "custom/power"
     ],
@@ -73,7 +73,9 @@
         // "format-source": " {volume}%",
         // "format-source": "",
         "format-source": "",
-        "format-source-muted": " ()",
+        // "format-source-muted": " ( )",
+        // "format-source-muted": " ( )",
+        "format-source-muted": " (󰍭)",
         "format-icons": {
             "headphone": "",
             "hands-free": "󰋐",
@@ -120,7 +122,7 @@
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Memory
     "memory": {
         // "format": "{percentage}% "
-        "format": "󰍛 {used:0.2f} GiB ({percentage}%)",
+        "format": "󰍛 {used:0.2f} GiB",
         "tooltip-format": "{used:0.2f} GiB / {total:0.2f} GiB",
         "interval": 1, // default: 30
         "on-click": "kitty -e btop"
