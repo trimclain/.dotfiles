@@ -66,7 +66,9 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 echo "Running 'hyprctl keyword workspace 7, monitor:$1, default:true > /dev/null'"
                 echo "Running 'hyprctl keyword workspace 8, monitor:$1, default:true > /dev/null'"
                 echo "Running 'hyprctl keyword workspace 9, monitor:$1, default:true > /dev/null'"
-                # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+
+                echo "Running 'hyprctl dispatch workspace 7 > /dev/null'"
+                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
 
                 echo "Running 'waypaper --backend hyprpaper --restore > /dev/null'"
             else
@@ -75,8 +77,6 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 hyprctl keyword monitor "$1,preferred,0x0,auto" > /dev/null
                 hyprctl keyword monitor "$2,preferred,auto-right,auto" > /dev/null
 
-                # FIX: workspace 1 is for some reason on $1 but can be seen on both bars
-                # NOTE: this gets fixed after I empty workspace 1...
                 hyprctl keyword workspace "1, monitor:$2, default:true" > /dev/null
                 hyprctl keyword workspace "2, monitor:$2, default:true" > /dev/null
                 hyprctl keyword workspace "3, monitor:$2, default:true" > /dev/null
@@ -86,7 +86,11 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 hyprctl keyword workspace "7, monitor:$1, default:true" > /dev/null
                 hyprctl keyword workspace "8, monitor:$1, default:true" > /dev/null
                 hyprctl keyword workspace "9, monitor:$1, default:true" > /dev/null
-                # hyprctl dispatch workspace 1 > /dev/null
+
+                # FIX: workspace 1 is for some reason on $1 but can be seen on both bars
+                # NOTE: this gets fixed after I empty workspace 1, go to workspace 7 and come back
+                hyprctl dispatch workspace 7 > /dev/null
+                hyprctl dispatch workspace 1 > /dev/null
 
                 waypaper --backend hyprpaper --restore > /dev/null
             fi
