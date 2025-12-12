@@ -307,7 +307,7 @@ hyprland: ## Install Hyprland with all dependencies
 	$(INSTALL) wl-clipboard dunst rofi feh
 	@# Statusbar,
 	$(INSTALL) waybar
-	@# Utils:
+	@# Core Utils:
 	@# - hyprlock (screen locker)
 	@# - hypridle (idle manager)
 	@# - hyprsunset (blue light filter utility)
@@ -315,20 +315,16 @@ hyprland: ## Install Hyprland with all dependencies
 	@# - waypaper (GUI wallpaper manager)
 	$(INSTALL) hyprlock hypridle hyprsunset hyprpaper
 	$(PARUINSTALL) waypaper
-	@# Screen recording and screenshot tools
-	$(INSTALL) wf-recorder grim slurp
+	@# Extra Utils:
+	@# - hyprpicker (color picker)
+	@# - wf-recorder (screen-recorder)
+	@# - grim (screenshot utility)
+	@# - slurp (region selector)
+	@# - nwg-look (GTK Settings Editor for changing cursor and icon themes)
+	@# - gnome-themes-extra (Extra GTK Themes like Adwaita-dark)
+	$(INSTALL) hyprpicker wf-recorder grim slurp nwg-look gnome-themes-extra
 	@make brightnessctl
-	@# GTK Settings Editor for changing cursor and icon themes
-	$(INSTALL) nwg-look
-
-	@# Themes and Icons (?)
-	$(INSTALL) gnome-themes-extra
 	@#make cursor
-	@# Color Picker
-	@# $(INSTALL) hyprpicker
-	@# FIX: make this work
-	@# Screensharing under XWayland (for Discord)
-	@# $(PARUINSTALL) xwaylandvideobridge-git
 
 # NOTE: combine this with nvidia.sh from my bootsrap repo
 fix-nvidialand: ## Add missing Environment Variables for hyprland on nvidia
