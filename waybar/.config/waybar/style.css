@@ -86,6 +86,7 @@ button {
 }
 
 #workspaces button.active {
+    color: @lavender_latte;
     background-color: @lavender_latte;
     border-style: none;
     padding: 0 5px;
@@ -198,5 +199,5 @@ label:focus {
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
 }
-/* vim: ft=sass
+/* vim: ft=sass sts=4 sw=4
  */
