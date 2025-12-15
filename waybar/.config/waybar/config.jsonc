@@ -82,7 +82,7 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", "󰕾", ""]
+            "default": ["", "", "󰕾", " "]
         }
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Backlight
