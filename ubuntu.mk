@@ -161,7 +161,7 @@ docker:
 	@echo "==================================================================="
 	@# Installing docker
 	@if [ ! -f /usr/bin/docker ]; then echo "Installing Docker..." &&\
-		$(INSTALL) docker.io && sudo usermod -aG docker $$USER && echo "Done";\
+		$(INSTALL) docker.io docker-compose-v2 && sudo usermod -aG docker $$USER && echo "Done";\
 		else echo "[docker]: Already installed"; fi
 
 uninstall_docker:
