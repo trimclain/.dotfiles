@@ -362,9 +362,9 @@ hyprland: ## Install Hyprland with all dependencies
 	@# - hyprlock (screen locker)
 	@# - hypridle (idle manager)
 	@# - hyprsunset (blue light filter utility)
-	@# - hyprpaper (wallpaper engine)
+	@# - swaybg (wallpaper engine); alternative: hyprpaper (can disable splash with waypaper)
 	@# - waypaper (GUI wallpaper manager)
-	$(INSTALL) hyprlock hypridle hyprsunset hyprpaper
+	$(INSTALL) hyprlock hypridle hyprsunset swaybg
 	$(PARUINSTALL) waypaper
 	@# Extra Utils:
 	@# - hyprpicker (color picker)
