@@ -46,10 +46,10 @@ getnf: ## Install the Nerd Font installer
 		curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash; fi
 
 wallpapers: ## Install 1GB of nice 16:9 wallpapers
-	@echo "Installing wallpapers..."
+	@echo "[wallpapers]: Installing..."
 	@mkdir -p ~/personal/media/
 	@git clone --depth=1 https://github.com/trimclain/wallpapers ~/personal/media/wallpapers
-	@echo "Done"
+	@echo "[wallpapers]: Done"
 
 maple_mono: ## Install Maple Mono fonts
 	@./bin/.local/bin/install-maple-mono
@@ -65,13 +65,13 @@ brightnessctl: ## Install a brightness control tool
 	@if command -v brightnessctl &> /dev/null; then \
 		echo "[brightnessctl]: Already installed";\
 	else \
-		echo "Installing brightnessctl..." &&\
+		echo "[brightnessctl]: Installing..." &&\
 		git clone --depth=1 https://github.com/Hummer12007/brightnessctl /tmp/brightnessctl &&\
 		cd /tmp/brightnessctl &&\
 		./configure &&\
 		sudo make install &&\
 		rm -rf /tmp/brightnessctl &&\
-		echo "Done";\
+		echo "[brightnessctl]: Done";\
 	fi
 
 
@@ -95,10 +95,10 @@ sdkman: ## Install the SDK Manager, a tool for managing Java, Groovy and Kotlin 
 	@echo "==================================================================="
 	@# Install sdkman to install Java, Groovy, Kotlin etc.
 	@if [ ! -d ~/.sdkman ]; then \
-		echo "Installing the Software Development Kit Manager..." &&\
+		echo "[sdkman]: Installing the Software Development Kit Manager..." &&\
 		$(INSTALL) zip unzip &&\
 		curl -s https://get.sdkman.io | bash && \
-		echo "Done"; \
+		echo "[sdkman]: Done"; \
 	else \
 		echo "[sdkman]: Already installed"; \
 	fi
@@ -115,10 +115,15 @@ golang: ## Install julia
 
 g: ## Install g, the go version manager
 	@echo "==================================================================="
-	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
-		export GOROOT="$$HOME/.golang" && export GOPATH="$$HOME/.go" && \
-		curl -sSL https://git.io/g-install | sh -s -- -y &&\
-		echo "Done"; else echo "[golang]: Already installed"; fi
+	@if [ ! -d ~/.go ]; then \
+		echo "[golang]: Installing golang version manager with latest stable go version..." && \
+		export GOROOT="$$HOME/.golang" && \
+		export GOPATH="$$HOME/.go" && \
+		curl -sSL https://git.io/g-install | sh -s -- -y && \
+		echo "[golang]: Done"; \
+	else \
+		echo "[golang]: Already installed"; \
+	fi
 
 tectonic: ## Install tectonic, a LaTeX engine
 	$(INSTALL) tectonic
@@ -129,12 +134,12 @@ typst: ## Install Typst (better LaTeX) engine
 fnm: ## Install Fast Node Manager
 	@FNM_INSTALL_DIR="$${FNM_PATH:-$$HOME/.local/share/fnm}"; \
 	if [[ ! -d "$$FNM_INSTALL_DIR" ]]; then \
-		echo "Installing fnm (fast node manager) with latest stable node version..."; \
+		echo "[fnm]: Installing fast node manager with latest stable node version..."; \
 		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; \
 		export PATH="$$HOME/.local/share/fnm:$$PATH"; \
 		eval "$$(fnm env)"; \
 		fnm install --lts; \
-		echo "Done"; \
+		echo "[fnm]: Done"; \
 	else \
 		echo "[fnm]: Already installed"; \
 	fi
@@ -168,9 +173,9 @@ flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then\
 		echo "[flatpak]: Already installed";\
 	else\
-		echo "Installing flatpak..." &&\
+		echo "[flatpak]: Installing..." &&\
 		$(INSTALL) flatpak &&\
-		echo "Done";\
+		echo "[flatpak]: Done";\
 	fi
 	@# Arch does this by default:
 	@#if ! flatpak remotes | grep -q "flathub"; then
@@ -183,10 +188,16 @@ gearlever: ## manage AppImages
 
 docker: ## Install docker
 	@echo "==================================================================="
-	@if command -v docker > /dev/null; then echo "[docker]: Already installed";\
-		else echo "Installing Docker..." && $(INSTALL) docker docker-buildx docker-compose &&\
-		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
-		echo "Done. Log out and in to use docker without sudo"; fi
+	@if command -v docker > /dev/null; then \
+		echo "[docker]: Already installed"; \
+	else \
+		echo "[docker]: Installing..." && \
+		$(INSTALL) docker docker-buildx docker-compose && \
+		sudo systemctl enable docker.socket --now && \
+		sudo usermod -aG docker $$USER && \
+		echo "[docker]: Done"; \
+		echo "[docker]: Log out and log back in to use docker without sudo"; \
+	fi
 
 lazydocker: ## Install lazydocker (lazygit for docker)
 	$(PARUINSTALL) lazydocker-bin
@@ -228,16 +239,28 @@ nvim_build_reqs: ## Install neovim build prerequisites
 
 # or install neovim-nightly-bin with paru
 nvim_dev: ## Install neovim by building it from source
-	@if command -v nvim > /dev/null; then echo "[nvim]: Already installed";\
-		else make nvim_build_reqs && echo "Installing Neovim..." &&\
-		git clone --depth=1 https://github.com/neovim/neovim /tmp/neovim && pushd /tmp/neovim/ &&\
-		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf /tmp/neovim &&\
-		make nvim_reqs && echo "Done"; fi
+	@if command -v nvim > /dev/null; then \
+		echo "[nvim]: Already installed"; \
+	else \
+		make nvim_build_reqs && \
+		echo "[nvim]: Installing from Github..." && \
+		git clone --depth=1 https://github.com/neovim/neovim /tmp/neovim && \
+		pushd /tmp/neovim/ && \
+		make CMAKE_BUILD_TYPE=Release && \
+		sudo make install && \
+		popd && \
+		rm -rf /tmp/neovim && \
+		make nvim_reqs && \
+		echo "[nvim]: Done"; \
+	fi
 
 uninstall_nvim_dev: ## Uninstall neovim that was built from source (e.g. with `make nvim_dev`)
-	@if [[ -f /usr/local/bin/nvim ]]; then echo "Uninstalling Neovim..." &&\
-		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
-		echo "Done"; fi
+	@if [[ -f /usr/local/bin/nvim ]]; then \
+		echo "Uninstalling Neovim..." && \
+		sudo rm -f /usr/local/bin/nvim && \
+		sudo rm -rf /usr/local/share/nvim/ && \
+		echo "Done"; \
+	fi
 
 clean_nvim: ## Uninstall neovim packages, remove state and cache files
 	@echo "Uninstalling Neovim Leftovers..."
@@ -258,18 +281,32 @@ zoxide: ## Install zoxide (a smart cd command)
 	$(INSTALL) zoxide
 
 zsh: ## Install zsh
-	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
-		else echo "Installing Zsh..." && $(INSTALL) zsh starship && echo "Done" && make zap && make zoxide; fi
+	@if command -v zsh > /dev/null; then \
+		echo "[zsh]: Already installed"; \
+	else \
+		echo "[zsh]: Installing..." && \
+		$(INSTALL) zsh starship && \
+		echo "[zsh]: Done" && \
+		make zap && \
+		make zoxide; \
+	fi
 	@# Check if zsh is the shell, change if not
-	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
-	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [[ -z "$$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && sudo chsh -s /bin/zsh $$USER &&\
-		echo "Successfully switched to ZSH. This might work only after reboot."; else echo "[zsh]: Already in use"; fi
+	@if [[ -z "$$ZSH_VERSION" ]]; then \
+		echo "[zsh]: Changing shell to Z shell" && \
+		sudo chsh -s /bin/zsh $$USER && \
+		echo "[zsh]: Successfully switched to Z shell. This might work only after reboot."; \
+	else \
+		echo "[zsh]: Already in use"; \
+	fi
 
 zap: ## Install zap-zsh (a zsh plugin manager)
-	@if [[ -d ~/.local/share/zap ]]; then echo "[zap-zsh]: Already installed";\
-		else echo "Installing zap-zsh..." && git clone https://github.com/zap-zsh/zap ~/.local/share/zap;\
-		echo "Done"; fi
+	@if [[ -d ~/.local/share/zap ]]; then \
+		echo "[zap-zsh]: Already installed"; \
+	else \
+		echo "[zap-zsh]: Installing..." && \
+		git clone https://github.com/zap-zsh/zap ~/.local/share/zap; \
+		echo "[zap-zsh]: Done"; \
+	fi
 
 #========================================= Window Manager =========================================
 awesome: ## Install AwesomeWM with all dependencies
@@ -533,7 +570,7 @@ syncthing: ## Install Syncthing
 
 apps: ## Install btop, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
 	@echo "==================================================================="
-	@echo Installing apps...
+	@echo "Installing apps..."
 	@echo "==================================================================="
 	$(INSTALL) btop okular pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
 	@make thorium
@@ -542,7 +579,7 @@ apps: ## Install btop, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, tho
 #==================================================================================================
 install: ## Setup arch after new installation
 	@echo "==================================================================="
-	@echo Installing everything...
+	@echo "Installing everything..."
 	@echo "==================================================================="
 	@# symlink my configs
 	@./install --linux
