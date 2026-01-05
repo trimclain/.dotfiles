@@ -10,8 +10,9 @@ all:
 	# For paccache to clean pacman cache
 	$(INSTALL) pacman-contrib
 	@# For netstat, ifconfig and more
+	@# NOTE: should probably use ss from iproute2 package (networkmanager dependency)
 	$(INSTALL) net-tools
-	@# Some scripts like getnf need this
+	@# Some tools like getnf make use of this
 	$(INSTALL) xdg-user-dirs
 
 help: ## Print this help menu
