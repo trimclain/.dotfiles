@@ -155,14 +155,17 @@ paru: ## Install paru (the AUR helper)
 	@if command -v paru &> /dev/null; then \
 		printf "[paru]: Already installed. Reinstall? [y/N] "; \
 		read -n 1 ans; echo; \
-		if [ "$$ans" = "n" ] || [ "$$ans" = "N" ]; then \
+		if [[ "$$ans" != "y" ]] && [[ "$$ans" != "Y" ]]; then \
 			echo "[paru]: Canceling..."; \
 			exit 0; \
 		fi; \
+		echo "[paru]: Reinstalling..."; \
+	else \
+		echo "[paru]: Installing..."; \
 	fi; \
-	echo "[paru]: Installing..."; \
 	$(INSTALL) base-devel && \
-	git clone https://aur.archlinux.org/paru-bin.git /tmp/paru && \
+	# git clone https://aur.archlinux.org/paru-bin.git /tmp/paru && \
+	git clone https://aur.archlinux.org/paru.git /tmp/paru && \
 	pushd /tmp/paru && \
 	makepkg --noconfirm -si && \
 	popd && \
