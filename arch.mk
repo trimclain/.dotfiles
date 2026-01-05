@@ -183,7 +183,7 @@ gearlever: ## manage AppImages
 docker: ## Install docker
 	@echo "==================================================================="
 	@if command -v docker > /dev/null; then echo "[docker]: Already installed";\
-		else echo "Installing Docker..." && $(INSTALL) docker docker-buildx &&\
+		else echo "Installing Docker..." && $(INSTALL) docker docker-buildx docker-compose &&\
 		sudo systemctl enable docker.socket --now && sudo usermod -aG docker $$USER &&\
 		echo "Done. Log out and in to use docker without sudo"; fi
 
