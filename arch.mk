@@ -146,10 +146,22 @@ typescript: ## Install tsc, ts-node and pnpm
 ###################################################################################################
 
 paru: ## Install paru (the AUR helper)
-	@if command -v paru &> /dev/null; then echo "[paru]: Already installed";\
-		else echo "Installing paru..." && $(INSTALL) base-devel &&\
-		git clone https://aur.archlinux.org/paru-bin.git ~/paru && pushd ~/paru &&\
-		makepkg --noconfirm -si && popd && rm -rf ~/paru && echo "Done"; fi
+	@if command -v paru &> /dev/null; then \
+		printf "[paru]: Already installed. Reinstall? [y/N] "; \
+		read -n 1 ans; echo; \
+		if [ "$$ans" = "n" ] || [ "$$ans" = "N" ]; then \
+			echo "[paru]: Canceling..."; \
+			exit 0; \
+		fi; \
+	fi; \
+	echo "[paru]: Installing..."; \
+	$(INSTALL) base-devel && \
+	git clone https://aur.archlinux.org/paru-bin.git /tmp/paru && \
+	pushd /tmp/paru && \
+	makepkg --noconfirm -si && \
+	popd && \
+	rm -rf /tmp/paru && \
+	echo "[paru]: Done"
 
 flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then\
