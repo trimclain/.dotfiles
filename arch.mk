@@ -199,9 +199,7 @@ lf: ## Install lf (file manager)
 	$(INSTALL) imagemagick poppler
 
 yazi: ## Install yazi (file manager)
-	$(INSTALL) yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide imagemagick
-	@# takes ~5 minutes to install, not sure it's worth for just previewing svg
-	@#$(PARUINSTALL) resvg
+	$(INSTALL) yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide imagemagick resvg
 
 gh: ## Install github-cli
 	$(INSTALL) github-cli
