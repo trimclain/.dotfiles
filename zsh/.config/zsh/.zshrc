@@ -350,10 +350,7 @@ fi
 # bindkey -s ^b "^uchange-wallpaper\n"
 
 # Use yazi or lf with ueberzugpp to switch directories and bind it to ctrl-o
-# INFO: switch back to lf for now due to performance issues
-# with preview in ghostty and laggy kitty cursor trail
-# if (( $+commands[yazi] )); then
-if (( $+commands[notyazi] )); then
+if (( $+commands[yazi] )); then
     yazicd() {
         local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
         yazi "$@" --cwd-file="$tmp"
