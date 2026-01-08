@@ -89,47 +89,11 @@ setopt print_exit_value
 setopt always_to_end
 # try to correct the spelling of commands
 setopt correct
+# disable all error sounds
+unsetopt BEEP
 
 # Disable highlighting on paste
 zle_highlight=('paste:none')
-
-# Completion (`man zshmodules`)
-# Highlight seleceted options on <Tab>
-zstyle ':completion:*' menu select
-# Make completion case insensitive when using small letters
-#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-
-###############################################################################
-# INFO: ANSI escape codes define how colors are displayed.
-
-# They are structured as:
-# Foreground Colors (Text): 30-37
-# Background Colors: 40-47
-# Bright Versions (Bold): 90-97 (Foreground), 100-107 (Background)
-# Color    Foreground    Background
-# Black        30            40
-# Red          31            41
-# Green        32            42
-# Yellow       33            43
-# Blue         34            44
-# Magenta      35            45
-# Cyan         36            46
-# White        37            47
-
-# Make ls colors work with completion
-eval "$(dircolors -b)"
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-###############################################################################
-
-# Disable all error sounds
-unsetopt BEEP
-
-# Change the location of .zcompdump (https://unix.stackexchange.com/questions/391641/separate-path-for-zcompdump-files)
-autoload -Uz compinit
-__ZCOMPDUMPDIR="$XDG_CACHE_HOME/zsh/"
-[[ -d $__ZCOMPDUMPDIR ]] || mkdir -p $__ZCOMPDUMPDIR
-export ZSH_COMPDUMP=$__ZCOMPDUMPDIR/zcompdump-$ZSH_VERSION
-compinit -d "$ZSH_COMPDUMP"
 
 ###############################################################################
 # Exports (env)
@@ -582,3 +546,45 @@ plug "zsh-users/zsh-autosuggestions"
 
 # Syntax highlighting (should be the last one)
 plug "zsh-users/zsh-syntax-highlighting"
+
+###############################################################################
+# Completion
+###############################################################################
+
+# Docs: `man zshmodules`
+
+# Highlight seleceted options on <Tab>
+zstyle ':completion:*' menu select
+# Make completion case insensitive when using small letters
+#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# ANSI escape codes define how colors are displayed.
+# They are structured as:
+# Foreground Colors (Text): 30-37
+# Background Colors: 40-47
+# Bright Versions (Bold): 90-97 (Foreground), 100-107 (Background)
+# Color    Foreground    Background
+# Black        30            40
+# Red          31            41
+# Green        32            42
+# Yellow       33            43
+# Blue         34            44
+# Magenta      35            45
+# Cyan         36            46
+# White        37            47
+#
+# Make ls colors work with completion
+eval "$(dircolors -b)"
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# add my own completions to $fpath
+fpath+=("$HOME/.config/zsh/completions")
+
+# Change the location of .zcompdump (https://unix.stackexchange.com/questions/391641/separate-path-for-zcompdump-files)
+__ZCOMPDUMPDIR="$XDG_CACHE_HOME/zsh/"
+[[ -d $__ZCOMPDUMPDIR ]] || mkdir -p $__ZCOMPDUMPDIR
+export ZSH_COMPDUMP=$__ZCOMPDUMPDIR/zcompdump-$ZSH_VERSION
+
+# This NEEDS to be at the bottom for ALL completions to load
+autoload -Uz compinit
+compinit -d "$ZSH_COMPDUMP"
