@@ -578,11 +578,11 @@ syncthing: ## Install Syncthing
 
 #==================================================================================================
 
-apps: ## Install btop, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
+apps: ## Install btop, mission-center, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
 	@echo "==================================================================="
 	@echo "Installing apps..."
 	@echo "==================================================================="
-	$(INSTALL) btop okular pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
+	$(INSTALL) btop mission-center okular pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
 	@make thorium
 	@make telegram
 
