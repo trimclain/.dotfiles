@@ -546,6 +546,9 @@ ventoy: ## Install Ventoy (Multiboot USB)
 localsend: ## Install LocalSend (Open Source AirDrop)
 	$(FLATINSTALL) org.localsend.localsend_app
 
+opencode: ## Install opencode (TUI AI Agent)
+	$(PARUINSTALL) opencode-bin
+
 #============================================= Study ==============================================
 anki: ## Install Anki
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
@@ -638,7 +641,7 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
-	gimp kdenlive inkscape audacity vpn ventoy localsend\
+	gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
 	anki uninstall_anki pomodorolm syncthing\
 	apps\
 	install
