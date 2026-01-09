@@ -362,10 +362,12 @@ hyprland: ## Install Hyprland with all dependencies
 	@# - hyprlock (screen locker)
 	@# - hypridle (idle manager)
 	@# - hyprsunset (blue light filter utility)
-	@# - swaybg (wallpaper engine); alternative: hyprpaper (can disable splash with waypaper)
+	@# - swaybg (wallpaper engine); alternative: hyprpaper (can't disable splash with waypaper)
 	@# - waypaper (GUI wallpaper manager)
 	$(INSTALL) hyprlock hypridle hyprsunset swaybg
 	$(PARUINSTALL) waypaper
+	@# Create a symlink for hyprlock to use the same wallpaper
+	@#sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" /tmp/current_wallpaper.png|' ~/.config/waypaper/config.ini
 	@# Extra Utils:
 	@# - hyprpicker (color picker)
 	@# - wf-recorder (screen-recorder)
