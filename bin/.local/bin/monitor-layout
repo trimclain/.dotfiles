@@ -70,7 +70,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 echo "Running 'hyprctl dispatch workspace 7 > /dev/null'"
                 echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
 
-                echo "Running 'waypaper --backend hyprpaper --restore > /dev/null'"
+                echo "Running 'waypaper --backend swaybg --restore > /dev/null'"
             else
                 # first on the left of second
                 # TODO: should I force my laptop monitor to stay at scale 1 instead of auto being 1.5?
@@ -92,7 +92,7 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 hyprctl dispatch workspace 7 > /dev/null
                 hyprctl dispatch workspace 1 > /dev/null
 
-                waypaper --backend hyprpaper --restore > /dev/null
+                waypaper --backend swaybg --restore > /dev/null
             fi
         }
         setup_duplicate() {
