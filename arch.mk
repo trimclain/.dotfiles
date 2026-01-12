@@ -389,11 +389,45 @@ hyprscrolling: ## Install hyprscrolling hyprland plugin
 
 # NOTE: combine this with nvidia.sh from my bootsrap repo
 fix-nvidialand: ## Add missing Environment Variables for hyprland on nvidia
-	@# Whenever Hyprland is updated, this needs to be run (if using nvidia)
-	@#sudo sed -i 's|^Exec=Hyprland|Exec=env LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia WLR_NO_HARDWARE_CURSORS=1 Hyprland|g'
-	@#sudo sed -i 's|^Exec=Hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=x11 Hyprland|g'
+	@# Whenever Hyprland is updated, this needs to be run (if using nvidia). Or the pacman hook needs to be created (see hyprhook)
 	sudo sed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=x11 /usr/bin/start-hyprland|g' \
 		/usr/share/wayland-sessions/hyprland.desktop
+
+HOOK_DIR = /etc/pacman.d/hooks
+HOOK_FILE = $(HOOK_DIR)/hyprland-update.hook
+SCRIPT_FILE = /usr/local/bin/hyprland-post-update.sh
+hyprhook: ## Create a pacman hook to add missing Environment Variables for hyprland on nvidia
+	@sudo mkdir -p $(HOOK_DIR)
+
+	@echo "Creating pacman hook..."
+	@echo -e "[Trigger]\
+	\nOperation = Upgrade\
+	\nType = Package\
+	\nTarget = hyprland\
+	\n\n[Action]\
+	\nDescription = Running post-update tasks for Hyprland...\
+	\nWhen = PostTransaction\
+	\nExec = /usr/bin/bash -c '/usr/local/bin/hyprland-post-update.sh'" | sudo tee $(HOOK_FILE) > /dev/null
+
+	@echo "Creating post-update script..."
+	@echo -e "#!/usr/bin/env bash\
+	\nset -e\
+	\n\n# Add missing Environment Variables for Hyprland to work with Nvidia\
+	\nsed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=x11 /usr/bin/start-hyprland|g' /usr/share/wayland-sessions/hyprland.desktop\
+	\n\nexit 0" | sudo tee $(SCRIPT_FILE) > /dev/null
+
+	@echo "Setting execute permissions for the post-update script..."
+	@sudo chmod +x $(SCRIPT_FILE)
+
+	@echo "Setup complete!"
+	@echo "The pacman hook is set up to trigger /usr/local/bin/hyprland-post-update.sh after Hyprland is upgraded."
+
+undo_hyprhook: ## Undo everything hyprhook did
+	@#echo "Removing pacman hook file..."
+	sudo rm -f $(HOOK_FILE)
+	@#echo "Removing post-update script..."
+	sudo rm -f $(SCRIPT_FILE)
+	@echo "The pacman hook and post-update script have been removed."
 
 # TODO: update to use hyprcursor
 cursor: ## Install my cursor theme (Bibata)
@@ -637,7 +671,7 @@ install: ## Setup arch after new installation
 	paru flatpak gearlever docker lazydocker lf yazi gh\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
-	awesome qtile hyprland hyprscrolling fix-nvidialand cursor\
+	awesome qtile hyprland hyprscrolling fix-nvidialand hyprhook undo_hyprhook cursor\
 	kde cosmic\
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium helium zen vivaldi\
