@@ -475,12 +475,13 @@ chrome: ## Install Google Chrome Browser
 
 thorium: ## Install Thorium Browser
 	@# $(PARUINSTALL) thorium-browser-bin
+	# checkout and install the 62nd thorium release (last stable one for me)
 	git clone https://aur.archlinux.org/thorium-browser-bin.git /tmp/thorium-browser-bin && \
 		pushd /tmp/thorium-browser-bin && \
-		git checkout f4d41c7 && \ # 62nd thorium release (last stable one for me)
+		git checkout f4d41c7 && \
 		makepkg --noconfirm -si && \
 		popd && \
-		rm -rf /tmp/thorium-browser-bin && \
+		rm -rf /tmp/thorium-browser-bin
 
 helium: ## Install Helium Browser
 	$(eval HELIUM_VERSION := $(shell curl -fsSL https://github.com/imputnet/helium-linux/releases/latest | grep "<title>Release " | awk '{print $$2}'))
