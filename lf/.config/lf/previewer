@@ -100,7 +100,6 @@ case "$(printf "%s\n" "$(readlink -f "$1")" | awk '{print tolower($0)}')" in
         ;;
     *.ttf)
         ## PREVIEW IMAGE: requires imagemagick
-        # TODO: can this be opened in the terminal?
         #display "$1"
 
         ## PRINT METADATA: requires imagemagick

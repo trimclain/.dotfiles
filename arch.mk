@@ -221,19 +221,17 @@ gh: ## Install github-cli
 	gh auth login
 
 #============================================= Neovim =============================================
-nvim_reqs: ## Install my neovim requirements (yad, xclip, tree-sitter-cli, tectonic)
+nvim_reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic)
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
-	@# Need yad or zenity for the color picker plugin, xclip for clipboard+, tree-sitter cli
-	@# NOTE: use wl-clipboard on wayland
-	$(INSTALL) yad xclip tree-sitter-cli
+	@# - yad (or zenity) for the color picker plugin
+	@# - xclip and wl-clipboard for clipboard management
+	@# - tree-sitter cli for autoinstalling parsers
+	$(INSTALL) yad xclip wl-clipboard tree-sitter-cli
 	@make tectonic
 
 	@# Lua linter
 	@#$(INSTALL) luacheck
-	@# TODO: do I need this?
-	@# Need pynvim for Bracey
-	@#$(INSTALL) python-pynvim
 
 nvim_build_reqs: ## Install neovim build prerequisites
 	@# Neovim build prerequisites
@@ -613,8 +611,6 @@ pomodorolm: # Pomodoro Tracker
 syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
-
-# TODO: figure out nextcloud-client synchronization
 
 #==================================================================================================
 

@@ -78,8 +78,6 @@ main() {
 
     if command -v brightnessctl > /dev/null; then
 
-        # TODO: it's possible to get the permission error - cover it:
-        # https://github.com/Hummer12007/brightnessctl?tab=readme-ov-file#permissions
         if [ "$1" = "--increase" ]; then
             mode="increase"
             brightnessctl s +10% -q
@@ -153,11 +151,6 @@ main() {
         xrandr --output "$intern" --brightness "$new"
 
         output=$(awk "BEGIN {print $new*100}")
-
-        # TODO:
-        # # use wlr-randr if on wayland and no brightnessctl found
-        # current=$(wlr-randr | grep -oP '(?<=Brightness: )\d+(\.\d+)?')
-        # output=$(awk "BEGIN {print $current*100}")
     fi
 
     # Write new brightness to a file so it can be read less resource intensive
