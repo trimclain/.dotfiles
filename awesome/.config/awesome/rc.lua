@@ -348,22 +348,20 @@ root.buttons(mytable.join(
 -- }}}
 
 -- {{{ Local Functions
--- TODO: refactor
 local spawn_terminal_command = function(cmd, opts)
-    local runcmd
-    if opts then
-        runcmd = cmd .. " " .. opts
-    else
-        runcmd = cmd
-    end
-    local runpromt = "if command -v "
-        .. cmd
-        .. " > /dev/null; then "
-        .. runcmd
-        .. "; else notify-send 'Error: "
-        .. cmd
-        .. " not found'; fi"
-    awful.spawn.with_shell(runpromt)
+    local full_cmd = cmd .. (opts and (" " .. opts) or "")
+
+    awful.spawn.easy_async_with_shell("command -v " .. cmd, function(_, _, _, exit_code)
+        if exit_code == 0 then
+            awful.spawn.with_shell(full_cmd)
+        else
+            naughty.notify({
+                preset = naughty.config.presets.critical,
+                title = "Command Error",
+                text = "Executable '" .. cmd .. "' not found."
+            })
+        end
+    end)
 end
 -- }}}
 
