@@ -313,7 +313,7 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 awesome: ## Install AwesomeWM with all dependencies
 	@echo "==================================================================="
 	$(INSTALL) awesome dmenu rofi slock xss-lock dunst picom feh polybar
-	$(PARUINSTALL) waypaper
+	$(PARUINSTALL) waypaper-git
 	@make brightnessctl
 
 # INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
@@ -338,7 +338,7 @@ qtile: ## Install QTile with all dependencies
 	@# - polkit-kde-agent (GUI request for sudo password)
 	@# - xorg-xwininfo (window picker for screen recording)
 	$(INSTALL) dmenu rofi slock xss-lock dunst picom feh polkit-kde-agent xorg-xwininfo
-	$(PARUINSTALL) waypaper
+	$(PARUINSTALL) waypaper-git
 	@make brightnessctl
 
 hyprland: ## Install Hyprland with all dependencies
@@ -363,9 +363,9 @@ hyprland: ## Install Hyprland with all dependencies
 	@# - swaybg (wallpaper engine); alternative: hyprpaper (can't disable splash with waypaper)
 	@# - waypaper (GUI wallpaper manager)
 	$(INSTALL) hyprlock hypridle hyprsunset swaybg
-	$(PARUINSTALL) waypaper
+	$(PARUINSTALL) waypaper-git
 	@# Create a symlink for hyprlock to use the same wallpaper
-	@#sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" /tmp/current_wallpaper.png|' ~/.config/waypaper/config.ini
+	sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" /tmp/current_wallpaper.png|' ~/.config/waypaper/config.ini
 	@# Extra Utils:
 	@# - hyprpicker (color picker)
 	@# - wf-recorder (screen-recorder)
