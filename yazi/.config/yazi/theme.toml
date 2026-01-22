@@ -1,6 +1,24 @@
 "$schema" = "https://yazi-rs.github.io/schemas/theme.json"
 
 [flavor]
-dark  = "astrotheme"
-# dark  = "dracula"
-# dark  = "catppuccin-macchiato"
+# dark = "astrotheme" # TODO: update after fix
+
+# Themes from https://github.com/yazi-rs/flavors
+# dark = "dracula"
+# dark = "catppuccin-macchiato"
+
+# Official Catppuccin Macchiato
+# dark = "catppuccin-macchiato-blue"
+# dark = "catppuccin-macchiato-flamingo"
+# dark = "catppuccin-macchiato-green"
+# dark = "catppuccin-macchiato-lavender"
+# dark = "catppuccin-macchiato-maroon"
+# dark = "catppuccin-macchiato-mauve"
+# dark = "catppuccin-macchiato-peach"
+# dark = "catppuccin-macchiato-pink"
+# dark = "catppuccin-macchiato-red"
+# dark = "catppuccin-macchiato-rosewater"
+dark = "catppuccin-macchiato-sapphire"
+# dark = "catppuccin-macchiato-sky"
+# dark = "catppuccin-macchiato-teal"
+# dark = "catppuccin-macchiato-yellow"
