@@ -365,7 +365,7 @@ hyprland: ## Install Hyprland with all dependencies
 	$(INSTALL) hyprlock hypridle hyprsunset swaybg
 	$(PARUINSTALL) waypaper-git
 	@# Create a symlink for hyprlock to use the same wallpaper
-	sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" /tmp/current_wallpaper.png|' ~/.config/waypaper/config.ini
+	sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" ~/.config/waypaper/current_wallpaper.png|' ~/.config/waypaper/config.ini
 	@# Extra Utils:
 	@# - hyprpicker (color picker)
 	@# - wf-recorder (screen-recorder)
