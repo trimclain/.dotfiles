@@ -612,6 +612,9 @@ syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
 
+pdf4qt: ## Install pdf4qt (open source pdf editor)
+	$(FLATINSTALL) io.github.JakubMelka.Pdf4qt
+
 #==================================================================================================
 
 apps: ## Install btop, mission-center, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
@@ -675,6 +678,6 @@ install: ## Setup arch after new installation
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
 	gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
-	anki uninstall_anki pomodorolm syncthing\
+	anki uninstall_anki pomodorolm syncthing pdf4qt\
 	apps\
 	install
