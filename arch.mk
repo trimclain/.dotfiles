@@ -615,6 +615,17 @@ syncthing: ## Install Syncthing
 pdf4qt: ## Install pdf4qt (open source pdf editor)
 	$(FLATINSTALL) io.github.JakubMelka.Pdf4qt
 
+# TODO: Ethical hacking & Penetration Testing Tools
+# NMAP
+# Wireshark
+# Metasploit
+# Aircrack-ng
+# HashCat (JohnTheRipper, Nikto, Burpsuite)
+# Skip Fish
+# SQL Map
+# hPing3
+# Social Engineering Toolkit
+
 #==================================================================================================
 
 apps: ## Install btop, mission-center, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
