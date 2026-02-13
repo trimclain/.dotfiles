@@ -552,6 +552,9 @@ quickemu: ## Install Quickemu (Virtual Machine Manager)
 	@# INFO: use ctrl+alt+g to free the mouse from the VM
 	$(PARUINSTALL) quickemu-git quickgui-bin
 
+nomacs: ## Install Nomacs Image Viewer
+	$(FLATINSTALL) org.nomacs.ImageLounge
+
 gimp: ## Install GIMP (GNU Image Manipulation Program)
 	@#$(FLATINSTALL) org.gimp.GIMP
 	$(INSTALL) gimp
@@ -688,7 +691,7 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
-	gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
+	nomacs gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
 	anki uninstall_anki pomodorolm syncthing pdf4qt\
 	apps\
 	install
