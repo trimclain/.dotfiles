@@ -383,6 +383,7 @@ alias cp="cp -iv" \
     rm="rm -vI"
 #alias rsync= "rsync -ahvuP"
 # recreating syncthing functionality
+# usage: synchronize [remote:]from_dir [remote:]to_dir
 alias synchronize="rsync --archive --human-readable --verbose --update --partial --progress --compress --delete-during"
 
 # zsh specific syntax for checking if command exists
