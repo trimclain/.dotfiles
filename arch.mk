@@ -628,11 +628,11 @@ pdf4qt: ## Install pdf4qt (open source pdf editor)
 
 #==================================================================================================
 
-apps: ## Install btop, mission-center, okular, pcmanfm, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
+apps: ## Install btop, mission-center, okular, pcmanfm, dolphin, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
 	@echo "==================================================================="
 	@echo "Installing apps..."
 	@echo "==================================================================="
-	$(INSTALL) btop mission-center okular pcmanfm sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
+	$(INSTALL) btop mission-center okular pcmanfm dolphin sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
 	@make thorium
 	@make telegram
 
