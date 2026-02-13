@@ -58,12 +58,6 @@ button {
     border-radius: 0;
 }
 
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-/* #workspaces button:hover { */
-/*     background: @surface0; */
-/*     border: @base; */
-/* } */
-
 #workspaces button {
     padding: 0 5px;
     /* top, left, bottom, right */
@@ -95,6 +89,11 @@ button {
 #workspaces button.urgent {
     background-color: @red;
     color: @crust;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    background: @surface0;
 }
 
 #clock,
