@@ -1,7 +1,7 @@
 "$schema" = "https://yazi-rs.github.io/schemas/theme.json"
 
 [flavor]
-# dark = "astrotheme" # TODO: update after fix
+dark = "astrotheme"
 
 # Themes from https://github.com/yazi-rs/flavors
 # dark = "dracula"
@@ -18,7 +18,7 @@
 # dark = "catppuccin-macchiato-pink"
 # dark = "catppuccin-macchiato-red"
 # dark = "catppuccin-macchiato-rosewater"
-dark = "catppuccin-macchiato-sapphire"
+# dark = "catppuccin-macchiato-sapphire"
 # dark = "catppuccin-macchiato-sky"
 # dark = "catppuccin-macchiato-teal"
 # dark = "catppuccin-macchiato-yellow"
