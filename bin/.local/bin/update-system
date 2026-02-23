@@ -13,8 +13,20 @@ if [[ -n $1 ]]; then
         echo "Flags:"
         echo "  --help, -h   Show this help message"
         echo "  --yes, -y    Autoconfirm all updates"
+        echo "  -m, -r       Use reflector to update the pacman mirrorlist"
         exit 0
     fi
+    if [[ $1 == "-m" || $1 == "-r" ]]; then
+        if [[ $OS == arch ]]; then
+            echo -n "Updating pacman mirror list..."
+            sudo reflector --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
+            echo "Done"
+        else
+            echo "Not using Arch BTW!"
+        fi
+        exit 0
+    fi
+
     if [[ $1 == "--yes" || $1 == "-y" ]]; then
         APTCONFIRM='-y'
         PACMANCONFIRM='--noconfirm'
