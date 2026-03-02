@@ -18,7 +18,7 @@ if [[ -n $1 ]]; then
     fi
     if [[ $1 == "-m" || $1 == "-r" ]]; then
         if [[ $OS == arch ]]; then
-            echo -n "Updating pacman mirror list..."
+            echo -n "Updating pacman mirror list... "
             sudo reflector --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
             echo "Done"
         else
