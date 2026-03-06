@@ -249,6 +249,10 @@ nnoremap <silent> <S-h> :bprevious<cr>
 nnoremap <silent> ]b :bnext<cr>
 nnoremap <silent> [b :bprevious<cr>
 
+" Vim Diffs
+nnoremap <silent> <leader>D :diffthis<cr>
+nnoremap <silent> <leader>do :diffoff<cr>
+
 " Resizing
 " Use Ctrl + arrows to resize windows
 nnoremap <silent> <C-Up> :resize -5<cr>
