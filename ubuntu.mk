@@ -15,9 +15,9 @@ all:
 	@# For netstat, ifconfig and more
 	@$(INSTALL) net-tools
 
-help: ## Print this help menu
+help: ## Print help for targets with comments
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\\033[36m%-30s\\033[0m %s\\n", $\\$1, $\\$2}'
 
 vimdir:
 	@echo "Creating directory for undofiles for vim..."
@@ -82,6 +82,32 @@ clean_nvim:
 
 purge_nvim: uninstall_nvim clean_nvim
 
+mise: ## Install mise (a polyglot tool version manager) with latest node
+	sudo install -dm 755 /etc/apt/keyrings
+	curl -fSs https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.asc 1> /dev/null
+	echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+	sudo apt update -y
+	$(INSTALL) mise
+
+	mise use --global node@latest
+
+typescript:
+	@echo "==================================================================="
+	@# Install tsc and ts-node
+	@npm install -g typescript ts-node
+
+go:
+	@echo "==================================================================="
+	mise use -g go@latest
+
+julia:
+	@echo "==================================================================="
+	mise use -g julia@latest
+
+rust:
+	@echo "==================================================================="
+	mise use -g rust@latest
+
 tectonic:
 	@if [[ ! -f ~/.local/bin/tectonic ]]; then echo "Installing tectonic (latex compiler)..." &&\
 		curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh &&\
@@ -94,68 +120,6 @@ fix_tectonic:
 
 uninstall_tectonic:
 	@rm -f ~/.local/bin/tectonic
-
-fnm: ## Install Fast Node Manager
-	@FNM_INSTALL_DIR="$${FNM_PATH:-$$HOME/.local/share/fnm}"; \
-	if [[ ! -d "$$FNM_INSTALL_DIR" ]]; then \
-		echo "Installing fnm (fast node manager) with latest stable node version..."; \
-		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; \
-		export PATH="$$HOME/.local/share/fnm:$$PATH"; \
-		eval "$$(fnm env)"; \
-		fnm install --lts; \
-		echo "Done"; \
-	else \
-		echo "[fnm]: Already installed"; \
-	fi
-
-typescript:
-	@echo "==================================================================="
-	@# Install tsc and ts-node
-	@npm install -g typescript ts-node
-
-golang:
-	@echo "==================================================================="
-	@if [ ! -d ~/.go ]; then echo "Installing g, golang version manager with latest stable go version..." &&\
-		export GOROOT="$$HOME/.golang" && export GOPATH="$$HOME/.go" && \
-		curl -sSL https://git.io/g-install | sh -s -- -y &&\
-		echo "Done"; else echo "[golang]: Already installed"; fi
-
-julia:
-	@echo "==================================================================="
-	@if [ ! -d ~/.juliaup ]; then echo "Installing Juliaup (julia version manager)..." &&\
-		curl -fsSL https://install.julialang.org | sh &&\
-		echo "Done"; else echo "[julia]: Already installed"; fi
-
-uninstall_julia:
-	@if command -v juliaup > /dev/null; then echo "Uninstalling julia..." &&\
-		juliaup self uninstall && rm -rf ~/.julia/ && echo "Done";fi
-
-sdkman:
-	@echo "==================================================================="
-	@# Install sdkman to install Java, Groovy, Kotlin etc.
-	@if [ ! -d ~/.sdkman ]; then \
-		echo "Installing the Software Development Kit Manager..." &&\
-		$(INSTALL) zip unzip &&\
-		curl -s https://get.sdkman.io | bash && \
-		echo "Done"; \
-	else \
-		echo "[sdkman]: Already installed"; \
-	fi
-
-uninstall_sdkman:
-	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\
-		rm -rf ~/.sdkman && echo "Done"; fi
-
-rust:
-	@echo "==================================================================="
-	@# Installing rustup
-	@if [ ! -d ~/.rustup ]; then echo "Installing Rustup..." &&\
-		curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path && \
-		echo "Done"; else echo "[rust]: Already installed"; fi
-
-uninstall_rust:
-	@if [ -d ~/.rustup ]; then echo "Uninstalling rust..." &&\
-		rustup self uninstall -y && echo "Done"; fi
 
 docker:
 	@echo "==================================================================="
@@ -205,7 +169,7 @@ install: tmux zsh nvim nodejs ## install tmux, zsh, nvim, nodejs and my config f
 sinstall: vimdir tmux ## install tmux and my config for bash, tmux and vim
 	./install --small
 
-finstall: vimdir font_install tmux zsh nvim nodejs golang rust ## combine "make sinstall" and "make install"
+finstall: vimdir font_install tmux zsh nvim nodejs go rust ## combine "make sinstall" and "make install"
 	./install --full
 
 ###############################################################################
@@ -451,7 +415,7 @@ discord:
 
 ###############################################################################
 # Install .deb app with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs golang rust kitty awesome feh polybar picom rofi ## in addition to "make install" install kitty, awesome, feh, polybar, picom, rofi and my config for these
+linux_install: font_install tmux zsh nvim nodejs go rust kitty awesome feh polybar picom rofi ## in addition to "make install" install kitty, awesome, feh, polybar, picom, rofi and my config for these
 	@# My ususal installation on Linux
 	@echo "========================== DONE ==================================="
 
@@ -465,9 +429,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 
 .PHONY: all help vimdir getnf ansible tmux zsh zap \
 	nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim \
-	tectonic fix_tectonic uninstall_tectonic \
-	fnm typescript \
-	golang julia uninstall_julia sdkman uninstall_sdkman rust uninstall_rust \
+	mise typescript go julia rust tectonic fix_tectonic uninstall_tectonic \
 	docker uninstall_docker pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
 	i3 awesome polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
