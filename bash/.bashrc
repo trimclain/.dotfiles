@@ -12,9 +12,7 @@
 #                                                                             #
 ###############################################################################
 
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# Examples at /usr/share/doc/bash/examples/startup-files (bash-doc package)
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -30,15 +28,8 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-export FNM_PATH="$XDG_DATA_HOME/fnm"
-
+# Default $HOME/go is criminal
 export GOPATH="$HOME/.go"
-# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
-if [[ -d "$HOME/.golang" ]]; then
-    export GOROOT="$HOME/.golang"
-fi
-
-export SDKMAN_DIR="$HOME/.sdkman"
 
 ###############################################################################
 # Less
@@ -54,7 +45,7 @@ export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
 export LESS_TERMCAP_me=$'\E[0m'           # end mode
 export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-export LESS_TERMCAP_so=$'\E[38;5;11m'    # begin standout-mode - info box
+export LESS_TERMCAP_so=$'\E[38;5;11m'     # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 ###############################################################################
@@ -94,7 +85,7 @@ shopt -s checkwinsize
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color|xterm-kitty|alacritty|screen) color_prompt=yes ;;
+    xterm-color | *-256color | xterm-kitty | alacritty | screen) color_prompt=yes ;;
 esac
 
 if [ "$color_prompt" = yes ]; then
@@ -111,7 +102,6 @@ else
     PS1='[\u@\h \W]\$ '
 fi
 unset color_prompt
-
 
 ###############################################################################
 # Keybinds
@@ -130,7 +120,6 @@ alias ebrc="$EDITOR $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
 alias evrc="$EDITOR $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
 
 alias sbrc="source ~/.bashrc"
-alias godf="cd ~/.dotfiles"
 
 alias py="python3"
 alias activate="source venv/bin/activate"
@@ -146,28 +135,23 @@ alias ls='ls --color=auto'
 alias la="ls -A --group-directories-first"
 alias l="ls -lhA --group-directories-first"
 
-if [ -f ~/.zsh_aliases ]; then
-    alias eals="vim ~/.zsh_aliases"
-    alias showals="cat ~/.zsh_aliases"
-elif [ -f ~/.bash_aliases ]; then
-    alias eals="vim ~/.bash_aliases"
-    alias showals="cat ~/.bash_aliases"
-fi
-
-# Load aliases from .zsh_aliases or .bash_aliases if they exist
-if [ -f ~/.zsh_aliases ]; then
+# Load aliases from .zsh_aliases and/or .bash_aliases if they exist
+if [[ -f ~/.zsh_aliases ]]; then
     . ~/.zsh_aliases
-elif [ -f ~/.bash_aliases ]; then
+    alias eals="vim ~/.zsh_aliases"
+fi
+if [[ -f ~/.bash_aliases ]]; then
     . ~/.bash_aliases
+    alias eals="vim ~/.bash_aliases"
 fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
+    if [[ -f /usr/share/bash-completion/bash_completion ]]; then
         . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
+    elif [[ -f /etc/bash_completion ]]; then
         . /etc/bash_completion
     fi
 fi
@@ -183,29 +167,18 @@ add_to_PATH() {
     fi
 }
 
-# Make sure ~/.local/bin and /usr/local/bin are in $PATH.
 add_to_PATH "/usr/local/bin"
 add_to_PATH "$HOME/.local/bin"
 
-add_to_PATH "$FNM_PATH" # fast node manager
 add_to_PATH "$HOME/.juliaup/bin" # julia
 
 add_to_PATH "$HOME/.cargo/bin" # rust btw
 
 add_to_PATH "$GOPATH/bin" # binaries installed with 'go install'
-# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
-if [[ -n $GOROOT ]]; then
-    add_to_PATH "$GOROOT/bin" # golang
-fi
 
-# enable sdkman (jdk version manager)
-if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
-    source "$SDKMAN_DIR/bin/sdkman-init.sh"
-fi
-
-# enable fnm
-if [ -d "$FNM_PATH" ]; then
-    eval "$(fnm env --shell bash)"
+# enable mise
+if command -v mise > /dev/null; then
+    eval "$(mise activate bash)"
 fi
 
 # enable zoxide
