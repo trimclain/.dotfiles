@@ -153,15 +153,8 @@ export DOTFILES="$HOME/.dotfiles"
 # Allows 'docker build' to be same as 'docker buildx build'
 export DOCKER_BUILDKIT=1
 
-export FNM_PATH="$XDG_DATA_HOME/fnm"
-
+# Default $HOME/go is criminal
 export GOPATH="$HOME/.go"
-# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
-if [[ -d "$HOME/.golang" ]]; then
-    export GOROOT="$HOME/.golang"
-fi
-
-export SDKMAN_DIR="$HOME/.sdkman"
 
 ###############################################################################
 # vi mode
@@ -462,16 +455,11 @@ add_to_PATH() {
 add_to_PATH "/usr/local/bin"
 add_to_PATH "$HOME/.local/bin"
 
-add_to_PATH "$FNM_PATH" # fast node manager
 add_to_PATH "$HOME/.juliaup/bin" # julia
 
 add_to_PATH "$HOME/.cargo/bin" # rust btw
 
 add_to_PATH "$GOPATH/bin" # binaries installed with 'go install'
-# Used if g (https://github.com/stefanmaric/g) is installed (not relevant on arch)
-if [[ -n $GOROOT ]]; then
-    add_to_PATH "$GOROOT/bin" # golang
-fi
 
 # I want to use the tools mason installs outside of neovim aswell
 add_to_PATH "$XDG_DATA_HOME/nvim/mason/bin"
@@ -484,21 +472,47 @@ if [[ -f ~/.bash_aliases ]]; then
     . ~/.bash_aliases
 fi
 
-# enable sdkman (jdk version manager)
-if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
-    source "$SDKMAN_DIR/bin/sdkman-init.sh"
-fi
+###############################################################################
+# Completion
+###############################################################################
 
-# enable fnm
-if [[ -d "$FNM_PATH" ]]; then
-    # maybe someday: https://github.com/Schniz/fnm/blob/master/docs/configuration.md#--use-on-cd
-    eval "$(fnm env --shell zsh)"
-fi
+# Docs: `man zshmodules`
 
-# enable zoxide
-if (( $+commands[zoxide] )); then
-    eval "$(zoxide init zsh --cmd cd)"
-fi
+# Highlight seleceted options on <Tab>
+zstyle ':completion:*' menu select
+# Make completion case insensitive when using small letters
+#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# ANSI escape codes define how colors are displayed.
+# They are structured as:
+# Foreground Colors (Text): 30-37
+# Background Colors: 40-47
+# Bright Versions (Bold): 90-97 (Foreground), 100-107 (Background)
+# Color    Foreground    Background
+# Black        30            40
+# Red          31            41
+# Green        32            42
+# Yellow       33            43
+# Blue         34            44
+# Magenta      35            45
+# Cyan         36            46
+# White        37            47
+#
+# Make ls colors work with completion
+eval "$(dircolors -b)"
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# add my own completions to $fpath
+fpath+=("$HOME/.config/zsh/completions")
+
+# Change the location of .zcompdump (https://unix.stackexchange.com/questions/391641/separate-path-for-zcompdump-files)
+__ZCOMPDUMPDIR="$XDG_CACHE_HOME/zsh/"
+[[ -d $__ZCOMPDUMPDIR ]] || mkdir -p $__ZCOMPDUMPDIR
+export ZSH_COMPDUMP=$__ZCOMPDUMPDIR/zcompdump-$ZSH_VERSION
+
+# This NEEDS to be at the bottom for ALL completions to load
+autoload -Uz compinit
+compinit -d "$ZSH_COMPDUMP"
 
 ###############################################################################
 # Plugins
@@ -548,44 +562,17 @@ plug "zsh-users/zsh-autosuggestions"
 # Syntax highlighting (should be the last one)
 plug "zsh-users/zsh-syntax-highlighting"
 
+
 ###############################################################################
-# Completion
+# Tool Activation
 ###############################################################################
 
-# Docs: `man zshmodules`
+# enable mise
+if (( $+commands[mise] )); then
+    eval "$(mise activate zsh)"
+fi
 
-# Highlight seleceted options on <Tab>
-zstyle ':completion:*' menu select
-# Make completion case insensitive when using small letters
-#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-
-# ANSI escape codes define how colors are displayed.
-# They are structured as:
-# Foreground Colors (Text): 30-37
-# Background Colors: 40-47
-# Bright Versions (Bold): 90-97 (Foreground), 100-107 (Background)
-# Color    Foreground    Background
-# Black        30            40
-# Red          31            41
-# Green        32            42
-# Yellow       33            43
-# Blue         34            44
-# Magenta      35            45
-# Cyan         36            46
-# White        37            47
-#
-# Make ls colors work with completion
-eval "$(dircolors -b)"
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-# add my own completions to $fpath
-fpath+=("$HOME/.config/zsh/completions")
-
-# Change the location of .zcompdump (https://unix.stackexchange.com/questions/391641/separate-path-for-zcompdump-files)
-__ZCOMPDUMPDIR="$XDG_CACHE_HOME/zsh/"
-[[ -d $__ZCOMPDUMPDIR ]] || mkdir -p $__ZCOMPDUMPDIR
-export ZSH_COMPDUMP=$__ZCOMPDUMPDIR/zcompdump-$ZSH_VERSION
-
-# This NEEDS to be at the bottom for ALL completions to load
-autoload -Uz compinit
-compinit -d "$ZSH_COMPDUMP"
+# enable zoxide
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh --cmd cd)"
+fi
