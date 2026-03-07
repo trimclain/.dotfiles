@@ -79,6 +79,10 @@ brightnessctl: ## Install a brightness control tool
 #                                            Languages                                            #
 ###################################################################################################
 
+mise: ## Install mise (a polyglot tool version manager) with latest node
+	$(INSTALL) mise
+	mise use --global node@latest
+
 python: ## Install python3, pip and uv
 	$(INSTALL) python python-pip
 	@# extremely fast python package and project manager
@@ -91,58 +95,17 @@ rust: ## Install rustup, the rust version manager
 	$(INSTALL) rustup
 	rustup default stable
 
-sdkman: ## Install the SDK Manager, a tool for managing Java, Groovy and Kotlin versions
-	@echo "==================================================================="
-	@# Install sdkman to install Java, Groovy, Kotlin etc.
-	@if [ ! -d ~/.sdkman ]; then \
-		echo "[sdkman]: Installing the Software Development Kit Manager..." &&\
-		$(INSTALL) zip unzip &&\
-		curl -s https://get.sdkman.io | bash && \
-		echo "[sdkman]: Done"; \
-	else \
-		echo "[sdkman]: Already installed"; \
-	fi
-
-uninstall_sdkman: ## Uninstall SDKMAN
-	@if [ -d ~/.sdkman ]; then echo "Uninstalling sdkman..." &&\
-		rm -rf ~/.sdkman && echo "Done"; fi
-
 julia: ## Install julia
 	$(INSTALL) julia
 
-golang: ## Install julia
+go: ## Install go
 	$(INSTALL) go
-
-g: ## Install g, the go version manager
-	@echo "==================================================================="
-	@if [ ! -d ~/.go ]; then \
-		echo "[golang]: Installing golang version manager with latest stable go version..." && \
-		export GOROOT="$$HOME/.golang" && \
-		export GOPATH="$$HOME/.go" && \
-		curl -sSL https://git.io/g-install | sh -s -- -y && \
-		echo "[golang]: Done"; \
-	else \
-		echo "[golang]: Already installed"; \
-	fi
 
 tectonic: ## Install tectonic, a LaTeX engine
 	$(INSTALL) tectonic
 
 typst: ## Install Typst (better LaTeX) engine
 	$(INSTALL) typst
-
-fnm: ## Install Fast Node Manager
-	@FNM_INSTALL_DIR="$${FNM_PATH:-$$HOME/.local/share/fnm}"; \
-	if [[ ! -d "$$FNM_INSTALL_DIR" ]]; then \
-		echo "[fnm]: Installing fast node manager with latest stable node version..."; \
-		curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; \
-		export PATH="$$HOME/.local/share/fnm:$$PATH"; \
-		eval "$$(fnm env)"; \
-		fnm install --lts; \
-		echo "[fnm]: Done"; \
-	else \
-		echo "[fnm]: Already installed"; \
-	fi
 
 typescript: ## Install tsc, ts-node and pnpm
 	npm install -g typescript ts-node pnpm
@@ -649,7 +612,7 @@ install: ## Setup arch after new installation
 	@# programming languages
 	@make python
 	@make rust
-	@make golang
+	@make go
 	@# aur helper
 	@make paru
 	@# must have
@@ -680,8 +643,7 @@ install: ## Setup arch after new installation
 #==================================================================================================
 
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
-	python python_modules rust sdkman uninstall_sdkman julia golang g tectonic typst\
-	fnm typescript\
+	mise python python_modules rust julia go tectonic typst typescript\
 	paru flatpak gearlever docker lazydocker lf yazi gh\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
