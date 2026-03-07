@@ -273,11 +273,9 @@ rofi:
 	@echo "Installing rofi..."
 	$(INSTALL) rofi
 
-lf:
-	@echo "==================================================================="
-	@if [ -f /home/trimclain/.golang/bin/go ]; then echo "Installing lf, a terminal file manager..." &&\
-		env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest;\
-		else echo "[lf]: Install golang first by using \"make golang\""; fi
+yazi:
+	@# Install cargo with `make rust`
+	cargo install --force yazi-build
 
 flatpak:
 	@echo "==================================================================="
@@ -432,7 +430,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 	mise typescript go julia rust tectonic fix_tectonic uninstall_tectonic \
 	docker uninstall_docker pm2 ufw install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
-	i3 awesome polybar picom rofi lf flatpak sioyek zathura telegram spotify brave \
+	i3 awesome polybar picom rofi yazi flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
 	inkscape anki uninstall_anki okular zoom discord \
 	linux_install linux_software
