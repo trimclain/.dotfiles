@@ -340,14 +340,6 @@ hyprland: ## Install Hyprland with all dependencies
 	@make brightnessctl
 	@#make cursor
 
-hyprscrolling: ## Install hyprscrolling hyprland plugin
-	@# hyprpm dependency to copy files into or out of a cpio or tar archive
-	$(INSTALL) cpio
-	@# Install plugins and enable hyprscrolling
-	@# WARN: run from within Hyprland to have hyprpm
-	@# TODO: make a PR for --no-confirm
-	hyprpm update && hyprpm add https://github.com/hyprwm/hyprland-plugins && hyprpm enable hyprscrolling
-
 # NOTE: combine this with nvidia.sh from my bootsrap repo
 fix-nvidialand: ## Add missing Environment Variables for hyprland on nvidia
 	@# Whenever Hyprland is updated, this needs to be run (if using nvidia). Or the pacman hook needs to be created (see hyprhook)
@@ -647,7 +639,7 @@ install: ## Setup arch after new installation
 	paru flatpak gearlever docker lazydocker lf yazi gh\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
-	awesome qtile hyprland hyprscrolling fix-nvidialand hyprhook undo_hyprhook cursor\
+	awesome qtile hyprland fix-nvidialand hyprhook undo_hyprhook cursor\
 	kde cosmic\
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium helium zen vivaldi\
