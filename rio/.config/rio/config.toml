@@ -42,7 +42,6 @@ hide-cursor-when-typing = true
 #
 # Example:
 # theme = "dracula"
-theme = "dark_pastel"
 
 ###############################################################################
 # Padding-x
@@ -118,7 +117,7 @@ theme = "dark_pastel"
 ###############################################################################
 # Default is `true`
 #
-# confirm-before-quit = false
+confirm-before-quit = false
 
 ###############################################################################
 # Cursor
@@ -131,8 +130,8 @@ theme = "dark_pastel"
 #
 # blinking-interval - Cursor update on milliseconds interval
 #
-# [cursor]
-# shape = 'block'
+[cursor]
+shape = 'beam'
 # blinking = false
 # blinking-interval = 800
 
@@ -170,6 +169,11 @@ theme = "dark_pastel"
 #
 # • decorations - Set window decorations, options: "Enabled", "Disabled", "Transparent", "Buttonless"
 #
+# • colorspace - Set the color space for the window
+#     - "srgb" (default on non-macOS)
+#     - "display-p3" (default on macOS)
+#     - "rec2020"
+#
 # Example:
 # [window]
 # width = 600
@@ -178,6 +182,7 @@ theme = "dark_pastel"
 # opacity = 1.0
 # blur = false
 # decorations = "enabled"
+# colorspace = "display-p3"
 
 ###############################################################################
 # Renderer
@@ -221,10 +226,15 @@ theme = "dark_pastel"
 # disable-ctlseqs-alt - Disable ctlseqs with ALT keys
 #   - For example: Terminal.app does not deal with ctlseqs with ALT keys
 #
+# ime-cursor-positioning - Enable IME cursor positioning
+#   - When enabled, the IME input popup will appear at the cursor position
+#   - Default is true
+#
 # Example:
 # [keyboard]
 # use-kitty-keyboard-protocol = false
 # disable-ctlseqs-alt = false
+# ime-cursor-positioning = true
 
 ###############################################################################
 # Fonts
@@ -321,11 +331,11 @@ family = "Maple Mono NF"
 # "color-automation" - Set a specific color for the tab whenever a specific program is running, or in a specific directory.
 #
 # Example:
-# [navigation]
-# mode = "bookmark"
-# clickable = false
-# hide-if-single = true
-# use-current-path = false
+[navigation]
+mode = "TopTab"
+clickable = true
+hide-if-single = true
+use-current-path = true
 # color-automation = []
 
 ###############################################################################
@@ -383,6 +393,53 @@ family = "Maple Mono NF"
 # blue = '#12B5E5'
 # yellow = '#FCBA28'
 
+# Dark Pastel theme for Rio Terminal
+# So I avoid using a separate file in themes/dark_pastel.toml
+[colors]
+# match astrotheme background
+background          = '#1A1D23'
+# background          = '#000000'
+foreground          = '#ffffff'
+cursor              = '#bbbbbb'
+selection-background = '#b5d5ff'
+selection-foreground = '#000000'
+
+# Normal colors (Kitty color0-7)
+black               = '#000000'
+red                 = '#ff5555'
+green               = '#55ff55'
+yellow              = '#ffff55'
+blue                = '#5555ff'
+magenta             = '#ff55ff'
+cyan                = '#55ffff'
+white               = '#bbbbbb'
+
+# Bright/Light colors (Kitty color8-15)
+light-black         = '#545454' # From Kitty color8
+light-red           = '#ff8888' # Brighter red
+light-green         = '#88ff88' # Brighter green
+light-yellow        = '#ffff88' # Brighter yellow
+light-blue          = '#8888ff' # Brighter blue
+light-magenta       = '#ff88ff' # Brighter magenta
+light-cyan          = '#88ffff' # Brighter cyan
+light-white         = '#ffffff' # From Kitty color15 (pure white)
+light-foreground    = '#ffffff' # Same as foreground for pure white
+
+# Dim colors (inferred)
+dim-black           = '#2a2a2a' # Slightly lighter than background, darker than light-black
+dim-red             = '#cc3333' # Dimmer red
+dim-green           = '#33cc33' # Dimmer green
+dim-yellow          = '#cccc33' # Dimmer yellow
+dim-blue            = '#3333cc' # Dimmer blue
+dim-magenta         = '#cc33cc' # Dimmer magenta
+dim-cyan            = '#33cccc' # Dimmer cyan
+dim-white           = '#999999' # Dimmer grey
+dim-foreground      = '#cccccc' # Dimmer white/light grey
+
+# Tab colors (inferred)
+tabs                = '#222222' # Dark grey for inactive tabs
+tabs-active         = '#444444' # Slightly lighter grey for active tabs
+
 ###############################################################################
 # Bindings
 ###############################################################################
@@ -394,8 +451,8 @@ family = "Maple Mono NF"
 # [bindings]
 # keys = [
 #   { key = "q", with = "super", action = "Quit" },
-#   # Bytes[27, 91, 53, 126] is equivalent to "\x1b[5~"
-#   { key = "home", with = "super | shift", bytes = [27, 91, 53, 126] }
+#   # Send escape sequence to clear screen
+#   { key = "l", with = "control", esc = "\u001b[2J\u001b[H" }
 # ]
 
 ###############################################################################
@@ -412,9 +469,9 @@ family = "Maple Mono NF"
 # program = "/bin/fish"
 # args = ["--login"]
 #
-# [platform]
-# # Microsoft Windows overwrite
-# windows.shell.program = "pwsh"
+[platform]
+# Microsoft Windows overwrite
+windows.shell.program = "pwsh"
 # windows.shell.args = ["-l"]
 #
 # # Linux overwrite
