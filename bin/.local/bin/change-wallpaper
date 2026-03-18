@@ -4,7 +4,7 @@
 # Wallpaper Setter
 #
 # Description: Set new (random) wallpaper
-# Dependencies: waypaper, feh (for X11), hyprpaper (for Wayland)
+# Dependencies: waypaper, feh (for X11), swaybg (for Wayland)
 ###############################################################################
 
 if [[ -d $HOME/personal/media/wallpapers ]]; then
@@ -32,11 +32,11 @@ if [[ "$1" == "-r" || "$1" == "--random" ]]; then
 fi
 
 if [[ -n $WAYLAND_DISPLAY ]]; then
-    ensure_installed hyprpaper
-    FLAGS+=(--backend hyprpaper)
+    ensure_installed swaybg
+    FLAGS+=(--backend swaybg)
 else
     ensure_installed feh
     FLAGS+=(--backend feh)
 fi
 
-waypaper "${FLAGS[@]}" --folder "$wallpapers" > /dev/null &
+waypaper "${FLAGS[@]}" --folder "$wallpapers" &> /dev/null &
