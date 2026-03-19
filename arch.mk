@@ -343,7 +343,7 @@ hyprland: ## Install Hyprland with all dependencies
 # NOTE: combine this with nvidia.sh from my bootsrap repo
 fix-nvidialand: ## Add missing Environment Variables for hyprland on nvidia
 	@# Whenever Hyprland is updated, this needs to be run (if using nvidia). Or the pacman hook needs to be created (see hyprhook)
-	sudo sed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=x11 /usr/bin/start-hyprland|g' \
+	sudo sed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=auto /usr/bin/start-hyprland|g' \
 		/usr/share/wayland-sessions/hyprland.desktop
 
 HOOK_DIR = /etc/pacman.d/hooks
@@ -366,7 +366,7 @@ hyprhook: ## Create a pacman hook to add missing Environment Variables for hyprl
 	@echo -e "#!/usr/bin/env bash\
 	\nset -e\
 	\n\n# Add missing Environment Variables for Hyprland to work with Nvidia\
-	\nsed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=x11 /usr/bin/start-hyprland|g' /usr/share/wayland-sessions/hyprland.desktop\
+	\nsed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=auto /usr/bin/start-hyprland|g' /usr/share/wayland-sessions/hyprland.desktop\
 	\n\nexit 0" | sudo tee $(SCRIPT_FILE) > /dev/null
 
 	@echo "Setting execute permissions for the post-update script..."
