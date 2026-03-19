@@ -27,6 +27,8 @@ theme = "Dark Pastel"
 background = #1A1D23
 # 1 (default) is fully opaque and 0 is fully transparent
 #background-opacity = 0.75
+# default: false
+#background-blur = true
 
 # default: 2
 #window-padding-x = 0
