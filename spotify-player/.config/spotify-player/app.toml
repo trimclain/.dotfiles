@@ -50,7 +50,8 @@ body = "{album}"
 # }}}
 
 [layout]
-playback_window_position = "Top"
+# default: "Top"
+playback_window_position = "Bottom"
 playback_window_height = 6
 
 [layout.library]
