@@ -1,5 +1,4 @@
 # Docs: https://github.com/aome510/spotify-player/blob/master/docs/config.md
-theme = "dracula"
 client_id = "d420a117a32841c2b3474932e49fb54b"
 client_port = 8080
 login_redirect_uri = "http://127.0.0.1:8989/login"
@@ -13,8 +12,6 @@ playback_metadata_fields = [
     "volume",
     "device",
 ]
-notify_timeout_in_secs = 0
-notify_transient = false
 tracks_playback_limit = 50
 app_refresh_duration_in_ms = 32
 playback_refresh_duration_in_ms = 0
@@ -32,16 +29,25 @@ cover_img_width = 5
 cover_img_scale = 1.0
 enable_media_control = true
 enable_streaming = "Always"
-enable_notify = true
 enable_cover_image_cache = true
 default_device = "spotify-player"
-notify_streaming_only = false
 seek_duration_secs = 5
 sort_artist_albums_by_type = false
+
+# FIX: this does nothing for some reason
+theme = "tokyonight"
+
+# {{{ Notifications
+# default: true
+enable_notify = false
+notify_timeout_in_secs = 0
+notify_transient = false
+notify_streaming_only = false
 
 [notify_format]
 summary = "{track} • {artists}"
 body = "{album}"
+# }}}
 
 [layout]
 playback_window_position = "Top"
@@ -54,8 +60,9 @@ album_percent = 40
 [device]
 name = "spotify-player"
 device_type = "speaker"
-volume = 70
+volume = 90
 bitrate = 320
 audio_cache = false
 normalization = false
 autoplay = false
+# vim:foldmethod=marker
