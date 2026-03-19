@@ -484,6 +484,9 @@ spotify: ## Install Spotify
 ncspot: ## Install ncspot (ncurses Spotify client)
 	$(INSTALL) ncspot
 
+spotify-player: ## Install spotify-player (TUI)
+	$(INSTALL) spotify-player
+
 obs: ## Install OBS Studio
 	@# Flatpak version is the only official version
 	$(FLATINSTALL) com.obsproject.Studio
@@ -644,7 +647,7 @@ install: ## Setup arch after new installation
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
-	thunderbird telegram discord spotify ncspot obs vlc vscode office quickemu\
+	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
 	nomacs gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
 	anki uninstall_anki pomodorolm syncthing pdf4qt\
 	apps\
