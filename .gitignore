@@ -8,3 +8,6 @@ __pycache__
 
 # ncspot
 userstate.cbor
+
+# local config for ghostty and kitty
+local.conf

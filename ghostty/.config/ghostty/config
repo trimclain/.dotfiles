@@ -25,8 +25,8 @@ font-feature = -calt, -liga, -dlig
 theme = "Dark Pastel"
 # match astrotheme background
 background = #1A1D23
-# 1 is fully opaque and 0 is fully transparent
-#background-opacity = 1
+# 1 (default) is fully opaque and 0 is fully transparent
+#background-opacity = 0.75
 
 # default: 2
 #window-padding-x = 0
@@ -62,3 +62,6 @@ keybind = ctrl+enter=unbind
 # custom-shader = shaders/bloom025.glsl
 # custom-shader = shaders/cursor_blaze_no_trail.glsl
 custom-shader = shaders/cursor_smear.glsl
+
+# Load local config file if it exists
+config-file = ?local.conf
