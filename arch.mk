@@ -7,7 +7,8 @@ all:
 	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
 	@echo "Installing some basic tools..."
 	$(INSTALL) bc curl wget stow ripgrep fzf fd htop eza bat 7zip zip unzip tldr jq rsync
-	# For paccache to clean pacman cache
+	@# FUN TOOLS: cowsay, sl
+	@# For paccache to clean pacman cache
 	$(INSTALL) pacman-contrib
 	@# For netstat, ifconfig and more
 	@# NOTE: should probably use ss from iproute2 package (networkmanager dependency)
@@ -149,8 +150,11 @@ flatpak: ## Install flatpak
 	@#flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
 	@#fi
 
-gearlever: ## manage AppImages
+gearlever: ## Manage AppImages
 	$(FLATINSTALL) it.mijorus.gearlever
+
+flatseal: ## Modify Flatpak App permissions
+	$(FLATINSTALL) com.github.tchx84.Flatseal
 
 docker: ## Install docker
 	@echo "==================================================================="
@@ -639,7 +643,7 @@ install: ## Setup arch after new installation
 
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
 	mise python python_modules rust julia go tectonic typst typescript\
-	paru flatpak gearlever docker lazydocker lf yazi gh\
+	paru flatpak gearlever flatseal docker lazydocker lf yazi gh\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand hyprhook undo_hyprhook cursor\
