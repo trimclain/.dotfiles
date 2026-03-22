@@ -430,8 +430,19 @@ brave: ## Install Brave Browser
 chrome: ## Install Google Chrome Browser
 	$(PARUINSTALL) google-chrome
 
+# TODO: remove the symlink after it gets added to upstream
 thorium: ## Install Thorium Browser
-	$(PARUINSTALL) thorium-browser-bin
+	@if lscpu | grep -qi avx2; then \
+		echo "Installing thorium-browser-avx2-bin..."; \
+		$(PARUINSTALL) thorium-browser-avx2-bin; \
+		sudo ln -s /usr/bin/thorium-browser-avx2 /usr/bin/thorium-browser; \
+	elif lscpu | grep -qi avx; then \
+		echo "Installing thorium-browser-avx-bin..."; \
+		$(PARUINSTALL) thorium-browser-avx-bin; \
+	else \
+		echo "Installing thorium-browser-bin (no AVX support detected)..."; \
+		$(PARUINSTALL) thorium-browser-bin; \
+	fi
 
 helium: ## Install Helium Browser
 	$(eval HELIUM_VERSION := $(shell curl -fsSL https://github.com/imputnet/helium-linux/releases/latest | grep "<title>Release " | awk '{print $$2}'))
