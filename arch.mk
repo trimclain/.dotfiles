@@ -43,8 +43,8 @@ vimdir:
 	@echo "Done"
 
 getnf: ## Install the Nerd Font installer
-	@if [ ! -f ~/.local/bin/getnf ]; then \
-		curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash; fi
+	@#if [ ! -f ~/.local/bin/getnf ]; then curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash; fi
+	$(PARUINSTALL) getnf
 
 wallpapers: ## Install 1GB of nice 16:9 wallpapers
 	@echo "[wallpapers]: Installing..."
