@@ -624,21 +624,22 @@ install: ## Setup arch after new installation
 	@ $(INSTALL) network-manager-applet nm-connection-editor
 	@# window manager
 	@make qtile
+	@make hyprland
 	@# terminal
 	@make kitty
+	@make ghostty
 	@make alacritty
 	@# fonts
 	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
 	$(INSTALL) terminus-font
-	@# $(PARUINSTALL) ttf-maple
 	@make maple_mono
 	@make getnf
-	@~/.local/bin/getnf -i CascadiaCode,JetBrainsMono
+	@getnf -i JetBrainsMono,IBMPlexMono,CascadiaCode,GeistMono
 	@# shell
 	@make zsh
 	$(INSTALL) tmux
 	@# node
-	@make fnm
+	@make mise
 	@# editor
 	@make neovim
 	@echo "========================== DONE ==================================="
