@@ -8,7 +8,7 @@ image/svg+xml=sxiv.desktop;thorium-browser.desktop;
 image/vnd.microsoft.icon=sxiv.desktop;
 text/css=neovide.desktop;
 text/markdown=neovide.desktop;
-video/mp4=thorium-browser.desktop;smplayer.desktop;
+video/mp4=vlc.desktop;thorium-browser.desktop;smplayer.desktop;
 
 [Default Applications]
 application/javascript=neovide.desktop;
@@ -21,7 +21,7 @@ image/vnd.microsoft.icon=sxiv.desktop;
 text/css=neovide.desktop;
 text/html=thorium-browser.desktop;
 text/markdown=neovide.desktop;
-video/mp4=thorium-browser.desktop;
+video/mp4=vlc.desktop;thorium-browser.desktop;
 x-scheme-handler/about=thorium-browser.desktop;
 x-scheme-handler/http=thorium-browser.desktop;
 x-scheme-handler/https=thorium-browser.desktop;
