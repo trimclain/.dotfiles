@@ -25,9 +25,9 @@ vimdir:
 	@echo "Done"
 
 getnf: ## Install the Nerd Font installer
-	@if [ ! -f ~/.local/bin/getnf ]; then echo -n "Installing getnf... " &&\
-		curl -fsSL https://raw.githubusercontent.com/ronniedroid/getnf/master/install.sh | sh &&\
-		echo "Done"; fi
+	@if [ ! -f ~/.local/bin/getnf ]; then \
+		curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash; \
+	fi
 
 ansible:
 	@echo "==================================================================="
