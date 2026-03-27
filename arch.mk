@@ -436,12 +436,14 @@ thorium: ## Install Thorium Browser
 		echo "Installing thorium-browser-avx2-bin..."; \
 		$(PARUINSTALL) thorium-browser-avx2-bin; \
 		sudo ln -s /usr/bin/thorium-browser-avx2 /usr/bin/thorium-browser; \
-		sudo ln -s /usr/share/applications/thorium-browser-avx2.desktop /usr/share/applications/thorium-browser.desktop; \
+		sudo cp /usr/share/applications/thorium-browser-avx2.desktop /usr/share/applications/thorium-browser.desktop; \
+		sudo sed -i 's/Thorium Browser AVX2/Thorium Browser/g' /usr/share/applications/thorium-browser.desktop; \
 	elif lscpu | grep -qi avx; then \
 		echo "Installing thorium-browser-avx-bin..."; \
 		$(PARUINSTALL) thorium-browser-avx-bin; \
 		sudo ln -s /usr/bin/thorium-browser-avx /usr/bin/thorium-browser; \
-		sudo ln -s /usr/share/applications/thorium-browser-avx.desktop /usr/share/applications/thorium-browser.desktop; \
+		sudo cp /usr/share/applications/thorium-browser-avx.desktop /usr/share/applications/thorium-browser.desktop; \
+		sudo sed -i 's/Thorium Browser AVX/Thorium Browser/g' /usr/share/applications/thorium-browser.desktop; \
 	else \
 		echo "Installing thorium-browser-bin (no AVX support detected)..."; \
 		$(PARUINSTALL) thorium-browser-bin; \
