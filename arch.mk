@@ -280,7 +280,7 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 awesome: ## Install AwesomeWM with all dependencies
 	@echo "==================================================================="
 	$(INSTALL) awesome dmenu rofi slock xss-lock dunst picom feh polybar
-	$(PARUINSTALL) waypaper-git
+	$(PARUINSTALL) waypaper
 	@make brightnessctl
 
 # INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
