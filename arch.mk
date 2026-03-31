@@ -187,6 +187,19 @@ gh: ## Install github-cli
 	$(INSTALL) github-cli
 	gh auth login
 
+waypaper: ## Install waypaper (GUI wallpaper manager)
+	@# Wallpaper Engines: feh for X11, swaybg (or hyprpaper) for Wayland
+	@# Issue I had with hyprpaper: can't disable the splash with waypaper
+	$(INSTALL) feh swaybg
+	@# The following 2 packages are new waypaper dependencies since v2.4. They are available
+	@# on the AUR but are managed poorly, so they don't get rebuilt for new python version.
+	@# At least quickly enough. So I'll just do it myself.
+	$(PARUINSTALL) --rebuild python-screeninfo python-imageio-ffmpeg
+	$(PARUINSTALL) waypaper
+	@# Create a symlink for hyprlock to use the same wallpaper
+	@# TODO: check if this actually does somethin on clean system install
+	@#sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" ~/.config/waypaper/current_wallpaper.png|' ~/.config/waypaper/config.ini
+
 #============================================= Neovim =============================================
 nvim_reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic)
 	@# Things my neovim needs
@@ -279,8 +292,8 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 #========================================= Window Manager =========================================
 awesome: ## Install AwesomeWM with all dependencies
 	@echo "==================================================================="
-	$(INSTALL) awesome dmenu rofi slock xss-lock dunst picom feh polybar
-	$(PARUINSTALL) waypaper
+	$(INSTALL) awesome dmenu rofi slock xss-lock picom polybar
+	@make waypaper
 	@make brightnessctl
 
 # INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
@@ -300,12 +313,10 @@ qtile: ## Install QTile with all dependencies
 	@# - xss-lock (triggers slock on systemd events)
 	@# - dunst (notification daemon)
 	@# - picom (compositor for transparency and shadows)
-	@# - feh (image viewer and wallpaper setter)
-	@# - waypaper (wallpaper setter)
 	@# - polkit-kde-agent (GUI request for sudo password)
 	@# - xorg-xwininfo (window picker for screen recording)
-	$(INSTALL) dmenu rofi slock xss-lock dunst picom feh polkit-kde-agent xorg-xwininfo
-	$(PARUINSTALL) waypaper-git
+	$(INSTALL) dmenu rofi slock xss-lock dunst picom polkit-kde-agent xorg-xwininfo
+	@make waypaper
 	@make brightnessctl
 
 hyprland: ## Install Hyprland with all dependencies
@@ -320,19 +331,15 @@ hyprland: ## Install Hyprland with all dependencies
 	@# QT Wayland Support
 	$(INSTALL) qt5-wayland qt6-wayland
 	@# Post Install Apps
-	$(INSTALL) wl-clipboard dunst rofi feh
+	$(INSTALL) wl-clipboard dunst rofi
 	@# Statusbar,
 	$(INSTALL) waybar
 	@# Core Utils:
 	@# - hyprlock (screen locker)
 	@# - hypridle (idle manager)
 	@# - hyprsunset (blue light filter utility)
-	@# - swaybg (wallpaper engine); alternative: hyprpaper (can't disable splash with waypaper)
-	@# - waypaper (GUI wallpaper manager)
-	$(INSTALL) hyprlock hypridle hyprsunset swaybg
-	$(PARUINSTALL) waypaper-git
-	@# Create a symlink for hyprlock to use the same wallpaper
-	sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" ~/.config/waypaper/current_wallpaper.png|' ~/.config/waypaper/config.ini
+	$(INSTALL) hyprlock hypridle hyprsunset
+	@make waypaper
 	@# Extra Utils:
 	@# - hyprpicker (color picker)
 	@# - wf-recorder (screen-recorder)
@@ -653,7 +660,7 @@ install: ## Setup arch after new installation
 
 .PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
 	mise python python_modules rust julia go tectonic typst typescript\
-	paru flatpak gearlever flatseal docker lazydocker lf yazi gh\
+	paru flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper\
 	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand hyprhook undo_hyprhook cursor\
