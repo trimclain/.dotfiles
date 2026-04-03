@@ -350,6 +350,9 @@ inoremap : :<c-g>u
 xnoremap J :m '>+1<cr>gv=gv
 xnoremap K :m '<-2<cr>gv=gv
 
+" Yank last command
+nnoremap <leader>y :let @+ = histget(':', -1)<CR>
+
 " Yank whole file
 nnoremap <leader>Y gg"+yG
 
