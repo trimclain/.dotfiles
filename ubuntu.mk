@@ -285,9 +285,8 @@ flatpak:
 
 # -------------------------------------------------------------------------------------------------
 # PDF viewers
-# too slow, waiting until it's better on linux (maybe on arch better?)
-# sioyek:
-# 	@flatpak install -y --or-update flathub com.github.ahrm.sioyek
+sioyek:
+	$(FLATINSTALL) flathub com.github.ahrm.sioyek
 
 zathura:
 	@$(INSTALL) zathura
@@ -428,7 +427,7 @@ linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install t
 .PHONY: all help vimdir getnf ansible tmux zsh zap \
 	nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim \
 	mise typescript go julia rust tectonic fix_tectonic uninstall_tectonic \
-	docker uninstall_docker pm2 ufw install sinstall finstall \
+	docker uninstall_docker pm2 ufw server install sinstall finstall \
 	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
 	i3 awesome polybar picom rofi yazi flatpak sioyek zathura telegram spotify brave \
 	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
