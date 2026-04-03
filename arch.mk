@@ -210,9 +210,6 @@ nvim_reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sit
 	$(INSTALL) yad xclip wl-clipboard tree-sitter-cli
 	@make tectonic
 
-	@# Lua linter
-	@#$(INSTALL) luacheck
-
 nvim_build_reqs: ## Install neovim build prerequisites
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
