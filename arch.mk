@@ -213,7 +213,7 @@ nvim_reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sit
 nvim_build_reqs: ## Install neovim build prerequisites
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
-	$(INSTALL) base-devel cmake unzip ninja curl
+	$(INSTALL) base-devel cmake ninja curl git
 
 # or install neovim-nightly-bin with paru
 nvim_dev: ## Install neovim by building it from source
