@@ -581,7 +581,7 @@ uninstall-anki: # Uninstall Anki
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
 
-pomodorolm: # Pomodoro Tracker
+pomodorolm: # Install Pomodoro Tracker
 	$(FLATINSTALL) org.jousse.vincent.Pomodorolm
 	@# NOTE: to fix "Failed to create GBM buffer of size…" caused by Nvidia GPU run
 	@# flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=1 org.jousse.vincent.Pomodorolm
@@ -592,6 +592,9 @@ syncthing: ## Install Syncthing
 
 pdf4qt: ## Install pdf4qt (open source pdf editor)
 	$(FLATINSTALL) io.github.JakubMelka.Pdf4qt
+
+sioyek: ## Install Sioyek (PDF Viewer PDF viewer with focus on textbooks and research papers)
+	$(FLATINSTALL) com.github.ahrm.sioyek
 
 # TODO: Ethical hacking & Penetration Testing Tools
 # NMAP
@@ -667,6 +670,6 @@ install: ## Setup arch after new installation
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
 	nomacs gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
-	anki uninstall-anki pomodorolm syncthing pdf4qt\
+	anki uninstall-anki pomodorolm syncthing pdf4qt sioyek\
 	apps\
 	install
