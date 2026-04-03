@@ -52,7 +52,7 @@ wallpapers: ## Install 1GB of nice 16:9 wallpapers
 	@git clone --depth=1 https://github.com/trimclain/wallpapers ~/personal/media/wallpapers
 	@echo "[wallpapers]: Done"
 
-maple_mono: ## Install Maple Mono fonts
+maple-mono: ## Install Maple Mono fonts
 	@./bin/.local/bin/install-maple-mono
 
 bluetooth: ## Setup bluetooth
@@ -89,7 +89,7 @@ python: ## Install python3, pip and uv
 	@# extremely fast python package and project manager
 	$(INSTALL) uv
 
-python_modules: ## Install numpy, matplotlib and jupyter-notebook
+python-modules: ## Install numpy, matplotlib and jupyter-notebook
 	$(INSTALL) python-numpy python-matplotlib jupyter-notebook
 
 rust: ## Install rustup, the rust version manager
@@ -201,7 +201,7 @@ waypaper: ## Install waypaper (GUI wallpaper manager)
 	@#sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" ~/.config/waypaper/current_wallpaper.png|' ~/.config/waypaper/config.ini
 
 #============================================= Neovim =============================================
-nvim_reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic)
+nvim-reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic)
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
 	@# - yad (or zenity) for the color picker plugin
@@ -210,17 +210,17 @@ nvim_reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sit
 	$(INSTALL) yad xclip wl-clipboard tree-sitter-cli
 	@make tectonic
 
-nvim_build_reqs: ## Install neovim build prerequisites
+nvim-build-reqs: ## Install neovim build prerequisites
 	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
 	$(INSTALL) base-devel cmake ninja curl git
 
 # or install neovim-nightly-bin with paru
-nvim_dev: ## Install neovim by building it from source
+nvim-dev: ## Install neovim by building it from source
 	@if command -v nvim > /dev/null; then \
 		echo "[nvim]: Already installed"; \
 	else \
-		make nvim_build_reqs && \
+		make nvim-build-reqs && \
 		echo "[nvim]: Installing from Github..." && \
 		git clone --depth=1 https://github.com/neovim/neovim /tmp/neovim && \
 		pushd /tmp/neovim/ && \
@@ -228,11 +228,11 @@ nvim_dev: ## Install neovim by building it from source
 		sudo make install && \
 		popd && \
 		rm -rf /tmp/neovim && \
-		make nvim_reqs && \
+		make nvim-reqs && \
 		echo "[nvim]: Done"; \
 	fi
 
-uninstall_nvim_dev: ## Uninstall neovim that was built from source (e.g. with `make nvim_dev`)
+uninstall-nvim-dev: ## Uninstall neovim that was built from source (e.g. with `make nvim-dev`)
 	@if [[ -f /usr/local/bin/nvim ]]; then \
 		echo "Uninstalling Neovim..." && \
 		sudo rm -f /usr/local/bin/nvim && \
@@ -240,15 +240,15 @@ uninstall_nvim_dev: ## Uninstall neovim that was built from source (e.g. with `m
 		echo "Done"; \
 	fi
 
-clean_nvim: ## Uninstall neovim packages, remove state and cache files
+clean-nvim: ## Uninstall neovim packages, remove state and cache files
 	@echo "Uninstalling Neovim Leftovers..."
 	@rm -rf ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 	@echo "Done"
 
-purge_nvim: uninstall_nvim_dev clean_nvim  ## Uninstall neovim installed from source and remove all it's leftovers
+purge-nvim: uninstall-nvim-dev clean-nvim  ## Uninstall neovim installed from source and remove all it's leftovers
 
 neovim: ## Install neovim package
-	@make nvim_reqs
+	@make nvim-reqs
 	$(INSTALL) neovim
 
 neovide: ## Install neovide
@@ -383,7 +383,7 @@ hyprhook: ## Create a pacman hook to add missing Environment Variables for hyprl
 	@echo "Setup complete!"
 	@echo "The pacman hook is set up to trigger /usr/local/bin/hyprland-post-update.sh after Hyprland is upgraded."
 
-undo_hyprhook: ## Undo everything hyprhook did
+undo-hyprhook: ## Undo everything hyprhook did
 	@#echo "Removing pacman hook file..."
 	sudo rm -f $(HOOK_FILE)
 	@#echo "Removing post-update script..."
@@ -576,7 +576,7 @@ anki: ## Install Anki
 	@# Delete the folder and the archive
 	rm -rf ./anki-launcher ./anki-launcher.tar.zst
 
-uninstall_anki: # Uninstall Anki
+uninstall-anki: # Uninstall Anki
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
 # after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
@@ -641,7 +641,7 @@ install: ## Setup arch after new installation
 	@# fonts
 	$(INSTALL) noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
 	$(INSTALL) terminus-font
-	@make maple_mono
+	@make maple-mono
 	@make getnf
 	@getnf -i JetBrainsMono,IBMPlexMono,CascadiaCode,GeistMono
 	@# shell
@@ -655,18 +655,18 @@ install: ## Setup arch after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir getnf wallpapers maple_mono bluetooth brightnessctl\
-	mise python python_modules rust julia go tectonic typst typescript\
+.PHONY: all help vimdir getnf wallpapers maple-mono bluetooth brightnessctl\
+	mise python python-modules rust julia go tectonic typst typescript\
 	paru flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper\
-	nvim_reqs nvim_build_reqs nvim_dev uninstall_nvim_dev clean_nvim purge_nvim neovim neovide\
+	nvim-reqs nvim-build-reqs nvim-dev uninstall-nvim-dev clean-nvim purge-nvim neovim neovide\
 	zoxide zsh zap\
-	awesome qtile hyprland fix-nvidialand hyprhook undo_hyprhook cursor\
+	awesome qtile hyprland fix-nvidialand hyprhook undo-hyprhook cursor\
 	kde cosmic\
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
 	nomacs gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
-	anki uninstall_anki pomodorolm syncthing pdf4qt\
+	anki uninstall-anki pomodorolm syncthing pdf4qt\
 	apps\
 	install
