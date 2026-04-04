@@ -27,3 +27,13 @@
 # [[keymaps]]
 # command = { SeekBackward = { } }
 # key_sequence = "Q"
+
+# C-q -> q
+[[keymaps]]
+command = "PreviousPage"
+key_sequence = "q"
+
+# q -> Q
+[[keymaps]]
+command = "Quit"
+key_sequence = "Q"
