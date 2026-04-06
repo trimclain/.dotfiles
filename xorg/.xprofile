@@ -12,17 +12,17 @@ xset r rate 400 25
 xset s off -dpms
 #xset dpms 0 0 0
 
+# NOTE: If using xset in xinitrc does not work, specify settings within a file in /etc/X11/xorg.conf.d/,
+# see https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Configuration
+
 # Docs: https://wiki.archlinux.org/title/Session_lock#xss-lock
 xss-lock --transfer-sleep-lock slock &
 
 # Authentication agent for GUI sudo popups
 #/usr/lib/polkit-kde-authentication-agent-1
 
-# NOTE: If using xset in xinitrc does not work, specify settings within a file in /etc/X11/xorg.conf.d/,
-# see https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Configuration
-
 # Enable transparency and other visual effects
-#picom -b
+picom -b
 
 # Enable notifications
 # in awesomewm naughty is used; in qtile I do it elsewhere
