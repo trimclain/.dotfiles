@@ -24,5 +24,7 @@ white = "0xd0d0d0"
 yellow = "0xfeff00"
 
 [colors.primary]
-background = "0x000000"
+# background = "#282c34"
+background = "#1A1D23" # match astrotheme background
+# background = "0x000000"
 foreground = "0xffffff"

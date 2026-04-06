@@ -1,0 +1,150 @@
+###############################################################################
+#                                                                             #
+#    ████████╗██████╗ ██╗███╗   ███╗ ██████╗██╗      █████╗ ██╗███╗   ██╗     #
+#    ╚══██╔══╝██╔══██╗██║████╗ ████║██╔════╝██║     ██╔══██╗██║████╗  ██║     #
+#       ██║   ██████╔╝██║██╔████╔██║██║     ██║     ███████║██║██╔██╗ ██║     #
+#       ██║   ██╔══██╗██║██║╚██╔╝██║██║     ██║     ██╔══██║██║██║╚██╗██║     #
+#       ██║   ██║  ██║██║██║ ╚═╝ ██║╚██████╗███████╗██║  ██║██║██║ ╚████║     #
+#       ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝     #
+#                                                                             #
+#        Arthur McLain (trimclain)                                            #
+#        mclain.it@gmail.com                                                  #
+#        https://github.com/trimclain                                         #
+#                                                                             #
+###############################################################################
+
+# Base Config for Alacritty
+
+[env]
+#TERM = xterm-256color
+TERM = "alacritty"
+# Docs: https://wiki.archlinux.org/title/Alacritty#Different_font_size_on_multiple_monitors
+# INFO: Disable on wayland
+WINIT_X11_SCALE_FACTOR = "1.1"
+
+[window]
+dynamic_padding = true
+# opacity = 0.75
+# blur = true
+
+[scrolling]
+history = 5000 # default: 10000
+
+[cursor.style]
+blinking = "Never"
+shape = "Beam" # ▇ "Block" (default), _ "Underline", | "Beam"
+
+[mouse]
+hide_when_typing = true
+
+# {{{ Font configuration
+# Find fonts with: fc-list : family style
+
+# ###############################################################################
+# # Hasklug Nerd Font Mono (8.7/10)
+# ###############################################################################
+# [font.normal]
+# family = "Hasklug Nerd Font Mono"
+
+# ###############################################################################
+# # CodeNewRoman Nerd Font Mono (8.5/10)
+# ###############################################################################
+# [font.normal]
+# family = "CodeNewRoman Nerd Font Mono"
+
+# ###############################################################################
+# # ComicShannsMono Nerd Font Mono (8.5/10)
+# ###############################################################################
+# [font.normal]
+# family = "ComicShannsMono Nerd Font Mono"
+
+# ###############################################################################
+# # VictorMono Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Medium"
+# # style = "SemiBold Oblique"
+# [font.bold]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Bold"
+# [font.italic]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Medium Italic"
+# # style = "SemiBold Oblique"
+# [font.bold_italic]
+# family = "VictorMono Nerd Font Mono"
+# # style = "Medium"
+
+# ###############################################################################
+# # Iosevka Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "Iosevka Nerd Font Mono"
+
+# ###############################################################################
+# # BlexMono Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "BlexMono Nerd Font Mono"
+
+# ###############################################################################
+# # JetBrainsMono Nerd Font Mono (8/10)
+# ###############################################################################
+# [font.normal]
+# family = "JetBrainsMono Nerd Font Mono"
+
+# ###############################################################################
+# # GeistMono Nerd Font Mono (theo/10)
+# ###############################################################################
+# [font.normal]
+# family = "GeistMono Nerd Font Mono"
+
+###############################################################################
+# Maple Mono Nerd Font (9/10)
+###############################################################################
+[font.normal]
+family = "Maple Mono NF"
+
+# ###############################################################################
+# # Cascadia Code Nerd Font Mono (9/10)
+# ###############################################################################
+# [font.normal]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiLight"
+# [font.bold]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiBold"
+# [font.italic]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiLight Italic"
+# [font.bold_italic]
+# family = "CaskaydiaCove Nerd Font Mono"
+# style = "SemiBold Italic"
+
+###############################################################################
+
+[font]
+# Usage with WINIT_X11_SCALE_FACTOR:
+#  size 13.0 with scale 1.1, size 14.0 with scale 1.0
+size = 13.0 # default: 11.0
+# }}}
+
+# {{{ Key Bindings
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+# }}}
+
+# vim:fileencoding=utf-8:foldmethod=marker

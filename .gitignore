@@ -11,3 +11,6 @@ userstate.cbor
 
 # local config for ghostty and kitty
 local.conf
+
+# local config for alacritty
+local.toml
