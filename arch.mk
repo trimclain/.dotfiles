@@ -157,7 +157,6 @@ flatseal: ## Modify Flatpak App permissions
 	$(FLATINSTALL) com.github.tchx84.Flatseal
 
 docker: ## Install docker
-	@echo "==================================================================="
 	@if command -v docker > /dev/null; then \
 		echo "[docker]: Already installed"; \
 	else \
@@ -288,14 +287,12 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 
 #========================================= Window Manager =========================================
 awesome: ## Install AwesomeWM with all dependencies
-	@echo "==================================================================="
 	$(INSTALL) awesome dmenu rofi slock xss-lock picom polybar
 	@make waypaper
 	@make brightnessctl
 
 # INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
 qtile: ## Install QTile with all dependencies
-	@echo "==================================================================="
 	@# Install
 	@# - qtile
 	@# - python-psutil (for cpu widget and more)
@@ -317,7 +314,6 @@ qtile: ## Install QTile with all dependencies
 	@make brightnessctl
 
 hyprland: ## Install Hyprland with all dependencies
-	@echo "==================================================================="
 	$(INSTALL) hyprland
 	@# XDG Desktop Portal handles file pickers, screensharing, etc
 	$(INSTALL) xdg-desktop-portal-hyprland
@@ -409,7 +405,6 @@ kde: ## Install KDE Plasma
 	$(INSTALL) plasma-meta kde-applications-meta
 
 cosmic: ## Install COSMIC
-	@echo "==================================================================="
 	$(INSTALL) cosmic-session
 
 #============================================ Terminal ============================================
@@ -417,7 +412,6 @@ alacritty: ## Install Alacritty
 	$(INSTALL) alacritty
 
 kitty: ## Install Kitty
-	@echo "==================================================================="
 	@# imagemagick is required to display uncommon image formats in kitty
 	$(INSTALL) imagemagick kitty
 
@@ -455,7 +449,6 @@ thorium: ## Install Thorium Browser
 
 helium: ## Install Helium Browser
 	$(eval HELIUM_VERSION := $(shell curl -fsSL https://github.com/imputnet/helium-linux/releases/latest | grep "<title>Release " | awk '{print $$2}'))
-	@echo "==================================================================="
 	@echo "Installing Helium Browser..."
 	@# Install the latest version
 	curl -LO https://github.com/imputnet/helium-linux/releases/download/$(HELIUM_VERSION)/helium-$(HELIUM_VERSION)-x86_64.AppImage --output-dir ~/downloads
@@ -565,7 +558,6 @@ opencode: ## Install opencode (TUI AI Agent)
 #============================================= Study ==============================================
 anki: ## Install Anki
 	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
-	@echo "==================================================================="
 	@echo "Installing Anki..."
 	@# Install the latest version
 	curl -LO https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
