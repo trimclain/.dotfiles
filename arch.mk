@@ -188,16 +188,22 @@ gh: ## Install github-cli
 
 waypaper: ## Install waypaper (GUI wallpaper manager)
 	@# Wallpaper Engines: feh for X11, swaybg (or hyprpaper) for Wayland
-	@# Issue I had with hyprpaper: can't disable the splash with waypaper
-	$(INSTALL) feh swaybg
-	@# The following 2 packages are new waypaper dependencies since v2.4. They are available
-	@# on the AUR but are managed poorly, so they don't get rebuilt for new python version.
-	@# At least quickly enough. So I'll just do it myself.
-	$(PARUINSTALL) --rebuild python-screeninfo python-imageio-ffmpeg
-	$(PARUINSTALL) waypaper
-	@# Create a symlink for hyprlock to use the same wallpaper
-	@# TODO: check if this actually does somethin on clean system install
-	@#sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" ~/.config/waypaper/current_wallpaper.png|' ~/.config/waypaper/config.ini
+	@if command -v waypaper > /dev/null; then \
+		echo "[waypaper]: Already installed"; \
+	else \
+		echo "[waypaper]: Installing..."; \
+		# Issue I had with hyprpaper: can't disable the splash with waypaper \
+		$(INSTALL) feh swaybg; \
+		# The following 2 packages are new waypaper dependencies since v2.4. They are available \
+		# on the AUR but are managed poorly, so they don't get rebuilt for new python version. \
+		# At least quickly enough. So I'll just do it myself. \
+		$(PARUINSTALL) --rebuild python-screeninfo python-imageio-ffmpeg; \
+		$(PARUINSTALL) waypaper; \
+		# Create a symlink for hyprlock to use the same wallpaper \
+		# TODO: check if this actually does somethin on clean system install \
+		#sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" ~/.config/waypaper/current_wallpaper.png|' ~/.config/waypaper/config.ini \
+		echo "[waypaper]: Done";\
+	fi
 
 #============================================= Neovim =============================================
 nvim-reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic)
