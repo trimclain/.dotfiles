@@ -14,6 +14,7 @@
 -------------------------------------------------------------------------------
 
 -- INFO: logs are by default saved to ~/.local/share/sddm/xorg-session.log if using SDDM
+-- DOCS: https://awesomewm.org/apidoc/index.html
 
 local awesome, client, screen, root = awesome, client, screen, root
 
