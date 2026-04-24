@@ -370,38 +370,6 @@ end
 
 -- {{{ Keybinding Modes (using Modalbind)
 
--- System Mode
-local sysmap = {
-    {
-        "e",
-        function()
-            awesome.quit()
-        end,
-        "Logout",
-    },
-    {
-        "s",
-        function()
-            awful.spawn.with_shell("systemctl suspend")
-        end,
-        "Suspend",
-    },
-    {
-        "r",
-        function()
-            awful.spawn.with_shell("systemctl reboot")
-        end,
-        "Restart",
-    },
-    {
-        "S",
-        function()
-            awful.spawn.with_shell("systemctl poweroff")
-        end,
-        "Shutdown",
-    },
-}
-
 -- Brightness Mode
 -- local brightmap = {
 --     {
@@ -485,8 +453,8 @@ local globalkeys = mytable.join(
     -- ########################## MODES GROUP ###############################
 
     awful.key({ modkey }, "0", function()
-        modalbind.grab({ keymap = sysmap, name = "System", stay_in_mode = false })
-    end, { description = "enter system mode", group = "modes" }),
+        spawn_terminal_command("$HOME/.local/bin/powermenu")
+    end, { description = "open power menu", group = "hotkeys" }),
 
     -- awful.key({ modkey }, "b", function()
     --     modalbind.grab({ keymap = brightmap, name = "Brightness", stay_in_mode = false })
@@ -543,7 +511,7 @@ local globalkeys = mytable.join(
     -- ########################################################################
 
     -- ########################## AWESOME GROUP ###############################
-    awful.key({ altkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
+    awful.key({ modkey }, "/", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     -- awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     awful.key({ modkey, "Shift" }, "e", awesome.quit, { description = "exit awesome", group = "awesome" }),
@@ -853,10 +821,8 @@ local clientkeys = mytable.join(
         c:kill()
     end, { description = "close the client", group = "client" }),
     awful.key(
-        -- { modkey, "Control" },
-        -- "space",
         { modkey },
-        "t",
+        "space",
         awful.client.floating.toggle,
         { description = "toggle floating", group = "client" }
     ),
