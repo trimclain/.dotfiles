@@ -14,6 +14,7 @@
 ###############################################################################
 
 import os
+import shlex
 import shutil
 import subprocess
 
@@ -136,19 +137,19 @@ def run_command(qtile, cmd):
         command: shell command to run
     """
     if isinstance(cmd, str):
-        command = os.path.expanduser(cmd).split(" ")
+        command = os.path.expanduser(cmd)
     else:
-        command = list(cmd)
+        command = " ".join(shlex.quote(x) for x in cmd)
 
-    if not command[0] in INSTALLED_COMMANDS:
-        if shutil.which(command[0]) is None:
-            send_notification(
-                "Qtile Run Command",
-                f'"Error: {command[0]} not found"'
-            )
+    first = shlex.split(command)[0]
+
+    if first not in INSTALLED_COMMANDS:
+        if shutil.which(first) is None:
+            send_notification("Qtile Run Command", f'Error: {first} not found')
             return
-        INSTALLED_COMMANDS.append(command[0])
-    subprocess.run(command)
+        INSTALLED_COMMANDS.append(first)
+
+    qtile.spawn(command)
 
 
 def get_command_output(cmd):
@@ -606,7 +607,7 @@ class Widget:
         # increase/decrease volume on scroll
         mouse_callbacks={
             "Button1": run_command("~/.local/bin/volume-control --toggle-mute"),
-            "Button3": lazy.spawn("pavucontrol"),
+            "Button3": run_command("pavucontrol"),
             "Button4": run_command("~/.local/bin/volume-control --increase"),
             "Button5": run_command("~/.local/bin/volume-control --decrease"),
         },
@@ -678,7 +679,7 @@ class Widget:
     wlan = dict(
         mouse_callbacks={
             "Button1": toggle_wifi(),
-            "Button3": lazy.spawn("nm-connection-editor"),
+            "Button3": run_command("nm-connection-editor"),
         },
         use_ethernet=True,
         interface=WLAN_INTERFACE,
@@ -694,7 +695,7 @@ class Widget:
     wlan_no_essid = dict(
         mouse_callbacks={
             "Button1": toggle_wifi(),
-            "Button3": lazy.spawn("nm-connection-editor"),
+            "Button3": run_command("nm-connection-editor"),
         },
         use_ethernet=True,
         interface=WLAN_INTERFACE,
