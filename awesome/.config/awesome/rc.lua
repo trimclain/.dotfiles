@@ -141,7 +141,8 @@ local themes = {
 local chosen_theme = themes[7]
 local modkey = "Mod1" -- default: Mod4 (windows key)
 local altkey = "Mod4" -- default: Mod1 (alt key)
-local terminal = "kitty" -- kitty, alacritty, wezterm
+-- INFO: for a variable to be visible here it needs to be defined in /etc/environment
+local terminal = os.getenv("TERMINAL") or "kitty" -- kitty, alacritty, wezterm, ghostty
 local editor = os.getenv("EDITOR") or "nvim"
 -- local browser = "brave-browser"
 
