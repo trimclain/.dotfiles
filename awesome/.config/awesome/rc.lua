@@ -15,8 +15,7 @@
 
 -- INFO: logs are by default saved to ~/.local/share/sddm/xorg-session.log if using SDDM
 
-local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
-local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
+local awesome, client, screen, root = awesome, client, screen, root
 
 -- {{{ Required libraries
 -- ############################################################################
@@ -360,7 +359,7 @@ local spawn_terminal_command = function(cmd, opts)
             naughty.notify({
                 preset = naughty.config.presets.critical,
                 title = "Command Error",
-                text = "Executable '" .. cmd .. "' not found."
+                text = "Executable '" .. cmd .. "' not found.",
             })
         end
     end)
@@ -895,8 +894,8 @@ for i = 1, 9 do
         globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9, function()
-            local screen = awful.screen.focused()
-            local tag = screen.tags[i]
+            local current_screen = awful.screen.focused()
+            local tag = current_screen.tags[i]
             if tag then
                 tag:view_only()
             end
