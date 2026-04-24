@@ -351,24 +351,34 @@ root.buttons(mytable.join(
 
 -- {{{ Local Functions
 
+--- Send info notification using naughty.notify
+---@param msg string notification body
+local function inform(msg)
+    naughty.notify({
+        preset = naughty.config.presets.info,
+        title = "Debugging Awesome",
+        text = msg
+    })
+end
+
+local home = os.getenv("HOME") or "$HOME"
+
 --- Wrapper around awful.spawn.with_shell with the check if the command we run exists
 ---@param cmd string command we run,
-local run_command = function(cmd)
-    cmd = cmd:gsub("~", "$HOME", 1) --  awful.spawn only understands $HOME
-    local argv = gears.string.split(cmd, " ")
-    local executable = argv[1]
+local function run_command(cmd)
+    cmd = cmd:gsub("~", home, 1)
+    local executable = gears.string.split(cmd, " ")[1]
 
-    awful.spawn.easy_async_with_shell("command -v " .. executable, function(_, _, _, exit_code)
-        if exit_code == 0 then
-            awful.spawn.with_shell(cmd)
-        else
-            naughty.notify({
-                preset = naughty.config.presets.critical,
-                title = "Command Error",
-                text = "Executable '" .. executable .. "' not found.",
-            })
-        end
-    end)
+    local is_executable = gears.filesystem.file_executable(executable)
+    if is_executable then
+        awful.spawn.with_shell(cmd)
+    else
+        naughty.notify({
+            preset = naughty.config.presets.critical,
+            title = "Command Error",
+            text = "Executable '" .. executable .. "' not found.",
+        })
+    end
 end
 
 -- }}}
