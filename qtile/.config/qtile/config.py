@@ -529,11 +529,7 @@ class Widget:
             # Get current month as notification
             "Button1": run_command("~/.config/qtile/scripts/calendar.sh --today"),
             # Get whole year in a new terminal
-            "Button3": lazy.spawn(
-                terminal + " -e " + os.path.expanduser(
-                    "~/.config/qtile/scripts/calendar.sh"
-                )
-            ),
+            "Button3": run_command("~/.config/qtile/scripts/calendar.sh"),
         },
         # format="%a %d/%m/%Y %H:%M",
         format="%a, %b %d %H:%M",
