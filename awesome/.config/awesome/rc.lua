@@ -13,6 +13,8 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+-- INFO: logs are by default saved to ~/.local/share/sddm/xorg-session.log if using SDDM
+
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
 

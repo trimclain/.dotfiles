@@ -13,6 +13,8 @@
 #                                                                             #
 ###############################################################################
 
+# INFO: Logs are saved to ~/.local/share/qtile/qtile.log
+
 import os
 import shlex
 import shutil
