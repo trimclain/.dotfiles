@@ -9,15 +9,13 @@
     ],
     "modules-left": ["clock", "hyprland/submap"],
     "modules-center": ["hyprland/workspaces"],
-    // qtile: tray, volume, brightness, layout, memory, temperature, battery, exit button
-    // polybar: volume brightness xkeyboard wlan eth smemory temperature battery powermenu
     "modules-right": [
         "tray",
         "pulseaudio",
         "backlight",
         "hyprland/language",
-        "network",
         "memory",
+        "network",
         "temperature",
         "battery",
         "custom/power"
