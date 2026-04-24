@@ -350,17 +350,22 @@ root.buttons(mytable.join(
 -- }}}
 
 -- {{{ Local Functions
-local spawn_terminal_command = function(cmd, opts)
-    local full_cmd = cmd .. (opts and (" " .. opts) or "")
 
-    awful.spawn.easy_async_with_shell("command -v " .. cmd, function(_, _, _, exit_code)
+--- Wrapper around awful.spawn.with_shell with the check if the command we run exists
+---@param cmd string command we run,
+local run_command = function(cmd)
+    cmd = cmd:gsub("~", "$HOME", 1) --  awful.spawn only understands $HOME
+    local argv = gears.string.split(cmd, " ")
+    local executable = argv[1]
+
+    awful.spawn.easy_async_with_shell("command -v " .. executable, function(_, _, _, exit_code)
         if exit_code == 0 then
-            awful.spawn.with_shell(full_cmd)
+            awful.spawn.with_shell(cmd)
         else
             naughty.notify({
                 preset = naughty.config.presets.critical,
                 title = "Command Error",
-                text = "Executable '" .. cmd .. "' not found.",
+                text = "Executable '" .. executable .. "' not found.",
             })
         end
     end)
@@ -375,21 +380,21 @@ end
 --     {
 --         "0",
 --         function()
---             spawn_terminal_command("$HOME/.local/bin/brightness-control", "--zero")
+--             spawn_terminal_command("~/.local/bin/brightness-control --zero")
 --         end,
 --         "0%",
 --     },
 --     {
 --         "5",
 --         function()
---             spawn_terminal_command("$HOME/.local/bin/brightness-control", "--half")
+--             spawn_terminal_command("~/.local/bin/brightness-control --half")
 --         end,
 --         "50%",
 --     },
 --     {
 --         "1",
 --         function()
---             spawn_terminal_command("$HOME/.local/bin/brightness-control", "--full")
+--             spawn_terminal_command("~/.local/bin/brightness-control --full")
 --         end,
 --         "100%",
 --     },
@@ -400,14 +405,14 @@ local layoutmap = {
     {
         "1",
         function()
-            spawn_terminal_command("$HOME/.local/bin/keyboard-layout", "--no-german")
+            run_command("~/.local/bin/keyboard-layout --no-german")
         end,
         "us, ru",
     },
     {
         "2",
         function()
-            spawn_terminal_command("$HOME/.local/bin/keyboard-layout", "--german")
+            run_command("~/.local/bin/keyboard-layout --german")
         end,
         "us, de, ru",
     },
@@ -418,28 +423,28 @@ local monimap = {
     {
         "1",
         function()
-            spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--first")
+            run_command("~/.local/bin/monitor-layout --first")
         end,
         "First",
     },
     {
         "2",
         function()
-            spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--second")
+            run_command("~/.local/bin/monitor-layout --second")
         end,
         "Second",
     },
     {
         "e",
         function()
-            spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--extend")
+            run_command("~/.local/bin/monitor-layout --extend")
         end,
         "Dual",
     },
     {
         "d",
         function()
-            spawn_terminal_command("$HOME/.local/bin/monitor-layout", "--duplicate")
+            run_command("~/.local/bin/monitor-layout --duplicate")
         end,
         "Duplicate",
     },
@@ -453,7 +458,7 @@ local globalkeys = mytable.join(
     -- ########################## MODES GROUP ###############################
 
     awful.key({ modkey }, "0", function()
-        spawn_terminal_command("$HOME/.local/bin/powermenu")
+        run_command("~/.local/bin/powermenu")
     end, { description = "open power menu", group = "hotkeys" }),
 
     -- awful.key({ modkey }, "b", function()
@@ -755,47 +760,47 @@ local globalkeys = mytable.join(
     -- Take a screenshot
     -- https://github.com/lcpz/dots/blob/master/bin/screenshot
     awful.key({ modkey }, "p", function()
-        spawn_terminal_command("flameshot", "screen -c")
+        run_command("flameshot screen -c")
     end, { description = "take a screenshot of a full screen to clipboard", group = "hotkeys" }),
 
     awful.key({ modkey }, "s", function()
-        spawn_terminal_command("flameshot", "gui -c")
+        run_command("flameshot gui -c")
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
     -- Lock the screen
     awful.key({ altkey }, "l", function()
         -- Will use slock if `xss-lock --transfer-sleep-lock slock` was run on startup
-        spawn_terminal_command("loginctl", "lock-session")
-        -- spawn_terminal_command("xscreensaver-command", "-lock")
+        run_command("loginctl lock-session")
+        -- spawn_terminal_command("xscreensaver-command -lock")
     end, { description = "lock screen", group = "hotkeys" }),
 
     -- Use xrandr to adjust screen brightness
     awful.key({}, "XF86MonBrightnessUp", function()
-        spawn_terminal_command("$HOME/.local/bin/brightness-control", "--increase")
+        run_command("~/.local/bin/brightness-control --increase")
     end, { description = "brightness +10%", group = "hotkeys" }),
     awful.key({}, "XF86MonBrightnessDown", function()
-        spawn_terminal_command("$HOME/.local/bin/brightness-control", "--decrease")
+        run_command("~/.local/bin/brightness-control --decrease")
     end, { description = "brightness -10%", group = "hotkeys" }),
 
     -- Use pactl and pacmd to adjust volume with PulseAudio.
     awful.key({}, "XF86AudioRaiseVolume", function()
-        spawn_terminal_command("$HOME/.local/bin/volume-control", "--increase")
+        run_command("~/.local/bin/volume-control --increase")
         -- beautiful.volume.update()
     end, { description = "volume +5%", group = "hotkeys" }),
     awful.key({}, "XF86AudioLowerVolume", function()
-        spawn_terminal_command("$HOME/.local/bin/volume-control", "--decrease")
+        run_command("~/.local/bin/volume-control --decrease")
         -- beautiful.volume.update()
     end, { description = "volume -5%", group = "hotkeys" }),
     awful.key({}, "XF86AudioMute", function()
-        spawn_terminal_command("$HOME/.local/bin/volume-control", "--toggle-mute")
+        run_command("~/.local/bin/volume-control --toggle-mute")
         -- beautiful.volume.update()
     end, { description = "toggle mute volume", group = "hotkeys" }),
     awful.key({}, "XF86AudioMicMute", function()
-        spawn_terminal_command("$HOME/.local/bin/volume-control", "--toggle-micro-mute")
+        run_command("~/.local/bin/volume-control --toggle-micro-mute")
         -- beautiful.volume.update()
     end, { description = "toggle mute microphone", group = "hotkeys" }),
     awful.key({ altkey }, "p", function()
-        spawn_terminal_command("$HOME/.local/bin/volume-control", "--toggle-micro-mute")
+        run_command("~/.local/bin/volume-control --toggle-micro-mute")
         -- beautiful.volume.update()
     end, { description = "toggle mute microphone", group = "hotkeys" })
 
@@ -820,12 +825,7 @@ local clientkeys = mytable.join(
     awful.key({ modkey }, "q", function(c)
         c:kill()
     end, { description = "close the client", group = "client" }),
-    awful.key(
-        { modkey },
-        "space",
-        awful.client.floating.toggle,
-        { description = "toggle floating", group = "client" }
-    ),
+    awful.key({ modkey }, "space", awful.client.floating.toggle, { description = "toggle floating", group = "client" }),
     -- awful.key({ modkey, "Control" }, "Return", function(c)
     --     c:swap(awful.client.getmaster())
     -- end, { description = "move to master", group = "client" }),
@@ -1119,13 +1119,13 @@ end)
 -- local operating_system = get_os_output("awk -F= '$1==\"ID\" { print $2 ;}' /etc/os-release")
 
 -- Set the wallpaper
-spawn_terminal_command("$HOME/.fehbg")
+run_command("~/.fehbg")
 -- Set my keyboard layout
-spawn_terminal_command("$HOME/.local/bin/keyboard-layout")
+run_command("~/.local/bin/keyboard-layout")
 -- Update current brightness for my custom script
-spawn_terminal_command("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
+run_command("~/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar
-spawn_terminal_command("$HOME/.config/polybar/launch.sh")
+run_command("~/.config/polybar/launch.sh")
 
 -- }}}
 
