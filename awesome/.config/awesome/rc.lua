@@ -19,7 +19,6 @@
 local awesome, client, screen, root = awesome, client, screen, root
 
 -- {{{ Required libraries
--- ############################################################################
 
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
@@ -41,7 +40,7 @@ local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 -- }}}
 
 -- {{{ Modalbind Config
--- ############################################################################
+
 -- This module helps to add i3-like keybinding modes
 local modalbind = require("modalbind")
 modalbind.init()
@@ -60,7 +59,7 @@ modalbind.hide_default_options() -- hide that esc or return exits the box
 -- }}}
 
 -- {{{ Some Extra Configs
--- ############################################################################
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 -- require("awful.hotkeys_popup.keys")
@@ -70,7 +69,6 @@ modalbind.hide_default_options() -- hide that esc or return exits the box
 -- }}}
 
 -- {{{ Error handling
--- ############################################################################
 
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -102,7 +100,6 @@ end
 -- }}}
 
 -- {{{ Autostart windowless processes
--- ############################################################################
 
 -- This function will run once every time Awesome is started
 -- local function run_once(cmd_arr)
@@ -126,7 +123,6 @@ awful.spawn.with_shell(
 -- }}}
 
 -- {{{ Variable definitions
--- ############################################################################
 
 local themes = {
     "copland", -- 1 (8/10)
@@ -228,10 +224,11 @@ awful.util.tasklist_buttons = mytable.join(
 )
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
+
 -- }}}
 
 -- {{{ Menu
--- ############################################################################
+
 -- Create a launcher widget and a main menu
 local myawesomemenu = {
     {
@@ -298,10 +295,10 @@ end)
 
 -- Set the Menubar terminal for applications that require it
 --menubar.utils.terminal = terminal
+
 -- }}}
 
 -- {{{ Screen
--- ############################################################################
 
 -- I use external apps to set wallpaper
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
@@ -334,13 +331,15 @@ awful.screen.connect_for_each_screen(function(s)
     -- s.padding = { top = 20 }
     beautiful.at_screen_connect(s)
 end)
+
 -- }}}
 
 -- {{{ Mouse bindings
--- ############################################################################
--- 1 is leftclick, 2 is middleclick, 3 is rightclick, 4 is wheel up, 5 is wheel down
+
+-- 1 - leftclick, 2 - middleclick, 3 - rightclick, 4 - wheel up, 5 - wheel down
 
 root.buttons(mytable.join(
+    -- Open Main Menu with Right Click
     awful.button({}, 3, function()
         awful.util.mymainmenu:toggle()
     end)
@@ -366,10 +365,11 @@ local spawn_terminal_command = function(cmd, opts)
         end
     end)
 end
+
 -- }}}
 
--- {{{ Keybinding Modes
--- ############################################################################
+-- {{{ Keybinding Modes (using Modalbind)
+
 -- System Mode
 local sysmap = {
     {
@@ -480,7 +480,7 @@ local monimap = {
 -- }}}
 
 -- {{{ Key bindings
--- ############################################################################
+
 local globalkeys = mytable.join(
     -- ########################## MODES GROUP ###############################
 
@@ -502,7 +502,7 @@ local globalkeys = mytable.join(
     -- ########################################################################
 
     -- ########################## TAG GROUP ###############################
-    -- Tag browsing
+    -- Tag (workspace in qtile) browsing
     -- awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
     -- awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
     -- awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
@@ -651,7 +651,6 @@ local globalkeys = mytable.join(
         -- end
     end, { description = "swap with right client", group = "client" }),
 
-    awful.key({ modkey }, "u", awful.client.urgent.jumpto, { description = "jump to urgent client", group = "client" }),
     -- awful.key({ modkey }, "Tab", function()
     --     if cycle_prev then
     --         awful.client.focus.history.previous()
@@ -795,9 +794,10 @@ local globalkeys = mytable.join(
         spawn_terminal_command("flameshot", "gui -c")
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
-    -- X screen locker
+    -- Lock the screen
     awful.key({ altkey }, "l", function()
-        spawn_terminal_command("slock")
+        -- Will use slock if `xss-lock --transfer-sleep-lock slock` was run on startup
+        spawn_terminal_command("loginctl", "lock-session")
         -- spawn_terminal_command("xscreensaver-command", "-lock")
     end, { description = "lock screen", group = "hotkeys" }),
 
@@ -947,10 +947,11 @@ local clientbuttons = mytable.join(
 
 -- Set keys
 root.keys(globalkeys)
+
 -- }}}
 
 -- {{{ Rules
--- ############################################################################
+
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
 
@@ -1040,10 +1041,10 @@ awful.rules.rules = {
     --     properties = { shape = gears.partially_rounded_rect(0, 70, 70, true, true, true, true, 30) },
     -- },
 }
+
 -- }}}
 
 -- {{{ Signals
--- ############################################################################
 
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function(c)
@@ -1111,6 +1112,15 @@ client.connect_signal("request::titlebars", function(c)
     })
 end)
 
+-- Automatically jump to urgent clients
+client.connect_signal("property::urgent", function(c)
+    if c.urgent then
+        c:jump_to()
+        client.focus = c
+        c:raise()
+    end
+end)
+
 -- Enable sloppy focus, so that focus follows mouse.
 -- client.connect_signal("mouse::enter", function(c)
 --     c:emit_signal("request::activate", "mouse_enter", { raise = vi_focus })
@@ -1122,10 +1132,10 @@ end)
 client.connect_signal("unfocus", function(c)
     c.border_color = beautiful.border_normal
 end)
+
 -- }}}
 
 -- {{{ Autostart Programs
--- ############################################################################
 
 -- local function get_os_output(cmd, raw)
 --     local f = assert(io.popen(cmd, "r"))
@@ -1150,6 +1160,7 @@ spawn_terminal_command("$HOME/.local/bin/keyboard-layout")
 spawn_terminal_command("$HOME/.config/polybar/scripts/get-brightness-on-startup.sh")
 -- Enable polybar
 spawn_terminal_command("$HOME/.config/polybar/launch.sh")
+
 -- }}}
 
 -- vim:fileencoding=utf-8:foldmethod=marker
