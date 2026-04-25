@@ -26,7 +26,6 @@ from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger
-from libqtile.utils import send_notification
 
 # "mod4" is the super key (windows key), "mod1" is the alt key
 mod = "mod1"
@@ -128,37 +127,73 @@ extension_defaults = widget_defaults.copy()
 
 # {{{ Helper Functions
 
+
+def notify(title="Qtile", message="Test Notification", urgency="normal", timeout=5000):
+    """Send a desktop notification using ``notify-send``.
+
+    Args:
+        title: Notification title. Defaults to ``"Qtile"``.
+        message: Notification body text. Defaults to ``"Test Notification"``.
+        urgency: Notification urgency level passed to ``notify-send``,
+            such as ``"low"``, ``"normal"``, or ``"critical"``.
+            Defaults to ``"normal"``.
+        timeout: Notification display time in milliseconds.
+            Defaults to ``5000``.
+
+    Returns:
+        None.
+
+    Note:
+        Requires the ``notify-send`` command to be available on the system.
+    """
+    cmd = (
+        f"notify-send -u {shlex.quote(urgency)} "
+        f"-t {int(timeout)} "
+        f"{shlex.quote(title)} "
+        f"{shlex.quote(message)}"
+    )
+    subprocess.run(shlex.split(cmd))
+
+
+@lazy.function
+def send_notification(qtile, title="Qtile", message="Hello", urgency="normal", timeout=5000):
+    """Lazy wrapper around notify to be used in keymaps"""
+    notify(title, message, urgency, timeout)
+
+
 INSTALLED_COMMANDS = []
 
 
 @lazy.function
-def run_command(qtile, cmd):
+def run_command(qtile, cmd: str):
     """Run a shell command if it exists, otherwise notify the user.
 
     Args:
-        command: shell command to run
+        qtile: Qtile instance used to spawn the command.
+        cmd: Shell command to execute. User home shortcuts such as ``~`` are
+            expanded before validation and execution.
+
+    Returns:
+        None
     """
-    if isinstance(cmd, str):
-        command = os.path.expanduser(cmd)
-    else:
-        command = " ".join(shlex.quote(x) for x in cmd)
+    cmd = os.path.expanduser(cmd)
 
-    first = shlex.split(command)[0]
-
+    first = shlex.split(cmd)[0]
     if first not in INSTALLED_COMMANDS:
         if shutil.which(first) is None:
-            send_notification("Qtile Run Command", f'Error: {first} not found')
+            notify("Qtile Run Command",
+                   f'Error: {first} not found', "critical")
             return
         INSTALLED_COMMANDS.append(first)
 
-    qtile.spawn(command)
+    qtile.spawn(cmd)
 
 
-def get_command_output(cmd):
+def get_command_output(cmd: str):
     """Get the output of a shell command.
 
     Args:
-        cmd (str): shell command to run
+        cmd: shell command to run
 
     Returns:
         str: output of the shell command
@@ -180,7 +215,7 @@ def toggle_wifi(qtile):
 
     # # This check makes it at least 200ms slower
     # if shutil.which("nmcli") is None:
-    #     send_notification("Qtile Toggle Wifi", "Error nmcli not found")
+    #     notify("Qtile Toggle Wifi", "Error nmcli not found")
     #     return
 
     if get_command_output("nmcli radio wifi") == "enabled":
