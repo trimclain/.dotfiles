@@ -95,7 +95,7 @@
         "format-en": "en",
         "format-ru": "ru",
         "format-de": "de",
-        "on-click": "~/.local/bin/keyboard-layout --toggle"
+        "on-click": "~/.local/bin/keyboard-layout"
         // Get with `hyprctl devices`
         // "keyboard-name": "at-translated-set-2-keyboard"
     },

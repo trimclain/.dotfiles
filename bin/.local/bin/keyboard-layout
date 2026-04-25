@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 
+###############################################################################
+# Configure Keyboard Layout
+#
+# Description: Toggle between us,ru and de keyboard layouts
+# Dependencies: setxkbmap (for X11), hyprctl (for Wayland)
+###############################################################################
+
 if [[ -n $WAYLAND_DISPLAY ]]; then
     ###########################################################################
     # WAYLAND
     ###########################################################################
     if [[ "$DESKTOP_SESSION" == "hyprland" ]]; then
-        # Toggle between us,ru and de
         CURRENT=$(hyprctl getoption input:kb_layout | awk '/str/ {print $2}')
         if [[ "$CURRENT" == 'de' ]]; then
             hyprctl keyword input:kb_layout us,ru > /dev/null
@@ -20,15 +26,9 @@ else
     ###########################################################################
     # XORG
     ###########################################################################
-    # Set the keyboard layout
-    if [[ -n "$1" ]]; then
-        if [[ "$1" == "--german" ]]; then
-            setxkbmap -layout de
-            # elif [[ "$1" == "--toggle" ]]; then
-            #     if [[ $(setxkbmap -query | awk '/^layout/ {print $2}') == "de" ]]; then
-            #         echo switching back to default;
-            #     fi
-        fi
+    CURRENT=$(setxkbmap -query | awk '/layout/{print $2}')
+    if [[ "$CURRENT" == 'us,ru' ]]; then
+        setxkbmap -layout de
     else
         # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
         setxkbmap -layout us,ru

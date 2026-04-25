@@ -366,8 +366,8 @@ keys = [
     Key(
         [alt],
         "d",
-        run_command("~/.local/bin/keyboard-layout --german"),
-        desc="Choose german layout"
+        run_command("~/.local/bin/keyboard-layout"),
+        desc="Toggle german layout"
     ),
 
     # Treetab controls
@@ -639,8 +639,9 @@ class Widget:
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#keyboardlayout
     keyboard_layout = dict(
         mouse_callbacks={
-            # switch to german on right click
-            "Button3": run_command("~/.local/bin/keyboard-layout --german"),
+            # toggle german layout on right click
+            # TODO: test if this switching to toggle will conflict with qtile
+            "Button3": run_command("~/.local/bin/keyboard-layout"),
         },
         fmt=' <span text_transform="lowercase">{}</span>',
         # padding=5,
@@ -713,7 +714,9 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#thermalsensor
     thermal_sensor = dict(
-        mouse_callbacks={"Button1": lazy.spawn(terminal + " -e btop")},
+        mouse_callbacks={
+            "Button1": lazy.spawn(terminal + " -e " + process_viewer)
+        },
         format="{temp:.0f}{unit}",
         fmt=" {}",
         threshold=90,
