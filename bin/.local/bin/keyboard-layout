@@ -33,5 +33,7 @@ else
         # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
         setxkbmap -layout us,ru
         setxkbmap -option 'grp:win_space_toggle'
+        # NOTE: trying out this approach, but leaving old method as alternative
+        setxkbmap -option 'compose:caps'
     fi
 fi

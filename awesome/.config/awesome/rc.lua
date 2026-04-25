@@ -411,24 +411,6 @@ root.buttons(mytable.join(
 --     },
 -- }
 
--- Keyboard Layout Mode
-local layoutmap = {
-    {
-        "1",
-        function()
-            run_command("~/.local/bin/keyboard-layout --no-german")
-        end,
-        "us, ru",
-    },
-    {
-        "2",
-        function()
-            run_command("~/.local/bin/keyboard-layout --german")
-        end,
-        "us, de, ru",
-    },
-}
-
 -- Monitor Mode
 local monimap = {
     {

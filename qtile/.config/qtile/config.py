@@ -640,7 +640,11 @@ class Widget:
     keyboard_layout = dict(
         mouse_callbacks={
             # toggle german layout on right click
-            # TODO: test if this switching to toggle will conflict with qtile
+            # NOTE: this implementation isn't perfect and I should try using compose.
+            # Reason: setxkbmap resets the XKB keyboard map for the whole X11 session,
+            # and that can overwrite modifier remaps or custom xmodmap changes that
+            # were applied earlier, leading to the warnings that lool like
+            # WARNING libqtile core.py:grab_key():L527 Can't grab <> (unknown keysym: <>)
             "Button3": run_command("~/.local/bin/keyboard-layout"),
         },
         fmt=' <span text_transform="lowercase">{}</span>',
