@@ -39,6 +39,41 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local mytable = awful.util.table or gears.table -- 4.{0,1} compatibility
 -- }}}
 
+-- {{{ Helper Functions
+
+--- Send info notification using naughty.notify
+---@param msg string notification body
+local function inform(msg)
+    naughty.notify({
+        preset = naughty.config.presets.info,
+        title = "Debugging Awesome",
+        text = msg,
+        timeout = 0,
+    })
+end
+
+local home = os.getenv("HOME") or "$HOME"
+
+--- Wrapper around awful.spawn.with_shell with the check if the command we run exists
+---@param cmd string command we run,
+local function run_command(cmd)
+    cmd = cmd:gsub("~", home, 1)
+    local executable = gears.string.split(cmd, " ")[1]
+
+    local is_executable = gears.filesystem.file_executable(executable)
+    if is_executable then
+        awful.spawn.with_shell(cmd)
+    else
+        naughty.notify({
+            preset = naughty.config.presets.critical,
+            title = "Command Error",
+            text = "Executable '" .. executable .. "' not found.",
+        })
+    end
+end
+
+-- }}}
+
 -- {{{ Modalbind Config
 
 -- This module helps to add i3-like keybinding modes
@@ -141,7 +176,7 @@ local altkey = "Mod4" -- default: Mod1 (alt key)
 -- INFO: for a variable to be visible here it needs to be defined in /etc/environment
 local terminal = os.getenv("TERMINAL") or "kitty" -- kitty, alacritty, wezterm, ghostty
 local editor = os.getenv("EDITOR") or "nvim"
--- local browser = "brave-browser"
+local browser = "thorium-browser"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5", "6" }
@@ -349,40 +384,6 @@ root.buttons(mytable.join(
 ))
 -- }}}
 
--- {{{ Local Functions
-
---- Send info notification using naughty.notify
----@param msg string notification body
-local function inform(msg)
-    naughty.notify({
-        preset = naughty.config.presets.info,
-        title = "Debugging Awesome",
-        text = msg
-    })
-end
-
-local home = os.getenv("HOME") or "$HOME"
-
---- Wrapper around awful.spawn.with_shell with the check if the command we run exists
----@param cmd string command we run,
-local function run_command(cmd)
-    cmd = cmd:gsub("~", home, 1)
-    local executable = gears.string.split(cmd, " ")[1]
-
-    local is_executable = gears.filesystem.file_executable(executable)
-    if is_executable then
-        awful.spawn.with_shell(cmd)
-    else
-        naughty.notify({
-            preset = naughty.config.presets.critical,
-            title = "Command Error",
-            text = "Executable '" .. executable .. "' not found.",
-        })
-    end
-end
-
--- }}}
-
 -- {{{ Keybinding Modes (using Modalbind)
 
 -- Brightness Mode
@@ -470,10 +471,6 @@ local globalkeys = mytable.join(
     awful.key({ modkey }, "0", function()
         run_command("~/.local/bin/powermenu")
     end, { description = "open power menu", group = "hotkeys" }),
-
-    -- awful.key({ modkey }, "b", function()
-    --     modalbind.grab({ keymap = brightmap, name = "Brightness", stay_in_mode = false })
-    -- end, { description = "enter brightness mode", group = "modes" }),
 
     awful.key({ modkey }, "o", function()
         modalbind.grab({ keymap = layoutmap, name = "Layout", stay_in_mode = false })
@@ -654,6 +651,10 @@ local globalkeys = mytable.join(
     -- awful.key({ altkey }, "Return", function()
     --     spawn_terminal_command("neovide")
     -- end, { description = "open neovide", group = "launcher" }),
+
+    awful.key({ modkey }, "b", function()
+        awful.spawn(browser)
+    end, { description = "open the browser", group = "launcher" }),
 
     awful.key({ modkey }, "r", function()
         awful.spawn("rofi -show run")
