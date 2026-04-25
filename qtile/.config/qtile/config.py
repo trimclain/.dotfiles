@@ -401,7 +401,9 @@ keys = [
     Key(
         [alt],
         "d",
-        run_command("~/.local/bin/keyboard-layout"),
+        # run_command("~/.local/bin/keyboard-layout"),
+        send_notification("Qtile Friendly Reminder",
+                          "Try to use the Compose Key &lt;CAPS&gt;"),
         desc="Toggle german layout"
     ),
 
@@ -680,7 +682,12 @@ class Widget:
             # and that can overwrite modifier remaps or custom xmodmap changes that
             # were applied earlier, leading to the warnings that lool like
             # WARNING libqtile core.py:grab_key():L527 Can't grab <> (unknown keysym: <>)
-            "Button3": run_command("~/.local/bin/keyboard-layout"),
+            # "Button3": run_command("~/.local/bin/keyboard-layout"),
+            "Button3": send_notification(
+                "Qtile Friendly Reminder",
+                "Try to use the Compose Key &lt;CAPS&gt;"
+
+            ),
         },
         fmt=' <span text_transform="lowercase">{}</span>',
         # padding=5,
