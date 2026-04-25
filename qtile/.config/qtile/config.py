@@ -601,6 +601,8 @@ class Widget:
 
     # https://docs.qtile.org/en/latest/manual/ref/widgets.html#groupbox
     main_groupbox = dict(
+        # TODO: remove in release after 0.35.0
+        padding=10,
         active=text_color,
         # block_highlight_text_color=lavender_latte_color,
         inactive=widget_background,
