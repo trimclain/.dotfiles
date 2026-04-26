@@ -36,6 +36,10 @@ terminal = os.getenv("TERMINAL")
 if terminal is None:
     terminal = "ghostty"  # "alacritty", "kitty", "wezterm", "ghostty"
 
+# apparently this is faster: https://ghostty.org/docs/linux/systemd#hyprland
+if terminal == "ghostty":
+    terminal += " +new-window"
+
 # browser = "zen-browser"
 browser = "thorium-browser"
 if shutil.which(browser) is None:

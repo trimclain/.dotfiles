@@ -628,7 +628,8 @@ local globalkeys = mytable.join(
     -- ########################## LAUNCHER GROUP ###############################
     -- Standard program
     awful.key({ modkey }, "Return", function()
-        awful.spawn(terminal)
+        --  apparently this is faster: https://ghostty.org/docs/linux/systemd#hyprland
+        awful.spawn(terminal == "ghostty" and "ghostty +new-window" or terminal)
     end, { description = "open a terminal", group = "launcher" }),
     -- awful.key({ altkey }, "Return", function()
     --     spawn_terminal_command("neovide")
