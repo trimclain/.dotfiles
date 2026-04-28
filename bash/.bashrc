@@ -131,9 +131,9 @@ alias cp="cp -iv" \
 
 alias grep='grep --color=auto'
 
-alias ls='ls --color=auto'
-alias la="ls -A --group-directories-first"
-alias l="ls -lhA --group-directories-first"
+alias ls='ls --color=auto --group-directories-first'
+alias la="ls -A"
+alias l="ls -lhA"
 
 # Load aliases from .zsh_aliases and/or .bash_aliases if they exist
 if [[ -f ~/.zsh_aliases ]]; then
