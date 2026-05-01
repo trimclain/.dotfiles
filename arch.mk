@@ -183,6 +183,7 @@ yazi: ## Install yazi (file manager)
 	$(INSTALL) yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide imagemagick resvg
 
 gh: ## Install github-cli
+	@# gh-dash migh be interesting for issues and PRs
 	$(INSTALL) github-cli
 	gh auth login
 
@@ -526,9 +527,6 @@ quickemu: ## Install Quickemu (Virtual Machine Manager)
 	@# INFO: use ctrl+alt+g to free the mouse from the VM
 	$(PARUINSTALL) quickemu-git quickgui-bin
 
-nomacs: ## Install Nomacs Image Viewer
-	$(FLATINSTALL) org.nomacs.ImageLounge
-
 gimp: ## Install GIMP (GNU Image Manipulation Program)
 	@#$(FLATINSTALL) org.gimp.GIMP
 	$(INSTALL) gimp
@@ -595,12 +593,6 @@ syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
 
-pdf4qt: ## Install pdf4qt (open source pdf editor)
-	$(FLATINSTALL) io.github.JakubMelka.Pdf4qt
-
-sioyek: ## Install Sioyek (PDF Viewer PDF viewer with focus on textbooks and research papers)
-	$(FLATINSTALL) com.github.ahrm.sioyek
-
 # TODO: Ethical hacking & Penetration Testing Tools
 # NMAP
 # Wireshark
@@ -614,11 +606,41 @@ sioyek: ## Install Sioyek (PDF Viewer PDF viewer with focus on textbooks and res
 
 #==================================================================================================
 
-apps: ## Install btop, mission-center, okular, pcmanfm, dolphin, sxiv, flameshot, zathura, ncdu, mpv, thorium, telegram
+file-manager: ## Install pcmanfm and dolphin
+	@# Options:
+	@# - krusader - Total Commander for linux (vsplit by default)
+	@# - thunar - xfce file manager
+	@# pcmanfm is lighweight, dolphin helps with MTP Android file transfer
+	$(INSTALL) pcmanfm dolphin
+
+image-viewer: ## Install feh, sxiv and nomacs
+	$(INSTALL) feh sxiv
+	$(FLATINSTALL) org.nomacs.ImageLounge
+
+pdf-viewer: ## Install zathura and okular
+	@# Options:
+	@# - Zathura (vith vim bindings)
+	@# - Okular (from KDE)
+	@# - Papers (from Gnome)
+	@# - Atril (Evince fork)
+	@# - Sioyek (PDF Viewer with focus on research papers - similar to zathura)
+	$(INSTALL) zathura zathura-pdf-mupdf okular
+
+pdf-editor: ## Install pdf4qt (open source pdf editor)
+	$(FLATINSTALL) io.github.JakubMelka.Pdf4qt
+
+sysmon: ## Install btop, mission-center and resources
+	$(INSTALL) btop mission-center resources
+
+apps: ## Install flameshot, ncdu, mpv, file-manager, image-viewer, sysmon, pdf-viewers, thorium, telegram
 	@echo "==================================================================="
 	@echo "Installing apps..."
 	@echo "==================================================================="
-	$(INSTALL) btop mission-center okular pcmanfm dolphin sxiv flameshot zathura zathura-pdf-mupdf ncdu mpv
+	$(INSTALL) flameshot ncdu mpv
+	@make file-manager
+	@make image-viewer
+	@make sysmon
+	@make pdf-viewer
 	@make thorium
 	@make telegram
 
@@ -674,8 +696,8 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
-	nomacs gimp kdenlive inkscape audacity vpn ventoy localsend\
+	gimp kdenlive inkscape audacity vpn ventoy localsend\
 	ollama llmfit opencode\
-	anki uninstall-anki pomodorolm syncthing pdf4qt sioyek\
-	apps\
+	anki uninstall-anki pomodorolm syncthing\
+	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
 	install
