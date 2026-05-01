@@ -558,6 +558,13 @@ ventoy: ## Install Ventoy (Multiboot USB)
 localsend: ## Install LocalSend (Open Source AirDrop)
 	$(FLATINSTALL) org.localsend.localsend_app
 
+#=============================================== AI ===============================================
+ollama: ## Install Ollama (To run LLMs locally)
+	$(INSTALL) ollama
+
+llmfit: ## Install llmfit (See which LLMs can run locally)
+	$(PARUINSTALL) llmfit-bin
+
 opencode: ## Install opencode (TUI AI Agent)
 	$(PARUINSTALL) opencode-bin
 
@@ -667,7 +674,8 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
-	nomacs gimp kdenlive inkscape audacity vpn ventoy localsend opencode\
+	nomacs gimp kdenlive inkscape audacity vpn ventoy localsend\
+	ollama llmfit opencode\
 	anki uninstall-anki pomodorolm syncthing pdf4qt sioyek\
 	apps\
 	install
