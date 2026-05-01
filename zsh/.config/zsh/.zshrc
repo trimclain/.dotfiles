@@ -502,6 +502,12 @@ zstyle ':completion:*' menu select
 eval "$(dircolors -b)"
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
+# make zsh’s _make completion use make -nqp/database-style output
+# instead of only parsing the file text
+zstyle ':completion:*:make:*:targets' call-command true
+# prefer the targets tag when deciding what kind of completions to offer
+zstyle ':completion:*:*:make:*' tag-order 'targets'
+
 # add my own completions to $fpath
 fpath+=("$HOME/.config/zsh/completions")
 
