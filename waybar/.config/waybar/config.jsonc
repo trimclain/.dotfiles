@@ -14,8 +14,8 @@
         "pulseaudio",
         "backlight",
         "hyprland/language",
-        "memory",
         "network",
+        "memory",
         "temperature",
         "battery",
         "custom/power"
