@@ -702,20 +702,6 @@ class Widget:
         foreground=yellow_color
     )
 
-    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#memory
-    memory = dict(
-        mouse_callbacks={
-            "Button1": lazy.spawn(terminal + " -e " + process_viewer)
-        },
-        format="{MemUsed: .2f} {mm}",
-        measure_mem="G",
-        fmt="󰍛{}",
-        # padding=5,
-        update_interval=1.0,
-        # background=widget_background
-        foreground=green_color
-    )
-
     # define variables for automatic wlan/eth interface detection
     WLAN_INTERFACE = get_command_output(
         "ip -brief link | awk '{print $1}' | grep wl"
@@ -745,7 +731,7 @@ class Widget:
         ethernet_interface=ETH_INTERFACE,
         ethernet_message_format="󰣺 {ipaddr}",
         # background=widget_background,
-        foreground=sky_color
+        foreground=green_color
     )
     wlan_no_essid = dict(
         mouse_callbacks={
@@ -761,6 +747,20 @@ class Widget:
         ethernet_interface=ETH_INTERFACE,
         ethernet_message_format="󰣺 {ipaddr}",
         # background=widget_background,
+        foreground=green_color
+    )
+
+    # https://docs.qtile.org/en/latest/manual/ref/widgets.html#memory
+    memory = dict(
+        mouse_callbacks={
+            "Button1": lazy.spawn(terminal + " -e " + process_viewer)
+        },
+        format="{MemUsed: .2f} {mm}",
+        measure_mem="G",
+        fmt="󰍛{}",
+        # padding=5,
+        update_interval=1.0,
+        # background=widget_background
         foreground=sky_color
     )
 
@@ -851,9 +851,9 @@ class StatusBar:
             widget.GenPollCommand(**Widget.brightness),
             widget.KeyboardLayout(**Widget.keyboard_layout),
             cls.separator,
-            widget.Memory(**Widget.memory),
-            cls.separator,
             widget.Wlan(**wlan_config),
+            cls.separator,
+            widget.Memory(**Widget.memory),
             cls.separator,
             widget.ThermalSensor(**Widget.thermal_sensor),
             cls.separator,
