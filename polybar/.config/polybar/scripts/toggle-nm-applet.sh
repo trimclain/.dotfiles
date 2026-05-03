@@ -2,6 +2,7 @@
 
 #################################################
 # Toggle nm-applet
+# Requirement: nm-applet
 #################################################
 toggle_nm_applet() {
     pidloc="/tmp/nmappletpid"
