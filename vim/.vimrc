@@ -222,7 +222,7 @@ let mapleader = " "
 " To exit vim and save files faster
 nnoremap <silent> Q :qa<cr>
 nnoremap <silent> <leader>q :Bdelete<cr>
-nnoremap <silent> <leader>w :w<cr>
+nnoremap <silent> <leader>w :update<cr>
 
 " Please disable hlsearch on redraw like neovim
 nnoremap <c-l> :nohlsearch<cr><c-l>
@@ -262,6 +262,9 @@ nnoremap <silent> <C-Right> :vertical resize +5<cr>
 
 " Use Ctrl + Space to open completion menu
 inoremap <C-@> <C-x><C-o>
+
+" Toggle folds with Tab
+nnoremap <silent> <Tab> za
 
 " Vim-fugitive remaps
 " git status
