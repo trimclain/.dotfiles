@@ -27,8 +27,9 @@
                 </tr>
                 <tr>
                     <td>Terminal</td>
-                    <td><a href="https://sw.kovidgoyal.net/kitty">Kitty</a></td>
-                    <!-- <td><a href="https://alacritty.org/">Alacritty</a></td> -->
+                    <td><a href="https://ghostty.org">Ghostty</a></td>
+                    <!-- <td><a href="https://sw.kovidgoyal.net/kitty">Kitty</a></td> -->
+                    <!-- <td><a href="https://alacritty.org">Alacritty</a></td> -->
                 </tr>
                 <tr>
                     <td>Shell</td>
@@ -52,7 +53,7 @@
         </td>
         <td>
             <!-- Hyrpland Screenshot: -->
-            <img width="1920" height="1080" alt="screenshot" src="https://github.com/user-attachments/assets/1c9387b9-c967-4343-82f5-20c7d7d92195" />
+            <img width="1920" height="1080" alt="screenshot" src="https://github.com/user-attachments/assets/1b177d73-ad4d-4b53-97f7-3797b16fcf8f" />
             <!-- Qtile Screenshot: -->
             <!-- <img src="https://github.com/user-attachments/assets/eb0abb1e-0faf-4c0e-a62f-fee91766e5a8" alt="screenshot"> -->
         </td>
