@@ -19,7 +19,8 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
     ###########################################################################
     # WAYLAND
     ###########################################################################
-    if [[ "$DESKTOP_SESSION" == "hyprland" ]]; then
+    if [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+
         connectedOutputs=$(hyprctl monitors all | awk '$1 == "Monitor"{print $2}')
 
         setup_first() {
@@ -29,8 +30,17 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
             else
                 # Args: name,resolution,position,scale
+                # TODO: update for v0.55
+                # To detect version: hyprctl version | awk '$1 == "Hyprland"{print $2}'
+                # WARN: waiting for the next release with the bugfix for reenabling disabled monitors
+                # https://github.com/hyprwm/Hyprland/commit/b76a9e07229c85298d44423b77d8561c8786f32d
+
                 hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
+                # hyprctl eval "hl.monitor({ output = '$1', mode = 'preferred', position = 'auto', scale = 'auto' })"
+                # hyprctl dispatch "hl.dsp.dpms({ action = 'enable', monitor = '$1' })"
                 hyprctl keyword monitor "$2",disable > /dev/null
+                # hyprctl eval "hl.monitor({ output = '$2', disabled = true })"
+                # hyprctl dispatch "hl.dsp.dpms({ action = 'disable', monitor = '$2' })"
                 # hyprctl dispatch workspace 1 > /dev/null
             fi
         }
@@ -43,7 +53,11 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                     echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
                 fi
             else
+                # hyprctl dispatch "hl.dsp.dpms({ action = 'disable', monitor = '$1' })"
+                # hyprctl eval "hl.monitor({ output = '$1', disabled = true })"
                 hyprctl keyword monitor "$1",disable > /dev/null
+                # hyprctl dispatch "hl.dsp.dpms({ action = 'enable', monitor = '$2' })"
+                # hyprctl eval "hl.monitor({ output = '$2', mode = 'preferred', position = 'auto', scale = 'auto' })"
                 hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
                 # hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
                 if [[ "$3" == "--startup" ]]; then
@@ -103,7 +117,8 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
             fi
         }
     else
-        echo "Error: $DESKTOP_SESSION not supported"
+        current_desktop="${DESKTOP_SESSION:-${XDG_CURRENT_DESKTOP:-current desktop}}"
+        echo "Error: $current_desktop is not supported"
         exit 1
     fi
 else
