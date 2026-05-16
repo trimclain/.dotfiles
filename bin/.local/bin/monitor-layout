@@ -1,9 +1,33 @@
 #!/usr/bin/env bash
 
+MODE="$1"
+DRY_RUN='false'
+if [[ "$2" == "-d" ]]; then
+    DRY_RUN='true'
+fi
+
+# ANSI Colors
+RESET="\033[0m"
+YELLOW="\033[33m"
+MAGENTA="\033[35m"
+CYAN="\033[36m"
+
 ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
         exit 1
+    fi
+}
+
+run() {
+    if [[ "$DRY_RUN" == "true" ]]; then
+        printf '%b' "${YELLOW}Would run:${RESET}"
+        for arg in "$@"; do
+            printf ' "%s"' "$arg"
+        done
+        printf '\n'
+    else
+        "$@" > /dev/null
     fi
 }
 
@@ -23,98 +47,79 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
 
         connectedOutputs=$(hyprctl monitors all | awk '$1 == "Monitor"{print $2}')
 
-        setup_first() {
-            if [[ "$DRY_RUN" == "true" ]]; then
-                echo "Running 'hyprctl keyword monitor $1,preferred,auto,auto > /dev/null'"
-                echo "Running 'hyprctl keyword monitor $2,disable > /dev/null'"
-                # echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
-            else
-                # Args: name,resolution,position,scale
-                # TODO: update for v0.55
-                # To detect version: hyprctl version | awk '$1 == "Hyprland"{print $2}'
-                # WARN: waiting for the next release with the bugfix for reenabling disabled monitors
-                # https://github.com/hyprwm/Hyprland/commit/b76a9e07229c85298d44423b77d8561c8786f32d
+        hyprland_config_provider=$(hyprctl status | awk '$1 == "configProvider:"{print $2}')
 
-                hyprctl keyword monitor "$1",preferred,auto,auto > /dev/null
-                # hyprctl eval "hl.monitor({ output = '$1', mode = 'preferred', position = 'auto', scale = 'auto' })"
-                # hyprctl dispatch "hl.dsp.dpms({ action = 'enable', monitor = '$1' })"
-                hyprctl keyword monitor "$2",disable > /dev/null
-                # hyprctl eval "hl.monitor({ output = '$2', disabled = true })"
-                # hyprctl dispatch "hl.dsp.dpms({ action = 'disable', monitor = '$2' })"
-                # hyprctl dispatch workspace 1 > /dev/null
+        setup_first() {
+            if [[ "$hyprland_config_provider" == "lua" ]]; then
+                run hyprctl eval "hl.monitor({ output = '$1', mode = 'preferred', position = 'auto', scale = 'auto', disabled = false })"
+                run hyprctl eval "hl.monitor({ output = '$2', disabled = true })"
+            else
+                run hyprctl keyword monitor "$1,preferred,auto,auto"
+                run hyprctl keyword monitor "$2,disable"
             fi
         }
         setup_second() {
-            if [[ "$DRY_RUN" == "true" ]]; then
-                echo "Running 'hyprctl keyword monitor $1,disable > /dev/null'"
-                echo "Running 'hyprctl keyword monitor $2,preferred,auto,auto > /dev/null'"
-                # echo "Running 'hyprctl keyword monitor $2,$EXTERNAL_RESOLUTION,auto,auto > /dev/null'"
+            if [[ "$hyprland_config_provider" == "lua" ]]; then
+                run hyprctl eval "hl.monitor({ output = '$1', disabled = true })"
+                run hyprctl eval "hl.monitor({ output = '$2', mode = 'preferred', position = 'auto', scale = 'auto', disabled = false })"
                 if [[ "$3" == "--startup" ]]; then
-                    echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+                    run hyprctl dispatch "hl.dsp.focus({ workspace = 1 })"
                 fi
             else
-                # hyprctl dispatch "hl.dsp.dpms({ action = 'disable', monitor = '$1' })"
-                # hyprctl eval "hl.monitor({ output = '$1', disabled = true })"
-                hyprctl keyword monitor "$1",disable > /dev/null
-                # hyprctl dispatch "hl.dsp.dpms({ action = 'enable', monitor = '$2' })"
-                # hyprctl eval "hl.monitor({ output = '$2', mode = 'preferred', position = 'auto', scale = 'auto' })"
-                hyprctl keyword monitor "$2",preferred,auto,auto > /dev/null
-                # hyprctl keyword monitor "$2","$EXTERNAL_RESOLUTION",auto,auto > /dev/null
+                run hyprctl keyword monitor "$1,disable"
+                run hyprctl keyword monitor "$2,preferred,auto,auto"
+                # run hyprctl keyword monitor "$2,$EXTERNAL_RESOLUTION,auto,auto"
                 if [[ "$3" == "--startup" ]]; then
                     # we're always on workspace 2 on startup for some reason
-                    hyprctl dispatch workspace 1 > /dev/null
+                    run hyprctl dispatch workspace 1
                 fi
             fi
         }
         setup_extend() {
-            if [[ "$DRY_RUN" == "true" ]]; then
-                echo "Running 'hyprctl keyword monitor $1,preferred,0x0,auto > /dev/null'"
-                echo "Running 'hyprctl keyword monitor $2,preferred,auto-right,auto > /dev/null'"
+            if [[ "$hyprland_config_provider" == "lua" ]]; then
+                run hyprctl eval "hl.monitor({ output = '$1', mode = 'preferred', position = '0x0', scale = 'auto', disabled = false })"
+                run hyprctl eval "hl.monitor({ output = '$2', mode = 'preferred', position = 'auto-right', scale = 'auto', disabled = false })"
 
-                echo "Running 'hyprctl keyword workspace 1, monitor:$2, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 2, monitor:$2, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 3, monitor:$2, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 4, monitor:$2, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 5, monitor:$2, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 6, monitor:$2, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 7, monitor:$1, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 8, monitor:$1, default:true > /dev/null'"
-                echo "Running 'hyprctl keyword workspace 9, monitor:$1, default:true > /dev/null'"
+                run hyprctl eval "hl.workspace_rule({ workspace = '1', monitor = '$2', default = true })"
+                run hyprctl eval "hl.workspace_rule({ workspace = '2', monitor = '$2', default = true })"
+                run hyprctl eval "hl.workspace_rule({ workspace = '3', monitor = '$2', default = true })"
+                run hyprctl eval "hl.workspace_rule({ workspace = '4', monitor = '$2', default = true })"
+                run hyprctl eval "hl.workspace_rule({ workspace = '5', monitor = '$2', default = true })"
+                run hyprctl eval "hl.workspace_rule({ workspace = '6', monitor = '$2', default = true })"
 
-                echo "Running 'hyprctl dispatch workspace 7 > /dev/null'"
-                echo "Running 'hyprctl dispatch workspace 1 > /dev/null'"
+                run hyprctl eval "hl.workspace_rule({ workspace = '7', monitor = '$1', default = true })"
+                run hyprctl eval "hl.workspace_rule({ workspace = '8', monitor = '$1', default = true })"
+                run hyprctl eval "hl.workspace_rule({ workspace = '9', monitor = '$1', default = true })"
 
-                echo "Running 'waypaper --backend swaybg --restore > /dev/null'"
+                # TODO: still need this?
+                # run hyprctl dispatch "hl.dsp.focus({ workspace = 7 })"
+                # run hyprctl dispatch "hl.dsp.focus({ workspace = 1 })"
             else
                 # first on the left of second
                 # TODO: should I force my laptop monitor to stay at scale 1 instead of auto being 1.5?
-                hyprctl keyword monitor "$1,preferred,0x0,auto" > /dev/null
-                hyprctl keyword monitor "$2,preferred,auto-right,auto" > /dev/null
+                run hyprctl keyword monitor "$1,preferred,0x0,auto"
+                run hyprctl keyword monitor "$2,preferred,auto-right,auto"
 
-                hyprctl keyword workspace "1, monitor:$2, default:true" > /dev/null
-                hyprctl keyword workspace "2, monitor:$2, default:true" > /dev/null
-                hyprctl keyword workspace "3, monitor:$2, default:true" > /dev/null
-                hyprctl keyword workspace "4, monitor:$2, default:true" > /dev/null
-                hyprctl keyword workspace "5, monitor:$2, default:true" > /dev/null
-                hyprctl keyword workspace "6, monitor:$2, default:true" > /dev/null
-                hyprctl keyword workspace "7, monitor:$1, default:true" > /dev/null
-                hyprctl keyword workspace "8, monitor:$1, default:true" > /dev/null
-                hyprctl keyword workspace "9, monitor:$1, default:true" > /dev/null
+                run hyprctl keyword workspace "1, monitor:$2, default:true"
+                run hyprctl keyword workspace "2, monitor:$2, default:true"
+                run hyprctl keyword workspace "3, monitor:$2, default:true"
+                run hyprctl keyword workspace "4, monitor:$2, default:true"
+                run hyprctl keyword workspace "5, monitor:$2, default:true"
+                run hyprctl keyword workspace "6, monitor:$2, default:true"
+                run hyprctl keyword workspace "7, monitor:$1, default:true"
+                run hyprctl keyword workspace "8, monitor:$1, default:true"
+                run hyprctl keyword workspace "9, monitor:$1, default:true"
 
                 # FIX: workspace 1 is for some reason on $1 but can be seen on both bars
                 # NOTE: this gets fixed after I empty workspace 1, go to workspace 7 and come back
-                hyprctl dispatch workspace 7 > /dev/null
-                hyprctl dispatch workspace 1 > /dev/null
+                run hyprctl dispatch workspace 7
+                run hyprctl dispatch workspace 1
 
-                waypaper --backend swaybg --restore > /dev/null
             fi
+            run waypaper --backend swaybg --restore
         }
         setup_duplicate() {
-            if [[ "$DRY_RUN" == "true" ]]; then
-                echo "Running 'hyprctl keyword monitor $1, preferred, auto, 1, mirror, $2 > /dev/null'"
-            else
-                hyprctl keyword monitor "$1, preferred, auto, 1, mirror, $2" > /dev/null
-            fi
+            run hyprctl keyword monitor "$1, preferred, auto, 1, mirror, $2"
         }
     else
         current_desktop="${DESKTOP_SESSION:-${XDG_CURRENT_DESKTOP:-current desktop}}"
@@ -183,14 +188,8 @@ if [[ -z $EXTERNAL ]]; then
     exit
 fi
 
-MODE="$1"
-DRY_RUN='false'
-if [[ "$2" == "-d" ]]; then
-    DRY_RUN='true'
-fi
-
 if [[ "$DRY_RUN" == "true" ]]; then
-    echo "Internal: $INTERNAL, External: $EXTERNAL"
+    echo -e "${CYAN}Internal:${RESET} ${MAGENTA}${INTERNAL}${RESET}, ${CYAN}External:${RESET} ${MAGENTA}${EXTERNAL}${RESET}"
 fi
 
 if [ "$MODE" = "--first" ]; then
