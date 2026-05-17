@@ -264,7 +264,8 @@ nnoremap <silent> <C-Right> :vertical resize +5<cr>
 inoremap <C-@> <C-x><C-o>
 
 " Toggle folds with Tab
-nnoremap <silent> <Tab> za
+" PROBLEM: <Tab> is the same as <C-i> so I lose the <C-i> default mapping
+" nnoremap <silent> <Tab> za
 
 " Vim-fugitive remaps
 " git status
