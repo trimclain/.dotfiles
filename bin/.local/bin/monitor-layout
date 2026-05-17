@@ -91,9 +91,8 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 run hyprctl eval "hl.workspace_rule({ workspace = '8', monitor = '$1', default = true })"
                 run hyprctl eval "hl.workspace_rule({ workspace = '9', monitor = '$1', default = true })"
 
-                # TODO: still need this?
-                # run hyprctl dispatch "hl.dsp.focus({ workspace = 7 })"
-                # run hyprctl dispatch "hl.dsp.focus({ workspace = 1 })"
+                run hyprctl dispatch "hl.dsp.focus({ workspace = 7 })"
+                run hyprctl dispatch "hl.dsp.focus({ workspace = 1 })"
             else
                 # first on the left of second
                 # TODO: should I force my laptop monitor to stay at scale 1 instead of auto being 1.5?
@@ -116,10 +115,15 @@ if [[ -n $WAYLAND_DISPLAY ]]; then
                 run hyprctl dispatch workspace 1
 
             fi
-            run waypaper --backend swaybg --restore
+            # swaybg loves sending normal info with code 2 but we don't need it
+            run waypaper --backend swaybg --restore 2> /dev/null
         }
         setup_duplicate() {
-            run hyprctl keyword monitor "$1, preferred, auto, 1, mirror, $2"
+            if [[ "$hyprland_config_provider" == "lua" ]]; then
+                notify-send "Not implemented yet"
+            else
+                run hyprctl keyword monitor "$1, preferred, auto, 1, mirror, $2"
+            fi
         }
     else
         current_desktop="${DESKTOP_SESSION:-${XDG_CURRENT_DESKTOP:-current desktop}}"
