@@ -13,18 +13,42 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
+-- TODO: too many bugs right now, wait till at least v0.56 to start using this.
 -- Lua Config for Hyprland v0.55+
 -- Docs: https://wiki.hypr.land/Configuring/Start/
+
+-- {{{ Helper Functions
+
+--- safely wrap a Lua value as a single-quoted string for use in a Unix shell command
+
+--- Quote a value for safe use in a POSIX shell command
+---@param value any the value to quote (will be converted to a string)
+---@return string value_str single-quoted, shell-safe representation of the value
+local function shell_quote(value)
+    return "'" .. tostring(value):gsub("'", "'\\''") .. "'"
+end
+
+--- Dispatch notification using notify-send
+---@param msg string notification message
+---@param title string? notification title
+---@param level string? the urgency level (low, normal, critical)
+---@param timeout number? timeout in milliseconds
+---@return HL.Dispatcher exec_cmd_dsp hyprland dispatcher for exec_cmd
+local function notify(msg, title, level, timeout)
+    title = title or "Hyprland Notification"
+    level = level or "normal"
+    timeout = timeout or 5000
+    return hl.dsp.exec_cmd(
+        "notify-send " .. " -t " .. timeout .. " -u " .. level .. " " .. shell_quote(title) .. " " .. shell_quote(msg)
+    )
+end
+
+-- }}}
 
 -- {{{ Monitors
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
--- monitor=LVDS-1,preferred,auto,auto
--- monitor=DP-1,disable
--- TODO: trying like this, disable if don't like, but should do what I want considering I use monitor-layout script in autostart
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
--- monitor=LVDS-1,disable
--- monitor=DP-1,preferred,auto,auto
 
 -- }}}
 
@@ -407,10 +431,7 @@ hl.bind(mainMod .. " + W", hl.dsp.window.close())
 -- local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 
--- TODO: remove temp
-hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("notify-send 'Hello from lua config!'"))
-
-hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal), { submap_universal = true }) -- just in case, make it work in submaps
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
@@ -507,36 +528,29 @@ end
 ---------------
 -- See https://wiki.hypr.land/Configuring/Basics/Binds/#submaps
 -- Resize
--- FIX: this rtrd forgot to define it correctly, hl.resize don't exits
+-- BUG: devs forgot to define it correctly, hl.resize doesn't exits
 hl.bind(altMod .. " + R", hl.dsp.submap("resize"))
 hl.define_submap("resize", function()
     hl.bind("right", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
     hl.bind("left", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
     hl.bind("up", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
-    hl.bind("down", hl.dsp.window.resize({ x = 10, y = -10, relative = true }), { repeating = true })
+    hl.bind("down", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
 
     hl.bind("escape", hl.dsp.submap("reset"))
 end)
 
 -- Monitor Layout
 hl.bind(altMod .. " + M", hl.dsp.submap("monitor-layout"))
-hl.define_submap("monitor-layout", function()
-    hl.bind("1", function()
-        hl.dsp.exec_cmd("~/.local/bin/monitor-layout --first")
-        hl.dsp.submap("reset")
-    end)
-    hl.bind("2", function()
-        hl.dsp.exec_cmd("~/.local/bin/monitor-layout --second")
-        hl.dsp.submap("reset")
-    end)
-    hl.bind("e", function()
-        hl.dsp.exec_cmd("~/.local/bin/monitor-layout --extend")
-        hl.dsp.submap("reset")
-    end)
-    hl.bind("d", function()
-        hl.dsp.exec_cmd("~/.local/bin/monitor-layout --duplicate")
-        hl.dsp.submap("reset")
-    end)
+hl.define_submap("monitor-layout", "reset", function()
+    -- BUG: this devs forgot to make functions work in binds
+    -- hl.bind("1", function()
+    --     hl.dsp.exec_cmd("~/.local/bin/monitor-layout --first")
+    --     hl.dsp.submap("reset")
+    -- end)
+    hl.bind("1", hl.dsp.exec_cmd("~/.local/bin/monitor-layout --first"))
+    hl.bind("2", hl.dsp.exec_cmd("~/.local/bin/monitor-layout --second"))
+    hl.bind("E", hl.dsp.exec_cmd("~/.local/bin/monitor-layout --extend"))
+    hl.bind("D", hl.dsp.exec_cmd("~/.local/bin/monitor-layout --duplicate"))
 
     hl.bind("escape", hl.dsp.submap("reset"))
 end)
@@ -551,8 +565,8 @@ end)
 --hl.bind("SUPER + F10", hl.dsp.send_shortcut({ mods = "SUPER", key = "F4", window = "class:^(TeamSpeak 3)$" }))
 -- Discord
 -- TODO: test if this works
-hl.bind(mainMod .. " + mouse:276", hl.dsp.pass({window = "class:^(discord)$"})) -- Toggle Mute
-hl.bind(mainMod .. " + mouse:275", hl.dsp.pass({window = "class:^(discord)$"})) -- Toggle Deafen
+hl.bind(mainMod .. " + mouse:276", hl.dsp.pass({ window = "class:^(discord)$" })) -- Toggle Mute
+hl.bind(mainMod .. " + mouse:275", hl.dsp.pass({ window = "class:^(discord)$" })) -- Toggle Deafen
 
 ----------------
 --- Switches ---
@@ -579,12 +593,7 @@ hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.local/bin/screenshot region"))
 hl.bind("SUPER_L + SHIFT_L + S", hl.dsp.exec_cmd("~/.local/bin/screenshot region"))
 
 -- Toggle german keyboard layout (allowed in lockscreen)
-hl.bind(
-    altMod .. " + D",
-    -- TODO: maybe use builtin hyprnotify
-    hl.dsp.exec_cmd('notify-send "Hyprland Friendly Reminder" "Use the Compose Key &lt;CAPS&gt;'),
-    { locked = true }
-)
+hl.bind(altMod .. " + D", notify("Use the Compose Key &lt;CAPS&gt;", "Hyprland Friendly Reminder"), { locked = true })
 
 -- Screen locker
 hl.bind(altMod .. " + L", hl.dsp.exec_cmd(screenlock))
@@ -664,8 +673,7 @@ hl.config({
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
 -- Monitor Layout (runs on every config reload due to how it works)
--- FIX: bruh...
--- hl.exec_cmd("~/.local/bin/monitor-layout --startup")
+hl.exec_cmd("~/.local/bin/monitor-layout --startup")
 
 -- Status Bar (runs on every config reload to restart IPC for hypr/workspaces)
 hl.exec_cmd("~/.config/waybar/launch.sh")
@@ -680,6 +688,9 @@ hl.on("hyprland.start", function()
 
     -- Authentification Agent for GUI sudo popups
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
+
+    -- Monitor Layout (have to duplicate since hyprland ignores anything outside this function during startup)
+    hl.exec_cmd("~/.local/bin/monitor-layout --startup")
 
     -- Status Bar (have to duplicate since hyprland ignores anything outside this function during startup)
     hl.exec_cmd("~/.config/waybar/launch.sh")
