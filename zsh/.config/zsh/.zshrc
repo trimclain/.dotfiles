@@ -437,6 +437,8 @@ if (( $+commands[fd] )); then
     bindkey -s '^p' '^ugrep-string-recursive-in-cwd\n'
 fi
 
+# find word definitions in the dictionary
+word() { curl "dict.org/d:$1"; }
 
 [[ -f ~/.local/bin/extract ]] && alias ex=extract
 [[ -f ~/.local/bin/archive ]] && alias ar=archive
