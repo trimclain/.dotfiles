@@ -5,7 +5,7 @@
 #
 # Description: Take screenshot of entire screen or selected region
 # and save it to clipboard
-# Dependencies: on Xorg: flameshot; on Wayland: grim, slurp
+# Dependencies: on Xorg: flameshot; on Wayland: grim, slurp, swappy or wl-copy
 ###############################################################################
 
 # INFO: apparently flameshot works on Wayland (with or without grim)
@@ -39,8 +39,12 @@ show_help() {
 screen() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
         ensure_installed grim
-        grim - | wl-copy
-        notify "Screen"
+        if command -v swappy > /dev/null; then
+            grim - | swappy -f -
+        else
+            grim - | wl-copy
+            notify "Screen"
+        fi
     else
         ensure_installed flameshot
         flameshot screen -c
@@ -58,8 +62,12 @@ region() {
         if [ -z "$REGION" ]; then
             exit
         fi
-        grim -g "$REGION" - | wl-copy
-        notify "Region"
+        if command -v swappy > /dev/null; then
+            grim -g "$REGION" - | swappy -f -
+        else
+            grim -g "$REGION" - | wl-copy
+            notify "Region"
+        fi
     else
         ensure_installed flameshot
         flameshot gui -c
