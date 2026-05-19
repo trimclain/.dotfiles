@@ -8,6 +8,8 @@
 # Dependencies: on Xorg: flameshot; on Wayland: grim, slurp
 ###############################################################################
 
+# INFO: apparently flameshot works on Wayland (with or without grim)
+
 # Make sure dependencies are installed
 ensure_installed() {
     if ! command -v "$1" > /dev/null; then
