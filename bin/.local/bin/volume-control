@@ -4,18 +4,12 @@
 # Volume Control
 #
 # Description: Control volume and microphone and get notifications about it
-# Dependencies: dunstify or notify-send, pactl
+# Dependencies: dunstify or notify-send, wpctl or pactl
 ###############################################################################
 
-# TODO: switch to wpctl:
-# bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
-# bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-# bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-# bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-
 ensure_installed() {
-    if ! command -v "$1" > /dev/null; then
-        echo "Error: $1 not found"
+    if ! command -v "$1" > /dev/null && ! command -v "$2" > /dev/null; then
+        echo "Error: neither $1 nor $2 found" >&2
         exit 1
     fi
 }
@@ -55,15 +49,27 @@ send_notification() {
 }
 
 get_volume() {
-    pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'
+    if command -v wpctl > /dev/null; then
+        wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ print int($2 * 100) }'
+    else
+        pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'
+    fi
 }
 
 get_volume_muted_status() {
-    pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
+    if command -v wpctl > /dev/null; then
+        wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ print ($3 == "[MUTED]") ? "yes" : "no" }'
+    else
+        pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'
+    fi
 }
 
 get_micro_muted_status() {
-    pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'
+    if command -v wpctl > /dev/null; then
+        wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{ print ($3 == "[MUTED]") ? "yes" : "no" }'
+    else
+        pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'
+    fi
 }
 
 display_volume() {
@@ -74,28 +80,22 @@ display_volume() {
 }
 
 main() {
-    ensure_installed notify-send
-    ensure_installed pactl
-    VOLUME_UP="pactl set-sink-volume @DEFAULT_SINK@ +5%"
-    VOLUME_DOWN="pactl set-sink-volume @DEFAULT_SINK@ -5%"
-    VOLUME_UNMUTE="pactl set-sink-mute @DEFAULT_SINK@ 0"
-    MUTE_TOGGLE="pactl set-sink-mute @DEFAULT_SINK@ toggle"
-    MICRO_MUTE_TOGGLE="pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+    ensure_installed wpctl pactl
+    ensure_installed dunstify notify-send
 
-    # Use alsa-utils instead of pactl if found
-    # if command -v amixer > /dev/null; then
-    #     VOLUME_UP="amixer -q sset Master 5%+ unmute"
-    #     VOLUME_DOWN="amixer -q sset Master 5%- unmute"
-    #     MUTE_TOGGLE="amixer -q sset Master toggle"
-    # fi
-
-    # Use pamixer instead of pactl if found
-    # if command -v pamixer > /dev/null; then
-    #     VOLUME_UP="pamixer -i 5 --allow-boost"
-    #     VOLUME_DOWN="pamixer -d 5 --allow-boost"
-    #     VOLUME_UNMUTE="pamixer -u"
-    #     MUTE_TOGGLE="pamixer -t"
-    # fi
+    if command -v wpctl > /dev/null; then
+        VOLUME_UP='wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+'
+        VOLUME_DOWN='wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-'
+        VOLUME_UNMUTE='wpctl set-mute @DEFAULT_AUDIO_SINK@ 0'
+        MUTE_TOGGLE='wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle'
+        MICRO_MUTE_TOGGLE='wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle'
+    else
+        VOLUME_UP='pactl set-sink-volume @DEFAULT_SINK@ +5%'
+        VOLUME_DOWN='pactl set-sink-volume @DEFAULT_SINK@ -5%'
+        VOLUME_UNMUTE='pactl set-sink-mute @DEFAULT_SINK@ 0'
+        MUTE_TOGGLE='pactl set-sink-mute @DEFAULT_SINK@ toggle'
+        MICRO_MUTE_TOGGLE='pactl set-source-mute @DEFAULT_SOURCE@ toggle'
+    fi
 
     # For the statusbar
     if [ "$1" = "--get-volume" ]; then
