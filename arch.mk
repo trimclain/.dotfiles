@@ -345,9 +345,10 @@ hyprland: ## Install Hyprland with all dependencies
 	@# - wf-recorder (screen-recorder)
 	@# - grim (screenshot utility)
 	@# - slurp (region selector)
+	@# - swappy (snapshot editing tool)
 	@# - nwg-look (GTK Settings Editor for changing cursor and icon themes)
 	@# - gnome-themes-extra (Extra GTK Themes like Adwaita-dark)
-	$(INSTALL) hyprpicker wf-recorder grim slurp nwg-look gnome-themes-extra
+	$(INSTALL) hyprpicker wf-recorder grim slurp swappy nwg-look gnome-themes-extra
 	@make brightnessctl
 	@#make cursor
 
