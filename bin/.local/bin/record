@@ -60,15 +60,25 @@ screen() {
 
 #######################################
 # Record selected window without audio
-# On Wayland it's a region
 #######################################
 window() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
         ensure_installed wf-recorder
         ensure_installed slurp
-        wf-recorder \
-            -g "$(slurp)" \
-            --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
+
+        if command -v jq > /dev/null; then
+            # record a selected window
+            wf-recorder -g "$(
+                hyprctl clients -j |
+                    jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' |
+                    slurp
+            )" --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
+        else
+            # record a selected region
+            wf-recorder \
+                -g "$(slurp)" \
+                --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
+        fi
         echo $! > /tmp/recordingpid
     else
         ensure_installed ffmpeg
