@@ -17,9 +17,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Path to my dotfiles
 export DOTFILES="$HOME/.dotfiles"
-export EDITOR="$(which vim)"
+
+export EDITOR=$(command -v nvim || command -v vim || printf '%s\n' vi)
 export VISUAL=$EDITOR
 
 # Useful variables to set

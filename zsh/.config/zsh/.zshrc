@@ -99,13 +99,9 @@ zle_highlight=('paste:none')
 # Exports (env)
 ###############################################################################
 
-# Preferred editor for local and remote sessions
-if [[ -n "$SSH_CONNECTION" ]]; then
-    export EDITOR="$(which vim)"
-else
-    export EDITOR="$(which nvim)"
-fi
+export DOTFILES="$HOME/.dotfiles"
 
+export EDITOR=$(command -v nvim || command -v vim || printf '%s\n' vi)
 export VISUAL=$EDITOR
 
 ################################## Less #######################################
@@ -145,9 +141,6 @@ setopt hist_find_no_dups
 # When using !! or !<number>, don't expand the command before running it
 setopt nohistverify
 ###############################################################################
-
-# Path to my dotfiles
-export DOTFILES="$HOME/.dotfiles"
 
 # Use docker buildx by default (requires docker-buildx package)
 # Allows 'docker build' to be same as 'docker buildx build'
