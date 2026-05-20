@@ -594,6 +594,9 @@ syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
 
+blanket: ## Install Blanket (white noise app)
+	$(INSTALL) blanket
+
 # TODO: Ethical hacking & Penetration Testing Tools
 # NMAP
 # Wireshark
@@ -699,6 +702,6 @@ install: ## Setup arch after new installation
 	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
 	gimp kdenlive inkscape audacity vpn ventoy localsend\
 	ollama llmfit opencode\
-	anki uninstall-anki pomodorolm syncthing\
+	anki uninstall-anki pomodorolm syncthing blanket\
 	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
 	install
