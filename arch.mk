@@ -597,6 +597,22 @@ syncthing: ## Install Syncthing
 blanket: ## Install Blanket (white noise app)
 	$(INSTALL) blanket
 
+#============================================= Games ==============================================
+
+0ad:
+	$(INSTALL) 0ad
+
+luanti:
+	$(INSTALL) luanti
+
+doom:
+	$(PARUINSTALL) freedoom gzdoom
+
+board-games:
+	$(INSTALL) gnome-2048 bovo
+
+#==================================================================================================
+
 # TODO: Ethical hacking & Penetration Testing Tools
 # NMAP
 # Wireshark
@@ -703,5 +719,6 @@ install: ## Setup arch after new installation
 	gimp kdenlive inkscape audacity vpn ventoy localsend\
 	ollama llmfit opencode\
 	anki uninstall-anki pomodorolm syncthing blanket\
+	0ad luanti doom board-games\
 	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
 	install
