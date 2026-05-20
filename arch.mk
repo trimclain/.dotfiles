@@ -554,6 +554,9 @@ ventoy: ## Install Ventoy (Multiboot USB)
 	@# NOTE: use ventoygui for same GUI as on windows
 	$(PARUINSTALL) ventoy-bin
 
+caligula: ## Install Caligula (TUI for disk imaging)
+	$(INSTALL) caligula
+
 localsend: ## Install LocalSend (Open Source AirDrop)
 	$(FLATINSTALL) org.localsend.localsend_app
 
@@ -716,7 +719,7 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
-	gimp kdenlive inkscape audacity vpn ventoy localsend\
+	gimp kdenlive inkscape audacity vpn ventoy caligula localsend\
 	ollama llmfit opencode\
 	anki uninstall-anki pomodorolm syncthing blanket\
 	0ad luanti doom board-games\
