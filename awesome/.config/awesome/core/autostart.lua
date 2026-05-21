@@ -1,0 +1,13 @@
+-- local utils = require("core.utils")
+-- -- Update current brightness for my custom script
+-- utils.run_command("~/.config/polybar/scripts/get-brightness-on-startup.sh")
+
+-- -- Set the wallpaper
+-- -- TODO: remove in favor of beautiful.wallpaper
+-- utils.run_command("~/.fehbg")
+-- Set my keyboard layout
+-- TODO: either add a --startup or just hardcode the langs I use
+-- utils.run_command("~/.local/bin/keyboard-layout")
+-- Enable polybar
+-- TODO: remove in favor of beautiful.wibar
+-- utils.run_command("~/.config/polybar/launch.sh")
