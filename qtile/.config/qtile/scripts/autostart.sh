@@ -1,6 +1,6 @@
 #!/bin/bash
 
-run_in_background(){
+run_in_background() {
     if command -v "$1" > /dev/null; then
         "$@" &
     fi
