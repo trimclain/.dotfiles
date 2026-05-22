@@ -8,6 +8,7 @@ quote_style = "AutoPreferDouble" # AutoPreferDouble, AutoPreferSingle, ForceDoub
 call_parentheses = "Always" # Always, NoSingleString, NoSingleTable, None, Input
 collapse_simple_statement = "Never" # Never, FunctionOnly, ConditionalOnly, Always
 space_after_function_names = "Never" # Never, Definitions, Calls, Always
+block_newline_gaps = "Never" # Never, Preserve
 
 [sort_requires]
 enabled = false
