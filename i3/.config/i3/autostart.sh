@@ -1,6 +1,6 @@
 #!/bin/bash
 
-run_if_exists(){
+run_if_exists() {
     if command -v "$1" > /dev/null; then
         "$@"
     fi
@@ -8,7 +8,7 @@ run_if_exists(){
 
 # Set the wallpaper
 #run_if_exists waypaper --backend feh --restore > /dev/null
-run_if_exists $HOME/.fehbg
+run_if_exists ~/.fehbg
 
 # System monitor for X11
 run_if_exists conky --daemonize
@@ -29,3 +29,5 @@ xset r rate 400 25
 # Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
 setxkbmap -layout us,ru
 setxkbmap -option 'grp:win_space_toggle'
+# Use CAPS+"+a to compose letter ä, similarly for ö,ü,ß
+setxkbmap -option 'compose:caps'
