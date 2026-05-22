@@ -3,14 +3,32 @@ local M = {}
 local awful = require("awful") -- Everything related to window managment
 local naughty = require("naughty") -- Notification library
 
---- Send info notification using naughty.notify
----@param msg string notification body
-function M.inform(msg)
+---@alias core.utils.PresetName
+---| '"critical"'
+---| '"info"'
+---| '"low"'
+---| '"normal"'
+---| '"ok"'
+---| '"warn"'
+
+---@class core.utils.NotifyOpts
+---@field preset? core.utils.PresetName Notification preset from naughty.config.presets; default: "info"
+---@field title? string Notification title; default: "Debugging Awesome"
+---@field timeout? integer Timeout in seconds, 0 means persistent; default: 0
+
+--- Send a notification using naughty.notify
+---@param msg string Notification text
+---@param opts? core.utils.NotifyOpts Optional notification options
+function M.notify(msg, opts)
+    opts = opts or {}
+    local preset = opts.preset and naughty.config.presets[opts.preset] or naughty.config.presets.info
+    local title = opts.title or "Debugging Awesome"
+    local timeout = opts.timeout or 0
     naughty.notify({
-        preset = naughty.config.presets.info,
-        title = "Debugging Awesome",
+        preset = preset,
+        title = title,
         text = msg,
-        timeout = 0,
+        timeout = timeout,
     })
 end
 
