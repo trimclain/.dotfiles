@@ -1,8 +1,8 @@
 local awful = require("awful") -- Everything related to window managment
 local beautiful = require("beautiful") -- Theme handling library
 
-local env = require("env")
 local client_binds = require("binds.client")
+local env = require("env")
 
 -- Rules to apply to new clients (through the "manage" signal).
 -- INFO: Get class name using `xprop WM_CLASS | awk -F, '{print $2}'`

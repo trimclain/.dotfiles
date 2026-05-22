@@ -21,9 +21,7 @@
 pcall(require, "luarocks.loader")
 
 -- Themes define colours, icons, font and wallpapers.
-local gears = require("gears") -- Utilities such as color parsing and objects
-local beautiful = require("beautiful") -- Theme handling library
-beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/theme.lua")
+require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "theme/theme.lua")
 
 require("core")
 require("ui")

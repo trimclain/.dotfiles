@@ -1,10 +1,10 @@
-local gears = require("gears") -- Utilities such as color parsing and objects
 local awful = require("awful") -- Everything related to window managment
+local gears = require("gears") -- Utilities such as color parsing and objects
 local hotkeys_popup = require("awful.hotkeys_popup")
 
-local utils = require("core.utils")
 local env = require("env")
 local menu = require("ui.menu")
+local utils = require("core.utils")
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:

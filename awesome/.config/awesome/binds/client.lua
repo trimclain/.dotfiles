@@ -1,5 +1,5 @@
-local gears = require("gears") -- Utilities such as color parsing and objects
 local awful = require("awful") -- Everything related to window managment
+local gears = require("gears") -- Utilities such as color parsing and objects
 
 local env = require("env")
 
