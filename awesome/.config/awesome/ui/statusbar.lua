@@ -162,6 +162,11 @@ function M.setup(s)
     --     buttons = tasklist_buttons,
     -- })
 
+    s.mysystray = wibox.widget({
+        base_size = 12,
+        widget = wibox.widget.systray,
+    })
+
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
@@ -181,8 +186,9 @@ function M.setup(s)
             nil, -- Middle widget, added below
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
+                -- left, right, top, bottom
+                wibox.container.margin(s.mysystray, 4, 4, 9, 4),
                 awful.widget.keyboardlayout(),
-                wibox.widget.systray(),
             },
         },
         { -- Middle widget (centered)

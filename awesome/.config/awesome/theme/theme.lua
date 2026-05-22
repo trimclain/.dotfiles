@@ -25,7 +25,9 @@ theme.bg_normal = "#11111b" -- default: "#222222"
 theme.bg_focus = "#7287fd" -- default: "#535d6c"
 theme.bg_urgent = "#ff0000"
 theme.bg_minimize = "#444444"
+
 theme.bg_systray = theme.bg_normal
+theme.systray_icon_spacing = 4
 
 theme.fg_normal = "#cdd6f4" -- default: "#aaaaaa"
 theme.fg_focus = "#cdd6f4" -- default: "#ffffff"
