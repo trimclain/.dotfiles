@@ -1,7 +1,7 @@
 local awful = require("awful") -- Everything related to window managment
 local beautiful = require("beautiful") -- Theme handling library
 local hotkeys_popup = require("awful.hotkeys_popup")
-local menubar = require("menubar")
+local menubar = require("menubar") -- will be used instead of rofi -show drun
 
 local env = require("core.env")
 

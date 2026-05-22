@@ -1,17 +1,51 @@
 local awful = require("awful") -- Everything related to window managment
 
+local utils = require("core.utils")
+
 local M = {}
 
 M.modkey = "Mod1" -- alt key
 M.altkey = "Mod4" -- windows key
 
+-- Apps {{{
+
 -- INFO: for a variable to be visible here it needs to be defined in /etc/environment
-local terminal = os.getenv("TERMINAL") or "kitty" -- kitty, alacritty, wezterm, ghostty
+-- TODO: don't hardcode kitty, better use the check_command_executable method
+local _terminal = os.getenv("TERMINAL") or "kitty" -- kitty, alacritty, wezterm, ghostty
 --  apparently this is faster: https://ghostty.org/docs/linux/systemd#hyprland
-M.terminal = terminal == "ghostty" and "ghostty +new-window" or terminal
+M.terminal = _terminal == "ghostty" and "ghostty +new-window" or _terminal
 M.editor = os.getenv("EDITOR") or "nvim"
 M.gui_editor = "neovide"
 M.browser = "thorium-browser"
+
+local _run_launcher = function()
+    awful.screen.focused().mypromptbox:run()
+end
+
+function M.run_launcher()
+    _run_launcher()
+end
+
+local _app_launcher = function()
+    require("menubar").show()
+end
+
+function M.app_launcher()
+    _app_launcher()
+end
+
+utils.check_command_executable("rofi", function(is_installed, _, _)
+    if is_installed then
+        _run_launcher = function()
+            awful.spawn("rofi -show run")
+        end
+        _app_launcher = function()
+            awful.spawn("rofi -show drun")
+        end
+    end
+end)
+
+-- }}}
 
 M.enable_titlebars = false
 
@@ -37,3 +71,5 @@ M.layouts = {
 }
 
 return M
+
+-- vim:foldmethod=marker

@@ -1,6 +1,5 @@
 local gears = require("gears") -- Utilities such as color parsing and objects
 local awful = require("awful") -- Everything related to window managment
-local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 local utils = require("core.utils")
@@ -35,21 +34,8 @@ local globalkeys = gears.table.join(
         awful.spawn(env.browser)
     end, { description = "open the browser", group = "launcher" }),
 
-    -- TODO: parse old and make it dynamic with using rofi and dmenu if they exist
-    -- awful.key({ modkey }, "r", function()
-    --     awful.spawn("rofi -show run")
-    -- end, { description = "run a command", group = "launcher" }),
-    -- -- App Launcher
-    -- awful.key({ modkey }, "d", function()
-    --     awful.spawn("rofi -show drun")
-    -- end, { description = "open apps", group = "launcher" }),
-    awful.key({ env.modkey }, "r", function()
-        awful.screen.focused().mypromptbox:run()
-    end, { description = "run prompt", group = "launcher" }),
-    -- TODO: parse new
-    awful.key({ env.modkey }, "d", function()
-        menubar.show()
-    end, { description = "show the menubar", group = "launcher" }),
+    awful.key({ env.modkey }, "r", env.run_launcher, { description = "run a command", group = "launcher" }),
+    awful.key({ env.modkey }, "d", env.app_launcher, { description = "open apps", group = "launcher" }),
 
     -- TODO: migrate
     -- INFO: temp disabled until start using lain again
