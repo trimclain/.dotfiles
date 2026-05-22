@@ -27,7 +27,7 @@ M.buttons = gears.table.join(
 local globalkeys = gears.table.join(
     -- ########################## LAUNCHER GROUP ###############################
     awful.key({ env.modkey }, "Return", function()
-        awful.spawn(env.terminal)
+        awful.spawn(env.detect_terminal())
     end, { description = "open a terminal", group = "launcher" }),
 
     awful.key({ env.modkey }, "b", function()

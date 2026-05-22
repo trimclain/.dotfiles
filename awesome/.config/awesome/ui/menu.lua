@@ -15,8 +15,8 @@ local myawesomemenu = {
             hotkeys_popup.show_help(nil, awful.screen.focused())
         end,
     },
-    { "manual", env.terminal .. " -e man awesome" },
-    { "edit config", env.terminal .. " -e " .. env.editor .. " " .. awesome.conffile },
+    { "manual", env.detect_terminal() .. " -e man awesome" },
+    { "edit config", env.detect_terminal() .. " -e " .. env.editor .. " " .. awesome.conffile },
     { "restart", awesome.restart },
     {
         "quit",
@@ -29,11 +29,11 @@ local myawesomemenu = {
 M.main_menu = awful.menu({
     items = {
         { "awesome", myawesomemenu, beautiful.awesome_icon },
-        { "open terminal", env.terminal },
+        { "open terminal", env.detect_terminal() },
     },
 })
 
 -- Menubar configuration
-menubar.utils.terminal = env.terminal -- set the terminal for applications that need it
+menubar.utils.terminal = env.detect_terminal() -- set the terminal for applications that need it
 
 return M
