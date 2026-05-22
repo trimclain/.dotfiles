@@ -70,23 +70,35 @@ end
 function M.setup(s)
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
+
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
+    -- stylua: ignore
     s.mylayoutbox:buttons(gears.table.join(
-        awful.button({}, 1, function()
-            awful.layout.inc(1)
-        end),
-        awful.button({}, 3, function()
-            awful.layout.inc(-1)
-        end),
-        awful.button({}, 4, function()
-            awful.layout.inc(1)
-        end),
-        awful.button({}, 5, function()
-            awful.layout.inc(-1)
-        end)
+        awful.button({}, 1, function() awful.layout.inc(1) end),
+        awful.button({}, 3, function() awful.layout.inc(-1) end),
+        awful.button({}, 4, function() awful.layout.inc(1) end),
+        awful.button({}, 5, function() awful.layout.inc(-1) end)
     ))
+    s.mylayoutbox_small = wibox.widget({
+        {
+            {
+                s.mylayoutbox,
+                left = 4,
+                top = 3,
+                widget = wibox.container.margin,
+            },
+            forced_width = 18,
+            forced_height = 18,
+            strategy = "exact",
+            widget = wibox.container.constraint,
+        },
+        valign = "center",
+        halign = "center",
+        widget = wibox.container.place,
+    })
+
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist({
         screen = s,
@@ -143,12 +155,12 @@ function M.setup(s)
         },
     })
 
-    -- Create a tasklist widget (contains the names of the opened apps)
-    s.mytasklist = awful.widget.tasklist({
-        screen = s,
-        filter = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons,
-    })
+    -- -- Create a tasklist widget (contains the names of the opened apps)
+    -- s.mytasklist = awful.widget.tasklist({
+    --     screen = s,
+    --     filter = awful.widget.tasklist.filter.currenttags,
+    --     buttons = tasklist_buttons,
+    -- })
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -164,7 +176,7 @@ function M.setup(s)
                 wibox.widget.textclock(),
                 -- s.mytasklist,
                 s.mypromptbox,
-                s.mylayoutbox,
+                s.mylayoutbox_small,
             },
             nil, -- Middle widget, added below
             { -- Right widgets
