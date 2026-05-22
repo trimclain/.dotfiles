@@ -8,6 +8,7 @@ local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
+local gears = require("gears")
 local gfs = require("gears.filesystem")
 -- local themes_path = gfs.get_themes_dir() -- /usr/share/awesome/themes/
 local themes_path = gfs.get_configuration_dir() .. "theme/"
@@ -20,17 +21,16 @@ local theme = {}
 theme.font = "MapleMono-NF-Regular 10"
 theme.taglist_font = "MapleMono-NF-Regular 13"
 
--- Looks like these are the bar colors
-theme.bg_normal = "#222222"
-theme.bg_focus = "#535d6c"
+theme.bg_normal = "#11111b" -- default: "#222222"
+theme.bg_focus = "#7287fd" -- default: "#535d6c"
 theme.bg_urgent = "#ff0000"
 theme.bg_minimize = "#444444"
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#aaaaaa"
-theme.fg_focus = "#ffffff"
-theme.fg_urgent = "#ffffff"
-theme.fg_minimize = "#ffffff"
+theme.fg_normal = "#cdd6f4" -- default: "#aaaaaa"
+theme.fg_focus = "#cdd6f4" -- default: "#ffffff"
+theme.fg_urgent = "#cdd6f4" -- default: "#ffffff"
+theme.fg_minimize = "#cdd6f4" -- default: "#ffffff"
 
 theme.useless_gap = dpi(4) -- default: dpi(0)
 theme.border_width = dpi(2) -- default: dpi(1)
@@ -48,13 +48,24 @@ theme.border_marked = "#91231c"
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
--- Example:
---theme.taglist_bg_focus = "#ff0000"
 
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, theme.fg_normal)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
+theme.taglist_fg_focus = "#7287fd"
+theme.taglist_bg_focus = theme.bg_focus
+theme.taglist_fg_empty = "#313244"
+theme.taglist_bg_empty = theme.bg_normal
+theme.taglist_fg_occupied = theme.fg_normal
+theme.taglist_bg_occupied = theme.bg_normal
+theme.taglist_fg_hover = theme.fg_normal
+theme.taglist_bg_hover = "#313244"
+theme.taglist_fg_urgent = "#f38ba8"
+theme.taglist_bg_urgent = theme.bg_normal
+theme.taglist_shape = gears.shape.circle
+theme.taglist_spacing = 2
+
+-- -- Generate taglist squares:
+-- local taglist_square_size = dpi(4)
+-- theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, theme.fg_normal)
+-- theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
 
 -- Variables set for theming notifications:
 -- notification_font
@@ -121,8 +132,9 @@ theme.layout_cornerne = themes_path .. "layouts/cornernew.png"
 theme.layout_cornersw = themes_path .. "layouts/cornersww.png"
 theme.layout_cornerse = themes_path .. "layouts/cornersew.png"
 
--- Generate Awesome icon:
-theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus, theme.fg_focus)
+-- -- Generate Awesome icon:
+-- theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus, theme.fg_focus)
+theme.awesome_icon = themes_path .. "/awesome.png"
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.

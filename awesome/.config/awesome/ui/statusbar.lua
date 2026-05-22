@@ -1,5 +1,6 @@
-local gears = require("gears") -- Utilities such as color parsing and objects
 local awful = require("awful") -- Everything related to window managment
+local beautiful = require("beautiful") -- Theme handling library
+local gears = require("gears") -- Utilities such as color parsing and objects
 local wibox = require("wibox") -- Widget and layout library
 
 local env = require("core.env")
@@ -49,6 +50,23 @@ local tasklist_buttons = gears.table.join(
     end)
 )
 
+local function set_tag_colors(self, tag)
+    -- Decide the color based on current tag state
+    if tag.selected then
+        self.fg = beautiful.taglist_fg_focus
+        self.bg = beautiful.taglist_bg_focus
+    elseif tag.urgent then
+        self.fg = beautiful.taglist_fg_urgent
+        self.bg = beautiful.taglist_bg_urgent
+    elseif #tag:clients() > 0 then
+        self.fg = beautiful.taglist_fg_occupied
+        self.bg = beautiful.taglist_bg_occupied
+    else
+        self.fg = beautiful.taglist_fg_empty
+        self.bg = beautiful.taglist_bg_empty
+    end
+end
+
 function M.setup(s)
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -74,6 +92,55 @@ function M.setup(s)
         screen = s,
         filter = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
+        widget_template = {
+            {
+                {
+                    {
+                        id = "index_role",
+                        widget = wibox.widget.textbox,
+                    },
+                    margins = 6,
+                    widget = wibox.container.margin,
+                },
+                shape = gears.shape.circle,
+                widget = wibox.container.background,
+            },
+            id = "background_role",
+            widget = wibox.container.background,
+            ---@diagnostic disable-next-line: unused-local
+            create_callback = function(self, tag, index, objects)
+                -- Update index text
+                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.index .. " </b>"
+
+                -- Set initial bg according to state
+                set_tag_colors(self, tag)
+
+                -- Configure hover behavior
+                local taglist_fg_hover = beautiful.taglist_fg_hover or "#ffffff"
+                local taglist_bg_hover = beautiful.taglist_bg_hover or "#535d6c"
+                self:connect_signal("mouse::enter", function()
+                    self._hover = true
+                    self.fg = taglist_fg_hover
+                    self.bg = taglist_bg_hover
+                end)
+                self:connect_signal("mouse::leave", function()
+                    self._hover = false
+                    -- Recompute based on *current* tag state
+                    set_tag_colors(self, tag)
+                end)
+            end,
+            ---@diagnostic disable-next-line: unused-local
+            update_callback = function(self, tag, index, objects)
+                -- Keep index in sync
+                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.index .. " </b>"
+
+                -- Tag state may have changed (selected, etc.)
+                -- If we are not hovering, just update to theme color
+                if not self._hover then
+                    set_tag_colors(self, tag)
+                end
+            end,
+        },
     })
 
     -- Create a tasklist widget (contains the names of the opened apps)
