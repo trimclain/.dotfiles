@@ -132,26 +132,73 @@ end
 
 local home = os.getenv("HOME") or "$HOME"
 
---- Expand the command, validate that it's installed, and run it or show an error notification
+--- Check whether the executable from a command string exists in PATH
 ---@param cmd string
-function M.run_command(cmd)
-    cmd = cmd:gsub("~", home, 1)
-    local executable = cmd:match("([^ ]+)")
+---@param callback fun(is_installed: boolean, executable: string, expanded_cmd: string)
+function M.check_command_executable(cmd, callback)
+    local expanded_cmd = cmd:gsub("~", home, 1)
+    local executable = expanded_cmd:match("([^ ]+)")
 
     awful.spawn.easy_async_with_shell(
         "command -v -- " .. shell_quote(executable) .. " > /dev/null",
         function(_, _, _, exit_code)
-            if exit_code == 0 then
-                awful.spawn.with_shell(cmd)
-            else
-                naughty.notify({
-                    preset = naughty.config.presets.critical,
-                    title = "Command Error",
-                    text = "Executable '" .. executable .. "' not found.",
-                })
-            end
+            callback(exit_code == 0, executable, expanded_cmd)
         end
     )
+end
+
+--- Find the first executable command in a list
+---@param tools string[]
+---@param callback fun(found_cmd: string|nil, executable: string|nil)
+function M.find_first_executable(tools, callback)
+    local i = 1
+
+    local function check_next()
+        local tool = tools[i]
+
+        if tool == nil then
+            callback(nil, nil)
+            return
+        end
+
+        M.check_command_executable(tool, function(is_installed, executable, expanded_cmd)
+            if is_installed then
+                callback(expanded_cmd, executable)
+            else
+                i = i + 1
+                check_next()
+            end
+        end)
+    end
+
+    check_next()
+end
+
+--- Expand the command, validate that it's installed, and run it or show an error notification
+---@param cmd string
+function M.run_command(cmd)
+    M.check_command_executable(cmd, function(is_installed, executable, expanded_cmd)
+        if is_installed then
+            awful.spawn.with_shell(expanded_cmd)
+        else
+            M.notify("Executable '" .. executable .. "' not found.", { preset = "critical", title = "Command Error" })
+        end
+    end)
+end
+
+--- Run first command that is installed or show an error notification
+---@param tools string[]
+function M.run_first_available(tools)
+    M.find_first_executable(tools, function(cmd, _)
+        if cmd then
+            awful.spawn.with_shell(cmd)
+        else
+            M.notify(
+                "None of these executables were found: " .. table.concat(tools, ", "),
+                { preset = "critical", title = "Command Error" }
+            )
+        end
+    end)
 end
 
 -- local function get_os_output(cmd, raw)
