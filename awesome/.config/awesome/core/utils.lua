@@ -14,6 +14,97 @@ function M.inform(msg)
     })
 end
 
+--- Get a human-readable representation of the given object
+---@param value any
+---@return string
+function M.inspect(value)
+    local seen = {}
+
+    local function is_identifier(str)
+        return type(str) == "string" and str:match("^[_%a][_%w]*$") ~= nil
+    end
+
+    local function is_array(tbl)
+        local n = #tbl
+        for k, _ in pairs(tbl) do
+            if type(k) ~= "number" or k < 1 or k > n or k % 1 ~= 0 then
+                return false
+            end
+        end
+        return true
+    end
+
+    local function sorted_keys(tbl)
+        local keys = {}
+        for k in pairs(tbl) do
+            keys[#keys + 1] = k
+        end
+
+        table.sort(keys, function(a, b)
+            local ta, tb = type(a), type(b)
+
+            if ta == tb then
+                if ta == "number" or ta == "string" then
+                    return a < b
+                end
+                return tostring(a) < tostring(b)
+            end
+
+            return ta < tb
+        end)
+
+        return keys
+    end
+
+    local function stringify(v, level)
+        if type(v) == "string" then
+            return string.format("%q", v)
+        elseif type(v) ~= "table" then
+            return tostring(v)
+        elseif seen[v] then
+            return "<circular>"
+        end
+
+        seen[v] = true
+
+        if next(v) == nil then
+            seen[v] = nil
+            return "{}"
+        end
+
+        if is_array(v) then
+            local parts = {}
+            for i = 1, #v do
+                parts[#parts + 1] = stringify(v[i], level + 1)
+            end
+            seen[v] = nil
+            return "{ " .. table.concat(parts, ", ") .. " }"
+        end
+
+        local parts = {}
+        local padding = string.rep("  ", level)
+        local next_padding = string.rep("  ", level + 1)
+
+        for _, k in ipairs(sorted_keys(v)) do
+            local val = v[k]
+            local key
+
+            if is_identifier(k) then
+                key = k
+            else
+                key = "[" .. stringify(k, 0) .. "]"
+            end
+
+            parts[#parts + 1] = next_padding .. key .. " = " .. stringify(val, level + 1)
+        end
+
+        seen[v] = nil
+        return "{\n" .. table.concat(parts, ",\n") .. "\n" .. padding .. "}"
+    end
+
+    return stringify(value, 0)
+end
+
 --- Shell-quote a string so it can be safely embedded in a shell command
 ---@param s string
 ---@return string
