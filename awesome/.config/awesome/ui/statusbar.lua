@@ -50,6 +50,11 @@ local tasklist_buttons = gears.table.join(
     end)
 )
 
+local mysystray_widget = wibox.widget({
+    base_size = 12,
+    widget = wibox.widget.systray,
+})
+
 local function set_tag_colors(self, tag)
     -- Decide the color based on current tag state
     if tag.selected then
@@ -112,9 +117,6 @@ function M.setup(s)
         end)
     ))
 
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
-
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
@@ -142,6 +144,16 @@ function M.setup(s)
         halign = "center",
         widget = wibox.container.place,
     })
+
+    -- Create a promptbox for each screen
+    s.mypromptbox = awful.widget.prompt()
+
+    -- -- Create a tasklist widget (contains the names of the opened apps)
+    -- s.mytasklist = awful.widget.tasklist({
+    --     screen = s,
+    --     filter = awful.widget.tasklist.filter.currenttags,
+    --     buttons = tasklist_buttons,
+    -- })
 
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist({
@@ -199,17 +211,7 @@ function M.setup(s)
         },
     })
 
-    -- -- Create a tasklist widget (contains the names of the opened apps)
-    -- s.mytasklist = awful.widget.tasklist({
-    --     screen = s,
-    --     filter = awful.widget.tasklist.filter.currenttags,
-    --     buttons = tasklist_buttons,
-    -- })
-
-    s.mysystray = wibox.widget({
-        base_size = 12,
-        widget = wibox.widget.systray,
-    })
+    s.mysystray = mysystray_widget
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
