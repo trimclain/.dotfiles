@@ -3,7 +3,7 @@ local beautiful = require("beautiful") -- Theme handling library
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar") -- will be used instead of rofi -show drun
 
-local env = require("core.env")
+local env = require("env")
 
 local M = {}
 

@@ -3,7 +3,7 @@ local awful = require("awful") -- Everything related to window managment
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 local utils = require("core.utils")
-local env = require("core.env")
+local env = require("env")
 local menu = require("ui.menu")
 
 -- Enable hotkeys help widget for VIM and other apps

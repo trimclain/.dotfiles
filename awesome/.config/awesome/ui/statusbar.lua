@@ -3,7 +3,7 @@ local beautiful = require("beautiful") -- Theme handling library
 local gears = require("gears") -- Utilities such as color parsing and objects
 local wibox = require("wibox") -- Widget and layout library
 
-local env = require("core.env")
+local env = require("env")
 local menu = require("ui.menu")
 
 local M = {}

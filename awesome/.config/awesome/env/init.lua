@@ -7,8 +7,6 @@ local M = {}
 M.modkey = "Mod1" -- alt key
 M.altkey = "Mod4" -- windows key
 
--- Apps {{{
-
 -- INFO: for a variable to be visible here it needs to be defined in /etc/environment
 -- TODO: don't hardcode kitty, better use the check_command_executable method
 local _terminal = os.getenv("TERMINAL") or "kitty" -- kitty, alacritty, wezterm, ghostty
@@ -18,34 +16,8 @@ M.editor = os.getenv("EDITOR") or "nvim"
 M.gui_editor = "neovide"
 M.browser = "thorium-browser"
 
-local _run_launcher = function()
-    awful.screen.focused().mypromptbox:run()
-end
-
-function M.run_launcher()
-    _run_launcher()
-end
-
-local _app_launcher = function()
-    require("menubar").show()
-end
-
-function M.app_launcher()
-    _app_launcher()
-end
-
-utils.check_command_executable("rofi", function(is_installed, _, _)
-    if is_installed then
-        _run_launcher = function()
-            awful.spawn("rofi -show run")
-        end
-        _app_launcher = function()
-            awful.spawn("rofi -show drun")
-        end
-    end
-end)
-
--- }}}
+M.run_launcher = require("env.launcher").run_launcher
+M.app_launcher = require("env.launcher").app_launcher
 
 M.enable_titlebars = false
 

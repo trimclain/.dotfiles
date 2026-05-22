@@ -1,7 +1,7 @@
 local awful = require("awful") -- Everything related to window managment
 local beautiful = require("beautiful") -- Theme handling library
 
-local env = require("core.env")
+local env = require("env")
 local client_binds = require("binds.client")
 
 -- Rules to apply to new clients (through the "manage" signal).
