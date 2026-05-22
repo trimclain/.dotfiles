@@ -68,6 +68,31 @@ local function set_tag_colors(self, tag)
 end
 
 function M.setup(s)
+    -- Create a textclock widget
+    s.mytextclock = wibox.widget.textclock("%a, %b %d %H:%M")
+    s.mytextclock:buttons(gears.table.join(
+        awful.button({}, 1, function()
+            if not s.mycalendar_month then
+                s.mycalendar_month = awful.widget.calendar_popup.month({
+                    screen = s,
+                    position = "tl", -- top left
+                    -- margin = 8,
+                })
+            end
+            s.mycalendar_month:toggle()
+        end),
+        awful.button({}, 3, function()
+            if not s.mycalendar_year then
+                s.mycalendar_year = awful.widget.calendar_popup.year({
+                    screen = s,
+                    position = "tl", -- top left
+                    -- margin = 8,
+                })
+            end
+            s.mycalendar_year:toggle()
+        end)
+    ))
+
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
 
@@ -178,10 +203,10 @@ function M.setup(s)
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
                 menu.launcher,
-                wibox.widget.textclock(),
-                -- s.mytasklist,
-                s.mypromptbox,
+                s.mytextclock,
                 s.mylayoutbox_small,
+                s.mypromptbox,
+                -- s.mytasklist,
             },
             nil, -- Middle widget, added below
             { -- Right widgets
