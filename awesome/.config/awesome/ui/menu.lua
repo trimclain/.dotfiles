@@ -33,8 +33,6 @@ M.main_menu = awful.menu({
     },
 })
 
-M.launcher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = M.main_menu })
-
 -- Menubar configuration
 menubar.utils.terminal = env.terminal -- set the terminal for applications that need it
 

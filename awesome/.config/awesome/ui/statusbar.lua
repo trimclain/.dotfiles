@@ -69,6 +69,25 @@ end
 
 function M.setup(s)
     -- Create a textclock widget
+    s.mylauncher = wibox.widget({
+        {
+            awful.widget.launcher({
+                image = beautiful.awesome_icon,
+                menu = menu.main_menu,
+            }),
+            forced_width = 18,
+            forced_height = 18,
+            strategy = "exact",
+            widget = wibox.container.constraint,
+        },
+        left = 5,
+        right = 5,
+        top = 5,
+        bottom = 3,
+        widget = wibox.container.margin,
+    })
+
+    -- Create a textclock widget
     s.mytextclock = wibox.widget.textclock("%a, %b %d %H:%M")
     s.mytextclock:buttons(gears.table.join(
         awful.button({}, 1, function()
@@ -202,7 +221,7 @@ function M.setup(s)
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
-                menu.launcher,
+                s.mylauncher,
                 s.mytextclock,
                 s.mylayoutbox_small,
                 s.mypromptbox,
