@@ -221,7 +221,7 @@ function modalbind.grab(options)
     local onOpen = options.onOpen
     local onClose = options.onClose
 
-    keymap = adapt_to_keygrabber(keymap)
+    keymap = adapt_to_keygrabber(keymap, use_lower, args)
 
     layout_swap(layout)
 
