@@ -1,7 +1,7 @@
 -- awesome-modalbind (modified) - modal keybindings for awesomewm
 -- Source: https://github.com/crater2150/awesome-modalbind
 
-local awesome, mouse, screen = awesome, mouse, screen
+local awesome, mouse = awesome, mouse
 local modalbind = {}
 local awful = require("awful")
 local beautiful = require("beautiful")
@@ -28,6 +28,7 @@ for key, value in pairs(defaults) do
 end
 
 local active_grabber = nil
+local current_modebox = nil
 
 local prev_layout = nil
 
@@ -83,6 +84,7 @@ local function show_box(s, map, name)
     local mar = mbox:get_children_by_id("margin")[1]
     local txt = mbox:get_children_by_id("text")[1]
     mbox.screen = s
+    current_modebox = mbox
 
     local label = "<big><b>" .. gstring.xml_escape(name) .. "</b></big>"
     if settings.show_options then
@@ -117,7 +119,10 @@ local function show_box(s, map, name)
 end
 
 local function hide_box()
-    screen[1].modewibox.visible = false
+    if current_modebox then
+        current_modebox.visible = false
+        current_modebox = nil
+    end
 end
 
 modalbind.default_keys = {
