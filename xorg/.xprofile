@@ -32,5 +32,3 @@ picom -b
 #setxkbmap -option caps:escape
 # Swap escape and caps
 #setxkbmap -option caps:swapescape
-
-# vim:ft=conf
