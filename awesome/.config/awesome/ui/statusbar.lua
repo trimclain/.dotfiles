@@ -51,7 +51,7 @@ local tasklist_buttons = gears.table.join(
 )
 
 local mysystray_widget = wibox.widget({
-    base_size = 12,
+    base_size = 14,
     widget = wibox.widget.systray,
 })
 
