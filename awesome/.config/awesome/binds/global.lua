@@ -37,26 +37,14 @@ local globalkeys = gears.table.join(
     awful.key({ env.modkey }, "r", env.run_launcher, { description = "run a command", group = "launcher" }),
     awful.key({ env.modkey }, "d", env.app_launcher, { description = "open apps", group = "launcher" }),
 
-    -- TODO: migrate
-    -- INFO: temp disabled until start using lain again
-    -- -- On-the-fly useless gaps change
-    -- awful.key({ altkey, "Control" }, "=", function()
-    --     lain.util.useless_gaps_resize(1)
-    -- end, { description = "increment useless gaps", group = "tag" }),
-    -- awful.key({ altkey, "Control" }, "-", function()
-    --     lain.util.useless_gaps_resize(-1)
-    -- end, { description = "decrement useless gaps", group = "tag" }),
-
     -- ########################## AWESOME GROUP ###############################
     awful.key({ env.modkey }, "/", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key({ env.modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     awful.key({ env.modkey, "Shift" }, "e", awesome.quit, { description = "exit awesome", group = "awesome" }),
-    -- TODO: different or no key?
-    awful.key({ env.modkey }, "w", function()
-        menu.main_menu:show()
-    end, { description = "show main menu", group = "awesome" }),
+    -- awful.key({ env.modkey }, "m", function()
+    --     menu.main_menu:show()
+    -- end, { description = "show main menu", group = "awesome" }),
 
-    -- TODO: parse new
     -- awful.key({ modkey }, "x", function()
     --     awful.prompt.run({
     --         prompt = "Run Lua code: ",
@@ -120,24 +108,24 @@ local globalkeys = gears.table.join(
     end, { description = "swap with right client", group = "client" }),
 
     -- ########################## SCREEN GROUP ################################
-    -- TODO: sure?
-    awful.key({ env.altkey }, "h", function()
-        awful.screen.focus_bydirection("left")
-    end, { description = "focus screen to the left", group = "screen" }),
-    awful.key({ env.altkey }, "l", function()
-        awful.screen.focus_bydirection("right")
-    end, { description = "focus screen to the right", group = "screen" }),
-    awful.key({ env.altkey, "Shift" }, "h", function()
-        local c = awful.client.focus.history.get(nil, 0)
-        awful.client.movetoscreen(c, -1)
-    end, { description = "move client to the screen on the left", group = "screen" }),
-    awful.key({ env.altkey, "Shift" }, "l", function()
-        local c = awful.client.focus.history.get(nil, 0)
-        awful.client.movetoscreen(c, 1)
-    end, { description = "move client to the screen on the right", group = "screen" }),
+    -- TODO: figure out my multiscreen situation
+    -- awful.key({ env.altkey }, "h", function()
+    --     awful.screen.focus_bydirection("left")
+    -- end, { description = "focus screen to the left", group = "screen" }),
+    -- awful.key({ env.altkey }, "l", function()
+    --     awful.screen.focus_bydirection("right")
+    -- end, { description = "focus screen to the right", group = "screen" }),
+    -- awful.key({ env.altkey, "Shift" }, "h", function()
+    --     local c = awful.client.focus.history.get(nil, 0)
+    --     awful.client.movetoscreen(c, -1)
+    -- end, { description = "move client to the screen on the left", group = "screen" }),
+    -- awful.key({ env.altkey, "Shift" }, "l", function()
+    --     local c = awful.client.focus.history.get(nil, 0)
+    --     awful.client.movetoscreen(c, 1)
+    -- end, { description = "move client to the screen on the right", group = "screen" }),
 
     -- ########################## LAYOUT GROUP ################################
-    -- TODO: sure this is my workflow?
+    -- TODO: sure this is my workflow? Figure out my layout situation
     awful.key({ env.modkey, "Control" }, "l", function()
         awful.tag.incmwfact(0.05)
     end, { description = "increase master width factor", group = "layout" }),
@@ -165,40 +153,31 @@ local globalkeys = gears.table.join(
         awful.layout.inc(1)
     end, { description = "select next", group = "layout" }),
 
-    -- TODO: parse old
-    -- ########################## WIDGETS GROUP ###############################
-    -- Widgets popups
-    -- awful.key({ altkey }, "c", function()
-    --     if beautiful.cal then
-    --         beautiful.cal.show(7)
-    --     end
-    -- end, { description = "show calendar", group = "widgets" }),
-    -- awful.key({ altkey }, "h", function()
-    --     if beautiful.fs then
-    --         beautiful.fs.show(7)
-    --     end
-    -- end, { description = "show filesystem", group = "widgets" }),
-    -- awful.key({ altkey }, "w", function()
-    --     if beautiful.weather then
-    --         beautiful.weather.show(7)
-    --     end
-    -- end, { description = "show weather", group = "widgets" }),
+    -- On-the-fly useless gaps change
+    awful.key({ env.altkey, "Control" }, "=", function()
+        utils.useless_gaps_resize(1)
+    end, { description = "increase useless gaps", group = "tag" }),
+    awful.key({ env.altkey, "Control" }, "-", function()
+        utils.useless_gaps_resize(-1)
+    end, { description = "decrease useless gaps", group = "tag" }),
 
     -- ########################## HOTKEYS GROUP ###############################
-    -- TODO: parse old
     -- Destroy all notifications
-    -- awful.key({ "Control" }, "space", function()
+    -- awful.key({ env.altkey, "Control" }, "space", function()
     --     naughty.destroy_all_notifications()
     -- end, { description = "destroy all notifications", group = "hotkeys" }),
 
     -- Take a screenshot
-    -- https://github.com/lcpz/dots/blob/master/bin/screenshot
     awful.key({ env.modkey }, "p", function()
         utils.run_command("flameshot screen -c")
-    end, { description = "take a screenshot of a full screen to clipboard", group = "hotkeys" }),
+    end, { description = "take a fullscreen screenshot to clipboard", group = "hotkeys" }),
 
     -- BUG: after using this the focus of active window breaks - restored only after tag switch
     awful.key({ env.modkey }, "s", function()
+        utils.run_command("flameshot gui -c")
+    end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
+    -- kinda used to this on windows
+    awful.key({ env.altkey, "Shift" }, "s", function()
         utils.run_command("flameshot gui -c")
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
 
@@ -217,7 +196,7 @@ local globalkeys = gears.table.join(
         utils.run_command("~/.local/bin/brightness-control --decrease")
     end, { description = "brightness -10%", group = "hotkeys" }),
 
-    -- Use pactl and pacmd to adjust volume with PulseAudio.
+    -- Use wpctl/pactl to adjust volume with PulseAudio
     awful.key({}, "XF86AudioRaiseVolume", function()
         utils.run_command("~/.local/bin/volume-control --increase")
     end, { description = "volume +5%", group = "hotkeys" }),
@@ -234,14 +213,13 @@ local globalkeys = gears.table.join(
         utils.run_command("~/.local/bin/volume-control --toggle-micro-mute")
     end, { description = "toggle mute microphone", group = "hotkeys" })
 
-    -- TODO: parse old
-    -- Copy primary to clipboard (terminals to gtk) -- !replace xsel with xclip!
-    -- awful.key({ modkey }, "c", function()
-    --     awful.spawn.with_shell("xsel | xsel -i -b")
+    -- -- primary -> clipboard (terminal selection to GTK)
+    -- awful.key({ env.modkey }, "c", function()
+    --     awful.spawn.with_shell("xclip -selection primary -o | xclip -selection clipboard")
     -- end, { description = "copy terminal to gtk", group = "hotkeys" }),
-    -- -- Copy clipboard to primary (gtk to terminals)
-    -- awful.key({ modkey }, "v", function()
-    --     awful.spawn.with_shell("xsel -b | xsel")
+    -- -- clipboard -> primary (GTK to terminal selection)
+    -- awful.key({ env.modkey }, "v", function()
+    --     awful.spawn.with_shell("xclip -selection clipboard -o | xclip -selection primary")
     -- end, { description = "copy gtk to terminal", group = "hotkeys" })
 )
 
@@ -276,15 +254,15 @@ for i = 1, 9 do
             end
         end
     end, { description = "move focused client to tag #" .. i, group = "tag" })
-    -- Toggle tag on focused client.
-    tag_keys[#tag_keys + 1] = awful.key({ env.modkey, "Control", "Shift" }, "#" .. i + 9, function()
-        if client.focus then
-            local tag = client.focus.screen.tags[i]
-            if tag then
-                client.focus:toggle_tag(tag)
-            end
-        end
-    end, { description = "toggle focused client on tag #" .. i, group = "tag" })
+    -- -- Toggle tag on focused client.
+    -- tag_keys[#tag_keys + 1] = awful.key({ env.modkey, "Control", "Shift" }, "#" .. i + 9, function()
+    --     if client.focus then
+    --         local tag = client.focus.screen.tags[i]
+    --         if tag then
+    --             client.focus:toggle_tag(tag)
+    --         end
+    --     end
+    -- end, { description = "toggle focused client on tag #" .. i, group = "tag" })
 end
 
 M.keys = gears.table.join(globalkeys, table.unpack(tag_keys))

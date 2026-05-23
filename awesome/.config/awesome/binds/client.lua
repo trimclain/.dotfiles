@@ -27,6 +27,10 @@ M.keys = gears.table.join(
     awful.key({ env.modkey }, "q", function(c)
         c:kill()
     end, { description = "close", group = "client" }),
+    -- Trying to get used to the patter from web browsers
+    awful.key({ env.modkey }, "w", function(c)
+        c:kill()
+    end, { description = "close", group = "client" }),
     awful.key(
         { env.modkey },
         "space",

@@ -203,18 +203,12 @@ function M.run_first_available(tools)
     end)
 end
 
--- local function get_os_output(cmd, raw)
---     local f = assert(io.popen(cmd, "r"))
---     local s = assert(f:read("*a"))
---     f:close()
---     if raw then
---         return s
---     end
---     s = string.gsub(s, "^%s+", "")
---     s = string.gsub(s, "%s+$", "")
---     s = string.gsub(s, "[\n\r]+", " ")
---     return s
--- end
--- local operating_system = get_os_output("awk -F= '$1==\"ID\" { print $2 ;}' /etc/os-release")
+-- On-the-fly useless gaps change (credit: https://github.com/lcpz/lain)
+function M.useless_gaps_resize(thatmuch, s, t)
+    local scr = s or awful.screen.focused()
+    local tag = t or scr.selected_tag
+    tag.gap = tag.gap + tonumber(thatmuch)
+    awful.layout.arrange(scr)
+end
 
 return M
