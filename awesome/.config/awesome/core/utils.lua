@@ -179,7 +179,8 @@ end
 function M.run_command(cmd)
     M.check_command_executable(cmd, function(is_installed, executable, expanded_cmd)
         if is_installed then
-            awful.spawn.with_shell(expanded_cmd)
+            awful.spawn(expanded_cmd)
+            -- awful.spawn.with_shell(expanded_cmd)
         else
             M.notify("Executable '" .. executable .. "' not found.", { preset = "critical", title = "Command Error" })
         end
@@ -191,7 +192,8 @@ end
 function M.run_first_available(tools)
     M.find_first_executable(tools, function(cmd, _)
         if cmd then
-            awful.spawn.with_shell(cmd)
+            awful.spawn(cmd)
+            -- awful.spawn.with_shell(cmd)
         else
             M.notify(
                 "None of these executables were found: " .. table.concat(tools, ", "),

@@ -2,8 +2,8 @@ local awful = require("awful") -- Everything related to window managment
 
 local M = {}
 
-M.modkey = "Mod1" -- alt key
-M.altkey = "Mod4" -- windows key
+M.modkey = "Mod1" -- ALT key
+M.altkey = "Mod4" -- SUPER key
 
 M.detect_terminal = require("env.terminal").get_name
 M.editor = os.getenv("EDITOR") or "nvim"

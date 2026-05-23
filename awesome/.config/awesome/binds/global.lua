@@ -197,6 +197,7 @@ local globalkeys = gears.table.join(
         utils.run_command("flameshot screen -c")
     end, { description = "take a screenshot of a full screen to clipboard", group = "hotkeys" }),
 
+    -- BUG: after using this the focus of active window breaks - restored only after tag switch
     awful.key({ env.modkey }, "s", function()
         utils.run_command("flameshot gui -c")
     end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
@@ -204,7 +205,7 @@ local globalkeys = gears.table.join(
     -- Lock the screen
     awful.key({ env.altkey }, "l", function()
         -- Will use slock if `xss-lock --transfer-sleep-lock slock` was run on startup
-        awful.spawn.with_shell("loginctl lock-session")
+        awful.spawn("loginctl lock-session")
         -- awful.spawn.with_shell("xscreensaver-command -lock")
     end, { description = "lock screen", group = "hotkeys" }),
 
