@@ -6,6 +6,7 @@ local modalbind = {}
 local awful = require("awful")
 local beautiful = require("beautiful")
 local gears = require("gears")
+local gstring = require("gears.string")
 local wibox = require("wibox")
 
 local defaults = {}
@@ -83,7 +84,7 @@ local function show_box(s, map, name)
     local txt = mbox:get_children_by_id("text")[1]
     mbox.screen = s
 
-    local label = "<big><b>" .. name .. "</b></big>"
+    local label = "<big><b>" .. gstring.xml_escape(name) .. "</b></big>"
     if settings.show_options then
         for _, mapping in ipairs(map) do
             if mapping[1] == "separator" then
