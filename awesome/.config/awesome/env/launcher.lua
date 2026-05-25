@@ -1,6 +1,6 @@
 local awful = require("awful") -- Everything related to window managment
 
-local utils = require("core.utils")
+local utils = require("utils")
 
 local M = {}
 

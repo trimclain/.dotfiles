@@ -176,6 +176,7 @@ end
 
 --- Expand the command, validate that it's installed, and run it or show an error notification
 ---@param cmd string
+-- TODO: maybe this should return a function so I can stop wrapping stuff around?
 function M.run_command(cmd)
     M.check_command_executable(cmd, function(is_installed, executable, expanded_cmd)
         if is_installed then

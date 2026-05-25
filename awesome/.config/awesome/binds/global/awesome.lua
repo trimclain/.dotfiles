@@ -3,7 +3,7 @@ local gears = require("gears") -- Utilities such as color parsing and objects
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 local env = require("env")
-local utils = require("core.utils")
+local utils = require("utils")
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:

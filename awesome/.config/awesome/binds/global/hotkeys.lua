@@ -2,7 +2,7 @@ local awful = require("awful") -- Everything related to window managment
 local gears = require("gears") -- Utilities such as color parsing and objects
 
 local env = require("env")
-local utils = require("core.utils")
+local utils = require("utils")
 
 return gears.table.join(
     -- ########################## HOTKEYS GROUP ###############################
