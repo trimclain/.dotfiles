@@ -1,7 +1,9 @@
-local M = {}
-
 local awful = require("awful") -- Everything related to window managment
 local naughty = require("naughty") -- Notification library
+
+local M = {}
+
+local home = os.getenv("HOME") or "$HOME"
 
 ---@alias core.utils.PresetName
 ---| '"critical"'
@@ -130,7 +132,22 @@ local function shell_quote(s)
     return "'" .. s:gsub("'", [['"'"']]) .. "'"
 end
 
-local home = os.getenv("HOME") or "$HOME"
+--- Get the output of a shell command
+---@param cmd string
+---@param callback fun(out: string, err?: string, exit_code?: integer)
+function M.get_command_output(cmd, callback)
+    awful.spawn.easy_async_with_shell(cmd, function(stdout, stderr, reason, exit_code)
+        local out = stdout:gsub("%s+$", "")
+        local err = stderr:gsub("%s+$", "")
+
+        if exit_code ~= 0 then
+            callback("", err ~= "" and err or reason, exit_code)
+            return
+        end
+
+        callback(out)
+    end)
+end
 
 --- Check whether the executable from a command string exists in PATH
 ---@param cmd string
