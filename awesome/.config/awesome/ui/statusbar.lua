@@ -5,6 +5,7 @@ local wibox = require("wibox") -- Widget and layout library
 
 local env = require("env")
 local menu = require("ui.menu")
+local volume = require("utils.volume")
 
 local M = {}
 
@@ -31,24 +32,24 @@ local taglist_buttons = gears.table.join(
     -- end)
 )
 
-local tasklist_buttons = gears.table.join(
-    awful.button({}, 1, function(c)
-        if c == client.focus then
-            c.minimized = true
-        else
-            c:emit_signal("request::activate", "tasklist", { raise = true })
-        end
-    end),
-    awful.button({}, 3, function()
-        awful.menu.client_list({ theme = { width = 250 } })
-    end),
-    awful.button({}, 4, function()
-        awful.client.focus.byidx(1)
-    end),
-    awful.button({}, 5, function()
-        awful.client.focus.byidx(-1)
-    end)
-)
+-- local tasklist_buttons = gears.table.join(
+--     awful.button({}, 1, function(c)
+--         if c == client.focus then
+--             c.minimized = true
+--         else
+--             c:emit_signal("request::activate", "tasklist", { raise = true })
+--         end
+--     end),
+--     awful.button({}, 3, function()
+--         awful.menu.client_list({ theme = { width = 250 } })
+--     end),
+--     awful.button({}, 4, function()
+--         awful.client.focus.byidx(1)
+--     end),
+--     awful.button({}, 5, function()
+--         awful.client.focus.byidx(-1)
+--     end)
+-- )
 
 local mysystray_widget = wibox.widget({
     base_size = 14,
@@ -211,6 +212,9 @@ function M.setup(s)
         },
     })
 
+    -- FIX: for some reason INSANE cpu usage
+    -- s.myvolume = volume.create_widget()
+
     s.mysystray = mysystray_widget
 
     -- Create the wibox
@@ -234,7 +238,16 @@ function M.setup(s)
                 layout = wibox.layout.fixed.horizontal,
                 -- left, right, top, bottom
                 wibox.container.margin(s.mysystray, 4, 4, 9, 4),
+                -- TODO: add volume widget
+                -- s.myvolume,
+                -- TODO: add brightness widget
+                -- TODO: color keyboardlayout widget
                 awful.widget.keyboardlayout(),
+                -- TODO: add network widget
+                -- TODO: add ram widget
+                -- TODO: add temperature widget
+                -- TODO: add battery widget
+                -- TODO: add powermenu button
             },
         },
         { -- Middle widget (centered)

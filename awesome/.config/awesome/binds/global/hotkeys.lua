@@ -3,6 +3,7 @@ local gears = require("gears") -- Utilities such as color parsing and objects
 
 local env = require("env")
 local utils = require("utils")
+local volume = require("utils.volume")
 
 return gears.table.join(
     -- ########################## HOTKEYS GROUP ###############################
@@ -41,21 +42,21 @@ return gears.table.join(
     end, { description = "brightness -10%", group = "hotkeys" }),
 
     -- Use wpctl/pactl to adjust volume with PulseAudio
-    awful.key({}, "XF86AudioRaiseVolume", function()
-        utils.run_command("~/.local/bin/volume-control --increase")
-    end, { description = "volume +5%", group = "hotkeys" }),
-    awful.key({}, "XF86AudioLowerVolume", function()
-        utils.run_command("~/.local/bin/volume-control --decrease")
-    end, { description = "volume -5%", group = "hotkeys" }),
-    awful.key({}, "XF86AudioMute", function()
-        utils.run_command("~/.local/bin/volume-control --toggle-mute")
-    end, { description = "toggle mute volume", group = "hotkeys" }),
-    awful.key({}, "XF86AudioMicMute", function()
-        utils.run_command("~/.local/bin/volume-control --toggle-micro-mute")
-    end, { description = "toggle mute microphone", group = "hotkeys" }),
-    awful.key({ env.altkey }, "p", function()
-        utils.run_command("~/.local/bin/volume-control --toggle-micro-mute")
-    end, { description = "toggle mute microphone", group = "hotkeys" })
+    awful.key({}, "XF86AudioRaiseVolume", volume.increase, { description = "volume +5%", group = "hotkeys" }),
+    awful.key({}, "XF86AudioLowerVolume", volume.decrease, { description = "volume -5%", group = "hotkeys" }),
+    awful.key({}, "XF86AudioMute", volume.toggle_mute, { description = "toggle mute volume", group = "hotkeys" }),
+    awful.key(
+        {},
+        "XF86AudioMicMute",
+        volume.toggle_micro_mute,
+        { description = "toggle mute microphone", group = "hotkeys" }
+    ),
+    awful.key(
+        { env.altkey },
+        "p",
+        volume.toggle_micro_mute,
+        { description = "toggle mute microphone", group = "hotkeys" }
+    )
 
     -- -- primary -> clipboard (terminal selection to GTK)
     -- awful.key({ env.modkey }, "c", function()
