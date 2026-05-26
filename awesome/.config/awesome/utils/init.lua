@@ -125,6 +125,18 @@ function M.inspect(value)
     return stringify(value, 0)
 end
 
+--- Log a message to /tmp/awesome-log.txt
+---@param msg string
+---@param level? string debug (default) | info | warn | error
+function M.log(msg, level)
+    level = level and string.upper(level) or "DEBUG"
+    local f = io.open("/tmp/awesome-log.txt", "a")
+    if f then
+        f:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. level .. " " .. msg .. "\n")
+        f:close()
+    end
+end
+
 --- Shell-quote a string so it can be safely embedded in a shell command
 ---@param s string
 ---@return string
