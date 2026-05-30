@@ -44,14 +44,14 @@ update_actual_brightness() {
         output="N/A"
     fi
 
-    echo "$output" > ~/.actual_brightness
+    echo "$output" > /tmp/current_brightness
 }
 
 get_brightness() {
-    if [[ ! -f ~/.actual_brightness ]]; then
+    if [[ ! -f /tmp/current_brightness ]]; then
         update_actual_brightness
     fi
-    cat ~/.actual_brightness
+    cat /tmp/current_brightness
 }
 
 display_brightness() {
@@ -154,7 +154,7 @@ main() {
     fi
 
     # Write new brightness to a file so it can be read less resource intensive
-    echo "$output%" > ~/.actual_brightness
+    echo "$output%" > /tmp/current_brightness
     send_notification "$output" "$mode"
 }
 

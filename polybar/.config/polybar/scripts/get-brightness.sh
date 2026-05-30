@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # get current brightness
-if [ -f ~/.actual_brightness ]; then
-    cat ~/.actual_brightness
+if [ -f /tmp/current_brightness ]; then
+    cat /tmp/current_brightness
 else
     echo "N/A"
 fi
