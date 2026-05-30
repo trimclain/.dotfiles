@@ -3,6 +3,7 @@ local beautiful = require("beautiful") -- Theme handling library
 local gears = require("gears") -- Utilities such as color parsing and objects
 local wibox = require("wibox") -- Widget and layout library
 
+local brightness = require("utils.brightness")
 local env = require("env")
 local menu = require("ui.menu")
 local volume = require("utils.volume")
@@ -212,8 +213,9 @@ function M.setup(s)
         },
     })
 
-    -- FIX: for some reason INSANE cpu usage
-    -- s.myvolume = volume.create_widget()
+    -- TODO: add colors
+    s.myvolume = volume.create_widget()
+    s.mybrightness = brightness.create_widget()
 
     s.mysystray = mysystray_widget
 
@@ -238,9 +240,8 @@ function M.setup(s)
                 layout = wibox.layout.fixed.horizontal,
                 -- left, right, top, bottom
                 wibox.container.margin(s.mysystray, 4, 4, 9, 4),
-                -- TODO: add volume widget
-                -- s.myvolume,
-                -- TODO: add brightness widget
+                s.myvolume,
+                s.mybrightness,
                 -- TODO: color keyboardlayout widget
                 awful.widget.keyboardlayout(),
                 -- TODO: add network widget

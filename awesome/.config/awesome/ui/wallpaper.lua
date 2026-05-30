@@ -1,5 +1,5 @@
-local gears = require("gears") -- Utilities such as color parsing and objects
 local beautiful = require("beautiful") -- Theme handling library
+local gears = require("gears") -- Utilities such as color parsing and objects
 
 local utils = require("utils")
 

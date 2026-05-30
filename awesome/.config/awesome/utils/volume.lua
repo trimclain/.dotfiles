@@ -133,13 +133,10 @@ end
 local function get_display_text(callback)
     get_volume(function(value)
         get_volume_muted_status(function(status)
-            -- TODO: can this even be?
-            if value == "N/A" then
-                callback("󰖁 N/A")
-            elseif status == "no" then
-                callback(string.format("󰕾 %s%%", value))
+            if status == "no" then
+                callback(string.format("󰕾  %s%%", value))
             else
-                callback(string.format("󰖁 %s%%", value))
+                callback(string.format("󰖁  %s%%", value))
             end
         end)
     end)
@@ -172,14 +169,15 @@ function M.create_widget(args)
     args = args or {}
 
     volume_widget = wibox.widget({
-        text = "󰕾 --%",
+        text = "󰕾  --%",
         widget = wibox.widget.textbox,
     })
 
     refresh_widget()
 
+    -- to detect volume change when connecting headphones
     gears.timer({
-        timeout = args.timeout or 0.01,
+        timeout = args.timeout or 1,
         autostart = true,
         call_now = true,
         callback = function()
