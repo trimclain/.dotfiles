@@ -61,7 +61,14 @@ return gears.table.join(
         "p",
         volume.toggle_micro_mute,
         { description = "toggle mute microphone", group = "hotkeys" }
-    )
+    ),
+
+    awful.key({ env.altkey }, "d", function()
+        utils.notify(
+            "Use the Compose Key &lt;CAPS&gt;",
+            { title = "Awesome Friendly Reminder", timeout = 5, preset = "low" }
+        )
+    end, { description = "toggle german keyboard layout", group = "hotkeys" })
 
     -- -- primary -> clipboard (terminal selection to GTK)
     -- awful.key({ env.modkey }, "c", function()
