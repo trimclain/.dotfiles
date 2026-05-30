@@ -1,6 +1,7 @@
 local awful = require("awful") -- Everything related to window managment
 local gears = require("gears") -- Utilities such as color parsing and objects
 
+local brightness = require("utils.brightness")
 local env = require("env")
 local utils = require("utils")
 local volume = require("utils.volume")
@@ -33,12 +34,16 @@ return gears.table.join(
         -- awful.spawn.with_shell("xscreensaver-command -lock")
     end, { description = "lock screen", group = "hotkeys" }),
 
-    -- Use xrandr to adjust screen brightness
+    -- Use brightnessctl/xrandr to adjust screen brightness
     awful.key({}, "XF86MonBrightnessUp", function()
-        utils.run_command("~/.local/bin/brightness-control --increase")
+        brightness.increase()
+        -- TODO: update and remove
+        -- utils.run_command("~/.local/bin/brightness-control --increase")
     end, { description = "brightness +10%", group = "hotkeys" }),
     awful.key({}, "XF86MonBrightnessDown", function()
-        utils.run_command("~/.local/bin/brightness-control --decrease")
+        brightness.decrease()
+        -- TODO: update and remove
+        -- utils.run_command("~/.local/bin/brightness-control --decrease")
     end, { description = "brightness -10%", group = "hotkeys" }),
 
     -- Use wpctl/pactl to adjust volume with PulseAudio
