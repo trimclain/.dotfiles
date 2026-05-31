@@ -171,6 +171,14 @@ function M.create_widget(args)
     volume_widget = wibox.widget({
         text = "󰕾  --%",
         widget = wibox.widget.textbox,
+        buttons = gears.table.join(
+            awful.button({}, 1, M.toggle_mute),
+            awful.button({}, 3, function()
+                utils.run_command("pavucontrol")
+            end),
+            awful.button({}, 4, M.increase),
+            awful.button({}, 5, M.decrease)
+        ),
     })
 
     refresh_widget()
