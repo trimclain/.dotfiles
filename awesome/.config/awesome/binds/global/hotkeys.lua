@@ -14,18 +14,27 @@ return gears.table.join(
     -- end, { description = "destroy all notifications", group = "hotkeys" }),
 
     -- Take a screenshot
-    awful.key({ env.modkey }, "p", function()
-        utils.run_command("flameshot screen -c")
-    end, { description = "take a fullscreen screenshot to clipboard", group = "hotkeys" }),
+    awful.key(
+        { env.modkey },
+        "p",
+        utils.launch("flameshot screen -c"),
+        { description = "take a fullscreen screenshot to clipboard", group = "hotkeys" }
+    ),
 
     -- BUG: after using this the focus of active window breaks - restored only after tag switch
-    awful.key({ env.modkey }, "s", function()
-        utils.run_command("flameshot gui -c")
-    end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
+    awful.key(
+        { env.modkey },
+        "s",
+        utils.launch("flameshot gui -c"),
+        { description = "take a screenshot with gui to clipboard", group = "hotkeys" }
+    ),
     -- kinda used to this on windows
-    awful.key({ env.altkey, "Shift" }, "s", function()
-        utils.run_command("flameshot gui -c")
-    end, { description = "take a screenshot with gui to clipboard", group = "hotkeys" }),
+    awful.key(
+        { env.altkey, "Shift" },
+        "s",
+        utils.launch("flameshot gui -c"),
+        { description = "take a screenshot with gui to clipboard", group = "hotkeys" }
+    ),
 
     -- Lock the screen
     awful.key({ env.altkey }, "l", function()

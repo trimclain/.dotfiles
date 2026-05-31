@@ -205,7 +205,6 @@ end
 
 --- Expand the command, validate that it's installed, and run it or show an error notification
 ---@param cmd string
--- TODO: maybe this should return a function so I can stop wrapping stuff around?
 function M.run_command(cmd)
     M.check_command_executable(cmd, function(is_installed, executable, expanded_cmd)
         if is_installed then
@@ -215,6 +214,16 @@ function M.run_command(cmd)
             M.notify("Executable '" .. executable .. "' not found.", { preset = "critical", title = "Command Error" })
         end
     end)
+end
+
+--- Create a keybind-safe callback for a command by wrapping utils.run_command.
+--- Useful when an API expects a function instead of immediate execution.
+--- @param cmd string command to execute when the callback is called
+--- @return function callback deferred command callback
+function M.launch(cmd)
+    return function()
+        M.run_command(cmd)
+    end
 end
 
 --- Run first command that is installed or show an error notification

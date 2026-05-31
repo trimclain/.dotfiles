@@ -13,10 +13,12 @@ return gears.table.join(
     awful.key({ env.modkey }, "/", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key({ env.modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
     awful.key({ env.modkey, "Shift" }, "e", awesome.quit, { description = "exit awesome", group = "awesome" }),
-    -- TODO: run_command can return a function so I can stop wrapping stuff around
-    awful.key({ env.modkey }, "0", function()
-        utils.run_command("~/.local/bin/powermenu")
-    end, { description = "open power menu", group = "awesome" })
+    awful.key(
+        { env.modkey },
+        "0",
+        utils.launch("~/.local/bin/powermenu"),
+        { description = "open power menu", group = "awesome" }
+    )
     -- awful.key({ env.modkey }, "m", function()
     --     menu.main_menu:show()
     -- end, { description = "show main menu", group = "awesome" }),
