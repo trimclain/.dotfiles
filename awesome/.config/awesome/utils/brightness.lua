@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 local naughty = require("naughty")
 local wibox = require("wibox")
 
@@ -109,6 +110,7 @@ function M.create_widget(args)
     brightness_widget = wibox.widget({
         text = "󰃝  --%",
         widget = wibox.widget.textbox,
+        buttons = gears.table.join(awful.button({}, 4, M.increase), awful.button({}, 5, M.decrease)),
     })
 
     refresh_widget()
