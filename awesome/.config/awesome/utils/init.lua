@@ -125,6 +125,8 @@ function M.inspect(value)
     return stringify(value, 0)
 end
 
+local restart_separator_printed = false
+
 --- Log a message to /tmp/awesome-log.txt
 ---@param msg string
 ---@param level? string debug (default) | info | warn | error
@@ -132,6 +134,10 @@ function M.log(msg, level)
     level = level and string.upper(level) or "DEBUG"
     local f = io.open("/tmp/awesome-log.txt", "a")
     if f then
+        if not restart_separator_printed then
+            f:write(string.rep("—", 99) .. "\n")
+            restart_separator_printed = true
+        end
         f:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. level .. " " .. msg .. "\n")
         f:close()
     end
