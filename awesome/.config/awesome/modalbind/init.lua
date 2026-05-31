@@ -104,9 +104,10 @@ local function show_box(s, map, name)
     end
     txt:set_markup(label)
 
+    local textbox_bottom_padding = 4
     local x, y = txt:get_preferred_size(s)
     mbox.width = x + mar.left + mar.right
-    mbox.height = math.max(settings.height, y + mar.top + mar.bottom)
+    mbox.height = math.max(settings.height, y + mar.top + mar.bottom + textbox_bottom_padding)
     awful.placement.align(mbox, {
         position = settings.position,
         honor_padding = settings.honor_padding,
