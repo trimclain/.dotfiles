@@ -6,6 +6,7 @@ local wibox = require("wibox") -- Widget and layout library
 local brightness = require("utils.brightness")
 local env = require("env")
 local menu = require("ui.menu")
+local utils = require("utils")
 local volume = require("utils.volume")
 
 local M = {}
@@ -213,11 +214,18 @@ function M.setup(s)
         },
     })
 
+    s.mysystray = mysystray_widget
+
     -- TODO: add colors
     s.myvolume = volume.create_widget()
     s.mybrightness = brightness.create_widget()
-
-    s.mysystray = mysystray_widget
+    s.mykbdlayout = awful.widget.keyboardlayout()
+    s.mykbdlayout:buttons(awful.button({}, 3, function()
+        utils.notify(
+            "Use the Compose Key &lt;CAPS&gt;",
+            { title = "Awesome Friendly Reminder", timeout = 5, preset = "low" }
+        )
+    end))
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
@@ -229,6 +237,7 @@ function M.setup(s)
             layout = wibox.layout.align.horizontal,
             { -- Left widgets
                 layout = wibox.layout.fixed.horizontal,
+                spacing = 5,
                 s.mylauncher,
                 s.mytextclock,
                 s.mylayoutbox_small,
@@ -238,12 +247,12 @@ function M.setup(s)
             nil, -- Middle widget, added below
             { -- Right widgets
                 layout = wibox.layout.fixed.horizontal,
+                spacing = 8,
                 -- left, right, top, bottom
                 wibox.container.margin(s.mysystray, 4, 4, 9, 4),
                 s.myvolume,
                 s.mybrightness,
-                -- TODO: color keyboardlayout widget
-                awful.widget.keyboardlayout(),
+                s.mykbdlayout,
                 -- TODO: add network widget
                 -- TODO: add ram widget
                 -- TODO: add temperature widget
