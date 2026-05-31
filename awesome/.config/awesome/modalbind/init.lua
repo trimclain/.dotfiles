@@ -172,7 +172,7 @@ local function adapt_to_keygrabber(keymap, case_insensitive, args)
             elseif case_insensitive then
                 binding[1] = string.lower(binding[1])
                 table.insert(binding, 1, {})
-                table.insert(added_bindings, { { "Shift" }, string.upper(binding[1]), binding[2], binding[3] })
+                table.insert(added_bindings, { { "Shift" }, string.upper(binding[2]), binding[3], binding[4] })
             elseif isupper(binding[1]) then
                 binding[1] = string.lower(binding[1])
                 table.insert(binding, 1, { "Shift" })
