@@ -74,6 +74,17 @@ theme.taglist_spacing = 2
 -- notification_[bg|fg]
 -- notification_[width|height|margin]
 -- notification_[border_color|border_width|shape|opacity]
+theme.notification_font = "BlexMono Nerd Font Mono 12"
+theme.notification_bg = "#15181A" -- "#1e1e2e"
+theme.notification_fg = "#FFFFFF" -- "#cdd6f4"
+theme.notification_border_width = 2
+theme.notification_border_color = "#9399b2" -- "#89b4fa"
+theme.notification_shape = gears.shape.rounded_rect
+theme.notification_icon_size = 48
+theme.notification_position = "top_right"
+-- theme.notification_opacity = 0.95
+-- theme.notification_margin = 12
+-- theme.notification_width = 360
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
