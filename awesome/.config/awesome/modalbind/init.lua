@@ -1,5 +1,5 @@
--- awesome-modalbind (modified) - modal keybindings for awesomewm
--- Source: https://github.com/crater2150/awesome-modalbind
+-- awesome-modalbind (heavily modified) - modal keybindings for awesomewm
+-- Credit: https://github.com/crater2150/awesome-modalbind
 
 local awesome, mouse = awesome, mouse
 local modalbind = {}
@@ -163,16 +163,11 @@ end
 -- an uppercase letter, and passes common arguments to functions.
 --
 -- @param keymap The keymap given to modalbind
-local function adapt_to_keygrabber(keymap, case_insensitive, args)
-    local added_bindings = {}
+local function adapt_to_keygrabber(keymap, args)
     for _, binding in ipairs(keymap) do
         if type(binding[1]) ~= "table" then
             if binding[1] == "separator" then
                 -- ignore separators
-            elseif case_insensitive then
-                binding[1] = string.lower(binding[1])
-                table.insert(binding, 1, {})
-                table.insert(added_bindings, { { "Shift" }, string.upper(binding[2]), binding[3], binding[4] })
             elseif isupper(binding[1]) then
                 binding[1] = string.lower(binding[1])
                 table.insert(binding, 1, { "Shift" })
@@ -183,16 +178,15 @@ local function adapt_to_keygrabber(keymap, case_insensitive, args)
             binding[2] = string.upper(binding[2])
         end
     end
-    local all = gears.table.join(keymap, added_bindings)
     if args then
-        for _, binding in ipairs(all) do
+        for _, binding in ipairs(keymap) do
             local origfunc = binding[3]
             binding[3] = function()
                 origfunc(args)
             end
         end
     end
-    return all
+    return keymap
 end
 
 local function generate_stop_keys(keymap, stay_in_mode)
@@ -223,11 +217,10 @@ function modalbind.grab(options)
     local name = options.name
     local args = options.args
     local layout = options.layout
-    local use_lower = options.case_insensitive or false
     local onOpen = options.onOpen
     local onClose = options.onClose
 
-    keymap = adapt_to_keygrabber(keymap, use_lower, args)
+    keymap = adapt_to_keygrabber(keymap, args)
 
     layout_swap(layout)
 
