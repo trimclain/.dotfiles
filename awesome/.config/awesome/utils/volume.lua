@@ -29,7 +29,7 @@ local function gg(msg)
     utils.notify(msg, { preset = "critical", title = "Awesome Volume Error" })
 end
 
---- Detect wether to use wpctl or pactl
+--- Detect whether to use wpctl or pactl
 local function get_volumectl()
     utils.find_first_executable({ "wpctl", "pactl" }, function(cmd, _)
         if cmd then

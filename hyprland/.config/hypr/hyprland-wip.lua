@@ -74,7 +74,7 @@ local cursorSize = "20"
 -- local cursorTheme = "volantes_cursors"
 -- local cursorSize = "24"
 
--- wether to enable shadow and blur
+-- whether to enable shadow and blur
 -- TODO: this can be dynamic now
 local dontSaveBattery = false
 

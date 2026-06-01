@@ -20,7 +20,7 @@ local function gg(msg)
     utils.notify(msg, { preset = "critical", title = "Awesome Brightness Error" })
 end
 
---- Detect wether to use wpctl or pactl
+--- Detect whether to use wpctl or pactl
 local function get_brightnessctl()
     utils.find_first_executable({ "brightnessctl", "xrandr" }, function(cmd, _)
         if cmd then
