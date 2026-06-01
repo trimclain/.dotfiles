@@ -172,6 +172,9 @@ function M.create_widget(args)
         text = "󰕾  --%",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(
+            -- HACK: this works for disabling notifications because for some reason awesome passes a table
+            -- to these callbacks. However I have no clue what kind of table that is and what it contains.
+            -- Last attempt to inspect that table resulted in a very awesome freeze.
             awful.button({}, 1, M.toggle_mute),
             awful.button({}, 3, utils.launch("pavucontrol")),
             awful.button({}, 4, M.increase),
@@ -195,32 +198,41 @@ function M.create_widget(args)
 end
 
 --- Increase the output volume, refresh the widget, and show a notification
-function M.increase()
+---@param disable_notification? boolean whether to disable notification after
+function M.increase(disable_notification)
     run_and_refresh(volume_unmute_cmd .. " && " .. volume_up_cmd, function()
         get_volume(function(value)
-            notify_volume(value, "increase")
+            if not disable_notification then
+                notify_volume(value, "increase")
+            end
         end)
     end)
 end
 
 --- Decrease the output volume, refresh the widget, and show a notification
-function M.decrease()
+---@param disable_notification? boolean whether to disable notification after
+function M.decrease(disable_notification)
     run_and_refresh(volume_unmute_cmd .. " && " .. volume_down_cmd, function()
         get_volume(function(value)
-            notify_volume(value, "decrease")
+            if not disable_notification then
+                notify_volume(value, "decrease")
+            end
         end)
     end)
 end
 
 --- Toggle output mute state, refresh the widget, and show a notification
-function M.toggle_mute()
+---@param disable_notification? boolean whether to disable notification after
+function M.toggle_mute(disable_notification)
     run_and_refresh(volume_mute_toggle_cmd, function()
         get_volume(function(value)
             get_volume_muted_status(function(status)
-                if status == "yes" then
-                    notify_volume(value, "muted")
-                else
-                    notify_volume(value, "unmuted")
+                if not disable_notification then
+                    if status == "yes" then
+                        notify_volume(value, "muted")
+                    else
+                        notify_volume(value, "unmuted")
+                    end
                 end
             end)
         end)
