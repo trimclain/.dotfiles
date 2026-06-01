@@ -59,6 +59,10 @@ mouse-hide-while-typing = true
 #keybind=clear
 keybind = ctrl+enter=unbind
 
+# this works well with enabled ghostty.service
+quit-after-last-window-closed = true
+quit-after-last-window-closed-delay = 5m
+
 # Shaders
 # More: https://github.com/hackr-sh/ghostty-shaders
 # custom-shader = shaders/bloom025.glsl

@@ -428,6 +428,8 @@ wezterm: ## Install Wezterm
 
 ghostty: ## Install Ghostty
 	$(INSTALL) ghostty
+	@# Start ghostty in background to create windows faster
+	systemctl enable --user app-com.mitchellh.ghostty.service
 
 #============================================ Browser =============================================
 brave: ## Install Brave Browser
