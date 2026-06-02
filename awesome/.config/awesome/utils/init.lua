@@ -16,7 +16,7 @@ local home = os.getenv("HOME") or "$HOME"
 ---@class core.utils.NotifyOpts
 ---@field preset? core.utils.PresetName Notification preset from naughty.config.presets; default: "info"
 ---@field title? string Notification title; default: "Debugging Awesome"
----@field timeout? integer Timeout in seconds, 0 means persistent; default: 0
+---@field timeout? integer Timeout in seconds, 0 means persistent; default: 10
 
 --- Send a notification using naughty.notify
 ---@param msg string Notification text
@@ -25,7 +25,7 @@ function M.notify(msg, opts)
     opts = opts or {}
     local preset = opts.preset and naughty.config.presets[opts.preset] or naughty.config.presets.info
     local title = opts.title or "Debugging Awesome"
-    local timeout = opts.timeout or 0
+    local timeout = opts.timeout or 10
     naughty.notify({
         preset = preset,
         title = title,
