@@ -125,6 +125,20 @@ function M.inspect(value)
     return stringify(value, 0)
 end
 
+--- Synchronously write a message to a file
+---@param path string
+---@param text string
+---@return boolean success
+function M.write_file(path, text)
+    local f = io.open(path, "w")
+    if not f then
+        return false
+    end
+    f:write(text)
+    f:close()
+    return true
+end
+
 local restart_separator_printed = false
 
 --- Log a message to /tmp/awesome-log.txt
@@ -133,14 +147,15 @@ local restart_separator_printed = false
 function M.log(msg, level)
     level = level and string.upper(level) or "DEBUG"
     local f = io.open("/tmp/awesome-log.txt", "a")
-    if f then
-        if not restart_separator_printed then
-            f:write(string.rep("—", 99) .. "\n")
-            restart_separator_printed = true
-        end
-        f:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. level .. " " .. msg .. "\n")
-        f:close()
+    if not f then
+        return
     end
+    if not restart_separator_printed then
+        f:write(string.rep("—", 99) .. "\n")
+        restart_separator_printed = true
+    end
+    f:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. level .. " " .. msg .. "\n")
+    f:close()
 end
 
 --- Shell-quote a string so it can be safely embedded in a shell command
