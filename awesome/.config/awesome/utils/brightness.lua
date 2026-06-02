@@ -9,7 +9,9 @@ local M = {}
 
 local brightness_notification_id = nil
 local brightness_widget = nil
+local widget_refresh_timer = nil
 
+local brightnessctl = "brightnessctl"
 local get_brightness_cmd = "brightnessctl g -P"
 local brightness_up_cmd = "brightnessctl s +10% -q"
 local brightness_down_cmd = "brightnessctl s 10%- -q"
@@ -17,7 +19,17 @@ local brightness_down_cmd = "brightnessctl s 10%- -q"
 --- Send a critical notification
 ---@param msg string notification text
 local function gg(msg)
-    utils.notify(msg, { preset = "critical", title = "Awesome Brightness Error" })
+    utils.notify(msg, { preset = "critical", title = "Awesome Brightness Error", timeout = 5 })
+end
+
+--- Hide the brightness widget
+local function hide_widget()
+    if widget_refresh_timer then
+        widget_refresh_timer:stop()
+    end
+    if brightness_widget then
+        brightness_widget.visible = false
+    end
 end
 
 --- Detect whether to use wpctl or pactl
@@ -26,13 +38,19 @@ local function get_brightnessctl()
         if cmd then
             if cmd == "xrandr" then
                 -- TODO: should I use lua instead of awk?
-                -- TODO: have fun with detecting monitors
-                get_brightness_cmd = "echo 'not implemented'"
-                brightness_up_cmd = "echo 'not implemented'"
-                brightness_down_cmd = "echo 'not implemented'"
+                -- TODO: implement writing to a file on increase, since the read will cost too much like this
+                brightnessctl = ""
+                hide_widget()
+                get_brightness_cmd = "xrandr --verbose | awk '/Brightness/ { print $2 * 100; exit }'"
+                brightness_up_cmd =
+                    "xrandr --output \"$(xrandr | awk '/ primary / {print $1; exit}')\" --brightness \"$(xrandr --verbose | awk '/Brightness/ {v=$2+0.1; if (v>1) v=1; print v; exit}')\""
+                brightness_down_cmd =
+                    "xrandr --output \"$(xrandr | awk '/ primary / {print $1; exit}')\" --brightness \"$(xrandr --verbose | awk '/Brightness/ {v=$2-0.1; if (v<0) v=0; print v; exit}')\""
             end
         else
+            brightnessctl = ""
             gg("Both 'brightnessctl' and 'xrandr' are not found. Your device rendering is not set up correctly.")
+            hide_widget()
         end
     end)
 end
@@ -64,6 +82,9 @@ end
 --- Get the current output brightness as a percentage string
 ---@param callback fun(out: string, err?: string, exit_code?: integer)
 local function get_brightness(callback)
+    if brightnessctl == "" then
+        return
+    end
     utils.get_command_output(get_brightness_cmd, function(out, err, _)
         if err then
             gg("Error in brightness.get_brightness(): " .. err)
@@ -84,6 +105,11 @@ end
 --- Refresh the brightness widget text with the latest backend state
 local function refresh_widget()
     if not brightness_widget then
+        return
+    end
+
+    if brightnessctl == "" then
+        hide_widget()
         return
     end
 
@@ -115,7 +141,7 @@ function M.create_widget(args)
 
     refresh_widget()
 
-    -- gears.timer({
+    -- widget_refresh_timer = gears.timer({
     --     timeout = args.timeout or 10,
     --     autostart = true,
     --     call_now = true,
@@ -129,6 +155,10 @@ end
 
 --- Increase the output brightness, refresh the widget, and show a notification
 function M.increase()
+    if brightnessctl == "" then
+        gg("Both 'brightnessctl' and 'xrandr' are not found. Your device rendering is not set up correctly.")
+        return
+    end
     run_and_refresh(brightness_up_cmd, function()
         get_brightness(function(value)
             notify_brightness(value, "increase")
@@ -138,6 +168,10 @@ end
 
 --- Decrease the output brightness, refresh the widget, and show a notification
 function M.decrease()
+    if brightnessctl == "" then
+        gg("Both 'brightnessctl' and 'xrandr' are not found. Your device rendering is not set up correctly.")
+        return
+    end
     run_and_refresh(brightness_down_cmd, function()
         get_brightness(function(value)
             notify_brightness(value, "decrease")
