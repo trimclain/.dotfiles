@@ -9,6 +9,11 @@ local utils = require("utils")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- define helpful globals for easy use in the lua prompt box
+_G.Inspect = utils.inspect
+_G.Log = utils.log
+_G.Notify = utils.notify
+
 return gears.table.join(
     awful.key({ env.modkey }, "/", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
     awful.key({ env.modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
