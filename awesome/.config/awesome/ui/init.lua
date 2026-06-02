@@ -8,4 +8,6 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal("property::geometry", require("ui.wallpaper").setup)
+screen.connect_signal("property::geometry", function(s)
+    require("ui.wallpaper").setup(s)
+end)
