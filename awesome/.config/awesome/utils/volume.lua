@@ -9,8 +9,10 @@ local M = {}
 
 local volume_notification_id = nil
 local volume_widget = nil
+local widget_refresh_timer = nil
 
 -- TODO: should I use lua instead of awk?
+local volumectl = "wpctl"
 local get_volume_cmd = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ print int($2 * 100) }'"
 local get_volume_muted_status_cmd =
     'wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk \'{ print ($3 == "[MUTED]") ? "yes" : "no" }\''
@@ -26,7 +28,18 @@ local micro_mute_toggle_cmd = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 --- Send a critical notification
 ---@param msg string notification text
 local function gg(msg)
-    utils.notify(msg, { preset = "critical", title = "Awesome Volume Error" })
+    utils.notify(msg, { preset = "critical", title = "Awesome Volume Error", timeout = 5 })
+end
+
+--- Hide the volume widget
+-- TODO: ideally I remove the widget from the layout. Try to do it with signals.
+local function hide_widget()
+    if widget_refresh_timer then
+        widget_refresh_timer:stop()
+    end
+    if volume_widget then
+        volume_widget.visible = false
+    end
 end
 
 --- Detect whether to use wpctl or pactl
@@ -34,6 +47,7 @@ local function get_volumectl()
     utils.find_first_executable({ "wpctl", "pactl" }, function(cmd, _)
         if cmd then
             if cmd == "pactl" then
+                volumectl = "pactl"
                 get_volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'"
                 get_volume_muted_status_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'"
                 get_micro_muted_status_cmd = "pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'"
@@ -45,7 +59,9 @@ local function get_volumectl()
                 micro_mute_toggle_cmd = "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
             end
         else
+            volumectl = ""
             gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+            hide_widget()
         end
     end)
 end
@@ -95,6 +111,9 @@ end
 --- Get the current output volume as a percentage string
 ---@param callback fun(out: string, err?: string, exit_code?: integer)
 local function get_volume(callback)
+    if volumectl == "" then
+        return
+    end
     utils.get_command_output(get_volume_cmd, function(out, err, _)
         if err then
             gg("Error in volume.get_volume(): " .. err)
@@ -107,6 +126,9 @@ end
 --- Get whether the default audio sink is muted
 ---@param callback fun(status: '"yes"'|'"no"', err?: string, exit_code?: integer)
 local function get_volume_muted_status(callback)
+    if volumectl == "" then
+        return
+    end
     utils.get_command_output(get_volume_muted_status_cmd, function(status, err, _)
         if err then
             gg("Error in volume.get_volume_muted_status(): " .. err)
@@ -119,6 +141,9 @@ end
 --- Get whether the default audio source is muted
 ---@param callback fun(status: '"yes"'|'"no"', err?: string, exit_code?: integer)
 local function get_micro_muted_status(callback)
+    if volumectl == "" then
+        return
+    end
     utils.get_command_output(get_micro_muted_status_cmd, function(status, err, _)
         if err then
             gg("Error in volume.get_micro_muted_status(): " .. err)
@@ -145,6 +170,11 @@ end
 --- Refresh the volume widget text with the latest backend state
 local function refresh_widget()
     if not volume_widget then
+        return
+    end
+
+    if volumectl == "" then
+        hide_widget()
         return
     end
 
@@ -185,7 +215,7 @@ function M.create_widget(args)
     refresh_widget()
 
     -- to detect volume change when connecting headphones
-    gears.timer({
+    widget_refresh_timer = gears.timer({
         timeout = args.timeout or 1,
         autostart = true,
         call_now = true,
@@ -200,6 +230,10 @@ end
 --- Increase the output volume, refresh the widget, and show a notification
 ---@param disable_notification? boolean whether to disable notification after
 function M.increase(disable_notification)
+    if volumectl == "" then
+        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        return
+    end
     run_and_refresh(volume_unmute_cmd .. " && " .. volume_up_cmd, function()
         get_volume(function(value)
             if not disable_notification then
@@ -212,6 +246,10 @@ end
 --- Decrease the output volume, refresh the widget, and show a notification
 ---@param disable_notification? boolean whether to disable notification after
 function M.decrease(disable_notification)
+    if volumectl == "" then
+        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        return
+    end
     run_and_refresh(volume_unmute_cmd .. " && " .. volume_down_cmd, function()
         get_volume(function(value)
             if not disable_notification then
@@ -224,6 +262,10 @@ end
 --- Toggle output mute state, refresh the widget, and show a notification
 ---@param disable_notification? boolean whether to disable notification after
 function M.toggle_mute(disable_notification)
+    if volumectl == "" then
+        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        return
+    end
     run_and_refresh(volume_mute_toggle_cmd, function()
         get_volume(function(value)
             get_volume_muted_status(function(status)
@@ -241,6 +283,10 @@ end
 
 --- Toggle microphone mute state and show a notification
 function M.toggle_micro_mute()
+    if volumectl == "" then
+        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        return
+    end
     run_and_refresh(micro_mute_toggle_cmd, function()
         get_micro_muted_status(function(status)
             if status == "yes" then
