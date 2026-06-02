@@ -12,7 +12,9 @@ local brightness_widget = nil
 local widget_refresh_timer = nil
 
 local brightnessctl = "brightnessctl"
+local current_brightness_file = "/tmp/current_brightness" -- used only with xrandr
 local get_brightness_cmd = "brightnessctl g -P"
+local get_brightness_cmd_slow = "brightnessctl g -P" -- useful only with xrandr
 local brightness_up_cmd = "brightnessctl s +10% -q"
 local brightness_down_cmd = "brightnessctl s 10%- -q"
 
@@ -37,11 +39,23 @@ local function get_brightnessctl()
     utils.find_first_executable({ "brightnessctl", "xrandr" }, function(cmd, _)
         if cmd then
             if cmd == "xrandr" then
+                brightnessctl = "xrandr"
+
+                get_brightness_cmd = "cat " .. current_brightness_file
                 -- TODO: should I use lua instead of awk?
-                -- TODO: implement writing to a file on increase, since the read will cost too much like this
-                brightnessctl = ""
-                hide_widget()
-                get_brightness_cmd = "xrandr --verbose | awk '/Brightness/ { print $2 * 100; exit }'"
+                get_brightness_cmd_slow = "xrandr --verbose | awk '/Brightness/ { print $2 * 100; exit }'"
+                utils.get_command_output(get_brightness_cmd_slow, function(out, err, _)
+                    if err then
+                        gg("Error in brightness.get_brightnessctl(): " .. err)
+                        return
+                    end
+                    utils.write_file(current_brightness_file, out)
+                end)
+
+                -- TODO: get the name of current monitor (e.g. HDMI-0) to pass to xrandr
+                -- local s = mouse.screen -- screen under mouse
+                -- local s = awful.screen.focused() -- screen foucsed by awesome
+                -- local output_name = next(s.outputs)
                 brightness_up_cmd =
                     "xrandr --output \"$(xrandr | awk '/ primary / {print $1; exit}')\" --brightness \"$(xrandr --verbose | awk '/Brightness/ {v=$2+0.1; if (v>1) v=1; print v; exit}')\""
                 brightness_down_cmd =
@@ -81,11 +95,13 @@ end
 
 --- Get the current output brightness as a percentage string
 ---@param callback fun(out: string, err?: string, exit_code?: integer)
-local function get_brightness(callback)
+---@param slow? boolean wheter to use xrandr or cat (useful when using xrandr to control brightness)
+local function get_brightness(callback, slow)
     if brightnessctl == "" then
         return
     end
-    utils.get_command_output(get_brightness_cmd, function(out, err, _)
+    local cmd = slow and get_brightness_cmd_slow or get_brightness_cmd
+    utils.get_command_output(cmd, function(out, err, _)
         if err then
             gg("Error in brightness.get_brightness(): " .. err)
             return
@@ -96,14 +112,20 @@ end
 
 --- Build the text shown in the brightness widget, including icon and percentage
 ---@param callback fun(text: string)
-local function get_display_text(callback)
-    get_brightness(function(value)
-        callback(string.format("󰃝  %s%%", value))
-    end)
+---@param text? string the text to use in case we already have the latest state
+local function get_display_text(callback, text)
+    if text then
+        callback(string.format("󰃝  %s%%", text))
+    else
+        get_brightness(function(value)
+            callback(string.format("󰃝  %s%%", value))
+        end)
+    end
 end
 
 --- Refresh the brightness widget text with the latest backend state
-local function refresh_widget()
+---@param value? string the text to set the widget to in case we already have the latest state
+local function refresh_widget(value)
     if not brightness_widget then
         return
     end
@@ -115,16 +137,27 @@ local function refresh_widget()
 
     get_display_text(function(text)
         brightness_widget:set_text(text)
-    end)
+    end, value)
 end
 
-local function run_and_refresh(cmd, after)
+--- Run cmd asynchronously and optionally execute a function after
+local function run(cmd, after)
     awful.spawn.easy_async_with_shell(cmd, function()
-        refresh_widget()
         if after then
             after()
         end
     end)
+end
+
+---@param mode string increase | decrease
+local function do_after(mode)
+    get_brightness(function(value)
+        if brightnessctl == "xrandr" then
+            utils.write_file(current_brightness_file, value)
+        end
+        refresh_widget(value)
+        notify_brightness(value, mode)
+    end, true)
 end
 
 --- Create and return the brightness widget, and start periodic refreshes (default: 0.01 sec)
@@ -159,10 +192,8 @@ function M.increase()
         gg("Both 'brightnessctl' and 'xrandr' are not found. Your device rendering is not set up correctly.")
         return
     end
-    run_and_refresh(brightness_up_cmd, function()
-        get_brightness(function(value)
-            notify_brightness(value, "increase")
-        end)
+    run(brightness_up_cmd, function()
+        do_after("increase")
     end)
 end
 
@@ -172,10 +203,8 @@ function M.decrease()
         gg("Both 'brightnessctl' and 'xrandr' are not found. Your device rendering is not set up correctly.")
         return
     end
-    run_and_refresh(brightness_down_cmd, function()
-        get_brightness(function(value)
-            notify_brightness(value, "decrease")
-        end)
+    run(brightness_down_cmd, function()
+        do_after("decrease")
     end)
 end
 
