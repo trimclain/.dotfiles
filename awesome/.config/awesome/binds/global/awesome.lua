@@ -18,17 +18,17 @@ return gears.table.join(
         "0",
         utils.launch("~/.local/bin/powermenu"),
         { description = "open power menu", group = "awesome" }
-    )
+    ),
     -- awful.key({ env.modkey }, "m", function()
     --     menu.main_menu:show()
     -- end, { description = "show main menu", group = "awesome" }),
 
-    -- awful.key({ modkey }, "x", function()
-    --     awful.prompt.run({
-    --         prompt = "Run Lua code: ",
-    --         textbox = awful.screen.focused().mypromptbox.widget,
-    --         exe_callback = awful.util.eval,
-    --         history_path = awful.util.get_cache_dir() .. "/history_eval",
-    --     })
-    -- end, { description = "lua execute prompt", group = "awesome" }),
+    awful.key({ env.modkey, "Shift" }, ";", function()
+        awful.prompt.run({
+            prompt = "Run Lua: ",
+            textbox = awful.screen.focused().mypromptbox.widget,
+            exe_callback = awful.util.eval,
+            history_path = awful.util.get_cache_dir() .. "/history_eval",
+        })
+    end, { description = "execute lua prompt", group = "awesome" })
 )
