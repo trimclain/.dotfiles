@@ -146,27 +146,15 @@ else
 
     setup_first() {
         run xrandr --output "$1" --auto --output "$2" --off
-        if pgrep -x awesome > /dev/null; then
-            run awesome-client 'awesome.restart()' 2> /dev/null
-        fi
     }
     setup_second() {
         run xrandr --output "$2" --mode "$EXTERNAL_RESOLUTION" --primary --output "$1" --off
-        if pgrep -x awesome > /dev/null; then
-            run awesome-client 'awesome.restart()' 2> /dev/null
-        fi
     }
     setup_extend() {
         run xrandr --output "$2" --mode "$EXTERNAL_RESOLUTION" --right-of "$1" --output "$1" --auto
-        if pgrep -x awesome > /dev/null; then
-            run awesome-client 'awesome.restart()' 2> /dev/null
-        fi
     }
     setup_duplicate() {
         run xrandr --output "$2" --same-as "$1" --auto
-        if pgrep -x awesome > /dev/null; then
-            run awesome-client 'awesome.restart()' 2> /dev/null
-        fi
     }
 fi
 
