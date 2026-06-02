@@ -181,7 +181,7 @@ function M.setup(s)
             ---@diagnostic disable-next-line: unused-local
             create_callback = function(self, tag, index, objects)
                 -- Update index text
-                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.index .. " </b>"
+                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.name .. " </b>"
 
                 -- Set initial bg according to state
                 set_tag_colors(self, tag)
@@ -203,7 +203,7 @@ function M.setup(s)
             ---@diagnostic disable-next-line: unused-local
             update_callback = function(self, tag, index, objects)
                 -- Keep index in sync
-                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.index .. " </b>"
+                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.name .. " </b>"
 
                 -- Tag state may have changed (selected, etc.)
                 -- If we are not hovering, just update to theme color
