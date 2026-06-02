@@ -40,9 +40,7 @@ theme.border_width = dpi(2) -- default: dpi(1)
 theme.border_normal = "#1D2330" -- default: "#000000"
 theme.border_focus = "#33ccffee" -- default: "#535d6c"
 theme.border_marked = "#91231c"
--- theme.border_inactive = "#11111b"
--- TODO: implement different borders color for floating clients
--- theme.border_floating = "#cba6f7"
+theme.border_floating = "#cba6f7"
 
 -- Per-widget colors (inspire by Catppuccin Mocha)
 theme.fg_volume = "#f38ba8"

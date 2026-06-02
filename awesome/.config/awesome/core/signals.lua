@@ -75,9 +75,27 @@ end)
 --     c:emit_signal("request::activate", "mouse_enter", { raise = false })
 -- end)
 
+-- Update border colors
 client.connect_signal("focus", function(c)
-    c.border_color = beautiful.border_focus
+    if c.floating then
+        c.border_color = beautiful.border_floating or beautiful.border_focus
+    else
+        c.border_color = beautiful.border_focus
+    end
 end)
 client.connect_signal("unfocus", function(c)
-    c.border_color = beautiful.border_normal
+    if c.floating then
+        c.border_color = beautiful.border_floating or beautiful.border_normal
+    else
+        c.border_color = beautiful.border_normal
+    end
+end)
+client.connect_signal("property::floating", function(c)
+    if c.floating then
+        c.border_color = beautiful.border_floating or beautiful.border_focus
+    elseif c == client.focus then
+        c.border_color = beautiful.border_focus
+    else
+        c.border_color = beautiful.border_normal
+    end
 end)
