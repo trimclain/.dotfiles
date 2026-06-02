@@ -23,8 +23,8 @@ theme.taglist_font = "MapleMono-NF-Regular 13"
 
 theme.bg_normal = "#11111b" -- default: "#222222"
 theme.bg_focus = "#7287fd" -- default: "#535d6c"
-theme.bg_urgent = "#ff0000"
-theme.bg_minimize = "#444444"
+theme.bg_urgent = "#ff0000" -- "#f38ba8"
+theme.bg_minimize = "#444444" -- "#1e1e2e"
 
 theme.bg_systray = theme.bg_normal
 theme.systray_icon_spacing = 4
@@ -32,13 +32,29 @@ theme.systray_icon_spacing = 4
 theme.fg_normal = "#cdd6f4" -- default: "#aaaaaa"
 theme.fg_focus = "#cdd6f4" -- default: "#ffffff"
 theme.fg_urgent = "#cdd6f4" -- default: "#ffffff"
-theme.fg_minimize = "#cdd6f4" -- default: "#ffffff"
+theme.fg_minimize = "#cdd6f4" -- "#7f849c"; default: "#ffffff"
 
 theme.useless_gap = dpi(4) -- default: dpi(0)
 theme.border_width = dpi(2) -- default: dpi(1)
+
 theme.border_normal = "#1D2330" -- default: "#000000"
 theme.border_focus = "#33ccffee" -- default: "#535d6c"
 theme.border_marked = "#91231c"
+-- theme.border_inactive = "#11111b"
+-- TODO: implement different borders color for floating clients
+-- theme.border_floating = "#cba6f7"
+
+-- Per-widget colors (inspire by Catppuccin Mocha)
+theme.fg_volume = "#f38ba8"
+theme.fg_brightness = "#fab387"
+theme.fg_keyboard = "#f9e2af"
+theme.fg_wlan = "#a6e3a1"
+theme.fg_memory = "#89dceb"
+theme.fg_thermal = "#89b4fa"
+theme.fg_battery = "#b4befe"
+theme.fg_exit = "#cba6f7"
+
+theme.bg_exit = "#313244"
 
 -- There are other variable sets
 -- overriding the default one when
