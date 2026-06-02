@@ -53,10 +53,21 @@ local taglist_buttons = gears.table.join(
 --     end)
 -- )
 
-local mysystray_widget = wibox.widget({
+-- Right Widgets I only want on primary screen
+local mysystray = wibox.widget({
     base_size = 14,
     widget = wibox.widget.systray,
 })
+-- TODO: add colors
+local myvolume = volume.create_widget()
+local mybrightness = brightness.create_widget()
+local mykbdlayout = awful.widget.keyboardlayout()
+mykbdlayout:buttons(awful.button({}, 3, function()
+    utils.notify(
+        "Use the Compose Key &lt;CAPS&gt;",
+        { title = "Awesome Friendly Reminder", timeout = 5, preset = "low" }
+    )
+end))
 
 local function set_tag_colors(self, tag)
     -- Decide the color based on current tag state
@@ -214,51 +225,42 @@ function M.setup(s)
         },
     })
 
-    s.mysystray = mysystray_widget
+    local left_widgets = {
+        layout = wibox.layout.fixed.horizontal,
+        spacing = 5,
+        s.mylauncher,
+        s.mytextclock,
+        s.mylayoutbox_small,
+        s.mypromptbox,
+        -- s.mytasklist,
+    }
 
-    -- TODO: add colors
-    s.myvolume = volume.create_widget()
-    s.mybrightness = brightness.create_widget()
-    s.mykbdlayout = awful.widget.keyboardlayout()
-    s.mykbdlayout:buttons(awful.button({}, 3, function()
-        utils.notify(
-            "Use the Compose Key &lt;CAPS&gt;",
-            { title = "Awesome Friendly Reminder", timeout = 5, preset = "low" }
-        )
-    end))
+    local right_widgets = wibox.layout.fixed.horizontal()
+    right_widgets.spacing = 8
+
+    -- primary monitor only widgets
+    if s == screen.primary then
+        right_widgets:add(wibox.container.margin(mysystray, 4, 4, 9, 4)) -- left, right, top, bottom
+        right_widgets:add(myvolume)
+        right_widgets:add(mybrightness)
+        right_widgets:add(mykbdlayout)
+        -- TODO: add network widget
+        -- TODO: add ram widget
+        -- TODO: add temperature widget
+        -- TODO: add battery widget
+        -- TODO: add powermenu button
+    end
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
-
     -- Add widgets to the wibox
     s.mywibox:setup({
         layout = wibox.layout.stack,
         {
             layout = wibox.layout.align.horizontal,
-            { -- Left widgets
-                layout = wibox.layout.fixed.horizontal,
-                spacing = 5,
-                s.mylauncher,
-                s.mytextclock,
-                s.mylayoutbox_small,
-                s.mypromptbox,
-                -- s.mytasklist,
-            },
+            left_widgets,
             nil, -- Middle widget, added below
-            { -- Right widgets
-                layout = wibox.layout.fixed.horizontal,
-                spacing = 8,
-                -- left, right, top, bottom
-                wibox.container.margin(s.mysystray, 4, 4, 9, 4),
-                s.myvolume,
-                s.mybrightness,
-                s.mykbdlayout,
-                -- TODO: add network widget
-                -- TODO: add ram widget
-                -- TODO: add temperature widget
-                -- TODO: add battery widget
-                -- TODO: add powermenu button
-            },
+            right_widgets,
         },
         { -- Middle widget (centered)
             s.mytaglist,
