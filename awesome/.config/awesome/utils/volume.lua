@@ -194,7 +194,7 @@ local function run_and_refresh(cmd, after)
     end)
 end
 
---- Create and return the volume widget, and start periodic refreshes (default: 0.01 sec)
+--- Create and return the volume widget, and start periodic refreshes (default: 1 sec)
 ---@param args? { timeout?: integer }
 ---@return any
 function M.create_widget(args)

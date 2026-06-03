@@ -162,7 +162,7 @@ local function do_after(mode)
     end, true)
 end
 
---- Create and return the brightness widget, and start periodic refreshes (default: 0.01 sec)
+--- Create and return the brightness widget
 ---@param args? { timeout?: integer }
 ---@return any
 function M.create_widget(args)
