@@ -8,12 +8,14 @@ local utils = require("utils")
 
 local M = {}
 
-local temp_text = nil
-local temp_widget = nil
+local prefix = " "
+local threshold = 90
 
 -- this usually symlinks to /sys/devices/virtual/thermal/thermal_zone0/temp
 local temp_path = "/sys/class/thermal/thermal_zone0/temp"
-local threshold = 90
+
+local temp_text = nil
+local temp_widget = nil
 
 local function refresh_widget()
     if not temp_text then
@@ -23,13 +25,13 @@ local function refresh_widget()
     local line = utils.read_first_line(temp_path)
 
     if not line then
-        temp_text:set_text(" N/A")
+        temp_text:set_text(prefix .. "N/A")
         return
     end
 
     local millidegrees_c = tonumber(line)
     if not millidegrees_c then
-        temp_text:set_text(" NaN")
+        temp_text:set_text(prefix .. "NaN")
         return
     end
 
@@ -37,9 +39,9 @@ local function refresh_widget()
 
     if degrees_c >= threshold then
         local hot_fg = beautiful.bg_urgent or "#ff0000"
-        temp_text:set_markup(string.format('<span foreground="%s"> %d°C</span>', hot_fg, degrees_c))
+        temp_text:set_markup(string.format('<span foreground="%s">%s%d°C</span>', hot_fg, prefix, degrees_c))
     else
-        temp_text:set_text(string.format(" %d°C", degrees_c))
+        temp_text:set_text(string.format("%s%d°C", prefix, degrees_c))
     end
 end
 
@@ -50,7 +52,7 @@ function M.create_widget(args)
     args = args or {}
 
     temp_text = wibox.widget({
-        text = " --",
+        text = prefix .. "--",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(awful.button({}, 1, env.launch_sysmon)),
     })
