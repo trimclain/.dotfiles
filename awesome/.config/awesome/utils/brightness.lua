@@ -1,4 +1,5 @@
 local awful = require("awful")
+local beautiful = require("beautiful")
 local gears = require("gears")
 local naughty = require("naughty")
 local wibox = require("wibox")
@@ -8,6 +9,7 @@ local utils = require("utils")
 local M = {}
 
 local brightness_notification_id = nil
+local brightness_text = nil
 local brightness_widget = nil
 local widget_refresh_timer = nil
 
@@ -126,7 +128,7 @@ end
 --- Refresh the brightness widget text with the latest backend state
 ---@param value? string the text to set the widget to in case we already have the latest state
 local function refresh_widget(value)
-    if not brightness_widget then
+    if not brightness_text then
         return
     end
 
@@ -136,7 +138,7 @@ local function refresh_widget(value)
     end
 
     get_display_text(function(text)
-        brightness_widget:set_text(text)
+        brightness_text:set_text(text)
     end, value)
 end
 
@@ -166,10 +168,24 @@ end
 function M.create_widget(args)
     args = args or {}
 
-    brightness_widget = wibox.widget({
+    brightness_text = wibox.widget({
         text = "󰃝  --%",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(awful.button({}, 4, M.increase), awful.button({}, 5, M.decrease)),
+    })
+
+    brightness_widget = wibox.widget({
+        {
+            brightness_text,
+            -- left = 6,
+            -- right = 6,
+            -- top = 2,
+            -- bottom = 2,
+            widget = wibox.container.margin,
+        },
+        fg = beautiful.fg_brightness or beautiful.fg_normal,
+        bg = beautiful.bg_brightness or beautiful.bg_normal,
+        widget = wibox.container.background,
     })
 
     refresh_widget()
