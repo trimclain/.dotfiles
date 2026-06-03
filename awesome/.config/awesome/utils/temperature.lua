@@ -13,6 +13,7 @@ local temp_widget = nil
 
 -- this usually symlinks to /sys/devices/virtual/thermal/thermal_zone0/temp
 local temp_path = "/sys/class/thermal/thermal_zone0/temp"
+local threshold = 90
 
 local function refresh_widget()
     if not temp_text then
@@ -22,18 +23,24 @@ local function refresh_widget()
     local line = utils.read_first_line(temp_path)
 
     if not line then
-        temp_text:set_text("  N/A")
+        temp_text:set_text(" N/A")
         return
     end
 
     local millidegrees_c = tonumber(line)
     if not millidegrees_c then
-        temp_text:set_text("  NaN")
+        temp_text:set_text(" NaN")
         return
     end
 
     local degrees_c = math.floor(millidegrees_c / 1000 + 0.5)
-    temp_text:set_text(string.format("  %d°C", degrees_c))
+
+    if degrees_c >= threshold then
+        local hot_fg = beautiful.bg_urgent or "#ff0000"
+        temp_text:set_markup(string.format('<span foreground="%s"> %d°C</span>', hot_fg, degrees_c))
+    else
+        temp_text:set_text(string.format(" %d°C", degrees_c))
+    end
 end
 
 --- Create and return the temperature widget, and start periodic refreshes (default: 2 sec)
@@ -43,7 +50,7 @@ function M.create_widget(args)
     args = args or {}
 
     temp_text = wibox.widget({
-        text = "  --",
+        text = " --",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(awful.button({}, 1, env.launch_sysmon)),
     })
