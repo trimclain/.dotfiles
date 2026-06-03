@@ -13,6 +13,8 @@ M.browser = "thorium-browser"
 M.run_launcher = require("env.launcher").run_launcher
 M.app_launcher = require("env.launcher").app_launcher
 
+M.launch_sysmon = require("env.sysmon").spawn
+
 M.enable_titlebars = false
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
