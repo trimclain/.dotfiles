@@ -53,17 +53,19 @@ local taglist_buttons = gears.table.join(
 --     end)
 -- )
 
--- Right Widgets I only want on primary screen
+-- {{{ Right Widgets for Primary Screen only
+
 local mysystray = wibox.widget({
     base_size = 14,
     widget = wibox.widget.systray,
 })
 local myvolume = volume.create_widget()
 local mybrightness = brightness.create_widget()
-local mykbdlayout = awful.widget.keyboardlayout()
-mykbdlayout:buttons(gears.table.join(
+
+local mykbdlayout_inner = awful.widget.keyboardlayout()
+mykbdlayout_inner:buttons(gears.table.join(
     awful.button({}, 1, function()
-        mykbdlayout:next_layout()
+        mykbdlayout_inner:next_layout()
     end),
     awful.button({}, 3, function()
         utils.notify(
@@ -72,6 +74,21 @@ mykbdlayout:buttons(gears.table.join(
         )
     end)
 ))
+local mykbdlayout = wibox.widget({
+    {
+        mykbdlayout_inner,
+        -- left = 6,
+        -- right = 6,
+        -- top = 2,
+        -- bottom = 2,
+        widget = wibox.container.margin,
+    },
+    fg = beautiful.fg_keyboard or beautiful.fg_normal,
+    bg = beautiful.bg_keyboard or beautiful.bg_normal,
+    widget = wibox.container.background,
+})
+
+-- }}}
 
 local function set_tag_colors(self, tag)
     -- Decide the color based on current tag state
