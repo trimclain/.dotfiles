@@ -9,6 +9,7 @@ local utils = require("utils")
 
 local brightness = require("utils.brightness")
 local memory = require("utils.memory")
+local temperature = require("utils.temperature")
 local volume = require("utils.volume")
 
 local M = {}
@@ -98,6 +99,7 @@ local mykbdlayout = wibox.widget({
 })
 
 local mymemory = memory.create_widget()
+local mytemperature = temperature.create_widget()
 
 local mypowermenu = wibox.widget({
     {
@@ -322,7 +324,7 @@ function M.setup(s)
         right_widgets:add(mykbdlayout)
         -- TODO: add network widget
         right_widgets:add(mymemory)
-        -- TODO: add temperature widget
+        right_widgets:add(mytemperature)
         -- TODO: add battery widget
         right_widgets:add(mypowermenu)
     end

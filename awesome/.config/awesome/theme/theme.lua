@@ -50,7 +50,7 @@ theme.fg_brightness = "#fab387"
 theme.fg_keyboard = "#f9e2af"
 theme.fg_wlan = "#a6e3a1"
 theme.fg_memory = "#89dceb"
-theme.fg_thermal = "#89b4fa"
+theme.fg_temperature = "#89b4fa"
 theme.fg_battery = "#b4befe"
 theme.fg_exit = "#cba6f7"
 
