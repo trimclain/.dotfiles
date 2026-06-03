@@ -139,6 +139,18 @@ function M.write_file(path, text)
     return true
 end
 
+--- Synchronously read the first line of a file
+---@param path string
+function M.read_first_line(path)
+    local f = io.open(path, "r")
+    if not f then
+        return nil
+    end
+    local content = f:read("*l")
+    f:close()
+    return content
+end
+
 local restart_separator_printed = false
 
 --- Log a message to /tmp/awesome-log.txt
