@@ -58,16 +58,20 @@ local mysystray = wibox.widget({
     base_size = 14,
     widget = wibox.widget.systray,
 })
--- TODO: add colors
 local myvolume = volume.create_widget()
 local mybrightness = brightness.create_widget()
 local mykbdlayout = awful.widget.keyboardlayout()
-mykbdlayout:buttons(awful.button({}, 3, function()
-    utils.notify(
-        "Use the Compose Key &lt;CAPS&gt;",
-        { title = "Awesome Friendly Reminder", timeout = 5, preset = "low" }
-    )
-end))
+mykbdlayout:buttons(gears.table.join(
+    awful.button({}, 1, function()
+        mykbdlayout:next_layout()
+    end),
+    awful.button({}, 3, function()
+        utils.notify(
+            "Use the Compose Key &lt;CAPS&gt;",
+            { title = "Awesome Friendly Reminder", timeout = 5, preset = "low" }
+        )
+    end)
+))
 
 local function set_tag_colors(self, tag)
     -- Decide the color based on current tag state
