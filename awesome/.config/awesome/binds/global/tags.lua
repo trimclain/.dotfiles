@@ -48,8 +48,8 @@ for i = 1, 9 do
             local tag = find_tag_by_name(name)
             if tag then
                 client.focus:move_to_tag(tag)
-                awful.screen.focus(tag.screen)
-                tag:view_only()
+                -- awful.screen.focus(tag.screen)
+                -- tag:view_only()
             end
         end
     end, { description = "move focused client to tag #" .. name, group = "tag" })
