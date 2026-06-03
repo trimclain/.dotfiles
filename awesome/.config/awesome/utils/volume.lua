@@ -1,4 +1,5 @@
 local awful = require("awful")
+local beautiful = require("beautiful")
 local gears = require("gears")
 local naughty = require("naughty")
 local wibox = require("wibox")
@@ -8,6 +9,7 @@ local utils = require("utils")
 local M = {}
 
 local volume_notification_id = nil
+local volume_text = nil
 local volume_widget = nil
 local widget_refresh_timer = nil
 
@@ -169,7 +171,7 @@ end
 
 --- Refresh the volume widget text with the latest backend state
 local function refresh_widget()
-    if not volume_widget then
+    if not volume_text then
         return
     end
 
@@ -179,7 +181,7 @@ local function refresh_widget()
     end
 
     get_display_text(function(text)
-        volume_widget:set_text(text)
+        volume_text:set_text(text)
     end)
 end
 
@@ -198,7 +200,7 @@ end
 function M.create_widget(args)
     args = args or {}
 
-    volume_widget = wibox.widget({
+    volume_text = wibox.widget({
         text = "󰕾  --%",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(
@@ -210,6 +212,20 @@ function M.create_widget(args)
             awful.button({}, 4, M.increase),
             awful.button({}, 5, M.decrease)
         ),
+    })
+
+    volume_widget = wibox.widget({
+        {
+            volume_text,
+            -- left = 6,
+            -- right = 6,
+            -- top = 2,
+            -- bottom = 2,
+            widget = wibox.container.margin,
+        },
+        fg = beautiful.fg_volume or beautiful.fg_normal,
+        bg = beautiful.bg_volume or beautiful.bg_normal,
+        widget = wibox.container.background,
     })
 
     refresh_widget()
