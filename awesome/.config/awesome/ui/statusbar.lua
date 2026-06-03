@@ -3,10 +3,12 @@ local beautiful = require("beautiful") -- Theme handling library
 local gears = require("gears") -- Utilities such as color parsing and objects
 local wibox = require("wibox") -- Widget and layout library
 
-local brightness = require("utils.brightness")
 local env = require("env")
 local menu = require("ui.menu")
 local utils = require("utils")
+
+local brightness = require("utils.brightness")
+local memory = require("utils.memory")
 local volume = require("utils.volume")
 
 local M = {}
@@ -87,6 +89,8 @@ local mykbdlayout = wibox.widget({
     bg = beautiful.bg_keyboard or beautiful.bg_normal,
     widget = wibox.container.background,
 })
+
+local mymemory = memory.create_widget()
 
 local mypowermenu = wibox.widget({
     {
@@ -310,7 +314,7 @@ function M.setup(s)
         right_widgets:add(mybrightness)
         right_widgets:add(mykbdlayout)
         -- TODO: add network widget
-        -- TODO: add ram widget
+        right_widgets:add(mymemory)
         -- TODO: add temperature widget
         -- TODO: add battery widget
         right_widgets:add(mypowermenu)
