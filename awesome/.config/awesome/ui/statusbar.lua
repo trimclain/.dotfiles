@@ -88,6 +88,50 @@ local mykbdlayout = wibox.widget({
     widget = wibox.container.background,
 })
 
+local mypowermenu = wibox.widget({
+    {
+        {
+            {
+                text = " 󰐥 ", -- 
+                widget = wibox.widget.textbox,
+            },
+            left = 1,
+            right = 2,
+            -- top = 2,
+            -- bottom = 2,
+            widget = wibox.container.margin,
+        },
+        fg = beautiful.fg_exit or beautiful.fg_normal,
+        bg = beautiful.bg_exit or beautiful.bg_focus,
+        shape = gears.shape.rounded_bar,
+        widget = wibox.container.background,
+    },
+    top = 4,
+    bottom = 4,
+    right = 3,
+    widget = wibox.container.margin,
+})
+mypowermenu:buttons(
+    gears.table.join(
+        awful.button({}, 1, utils.launch("~/.local/bin/powermenu --use-powertheme")),
+        awful.button({}, 3, utils.launch("rofi -show drun"))
+    )
+)
+-- Add on mouse hover effects (issue: tracks the enter/leave of the whole wibar)
+-- mypowermenu:connect_signal("mouse::enter", function()
+--     local wb = mouse.current_wibox
+--     if wb then
+--         -- INFO: to see all options run `find /usr/share/icons -path '*/cursors/*' | xargs -n1 basename | sort -u`
+--         wb.cursor = "hand2"
+--     end
+-- end)
+-- mypowermenu:connect_signal("mouse::leave", function()
+--     local wb = mouse.current_wibox
+--     if wb then
+--         wb.cursor = "left_ptr"
+--     end
+-- end)
+
 -- }}}
 
 local function set_tag_colors(self, tag)
@@ -269,7 +313,7 @@ function M.setup(s)
         -- TODO: add ram widget
         -- TODO: add temperature widget
         -- TODO: add battery widget
-        -- TODO: add powermenu button
+        right_widgets:add(mypowermenu)
     end
 
     -- Create the wibox

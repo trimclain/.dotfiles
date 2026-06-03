@@ -42,6 +42,8 @@ theme.border_focus = "#33ccffee" -- default: "#535d6c"
 theme.border_marked = "#91231c"
 theme.border_floating = "#cba6f7"
 
+theme.wibar_height = 32
+
 -- Per-widget colors (inspire by Catppuccin Mocha)
 theme.fg_volume = "#f38ba8"
 theme.fg_brightness = "#fab387"
