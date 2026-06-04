@@ -7,6 +7,8 @@ local env = require("env")
 
 local M = {}
 
+local prefix = "󰍛  "
+
 local ram_text = nil
 local ram_widget = nil
 
@@ -28,7 +30,7 @@ local function refresh_widget()
 
     local m = read_meminfo()
     if not m.MemTotal or not m.MemAvailable then
-        ram_text:set_text("󰍛  N/A")
+        ram_text:set_text(prefix .. "N/A")
         return
     end
 
@@ -37,7 +39,7 @@ local function refresh_widget()
     -- local total_gib = m.MemTotal / 1024 / 1024
     local pct = math.floor((used_kib / m.MemTotal) * 100 + 0.5)
 
-    ram_text:set_text(string.format("󰍛  %.2f GiB (%d%%)", used_gib, pct))
+    ram_text:set_text(string.format("%s%.2f GiB (%d%%)", prefix, used_gib, pct))
 end
 
 --- Create and return the RAM widget, and start periodic refreshes (default: 1 sec)
@@ -47,7 +49,7 @@ function M.create_widget(args)
     args = args or {}
 
     ram_text = wibox.widget({
-        text = "󰍛  --",
+        text = prefix .. "--",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(awful.button({}, 1, env.launch_sysmon)),
     })
