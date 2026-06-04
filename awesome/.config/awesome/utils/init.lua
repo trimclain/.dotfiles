@@ -194,6 +194,17 @@ function M.get_command_output(cmd, callback)
     end)
 end
 
+--- Run a command and asynchronously execute a function on its output line by line
+---@param cmd string
+---@param callback fun(out: string, err?: string, exit_code?: integer)
+function M.get_command_output_lines(cmd, callback)
+    awful.spawn.with_line_callback(cmd, {
+        stdout = function(line)
+            callback(line)
+        end,
+    })
+end
+
 --- Check whether the executable from a command string exists in PATH
 ---@param cmd string
 ---@param callback fun(is_installed: boolean, executable: string, expanded_cmd: string)
