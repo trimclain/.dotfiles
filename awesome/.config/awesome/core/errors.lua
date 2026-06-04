@@ -1,5 +1,7 @@
 local naughty = require("naughty")
 
+local utils = require("utils")
+
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -8,6 +10,7 @@ if awesome.startup_errors then
         title = "Oops, there were errors during startup! Fix them and run\n`awesome-client 'awesome.restart()'` to reload the config.",
         text = awesome.startup_errors,
     })
+    utils.log(awesome.startup_errors, "error")
 end
 
 -- Handle runtime errors after startup
@@ -25,6 +28,7 @@ do
             title = "Oops, an error happened!",
             text = tostring(err),
         })
+        utils.log(tostring(err), "error")
         in_error = false
     end)
 end
