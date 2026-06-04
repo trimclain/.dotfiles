@@ -8,6 +8,8 @@ local utils = require("utils")
 
 local M = {}
 
+local prefix = "󰃝  "
+
 local brightness_notification_id = nil
 local brightness_text = nil
 local brightness_widget = nil
@@ -117,10 +119,10 @@ end
 ---@param text? string the text to use in case we already have the latest state
 local function get_display_text(callback, text)
     if text then
-        callback(string.format("󰃝  %s%%", text))
+        callback(string.format("%s%s%%", prefix, text))
     else
         get_brightness(function(value)
-            callback(string.format("󰃝  %s%%", value))
+            callback(string.format("%s%s%%", prefix, value))
         end)
     end
 end
@@ -169,7 +171,7 @@ function M.create_widget(args)
     args = args or {}
 
     brightness_text = wibox.widget({
-        text = "󰃝  --%",
+        text = prefix .. "--%",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(awful.button({}, 4, M.increase), awful.button({}, 5, M.decrease)),
     })

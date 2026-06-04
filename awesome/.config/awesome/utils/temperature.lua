@@ -52,7 +52,7 @@ function M.create_widget(args)
     args = args or {}
 
     temp_text = wibox.widget({
-        text = prefix .. "--",
+        text = prefix .. "--°C",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(awful.button({}, 1, env.launch_sysmon)),
     })
