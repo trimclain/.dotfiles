@@ -209,17 +209,29 @@ function M.grep(pattern, path)
 end
 
 --- Remove leading and trailing whitespace from a string
----@param s string
+---@param str string
 ---@return string
-function M.trim(s)
-    return s:match("^%s*(.-)%s*$")
+function M.trim(str)
+    return str:match("^%s*(.-)%s*$")
+end
+
+--- Split a string on a separator pattern, skipping empty parts.
+---@param str string string to split
+---@param sep string separator pattern
+---@return string[] parts list of substrings
+function M.split(str, sep)
+    local parts = {}
+    for part in string.gmatch(str, "([^" .. sep .. "]+)") do
+        parts[#parts + 1] = part
+    end
+    return parts
 end
 
 --- Shell-quote a string so it can be safely embedded in a shell command
----@param s string
+---@param str string
 ---@return string
-function M.shell_quote(s)
-    return "'" .. s:gsub("'", [['"'"']]) .. "'"
+function M.shell_quote(str)
+    return "'" .. str:gsub("'", [['"'"']]) .. "'"
 end
 
 --- Get the output of a shell command
