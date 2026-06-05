@@ -22,7 +22,7 @@ local function refresh_widget()
         return
     end
 
-    local line = utils.read_first_line(temp_path)
+    local line = utils.readline(temp_path)
 
     if not line then
         temp_text:set_text(prefix .. "N/A")

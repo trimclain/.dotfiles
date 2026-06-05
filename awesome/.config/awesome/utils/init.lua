@@ -5,6 +5,9 @@ local M = {}
 
 local home = os.getenv("HOME") or "$HOME"
 
+local restart_separator_printed_in_logs = false
+local logfile = "/tmp/awesome-log.txt"
+
 ---@alias core.utils.PresetName
 ---| '"critical"'
 ---| '"info"'
@@ -32,6 +35,23 @@ function M.notify(msg, opts)
         text = msg,
         timeout = timeout,
     })
+end
+
+--- Log a message to the logfile
+---@param msg string
+---@param level? string debug (default) | info | warn | error
+function M.log(msg, level)
+    level = level and string.upper(level) or "DEBUG"
+    local f = io.open(logfile, "a")
+    if not f then
+        return
+    end
+    if not restart_separator_printed_in_logs then
+        f:write(string.rep("—", 99) .. "\n")
+        restart_separator_printed_in_logs = true
+    end
+    f:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. level .. " " .. msg .. "\n")
+    f:close()
 end
 
 --- Get a human-readable representation of the given object
@@ -125,7 +145,7 @@ function M.inspect(value)
     return stringify(value, 0)
 end
 
---- Synchronously write a message to a file
+--- Write a message to a file
 ---@param path string
 ---@param text string
 ---@return boolean success
@@ -139,9 +159,20 @@ function M.write_file(path, text)
     return true
 end
 
---- Synchronously read the first line of a file
+--- Check whether a file exists and is readable
 ---@param path string
-function M.read_first_line(path)
+---@return boolean
+function M.file_exists(path)
+    local f = io.open(path, "r")
+    if f then
+        f:close()
+    end
+    return f ~= nil
+end
+
+--- Read the first line of a file
+---@param path string
+function M.readline(path)
     local f = io.open(path, "r")
     if not f then
         return nil
@@ -151,29 +182,43 @@ function M.read_first_line(path)
     return content
 end
 
-local restart_separator_printed = false
+--- Read all lines from a file
+---@param path string path to the file
+---@param trim? boolean wheter to trim each line
+---@return string[] lines list of lines
+function M.readlines(path, trim)
+    local lines = {}
+    for line in io.lines(path) do
+        lines[#lines + 1] = trim and M.trim(line) or line
+    end
+    return lines
+end
 
---- Log a message to /tmp/awesome-log.txt
----@param msg string
----@param level? string debug (default) | info | warn | error
-function M.log(msg, level)
-    level = level and string.upper(level) or "DEBUG"
-    local f = io.open("/tmp/awesome-log.txt", "a")
-    if not f then
-        return
+--- Read all lines from a text file that match a Lua pattern
+---@param pattern string
+---@param path string
+---@return string[]
+function M.grep(pattern, path)
+    local lines = {}
+    for line in io.lines(path) do
+        if string.match(line, pattern) then
+            lines[#lines + 1] = line
+        end
     end
-    if not restart_separator_printed then
-        f:write(string.rep("—", 99) .. "\n")
-        restart_separator_printed = true
-    end
-    f:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. level .. " " .. msg .. "\n")
-    f:close()
+    return lines
+end
+
+--- Remove leading and trailing whitespace from a string
+---@param s string
+---@return string
+function M.trim(s)
+    return s:match("^%s*(.-)%s*$")
 end
 
 --- Shell-quote a string so it can be safely embedded in a shell command
 ---@param s string
 ---@return string
-local function shell_quote(s)
+function M.shell_quote(s)
     return "'" .. s:gsub("'", [['"'"']]) .. "'"
 end
 
@@ -213,7 +258,7 @@ function M.check_command_executable(cmd, callback)
     local executable = expanded_cmd:match("([^ ]+)")
 
     awful.spawn.easy_async_with_shell(
-        "command -v -- " .. shell_quote(executable) .. " > /dev/null",
+        "command -v -- " .. M.shell_quote(executable) .. " > /dev/null",
         function(_, _, _, exit_code)
             callback(exit_code == 0, executable, expanded_cmd)
         end
