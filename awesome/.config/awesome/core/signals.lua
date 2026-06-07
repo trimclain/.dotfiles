@@ -3,6 +3,8 @@ local beautiful = require("beautiful") -- Theme handling library
 local gears = require("gears") -- Utilities such as color parsing and objects
 local wibox = require("wibox") -- Widget and layout library
 
+local env = require("env")
+
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
@@ -16,8 +18,7 @@ client.connect_signal("manage", function(c)
 
     -- Make corners round
     c.shape = function(cr, w, h)
-        local radius = 7 -- default: 10
-        gears.shape.rounded_rect(cr, w, h, radius)
+        gears.shape.rounded_rect(cr, w, h, env.border_radius)
     end
 end)
 
@@ -67,6 +68,23 @@ client.connect_signal("property::urgent", function(c)
         c:jump_to()
         client.focus = c
         c:raise()
+    end
+end)
+
+-- Fix some apps launching maximized
+-- NOTE: have to do it like this instead of defining a rule for it to always work
+local hooligans = {
+    Spotify = true,
+    TelegramDesktop = true,
+    missioncenter = true,
+}
+client.connect_signal("property::maximized", function(c)
+    if hooligans[c.class] then
+        if c.maximized then
+            c.maximized = false
+        end
+        c.maximized_horizontal = false
+        c.maximized_vertical = false
     end
 end)
 

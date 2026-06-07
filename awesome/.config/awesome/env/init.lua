@@ -16,6 +16,7 @@ M.app_launcher = require("env.launcher").app_launcher
 M.launch_sysmon = require("env.sysmon").spawn
 
 M.enable_titlebars = false
+M.border_radius = 7 -- default: 10
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 -- TODO: (advanced) port a layout I like from hyprland

@@ -64,43 +64,9 @@ awful.rules.rules = {
         properties = { floating = true },
     },
 
-    -- Make Telegram Media Viewer floating by default
-    -- {
-    --     rule = { class = "TelegramDesktop" }, -- , instance = "Media viewer"
-    --     properties = { floating = true },
-    --     -- properties = {},
-    --     -- callback = function(c)
-    --     --     c.floating = true
-    --     -- end
-    -- },
-
     -- Add titlebars to normal clients and dialogs
     { rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = env.enable_titlebars } },
 
-    -- Fix Spotify launching maximized
-    {
-        rule = { class = "Spotify" },
-        properties = {
-            floating = false,
-            maximized = false,
-            maximized_vertical = false,
-            maximized_horizontal = false,
-        },
-    },
-
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
-
     -- Set Anki to always map on the tag named "2"
     -- { rule = { class = "Anki" }, properties = { tag = "2" } },
-
-    -- Set Chrome to always map on the tag named "3"
-    -- { rule = { class = "Google-chrome" }, properties = { tag = "3" } },
-
-    -- Make polybar borders normal
-    -- {
-    --     rule = { class = "Polybar" },
-    --     properties = { shape = gears.partially_rounded_rect(0, 70, 70, true, true, true, true, 30) },
-    -- },
 }
