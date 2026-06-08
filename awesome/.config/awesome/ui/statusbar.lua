@@ -87,7 +87,7 @@ local mykbdlayout = wibox.widget({
         {
             mykbdlayout_inner,
             -- left = 6,
-            -- right = 6,
+            right = -3,
             -- top = 2,
             -- bottom = 2,
             widget = wibox.container.margin,
