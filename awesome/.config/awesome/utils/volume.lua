@@ -218,8 +218,8 @@ function M.create_widget(args)
             -- to these callbacks. However I have no clue what kind of table that is and what it contains.
             -- Last attempt to inspect that table resulted in a very awesome freeze.
             awful.button({}, 1, M.toggle_mute),
-            awful.button({}, 2, M.toggle_micro_mute),
-            awful.button({}, 3, utils.launch("pavucontrol")),
+            awful.button({}, 2, utils.launch("pavucontrol")),
+            awful.button({}, 3, M.toggle_micro_mute),
             awful.button({}, 4, M.increase),
             awful.button({}, 5, M.decrease)
         ),
