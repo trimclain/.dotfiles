@@ -1,5 +1,6 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local fs = require("gears.filesystem")
 local gears = require("gears")
 local wibox = require("wibox")
 
@@ -40,7 +41,7 @@ end
 ---@param iface string interface name
 ---@return boolean state true if the interface is wireless, otherwise false
 local function is_wireless(iface)
-    return utils.file_exists("/sys/class/net/" .. iface .. "/wireless")
+    return fs.is_dir("/sys/class/net/" .. iface .. "/wireless")
 end
 
 --- Asynchronously get the active Wi-Fi connection name for an interface

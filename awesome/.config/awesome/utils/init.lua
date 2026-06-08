@@ -159,17 +159,6 @@ function M.write_file(path, text)
     return true
 end
 
---- Check whether a file exists and is readable
----@param path string
----@return boolean
-function M.file_exists(path)
-    local f = io.open(path, "r")
-    if f then
-        f:close()
-    end
-    return f ~= nil
-end
-
 --- Read the first line of a file
 ---@param path string
 function M.readline(path)
