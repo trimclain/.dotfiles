@@ -6,8 +6,7 @@ M.modkey = "Mod1" -- ALT key
 M.altkey = "Mod4" -- SUPER key
 
 M.detect_terminal = require("env.terminal").get_name
-M.editor = os.getenv("EDITOR") or "nvim"
-M.gui_editor = "neovide"
+M.detect_editor = require("env.editor").get_name
 M.browser = "thorium-browser"
 
 M.run_launcher = require("env.launcher").run_launcher
@@ -31,5 +30,3 @@ M.layouts = {
 }
 
 return M
-
--- vim:foldmethod=marker

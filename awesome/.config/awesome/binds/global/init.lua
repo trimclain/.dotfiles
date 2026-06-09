@@ -9,6 +9,9 @@ local M = {}
 -- 1 - leftclick, 2 - middleclick, 3 - rightclick, 4 - wheel up, 5 - wheel down
 M.buttons = gears.table.join(
     awful.button({}, 3, function()
+        if not menu.main_menu then
+            menu.main_menu = menu.create_main_menu()
+        end
         menu.main_menu:toggle()
     end)
     -- scroll to move me to next tag

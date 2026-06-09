@@ -28,6 +28,9 @@ utils.check_command_executable("rofi", function(is_installed, _, _)
         _app_launcher = function()
             awful.spawn("rofi -show drun")
         end
+    else
+        -- set the terminal for applications that need it
+        require("menubar").utils.terminal = require("env.terminal").get_name()
     end
 end)
 
