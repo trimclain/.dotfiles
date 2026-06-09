@@ -9,18 +9,18 @@ local M = {}
 ---@field index integer
 
 --- Set the wallpaper using gears.wallpaper
----@param screen awesome.screen screen on which to set the wallpaper
+---@param s awesome.screen screen on which to set the wallpaper
 ---@param wallpaper? string path to wallpaper
-function M.setup(screen, wallpaper)
+function M.setup(s, wallpaper)
     wallpaper = wallpaper or beautiful.wallpaper
     if not wallpaper then
         utils.notify("Wallpaper wasn't set in the theme.", { title = "Awesome Wallpaper Setter", preset = "critical" })
         return
     end
     if type(wallpaper) == "function" then
-        wallpaper = wallpaper(screen)
+        wallpaper = wallpaper(s)
     end
-    gears.wallpaper.maximized(wallpaper, screen, true)
+    gears.wallpaper.maximized(wallpaper, s, true)
 end
 
 return M
