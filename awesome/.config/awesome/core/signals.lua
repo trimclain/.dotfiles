@@ -5,7 +5,7 @@ local wibox = require("wibox") -- Widget and layout library
 
 local env = require("env")
 
--- Signal function to execute when a new client appears.
+-- Signal function to execute when a new client appears
 client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
@@ -22,7 +22,7 @@ client.connect_signal("manage", function(c)
     end
 end)
 
--- Add a titlebar if titlebars_enabled is set to true in the rules.
+-- Add a titlebar if titlebars_enabled is set to true in the rules
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
     local buttons = gears.table.join(
@@ -73,6 +73,7 @@ end)
 
 -- Fix some apps launching maximized
 -- NOTE: have to do it like this instead of defining a rule for it to always work
+-- since some clients (missioncenter) override properties after the rule kicks in
 local hooligans = {
     Spotify = true,
     TelegramDesktop = true,
@@ -91,6 +92,18 @@ end)
 -- -- Enable sloppy focus, so that focus follows mouse.
 -- client.connect_signal("mouse::enter", function(c)
 --     c:emit_signal("request::activate", "mouse_enter", { raise = false })
+-- end)
+
+-- -- Render no borders when rearranging only 1 non-floating or maximized client
+-- screen.connect_signal("arrange", function(s)
+--     local only_one = #s.tiled_clients == 1
+--     for _, c in pairs(s.clients) do
+--         if only_one and not c.floating or c.maximized or c.fullscreen then
+--             c.border_width = 0
+--         else
+--             c.border_width = beautiful.border_width
+--         end
+--     end
 -- end)
 
 -- Update border colors

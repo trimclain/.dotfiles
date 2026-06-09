@@ -88,7 +88,7 @@ theme.taglist_bg_occupied = theme.bg_normal
 theme.taglist_fg_hover = theme.fg_normal
 theme.taglist_bg_hover = "#313244"
 theme.taglist_fg_urgent = "#f38ba8"
-theme.taglist_bg_urgent = theme.bg_normal
+theme.taglist_bg_urgent = "#f38ba8"
 theme.taglist_shape = gears.shape.circle
 theme.taglist_spacing = 2
 
