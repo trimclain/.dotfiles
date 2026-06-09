@@ -94,16 +94,20 @@ function M.create_widget(args)
 
     battery_widget = wibox.widget({
         {
-            battery_text,
-            -- left = 6,
-            -- right = 6,
-            -- top = 2,
-            -- bottom = 2,
-            widget = wibox.container.margin,
+            {
+                battery_text,
+                left = 8,
+                right = 8,
+                widget = wibox.container.margin,
+            },
+            fg = beautiful.fg_battery or beautiful.fg_normal,
+            bg = beautiful.bg_battery or beautiful.bg_normal,
+            shape = gears.shape.rounded_bar,
+            widget = wibox.container.background,
         },
-        fg = beautiful.fg_battery or beautiful.fg_normal,
-        bg = beautiful.bg_battery or beautiful.bg_normal,
-        widget = wibox.container.background,
+        top = 4,
+        bottom = 4,
+        widget = wibox.container.margin,
     })
 
     get_battery_path()

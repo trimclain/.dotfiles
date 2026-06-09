@@ -56,16 +56,20 @@ function M.create_widget(args)
 
     ram_widget = wibox.widget({
         {
-            ram_text,
-            -- left = 6,
-            -- right = 6,
-            -- top = 2,
-            -- bottom = 2,
-            widget = wibox.container.margin,
+            {
+                ram_text,
+                left = 8,
+                right = 8,
+                widget = wibox.container.margin,
+            },
+            fg = beautiful.fg_memory or beautiful.fg_normal,
+            bg = beautiful.bg_memory or beautiful.bg_normal,
+            shape = gears.shape.rounded_bar,
+            widget = wibox.container.background,
         },
-        fg = beautiful.fg_memory or beautiful.fg_normal,
-        bg = beautiful.bg_memory or beautiful.bg_normal,
-        widget = wibox.container.background,
+        top = 4,
+        bottom = 4,
+        widget = wibox.container.margin,
     })
 
     gears.timer({

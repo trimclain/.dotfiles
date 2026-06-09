@@ -4,7 +4,7 @@
 -- Inspired by the default theme --
 -----------------------------------
 
-local theme_assets = require("beautiful.theme_assets")
+-- local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
@@ -44,6 +44,8 @@ theme.border_floating = "#cba6f7"
 
 theme.wibar_height = 32
 
+theme.bg_widget = "#1e1e2e" -- "#313244"
+
 -- Per-widget colors (inspire by Catppuccin Mocha)
 theme.fg_volume = "#f38ba8"
 theme.fg_brightness = "#fab387"
@@ -54,7 +56,14 @@ theme.fg_temperature = "#89b4fa"
 theme.fg_battery = "#b4befe"
 theme.fg_exit = "#cba6f7"
 
-theme.bg_exit = "#313244"
+theme.bg_volume = theme.bg_widget
+theme.bg_brightness = theme.bg_widget
+theme.bg_keyboard = theme.bg_widget
+theme.bg_network = theme.bg_widget
+theme.bg_memory = theme.bg_widget
+theme.bg_temperature = theme.bg_widget
+theme.bg_battery = theme.bg_widget
+theme.bg_exit = theme.bg_widget
 
 -- There are other variable sets
 -- overriding the default one when

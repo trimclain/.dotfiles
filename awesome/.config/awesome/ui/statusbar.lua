@@ -4,7 +4,7 @@ local gears = require("gears") -- Utilities such as color parsing and objects
 local wibox = require("wibox") -- Widget and layout library
 
 local env = require("env")
-local menu = require("ui.menu")
+-- local menu = require("ui.menu")
 local utils = require("utils")
 
 local battery = require("utils.battery")
@@ -61,14 +61,62 @@ local taglist_buttons = gears.table.join(
 -- {{{ Right Widgets for Primary Screen only
 
 local mysystray = wibox.widget({
-    base_size = 14,
-    widget = wibox.widget.systray,
+    {
+        {
+            {
+                base_size = 14,
+                widget = wibox.widget.systray,
+            },
+            left = 10,
+            right = 10,
+            top = 6,
+            bottom = 3,
+            widget = wibox.container.margin,
+        },
+        fg = beautiful.fg_systray or beautiful.fg_normal,
+        bg = beautiful.bg_widget or beautiful.bg_normal,
+        shape = gears.shape.rounded_bar,
+        widget = wibox.container.background,
+    },
+    left = 2,
+    right = 2,
+    top = 4,
+    bottom = 4,
+    widget = wibox.container.margin,
 })
+
 local myvolume = volume.create_widget()
 local mybrightness = brightness.create_widget()
 
 local mykbdlayout_inner = awful.widget.keyboardlayout()
-mykbdlayout_inner:buttons(gears.table.join(
+local mykbdlayout = wibox.widget({
+    {
+        {
+            {
+                right = 10,
+                widget = wibox.container.margin,
+            },
+            {
+                text = " ", -- ⌨
+                widget = wibox.widget.textbox,
+            },
+            {
+                mykbdlayout_inner,
+                right = 6,
+                widget = wibox.container.margin,
+            },
+            layout = wibox.layout.fixed.horizontal,
+        },
+        fg = beautiful.fg_keyboard or beautiful.fg_normal,
+        bg = beautiful.bg_keyboard or beautiful.bg_normal,
+        shape = gears.shape.rounded_bar,
+        widget = wibox.container.background,
+    },
+    top = 4,
+    bottom = 4,
+    widget = wibox.container.margin,
+})
+mykbdlayout:buttons(gears.table.join(
     awful.button({}, 1, function()
         mykbdlayout_inner:next_layout()
     end),
@@ -79,26 +127,6 @@ mykbdlayout_inner:buttons(gears.table.join(
         )
     end)
 ))
-local mykbdlayout = wibox.widget({
-    {
-        {
-            text = " ", -- ⌨
-            widget = wibox.widget.textbox,
-        },
-        {
-            mykbdlayout_inner,
-            -- left = 6,
-            right = -3,
-            -- top = 2,
-            -- bottom = 2,
-            widget = wibox.container.margin,
-        },
-        layout = wibox.layout.fixed.horizontal,
-    },
-    fg = beautiful.fg_keyboard or beautiful.fg_normal,
-    bg = beautiful.bg_keyboard or beautiful.bg_normal,
-    widget = wibox.container.background,
-})
 
 local mynetwork = network.create_widget()
 local mymemory = memory.create_widget()
@@ -112,14 +140,12 @@ local mypowermenu = wibox.widget({
                 text = " 󰐥 ", -- 
                 widget = wibox.widget.textbox,
             },
-            left = 1,
-            right = 2,
-            -- top = 2,
-            -- bottom = 2,
+            left = 2,
+            right = 3,
             widget = wibox.container.margin,
         },
         fg = beautiful.fg_exit or beautiful.fg_normal,
-        bg = beautiful.bg_exit or beautiful.bg_focus,
+        bg = beautiful.bg_widget or beautiful.bg_focus,
         shape = gears.shape.rounded_bar,
         widget = wibox.container.background,
     },
@@ -169,27 +195,53 @@ local function set_tag_colors(self, tag)
 end
 
 function M.setup(s)
-    -- Create a textclock widget
-    s.mylauncher = wibox.widget({
-        {
-            awful.widget.launcher({
-                image = beautiful.awesome_icon,
-                menu = menu.main_menu,
-            }),
-            forced_width = 18,
-            forced_height = 18,
-            strategy = "exact",
-            widget = wibox.container.constraint,
-        },
-        left = 5,
-        right = 5,
-        top = 5,
-        bottom = 3,
-        widget = wibox.container.margin,
-    })
+    -- Create a launcher widget
+    -- s.mylauncher = wibox.widget({
+    --     {
+    --         awful.widget.launcher({
+    --             image = beautiful.awesome_icon,
+    --             menu = menu.main_menu,
+    --         }),
+    --         forced_width = 18,
+    --         forced_height = 18,
+    --         strategy = "exact",
+    --         widget = wibox.container.constraint,
+    --     },
+    --     left = 5,
+    --     right = 5,
+    --     top = 7,
+    --     bottom = 3,
+    --     widget = wibox.container.margin,
+    -- })
 
     -- Create a textclock widget
-    s.mytextclock = wibox.widget.textclock("%a, %b %d %H:%M")
+    s.mytextclock = wibox.widget({
+        {
+            {
+                {
+                    right = 8,
+                    widget = wibox.container.margin,
+                },
+                {
+                    text = "󰥔 ", -- "󰃰 "
+                    widget = wibox.widget.textbox,
+                },
+                {
+                    wibox.widget.textclock("%a, %b %d %H:%M"),
+                    right = 8,
+                    widget = wibox.container.margin,
+                },
+                layout = wibox.layout.fixed.horizontal,
+            },
+            fg = beautiful.fg_clock or beautiful.fg_normal,
+            bg = beautiful.bg_widget or beautiful.bg_normal,
+            shape = gears.shape.rounded_bar,
+            widget = wibox.container.background,
+        },
+        top = 4,
+        bottom = 4,
+        widget = wibox.container.margin,
+    })
     s.mytextclock:buttons(gears.table.join(
         awful.button({}, 1, function()
             if not s.mycalendar_month then
@@ -215,7 +267,40 @@ function M.setup(s)
 
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox(s)
+    s.mylayoutbox = wibox.widget({
+        {
+            {
+                {
+                    {
+                        {
+                            awful.widget.layoutbox(s),
+                            left = 2,
+                            right = 2,
+                            top = 3,
+                            widget = wibox.container.margin,
+                        },
+                        forced_width = 18,
+                        forced_height = 18,
+                        strategy = "exact",
+                        widget = wibox.container.constraint,
+                    },
+                    valign = "center",
+                    halign = "center",
+                    widget = wibox.container.place,
+                },
+                left = 6,
+                right = 6,
+                widget = wibox.container.margin,
+            },
+            fg = beautiful.fg_layoutbox or beautiful.fg_normal,
+            bg = beautiful.bg_widget or beautiful.bg_normal,
+            shape = gears.shape.rounded_bar,
+            widget = wibox.container.background,
+        },
+        top = 4,
+        bottom = 4,
+        widget = wibox.container.margin,
+    })
     -- stylua: ignore
     s.mylayoutbox:buttons(gears.table.join(
         awful.button({}, 1, function() awful.layout.inc(1) end),
@@ -223,23 +308,6 @@ function M.setup(s)
         awful.button({}, 4, function() awful.layout.inc(1) end),
         awful.button({}, 5, function() awful.layout.inc(-1) end)
     ))
-    s.mylayoutbox_small = wibox.widget({
-        {
-            {
-                s.mylayoutbox,
-                left = 4,
-                top = 3,
-                widget = wibox.container.margin,
-            },
-            forced_width = 18,
-            forced_height = 18,
-            strategy = "exact",
-            widget = wibox.container.constraint,
-        },
-        valign = "center",
-        halign = "center",
-        widget = wibox.container.place,
-    })
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -310,19 +378,19 @@ function M.setup(s)
     local left_widgets = {
         layout = wibox.layout.fixed.horizontal,
         spacing = 5,
-        s.mylauncher,
+        -- s.mylauncher,
         s.mytextclock,
-        s.mylayoutbox_small,
+        s.mylayoutbox,
         s.mypromptbox,
         -- s.mytasklist,
     }
 
     local right_widgets = wibox.layout.fixed.horizontal()
-    right_widgets.spacing = 8
+    right_widgets.spacing = 5
 
     -- primary monitor only widgets
     if s == screen.primary then
-        right_widgets:add(wibox.container.margin(mysystray, 4, 4, 9, 4)) -- left, right, top, bottom
+        right_widgets:add(mysystray)
         right_widgets:add(myvolume)
         right_widgets:add(mybrightness)
         right_widgets:add(mykbdlayout)
