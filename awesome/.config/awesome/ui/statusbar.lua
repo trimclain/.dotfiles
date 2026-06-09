@@ -310,7 +310,7 @@ function M.setup(s)
         awful.button({}, 5, function() awful.layout.inc(-1) end)
     ))
 
-    -- Create a promptbox for each screen
+    -- Create a promptbox for each screen (used for awful.prompt.run and in case we use the awesome menubar)
     s.mypromptbox = awful.widget.prompt()
 
     -- -- Create a tasklist widget (contains the names of the opened apps)
