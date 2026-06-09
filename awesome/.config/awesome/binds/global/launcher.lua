@@ -9,7 +9,7 @@ return gears.table.join(
     end, { description = "open a terminal", group = "launcher" }),
 
     awful.key({ env.modkey }, "b", function()
-        awful.spawn(env.browser)
+        awful.spawn(env.detect_browser())
     end, { description = "open the browser", group = "launcher" }),
 
     awful.key({ env.modkey }, "r", env.run_launcher, { description = "run a command", group = "launcher" }),

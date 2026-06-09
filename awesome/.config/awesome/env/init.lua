@@ -7,7 +7,7 @@ M.altkey = "Mod4" -- SUPER key
 
 M.detect_terminal = require("env.terminal").get_name
 M.detect_editor = require("env.editor").get_name
-M.browser = "thorium-browser"
+M.detect_browser = require("env.browser").get_name
 
 M.run_launcher = require("env.launcher").run_launcher
 M.app_launcher = require("env.launcher").app_launcher
