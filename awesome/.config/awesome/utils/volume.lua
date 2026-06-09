@@ -12,8 +12,8 @@ local volume_up_icon = ""
 local volume_down_icon = ""
 local volume_muted_icon = "󰖁"
 local volume_unmuted_icon = "󰕾"
-local microphone_muted_icon = "  " -- " 󰟎 "
-local microphone_unmuted_icon = "  "
+local microphone_muted_icon = "" -- " 󰟎 "
+local microphone_unmuted_icon = ""
 
 local volume_notification_id = nil
 local volume_text = nil
@@ -108,7 +108,7 @@ end
 local function notify_micro(mode)
     local icon = mode == "muted" and microphone_muted_icon or microphone_unmuted_icon
     local notification = naughty.notify({
-        text = icon,
+        text = " " .. icon .. " ",
         timeout = 1.5,
         replaces_id = volume_notification_id,
     })
@@ -170,9 +170,9 @@ local function get_display_text(callback)
             get_micro_muted_status(function(microphone_status)
                 local mic_icon = microphone_status == "yes" and " (" .. microphone_muted_icon .. " )" or ""
                 if volume_status == "no" then
-                    callback(string.format("%s  %s%%%s", volume_unmuted_icon, value, mic_icon))
+                    callback(string.format("%s %s%%%s", volume_unmuted_icon, value, mic_icon))
                 else
-                    callback(string.format("%s  %s%%%s", volume_muted_icon, value, mic_icon))
+                    callback(string.format("%s %s%%%s", volume_muted_icon, value, mic_icon))
                 end
             end)
         end)
@@ -211,7 +211,7 @@ function M.create_widget(args)
     args = args or {}
 
     volume_text = wibox.widget({
-        text = volume_unmuted_icon .. "  --%",
+        text = volume_unmuted_icon .. " --%",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(
             -- HACK: this works for disabling notifications because for some reason awesome passes a table

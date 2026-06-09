@@ -135,7 +135,7 @@ local function refresh_widget()
     end
 
     if #ordered_interfaces == 0 then
-        network_text:set_text(eth_icon .. " N/A")
+        network_text:set_text(eth_icon .. "N/A")
         return
     end
 
@@ -144,11 +144,11 @@ local function refresh_widget()
             local iface = interfaces[name]
             if iface.wireless then
                 get_wifi_ssid(name, function(ssid)
-                    network_text:set_text(wifi_icon .. " " .. ssid)
+                    network_text:set_text(wifi_icon .. ssid)
                 end)
             else
                 get_ipv4(name, function(ip)
-                    network_text:set_text(eth_icon .. " " .. ip)
+                    network_text:set_text(eth_icon .. ip)
                 end)
             end
             return
@@ -164,7 +164,7 @@ function M.create_widget(args)
     args = args or {}
 
     network_text = wibox.widget({
-        text = disconnected_icon .. " --",
+        text = disconnected_icon .. "--",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(
             awful.button({}, 1, toggle_wifi),

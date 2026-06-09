@@ -30,7 +30,7 @@ end
 local function get_prefix(status, pct)
     if status == "Charging" then
         return "󰂄 "
-    elseif status == "Full" then
+    elseif status == "Full" or pct >= 100 then
         return "󰁹 "
     elseif pct <= 10 then
         return "󰂎 "

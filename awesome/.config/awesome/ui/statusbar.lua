@@ -102,7 +102,8 @@ local mykbdlayout = wibox.widget({
             },
             {
                 mykbdlayout_inner,
-                right = 6,
+                left = -5,
+                right = 0,
                 widget = wibox.container.margin,
             },
             layout = wibox.layout.fixed.horizontal,
@@ -331,7 +332,7 @@ function M.setup(s)
                         id = "index_role",
                         widget = wibox.widget.textbox,
                     },
-                    margins = 6,
+                    margins = 8,
                     widget = wibox.container.margin,
                 },
                 shape = gears.shape.circle,
@@ -342,7 +343,7 @@ function M.setup(s)
             ---@diagnostic disable-next-line: unused-local
             create_callback = function(self, tag, index, objects)
                 -- Update index text
-                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.name .. " </b>"
+                self:get_children_by_id("index_role")[1].markup = "<b>" .. tag.name .. "</b>"
 
                 -- Set initial bg according to state
                 set_tag_colors(self, tag)
@@ -364,7 +365,7 @@ function M.setup(s)
             ---@diagnostic disable-next-line: unused-local
             update_callback = function(self, tag, index, objects)
                 -- Keep index in sync
-                self:get_children_by_id("index_role")[1].markup = "<b> " .. tag.name .. " </b>"
+                self:get_children_by_id("index_role")[1].markup = "<b>" .. tag.name .. "</b>"
 
                 -- Tag state may have changed (selected, etc.)
                 -- If we are not hovering, just update to theme color

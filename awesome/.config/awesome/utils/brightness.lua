@@ -8,7 +8,7 @@ local utils = require("utils")
 
 local M = {}
 
-local prefix = "󰃝  "
+local prefix = "󰃝 "
 
 local brightness_notification_id = nil
 local brightness_text = nil

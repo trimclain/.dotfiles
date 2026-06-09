@@ -7,7 +7,7 @@ local env = require("env")
 
 local M = {}
 
-local prefix = "󰍛  "
+local prefix = "󰍛 "
 
 local ram_text = nil
 local ram_widget = nil

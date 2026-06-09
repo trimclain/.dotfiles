@@ -15,19 +15,18 @@ local themes_path = gfs.get_configuration_dir() .. "theme/"
 
 local theme = {}
 
--- theme.font = "sans 8"
--- theme.font = "JetBrainsMono-Regular 10"
--- theme.taglist_font = "JetBrainsMono-Regular 13"
-theme.font = "MapleMono-NF-Regular 10"
-theme.taglist_font = "MapleMono-NF-Regular 13"
+theme.font = "Maple Mono NF 10"
+theme.taglist_font = "Maple Mono NF 13"
 
 theme.bg_normal = "#11111b" -- default: "#222222"
 theme.bg_focus = "#7287fd" -- default: "#535d6c"
 theme.bg_urgent = "#ff0000" -- "#f38ba8"
 theme.bg_minimize = "#444444" -- "#1e1e2e"
 
-theme.bg_systray = theme.bg_normal
-theme.systray_icon_spacing = 4
+theme.bg_widget = "#1e1e2e" -- "#313244"
+
+theme.bg_systray = theme.bg_widget
+theme.systray_icon_spacing = 6
 
 theme.fg_normal = "#cdd6f4" -- default: "#aaaaaa"
 theme.fg_focus = "#cdd6f4" -- default: "#ffffff"
@@ -43,8 +42,6 @@ theme.border_marked = "#91231c"
 theme.border_floating = "#cba6f7"
 
 theme.wibar_height = 32
-
-theme.bg_widget = "#1e1e2e" -- "#313244"
 
 -- Per-widget colors (inspire by Catppuccin Mocha)
 theme.fg_volume = "#f38ba8"
