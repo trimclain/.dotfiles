@@ -32,6 +32,9 @@ return gears.table.join(
     awful.key({ env.modkey }, "Tab", function()
         awful.layout.inc(1)
     end, { description = "select next", group = "layout" }),
+    awful.key({ env.modkey, "Shift" }, "Tab", function()
+        awful.layout.inc(-1)
+    end, { description = "select previous", group = "layout" }),
 
     -- On-the-fly useless gaps change
     awful.key({ env.altkey, "Control" }, "=", function()
