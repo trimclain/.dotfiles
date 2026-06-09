@@ -161,14 +161,15 @@ end
 
 --- Read the first line of a file
 ---@param path string
+---@return string|nil
 function M.readline(path)
     local f = io.open(path, "r")
     if not f then
         return nil
     end
-    local content = f:read("*l")
+    local line = f:read("*l")
     f:close()
-    return content
+    return line
 end
 
 --- Read all lines from a file
@@ -223,7 +224,7 @@ function M.shell_quote(str)
     return "'" .. str:gsub("'", [['"'"']]) .. "'"
 end
 
---- Get the output of a shell command
+--- Get the output of a shell command without any trailing whitespace (including spaces, tabs, and newlines)
 ---@param cmd string
 ---@param callback fun(out: string, err?: string, exit_code?: integer)
 function M.get_command_output(cmd, callback)
@@ -242,11 +243,18 @@ end
 
 --- Run a command and asynchronously execute a function on its output line by line
 ---@param cmd string
----@param callback fun(out: string, err?: string, exit_code?: integer)
+---@param callback fun(line: string)
 function M.get_command_output_lines(cmd, callback)
     awful.spawn.with_line_callback(cmd, {
         stdout = function(line)
             callback(line)
+        end,
+        stderr = function(err)
+            M.notify(err, {
+                preset = "critical",
+                title = "Error in utils.get_command_output_lines(" .. cmd .. ")",
+                timeout = 5,
+            })
         end,
     })
 end
