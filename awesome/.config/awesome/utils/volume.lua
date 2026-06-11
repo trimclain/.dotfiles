@@ -1,3 +1,9 @@
+--[[
+System Requirements:
+  - awk (gawk)
+  - pactl (libpulse) or wpctl (wireplumber)
+]]
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 local gears = require("gears")
@@ -12,8 +18,10 @@ local volume_up_icon = ""
 local volume_down_icon = ""
 local volume_muted_icon = "󰖁"
 local volume_unmuted_icon = "󰕾"
-local microphone_muted_icon = "" -- " 󰟎 "
+local microphone_muted_icon = ""
 local microphone_unmuted_icon = ""
+local headphones_muted_icon = "󰟎"
+local headphones_unmuted_icon = "󰋋" -- ""
 
 local volume_notification_id = nil
 local volume_text = nil
@@ -21,18 +29,17 @@ local volume_widget = nil
 local widget_refresh_timer = nil
 
 -- TODO: should I use lua instead of awk?
-local volumectl = "wpctl"
-local get_volume_cmd = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ print int($2 * 100) }'"
-local get_volume_muted_status_cmd =
-    'wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk \'{ print ($3 == "[MUTED]") ? "yes" : "no" }\''
-local get_micro_muted_status_cmd =
-    'wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk \'{ print ($3 == "[MUTED]") ? "yes" : "no" }\''
+local volumectl = "pactl"
+local get_volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'"
+local get_volume_muted_status_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'"
+local get_micro_muted_status_cmd = "pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'"
+local get_headphones_connected_status_cmd = "pactl list sinks | awk -F': ' '/Active Port/ { print $2 }'"
 
-local volume_up_cmd = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-local volume_down_cmd = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-local volume_unmute_cmd = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0"
-local volume_mute_toggle_cmd = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-local micro_mute_toggle_cmd = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+local volume_up_cmd = "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+local volume_down_cmd = "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+local volume_unmute_cmd = "pactl set-sink-mute @DEFAULT_SINK@ 0"
+local volume_mute_toggle_cmd = "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+local micro_mute_toggle_cmd = "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
 
 --- Send a critical notification
 ---@param msg string notification text
@@ -51,21 +58,24 @@ local function hide_widget()
     end
 end
 
---- Detect whether to use wpctl or pactl
+--- Detect whether to use pactl or wpctl
 local function get_volumectl()
-    utils.find_first_executable({ "wpctl", "pactl" }, function(cmd, _)
+    utils.find_first_executable({ "pactl", "wpctl" }, function(cmd, _)
         if cmd then
-            if cmd == "pactl" then
-                volumectl = "pactl"
-                get_volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'"
-                get_volume_muted_status_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'"
-                get_micro_muted_status_cmd = "pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'"
+            if cmd == "wpctl" then
+                volumectl = "wpctl"
+                get_volume_cmd = "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ print int($2 * 100) }'"
+                get_volume_muted_status_cmd =
+                    'wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk \'{ print ($3 == "[MUTED]") ? "yes" : "no" }\''
+                get_micro_muted_status_cmd =
+                    'wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk \'{ print ($3 == "[MUTED]") ? "yes" : "no" }\''
+                get_headphones_connected_status_cmd = ""
 
-                volume_up_cmd = "pactl set-sink-volume @DEFAULT_SINK@ +5%"
-                volume_down_cmd = "pactl set-sink-volume @DEFAULT_SINK@ -5%"
-                volume_unmute_cmd = "pactl set-sink-mute @DEFAULT_SINK@ 0"
-                volume_mute_toggle_cmd = "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-                micro_mute_toggle_cmd = "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+                volume_up_cmd = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+                volume_down_cmd = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+                volume_unmute_cmd = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0"
+                volume_mute_toggle_cmd = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+                micro_mute_toggle_cmd = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
             end
         else
             volumectl = ""
@@ -162,18 +172,37 @@ local function get_micro_muted_status(callback)
     end)
 end
 
+--- Get whether the headphones are connected
+---@param callback fun(is_connected: boolean)
+local function get_headphones_connected_status(callback)
+    if volumectl == "" then
+        return
+    end
+    utils.get_command_output(get_headphones_connected_status_cmd, function(status, err, _)
+        if err then
+            gg("Error in volume.get_headphones_connected_status(): " .. err)
+            return
+        end
+        callback(status == "analog-output-headphones")
+    end)
+end
+
 --- Build the text shown in the volume widget, including icon and percentage
 ---@param callback fun(text: string)
 local function get_display_text(callback)
     get_volume(function(value)
         get_volume_muted_status(function(volume_status)
             get_micro_muted_status(function(microphone_status)
-                local mic_icon = microphone_status == "yes" and " (" .. microphone_muted_icon .. " )" or ""
-                if volume_status == "no" then
-                    callback(string.format("%s %s%%%s", volume_unmuted_icon, value, mic_icon))
-                else
-                    callback(string.format("%s %s%%%s", volume_muted_icon, value, mic_icon))
-                end
+                get_headphones_connected_status(function(headphone_status)
+                    local mic_icon = microphone_status == "yes" and " (" .. microphone_muted_icon .. " )" or ""
+                    if volume_status == "no" then
+                        local vol_icon = headphone_status and headphones_unmuted_icon or volume_unmuted_icon
+                        callback(string.format("%s %s%%%s", vol_icon, value, mic_icon))
+                    else
+                        local vol_icon = headphone_status and headphones_muted_icon or volume_muted_icon
+                        callback(string.format("%s %s%%%s", vol_icon, value, mic_icon))
+                    end
+                end)
             end)
         end)
     end)
