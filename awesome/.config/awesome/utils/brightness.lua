@@ -8,7 +8,10 @@ local utils = require("utils")
 
 local M = {}
 
-local prefix = "󰃝 "
+local prefix = "󰃝"
+local brightness_up_icon = "🔆"
+local brightness_down_icon = "🔅"
+local brightness_icons = { "", "", "", "", "", "", "", "", "" }
 
 local brightness_notification_id = nil
 local brightness_text = nil
@@ -79,9 +82,9 @@ end
 local function notify_brightness(value, mode)
     local icon
     if mode == "increase" then
-        icon = "🔆"
+        icon = brightness_up_icon
     elseif mode == "decrease" then
-        icon = "🔅"
+        icon = brightness_down_icon
     else
         gg("Unexpect mode in brightness.notify_brightness()")
     end
@@ -114,15 +117,30 @@ local function get_brightness(callback, slow)
     end)
 end
 
+--- Pick a brightness icon from an icon array based on a brightness percentage
+---@param brightness? number
+---@return string
+local function get_bricon(brightness)
+    if not brightness then
+        return prefix
+    end
+    local count = #brightness_icons
+    local index = math.floor((brightness / 100) * count) + 1
+    if index > count then
+        index = count
+    end
+    return brightness_icons[index]
+end
+
 --- Build the text shown in the brightness widget, including icon and percentage
 ---@param callback fun(text: string)
 ---@param text? string the text to use in case we already have the latest state
 local function get_display_text(callback, text)
     if text then
-        callback(string.format("%s%s%%", prefix, text))
+        callback(string.format("%s %s%%", get_bricon(tonumber(text)), text))
     else
         get_brightness(function(value)
-            callback(string.format("%s%s%%", prefix, value))
+            callback(string.format("%s %s%%", get_bricon(tonumber(value)), value))
         end)
     end
 end
@@ -171,7 +189,7 @@ function M.create_widget(args)
     args = args or {}
 
     brightness_text = wibox.widget({
-        text = prefix .. "--%",
+        text = prefix .. " --%",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(awful.button({}, 4, M.increase), awful.button({}, 5, M.decrease)),
     })

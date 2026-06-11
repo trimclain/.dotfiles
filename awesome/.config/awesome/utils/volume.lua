@@ -128,7 +128,7 @@ local function notify_micro(mode)
 end
 
 --- Get the current output volume as a percentage string
----@param callback fun(out: string, err?: string, exit_code?: integer)
+---@param callback fun(volume: string)
 local function get_volume(callback)
     if volumectl == "" then
         return
@@ -239,7 +239,9 @@ local function refresh_widget()
     end)
 end
 
--- TODO: see if utils can replace this
+--- Run a shell command asynchronously, refresh the volume widget after, and optionally invoke a callback
+---@param cmd string
+---@param after? fun()
 local function run_and_refresh(cmd, after)
     awful.spawn.easy_async_with_shell(cmd, function()
         refresh_widget()
