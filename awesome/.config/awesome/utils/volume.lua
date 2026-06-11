@@ -79,7 +79,7 @@ local function get_volumectl()
             end
         else
             volumectl = ""
-            gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+            gg("Both 'pactl' and 'wpctl' are not found. Your device volume is not set up correctly.")
             hide_widget()
         end
     end)
@@ -143,7 +143,7 @@ local function get_volume(callback)
 end
 
 --- Get whether the default audio sink is muted
----@param callback fun(status: '"yes"'|'"no"', err?: string, exit_code?: integer)
+---@param callback fun(is_muted: boolean)
 local function get_volume_muted_status(callback)
     if volumectl == "" then
         return
@@ -153,12 +153,12 @@ local function get_volume_muted_status(callback)
             gg("Error in volume.get_volume_muted_status(): " .. err)
             return
         end
-        callback(status)
+        callback(status == "yes")
     end)
 end
 
 --- Get whether the default audio source is muted
----@param callback fun(status: '"yes"'|'"no"', err?: string, exit_code?: integer)
+---@param callback fun(is_muted: boolean)
 local function get_micro_muted_status(callback)
     if volumectl == "" then
         return
@@ -168,7 +168,7 @@ local function get_micro_muted_status(callback)
             gg("Error in volume.get_micro_muted_status(): " .. err)
             return
         end
-        callback(status)
+        callback(status == "yes")
     end)
 end
 
@@ -191,15 +191,15 @@ end
 ---@param callback fun(text: string)
 local function get_display_text(callback)
     get_volume(function(value)
-        get_volume_muted_status(function(volume_status)
-            get_micro_muted_status(function(microphone_status)
+        get_volume_muted_status(function(volume_muted)
+            get_micro_muted_status(function(microphone_muted)
                 get_headphones_connected_status(function(headphone_status)
-                    local mic_icon = microphone_status == "yes" and " (" .. microphone_muted_icon .. " )" or ""
-                    if volume_status == "no" then
-                        local vol_icon = headphone_status and headphones_unmuted_icon or volume_unmuted_icon
+                    local mic_icon = microphone_muted and " (" .. microphone_muted_icon .. " )" or ""
+                    if volume_muted then
+                        local vol_icon = headphone_status and headphones_muted_icon or volume_muted_icon
                         callback(string.format("%s %s%%%s", vol_icon, value, mic_icon))
                     else
-                        local vol_icon = headphone_status and headphones_muted_icon or volume_muted_icon
+                        local vol_icon = headphone_status and headphones_unmuted_icon or volume_unmuted_icon
                         callback(string.format("%s %s%%%s", vol_icon, value, mic_icon))
                     end
                 end)
@@ -291,7 +291,7 @@ end
 ---@param disable_notification? boolean whether to disable notification after
 function M.increase(disable_notification)
     if volumectl == "" then
-        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        gg("Both 'pactl' and 'wpctl' are not found. Your device volume is not set up correctly.")
         return
     end
     run_and_refresh(volume_unmute_cmd .. " && " .. volume_up_cmd, function()
@@ -307,7 +307,7 @@ end
 ---@param disable_notification? boolean whether to disable notification after
 function M.decrease(disable_notification)
     if volumectl == "" then
-        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        gg("Both 'pactl' and 'wpctl' are not found. Your device volume is not set up correctly.")
         return
     end
     run_and_refresh(volume_unmute_cmd .. " && " .. volume_down_cmd, function()
@@ -323,7 +323,7 @@ end
 ---@param disable_notification? boolean whether to disable notification after
 function M.toggle_mute(disable_notification)
     if volumectl == "" then
-        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        gg("Both 'pactl' and 'wpctl' are not found. Your device volume is not set up correctly.")
         return
     end
     run_and_refresh(volume_mute_toggle_cmd, function()
@@ -344,12 +344,12 @@ end
 --- Toggle microphone mute state and show a notification
 function M.toggle_micro_mute()
     if volumectl == "" then
-        gg("Both 'wpctl' and 'pactl' are not found. Your device volume is not set up correctly.")
+        gg("Both 'pactl' and 'wpctl' are not found. Your device volume is not set up correctly.")
         return
     end
     run_and_refresh(micro_mute_toggle_cmd, function()
-        get_micro_muted_status(function(status)
-            if status == "yes" then
+        get_micro_muted_status(function(is_muted)
+            if is_muted then
                 notify_micro("muted")
             else
                 notify_micro("unmuted")
