@@ -14,21 +14,21 @@ local utils = require("utils")
 
 local M = {}
 
+local volume_icons = { "", "", "󰕾", " " }
 local volume_up_icon = ""
 local volume_down_icon = ""
 local volume_muted_icon = "󰖁"
 local volume_unmuted_icon = "󰕾"
-local microphone_muted_icon = ""
+local microphone_muted_icon = "󰍭" -- "", ""
 local microphone_unmuted_icon = ""
-local headphones_muted_icon = "󰟎"
-local headphones_unmuted_icon = "󰋋" -- ""
+local headphones_muted_icon = volume_muted_icon -- "󰟎"
+local headphones_unmuted_icon = "" -- "󰋋"
 
 local volume_notification_id = nil
 local volume_text = nil
 local volume_widget = nil
 local widget_refresh_timer = nil
 
--- TODO: should I use lua instead of awk?
 local volumectl = "pactl"
 local get_volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'"
 local get_volume_muted_status_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'"
@@ -187,6 +187,21 @@ local function get_headphones_connected_status(callback)
     end)
 end
 
+--- Pick a volume icon from an icon array based on a volume percentage
+---@param volume? number
+---@return string
+local function get_volicon(volume)
+    if not volume then
+        return volume_unmuted_icon
+    end
+    local count = #volume_icons
+    local index = math.floor((volume / 100) * count) + 1
+    if index > count then
+        index = count
+    end
+    return volume_icons[index]
+end
+
 --- Build the text shown in the volume widget, including icon and percentage
 ---@param callback fun(text: string)
 local function get_display_text(callback)
@@ -194,12 +209,12 @@ local function get_display_text(callback)
         get_volume_muted_status(function(volume_muted)
             get_micro_muted_status(function(microphone_muted)
                 get_headphones_connected_status(function(headphone_status)
-                    local mic_icon = microphone_muted and " (" .. microphone_muted_icon .. " )" or ""
+                    local mic_icon = microphone_muted and " (" .. microphone_muted_icon .. ")" or ""
                     if volume_muted then
                         local vol_icon = headphone_status and headphones_muted_icon or volume_muted_icon
                         callback(string.format("%s %s%%%s", vol_icon, value, mic_icon))
                     else
-                        local vol_icon = headphone_status and headphones_unmuted_icon or volume_unmuted_icon
+                        local vol_icon = headphone_status and headphones_unmuted_icon or get_volicon(tonumber(value))
                         callback(string.format("%s %s%%%s", vol_icon, value, mic_icon))
                     end
                 end)
@@ -224,6 +239,7 @@ local function refresh_widget()
     end)
 end
 
+-- TODO: see if utils can replace this
 local function run_and_refresh(cmd, after)
     awful.spawn.easy_async_with_shell(cmd, function()
         refresh_widget()
@@ -328,9 +344,9 @@ function M.toggle_mute(disable_notification)
     end
     run_and_refresh(volume_mute_toggle_cmd, function()
         get_volume(function(value)
-            get_volume_muted_status(function(status)
+            get_volume_muted_status(function(volume_muted)
                 if not disable_notification then
-                    if status == "yes" then
+                    if volume_muted then
                         notify_volume(value, "muted")
                     else
                         notify_volume(value, "unmuted")
