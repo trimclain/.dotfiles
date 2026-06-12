@@ -1,92 +1,99 @@
 -- awesome-modalbind (heavily modified) - modal keybindings for awesomewm
 -- Credit: https://github.com/crater2150/awesome-modalbind
 
--- Usage Example:
--- local modalbind = require("modalbind")
---
--- modalbind.init()
---
--- modalbind.set_location("centered") -- options: top_left, top_right, bottom_left, bottom_right, left, right, top, bottom, centered, center_vertical, center_horizontal
--- modalbind.set_x_offset(10) -- move the wibox the given amount of pixels to the right
--- modalbind.set_y_offset(-10) -- move the wibox the given amount of pixels to the bottom
--- modalbind.set_opacity(0.95) -- change the opacity of the box with float between 0.0 and 1.0
--- modalbind.hide_default_options() -- hide that esc or return exits the box
+--[[
+Usage Example:
+local modalbind = require("modalbind")
 
--- local function note(title, text)
---     local naughty = require("naughty")
---     naughty.notify({ text = text, title = title, timeout = 3, preset = naughty.config.presets.info })
--- end
---
--- local resize_mode = {
---     -- The mode name. If not set, no box will be shown. NOT optional,
---     -- if any binding recursively opens a modalbind, in which case the
---     -- nested modals need to have a different name from the parent.
---     name = "Resize Mode",
---     -- Boolean. If true, awesome will stay in the input mode until escape
---     -- is pressed. Defaults to false. Any mapping in the keymap may contain
---     -- a stay_in_mode entry, which overrides this for that key only.
---     stay_in_mode = false,
---     -- Index of the keyboard layout, widget will automatically switch to.
---     -- If multiple layouts are defined in the system, widget will switch to
---     -- the chosen one upon entering input mode and restore previous layout,
---     -- leaving it. When argument is not set, widget will not change the layout.
---     layout = 0,
---     -- Additional arguments passed on to functions in the mapping table,
---     -- e.g. passing the client for clientkeys bindings.
---     args = { step = 50, source = "resize-mode" },
---     -- Function that is called, when the modal is started.
---     onOpen = function(args)
---         note("modal open", "resize mode, step=" .. tostring(args.step))
---     end,
---     -- Function that is called, when the modal ends, whether from a binding or from pressing escape.
---     onClose = function(args)
---         note("modal close", "resize mode closed from " .. tostring(args.source))
---     end,
---     -- The mapping table
---     keymap = {
---         {
---             "h",
---             function(args)
---                 note("resize", "left " .. args.step)
---             end,
---             "Resize left",
---         },
---         {
---             "j",
---             function(args)
---                 note("resize", "down " .. args.step)
---             end,
---             "Resize down",
---         },
---         {
---             "k",
---             function(args)
---                 note("resize", "up " .. args.step)
---             end,
---             "Resize up",
---         },
---         { "separator", "My Separator" },
---         {
---             "l",
---             function(args)
---                 note("resize", "right " .. args.step)
---             end,
---             "Resize right",
---         },
---         {
---             "T",
---             function()
---                 require("awful").spawn("kitty")
---             end,
---             "Open terminal",
---         },
---     },
--- }
---
--- -- in keybindings
--- require("awful").key({ "Mod4" }, "b", function()
---     modalbind.grab(resize_mode)
--- end, { description = "enter brightness mode", group = "modes" })
+modalbind.init()
+
+-- Options:
+-- top_left, top_right, bottom_left, bottom_right,
+-- left, right, top, bottom,
+-- centered, center_vertical, center_horizontal
+modalbind.set_location("centered")
+
+modalbind.set_x_offset(10) -- move the wibox the given amount of pixels to the right
+modalbind.set_y_offset(-10) -- move the wibox the given amount of pixels to the bottom
+modalbind.set_opacity(0.95) -- change the opacity of the box with float between 0.0 and 1.0
+modalbind.hide_default_options() -- hide that esc or return exits the box
+
+local function note(title, text)
+    local naughty = require("naughty")
+    naughty.notify({ text = text, title = title, timeout = 3, preset = naughty.config.presets.info })
+end
+
+local resize_mode = {
+    -- The mode name. If not set, no box will be shown. NOT optional,
+    -- if any binding recursively opens a modalbind, in which case the
+    -- nested modals need to have a different name from the parent.
+    name = "Resize Mode",
+    -- Boolean. If true, awesome will stay in the input mode until escape
+    -- is pressed. Defaults to false. Any mapping in the keymap may contain
+    -- a stay_in_mode entry, which overrides this for that key only.
+    stay_in_mode = false,
+    -- Index of the keyboard layout, widget will automatically switch to.
+    -- If multiple layouts are defined in the system, widget will switch to
+    -- the chosen one upon entering input mode and restore previous layout,
+    -- leaving it. When argument is not set, widget will not change the layout.
+    layout = 0,
+    -- Additional arguments passed on to functions in the mapping table,
+    -- e.g. passing the client for clientkeys bindings.
+    args = { step = 50, source = "resize-mode" },
+    -- Function that is called, when the modal is started.
+    onOpen = function(args)
+        note("modal open", "resize mode, step=" .. tostring(args.step))
+    end,
+    -- Function that is called, when the modal ends, whether from a binding or from pressing escape.
+    onClose = function(args)
+        note("modal close", "resize mode closed from " .. tostring(args.source))
+    end,
+    -- The mapping table
+    keymap = {
+        {
+            "h",
+            function(args)
+                note("resize", "left " .. args.step)
+            end,
+            "Resize left",
+        },
+        {
+            "j",
+            function(args)
+                note("resize", "down " .. args.step)
+            end,
+            "Resize down",
+        },
+        {
+            "k",
+            function(args)
+                note("resize", "up " .. args.step)
+            end,
+            "Resize up",
+        },
+        { "separator", "My Separator" },
+        {
+            "l",
+            function(args)
+                note("resize", "right " .. args.step)
+            end,
+            "Resize right",
+        },
+        {
+            "T",
+            function()
+                require("awful").spawn("kitty")
+            end,
+            "Open terminal",
+        },
+    },
+}
+
+-- in keybindings
+require("awful").key({ "Mod4" }, "r", function()
+    modalbind.grab(resize_mode)
+end, { description = "enter resize mode", group = "modes" })
+-- ]]
 
 -- TODO: embedding doesn't work as expected.
 --
