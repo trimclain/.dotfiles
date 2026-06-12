@@ -24,8 +24,6 @@ M.keys = gears.table.join(
     require("binds.global.launcher"),
     require("binds.global.awesome"),
     require("binds.global.client"),
-    -- TODO:
-    -- require("binds.global.screen"),
     require("binds.global.layout"),
     require("binds.global.hotkeys"),
     require("binds.global.tags"),
