@@ -34,14 +34,12 @@ local function gg(msg)
     utils.notify(msg, { preset = "critical", title = "Awesome Brightness Error", timeout = 5 })
 end
 
---- Hide the brightness widget
-local function hide_widget()
+--- Remove the brightness widget
+local function remove_widget()
     if widget_refresh_timer then
         widget_refresh_timer:stop()
     end
-    if brightness_widget then
-        brightness_widget.visible = false
-    end
+    awesome.emit_signal("ui::brightness_widget::enabled", false)
 end
 
 --- Send a brightness notification
@@ -120,7 +118,7 @@ local function refresh_widget(brightness)
     end
 
     if brightnessctl == "" then
-        hide_widget()
+        remove_widget()
         return
     end
 
@@ -261,7 +259,7 @@ local function get_brightnessctl()
         else
             brightnessctl = ""
             gg("Both 'brightnessctl' and 'xrandr' are not found. Your device rendering is not set up correctly.")
-            hide_widget()
+            remove_widget()
         end
     end)
 end

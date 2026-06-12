@@ -47,15 +47,12 @@ local function gg(msg)
     utils.notify(msg, { preset = "critical", title = "Awesome Volume Error", timeout = 5 })
 end
 
---- Hide the volume widget
--- TODO: ideally I remove the widget from the layout. Try to do it with signals.
-local function hide_widget()
+--- Remove the volume widget
+local function remove_widget()
     if widget_refresh_timer then
         widget_refresh_timer:stop()
     end
-    if volume_widget then
-        volume_widget.visible = false
-    end
+    awesome.emit_signal("ui::volume_widget::enabled", false)
 end
 
 --- Detect whether to use pactl or wpctl
@@ -80,7 +77,7 @@ local function get_volumectl()
         else
             volumectl = ""
             gg("Both 'pactl' and 'wpctl' are not found. Your device volume is not set up correctly.")
-            hide_widget()
+            remove_widget()
         end
     end)
 end
@@ -230,7 +227,7 @@ local function refresh_widget()
     end
 
     if volumectl == "" then
-        hide_widget()
+        remove_widget()
         return
     end
 

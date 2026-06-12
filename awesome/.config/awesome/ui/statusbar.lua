@@ -195,6 +195,15 @@ local function set_tag_colors(self, tag)
     end
 end
 
+--- Remove a widget from its parent layout when the given signal is emitted with false
+local function remove_on_signal(signal_name, parent_layout, widget)
+    awesome.connect_signal(signal_name, function(enabled)
+        if enabled == false then
+            parent_layout:remove_widgets(widget, true)
+        end
+    end)
+end
+
 function M.setup(s)
     -- Create a launcher widget
     -- s.mylauncher = wibox.widget({
@@ -400,6 +409,9 @@ function M.setup(s)
         right_widgets:add(mytemperature)
         right_widgets:add(mybattery)
         right_widgets:add(mypowermenu)
+
+        remove_on_signal("ui::volume_widget::enabled", right_widgets, myvolume)
+        remove_on_signal("ui::brightness_widget::enabled", right_widgets, mybrightness)
     end
 
     -- Create the wibox
