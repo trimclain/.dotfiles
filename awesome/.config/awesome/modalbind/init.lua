@@ -153,8 +153,7 @@ local current_modebox = nil
 local prev_layout = nil
 
 local function layout_swap(new)
-    -- TODO: why we hatin on people with more than 3 layouts?
-    if type(new) == "number" and new >= 0 and new <= 3 then
+    if type(new) == "number" and new >= 0 then
         prev_layout = awesome.xkb_get_layout_group()
         awesome.xkb_set_layout_group(new)
     end
