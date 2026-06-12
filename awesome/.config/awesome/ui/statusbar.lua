@@ -138,7 +138,7 @@ local mypowermenu = wibox.widget({
     {
         {
             {
-                text = " 󰐥 ", -- 
+                text = " 󰐥 ", -- "", "󰤆"
                 widget = wibox.widget.textbox,
             },
             left = 2,

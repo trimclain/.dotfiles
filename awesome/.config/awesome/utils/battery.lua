@@ -1,3 +1,8 @@
+--[[
+System Requirements:
+  - ls (coreutils)
+]]
+
 local beautiful = require("beautiful")
 local gears = require("gears")
 local wibox = require("wibox")
@@ -27,6 +32,8 @@ local function get_battery_path()
     end)
 end
 
+-- { "", "", "", "", "" }
+-- { "󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" }
 local function get_prefix(status, pct)
     if status == "Charging" then
         return "󰂄 "

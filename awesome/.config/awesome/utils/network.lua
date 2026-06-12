@@ -1,3 +1,10 @@
+--[[
+System Requirements:
+  - ip (iproute2)
+  - nmcli (networkmanager)
+  - optional: nm-connection-editor
+]]
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 local fs = require("gears.filesystem")
@@ -98,8 +105,8 @@ local function get_interfaces()
 
     -- populate the interface list, e.g. iface_list = { "enp2s0", "wlp4s0" }
     local iface_list = {}
-    for _, line in ipairs(utils.readlines("/proc/net/dev", true)) do
-        local name = line:match("^([^:]+):") or line:match("^%s*([^:]+):")
+    for line in io.lines("/proc/net/dev") do
+        local name = line:match("^%s*([^:]+):")
         if name and name ~= "lo" then
             iface_list[#iface_list + 1] = name
         end
