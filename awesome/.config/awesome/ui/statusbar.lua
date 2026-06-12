@@ -178,11 +178,15 @@ mypowermenu:buttons(
 
 -- }}}
 
+-- Decide the color based on current tag state
 local function set_tag_colors(self, tag)
-    -- Decide the color based on current tag state
-    if tag.selected then
+    local focused_screen = awful.screen.focused()
+
+    if tag.selected and tag.screen == focused_screen then
         self.fg = beautiful.taglist_fg_focus
         self.bg = beautiful.taglist_bg_focus
+    elseif tag.selected then
+        self.fg = beautiful.taglist_fg_focus_inactive or beautiful.taglist_fg_occupied
     elseif tag.urgent then
         self.fg = beautiful.taglist_fg_urgent
         self.bg = beautiful.taglist_bg_urgent
@@ -194,6 +198,23 @@ local function set_tag_colors(self, tag)
         self.bg = beautiful.taglist_bg_empty
     end
 end
+
+-- Force every screen's taglist to redraw so custom colors are recomputed after screen/tag context changes
+local function refresh_all_taglists()
+    for s in screen do
+        if s.mytaglist and s.mytaglist._do_taglist_update then
+            s.mytaglist._do_taglist_update()
+        end
+    end
+end
+
+-- Refresh all taglists when screen state changes:
+-- - when a screen is added,
+-- - when a screen is removed,
+-- - or when any screen changes its active tag/workspace.
+screen.connect_signal("added", refresh_all_taglists)
+screen.connect_signal("removed", refresh_all_taglists)
+screen.connect_signal("tag::history::update", refresh_all_taglists)
 
 --- Remove a widget from its parent layout when the given signal is emitted with false
 local function remove_on_signal(signal_name, parent_layout, widget)

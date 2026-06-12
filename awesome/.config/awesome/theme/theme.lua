@@ -81,6 +81,7 @@ theme.bg_exit = theme.bg_widget
 
 theme.taglist_fg_focus = "#7287fd"
 theme.taglist_bg_focus = theme.bg_focus
+theme.taglist_fg_focus_inactive = "#1e1e2e" -- used for focused tag on unfocused screen
 theme.taglist_fg_empty = "#313244"
 theme.taglist_bg_empty = theme.bg_normal
 theme.taglist_fg_occupied = theme.fg_normal
