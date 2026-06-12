@@ -18,7 +18,6 @@ M.enable_titlebars = false
 M.border_radius = 7 -- default: 10
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
--- TODO: (advanced) port a layout I like from hyprland
 M.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.tile.bottom,

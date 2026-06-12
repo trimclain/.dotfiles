@@ -46,13 +46,9 @@ return gears.table.join(
     -- Use brightnessctl/xrandr to adjust screen brightness
     awful.key({}, "XF86MonBrightnessUp", function()
         brightness.increase()
-        -- TODO: update and remove
-        -- utils.run_command("~/.local/bin/brightness-control --increase")
     end, { description = "brightness +10%", group = "hotkeys" }),
     awful.key({}, "XF86MonBrightnessDown", function()
         brightness.decrease()
-        -- TODO: update and remove
-        -- utils.run_command("~/.local/bin/brightness-control --decrease")
     end, { description = "brightness -10%", group = "hotkeys" }),
 
     -- Use wpctl/pactl to adjust volume with PulseAudio

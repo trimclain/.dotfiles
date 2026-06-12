@@ -5,29 +5,26 @@ local env = require("env")
 local utils = require("utils")
 
 return gears.table.join(
-    -- TODO: sure this is my workflow? Figure out my layout situation
     awful.key({ env.modkey, "Control" }, "l", function()
         awful.tag.incmwfact(0.05)
-    end, { description = "increase master width factor", group = "layout" }),
+    end, { description = "increase master width factor", group = "layout" }), -- only in master (tile) layouts
     awful.key({ env.modkey, "Control" }, "h", function()
         awful.tag.incmwfact(-0.05)
-    end, { description = "decrease master width factor", group = "layout" }),
+    end, { description = "decrease master width factor", group = "layout" }), -- only in master (tile) layouts
 
-    -- TODO: parse old
-    -- awful.key({ modkey, "Shift" }, "h", function()
-    --     awful.tag.incnmaster(1, nil, true)
-    -- end, { description = "increase the number of master clients", group = "layout" }),
-    -- awful.key({ modkey, "Shift" }, "l", function()
-    --     awful.tag.incnmaster(-1, nil, true)
-    -- end, { description = "decrease the number of master clients", group = "layout" }),
+    awful.key({ env.modkey, "Control" }, "j", function()
+        awful.client.incwfact(0.05)
+    end, { description = "increase client size factor", group = "layout" }), -- only in master (tile) layouts
+    awful.key({ env.modkey, "Control" }, "k", function()
+        awful.client.incwfact(-0.05)
+    end, { description = "decrease client size factor", group = "layout" }), -- only in master (tile) layouts
 
-    -- TODO: sure this is my workflow?
     awful.key({ env.modkey, env.altkey }, "h", function()
         awful.tag.incncol(1, nil, true)
-    end, { description = "increase the number of columns", group = "layout" }),
+    end, { description = "increase the number of columns", group = "layout" }), -- only in master (tile) layouts
     awful.key({ env.modkey, env.altkey }, "l", function()
         awful.tag.incncol(-1, nil, true)
-    end, { description = "decrease the number of columns", group = "layout" }),
+    end, { description = "decrease the number of columns", group = "layout" }), -- only in master (tile) layouts
 
     awful.key({ env.modkey }, "Tab", function()
         awful.layout.inc(1)
