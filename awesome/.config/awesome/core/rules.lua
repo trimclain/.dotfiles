@@ -64,6 +64,17 @@ awful.rules.rules = {
         properties = { floating = true },
     },
 
+    -- Fix Telegram media viewer being out of screen
+    {
+        rule_any = { name = { "Media viewer" } },
+        properties = {
+            floating = true,
+            fullscreen = false,
+            maximized = false,
+            titlebars_enabled = false,
+        },
+    },
+
     -- Add titlebars to normal clients and dialogs
     { rule_any = { type = { "normal", "dialog" } }, properties = { titlebars_enabled = env.enable_titlebars } },
 
