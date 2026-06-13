@@ -1,7 +1,7 @@
 --[[
 System Requirements:
   - ip (iproute2)
-  - nmcli (networkmanager)
+  - optional: nmcli (networkmanager)
   - optional: nm-connection-editor
 ]]
 
@@ -51,23 +51,9 @@ local function is_wireless(iface)
     return fs.is_dir("/sys/class/net/" .. iface .. "/wireless")
 end
 
---- Asynchronously get the active Wi-Fi connection name for an interface
----@param iface string wireless interface name
----@param callback fun(ssid:string) function called with the SSID/connection name
-local function get_wifi_ssid(iface, callback)
-    local cmd = "LC_ALL=C nmcli -t -g GENERAL.CONNECTION device show " .. iface
-    utils.get_command_output(cmd, function(ssid, err, _)
-        if err then
-            gg("Error in network.get_wifi_ssid(): " .. err)
-            return
-        end
-        callback(ssid)
-    end)
-end
-
 --- Asynchronously get the IPv4 address for an interface
 ---@param iface string interface name
----@param callback fun(ip:string) function called with the IPv4 address
+---@param callback fun(ip: string) function called with the IPv4 address
 local function get_ipv4(iface, callback)
     local cmd = "ip -4 -brief addr show dev " .. iface
     utils.get_command_output(cmd, function(out, err, _)
@@ -77,6 +63,29 @@ local function get_ipv4(iface, callback)
         end
         local ip = out:match("^%S+%s+%S+%s+([0-9.]+)") or ""
         callback(ip)
+    end)
+end
+
+--- Asynchronously get the active Wi-Fi connection name for a wireless interface.
+--- Fall back to getting the IPv4 address if `nmcli` is not installed.
+---@param iface string wireless interface name
+---@param callback fun(ssid_or_ip: string) function called with the SSID/connection name or with the IPv4 address
+local function get_wifi_ssid_or_ipv4(iface, callback)
+    utils.check_command_executable("nmcli", function(is_installed, _, _)
+        if is_installed then
+            local cmd = "LC_ALL=C nmcli -t -g GENERAL.CONNECTION device show " .. iface
+            utils.get_command_output(cmd, function(ssid, err, _)
+                if err then
+                    gg("Error in network.get_wifi_ssid(): " .. err)
+                    return
+                end
+                callback(ssid)
+            end)
+        else
+            get_ipv4(iface, function(ip)
+                callback(ip)
+            end)
+        end
     end)
 end
 
@@ -99,7 +108,6 @@ end
 --- Populate `interfaces[name]` with interface metadata and fill
 --- `ordered_interfaces` so wired or wireless interfaces come first
 --- depending on `prioritize_wired`.
---- @return nil
 local function get_interfaces()
     ordered_interfaces = {}
 
@@ -150,8 +158,8 @@ local function refresh_widget()
         if has_carrier(name) then
             local iface = interfaces[name]
             if iface.wireless then
-                get_wifi_ssid(name, function(ssid)
-                    network_text:set_text(wifi_icon .. ssid)
+                get_wifi_ssid_or_ipv4(name, function(ssid_or_ip)
+                    network_text:set_text(wifi_icon .. ssid_or_ip)
                 end)
             else
                 get_ipv4(name, function(ip)
