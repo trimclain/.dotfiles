@@ -75,7 +75,6 @@ brightnessctl: ## Install a brightness control tool
 		echo "[brightnessctl]: Done";\
 	fi
 
-
 ###################################################################################################
 #                                            Languages                                            #
 ###################################################################################################
@@ -428,7 +427,7 @@ wezterm: ## Install Wezterm
 ghostty: ## Install Ghostty
 	$(INSTALL) ghostty
 	@# Start ghostty in background to create windows faster
-	systemctl enable --user app-com.mitchellh.ghostty.service
+	@#systemctl enable --user app-com.mitchellh.ghostty.service
 
 #============================================ Browser =============================================
 brave: ## Install Brave Browser
@@ -519,6 +518,7 @@ vlc: ## Install VLC
 
 # I have to sometimes
 vscode: ## Install VSCode (VSCodium)
+	@# $(INSTALL) code
 	$(PARUINSTALL) vscodium-bin vscodium-bin-marketplace
 
 office: ## Install LibreOffice
@@ -674,7 +674,7 @@ install: ## Setup arch after new installation
 	@echo "Installing everything..."
 	@echo "==================================================================="
 	@# symlink my configs
-	@./install --linux
+	@./install
 	@# programming languages
 	@make python
 	@make rust
