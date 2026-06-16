@@ -294,8 +294,7 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 
 #========================================= Window Manager =========================================
 awesome: ## Install AwesomeWM with all dependencies
-	$(INSTALL) awesome dmenu rofi slock xss-lock picom polybar
-	@make waypaper
+	$(INSTALL) awesome dmenu rofi slock xss-lock picom
 	@make brightnessctl
 
 # INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
