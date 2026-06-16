@@ -59,6 +59,7 @@ CONFIGS = {
     # apps
     "lf": ".config/lf",
     "yazi": ".config/yazi",
+    "spotify-player": ".config/spotify-player",
     "ncspot": ".config/ncspot",
     "fastfetch": ".config/fastfetch",
     "flameshot": ".config/flameshot",
