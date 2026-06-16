@@ -15,8 +15,6 @@
 
 # INFO: this file contains mostly defaults to be used as a reference
 
-# TODO: customize mouse behavior with next release
-
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 
@@ -25,7 +23,9 @@
 [mgr]
 
 keymap = [
-    { on = "<Esc>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
+    # CUSTOM: since I forget that X and Y unyank, let's unyank on escape aswell
+    { on = "<Esc>", run = [ "escape --all", "unyank" ], desc = "Cancel selection, search, and pending copy/cut" },
+    # { on = "<Esc>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
     { on = "<C-[>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
     { on = "q",     run = "quit",               desc = "Quit the process" },
     { on = "Q",     run = "quit --no-cwd-file", desc = "Quit without outputting cwd-file" },
