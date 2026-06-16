@@ -160,21 +160,18 @@ def get_config_names(mode) -> list[str]:
         return [
             "bin",
             "chtsh",
-            "tmux",
+            "stylua",
+            "bash",
             "zsh",
+            "tmux",
             "starship",
             "kitty",
+            "alacritty",
+            "awesome",
+            "xorg",
             "rofi",
             "picom",
-            # "lf",
             "yazi",
-            "stylua",
-            "xorg",
-            "wezterm",
-            "dunst",
-            "qtile",
-            "hyprland",
-            "waybar",
         ]
     # Linux on my main machines
     if mode == "all":
