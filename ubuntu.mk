@@ -1,27 +1,42 @@
 # DEPRECATED: I fully switched to arch
 
-INSTALL = sudo apt install -y
-FLATINSTALL = flatpak install -y --or-update
+INSTALL = sudo apt-get install -y
+FLATINSTALL = flatpak install -y --or-update flathub
+MISEINSTALL = mise use --global
 
 all:
-	@# Create required folders
-	@echo "Making sure ~/.local/bin and ~/.config exist"
-	mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
-	@# Usefull tools
-	@echo "Installing some usefull programms..."
-	@# stow to symlink files, xclip as a clipboard tool, 7zip for extracting archives, ncdu for disk usage
-	@$(INSTALL) gcc curl stow ripgrep fzf fd-find ncdu htop btop tree eza bat xclip p7zip-full p7zip-rar
-	@$(INSTALL) python3-pip python3-venv
+	@# Make sure these folders exist
+	@mkdir -p ~/.local/bin ~/.config ~/.local/share/fonts/
+	@echo "Installing some basic tools..."
+	$(INSTALL) build-essential bc curl wget stow ripgrep fzf fd-find ncdu htop btop tree eza bat 7zip unzip jq rsync
 	@# For netstat, ifconfig and more
-	@$(INSTALL) net-tools
+	@# NOTE: should probably use ss from iproute2 package (networkmanager dependency)
+	$(INSTALL) net-tools
 
-help: ## Print help for targets with comments
-	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+help: ## Print this help menu
+	@cat $(MAKEFILE_LIST) | \
+		awk ' \
+		/^##/ || /^#  +/ { \
+			printf "\033[95m%s\033[0m\n", substr($$0, 0) \
+		}; \
+		/^#=/ { \
+			printf "\033[35m%s\033[0m\n", substr($$0, 0) \
+		}; \
+		/^[a-zA-Z_-]+:.*## .*$$/ { \
+			match($$0, /^[a-zA-Z_-]+/); \
+			target_name = substr($$0, RSTART, RLENGTH); \
+			\
+			comment_start_pos = index($$0, "## "); \
+			\
+			if (comment_start_pos > 0) { \
+				description = substr($$0, comment_start_pos + 3); \
+				printf "\033[36m%-30s\033[0m %s\n", target_name, description \
+			} \
+		}'
 
 vimdir:
 	@echo "Creating directory for undofiles for vim..."
-	mkdir -p ~/.vim/undodir
+	@mkdir -p ~/.vim/undodir
 	@echo "Done"
 
 getnf: ## Install the Nerd Font installer
@@ -29,407 +44,393 @@ getnf: ## Install the Nerd Font installer
 		curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash; \
 	fi
 
-ansible:
-	@echo "==================================================================="
-	@if [ -f /usr/bin/ansible ]; then echo "[ansible]: Already installed";\
-		else echo "Installing ansible..." && $(INSTALL) ansible; fi
+maple-mono: ## Install Maple Mono fonts
+	@./bin/.local/bin/install-maple-mono
 
-tmux:
-	@echo "==================================================================="
-	@if [ -f /usr/bin/tmux ]; then echo "[tmux]: Already installed";\
-		else echo "Installing tmux..." && $(INSTALL) tmux; fi
-zsh:
-	@echo "==================================================================="
-	@if command -v zsh > /dev/null; then echo "[zsh]: Already installed";\
-		else echo "Installing Zsh..." && $(INSTALL) zsh && echo "Done" && make zap; fi
-	@# Check if zsh is the shell, change if not
-	@# Problem: after installing zsh it needs a restart to detect $(which zsh)
-	@# Solution: hardcode zsh location, but it won't work on Mac
-	@if [[ -z "$ZSH_VERSION" ]]; then echo "Changing shell to ZSH" && chsh -s /usr/bin/zsh &&\
-		echo "Successfully switched to ZSH."; fi
+###################################################################################################
+#                                            Languages                                            #
+###################################################################################################
 
-zap:
-	@if [[ -d ~/.local/share/zap ]]; then echo "[zap-zsh]: Already installed";\
-		else echo "Installing zap-zsh..." && git clone https://github.com/zap-zsh/zap ~/.local/share/zap;\
-		echo "Done"; fi
+mise: ## Install mise (a polyglot tool version manager) with latest node
+	$(INSTALL) extrepo && \
+		sudo extrepo enable mise && \
+		sudo apt update && \
+		$(INSTALL) mise
 
-nvim_build_reqs:
-	@# Neovim prerequisites
-	@echo "==================================================================="
+	$(MISEINSTALL) node@latest
+
+python: ## Install python3, pip, venv
+	$(INSTALL) python3 python3-pip python3-venv
+
+rust: ## Install rust
+	$(MISEINSTALL) rust@latest
+
+julia: ## Install julia
+	$(MISEINSTALL) julia@latest
+
+go: ## Install go
+	$(MISEINSTALL) go@latest
+
+typescript: ## Install tsc, ts-node and pnpm
+	npm install -g typescript ts-node pnpm
+
+tectonic: ## Install tectonic, a LaTeX engine
+	@if command -v tectonic > /dev/null; then \
+		echo "[tectonic]: Already installed"; \
+	else \
+		echo "[tectonic]: Installing..."; \
+		curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh; \
+		mv tectonic ~/.local/bin/; \
+		echo "[tectonic]: Done"; \
+	fi
+
+fix_tectonic:
+	@wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.17_amd64.deb && \
+		sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.17_amd64.deb
+
+uninstall_tectonic: ## Uninstall tectonic
+	rm -f ~/.local/bin/tectonic
+
+
+###################################################################################################
+#                                             Software                                            #
+###################################################################################################
+
+flatpak: ## Install flatpak
+	@if command -v flatpak &> /dev/null; then \
+		echo "[flatpak]: Already installed"; \
+	else \
+		echo "[flatpak]: Installing..." && \
+		$(INSTALL) flatpak && \
+		echo "[flatpak]: Done"; \
+	fi
+	if ! flatpak remotes | grep -q "flathub"; then \
+		echo "[flatpak]: Adding Flathub remote..." && \
+		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo && \
+		echo "[flatpak]: Restart your system for changes to take effect"; \
+	fi
+
+docker: ## Install docker
+	@if command -v docker > /dev/null; then \
+		echo "[docker]: Already installed"; \
+	else \
+		echo "[docker]: Installing..." && \
+		$(INSTALL) docker.io docker-buildx docker-compose && \
+		sudo systemctl enable docker.socket --now && \
+		sudo usermod -aG docker $$USER && \
+		echo "[docker]: Done"; \
+		echo "[docker]: Log out and log back in to use docker without sudo"; \
+	fi
+
+podman: ## Install podman (daemon-less alternative to Docker)
+	$(INSTALL) podman
+
+pm2: ## Install pm2 (daemon process manager for node.js)
+	npm install --global pm2
+
+ufw: ## Install ufw (Uncomplicated Firewall)
+	$(INSTALL) ufw
+
+yazi: ## Install yazi (file manager)
+	$(MISEINSTALL) yazi@latest
+
+#============================================= Neovim =============================================
+nvim-reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic)
+	@# Things my neovim needs
+	@echo "Installing things for Neovim..."
+	@# - yad (or zenity) for the color picker plugin
+	@# - xclip and wl-clipboard for clipboard management
+	@# - tree-sitter cli for autoinstalling parsers
+	$(INSTALL) yad xclip wl-clipboard tree-sitter-cli
+	@#make tectonic
+
+nvim-build-reqs: ## Install neovim build prerequisites
+	@# Neovim build prerequisites
 	@echo "Installing Neovim build prerequisites..."
-	@$(INSTALL) ninja-build gettext cmake unzip curl
-	@# Need pynvim for Bracey to work
-	@pip3 install pynvim
+	@$(INSTALL) ninja-build gettext cmake curl build-essential git
 
-nvim:
-	@# Install neovim by building it
-	@echo "==================================================================="
-	@if [ -f "/usr/local/bin/nvim" ]; then echo "[nvim]: Already installed";\
-		else make nvim_build_reqs && echo "Installing Neovim..." &&\
-		git clone https://github.com/neovim/neovim ~/neovim && pushd ~/neovim/ &&\
-		make CMAKE_BUILD_TYPE=Release && sudo make install && popd && rm -rf ~/neovim &&\
-		echo "Done"; fi
+nvim-dev: ## Install neovim by building it from source
+	@if command -v nvim > /dev/null; then \
+		echo "[nvim]: Already installed"; \
+	else \
+		make nvim-build-reqs && \
+		echo "[nvim]: Installing from Github..." && \
+		git clone --depth=1 https://github.com/neovim/neovim /tmp/neovim && \
+		pushd /tmp/neovim/ && \
+		make CMAKE_BUILD_TYPE=Release && \
+		sudo make install && \
+		popd && \
+		rm -rf /tmp/neovim && \
+		make nvim-reqs && \
+		echo "[nvim]: Done"; \
+	fi
 
-uninstall_nvim:
-	@if [ -f "/usr/local/bin/nvim" ]; then echo -n "Uninstalling Neovim... " &&\
-		sudo rm -f /usr/local/bin/nvim && sudo rm -rf /usr/local/share/nvim/ &&\
-		echo "Done"; fi
+uninstall-nvim-dev: ## Uninstall neovim that was built from source (e.g. with `make nvim-dev`)
+	@if [[ -f /usr/local/bin/nvim ]]; then \
+		echo "Uninstalling Neovim..." && \
+		sudo rm -f /usr/local/bin/nvim && \
+		sudo rm -rf /usr/local/share/nvim/ && \
+		echo "Done"; \
+	fi
 
-clean_nvim:
+clean-nvim: ## Uninstall neovim packages, remove state and cache files
 	@echo "Uninstalling Neovim Leftovers..."
 	@rm -rf ~/.local/share/nvim && rm -rf ~/.local/state/nvim && rm -rf ~/.cache/nvim
 	@echo "Done"
 
-purge_nvim: uninstall_nvim clean_nvim
+purge-nvim: uninstall-nvim-dev clean-nvim  ## Uninstall neovim installed from source and remove all it's leftovers
 
-mise: ## Install mise (a polyglot tool version manager) with latest node
-	sudo install -dm 755 /etc/apt/keyrings
-	curl -fSs https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.asc 1> /dev/null
-	echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-	sudo apt update -y
-	$(INSTALL) mise
+neovim: ## Install neovim package
+	@make nvim-reqs
+	@# $(INSTALL) neovim
+	$(MISEINSTALL) neovim
 
-	mise use --global node@latest
+#============================================== Zsh ===============================================
+zoxide: ## Install zoxide (a smart cd command)
+	$(INSTALL) zoxide
 
-typescript:
-	@echo "==================================================================="
-	@# Install tsc and ts-node
-	@npm install -g typescript ts-node
+starship: ## Install starship (customizable prompt for any shell)
+	$(MISEINSTALL) starship
 
-go:
-	@echo "==================================================================="
-	mise use -g go@latest
+zsh: ## Install zsh
+	@if command -v zsh > /dev/null; then \
+		echo "[zsh]: Already installed"; \
+	else \
+		echo "[zsh]: Installing..." && \
+		$(INSTALL) zsh && \
+		echo "[zsh]: Done" && \
+		make zap && \
+		make starship && \
+		make zoxide; \
+	fi
+	@# Check if zsh is the shell, change if not
+	@if [[ -z "$$ZSH_VERSION" ]]; then \
+		echo "[zsh]: Changing shell to Z shell" && \
+		sudo chsh -s /bin/zsh $$USER && \
+		echo "[zsh]: Successfully switched to Z shell. This might work only after reboot."; \
+	else \
+		echo "[zsh]: Already in use"; \
+	fi
 
-julia:
-	@echo "==================================================================="
-	mise use -g julia@latest
+zap: ## Install zap-zsh (a zsh plugin manager)
+	@if [[ -d ~/.local/share/zap ]]; then \
+		echo "[zap-zsh]: Already installed"; \
+	else \
+		echo "[zap-zsh]: Installing..." && \
+		git clone https://github.com/zap-zsh/zap ~/.local/share/zap; \
+		echo "[zap-zsh]: Done"; \
+	fi
 
-rust:
-	@echo "==================================================================="
-	mise use -g rust@latest
-
-tectonic:
-	@if [[ ! -f ~/.local/bin/tectonic ]]; then echo "Installing tectonic (latex compiler)..." &&\
-		curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net |sh &&\
-		mv tectonic ~/.local/bin/ && echo "Done"; else echo "Tectonic already installed"; fi
-
-fix_tectonic:
-	@wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.17_amd64.deb
-	@sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.17_amd64.deb
-
-
-uninstall_tectonic:
-	@rm -f ~/.local/bin/tectonic
-
-docker:
-	@echo "==================================================================="
-	@# Installing docker
-	@if [ ! -f /usr/bin/docker ]; then echo "Installing Docker..." &&\
-		$(INSTALL) docker.io docker-compose-v2 && sudo usermod -aG docker $$USER && echo "Done";\
-		else echo "[docker]: Already installed"; fi
-
-uninstall_docker:
-	@if [ -f /usr/bin/docker ]; then echo "Uninstalling docker..." &&\
-		sudo apt purge -y docker-engine docker docker.io docker-ce docker-ce-cli &&\
-		sudo apt autoremove -y --purge docker-engine docker docker.io docker-ce &&\
-		sudo rm -rf /var/lib/docker /etc/docker &&\
-		sudo rm /etc/apparmor.d/docker &&\
-		sudo groupdel docker &&\
-		sudo rm -rf /var/run/docker.sock && echo "Done"; fi
-
-
-########################## On server ##########################################
-pm2:
-	@echo "==================================================================="
-	@echo "Installing pm2 (daemon process manager for node.js)..."
-	npm install --global pm2
-
-ufw:
-	@echo "==================================================================="
-	@echo "Installing UFW (Uncomplicated Firewall)..."
-	$(INSTALL) ufw
-
-server: ## install everything I need for my server
-	@echo "Making sure ~/.local/bin and ~/.config exist"
-	mkdir -p ~/.local/bin ~/.config
-	@# Usefull tools
-	@echo "Installing some usefull programms..."
-	@# stow to symlink files, 7zip for extracting archives
-	$(INSTALL) curl stow ripgrep fzf fd-find htop btop tree p7zip-full ncdu neofetch
-	@# I love to mail on crontab error
-	$(INSTALL) mailutils
-	./install --server
-
-
-###############################################################################
-
-install: tmux zsh nvim nodejs ## install tmux, zsh, nvim, nodejs and my config for nvim, tmux and zsh
-	./install
-
-sinstall: vimdir tmux ## install tmux and my config for bash, tmux and vim
-	./install --small
-
-finstall: vimdir font_install tmux zsh nvim nodejs go rust ## combine "make sinstall" and "make install"
-	./install --full
-
-###############################################################################
-# Linux  Only Stuff
-###############################################################################
-
-alacritty_build_reqs:
-	@echo "==================================================================="
-	@echo "Installing Alacritty..."
-	rustup override set stable
-	rustup update stable
-	@# Installing dependencies
-	$(INSTALL) cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
-
-alacritty: alacritty_build_reqs
-	@# Download and build alacritty, Post Build, Terminfo, Copy the binary to $PATH,Add Manual Page
-	git clone https://github.com/alacritty/alacritty.git ~/alacritty && cd ~/alacritty &&\
-		cargo build --release && sudo tic -xe alacritty,alacritty-direct extra/alacritty.info &&\
-		sudo cp target/release/alacritty /usr/local/bin &&\
-		sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg &&\
-		sudo desktop-file-install extra/linux/Alacritty.desktop &&\
-		sudo update-desktop-database &&\
-		sudo mkdir -p /usr/local/share/man/man1 &&\
-		gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null &&\
-		gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
-	@# Delete the folder from github
-	rm -rf ~/alacritty
-
-uninstall_alacritty:
-	sudo rm -f /usr/local/bin/alacritty
-	sudo rm -f /usr/share/pixmaps/Alacritty.svg
-
-kitty:
-	@echo "==================================================================="
-	@# imagemagick is required to display uncommon image formats in kitty
-	@# If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
-	@# cp ~/.local/kitty.app/share/applications/kitty-open.desktop /usr/share/applications/
-	@if [ -d ~/.local/kitty.app ]; then echo "[kitty]: already installed"; \
-		else echo "Installing Kitty..." && $(INSTALL) imagemagick &&\
-		curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n &&\
-		sudo ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin &&\
-		sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/share/applications/ &&\
-		sudo sed -i "s|Icon=kitty|Icon=/home/$$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" \
-		/usr/share/applications/kitty*.desktop && echo "Done"; fi
-
-uninstall_kitty:
-	@if [ -d ~/.local/kitty.app ]; then echo "Uninstalling kitty..." &&\
-		sudo rm -f /usr/local/bin/kitty && sudo rm -f /usr/share/applications/kitty*.desktop &&\
-		rm -rf ~/.local/kitty.app && echo "Done"; fi
-
-wezterm:
-	@if [[ -f /usr/bin/wezterm ]]; then echo "[wezterm]: already installed"; \
-		else echo "Installing wezterm..." &&\
-		curl -L https://github.com/wez/wezterm/releases/download/20230408-112425-69ae8472/wezterm-20230408-112425-69ae8472.Ubuntu22.04.deb --output ~/wezterm.deb &&\
-		sudo apt install -y ~/wezterm.deb &&\
-		rm -f ~/wezterm.deb && echo "Done"; fi
-
-uninstall_wezterm:
-	@if [ -f /usr/bin/wezterm ]; then echo "Uninstalling wezterm..." &&\
-		sudo apt purge -y wezterm && echo "Done"; fi
-
-i3:
-	@echo "==================================================================="
-	@echo "Installing i3..."
+#========================================= Window Manager =========================================
+i3: ## Install i3wm
 	$(INSTALL) i3
 
-awesome:
-	@echo "==================================================================="
-	@echo "Installing awesome window manager..."
-	@# dependencies: sudo apt install unclutter
-	@# librewolf -- i got better, and slock and dmenu -- were there
-	$(INSTALL) awesome
+awesome: ## Install AwesomeWM with all dependencies
+	@# Install
+	@# - awesome
+	@# - suckless-tools (dmenu and slock)
+	@# - rofi (better dmenu)
+	$(INSTALL) awesome suckless-tools xss-lock picom rofi
 
-polybar:
-	@# Install better winbar
-	@echo "==================================================================="
-	@echo "Installing polybar..."
-	$(INSTALL) polybar
-	@# For using my fonts I need to install them globally
-	@echo "Installing JetBrainsMono fonts for all users..."
-	@ sudo mkdir /usr/share/fonts/custom/ && sudo cp -r ~/.dotfiles/fonts/JetBrainsMono/ /usr/share/fonts/custom/
+#============================================ Terminal ============================================
+alacritty: ## Install Alacritty
+	$(INSTALL) alacritty
 
-# Need this compositor for transparent terminal (alternative: compton)
-picom:
-	@echo "==================================================================="
-	@echo "Installing picom..."
-	@# Install requirements
-	$(INSTALL) libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
-	@# Clone the project and go into it, update git submodule for whatever reason,
-	@# Use the meson build system (written in python), to make a ninja build and
-	@# Use the ninja build file to proceed and install picom
-	git clone https://github.com/yshui/picom ~/picom && cd ~/picom &&\
-		git submodule update --init --recursive && meson --buildtype=release . build &&\
-		sudo ninja -C build install
-	@# Delete the folder from github
-	sudo rm -rf ~/picom
+kitty: ## Install Kitty
+	@# imagemagick is required to display uncommon image formats in kitty
+	$(INSTALL) imagemagick kitty
 
-rofi:
-	@# Better dmenu
-	@echo "==================================================================="
-	@echo "Installing rofi..."
-	$(INSTALL) rofi
+#============================================ Browser =============================================
+brave: ## Install Brave Browser
+	$(FLATINSTALL) com.brave.Browser
 
-yazi:
-	@# Install cargo with `make rust`
-	cargo install --force yazi-build
+chrome: ## Install Google Chrome Browser
+	$(FLATINSTALL) com.google.Chrome
 
-flatpak:
-	@echo "==================================================================="
-	@echo "Installing Flatpak..."
-	@$(INSTALL) flatpak
-	@flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+chromium: ## Install Chromium Browser
+	$(FLATINSTALL) org.chromium.Chromium
 
-# -------------------------------------------------------------------------------------------------
-# PDF viewers
-sioyek:
-	$(FLATINSTALL) flathub com.github.ahrm.sioyek
+zen: ## Install Zen Browser
+	$(FLATINSTALL) app.zen_browser.zen
 
-zathura:
-	@$(INSTALL) zathura
-# -------------------------------------------------------------------------------------------------
+vivaldi: ## Install Vivaldi Browser
+	$(FLATINSTALL) com.vivaldi.Vivaldi
 
-telegram:
-	@echo "==================================================================="
-	@if command -v flatpak > /dev/null; then echo "Installing Telegram Desktop..." &&\
-		$(FLATINSTALL) flathub org.telegram.desktop;\
-		else echo "Error: flatpak not found";fi
+#======================================== Remote Desktop ==========================================
+anydesk: ## Install AnyDesk
+	$(FLATINSTALL) com.anydesk.Anydesk
 
-spotify:
-	@echo "==================================================================="
-	@if command -v flatpak > /dev/null; then echo "Installing Spotify..." &&\
-		$(FLATINSTALL) flathub com.spotify.Client;\
-		else echo "Error: flatpak not found";fi
+rustdesk: ## Install RustDesk
+	$(FLATINSTALL) com.rustdesk.RustDesk
 
-brave:
-	@echo "==================================================================="
-	@echo "Installing brave-browser..."
-	$(INSTALL) apt-transport-https curl
-	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg\
-		https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64]\
-		https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-	sudo apt update
-	$(INSTALL) brave-browser
+#==================================================================================================
 
-obs-studio:
-	@echo "==================================================================="
-	@echo "Installing OBS..."
-	@# Install ffmpeg
-	$(INSTALL) ffmpeg
-	@# Install obs-studio
-	sudo add-apt-repository ppa:obsproject/obs-studio -y
-	sudo apt update
-	$(INSTALL) obs-studio
+telegram: ## Install Telegram Desktop
+	$(FLATINSTALL) org.telegram.desktop
 
-kdenlive:
-	@echo "==================================================================="
-	@echo "Installing Kdenlive..."
-	@$(FLATINSTALL) flathub org.kde.kdenlive
+discord: ## Install Discord
+	$(FLATINSTALL) com.discordapp.Discord
 
-neovide:
-	@echo "==================================================================="
-	@echo "Installing Neovide..."
-	@# Install dependencies
-	$(INSTALL) curl gnupg ca-certificates git gcc-multilib g++-multilib cmake libssl-dev pkg-config libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev
-	@# Install rust (done)
-	@cargo install --git https://github.com/neovide/neovide
-	@# Install .desktop file and icon to access neovide from rofi
-	@# Clone the repo
-	git clone "https://github.com/neovide/neovide" ~/neovide
-	@# Copy .desktop entry to make it visible for apps in rofi
-	sudo cp ~/neovide/assets/neovide.desktop /usr/share/applications/
-	@# Copy the icon (
-	sudo cp ~/neovide/assets/neovide-256x256.png /usr/local/share/icons/hicolor/256x256/apps/neovide.png
-	@# Uninstall the github repo
-	rm -rf ~/neovide
+spotify: ## Install Spotify
+	$(FLATINSTALL) com.spotify.Client
 
-uninstall_neovide:
-	rm -f ~/.cargo/bin/neovide
-	sudo rm -f /usr/share/applications/neovide.desktop
-	sudo rm -f /usr/local/share/icons/hicolor/256x256/apps/neovide.png
+obs: ## Install OBS Studio
+	@# Flatpak version is the only official version
+	$(FLATINSTALL) com.obsproject.Studio
 
-# Lol
-vscodium:
-	@echo "==================================================================="
-	@if command -v flatpak > /dev/null; then echo "Installing VSCodium..." &&\
-		$(FLATINSTALL) flathub com.vscodium.codium;\
-		else echo "Error: flatpak not found";fi
+# I have to sometimes
+vscode: ## Install VSCode (VSCodium)
+	$(FLATINSTALL) com.vscodium.codium
 
-pomo:
-	@echo "==================================================================="
-	@echo "Installing pomo (simple CLI for Pomodoro)..."
-	@# Clone the repo
-	git clone https://github.com/kevinschoon/pomo.git ~/pomo
-	cd ~/pomo && make
-	@# copy pomo somewhere on your $PATH
-	cp ~/pomo/bin/pomo ~/.local/bin/
-	@# Uninstall the github repo
-	rm -rf ~/pomo
+office: ## Install LibreOffice
+	$(INSTALL) libreoffice
 
-uninstall_pomo:
-	rm -f ~/.local/bin/pomo
+gimp: ## Install GIMP (GNU Image Manipulation Program)
+	@$(FLATINSTALL) org.gimp.GIMP
 
-inkscape:
-	@echo "==================================================================="
-	@echo "Installing Incscape (Better Paint)..."
-	@# Add the ppa and install inkscape
-	sudo add-apt-repository ppa:inkscape.dev/stable -y
-	sudo apt update
-	$(INSTALL) inkscape
+kdenlive: ## Install Kdenlive (Video Editor)
+	$(FLATINSTALL) org.kde.kdenlive
 
-anki:
-	@echo "==================================================================="
+inkscape: ## Install Inkscape (Vector Graphics Editor)
+	@$(FLATINSTALL) org.inkscape.Inkscape
+
+audacity: ## Install Audacity (Audio Editor)
+	@$(FLATINSTALL) org.audacityteam.Audacity
+
+localsend: ## Install LocalSend (Open Source AirDrop)
+	$(FLATINSTALL) org.localsend.localsend_app
+
+#=============================================== AI ===============================================
+ollama: ## Install Ollama (To run LLMs locally)
+	$(MISEINSTALL) ollama@latest
+
+#============================================= Study ==============================================
+anki: ## Install Anki
+	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
 	@echo "Installing Anki..."
 	@# Requirements
 	$(INSTALL) libxcb-xinerama0
-	@# If no zstd found install it with 'sudo apt install zstd'
-	@# Install a hardcoded version
-	wget https://github.com/ankitects/anki/releases/download/2.1.54/anki-2.1.54-linux-qt6.tar.zst
+	@# Install the latest version
+	curl -LO https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
 	@# Unpack it
-	tar xaf ./anki-2.1.54-linux-qt6.tar.zst
+	tar xaf ./anki-launcher.tar.zst
 	@# Run the installation script
-	cd ./anki-2.1.54-linux-qt6 && sudo ./install.sh
+	cd ./anki-launcher && sudo ./install.sh
 	@# Delete the folder and the archive
-	rm -r ./anki-2.1.54-linux-qt6.tar.zst ./anki-2.1.54-linux-qt6
+	rm -rf ./anki-launcher ./anki-launcher.tar.zst
 
-uninstall_anki:
+uninstall-anki: # Uninstall Anki
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
 
-okular:
-	$(INSTALL) okular
+blanket: ## Install Blanket (white noise app)
+	$(INSTALL) blanket
 
-zoom:
-	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
-		else $(FLATINSTALL) flathub us.zoom.Zoom; fi
+#==================================================================================================
 
-discord:
-	@if ! command -v flatpak &> /dev/null; then echo "Error: flatpak not found";\
-		else $(FLATINSTALL) flathub com.discordapp.Discord; fi
+file-manager: ## Install pcmanfm and dolphin
+	@# Options:
+	@# - krusader - Total Commander for linux (vsplit by default)
+	@# - thunar - xfce file manager
+	@# pcmanfm is lighweight, dolphin helps with MTP Android file transfer
+	$(INSTALL) pcmanfm dolphin
 
-###############################################################################
-# Install .deb app with `sudo dpkg -i filename.deb` and `sudo apt -f install`
-linux_install: font_install tmux zsh nvim nodejs go rust kitty awesome feh polybar picom rofi ## in addition to "make install" install kitty, awesome, feh, polybar, picom, rofi and my config for these
-	@# My ususal installation on Linux
+image-viewer: ## Install feh, sxiv and nomacs
+	$(INSTALL) feh sxiv
+	$(FLATINSTALL) org.nomacs.ImageLounge
+
+pdf-viewer: ## Install zathura and okular
+	@# Options:
+	@# - Zathura (vith vim bindings)
+	@# - Okular (from KDE)
+	@# - Papers (from Gnome)
+	@# - Atril (Evince fork)
+	@# - Sioyek (PDF Viewer with focus on research papers - similar to zathura)
+	$(INSTALL) zathura okular
+
+sysmon: ## Install btop and gnome-system-monitor
+	$(INSTALL) btop gnome-system-monitor
+
+apps: ## Install flameshot, ncdu, mpv, file-manager, image-viewer, sysmon, pdf-viewer
+	@echo "==================================================================="
+	@echo "Installing apps..."
+	@echo "==================================================================="
+	$(INSTALL) flameshot ncdu mpv
+	@make file-manager
+	@make image-viewer
+	@make sysmon
+	@make pdf-viewer
+
+#==================================================================================================
+server: ## Setup a Linux Server
+	@echo "==================================================================="
+	@echo "Starting Ubuntu Server Setup..."
+	@echo "==================================================================="
+	@make all
+	@make vimdir
+	$(INSTALL) tmux
+	@make mise
+	@# I love to mail on crontab errors
+	$(INSTALL) mailutils neofetch
+	./install --server
 	@echo "========================== DONE ==================================="
 
-linux_software: telegram spotify brave obs-studio kdenlive inkscape ## install telegram, spotify, brave, obs-studio, kdenlive, inkscape, sxiv, flameshot, gimp
-	@# Installing Linux only usefull tools:
-	@# fd for faster find command, speeds up telescope-file-browser,
-	@# sxiv image viewer, flameshot for screenshots, gimp
-	$(INSTALL) sxiv flameshot gimp
+install: zsh mise neovim ## install tmux, zsh, neovim, mise, nodejs and my configs for neovim, tmux and zsh
+	$(INSTALL) tmux
+	./install --normal
 
-###############################################################################
+sinstall: vimdir ## install tmux and my config for bash, tmux and vim
+	$(INSTALL) tmux
+	./install --small
 
-.PHONY: all help vimdir getnf ansible tmux zsh zap \
-	nvim_build_reqs nvim uninstall_nvim clean_nvim purge_nvim \
-	mise typescript go julia rust tectonic fix_tectonic uninstall_tectonic \
-	docker uninstall_docker pm2 ufw server install sinstall finstall \
-	alacritty_build_reqs alacritty uninstall_alacritty kitty uninstall_kitty wezterm uninstall_wezterm\
-	i3 awesome polybar picom rofi yazi flatpak sioyek zathura telegram spotify brave \
-	obs-studio kdenlive neovide uninstall_neovide vscodium pomo uninstall_pomo \
-	inkscape anki uninstall_anki okular zoom discord \
-	linux_install linux_software
+finstall: vimdir zsh mise neovim go rust ## combine "make sinstall" and "make install"
+	$(INSTALL) tmux
+	./install --full
+
+#==================================================================================================
+# INFO: Install .deb app with `sudo dpkg -i filename.deb` and `sudo apt -f install`
+linux_install: zsh ## Setup Debian-based Linux after new installation
+	@echo "==================================================================="
+	@echo "Setting up fresh Linux System..."
+	@echo "==================================================================="
+	@# symlink my configs
+	@./install --linux
+	@# programming languages
+	@make python
+	@make rust
+	@make go
+	@# must have
+	@make flatpak
+	@make mise
+	@# window manager
+	@make awesome
+	@# terminal
+	@make kitty
+	@make alacritty
+	@# fonts
+	@make maple-mono
+	@make getnf
+	@getnf -i JetBrainsMono,IBMPlexMono,CascadiaCode,GeistMono
+	@# shell
+	@make zsh
+	$(INSTALL) tmux
+	@# editor
+	@make nvim-dev
+	@echo "========================== DONE ==================================="
+
+#==================================================================================================
+
+.PHONY: all help vimdir getnf maple-mono \
+	mise python rust julia go typescript tectonic fix_tectonic uninstall_tectonic\
+	flatpak docker podman pm2 ufw yazi\
+	nvim-reqs nvim_build_reqs nvim-dev uninstall-nvim-dev clean_nvim purge_nvim neovim\
+	zoxide starship zsh zap\
+	i3 awesome\
+	alacritty kitty\
+	brave chrome chromium zen vivaldi\
+	anydesk rustdesk\
+	telegram discord spotify obs vscode office gimp kdenlive inkscape audacity localsend\
+	ollama\
+	anki uninstall_anki blanket\
+	file-manager image-viewer pdf-viewer sysmon apps\
+	server install sinstall finstall \
+	linux_install
