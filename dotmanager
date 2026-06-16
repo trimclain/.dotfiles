@@ -238,6 +238,7 @@ UNIXPAIRS = [
     (".dotfiles/bash/.bash_profile", ".bash_profile"),
     (".dotfiles/vim/.vimrc", ".vimrc"),
     (".dotfiles/tmux/.tmux.conf", ".tmux.conf"),
+    (".dotfiles/awesome/.config/awesome", ".config/awesome"),
     (".dotfiles/i3/.config/i3", ".config/i3"),
     (".dotfiles/i3/.config/i3status", ".config/i3status"),
 ]
@@ -329,8 +330,8 @@ def main():
     group.add_argument("--all", action="store_true", help=f"install {', '.join(get_config_names('all'))}, nvim configs")
     group.add_argument("--server", action="store_true", help=f"install {', '.join(get_config_names('server'))} configs")
 
-    group.add_argument("--unixpool", action="store_true", help='manually symlink bash, vim, tmux, i3 configs')
-    group.add_argument("--uuninstall", action="store_true", help='uninstall bash, vim, tmux, i3 configs')
+    group.add_argument("--unixpool", action="store_true", help='manually symlink bash, vim, tmux, awesome, i3 configs')
+    group.add_argument("--uuninstall", action="store_true", help='uninstall bash, vim, tmux, awesome, i3 configs')
 
     group.add_argument("--uninstall", action="store_true", help="uninstall all configs")
     args = parser.parse_args()
