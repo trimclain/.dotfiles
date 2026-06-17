@@ -7,6 +7,11 @@
 # Dependencies: dunstify or notify-send, brightnessctl or xrandr (only for Xorg)
 ###############################################################################
 
+PRIMARY_OUTPUT=
+CURRENT_BRIGHTNESS=
+NEW_BRIGHTNESS=
+MODE="unknown"
+
 ensure_installed() {
     if ! command -v "$1" > /dev/null; then
         echo "Error: $1 not found"
@@ -32,14 +37,23 @@ send_notification() {
     fi
 }
 
+xrandr_get_brightness() {
+    PRIMARY_OUTPUT=$(xrandr -q | awk '/ connected primary /{print $1}')
+    # NOTE: the "; exit" leads to 'zsh: broken pipe' in my zsh, use subshell (run in ()) to avoid
+    CURRENT_BRIGHTNESS=$(xrandr --verbose | awk -v mon="$PRIMARY_OUTPUT" '
+        $1==mon { f=1; next }
+        f && /^[[:space:]]*Brightness:/ { print $2; exit }
+        f && $1 ~ /connected/ { exit }
+    ')
+}
+
 update_actual_brightness() {
+    local output
     if command -v brightnessctl > /dev/null; then
         output="$(brightnessctl g -P)%"
     elif [[ -z $WAYLAND_DISPLAY ]]; then
-        # NOTE: this leads to 'zsh: broken pipe' in zsh, use subshell (run in ()) to avoid
-        current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
-        output_value=$(awk "BEGIN {print $current*100}")
-        output="${output_value}%"
+        xrandr_get_brightness
+        output="$(awk "BEGIN {print $CURRENT_BRIGHTNESS*100}")%"
     else
         output="N/A"
     fi
@@ -74,24 +88,23 @@ main() {
         exit 0
     fi
 
-    mode="unknown"
-
+    local output
     if command -v brightnessctl > /dev/null; then
 
         if [ "$1" = "--increase" ]; then
-            mode="increase"
+            MODE="increase"
             brightnessctl s +10% -q
         elif [ "$1" = "--decrease" ]; then
-            mode="decrease"
+            MODE="decrease"
             brightnessctl s 10%- -q
         elif [ "$1" = "--full" ]; then
-            mode="full"
+            MODE="full"
             brightnessctl s 100% -q
         elif [ "$1" = "--zero" ]; then
-            mode="zero"
+            MODE="zero"
             brightnessctl s 0% -q
         elif [ "$1" = "--half" ]; then
-            mode="half"
+            MODE="half"
             brightnessctl s 50% -q
         fi
 
@@ -102,60 +115,51 @@ main() {
         ensure_installed xrandr
         ensure_installed notify-send
 
-        # get info from xrandr
-        connectedOutputs=$(xrandr | awk '$2 == "connected"{print $1}')
+        xrandr_get_brightness
 
-        monitors=()
-        for display in $connectedOutputs; do
-            monitors+=("$display")
-        done
-
-        intern=${monitors[0]}
-
-        current=$(xrandr --verbose | awk '/Brightness/ { print $2; exit }')
-        new="$current"
+        NEW_BRIGHTNESS="$CURRENT_BRIGHTNESS"
         if [ "$1" = "--increase" ]; then
-            mode="increase"
-            new=$(awk "BEGIN {print $current+0.1}")
+            MODE="increase"
+            NEW_BRIGHTNESS=$(awk "BEGIN {print $CURRENT_BRIGHTNESS+0.1}")
             # don't got out of range
-            if [[ $new == 1.1 ]]; then
+            if [[ $NEW_BRIGHTNESS == 1.1 ]]; then
                 # still show current even if out of range
-                output=$(awk "BEGIN {print $current*100}")
+                output=$(awk "BEGIN {print $CURRENT_BRIGHTNESS*100}")
                 notify "$output" "🔆 "
                 exit 0
             fi
 
         elif [ "$1" = "--decrease" ]; then
-            mode="decrease"
-            new=$(awk "BEGIN {print $current-0.1}")
+            MODE="decrease"
+            NEW_BRIGHTNESS=$(awk "BEGIN {print $CURRENT_BRIGHTNESS-0.1}")
 
             # don't got out of range, but allow 0
-            if [[ $new == -0.1 ]]; then
+            if [[ $NEW_BRIGHTNESS == -0.1 ]]; then
                 # still show current even if out of range
-                output=$(awk "BEGIN {print $current*100}")
+                output=$(awk "BEGIN {print $CURRENT_BRIGHTNESS*100}")
                 notify "$output" "🔅 "
                 exit 0
             fi
         elif [ "$1" = "--full" ]; then
-            mode="full"
-            new=1
+            MODE="full"
+            NEW_BRIGHTNESS=1
         elif [ "$1" = "--zero" ]; then
-            mode="zero"
-            new=0
+            MODE="zero"
+            NEW_BRIGHTNESS=0
         elif [ "$1" = "--half" ]; then
-            mode="half"
-            new=0.5
+            MODE="half"
+            NEW_BRIGHTNESS=0.5
         fi
 
         # Set Brightness
-        xrandr --output "$intern" --brightness "$new"
+        xrandr --output "$PRIMARY_OUTPUT" --brightness "$NEW_BRIGHTNESS"
 
-        output=$(awk "BEGIN {print $new*100}")
+        output=$(awk "BEGIN {print $NEW_BRIGHTNESS*100}")
     fi
 
     # Write new brightness to a file so it can be read less resource intensive
     echo "$output%" > /tmp/current_brightness
-    send_notification "$output" "$mode"
+    send_notification "$output" "$MODE"
 }
 
 main "$@"
