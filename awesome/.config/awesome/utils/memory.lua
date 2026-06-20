@@ -12,6 +12,8 @@ local prefix = "󰍛 "
 local ram_text = nil
 local ram_widget = nil
 
+local show_less_info = false
+
 local function read_meminfo()
     local mem = {}
     for line in io.lines("/proc/meminfo") do
@@ -39,14 +41,18 @@ local function refresh_widget()
     -- local total_gib = m.MemTotal / 1024 / 1024
     local pct = math.floor((used_kib / m.MemTotal) * 100 + 0.5)
 
-    ram_text:set_text(string.format("%s%.2f GiB (%d%%)", prefix, used_gib, pct))
+    local pct_str = show_less_info and "" or string.format(" (%d%%)", pct)
+
+    ram_text:set_text(string.format("%s%.2f GiB", prefix, used_gib) .. pct_str)
 end
 
 --- Create and return the RAM widget, and start periodic refreshes (default: 1 sec)
----@param args? { timeout?: integer }
+---@param args? { timeout?: integer, compact?: boolean }
 ---@return any
 function M.create_widget(args)
     args = args or {}
+
+    show_less_info = args.compact == true
 
     ram_text = wibox.widget({
         text = prefix .. "--",

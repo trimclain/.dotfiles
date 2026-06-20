@@ -103,6 +103,10 @@ local taglist_buttons = gears.table.join(
 
 -- {{{ Right Widgets for Primary Screen only
 
+-- Make widgets compact on smaller monitors
+local primary_width = screen.primary.geometry.width
+local compact = primary_width < 1920
+
 local mysystray = wibox.widget({
     {
         {
@@ -172,8 +176,8 @@ mykbdlayout:buttons(gears.table.join(
     end)
 ))
 
-local mynetwork = network.create_widget()
-local mymemory = memory.create_widget()
+local mynetwork = network.create_widget({ compact = compact })
+local mymemory = memory.create_widget({ compact = compact })
 local mytemperature = temperature.create_widget()
 local mybattery = battery.create_widget()
 

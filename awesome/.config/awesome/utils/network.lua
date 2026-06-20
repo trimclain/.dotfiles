@@ -22,6 +22,7 @@ local disconnected_icon = "󰣼 " -- "󰤭 "
 local network_text = nil
 local network_widget = nil
 
+local show_less_info = false
 local prioritize_wired = true
 local interfaces = {}
 local ordered_interfaces = {}
@@ -159,10 +160,12 @@ local function refresh_widget()
             local iface = interfaces[name]
             if iface.wireless then
                 get_wifi_ssid_or_ipv4(name, function(ssid_or_ip)
+                    ssid_or_ip = show_less_info and "" or ssid_or_ip
                     network_text:set_text(wifi_icon .. ssid_or_ip)
                 end)
             else
                 get_ipv4(name, function(ip)
+                    ip = show_less_info and "" or ip
                     network_text:set_text(eth_icon .. ip)
                 end)
             end
@@ -173,10 +176,12 @@ local function refresh_widget()
 end
 
 --- Create and return the RAM widget, and start periodic refreshes (default: 1 sec)
----@param args? { timeout?: integer }
+---@param args? { timeout?: integer, compact?: boolean }
 ---@return any
 function M.create_widget(args)
     args = args or {}
+
+    show_less_info = args.compact == true
 
     network_text = wibox.widget({
         text = disconnected_icon .. "--",
