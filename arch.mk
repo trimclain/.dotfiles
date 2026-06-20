@@ -135,6 +135,9 @@ paru: ## Install paru (the AUR helper)
 	rm -rf /tmp/paru && \
 	echo "[paru]: Done"
 
+downgrade: ## Install a script to downgrade Arch/AUR packages
+	$(PARUINSTALL) downgrade
+
 flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then\
 		echo "[flatpak]: Already installed";\
@@ -711,7 +714,7 @@ install: ## Setup arch after new installation
 
 .PHONY: all help vimdir getnf wallpapers maple-mono bluetooth brightnessctl\
 	mise python python-modules rust julia go tectonic typst typescript\
-	paru flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper\
+	paru downgrade flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper\
 	nvim-reqs nvim-build-reqs nvim-dev uninstall-nvim-dev clean-nvim purge-nvim neovim neovide\
 	zoxide zsh zap\
 	awesome qtile hyprland fix-nvidialand hyprhook undo-hyprhook cursor\
