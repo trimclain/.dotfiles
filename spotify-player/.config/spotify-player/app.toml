@@ -1,4 +1,7 @@
 # Docs: https://github.com/aome510/spotify-player/blob/master/docs/config.md
+
+theme = "AstroDark"
+
 client_id = "d420a117a32841c2b3474932e49fb54b"
 client_port = 8080
 login_redirect_uri = "http://127.0.0.1:8989/login"
@@ -34,9 +37,6 @@ default_device = "spotify-player"
 seek_duration_secs = 5
 sort_artist_albums_by_type = false
 
-# FIX: this does nothing for some reason
-theme = "tokyonight"
-
 # {{{ Notifications
 # default: true
 enable_notify = false
@@ -66,4 +66,5 @@ bitrate = 320
 audio_cache = false
 normalization = false
 autoplay = false
+
 # vim:foldmethod=marker
