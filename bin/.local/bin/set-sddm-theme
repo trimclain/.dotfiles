@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# Set the theme for SDDM
+# Set or preview the theme for SDDM
 ###############################################################################
 
 ensure_installed() {
@@ -15,9 +15,26 @@ ensure_installed sddm
 CONF=/etc/sddm.conf
 THEMES=/usr/share/sddm/themes
 
-if [[ ! -d $THEMES/archlinux-simplyblack ]] && command -v paru > /dev/null; then
-    echo "Installing archlinux-themes-sddm from AUR..."
-    paru -S --noconfirm --needed archlinux-themes-sddm
+mkdir -p $THEMES
+
+# https://github.com/Guidobelix/archlinux-themes-sddm
+if [[ ! -d $THEMES/archlinux-simplyblack ]]; then
+    echo "Installing archlinux-themes-sddm"
+
+    ensure_installed curl
+
+    ghrepo="https://github.com/Guidobelix/archlinux-themes-sddm"
+    pkgname="archlinux-themes-sddm"
+    pkgver="2.0"
+    pkgdir="$pkgname-$pkgver"
+    archive_name="$pkgdir.tar.bz2"
+    url="$ghrepo/releases/download/v$pkgver/$archive_name"
+    curl -fsSL -o "/tmp/$archive_name" "$url"
+    pushd /tmp > /dev/null || exit
+    tar -xjf "$archive_name"
+    sudo cp -r ${pkgdir}/archlinux-* /usr/share/sddm/themes/
+    rm -rf "$archive_name" "$pkgdir"
+    popd > /dev/null || exit
 fi
 
 if [[ ! -f $CONF ]]; then
@@ -26,14 +43,19 @@ if [[ ! -f $CONF ]]; then
     echo -e "[Theme]\nCurrent=archlinux-simplyblack" | sudo tee $CONF > /dev/null
 fi
 
-# To test the theme:
-#sddm-greeter --test-mode --theme /usr/share/sddm/themes/breeze
+PREVIEW='false'
+if [[ -n "$1" ]]; then
+    PREVIEW="true"
+fi
 
-# shellcheck disable=SC2012
-CHOSEN=$(ls $THEMES | fzf)
-echo "Chosenname is $CHOSEN"
+CHOSEN=$(find $THEMES -mindepth 1 -maxdepth 1 -printf '%f\n' | fzf)
 
 if [[ -n $CHOSEN ]]; then
-    echo "Setting sddm theme to $CHOSEN"
-    sudo sed -i "0,/^#\{0,1\}Current=.*/ s||Current=$CHOSEN|" $CONF
+    if [[ "$PREVIEW" == "true" ]]; then
+        echo "Previewing sddm theme \"$CHOSEN\""
+        sddm-greeter --test-mode --theme "$THEMES/$CHOSEN"
+    else
+        echo "Setting sddm theme to \"$CHOSEN\""
+        sudo sed -i "0,/^#\{0,1\}Current=.*/ s||Current=$CHOSEN|" $CONF
+    fi
 fi
