@@ -465,6 +465,9 @@ helium: ## Install Helium Browser
 	curl -LO https://github.com/imputnet/helium-linux/releases/download/$(HELIUM_VERSION)/helium-$(HELIUM_VERSION)-x86_64.AppImage --output-dir /tmp
 	@# Add to gearlever
 	flatpak run it.mijorus.gearlever --integrate --yes /tmp/helium-$(HELIUM_VERSION)-x86_64.AppImage
+	@# If I have gearlever configured correctly, the appimages go to ~/apps
+	@# Symlink this appimage to ~/.local/bin so I can run it from the terminal
+	ln -s $$HOME/apps/helium.appimage $$HOME/.local/bin/helium
 
 zen: ## Install Zen Browser
 	$(PARUINSTALL) zen-browser-bin
@@ -613,6 +616,9 @@ sioyek: ## Install Sioyek (PDF Viewer for research papers)
 	rm -rf /tmp/sioyek-release-linux-portable.zip /tmp/Sioyek-x86_64.AppImage.config
 	@# Add to gearlever
 	flatpak run it.mijorus.gearlever --integrate --yes /tmp/Sioyek-x86_64.AppImage
+	@# If I have gearlever configured correctly, the appimages go to ~/apps
+	@# Symlink this appimage to ~/.local/bin so I can run it from the terminal
+	ln -s $$HOME/apps/sioyek.appimage $$HOME/.local/bin/sioyek
 
 #============================================= Games ==============================================
 
