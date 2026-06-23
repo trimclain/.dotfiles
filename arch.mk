@@ -462,9 +462,9 @@ helium: ## Install Helium Browser
 	$(eval HELIUM_VERSION := $(shell curl -fsSL https://github.com/imputnet/helium-linux/releases/latest | grep "<title>Release " | awk '{print $$2}'))
 	@echo "Installing Helium Browser..."
 	@# Install the latest version
-	curl -LO https://github.com/imputnet/helium-linux/releases/download/$(HELIUM_VERSION)/helium-$(HELIUM_VERSION)-x86_64.AppImage --output-dir ~/downloads
+	curl -LO https://github.com/imputnet/helium-linux/releases/download/$(HELIUM_VERSION)/helium-$(HELIUM_VERSION)-x86_64.AppImage --output-dir /tmp
 	@# Add to gearlever
-	flatpak run it.mijorus.gearlever --integrate ~/downloads/helium-$(HELIUM_VERSION)-x86_64.AppImage
+	flatpak run it.mijorus.gearlever --integrate --yes /tmp/helium-$(HELIUM_VERSION)-x86_64.AppImage
 
 zen: ## Install Zen Browser
 	$(PARUINSTALL) zen-browser-bin
@@ -604,6 +604,16 @@ syncthing: ## Install Syncthing
 blanket: ## Install Blanket (white noise app)
 	$(INSTALL) blanket
 
+sioyek: ## Install Sioyek (PDF Viewer for research papers)
+	$(eval SIOYEK_VERSION := $(shell curl -fsSL https://github.com/ahrm/sioyek/releases/latest | grep "<title>Release " | awk '{print $$3}'))
+	@echo "Installing Sioyek PDF Viewer..."
+	@# Install the latest version
+	curl -LO https://github.com/ahrm/sioyek/releases/download/$(SIOYEK_VERSION)/sioyek-release-linux-portable.zip --output-dir /tmp
+	unzip /tmp/sioyek-release-linux-portable.zip -d /tmp
+	rm -rf /tmp/sioyek-release-linux-portable.zip /tmp/Sioyek-x86_64.AppImage.config
+	@# Add to gearlever
+	flatpak run it.mijorus.gearlever --integrate --yes /tmp/Sioyek-x86_64.AppImage
+
 #============================================= Games ==============================================
 
 0ad:
@@ -725,7 +735,7 @@ install: ## Setup arch after new installation
 	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
 	gimp kdenlive inkscape audacity vpn ventoy caligula localsend\
 	ollama llmfit opencode\
-	anki uninstall-anki pomodorolm syncthing blanket\
+	anki uninstall-anki pomodorolm syncthing blanket sioyek\
 	0ad luanti doom board-games\
 	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
 	install
