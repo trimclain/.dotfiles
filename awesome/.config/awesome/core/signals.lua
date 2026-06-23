@@ -78,6 +78,7 @@ local hooligans = {
     Spotify = true,
     TelegramDesktop = true,
     missioncenter = true,
+    gearlever = true,
 }
 client.connect_signal("property::maximized", function(c)
     if hooligans[c.class] then
