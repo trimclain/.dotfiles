@@ -2,41 +2,51 @@
 
 ###############################################################################
 # Use https://cht.sh/ to get help
+# Dependencies: curl, fzf, less
 ###############################################################################
 
-chtsh_langs=~/.dotfiles/chtsh/.tmux-cht-languages
-chtsh_commands=~/.dotfiles/chtsh/.tmux-cht-commands
+LANGUAGES=("bash" "python" "julia" "lua" "html" "css" "javascript" "typescript")
+COMMANDS=("xargs" "find" "grep" "sed" "awk" "git")
 
-selected=$(cat $chtsh_langs $chtsh_commands | fzf)
+run() {
+    if [ -n "$TMUX" ]; then
+        tmux split-window -h bash -c "$1"
+    else
+        bash -c "$1"
+    fi
+}
+
+selected=$(
+    {
+        printf '%s\n' "${LANGUAGES[@]}"
+        printf '%s\n' "${COMMANDS[@]}"
+    } | fzf
+)
+
 if [[ -z $selected ]]; then
     exit 0
 fi
 
 read -rep "Enter Query: " query
 
-# if a language was selected
-if grep -qsw "$selected" $chtsh_langs; then
-    query=$(echo "$query" | tr ' ' '+')
-    # if in tmux
-    if [ -n "$TMUX" ]; then
-        tmux split-window -h bash -c "curl cht.sh/$selected/$query | less -R"
+for item in "${COMMANDS[@]}"; do
+    if [[ "$selected" == "$item" ]]; then
+        is_command='true'
+        break
+    fi
+done
+
+if [[ "$is_command" == "true" ]]; then
+    if [[ -n $query ]]; then
+        run "curl -fsSL cht.sh/$selected~$query | less -R"
     else
-        curl "cht.sh/$selected/$query" | less -R
+        run "curl -fsSL cht.sh/$selected | less -R"
     fi
 else
-    # allow empty queries for commands
     if [[ -n $query ]]; then
-        if [ -n "$TMUX" ]; then
-            tmux split-window -h bash -c "curl -s cht.sh/$selected~$query | less -R"
-        else
-            curl -s "cht.sh/$selected~$query" | less -R
-        fi
+        query=$(echo "$query" | tr ' ' '+')
+        run "curl -fsSL cht.sh/$selected/$query | less -R"
     else
-        if [ -n "$TMUX" ]; then
-            tmux split-window -h bash -c "curl -s cht.sh/$selected | less -R"
-        else
-            curl -s "cht.sh/$selected" | less -R
-        fi
+        run "curl cht.sh/$selected | less -R"
     fi
-
 fi
