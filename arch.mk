@@ -515,6 +515,22 @@ obs: ## Install OBS Studio
 	@# Flatpak version is the only official version
 	$(FLATINSTALL) com.obsproject.Studio
 
+audacity: ## Install Audacity (Audio Editor)
+	@#$(FLATINSTALL) org.audacityteam.Audacity
+	$(INSTALL) audacity
+
+gimp: ## Install GIMP (GNU Image Manipulation Program)
+	@#$(FLATINSTALL) org.gimp.GIMP
+	$(INSTALL) gimp
+
+kdenlive: ## Install Kdenlive (Video Editor)
+	@#$(FLATINSTALL) org.kde.kdenlive
+	$(INSTALL) kdenlive
+
+inkscape: ## Install Inkscape (Vector Graphics Editor)
+	@#$(FLATINSTALL) org.inkscape.Inkscape
+	$(INSTALL) inkscape
+
 vlc: ## Install VLC
 	echo "Installing VLC with pause-click-plugin..."
 	$(INSTALL) vlc
@@ -534,22 +550,6 @@ quickemu: ## Install Quickemu (Virtual Machine Manager)
 	@#$(INSTALL) qemu-desktop # wait for release 4.9.8+
 	@# INFO: use ctrl+alt+g to free the mouse from the VM
 	$(PARUINSTALL) quickemu-git quickgui-bin
-
-gimp: ## Install GIMP (GNU Image Manipulation Program)
-	@#$(FLATINSTALL) org.gimp.GIMP
-	$(INSTALL) gimp
-
-kdenlive: ## Install Kdenlive (Video Editor)
-	@#$(FLATINSTALL) org.kde.kdenlive
-	$(INSTALL) kdenlive
-
-inkscape: ## Install Inkscape (Vector Graphics Editor)
-	@#$(FLATINSTALL) org.inkscape.Inkscape
-	$(INSTALL) inkscape
-
-audacity: ## Install Audacity (Audio Editor)
-	@#$(FLATINSTALL) org.audacityteam.Audacity
-	$(INSTALL) audacity
 
 vpn: ## Install VPN
 	$(INSTALL) networkmanager-openvpn
@@ -576,6 +576,9 @@ llmfit: ## Install llmfit (See which LLMs can run locally)
 
 opencode: ## Install opencode (TUI AI Agent)
 	$(PARUINSTALL) opencode-bin
+
+handy: ## Install Handy (extensible offline speech-to-text application)
+	$(PARUINSTALL) handy-bin
 
 #============================================= Study ==============================================
 anki: ## Install Anki
@@ -738,9 +741,10 @@ install: ## Setup arch after new installation
 	alacritty kitty wezterm ghostty\
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
-	thunderbird telegram discord spotify ncspot spotify-player obs vlc vscode office quickemu\
-	gimp kdenlive inkscape audacity vpn ventoy caligula localsend\
-	ollama llmfit opencode\
+	thunderbird telegram discord spotify ncspot spotify-player\
+	obs audacity gimp kdenlive inkscape vlc\
+	vscode office quickemu vpn ventoy caligula localsend\
+	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing blanket sioyek\
 	0ad luanti doom board-games\
 	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
