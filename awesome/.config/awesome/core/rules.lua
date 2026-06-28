@@ -23,7 +23,7 @@ awful.rules.rules = {
             screen = awful.screen.preferred,
             placement = awful.placement.no_overlap + awful.placement.no_offscreen,
             -- don't respect a window’s size hints provided by the application
-            --size_hints_honor = false,
+            size_hints_honor = false,
         },
     },
 
