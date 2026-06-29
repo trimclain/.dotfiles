@@ -4,8 +4,27 @@
 # Screen Recorder
 #
 # Description: Record screen or window (region on wayland) without audio
-# Dependencies: on Xorg: ffmpeg, xorg-xwininfo; on Wayland: wf-recorder, slurp
+# Dependencies:
+#   Xorg: ffmpeg, xorg-xwininfo
+#   Wayland: wf-recorder, slurp
 ###############################################################################
+
+# shellcheck disable=SC2155
+
+MODE=
+IN_BACKGROUND=
+PID_FILE="/tmp/recordingpid"
+OUT_FILE="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv"
+
+on_ctrl_c() {
+    if [[ -f "$OUT_FILE" ]]; then
+        echo ""
+        echo "Recording saved to $OUT_FILE"
+    fi
+    exit 0
+}
+
+trap on_ctrl_c INT
 
 # Make sure dependencies are installed
 ensure_installed() {
@@ -15,23 +34,33 @@ ensure_installed() {
     fi
 }
 
-# Show help if no argument is passed
 show_help() {
-    echo "Usage: record [screen|window|stop]"
-    echo "screen: record entire screen"
-    echo "window: record selected window"
-    echo "stop: stop recording"
+    cat << EOF
+Usage:
+  record [option] mode
+
+OPTIONS:
+  -b|--background  run in background
+
+MODES:
+  screen           record entire screen
+  window           record selected window
+  stop             stop the recording running in background
+EOF
 }
 
 #######################################
 # Kill existing recording
 #######################################
-killrecording() {
-    pidloc="/tmp/recordingpid"
-    if [ -f "$pidloc" ]; then
-        recpid="$(cat $pidloc)"
-        kill -15 "$recpid"
-        rm -f "$pidloc"
+kill_recording() {
+    if [[ -n "$IN_BACKGROUND" ]]; then
+        return
+    fi
+
+    if [[ -f "$PID_FILE" ]]; then
+        kill -15 "$(cat $PID_FILE)"
+        rm -f "$PID_FILE"
+        echo "Recording saved to $OUT_FILE."
     fi
 }
 
@@ -39,22 +68,40 @@ killrecording() {
 # Record screen without audio
 #######################################
 screen() {
-    if [ -n "$WAYLAND_DISPLAY" ]; then
+    if [[ -n "$WAYLAND_DISPLAY" ]]; then
         ensure_installed wf-recorder
-        wf-recorder --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
-        echo $! > /tmp/recordingpid
+
+        if [[ -n "$IN_BACKGROUND" ]]; then
+            wf-recorder --file="$OUT_FILE" &> /dev/null &
+            echo $! > "$PID_FILE"
+            echo "Recording started"
+        else
+            wf-recorder --file="$OUT_FILE"
+        fi
     else
         ensure_installed ffmpeg
-        ffmpeg \
-            -hide_banner \
-            -loglevel error \
-            -f x11grab \
-            -show-region 1 \
-            -framerate 30 \
-            -i "$DISPLAY" \
-            -c:v libx264 -qp 0 -r 30 \
-            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" &
-        echo $! > /tmp/recordingpid
+
+        local cmd=(
+            ffmpeg
+            -nostdin        # disable interactive stdin reads
+            -hide_banner    # suppress the startup banner
+            -loglevel error # show only error messages
+            -f x11grab      # use X11 screen capture input
+            -show_region 1  # draw the capture region on screen
+            -framerate 30   # capture at 30 frames per second
+            -i "$DISPLAY"   # read from the current X display
+            -c:v libx264    # encode video with H.264
+            -qp 0           # use near-lossless quality
+            -r 30           # write output at 30 frames per second
+            "$OUT_FILE"     # save to the chosen output file
+        )
+        if [[ -n "$IN_BACKGROUND" ]]; then
+            "${cmd[@]}" &> /dev/null &
+            echo $! > "$PID_FILE"
+            echo "Recording started"
+        else
+            "${cmd[@]}"
+        fi
     fi
 }
 
@@ -62,45 +109,79 @@ screen() {
 # Record selected window without audio
 #######################################
 window() {
-    if [ -n "$WAYLAND_DISPLAY" ]; then
+    if [[ -n "$WAYLAND_DISPLAY" ]]; then
         ensure_installed wf-recorder
         ensure_installed slurp
 
-        if command -v jq > /dev/null; then
-            # record a selected window
-            wf-recorder -g "$(
+        local geometry
+        if command -v jq > /dev/null && [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+            # selected window (requires installed jq and running hyprland)
+            geometry="$(
                 hyprctl clients -j |
                     jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' |
                     slurp
-            )" --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
+            )"
         else
-            # record a selected region
-            wf-recorder \
-                -g "$(slurp)" \
-                --file="$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" > /dev/null 2>&1 &
+            # selected region
+            geometry="$(slurp)"
         fi
-        echo $! > /tmp/recordingpid
+
+        if [[ -n ${IN_BACKGROUND:-} ]]; then
+            wf-recorder -g "$geometry" --file="$OUT_FILE" &> /dev/null &
+            echo $! > "$PID_FILE"
+            echo "Recording started"
+        else
+            wf-recorder -g "$geometry" --file="$OUT_FILE"
+        fi
     else
         ensure_installed ffmpeg
         ensure_installed xwininfo
-        WINID=$(xwininfo | grep "Window id" | awk '{print $4}')
-        ffmpeg \
-            -hide_banner \
-            -loglevel error \
-            -f x11grab \
-            -show_region 1 \
-            -window_id "$WINID" \
-            -framerate 30 \
-            -i "$DISPLAY" \
-            -c:v libx264 -qp 0 -r 30 \
-            "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" &
-        echo $! > /tmp/recordingpid
+
+        local win_id="$(xwininfo | awk '/^xwininfo: Window id:/ {print $4}')"
+        local cmd=(
+            ffmpeg
+            -nostdin             # disable interactive stdin reads
+            -hide_banner         # suppress the startup banner
+            -loglevel error      # show only error messages
+            -f x11grab           # use X11 screen capture input
+            -show_region 1       # draw the capture region on screen
+            -window_id "$win_id" # capture only the specified X11 window
+            -framerate 30        # capture at 30 frames per second
+            -i "$DISPLAY"        # read from the current X display
+            -c:v libx264         # encode video with H.264
+            -qp 0                # use near-lossless quality
+            -r 30                # write output at 30 frames per second
+            "$OUT_FILE"          # save to the chosen output file
+        )
+        if [[ -n "$IN_BACKGROUND" ]]; then
+            "${cmd[@]}" &> /dev/null &
+            echo $! > "$PID_FILE"
+            echo "Recording started"
+        else
+            "${cmd[@]}"
+        fi
     fi
 }
 
-case "$1" in
-    screen) screen ;;
-    window) window ;;
-    stop) killrecording ;;
-    *) show_help ;;
-esac
+main() {
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -b | --background) IN_BACKGROUND='true' ;;
+            screen | window | stop)
+                [[ -n "$MODE" ]] && show_help && exit 0
+                MODE=$1
+                ;;
+            *) show_help && exit 0 ;;
+        esac
+        shift
+    done
+
+    case "$MODE" in
+        screen) screen ;;
+        window) window ;;
+        stop) kill_recording ;;
+        *) show_help && exit 0 ;;
+    esac
+}
+
+main "$@"
