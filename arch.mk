@@ -296,7 +296,15 @@ zap: ## Install zap-zsh (a zsh plugin manager)
 
 #========================================= Window Manager =========================================
 awesome: ## Install AwesomeWM with all dependencies
-	$(INSTALL) awesome dmenu rofi slock xss-lock picom
+	@# Install
+	@# - awesome
+	@# - dmenu and rofi (app and command launchers)
+	@# - slock (screen locker)
+	@# - xss-lock (triggers slock on systemd events)
+	@# - picom (compositor for transparency and shadows)
+	@# - polkit-kde-agent (GUI request for sudo password)
+	@# - xorg-xwininfo (window picker for screen recording)
+	$(INSTALL) awesome dmenu rofi slock xss-lock picom polkit-kde-agent xorg-xwininfo
 	@make brightnessctl
 
 # INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
