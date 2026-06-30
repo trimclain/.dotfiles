@@ -64,6 +64,7 @@ CONFIGS = {
     "flameshot": ".config/flameshot",
     "sxiv": ".config/sxiv",
     "zathura": ".config/zathura",
+    "sioyek": ".config/sioyek",
     "mime": {  # Multipurpose Internet Mail Extensions
         "mimeapps.list": ".config/mimeapps.list",
         "user-dirs.dirs": ".config/user-dirs.dirs",
