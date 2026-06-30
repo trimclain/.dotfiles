@@ -79,6 +79,7 @@ local hooligans = {
     TelegramDesktop = true,
     missioncenter = true,
     gearlever = true,
+    discord = true,
 }
 client.connect_signal("property::maximized", function(c)
     if hooligans[c.class] then
