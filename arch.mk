@@ -535,6 +535,9 @@ kdenlive: ## Install Kdenlive (Video Editor)
 	@#$(FLATINSTALL) org.kde.kdenlive
 	$(INSTALL) kdenlive
 
+lossless-cut: ## Install LosslessCut (Simple Video Editor)
+	$(FLATINSTALL) no.mifi.losslesscut
+
 inkscape: ## Install Inkscape (Vector Graphics Editor)
 	@#$(FLATINSTALL) org.inkscape.Inkscape
 	$(INSTALL) inkscape
@@ -750,7 +753,7 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi\
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player\
-	obs audacity gimp kdenlive inkscape vlc\
+	obs audacity gimp kdenlive lossless-cut inkscape vlc\
 	vscode office quickemu vpn ventoy caligula localsend\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing blanket sioyek\
