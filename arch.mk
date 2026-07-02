@@ -616,7 +616,7 @@ pomodorolm: # Install Pomodoro Tracker
 
 syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
-	systemctl enable --now syncthing@$$USER.service
+	sudo systemctl enable --now syncthing@$$USER.service
 
 obsidian: ## Install Obsidian
 	$(INSTALL) obsidian
