@@ -618,6 +618,9 @@ syncthing: ## Install Syncthing
 	$(INSTALL) syncthing
 	systemctl enable --now syncthing@$$USER.service
 
+obsidian: ## Install Obsidian
+	$(INSTALL) obsidian
+
 blanket: ## Install Blanket (white noise app)
 	$(INSTALL) blanket
 
@@ -756,7 +759,7 @@ install: ## Setup arch after new installation
 	obs audacity gimp kdenlive lossless-cut inkscape vlc\
 	vscode office quickemu vpn ventoy caligula localsend\
 	ollama llmfit opencode handy\
-	anki uninstall-anki pomodorolm syncthing blanket sioyek\
+	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games\
 	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
 	install
