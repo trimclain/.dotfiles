@@ -300,7 +300,7 @@ fi
 
 if [[ -d ~/notes ]]; then
     # open notes
-    bindkey -s ^n "^u$EDITOR $HOME/notes --cmd \"cd $HOME/notes\"\n"
+    bindkey -s ^n "^u$EDITOR --cmd \"cd $HOME/notes\" -c 'lua vim.schedule(require(\"core.util\").open_notes)'\n"
 fi
 
 # Use yazi or lf with ueberzugpp to switch directories and bind it to ctrl-o
