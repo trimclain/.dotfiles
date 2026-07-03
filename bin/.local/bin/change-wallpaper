@@ -7,6 +7,11 @@
 # Dependencies: waypaper, feh (for X11), swaybg (for Wayland)
 ###############################################################################
 
+if [[ -n $(pgrep -x awesome) ]]; then
+    echo "AwesomeWM is not supported"
+    exit 0
+fi
+
 if [[ -d $HOME/personal/media/wallpapers ]]; then
     wallpapers="$HOME/personal/media/wallpapers"
 elif [[ -d $HOME/wallpapers/ ]]; then
