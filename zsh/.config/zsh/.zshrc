@@ -297,7 +297,11 @@ if [[ -f ~/.local/bin/tmux-chtsh ]]; then
     # get help from cht.sh in tmux on Ctrl+?
     bindkey -s ^_ "^utmux-chtsh\n"
 fi
-# bindkey -s ^b "^uchange-wallpaper\n"
+
+if [[ -d ~/notes ]]; then
+    # open notes
+    bindkey -s ^n "^u$EDITOR $HOME/notes --cmd \"cd $HOME/notes\"\n"
+fi
 
 # Use yazi or lf with ueberzugpp to switch directories and bind it to ctrl-o
 if (( $+commands[yazi] )); then
