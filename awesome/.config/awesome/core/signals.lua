@@ -80,6 +80,7 @@ local hooligans = {
     missioncenter = true,
     gearlever = true,
     discord = true,
+    okular = true,
 }
 client.connect_signal("property::maximized", function(c)
     if hooligans[c.class] then
