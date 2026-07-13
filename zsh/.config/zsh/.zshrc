@@ -298,11 +298,6 @@ if [[ -f ~/.local/bin/tmux-chtsh ]]; then
     bindkey -s ^_ "^utmux-chtsh\n"
 fi
 
-if [[ -d ~/notes ]]; then
-    # open notes
-    bindkey -s ^n "^u$EDITOR --cmd \"cd $HOME/notes\" -c 'lua vim.schedule(require(\"core.util\").open_notes)'\n"
-fi
-
 # Use yazi or lf with ueberzugpp to switch directories and bind it to ctrl-o
 if (( $+commands[yazi] )); then
     yazicd() {
@@ -469,6 +464,11 @@ if [[ -f ~/.zsh_aliases ]]; then
 fi
 if [[ -f ~/.bash_aliases ]]; then
     . ~/.bash_aliases
+fi
+
+if [[ -n "$NOTES" ]]; then
+    # open notes
+    bindkey -s ^n "^u$EDITOR --cmd \"cd $NOTES\" -c 'lua vim.schedule(require(\"core.util\").open_notes)'\n"
 fi
 
 ###############################################################################
