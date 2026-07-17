@@ -578,6 +578,9 @@ caligula: ## Install Caligula (TUI for disk imaging)
 localsend: ## Install LocalSend (Open Source AirDrop)
 	$(FLATINSTALL) org.localsend.localsend_app
 
+uad: ## Install Universal Android Debloater
+	$(PARUINSTALL) universal-android-debloater-bin
+
 #=============================================== AI ===============================================
 ollama: ## Install Ollama (To run LLMs locally)
 	$(INSTALL) ollama
@@ -757,7 +760,7 @@ install: ## Setup arch after new installation
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player\
 	obs audacity gimp kdenlive lossless-cut inkscape vlc\
-	vscode office quickemu vpn ventoy caligula localsend\
+	vscode office quickemu vpn ventoy caligula localsend uad\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games\
