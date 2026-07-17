@@ -589,6 +589,9 @@ clamav: ## Install ClamAV (Open Source Antivirus)
 	@echo "  clamscan -r directory"
 	@echo "  clamscan -r --infected ~"
 
+tailscale: ## Install Tailscale
+	curl -fsSL https://tailscale.com/install.sh | sh
+
 #=============================================== AI ===============================================
 ollama: ## Install Ollama (To run LLMs locally)
 	$(INSTALL) ollama
@@ -768,7 +771,7 @@ install: ## Setup arch after new installation
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player\
 	obs audacity gimp kdenlive lossless-cut inkscape vlc\
-	vscode office quickemu vpn ventoy caligula localsend uad clamav\
+	vscode office quickemu vpn ventoy caligula localsend uad clamav tailscale\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games\

@@ -300,6 +300,9 @@ audacity: ## Install Audacity (Audio Editor)
 localsend: ## Install LocalSend (Open Source AirDrop)
 	$(FLATINSTALL) org.localsend.localsend_app
 
+tailscale: ## Install Tailscale
+	curl -fsSL https://tailscale.com/install.sh | sh
+
 #=============================================== AI ===============================================
 ollama: ## Install Ollama (To run LLMs locally)
 	$(MISEINSTALL) ollama@latest
@@ -428,7 +431,7 @@ linux_install: zsh ## Setup Debian-based Linux after new installation
 	alacritty kitty\
 	brave chrome chromium zen vivaldi\
 	anydesk rustdesk\
-	telegram discord spotify obs vscode office gimp kdenlive inkscape audacity localsend\
+	telegram discord spotify obs vscode office gimp kdenlive inkscape audacity localsend tailscale\
 	ollama\
 	anki uninstall_anki blanket\
 	file-manager image-viewer pdf-viewer sysmon apps\
