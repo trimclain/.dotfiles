@@ -115,7 +115,7 @@ docker: ## Install docker
 		echo "[docker]: Already installed"; \
 	else \
 		echo "[docker]: Installing..." && \
-		$(INSTALL) docker.io docker-buildx docker-compose && \
+		$(INSTALL) docker.io docker-buildx docker-compose-v2 && \
 		sudo systemctl enable docker.socket --now && \
 		sudo usermod -aG docker $$USER && \
 		echo "[docker]: Done"; \
