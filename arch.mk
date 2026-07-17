@@ -590,7 +590,16 @@ clamav: ## Install ClamAV (Open Source Antivirus)
 	@echo "  clamscan -r --infected ~"
 
 tailscale: ## Install Tailscale
-	curl -fsSL https://tailscale.com/install.sh | sh
+	@if command -v tailscale > /dev/null; then \
+		echo "[tailscale]: Already installed"; \
+	else \
+		echo "[tailscale]: Installing..." && \
+		curl -fsSL https://tailscale.com/install.sh | sh && \
+		sudo tailscale set --operator=$$USER && \
+		mkdir -p ~/.local/share/bash-completion/completions && \
+		tailscale completion bash > ~/.local/share/bash-completion/completions/tailscale && \
+		echo "[tailscale]: Done"; \
+	fi
 
 #=============================================== AI ===============================================
 ollama: ## Install Ollama (To run LLMs locally)

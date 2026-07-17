@@ -119,7 +119,7 @@ bind 'set bell-style none'
 alias ebrc="$EDITOR $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
 alias evrc="$EDITOR $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
 
-alias sbrc="source ~/.bashrc"
+alias sbrc="exec bash"
 
 alias py="python3"
 alias activate="source venv/bin/activate"
