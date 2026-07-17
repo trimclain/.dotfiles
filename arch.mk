@@ -581,6 +581,14 @@ localsend: ## Install LocalSend (Open Source AirDrop)
 uad: ## Install Universal Android Debloater
 	$(PARUINSTALL) universal-android-debloater-bin
 
+clamav: ## Install ClamAV (Open Source Antivirus)
+	$(INSTALL) clamav
+	sudo freshclam
+	@echo "Usage:"
+	@echo "  clamscan file.txt"
+	@echo "  clamscan -r directory"
+	@echo "  clamscan -r --infected ~"
+
 #=============================================== AI ===============================================
 ollama: ## Install Ollama (To run LLMs locally)
 	$(INSTALL) ollama
@@ -760,7 +768,7 @@ install: ## Setup arch after new installation
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player\
 	obs audacity gimp kdenlive lossless-cut inkscape vlc\
-	vscode office quickemu vpn ventoy caligula localsend uad\
+	vscode office quickemu vpn ventoy caligula localsend uad clamav\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games\
