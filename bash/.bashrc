@@ -131,13 +131,13 @@ if command -v fzf > /dev/null; then
                 sed 's/^[[:space:]]*[0-9]\+[[:space:]]*//' |
                 awk '!seen[$0]++' |
                 eval "FZF_DEFAULT_OPTS=\"--height ${FZF_TMUX_HEIGHT:-40%} \
-          ${FZF_DEFAULT_OPTS:-} \
-          -n2..,.. \
-          --tiebreak=index \
-          --bind=ctrl-r:toggle-sort,ctrl-z:ignore,tab:toggle-up,btab:toggle-down \
-          ${FZF_CTRL_R_OPTS:-} \
-          --query=\$(printf '%q' \"\$READLINE_LINE\") \
-          +m\" $fzf_cmd"
+                ${FZF_DEFAULT_OPTS:-} \
+                -n2..,.. \
+                --tiebreak=index \
+                --bind=ctrl-r:toggle-sort,ctrl-z:ignore,tab:toggle-up,btab:toggle-down \
+                ${FZF_CTRL_R_OPTS:-} \
+                --query=\$(printf '%q' \"\$READLINE_LINE\") \
+                +m\" $fzf_cmd"
         )
 
         local ret=$?
