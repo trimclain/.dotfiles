@@ -110,6 +110,50 @@ if [[ -f ~/.local/bin/pctl ]]; then
     bind '"\C-t": "pctl open $DOTFILES\n"'
 fi
 
+if command -v fzf > /dev/null; then
+    __fzfcmd() {
+        if [[ -n "${TMUX_PANE:-}" ]] &&
+            { [[ "${FZF_TMUX:-0}" != "0" ]] || [[ -n "${FZF_TMUX_OPTS:-}" ]]; }; then
+            printf '%s\n' "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} --"
+        else
+            printf '%s\n' "fzf"
+        fi
+    }
+
+    __fzf_history_widget() {
+        local selected
+        local fzf_cmd
+
+        fzf_cmd="$(__fzfcmd)"
+
+        selected=$(
+            HISTTIMEFORMAT='' history |
+                sed 's/^[[:space:]]*[0-9]\+[[:space:]]*//' |
+                awk '!seen[$0]++' |
+                eval "FZF_DEFAULT_OPTS=\"--height ${FZF_TMUX_HEIGHT:-40%} \
+          ${FZF_DEFAULT_OPTS:-} \
+          -n2..,.. \
+          --tiebreak=index \
+          --bind=ctrl-r:toggle-sort,ctrl-z:ignore,tab:toggle-up,btab:toggle-down \
+          ${FZF_CTRL_R_OPTS:-} \
+          --query=\$(printf '%q' \"\$READLINE_LINE\") \
+          +m\" $fzf_cmd"
+        )
+
+        local ret=$?
+
+        if [[ -n "$selected" ]]; then
+            READLINE_LINE="$selected"
+            READLINE_POINT=${#READLINE_LINE}
+        fi
+
+        return "$ret"
+    }
+
+    # CTRL-R - Paste the selected command from history into the command line
+    bind -x '"\C-r": __fzf_history_widget'
+fi
+
 # Disable annoying error sound in terminal
 bind 'set bell-style none'
 
