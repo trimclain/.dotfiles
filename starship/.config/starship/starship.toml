@@ -48,6 +48,9 @@ format = "took [$duration]($style) "
 [battery]
 disabled = true
 
+[netns]
+disabled = true
+
 [jobs]
 disabled = true
 
