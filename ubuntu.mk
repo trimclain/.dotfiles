@@ -119,7 +119,7 @@ docker: ## Install docker
 		sudo systemctl enable docker.socket --now && \
 		sudo usermod -aG docker $$USER && \
 		echo "[docker]: Done"; \
-		echo "[docker]: Log out and log back in to use docker without sudo"; \
+		echo "[docker]: Run 'newgrp docker' or Re-sign in to use docker without sudo"; \
 	fi
 
 podman: ## Install podman (daemon-less alternative to Docker)
