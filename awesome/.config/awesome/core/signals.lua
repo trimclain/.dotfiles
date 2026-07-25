@@ -82,6 +82,7 @@ local hooligans = {
     discord = true,
     okular = true,
     dolphin = true,
+    zen = true,
 }
 client.connect_signal("property::maximized", function(c)
     if hooligans[c.class] then
