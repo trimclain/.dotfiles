@@ -589,6 +589,11 @@ clamav: ## Install ClamAV (Open Source Antivirus)
 	@echo "  clamscan -r directory"
 	@echo "  clamscan -r --infected ~"
 
+lynis: ## Install Lynis (Security and system auditing tool)
+	$(INSTALL) lynis
+	@echo "Usage:"
+	@echo "  sudo lynis audit system"
+
 tailscale: ## Install Tailscale
 	@if command -v tailscale > /dev/null; then \
 		echo "[tailscale]: Already installed"; \
@@ -780,7 +785,7 @@ install: ## Setup arch after new installation
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player\
 	obs audacity gimp kdenlive lossless-cut inkscape vlc\
-	vscode office quickemu vpn ventoy caligula localsend uad clamav tailscale\
+	vscode office quickemu vpn ventoy caligula localsend uad clamav lynis tailscale\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games\
