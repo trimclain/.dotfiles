@@ -1,19 +1,17 @@
-.backup
+# config backups
+/.backup
 
-# python
-__pycache__
+# qtile
+/qtile/.config/qtile/__pycache__
 
 # zsh
-.zcompdump
+/zsh/.config/zsh/.zcompdump
 
 # ncspot
-userstate.cbor
+/ncspot/.config/ncspot/userstate.cbor
 
-# local config for ghostty and kitty
-local.conf
-
-# local config for alacritty
-local.toml
-
-# local config for wezterm
-local.lua
+# local configs
+/ghostty/.config/ghostty/local.conf
+/kitty/.config/kitty/local.conf
+/alacritty/.config/alacritty/local.toml
+/wezterm/.config/wezterm/local.lua
