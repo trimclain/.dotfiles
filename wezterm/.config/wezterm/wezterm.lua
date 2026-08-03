@@ -19,6 +19,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- {{{ Fonts
+
 -- List available fonts: wezterm ls-fonts --list-system
 -- INFO: gucharmap is a great app for searching missing glyphs
 -- Another great method:
@@ -52,9 +53,11 @@ config.harfbuzz_features = {
     "clig=0",
     -- "zero" -- 0
 }
+
 -- }}}
 
 -- {{{ General
+
 -- Docs: https://wezfurlong.org/wezterm/config/lua/config/window_padding.html
 -- config.window_padding = {
 --     left = 30,
@@ -95,12 +98,32 @@ config.default_cursor_style = "SteadyBar" -- SteadyBlock (default), BlinkingBloc
 -- config.front_end = "WebGpu" -- OpenGL (default), Software (CPU), WebGpu (DirectX 12 on Windows)
 
 config.check_for_updates = false
+
+-- }}}
+
+-- {{{ Windows Only
+
+-- wezterm.log_info("target_triple = " .. wezterm.target_triple)
+if wezterm.target_triple:find("windows") then
+    config.default_prog = {
+        "cmd",
+        "/c",
+        "set",
+        "POWERSHELL_UPDATECHECK=LTS", -- opts: Off, Default, LTS
+        "&",
+        "pwsh.exe",
+        -- "-NoLogo" -- would also disable update notifications
+    }
+end
+
 -- }}}
 
 -- {{{ Colorscheme
+
 -- config.color_scheme = "Campbell (Gogh)"
 config.color_scheme = "Dark Pastel"
 config.colors = { background = "#1A1D23" } -- match astrotheme background
+
 -- }}}
 
 -- {{{ Keybindings
@@ -138,8 +161,9 @@ config.keys = {
     { key = "p", mods = "SHIFT|CTRL", action = act.ActivateCommandPalette },
     -- { key = "r", mods = "SHIFT|CTRL", action = act.ReloadConfiguration },
 }
+
 --- }}}
 
 return config
 
--- vim:fileencoding=utf-8:foldmethod=marker
+-- vim:foldmethod=marker
