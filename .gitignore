@@ -14,3 +14,6 @@ local.conf
 
 # local config for alacritty
 local.toml
+
+# local config for wezterm
+local.lua

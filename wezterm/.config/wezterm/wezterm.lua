@@ -164,6 +164,18 @@ config.keys = {
 
 --- }}}
 
+-- {{{ Local Config
+
+-- Load local config file if it exists at ./local.lua
+local ok, overrides = pcall(require, "local")
+if ok then
+    for k, v in pairs(overrides) do
+        config[k] = v
+    end
+end
+
+-- }}}
+
 return config
 
 -- vim:foldmethod=marker
