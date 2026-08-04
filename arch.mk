@@ -611,7 +611,7 @@ ollama: ## Install Ollama (To run LLMs locally)
 	$(INSTALL) ollama
 
 llmfit: ## Install llmfit (See which LLMs can run locally)
-	$(PARUINSTALL) llmfit-bin
+	$(INSTALL) llmfit
 
 opencode: ## Install opencode (TUI AI Agent)
 	$(PARUINSTALL) opencode-bin
