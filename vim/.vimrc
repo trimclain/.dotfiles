@@ -12,13 +12,11 @@
 "                                                                             "
 "#############################################################################"
 
+" Settings {{{
+
 " Enable syntax and plugins
 syntax enable
 filetype plugin indent on
-
-" #############################################################################
-" Settings
-" #############################################################################
 
 set path+=**                            " expand the search whe gf or :find
 
@@ -98,9 +96,9 @@ let g:newrw_localrmdir='rm -r'          " remove directory command (default was 
 " embark(6), sonokai (6), everforest (6)
 let g:vim_colorscheme = 'rosepine'
 
-" #############################################################################
-" Vim Plug Installation
-" #############################################################################
+" }}}
+
+" Vim Plug Installation {{{
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -108,9 +106,10 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" #############################################################################
-" Plugin Installation
-" #############################################################################
+" }}}
+
+" Plugin Installation {{{
+
 call plug#begin('~/.vim/plugged')
 
 if g:vim_colorscheme == 'rosepine'
@@ -161,9 +160,9 @@ Plug 'tweekmonster/startuptime.vim'      " check startuptime
 
 call plug#end()
 
-" #############################################################################
-" Plugin Settings and Mappings
-" #############################################################################
+" }}}
+
+" Plugin Settings and Mappings {{{
 
 " Colors
 if has('termguicolors')
@@ -323,9 +322,9 @@ augroup END
 " mbbill/undotree
 nnoremap <silent> <leader>u :UndotreeToggle<cr>
 
-" #############################################################################
-" Other Remaps
-" #############################################################################
+" }}}
+
+" Other Remaps {{{
 
 " To exit vim and save files faster
 nnoremap <silent> Q :qa<cr>
@@ -479,9 +478,9 @@ com! Q q
 com! Qa qa
 com! W w
 
-" #############################################################################
-" Autocommands
-" #############################################################################
+" }}}
+
+" Autocommands {{{
 
 " Delete useless spaces
 function! TrimWhitespace()
@@ -538,3 +537,7 @@ augroup trimclain_autoclose_commandline_window
     autocmd!
     autocmd CmdwinEnter * quit
 augroup END
+
+" }}}
+
+" vim:foldmethod=marker
