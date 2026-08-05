@@ -208,8 +208,45 @@ let g:lightline = {
 if executable(g:fuzzy_finder)
     let $FZF_DEFAULT_OPTS .= ' --layout=reverse --cycle --bind=' .
                 \ '"tab:down,btab:up,ctrl-j:toggle+down,ctrl-k:toggle+up"'
+
     let g:fzf_layout = { 'window': { 'width': 0.80, 'height': 0.80 } }
     let g:fzf_vim = { 'preview_window': ['right,50%,border-left', 'ctrl-/'] }
+
+    " Make :GFiles have a smaller picker and preview initially hidden
+    command! -bang -nargs=? GFiles
+    \ call fzf#vim#gitfiles(
+    \   <q-args>,
+    \   fzf#vim#with_preview(
+    \     { 'window': { 'width': 0.50, 'height': 0.40 } },
+    \     'right,50%,border-left,hidden',
+    \     'ctrl-/'
+    \   ),
+    \   <bang>0
+    \ )
+
+    " " Make :Files have a smaller picker and preview initially hidden
+    " command! -bang -nargs=? -complete=dir Files
+    " \ call fzf#vim#files(
+    " \   <q-args>,
+    " \   fzf#vim#with_preview(
+    " \     { 'window': { 'width': 0.50, 'height': 0.40 } },
+    " \     'right,50%,border-left,hidden',
+    " \     'ctrl-/'
+    " \   ),
+    " \   <bang>0
+    " \ )
+
+    " Make :Lines have a maller picker and preview initially hidden
+    command! -bang -nargs=* Lines
+    \ call fzf#vim#lines(
+    \   <q-args>,
+    \   fzf#vim#with_preview(
+    \     { 'window': { 'width': 0.50, 'height': 0.40 } },
+    \     'right,50%,border-left,hidden',
+    \     'ctrl-/'
+    \   ),
+    \   <bang>0
+    \ )
 
     function! s:ProjectFiles()
         if system('git rev-parse --is-inside-work-tree 2>/dev/null') =~# '^true'
