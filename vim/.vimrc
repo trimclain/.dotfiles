@@ -206,6 +206,8 @@ let g:lightline = {
 
 " Fuzzy Finder
 if executable(g:fuzzy_finder)
+    let $FZF_DEFAULT_OPTS .= ' --layout=reverse --cycle --bind=' .
+                \ '"tab:down,btab:up,ctrl-j:toggle+down,ctrl-k:toggle+up"'
     let g:fzf_layout = { 'window': { 'width': 0.80, 'height': 0.80 } }
     let g:fzf_vim = { 'preview_window': ['right,50%,border-left', 'ctrl-/'] }
 
