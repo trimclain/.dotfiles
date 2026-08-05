@@ -143,7 +143,18 @@ Plug 'itchyny/lightline.vim'             " statusline
 Plug 'mengelbrecht/lightline-bufferline' " bufferline
 Plug 'moll/vim-bbye'                     " better :bdelete
 Plug 'mbbill/undotree'                   " undo history
-Plug 'ctrlpvim/ctrlp.vim'                " fuzzy finder
+
+" fuzzy finder
+let g:fuzzy_finder = 'fzf'
+if executable(g:fuzzy_finder)
+    " This is kinda dumb coz I will be installing the fzf binary.
+    " Reason for this is that I use vim on quite old systems.
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+else
+    Plug 'ctrlpvim/ctrlp.vim'
+endif
+
 Plug 'lifepillar/vim-mucomplete'         " easiest autocomplete
 Plug 'jiangmiao/auto-pairs'              " autoclose brackets
 Plug 'tweekmonster/startuptime.vim'      " check startuptime
@@ -151,7 +162,7 @@ Plug 'tweekmonster/startuptime.vim'      " check startuptime
 call plug#end()
 
 " #############################################################################
-" Plugin Settings
+" Plugin Settings and Mappings
 " #############################################################################
 
 " Colors
@@ -163,6 +174,10 @@ endif
 
 set background=dark
 execute 'colorscheme' g:vim_colorscheme
+
+" Set a leader key
+noremap <Space> <Nop>
+let mapleader = " "
 
 " Make the background transparent
 "highlight Normal ctermbg=NONE guibg=NONE
@@ -189,8 +204,46 @@ let g:lightline = {
       \ },
       \ }
 
-" CtrlP configs
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+" Fuzzy Finder
+if executable(g:fuzzy_finder)
+    let g:fzf_layout = { 'window': { 'width': 0.80, 'height': 0.80 } }
+    let g:fzf_vim = { 'preview_window': ['right,50%,border-left', 'ctrl-/'] }
+
+    function! s:ProjectFiles()
+        if system('git rev-parse --is-inside-work-tree 2>/dev/null') =~# '^true'
+            GFiles
+        else
+            Files
+        endif
+    endfunction
+    nnoremap <silent> <C-p> :call <SID>ProjectFiles()<CR>
+
+    nnoremap <silent> <C-f> :Lines<CR>
+
+
+    if executable('rg')
+        nnoremap <silent> <leader>fs :Rg<CR>
+    endif
+    nnoremap <silent> <leader>fh :Helptags<CR>
+    nnoremap <silent> <leader>fk :Maps<CR>
+    nnoremap <silent> <leader>fr :History<CR>
+    nnoremap <silent> <leader>fb :Buffers<CR>
+
+    nnoremap <silent> <leader>fC :Commands<CR>
+    nnoremap <silent> <leader>f: :History:<CR>
+    nnoremap <silent> <leader>fc :Colors<CR>
+
+    " requires fugitive.vim
+    nnoremap <silent> <leader>gl :Commits<CR>
+    nnoremap <silent> <leader>gf :BCommits<CR>
+else
+    let g:ctrlp_map = '<C-p>'
+    let g:ctrlp_cmd = 'CtrlP'
+    let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+
+    nnoremap <silent> <leader>fr :CtrlPMRUFiles<CR>
+    nnoremap <silent> <leader>fb :CtrlPBuffer<CR>
+endif
 
 " AutoComplete
 let g:mucomplete#enable_auto_at_startup = 1
@@ -212,16 +265,24 @@ if !has('patch-8.0.0283')
     imap <cr> <Plug>MyCR
 endif
 
-" #############################################################################
-" REMAPS
-" #############################################################################
+" moll/vim-bbye
+nnoremap <silent> <leader>q :Bdelete<cr>
 
-" Set a leader key
-let mapleader = " "
+" tpope/vim-fugitive
+nnoremap <silent> <leader>gs :G<cr>
+" resolve conflicts when merging branches
+" nnoremap <leader>gj :diffget //3<cr>
+" nnoremap <leader>gf :diffget //2<cr>
+
+" mbbill/undotree
+nnoremap <silent> <leader>u :UndotreeToggle<cr>
+
+" #############################################################################
+" Other Remaps
+" #############################################################################
 
 " To exit vim and save files faster
 nnoremap <silent> Q :qa<cr>
-nnoremap <silent> <leader>q :Bdelete<cr>
 nnoremap <silent> <leader>w :update<cr>
 
 " Please disable hlsearch on redraw like neovim
@@ -266,16 +327,6 @@ inoremap <C-@> <C-x><C-o>
 " Toggle folds with Tab
 " PROBLEM: <Tab> is the same as <C-i> so I lose the <C-i> default mapping
 " nnoremap <silent> <Tab> za
-
-" Vim-fugitive remaps
-" git status
-nnoremap <silent> <leader>gs :G<cr>
-" resolve conflicts when merging branches
-" nnoremap <leader>gj :diffget //3<cr>
-" nnoremap <leader>gf :diffget //2<cr>
-
-" Open Undotree
-nnoremap <silent> <leader>u :UndotreeToggle<cr>
 
 " Toggle Netrw
 let g:netrw_opened = 0
@@ -329,9 +380,6 @@ function! Build()
     endif
 endfunction
 nnoremap <silent> <C-b> :call Build()<cr>
-
-" Start a Project Search
-nnoremap <leader>fs :Rg<space>
 
 " Make Y work like C and D
 nnoremap Y y$
