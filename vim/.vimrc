@@ -271,8 +271,15 @@ nnoremap <silent> <leader>q :Bdelete<cr>
 " tpope/vim-fugitive
 nnoremap <silent> <leader>gs :G<cr>
 " resolve conflicts when merging branches
-" nnoremap <leader>gj :diffget //3<cr>
-" nnoremap <leader>gf :diffget //2<cr>
+"nnoremap <leader>gj :diffget //3<cr>
+"nnoremap <leader>gf :diffget //2<cr>
+" Map <Tab> to do the toggle like =
+augroup trimclain_fugitive_mappings
+    autocmd!
+    autocmd FileType fugitive execute
+      \ 'nmap <buffer> <Tab> ' .
+      \ maparg('=', 'n')
+augroup END
 
 " mbbill/undotree
 nnoremap <silent> <leader>u :UndotreeToggle<cr>
