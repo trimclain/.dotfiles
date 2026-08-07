@@ -467,15 +467,7 @@ thorium: ## Install Thorium Browser
 	fi
 
 helium: ## Install Helium Browser
-	$(eval HELIUM_VERSION := $(shell curl -fsSL https://github.com/imputnet/helium-linux/releases/latest | grep "<title>Release " | awk '{print $$2}'))
-	@echo "Installing Helium Browser..."
-	@# Install the latest version
-	curl -LO https://github.com/imputnet/helium-linux/releases/download/$(HELIUM_VERSION)/helium-$(HELIUM_VERSION)-x86_64.AppImage --output-dir /tmp
-	@# Add to gearlever
-	flatpak run it.mijorus.gearlever --integrate --yes /tmp/helium-$(HELIUM_VERSION)-x86_64.AppImage
-	@# If I have gearlever configured correctly, the appimages go to ~/apps
-	@# Symlink this appimage to ~/.local/bin so I can run it from the terminal
-	ln -s $$HOME/apps/helium.appimage $$HOME/.local/bin/helium
+	$(PARUINSTALL) helium-browser-bin
 
 zen: ## Install Zen Browser
 	$(PARUINSTALL) zen-browser-bin
