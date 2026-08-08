@@ -7,16 +7,18 @@
 # Dependencies: setxkbmap (for X11), hyprctl (for Wayland)
 ###############################################################################
 
+# Deprecated: use the Compose Key!
+
 if [[ -n $WAYLAND_DISPLAY ]]; then
     ###########################################################################
     # WAYLAND
     ###########################################################################
     if [[ "$DESKTOP_SESSION" == "hyprland" ]]; then
-        CURRENT=$(hyprctl getoption input:kb_layout | awk '/str/ {print $2}')
+        CURRENT=$(hyprctl getoption input.kb_layout | awk '/str/ {print $2}')
         if [[ "$CURRENT" == 'de' ]]; then
-            hyprctl keyword input:kb_layout us,ru > /dev/null
+            hyprctl eval "hl.config({ input = { kb_layout = 'us,ru', kb_options = 'grp:win_space_toggle,compose:caps' } })" > /dev/null
         else
-            hyprctl keyword input:kb_layout de > /dev/null
+            hyprctl eval "hl.config({ input = { kb_layout = 'de' } })" > /dev/null
         fi
     else
         echo "Error: this wayland session is not supported"
