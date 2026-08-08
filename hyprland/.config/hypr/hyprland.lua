@@ -13,7 +13,6 @@
 --                                                                           --
 -------------------------------------------------------------------------------
 
--- TODO: too many bugs right now, wait till at least v0.56 to start using this.
 -- Lua Config for Hyprland v0.55+
 -- Docs: https://wiki.hypr.land/Configuring/Start/
 
@@ -65,7 +64,8 @@ if terminal == "ghostty" then
     terminal = "ghostty +new-window"
 end
 
-local browser = "thorium-browser"
+local browser = os.getenv("BROWSER") or "thorium-browser"
+
 -- local fileManager = "pcmanfm"
 local screenlock = "hyprlock"
 
@@ -75,7 +75,6 @@ local cursorSize = "20"
 -- local cursorSize = "24"
 
 -- whether to enable shadow and blur
--- TODO: this can be dynamic now
 local dontSaveBattery = false
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
@@ -83,6 +82,9 @@ hl.env("XCURSOR_SIZE", cursorSize)
 hl.env("XCURSOR_THEME", cursorTheme)
 hl.env("HYPRCURSOR_SIZE", cursorSize)
 hl.env("HYPRCURSOR_THEME", cursorTheme)
+
+-- TODO: move nvidia variables here
+-- https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/#nvidia-specific
 
 -- }}}
 
@@ -109,7 +111,7 @@ hl.config({
         -- Please see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Tearing/ before you turn this on
         allow_tearing = false,
 
-        layout = "master", -- "dwindle"
+        -- layout = "master", -- "dwindle"
         -- layout = "scrolling",
     },
 })
@@ -132,7 +134,7 @@ hl.config({
             enabled = dontSaveBattery,
             range = 4,
             render_power = 3,
-            color = 0xee1a1a1a,
+            color = "0xee1a1a1a",
         },
 
         blur = {
@@ -480,13 +482,12 @@ hl.bind(mainMod .. "+ CTRL + h", hl.dsp.window.resize({ x = -40, y = 0 }))
 hl.bind(mainMod .. "+ CTRL + l", hl.dsp.window.resize({ x = 40, y = 0 }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
--- FIX: how is this nil when in example it's there
--- hl.config({
---     -- https://wiki.hypr.land/Configuring/Basics/Variables/#binds
---     binds({
---         drag_threshold = 10, -- Fire a drag event only after dragging for more than 10px
---     }),
--- })
+hl.config({
+    -- https://wiki.hypr.land/Configuring/Basics/Variables/#binds
+    binds = {
+        drag_threshold = 10, -- Fire a drag event only after dragging for more than 10px
+    },
+})
 
 -- INFO: LMB -> 272; RMB -> 273; MMB -> 274
 -- use `wev` to detect other mouse button key codes
@@ -511,8 +512,7 @@ for i = 1, 9 do
     -- Switch workspaces with mainMod + [1-9]
     hl.bind(mainMod .. " + " .. i, hl.dsp.focus({ workspace = i }))
     -- Move active window to a workspace with mainMod + SHIFT + [1-9]
-    -- TODO: how do I disable following after move?
-    hl.bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i, follow = false }))
 end
 
 ---------------
@@ -589,8 +589,7 @@ hl.bind(mainMod .. " + mouse:275", hl.dsp.pass({ window = "class:^(discord)$" })
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("~/.local/bin/screenshot screen"))
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.local/bin/screenshot region"))
 -- # I'm kinda used to this on windows
--- TODO: test if this works
-hl.bind("SUPER_L + SHIFT_L + S", hl.dsp.exec_cmd("~/.local/bin/screenshot region"))
+hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("~/.local/bin/screenshot region"))
 
 -- Toggle german keyboard layout (allowed in lockscreen)
 hl.bind(altMod .. " + D", notify("Use the Compose Key &lt;CAPS&gt;", "Hyprland Friendly Reminder"), { locked = true })
@@ -705,7 +704,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hypridle")
 
     -- Blue Light Manager
-    hl.exec_cmd("hyprsunset")
+    -- hl.exec_cmd("hyprsunset")
 end)
 
 -- }}}
