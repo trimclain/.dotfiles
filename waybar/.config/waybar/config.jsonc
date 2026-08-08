@@ -42,9 +42,7 @@
             "6": []
         },
         // "persistent-only": true,
-        "sort-by-number": true,
-        "disable-scroll": true,
-        "on-click": "activate"
+        "sort-by": "number"
     },
     // Docs: https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#submap
     "hyprland/submap": {
@@ -93,9 +91,9 @@
     "hyprland/language": {
         "format": " {}",
         "format-en": "en",
-        "format-ru": "ru"
+        "format-ru": "ru",
+        "format-de": "de"
         // Disable german layout in favor of the Compose Key
-        //"format-de": "de",
         //"on-click": "~/.local/bin/keyboard-layout",
         // Get with `hyprctl devices`
         // "keyboard-name": "at-translated-set-2-keyboard"
