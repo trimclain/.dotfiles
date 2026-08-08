@@ -93,9 +93,10 @@
     "hyprland/language": {
         "format": " {}",
         "format-en": "en",
-        "format-ru": "ru",
-        "format-de": "de",
-        "on-click": "~/.local/bin/keyboard-layout"
+        "format-ru": "ru"
+        // Disable german layout in favor of the Compose Key
+        //"format-de": "de",
+        //"on-click": "~/.local/bin/keyboard-layout",
         // Get with `hyprctl devices`
         // "keyboard-name": "at-translated-set-2-keyboard"
     },
