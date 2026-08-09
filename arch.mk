@@ -591,10 +591,12 @@ tailscale: ## Install Tailscale
 		echo "[tailscale]: Already installed"; \
 	else \
 		echo "[tailscale]: Installing..." && \
-		curl -fsSL https://tailscale.com/install.sh | sh && \
-		sudo tailscale set --operator=$$USER && \
+		$(INSTALL) tailscale && \
 		mkdir -p ~/.local/share/bash-completion/completions && \
 		tailscale completion bash > ~/.local/share/bash-completion/completions/tailscale && \
+		sudo systemctl enable --now tailscaled.service && \
+		sudo tailscale set --operator=$$USER && \
+		sudo tailscale login && \
 		echo "[tailscale]: Done"; \
 	fi
 
