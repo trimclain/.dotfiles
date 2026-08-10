@@ -10,6 +10,11 @@ image/vnd.microsoft.icon=sxiv.desktop;
 text/css=neovide.desktop;
 text/markdown=neovide.desktop;
 video/mp4=vlc.desktop;thorium-browser.desktop;smplayer.desktop;
+x-scheme-handler/about=helium.desktop;thorium-browser.desktop;
+x-scheme-handler/http=helium.desktop;thorium-browser.desktop;
+x-scheme-handler/https=helium.desktop;thorium-browser.desktop;
+x-scheme-handler/unknown=helium.desktop;thorium-browser.desktop;
+x-scheme-handler/mailto=helium.desktop;thorium-browser.desktop;
 
 [Default Applications]
 application/javascript=neovide.desktop;
@@ -24,7 +29,8 @@ text/css=neovide.desktop;
 text/html=thorium-browser.desktop;
 text/markdown=neovide.desktop;
 video/mp4=vlc.desktop;thorium-browser.desktop;
-x-scheme-handler/about=thorium-browser.desktop;
-x-scheme-handler/http=thorium-browser.desktop;
-x-scheme-handler/https=thorium-browser.desktop;
-x-scheme-handler/unknown=thorium-browser.desktop;
+x-scheme-handler/about=helium.desktop;
+x-scheme-handler/http=helium.desktop;
+x-scheme-handler/https=helium.desktop;
+x-scheme-handler/unknown=helium.desktop;
+x-scheme-handler/mailto=helium.desktop;
