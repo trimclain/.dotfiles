@@ -105,7 +105,19 @@ local function toggle_wifi()
     end)
 end
 
---- Collect non-loopback network interfaces and stores them in priority order.
+--- Return whether the given network interface should be ignored.
+--- Ignore loopback and some virtual interfaces we use.
+---@param name string interface name
+---@return boolean ignored true if the interface should be ignored, otherwise false
+local function is_ignored_interface(name)
+    return name == "lo"
+        or name == "tailscale0" -- tailscale
+        or name == "wt0" -- netbird
+        or name:match("^virbr") ~= nil -- libvirt virtual bridges
+        or name:match("^wg") ~= nil -- wireguard tunnels
+end
+
+--- Collect non-ignored network interfaces and stores them in priority order.
 --- Populate `interfaces[name]` with interface metadata and fill
 --- `ordered_interfaces` so wired or wireless interfaces come first
 --- depending on `prioritize_wired`.
@@ -116,7 +128,7 @@ local function get_interfaces()
     local iface_list = {}
     for line in io.lines("/proc/net/dev") do
         local name = line:match("^%s*([^:]+):")
-        if name and name ~= "lo" then
+        if name and not is_ignored_interface(name) then
             iface_list[#iface_list + 1] = name
         end
     end
