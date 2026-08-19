@@ -673,6 +673,9 @@ doom:
 board-games:
 	$(INSTALL) gnome-2048 bovo
 
+minecraft:
+	$(FLATINSTALL) com.atlauncher.ATLauncher
+
 #==================================================================================================
 
 # TODO: Ethical hacking & Penetration Testing Tools
@@ -782,6 +785,6 @@ install: ## Setup arch after new installation
 	vscode office quickemu vpn ventoy caligula localsend uad clamav lynis tailscale\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
-	0ad luanti doom board-games\
+	0ad luanti doom board-games minecraft\
 	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
 	install
