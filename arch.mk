@@ -570,7 +570,8 @@ caligula: ## Install Caligula (TUI for disk imaging)
 localsend: ## Install LocalSend (Open Source AirDrop)
 	$(FLATINSTALL) org.localsend.localsend_app
 
-uad: ## Install Universal Android Debloater
+android: ## Install adb, scrcpy and Universal Android Debloater
+	$(INSTALL) android-tools scrcpy
 	$(PARUINSTALL) universal-android-debloater-bin
 
 clamav: ## Install ClamAV (Open Source Antivirus)
@@ -782,7 +783,7 @@ install: ## Setup arch after new installation
 	anydesk rustdesk\
 	thunderbird telegram discord spotify ncspot spotify-player\
 	obs audacity gimp kdenlive lossless-cut inkscape vlc\
-	vscode office quickemu vpn ventoy caligula localsend uad clamav lynis tailscale\
+	vscode office quickemu vpn ventoy caligula localsend android clamav lynis tailscale\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games minecraft\
