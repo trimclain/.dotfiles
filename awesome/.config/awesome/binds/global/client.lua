@@ -54,5 +54,16 @@ return gears.table.join(
         -- if client.focus then
         --     client.focus:raise()
         -- end
-    end, { description = "swap with right client", group = "client" })
+    end, { description = "swap with right client", group = "client" }),
+
+    -- Fix osu awful behavior when you switch tags from the fullscreen game
+    awful.key({ env.modkey, "Shift" }, "m", function()
+        for _, c in ipairs(client.get()) do
+            if c.minimized then
+                c.minimized = false
+                c:emit_signal("request::activate", "key.unminimize", { raise = true })
+                return
+            end
+        end
+    end, { description = "unminimize next client", group = "client" })
 )
