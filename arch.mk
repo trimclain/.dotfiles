@@ -677,6 +677,15 @@ board-games:
 minecraft:
 	$(FLATINSTALL) com.atlauncher.ATLauncher
 
+osu:
+	$(PARUINSTALL) osu-lazer-bin
+	@# Fix osu audio issues, they use BASS backend which needs ALSA
+	@# TODO: should I always install it on a fresh system?
+	@if ! pacman -Q pipewire-alsa &>/dev/null; then \
+		$(INSTALL) pipewire-alsa && \
+		systemctl --user restart pipewire pipewire-pulse wireplumber; \
+	fi
+
 #==================================================================================================
 
 # TODO: Ethical hacking & Penetration Testing Tools
@@ -786,6 +795,6 @@ install: ## Setup arch after new installation
 	vscode office quickemu vpn ventoy caligula localsend android clamav lynis tailscale\
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
-	0ad luanti doom board-games minecraft\
+	0ad luanti doom board-games minecraft osu\
 	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
 	install
