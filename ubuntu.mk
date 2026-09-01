@@ -362,11 +362,11 @@ pdf-viewer: ## Install zathura and okular
 sysmon: ## Install btop and gnome-system-monitor
 	$(INSTALL) btop gnome-system-monitor
 
-apps: ## Install flameshot, ncdu, mpv, file-manager, image-viewer, sysmon, pdf-viewer
+apps: ## Install ncdu, mpv, file-manager, image-viewer, sysmon, pdf-viewer
 	@echo "==================================================================="
 	@echo "Installing apps..."
 	@echo "==================================================================="
-	$(INSTALL) flameshot ncdu mpv
+	$(INSTALL) ncdu mpv
 	@make file-manager
 	@make image-viewer
 	@make sysmon

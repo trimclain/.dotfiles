@@ -61,7 +61,6 @@ CONFIGS = {
     "spotify-player": ".config/spotify-player",
     "ncspot": ".config/ncspot",
     "fastfetch": ".config/fastfetch",
-    "flameshot": ".config/flameshot",
     "sxiv": ".config/sxiv",
     "zathura": ".config/zathura",
     "sioyek": ".config/sioyek",

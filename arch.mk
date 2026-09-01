@@ -727,11 +727,11 @@ pdf-editor: ## Install pdf4qt (open source pdf editor)
 sysmon: ## Install btop, mission-center and resources
 	$(INSTALL) btop mission-center resources
 
-apps: ## Install flameshot, ncdu, mpv, file-manager, image-viewer, sysmon, pdf-viewers, thorium, telegram
+apps: ## Install ncdu, mpv, file-manager, image-viewer, sysmon, pdf-viewers, thorium, telegram
 	@echo "==================================================================="
 	@echo "Installing apps..."
 	@echo "==================================================================="
-	$(INSTALL) flameshot ncdu mpv
+	$(INSTALL) ncdu mpv
 	@make file-manager
 	@make image-viewer
 	@make sysmon
