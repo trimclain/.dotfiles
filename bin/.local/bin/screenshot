@@ -5,10 +5,10 @@
 #
 # Description: Take screenshot of entire screen or selected region
 # and save it to clipboard
-# Dependencies: on Xorg: flameshot; on Wayland: grim, slurp, swappy or wl-copy
+# Dependencies:
+#   on X11: maim, slop, satty or xclip
+#   on Wayland: grim, slurp, swappy or wl-copy
 ###############################################################################
-
-# INFO: apparently flameshot works on Wayland (with or without grim)
 
 # Make sure dependencies are installed
 ensure_installed() {
@@ -46,8 +46,14 @@ screen() {
             notify "Screen"
         fi
     else
-        ensure_installed flameshot
-        flameshot screen -c
+        ensure_installed maim
+        ensure_installed xclip
+        if command -v satty > /dev/null; then
+            maim | satty --filename - --early-exit --fullscreen &> /dev/null
+        else
+            maim | xclip -selection clipboard -t image/png
+            notify "Screen"
+        fi
     fi
 }
 
@@ -69,8 +75,15 @@ region() {
             notify "Region"
         fi
     else
-        ensure_installed flameshot
-        flameshot gui -c
+        ensure_installed maim
+        ensure_installed slop
+        ensure_installed xclip
+        if command -v satty > /dev/null; then
+            maim -s | satty --filename - --early-exit --floating-hack &> /dev/null
+        else
+            maim -s | xclip -selection clipboard -t image/png
+            notify "Region"
+        fi
     fi
 }
 

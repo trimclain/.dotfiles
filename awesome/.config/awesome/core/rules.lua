@@ -47,6 +47,7 @@ awful.rules.rules = {
                 "veromix",
                 "xtightvncviewer",
 
+                -- Yad should probably also go to Satty below, however it does centering and ontop options by itself!
                 "Yad",
             },
 
@@ -62,6 +63,16 @@ awful.rules.rules = {
             },
         },
         properties = { floating = true },
+    },
+
+    -- Satty is an annotation overlay/editor and should not enter the tiling tree
+    {
+        rule = { class = "satty" },
+        properties = {
+            floating = true,
+            ontop = true,
+            placement = awful.placement.centered,
+        },
     },
 
     -- Fix Telegram media viewer being out of screen
