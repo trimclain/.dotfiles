@@ -17,7 +17,7 @@ return gears.table.join(
     awful.key(
         { env.modkey },
         "p",
-        utils.launch("flameshot screen -c"),
+        utils.launch("~/.local/bin/screenshot screen"),
         { description = "take a fullscreen screenshot to clipboard", group = "hotkeys" }
     ),
 
@@ -25,14 +25,14 @@ return gears.table.join(
     awful.key(
         { env.modkey },
         "s",
-        utils.launch("flameshot gui -c"),
+        utils.launch("~/.local/bin/screenshot region"),
         { description = "take a screenshot with gui to clipboard", group = "hotkeys" }
     ),
     -- kinda used to this on windows
     awful.key(
         { env.altkey, "Shift" },
         "s",
-        utils.launch("flameshot gui -c"),
+        utils.launch("~/.local/bin/screenshot region"),
         { description = "take a screenshot with gui to clipboard", group = "hotkeys" }
     ),
 

@@ -329,20 +329,20 @@ keys = [
     Key(
         [mod],
         "p",
-        run_command("flameshot screen -c"),
+        run_command("~/.local/bin/screenshot screen"),
         desc="Take a fullscreen screenshot to clipboard"
     ),
     Key(
         [mod],
         "s",
-        run_command("flameshot gui -c"),
+        run_command("~/.local/bin/screenshot region"),
         desc="Take a screenshot with gui to clipboard"
     ),
     # I'm kinda used to this on windows
     Key(
         [alt, "shift"],
         "s",
-        run_command("flameshot gui -c"),
+        run_command("~/.local/bin/screenshot region"),
         desc="Take a screenshot with gui to clipboard"
     ),
 
