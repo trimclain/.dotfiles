@@ -48,8 +48,15 @@ screen() {
     else
         ensure_installed maim
         ensure_installed xclip
+        # INFO: satty works on wayland as well, just update the copy-command
         if command -v satty > /dev/null; then
-            maim | satty --filename - --early-exit --fullscreen &> /dev/null
+            maim | satty \
+                --filename - \
+                --copy-command 'xclip -selection clipboard -t image/png -i' \
+                --actions-on-enter save-to-clipboard \
+                --early-exit \
+                --fullscreen \
+                &> /dev/null
         else
             maim | xclip -selection clipboard -t image/png
             notify "Screen"
@@ -79,7 +86,13 @@ region() {
         ensure_installed slop
         ensure_installed xclip
         if command -v satty > /dev/null; then
-            maim -s | satty --filename - --early-exit --floating-hack &> /dev/null
+            maim -s | satty \
+                --filename - \
+                --copy-command 'xclip -selection clipboard -t image/png -i' \
+                --actions-on-enter save-to-clipboard \
+                --early-exit \
+                --floating-hack \
+                &> /dev/null
         else
             maim -s | xclip -selection clipboard -t image/png
             notify "Region"
