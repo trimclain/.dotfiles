@@ -712,6 +712,10 @@ image-viewer: ## Install feh, sxiv and nomacs
 	$(INSTALL) feh sxiv
 	$(FLATINSTALL) org.nomacs.ImageLounge
 
+screenshot-tool: ## Install screenshot tools for X11 and Wayland
+	$(INSTALL) maim slop satty
+	$(INSTALL) grim slurp swappy
+
 pdf-viewer: ## Install zathura and okular
 	@# Options:
 	@# - Zathura (vith vim bindings)
@@ -734,13 +738,14 @@ pdf-editor: ## Install Stirling PDF (open source iLovePDF)
 sysmon: ## Install btop, mission-center and resources
 	$(INSTALL) btop mission-center resources
 
-apps: ## Install ncdu, mpv, file-manager, image-viewer, sysmon, pdf-viewers, thorium, telegram
+apps: ## Install ncdu, mpv, file-manager, image-viewer, screenshot-tool, sysmon, pdf-viewers, thorium, telegram
 	@echo "==================================================================="
 	@echo "Installing apps..."
 	@echo "==================================================================="
 	$(INSTALL) ncdu mpv
 	@make file-manager
 	@make image-viewer
+	@make screenshot-tool
 	@make sysmon
 	@make pdf-viewer
 	@make thorium
@@ -803,5 +808,5 @@ install: ## Setup arch after new installation
 	ollama llmfit opencode handy\
 	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games minecraft osu\
-	file-manager image-viewer pdf-viewer pdf-editor sysmon apps\
+	file-manager image-viewer screenshot-tool pdf-viewer pdf-editor sysmon apps\
 	install
