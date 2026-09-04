@@ -39,6 +39,7 @@ show_help() {
 screen() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
         ensure_installed grim
+        ensure_installed wl-copy
         if command -v swappy > /dev/null; then
             grim - | swappy -f -
         else
@@ -71,6 +72,7 @@ region() {
     if [ -n "$WAYLAND_DISPLAY" ]; then
         ensure_installed grim
         ensure_installed slurp
+        ensure_installed wl-copy
         REGION=$(slurp 2> /dev/null)
         if [ -z "$REGION" ]; then
             exit
