@@ -721,8 +721,15 @@ pdf-viewer: ## Install zathura and okular
 	@# - Sioyek (PDF Viewer with focus on research papers - similar to zathura)
 	$(INSTALL) zathura zathura-pdf-mupdf okular
 
-pdf-editor: ## Install pdf4qt (open source pdf editor)
-	$(FLATINSTALL) io.github.JakubMelka.Pdf4qt
+pdf-editor: ## Install Stirling PDF (open source iLovePDF)
+	@#$(FLATINSTALL) io.github.JakubMelka.Pdf4qt
+	@echo "Installing Stirling PDF..."
+	curl -L https://files.stirlingpdf.com/linux-installer.AppImage --output stirling.AppImage --output-dir /tmp
+	@# Add to gearlever
+	flatpak run it.mijorus.gearlever --integrate --yes /tmp/stirling.AppImage
+	@# If I have gearlever configured correctly, the appimages go to ~/apps
+	@# Symlink this appimage to ~/.local/bin so I can run it from the terminal
+	@#ln -s $$HOME/apps/stirlingpdf.appimage $$HOME/.local/bin/stirling
 
 sysmon: ## Install btop, mission-center and resources
 	$(INSTALL) btop mission-center resources
