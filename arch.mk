@@ -209,7 +209,7 @@ waypaper: ## Install waypaper (GUI wallpaper manager)
 	fi
 
 #============================================= Neovim =============================================
-nvim-reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic)
+nvim-reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sitter-cli, tectonic, typst)
 	@# Things my neovim needs
 	@echo "Installing things for Neovim..."
 	@# - yad (or zenity) for the color picker plugin
@@ -217,6 +217,7 @@ nvim-reqs: ## Install my neovim requirements (yad, xclip, wl-clipboard, tree-sit
 	@# - tree-sitter cli for autoinstalling parsers
 	$(INSTALL) yad xclip wl-clipboard tree-sitter-cli
 	@make tectonic
+	@make typst
 
 nvim-build-reqs: ## Install neovim build prerequisites
 	@# Neovim build prerequisites
@@ -303,8 +304,7 @@ awesome: ## Install AwesomeWM with all dependencies
 	@# - xss-lock (triggers slock on systemd events)
 	@# - picom (compositor for transparency and shadows)
 	@# - polkit-kde-agent (GUI request for sudo password)
-	@# - xorg-xwininfo (window picker for screen recording)
-	$(INSTALL) awesome dmenu rofi slock xss-lock picom polkit-kde-agent xorg-xwininfo
+	$(INSTALL) awesome dmenu rofi slock xss-lock picom polkit-kde-agent
 	@make brightnessctl
 
 # INFO: use xdotool to simulate mouse and keyboard input, manage windows, etc.
@@ -324,8 +324,7 @@ qtile: ## Install QTile with all dependencies
 	@# - dunst (notification daemon)
 	@# - picom (compositor for transparency and shadows)
 	@# - polkit-kde-agent (GUI request for sudo password)
-	@# - xorg-xwininfo (window picker for screen recording)
-	$(INSTALL) dmenu rofi slock xss-lock dunst picom polkit-kde-agent xorg-xwininfo
+	$(INSTALL) dmenu rofi slock xss-lock dunst picom polkit-kde-agent
 	@make waypaper
 	@make brightnessctl
 
@@ -351,17 +350,14 @@ hyprland: ## Install Hyprland with all dependencies
 	@make waypaper
 	@# Extra Utils:
 	@# - hyprpicker (color picker)
-	@# - wf-recorder (screen-recorder)
-	@# - grim (screenshot utility)
-	@# - slurp (region selector)
-	@# - swappy (snapshot editing tool)
 	@# - nwg-look (GTK Settings Editor for changing cursor and icon themes)
 	@# - gnome-themes-extra (Extra GTK Themes like Adwaita-dark)
-	$(INSTALL) hyprpicker wf-recorder grim slurp swappy nwg-look gnome-themes-extra
+	$(INSTALL) hyprpicker nwg-look gnome-themes-extra
 	@make brightnessctl
 	@#make cursor
 
 # NOTE: combine this with nvidia.sh from my bootsrap repo
+# TODO: deprecate this after lua rewrite
 fix-nvidialand: ## Add missing Environment Variables for hyprland on nvidia
 	@# Whenever Hyprland is updated, this needs to be run (if using nvidia). Or the pacman hook needs to be created (see hyprhook)
 	sudo sed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=auto /usr/bin/start-hyprland|g' \
@@ -616,21 +612,8 @@ handy: ## Install Handy (extensible offline speech-to-text application)
 
 #============================================= Study ==============================================
 anki: ## Install Anki
-	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
-	@echo "Installing Anki..."
-	@# Install the latest version
-	curl -LO https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
-	@# Unpack it
-	tar xaf ./anki-launcher.tar.zst
-	@# Run the installation script
-	cd ./anki-launcher && sudo ./install.sh
-	@# Delete the folder and the archive
-	rm -rf ./anki-launcher ./anki-launcher.tar.zst
-
-uninstall-anki: # Uninstall Anki
-	cd /usr/local/share/anki/ && sudo ./uninstall.sh
-
-# after installing anki isntall AnkiConnect: https://foosoft.net/projects/anki-connect/
+	$(INSTALL) anki
+	@# after installing anki install AnkiConnect: https://foosoft.net/projects/anki-connect/
 
 pomodorolm: # Install Pomodoro Tracker
 	$(FLATINSTALL) org.jousse.vincent.Pomodorolm
@@ -712,9 +695,14 @@ image-viewer: ## Install feh, sxiv and nomacs
 	$(INSTALL) feh sxiv
 	$(FLATINSTALL) org.nomacs.ImageLounge
 
-screenshot-tool: ## Install screenshot tools for X11 and Wayland
+screenshot-tool: ## Install screenshot tools for X11 and Wayland to be used with my script
 	$(INSTALL) maim slop satty
 	$(INSTALL) grim slurp swappy
+
+
+screen-recorder: ## Install screen recording tools for X11 and Wayland to be used with my script
+	$(INSTALL) ffmpeg xorg-xwininfo
+	$(INSTALL) wf-recorder slurp
 
 pdf-viewer: ## Install zathura and okular
 	@# Options:
@@ -806,7 +794,7 @@ install: ## Setup arch after new installation
 	obs audacity gimp kdenlive lossless-cut inkscape vlc\
 	vscode office quickemu vpn ventoy caligula localsend android clamav lynis tailscale\
 	ollama llmfit opencode handy\
-	anki uninstall-anki pomodorolm syncthing obsidian blanket sioyek\
+	anki pomodorolm syncthing obsidian blanket sioyek\
 	0ad luanti doom board-games minecraft osu\
-	file-manager image-viewer screenshot-tool pdf-viewer pdf-editor sysmon apps\
+	file-manager image-viewer screenshot-tool screen-recorder pdf-viewer pdf-editor sysmon apps\
 	install
