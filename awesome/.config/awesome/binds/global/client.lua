@@ -56,6 +56,11 @@ return gears.table.join(
         -- end
     end, { description = "swap with right client", group = "client" }),
 
+    -- Focus floating clients when they are unfocused and hidden behind normal clients
+    awful.key({ env.modkey }, "n", function()
+        awful.client.focus.byidx(1)
+    end, { description = "focus next client", group = "client" }),
+
     -- Fix osu awful behavior when you switch tags from the fullscreen game
     awful.key({ env.modkey, "Shift" }, "m", function()
         for _, c in ipairs(client.get()) do
