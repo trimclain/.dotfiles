@@ -84,6 +84,7 @@ local hooligans = {
     dolphin = true,
     zen = true,
     helium = true,
+    Pcmanfm = true,
 }
 client.connect_signal("property::maximized", function(c)
     if hooligans[c.class] then
