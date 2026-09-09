@@ -4,50 +4,58 @@
 #
 # Reason: all AUR packages are bad
 # Requires: curl, unzip, fc-cache (fontconfig)
-#
-# Usage: install_maple_mono.sh [v6|lts]
 
 FONT_DIR="$HOME/.local/share/fonts"
-API_URL="https://api.github.com/repos/subframe7536/maple-font/releases"
+API_URL="https://api.github.com/repos/subframe7536/maple-font/releases/latest"
 RELEASE_URL="https://github.com/subframe7536/maple-font/releases"
-ARCHIVE_NAME="MapleMono-NF-unhinted.zip"
+# Use hinted for low-resolution displays and small font sizes
+# Docs: https://github.com/subframe7536/maple-font/blob/variable/documentation/choose.md
+#ARCHIVE_NAME="MapleMono-NF-unhinted.zip"
+ARCHIVE_NAME="MapleMono-NF.zip"
+INSTALLED_NAME="$FONT_DIR/MapleMono-NF"
 
-# Get latest release
-TAG_NAMES=$(curl -s "$API_URL" |
-    awk -v RS=',' -F'"' '/tag_name/ {print $4}')
+INSTALLED_VERSION="none"
 
-RELEASES=()
-while IFS= read -r line; do
-    RELEASES+=("$line")
-done <<< "$TAG_NAMES"
-
-if [[ -n "$1" ]]; then
-    if [[ "$1" == "v6" ]]; then
-        latest="v6.4"
-    else
-        latest="v7.7"
+main() {
+    if [[ -f "$INSTALLED_NAME/config.json" ]]; then
+        INSTALLED_VERSION=$(awk -F'"' '/"version"/ {print $4; exit}' "$INSTALLED_NAME/config.json")
     fi
-else
-    latest="${RELEASES[0]}"
-fi
 
-# Install
-echo "Installing MapleMono-NF $latest"
+    LATEST_VERSION=$(curl -s "$API_URL" | awk -F'"' '/"tag_name":/ { print $4; exit }')
 
-pushd /tmp > /dev/null || exit
+    echo "========================================"
+    echo "          Maple Mono Nerd Font          "
+    echo "========================================"
+    echo
+    echo "Installed version: $INSTALLED_VERSION"
+    echo "Latest version:    $LATEST_VERSION"
+    echo
 
-opts=("--location" "--remote-header-name" "--remote-name" "--progress-bar")
-curl "${opts[@]}" "$RELEASE_URL/download/$latest/$ARCHIVE_NAME"
+    read -r -n 1 -p "Do you want to (re)install? [Y/n] " answer
+    echo
 
-rm -rf "$FONT_DIR/MapleMono-NF"
-mkdir -p "$FONT_DIR/MapleMono-NF"
-unzip "$ARCHIVE_NAME" -d "$FONT_DIR/MapleMono-NF"
+    if [[ -n "$answer" && ! "$answer" =~ ^[Yy]$ ]]; then
+        echo "Installation cancelled."
+        exit 0
+    fi
 
-rm -f "$ARCHIVE_NAME"
+    echo "Installing $LATEST_VERSION..."
 
-popd > /dev/null || exit
+    pushd /tmp > /dev/null || exit
 
-echo "Done"
+    OPTS=("--location" "--remote-header-name" "--remote-name" "--progress-bar")
+    curl "${OPTS[@]}" "$RELEASE_URL/download/$LATEST_VERSION/$ARCHIVE_NAME"
 
-# Update font cache
-fc-cache
+    rm -rf "$INSTALLED_NAME"
+    mkdir -p "$INSTALLED_NAME"
+    unzip "$ARCHIVE_NAME" -d "$INSTALLED_NAME"
+    rm -f "$ARCHIVE_NAME"
+
+    popd > /dev/null || exit
+
+    echo "Done"
+
+    fc-cache
+}
+
+main "$@"
