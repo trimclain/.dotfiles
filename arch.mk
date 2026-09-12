@@ -171,7 +171,7 @@ docker: ## Install docker
 	fi
 
 lazydocker: ## Install lazydocker (lazygit for docker)
-	$(PARUINSTALL) lazydocker-bin
+	$(INSTALL) lazydocker
 
 # INFO: Install act from arch/extra to run github actions locally
 
