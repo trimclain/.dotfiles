@@ -314,9 +314,7 @@ nnoremap <silent> <leader>gs :G<cr>
 " Map <Tab> to do the toggle like =
 augroup trimclain_fugitive_mappings
     autocmd!
-    autocmd FileType fugitive execute
-      \ 'nmap <buffer> <Tab> ' .
-      \ maparg('=', 'n')
+    autocmd FileType fugitive nmap <buffer> <Tab> =
 augroup END
 
 " mbbill/undotree
