@@ -60,6 +60,19 @@ bluetooth: ## Setup bluetooth
 	$(INSTALL) bluez bluez-utils blueberry
 	sudo systemctl enable --now bluetooth.service
 
+printer: ## Setup printer
+	@echo "Setting up HP printer drivers..."
+	$(INSTALL) cups
+	@#Drivers for HP DeskJet, OfficeJet, Photosmart, Business Inkjet and some LaserJet
+	$(INSTALL) hplip
+	sudo systemctl enable --now cups.service
+	@echo "To add the printer:"
+	@echo "0. Find it's name with \"lpinfo -v | grep 'usb'\""
+	@echo "1. Open http://localhost:631 in your browser."
+	@echo "2. Go to Administration → Add Printer."
+	@echo "3. Select the USB printer shown in the local-printers list."
+	@echo "4. Finish the setup and print a test page."
+
 brightnessctl: ## Install a brightness control tool
 	@# NOTE: there's a package in arch extra, but it's extremely outdated due to latest release being in 2020
 	@# Requires for you to be in video group: sudo usermod -aG video $USER
@@ -780,7 +793,7 @@ install: ## Setup arch after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir getnf wallpapers maple-mono bluetooth brightnessctl\
+.PHONY: all help vimdir getnf wallpapers maple-mono bluetooth printer brightnessctl\
 	mise python python-modules rust julia go tectonic typst typescript\
 	paru downgrade flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper\
 	nvim-reqs nvim-build-reqs nvim-dev uninstall-nvim-dev clean-nvim purge-nvim neovim neovide\
