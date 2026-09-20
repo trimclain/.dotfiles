@@ -49,13 +49,19 @@ elif [[ $OS == arch ]]; then
         sudo pacman $PACMANCONFIRM
     fi
     # apt autoremove
+    count=0
     while true; do
+        ((count++))
         # Get a list of orphaned packages
         # -Qdtq: Query, dependencies, not required by others, print only package names
         orphans=$(pacman -Qdtq)
 
         if [[ -z "$orphans" ]]; then
-            echo "No more orphaned packages found. Exiting."
+            if [[ $count -le 1 ]]; then
+                echo "No orphaned packages found. Exiting."
+            else
+                echo "No more orphaned packages found. Exiting."
+            fi
             break
         else
             # shellcheck disable=SC2086
