@@ -30,3 +30,6 @@ require("binds")
 require("core.rules")
 require("core.signals")
 require("core.autostart")
+
+-- Load local config at ~/.config/awesome/local.lua
+pcall(require, "local")

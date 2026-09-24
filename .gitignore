@@ -15,3 +15,4 @@
 /kitty/.config/kitty/local.conf
 /alacritty/.config/alacritty/local.toml
 /wezterm/.config/wezterm/local.lua
+/awesome/.config/awesome/local.lua
