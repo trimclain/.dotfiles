@@ -57,7 +57,7 @@ maple-mono: ## Install Maple Mono fonts
 
 bluetooth: ## Setup bluetooth
 	@echo "Setting up bluetooth..."
-	$(INSTALL) bluez bluez-utils blueberry
+	$(INSTALL) bluez bluez-utils blueman
 	sudo systemctl enable --now bluetooth.service
 
 printer: ## Setup printer
