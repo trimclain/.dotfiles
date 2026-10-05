@@ -1,0 +1,8 @@
+#compdef git-dt
+#description Delete a tag locally and remotely
+
+local -a tags
+tags=("${(@f)$(git tag --list 2>/dev/null)}")
+(( ${#tags} )) || return 1
+
+_describe -t tags 'tag' tags
