@@ -86,6 +86,7 @@ local hooligans = {
     helium = true,
     Pcmanfm = true,
     Thunar = true,
+    Inkscape = true,
 }
 client.connect_signal("property::maximized", function(c)
     if hooligans[c.class] then
