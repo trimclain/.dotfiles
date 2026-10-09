@@ -51,6 +51,7 @@ end
 local function remove_widget()
     if widget_refresh_timer then
         widget_refresh_timer:stop()
+        widget_refresh_timer = nil
     end
     awesome.emit_signal("ui::volume_widget::enabled", false)
 end
@@ -96,12 +97,12 @@ local function notify_volume(value, mode)
     elseif mode == "unmuted" then
         icon = volume_up_icon
     else
-        gg("Unexpect mode in volume.notify_volume()")
+        gg("Unexpected mode in volume.notify_volume(): " .. tostring(mode))
+        return
     end
 
-    local text = icon .. " Volume: " .. value .. "%"
     local notification = naughty.notify({
-        text = text,
+        text = string.format("%s Volume: %d%%", icon, value),
         timeout = 1.5,
         replaces_id = volume_notification_id,
     })
@@ -173,6 +174,10 @@ end
 ---@param callback fun(is_connected: boolean)
 local function get_headphones_connected_status(callback)
     if volumectl == "" then
+        return
+    end
+    if volumectl == "wpctl" then
+        callback(false)
         return
     end
     utils.get_command_output(get_headphones_connected_status_cmd, function(status, err, _)
