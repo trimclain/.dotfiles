@@ -74,28 +74,16 @@ end)
 -- Fix some apps launching maximized
 -- NOTE: have to do it like this instead of defining a rule for it to always work
 -- since some clients (missioncenter) override properties after the rule kicks in
-local hooligans = {
-    Spotify = true,
-    TelegramDesktop = true,
-    missioncenter = true,
-    gearlever = true,
-    discord = true,
-    okular = true,
-    dolphin = true,
-    zen = true,
-    helium = true,
-    Pcmanfm = true,
-    Thunar = true,
-    Inkscape = true,
-}
+local allow_maximized = {}
 client.connect_signal("property::maximized", function(c)
-    if hooligans[c.class] then
-        if c.maximized then
-            c.maximized = false
-        end
-        c.maximized_horizontal = false
-        c.maximized_vertical = false
+    if allow_maximized[c.class] then
+        return
     end
+    if c.maximized then
+        c.maximized = false
+    end
+    c.maximized_horizontal = false
+    c.maximized_vertical = false
 end)
 
 -- -- Enable sloppy focus, so that focus follows mouse.
