@@ -9,6 +9,7 @@ local utils = require("utils")
 local M = {}
 
 local prefix = " "
+local poll_timeout = 2
 local threshold = 90
 
 -- this usually symlinks to /sys/devices/virtual/thermal/thermal_zone0/temp
@@ -22,23 +23,17 @@ local function refresh_widget()
         return
     end
 
-    local line = utils.readline(temp_path)
-
-    if not line then
+    local millidegrees_c = tonumber(utils.readline(temp_path))
+    if not millidegrees_c then
         temp_text:set_text(prefix .. "N/A")
         return
     end
 
-    local millidegrees_c = tonumber(line)
-    if not millidegrees_c then
-        temp_text:set_text(prefix .. "NaN")
-        return
-    end
-
     local degrees_c = math.floor(millidegrees_c / 1000 + 0.5)
+    local is_hot = millidegrees_c >= threshold * 1000
 
-    if degrees_c >= threshold then
-        local hot_fg = beautiful.bg_urgent or "#ff0000"
+    if is_hot then
+        local hot_fg = beautiful.fg_temperature_hot or beautiful.bg_urgent or "#ff0000"
         temp_text:set_markup(string.format('<span foreground="%s">%s%d°C</span>', hot_fg, prefix, degrees_c))
     else
         temp_text:set_text(string.format("%s%d°C", prefix, degrees_c))
@@ -49,7 +44,10 @@ end
 ---@param args? { timeout?: integer }
 ---@return any
 function M.create_widget(args)
+    assert(temp_widget == nil, "temperature.create_widget() must only be called once")
+
     args = args or {}
+    poll_timeout = args.timeout or 1
 
     temp_text = wibox.widget({
         text = prefix .. "--°C",
@@ -76,7 +74,7 @@ function M.create_widget(args)
     })
 
     gears.timer({
-        timeout = args.timeout or 2,
+        timeout = poll_timeout,
         autostart = true,
         call_now = true,
         callback = function()
