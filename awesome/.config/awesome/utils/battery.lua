@@ -12,25 +12,12 @@ local utils = require("utils")
 local M = {}
 
 local prefix = "󰁹 "
+local poll_timeout = 1
 
 local battery_text = nil
 local battery_widget = nil
 local battery_path = nil
 local batteries = {}
-
-local function get_battery_path()
-    if battery_path then
-        return
-    end
-
-    local pspath = "/sys/class/power_supply/"
-    utils.get_command_output_lines("ls -1 " .. pspath, function(line)
-        local base = "/sys/class/power_supply/" .. line
-        if utils.readline(base .. "/type") == "Battery" then
-            batteries[#batteries + 1] = base
-        end
-    end)
-end
 
 -- { "", "", "", "", "" }
 -- { "󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" }
@@ -72,27 +59,55 @@ local function refresh_widget()
         return
     end
 
-    -- we only care about the main battery for now
-    -- for what to do with more than one battery check
-    -- https://github.com/lcpz/lain/blob/master/widget/bat.lua
+    -- only display the first discovered battery
     battery_path = batteries[1]
 
-    if utils.readline(battery_path .. "/present") == 0 then
+    if utils.readline(battery_path .. "/present") == "0" then
         battery_text:set_text(prefix .. "N/A")
         return
     end
 
     local capacity = tonumber(utils.readline(battery_path .. "/capacity"))
+    if not capacity or capacity < 0 or capacity > 100 or capacity % 1 ~= 0 then
+        battery_text:set_text(prefix .. "N/A")
+        return
+    end
+
     local status = utils.readline(battery_path .. "/status")
 
     battery_text:set_text(string.format("%s%d%%", get_prefix(status, capacity), capacity))
 end
 
+--- Discover battery supplies and refresh when enumeration completes.
+local function discover_batteries()
+    local pspath = "/sys/class/power_supply/"
+
+    utils.get_command_output("ls -1 " .. utils.shell_quote(pspath), function(out, err)
+        if err then
+            utils.log("Battery discovery failed: " .. err, "warn")
+            refresh_widget()
+            return
+        end
+
+        for _, name in ipairs(utils.split(out, "\n")) do
+            local base = pspath .. name
+            if utils.readline(base .. "/type") == "Battery" then
+                batteries[#batteries + 1] = base
+            end
+        end
+
+        refresh_widget()
+    end)
+end
+
 --- Create and return the battery widget, and start periodic refreshes (default: 1 sec)
----@pabattery args? { timeout?: integer }
+---@param args? { timeout?: integer }
 ---@return any
 function M.create_widget(args)
+    assert(battery_widget == nil, "battery.create_widget() must only be called once")
+
     args = args or {}
+    poll_timeout = args.timeout or 1
 
     battery_text = wibox.widget({
         text = prefix .. "--",
@@ -117,10 +132,10 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
-    get_battery_path()
+    discover_batteries()
 
     gears.timer({
-        timeout = args.timeout or 1,
+        timeout = poll_timeout,
         autostart = true,
         call_now = true,
         callback = function()
