@@ -241,21 +241,23 @@ function M.get_command_output(cmd, callback)
     end)
 end
 
---- Run a command and asynchronously execute a function on its output line by line
----@param cmd string
+--- Run a command and asynchronously process its output line by line
+---@param cmd string|string[] command or argv; this does not invoke a shell
 ---@param callback fun(line: string)
-function M.get_command_output_lines(cmd, callback)
-    awful.spawn.with_line_callback(cmd, {
-        stdout = function(line)
-            callback(line)
-        end,
-        stderr = function(err)
+---@param opts? { stderr?: fun(line: string), exit?: fun(reason: string, code: integer) }
+---@return integer|string pid_or_error
+function M.get_command_output_lines(cmd, callback, opts)
+    opts = opts or {}
+    return awful.spawn.with_line_callback(cmd, {
+        stdout = callback,
+        stderr = opts.stderr or function(err)
             M.notify(err, {
                 preset = "critical",
-                title = "Error in utils.get_command_output_lines(" .. cmd .. ")",
+                title = "Error in utils.get_command_output_lines(" .. tostring(cmd) .. ")",
                 timeout = 5,
             })
         end,
+        exit = opts.exit,
     })
 end
 

@@ -14,6 +14,8 @@ local utils = require("utils")
 
 local M = {}
 
+local poll_timeout = 1
+
 local volume_icons = { "", "", "󰕾", " " }
 local volume_up_icon = ""
 local volume_down_icon = ""
@@ -27,13 +29,27 @@ local headphones_unmuted_icon = "" -- "󰋋"
 local volume_notification_id = nil
 local volume_text = nil
 local volume_widget = nil
-local widget_refresh_timer = nil
+local widget_refresh_timer = nil -- wpctl fallback only
+
+local monitoring_started = false
+local subscription_pid = nil
+local retry_timer = nil
+local event_refresh_timer = nil
+local stopping = false
+local refresh_generation = 0
+local start_monitoring -- Defined below, called after backend detection.
 
 local volumectl = "pactl"
-local get_volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'"
-local get_volume_muted_status_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'"
-local get_micro_muted_status_cmd = "pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'"
-local get_headphones_connected_status_cmd = "pactl list sinks | awk -F': ' '/Active Port/ { print $2 }'"
+local get_volume_cmd = "LC_ALL=C pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | awk -F '%' '{ print $1 }'"
+local get_volume_muted_status_cmd = "LC_ALL=C pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'"
+local get_micro_muted_status_cmd = "LC_ALL=C pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}'"
+local get_headphones_connected_status_cmd = [=[
+    sink=$(LC_ALL=C pactl get-default-sink) &&
+    LC_ALL=C pactl list sinks | awk -v sink="$sink" '
+        /^[[:space:]]*Name:/ { selected = ($2 == sink) }
+        selected && /Active Port:/ { print $3; exit }
+    '
+]=]
 
 local volume_up_cmd = "pactl set-sink-volume @DEFAULT_SINK@ +5%"
 local volume_down_cmd = "pactl set-sink-volume @DEFAULT_SINK@ -5%"
@@ -47,12 +63,36 @@ local function gg(msg)
     utils.notify(msg, { preset = "critical", title = "Awesome Volume Error", timeout = 5 })
 end
 
---- Remove the volume widget
-local function remove_widget()
+--- Stop monitoring and invalidate any outstanding display refreshes
+local function stop_monitoring()
+    monitoring_started = false
+    refresh_generation = refresh_generation + 1
+
     if widget_refresh_timer then
         widget_refresh_timer:stop()
         widget_refresh_timer = nil
     end
+
+    if event_refresh_timer then
+        event_refresh_timer:stop()
+        event_refresh_timer = nil
+    end
+
+    if retry_timer then
+        retry_timer:stop()
+        retry_timer = nil
+    end
+
+    if subscription_pid then
+        local pid = subscription_pid
+        subscription_pid = nil
+        awesome.kill(pid, 15)
+    end
+end
+
+--- Remove the volume widget and stop its monitoring
+local function remove_widget()
+    stop_monitoring()
     awesome.emit_signal("ui::volume_widget::enabled", false)
 end
 
@@ -74,11 +114,16 @@ local function get_volumectl()
                 volume_unmute_cmd = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0"
                 volume_mute_toggle_cmd = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
                 micro_mute_toggle_cmd = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+
+                stop_monitoring()
             end
         else
             volumectl = ""
             gg("Both 'pactl' and 'wpctl' are not found. Your device volume is not set up correctly.")
             remove_widget()
+        end
+        if volume_text then
+            start_monitoring()
         end
     end)
 end
@@ -134,6 +179,10 @@ local function get_volume(callback)
     utils.get_command_output(get_volume_cmd, function(out, err, _)
         if err then
             gg("Error in volume.get_volume(): " .. err)
+            return
+        end
+        if not tonumber(out) then
+            utils.log("Ignoring invalid volume output: " .. tostring(out), "warn")
             return
         end
         callback(out)
@@ -225,21 +274,114 @@ local function get_display_text(callback)
     end)
 end
 
---- Refresh the volume widget text with the latest backend state
+--- Refresh from the selected backend, ignoring superseded responses
 local function refresh_widget()
-    if not volume_text then
+    if stopping or not volume_text then
         return
     end
-
     if volumectl == "" then
         remove_widget()
         return
     end
 
+    refresh_generation = refresh_generation + 1
+    local generation = refresh_generation
     get_display_text(function(text)
-        volume_text:set_text(text)
+        if stopping or volumectl == "" then
+            return
+        end
+        if generation == refresh_generation then
+            volume_text:set_text(text)
+        end
     end)
 end
+
+local function schedule_refresh()
+    if event_refresh_timer and not event_refresh_timer.started then
+        event_refresh_timer:start()
+    end
+end
+
+local function start_subscription()
+    if stopping or volumectl ~= "pactl" or subscription_pid then
+        return
+    end
+
+    local pid = utils.get_command_output_lines({ "env", "LC_ALL=C", "pactl", "subscribe" }, function(line)
+        if stopping or volumectl ~= "pactl" then
+            return
+        end
+        local facility = line:match(" on ([%w%-]+) #")
+        if facility == "sink" or facility == "source" or facility == "server" or facility == "card" then
+            schedule_refresh()
+        end
+    end, {
+        stderr = function(line)
+            if not stopping then
+                utils.log("pactl subscribe: " .. line, "warn")
+            end
+        end,
+        exit = function(reason, code)
+            subscription_pid = nil
+            if not stopping and volumectl == "pactl" then
+                utils.log("pactl subscribe exited: " .. reason .. " " .. tostring(code), "warn")
+                if retry_timer then
+                    retry_timer:again()
+                end
+            end
+        end,
+    })
+
+    if type(pid) == "number" then
+        subscription_pid = pid
+        refresh_widget()
+    else
+        utils.log("Cannot start pactl subscribe: " .. tostring(pid), "error")
+        if retry_timer then
+            retry_timer:again()
+        end
+    end
+end
+
+start_monitoring = function()
+    if stopping or not volume_text or monitoring_started then
+        return
+    end
+    if volumectl == "" then
+        remove_widget()
+        return
+    end
+    monitoring_started = true
+
+    if volumectl == "pactl" then
+        event_refresh_timer = gears.timer({
+            timeout = 0.05,
+            single_shot = true,
+            callback = refresh_widget,
+        })
+        retry_timer = gears.timer({
+            timeout = 2,
+            single_shot = true,
+            callback = function()
+                gears.timer.delayed_call(start_subscription)
+            end,
+        })
+        start_subscription()
+    else
+        -- wpctl fallback: poll for changes made outside this module.
+        widget_refresh_timer = gears.timer({
+            timeout = poll_timeout,
+            autostart = true,
+            call_now = true,
+            callback = refresh_widget,
+        })
+    end
+end
+
+awesome.connect_signal("exit", function()
+    stopping = true
+    stop_monitoring()
+end)
 
 --- Run a shell command asynchronously, refresh the volume widget after, and optionally invoke a callback
 ---@param cmd string
@@ -253,24 +395,32 @@ local function run_and_refresh(cmd, after)
     end)
 end
 
---- Create and return the volume widget, and start periodic refreshes (default: 1 sec)
+--- Create the widget; subscribe with pactl, poll with wpctl (default: 1 sec).
 ---@param args? { timeout?: integer }
 ---@return any
 function M.create_widget(args)
+    assert(volume_widget == nil, "volume.create_widget() must only be called once")
+
     args = args or {}
+    poll_timeout = args.timeout or 1
 
     volume_text = wibox.widget({
         text = volume_unmuted_icon .. " --%",
         widget = wibox.widget.textbox,
         buttons = gears.table.join(
-            -- HACK: this works for disabling notifications because for some reason awesome passes a table
-            -- to these callbacks. However I have no clue what kind of table that is and what it contains.
-            -- Last attempt to inspect that table resulted in a very awesome freeze.
-            awful.button({}, 1, M.toggle_mute),
+            awful.button({}, 1, function()
+                M.toggle_mute(true)
+            end),
             awful.button({}, 2, utils.launch("pavucontrol")),
-            awful.button({}, 3, M.toggle_micro_mute),
-            awful.button({}, 4, M.increase),
-            awful.button({}, 5, M.decrease)
+            awful.button({}, 3, function()
+                M.toggle_micro_mute()
+            end),
+            awful.button({}, 4, function()
+                M.increase(true)
+            end),
+            awful.button({}, 5, function()
+                M.decrease(true)
+            end)
         ),
     })
 
@@ -292,17 +442,7 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
-    refresh_widget()
-
-    -- to detect volume change when connecting headphones
-    widget_refresh_timer = gears.timer({
-        timeout = args.timeout or 1,
-        autostart = true,
-        call_now = true,
-        callback = function()
-            refresh_widget()
-        end,
-    })
+    start_monitoring()
 
     return volume_widget
 end
