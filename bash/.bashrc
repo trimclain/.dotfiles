@@ -200,6 +200,11 @@ if ! shopt -oq posix; then
     fi
 fi
 
+# enable just recipe autocompletion
+if command -v just > /dev/null; then
+    source <(just --completions bash)
+fi
+
 ###############################################################################
 # Path
 ###############################################################################
