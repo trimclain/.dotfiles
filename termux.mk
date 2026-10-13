@@ -6,7 +6,8 @@ all: ## Run inititial setup
 	@echo "Installing some basic tools..."
 	termux-change-repo && pkg update && pkg upgrade -y
 	$(INSTALL) curl git which vim rsync stow
-	$(INSTALL) openssh
+	@# install ssh tools and autocompletion for scp
+	$(INSTALL) openssh bash-completion
 	@# enable sshd to autostart
 	@#sv-enable sshd
 	$(INSTALL) yazi
