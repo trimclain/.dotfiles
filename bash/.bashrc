@@ -189,13 +189,13 @@ if [[ -f ~/.bash_aliases ]]; then
     alias eals="vim ~/.bash_aliases"
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+# enable programmable completion on Termux and standard Linux
 if ! shopt -oq posix; then
-    if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    if [[ -n "${PREFIX:-}" && -r "$PREFIX/share/bash-completion/bash_completion" ]]; then
+        . "$PREFIX/share/bash-completion/bash_completion"
+    elif [[ -r /usr/share/bash-completion/bash_completion ]]; then
         . /usr/share/bash-completion/bash_completion
-    elif [[ -f /etc/bash_completion ]]; then
+    elif [[ -r /etc/bash_completion ]]; then
         . /etc/bash_completion
     fi
 fi
