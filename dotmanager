@@ -353,6 +353,8 @@ def main():
         install("all")
     elif args.server:
         install("server")
+    elif args.termux:
+        install("termux")
     elif args.unixpool:
         unixpool_install()
     elif args.uuninstall:
