@@ -41,7 +41,7 @@ main() {
 
     echo "Installing $LATEST_VERSION..."
 
-    pushd /tmp > /dev/null || exit
+    pushd "${TMPDIR:-/tmp}" > /dev/null || exit
 
     OPTS=("--location" "--remote-header-name" "--remote-name" "--progress-bar")
     curl "${OPTS[@]}" "$RELEASE_URL/download/$LATEST_VERSION/$ARCHIVE_NAME"
