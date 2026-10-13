@@ -3,7 +3,7 @@
 # Install latest Maple Mono Release
 #
 # Reason: all AUR packages are bad
-# Requires: curl, unzip, fc-cache (fontconfig)
+# Requires: curl, unzip, optionally fc-cache (fontconfig)
 
 FONT_DIR="$HOME/.local/share/fonts"
 API_URL="https://api.github.com/repos/subframe7536/maple-font/releases/latest"
@@ -55,7 +55,9 @@ main() {
 
     echo "Done"
 
-    fc-cache
+    if command -v fc-cache > /dev/null; then
+        fc-cache
+    fi
 }
 
 main "$@"
