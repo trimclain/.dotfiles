@@ -658,22 +658,22 @@ sioyek: ## Install Sioyek (PDF Viewer for research papers)
 
 #============================================= Games ==============================================
 
-0ad:
+0ad: ## Install 0ad
 	$(INSTALL) 0ad
 
-luanti:
+luanti: ## Install luanti
 	$(INSTALL) luanti
 
-doom:
+doom: ## Install Doom
 	$(PARUINSTALL) freedoom gzdoom
 
-board-games:
+board-games: ## Install Board Games
 	$(INSTALL) gnome-2048 bovo
 
-minecraft:
+minecraft: ## Install Minecraft
 	$(FLATINSTALL) com.atlauncher.ATLauncher
 
-osu:
+osu: ## Install osu
 	$(PARUINSTALL) osu-lazer-bin
 	@# Fix osu audio issues, they use BASS backend which needs ALSA
 	@# TODO: should I always install it on a fresh system?
