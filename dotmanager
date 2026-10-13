@@ -145,8 +145,8 @@ def get_config_names(mode) -> list[str]:
     Returns:
         List of names
     """
-    # Small installation
-    if mode == "small":
+    # Small installation (e.g. on remote server or termux)
+    if mode == "small" or mode == "server" or mode == "termux":
         return ["bin", "bash", "tmux", "vim"]
     # Normal mode (good for wsl)
     if mode == "normal":
@@ -174,9 +174,6 @@ def get_config_names(mode) -> list[str]:
     # Linux on my main machines
     if mode == "all":
         return list(CONFIGS.keys())
-    # Remote server installation
-    if mode == "server":
-        return ["bin", "bash", "tmux", "vim"]
 
     print("Error:", mode, "argument doesn't exist")
     sys.exit(1)
@@ -223,7 +220,7 @@ def install(mode):
 
     if mode == "all":
         install_nvim()
-    elif mode not in ["small", "server"]:
+    elif mode not in ["small", "server", "termux"]:
         if os.getlogin() == "trimclain":
             install_nvim(backup_and_replace=True, dev=True)
         else:
@@ -327,6 +324,7 @@ def main():
     group.add_argument("--linux", action="store_true", help=f"install {', '.join(get_config_names('linux'))}, nvim configs")
     group.add_argument("--all", action="store_true", help=f"install {', '.join(get_config_names('all'))}, nvim configs")
     group.add_argument("--server", action="store_true", help=f"install {', '.join(get_config_names('server'))} configs")
+    group.add_argument("--termux", action="store_true", help=f"install {', '.join(get_config_names('termux'))} configs")
 
     group.add_argument("--unixpool", action="store_true", help='manually symlink bash, vim, tmux, awesome, i3 configs')
     group.add_argument("--uuninstall", action="store_true", help='uninstall bash, vim, tmux, awesome, i3 configs')
