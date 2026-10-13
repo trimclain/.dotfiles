@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 
-OS=$(awk -F= '$1=="ID" { gsub(/"/, "", $2); print $2; }' /etc/os-release 2> /dev/null)
+if [[ -n "${TERMUX_VERSION:-}" || "${PREFIX:-}" == */com.termux/files/usr ]]; then
+    OS=termux
+else
+    OS=$(awk -F= '$1=="ID" { gsub(/"/, "", $2); print $2; }' /etc/os-release 2> /dev/null)
 
-case "$OS" in
-    debian | ubuntu | linuxmint)
-        OS=ubuntu
-        ;;
-    arch | manjaro | endeavouros | endevouros | garuda | cachyos)
-        OS=arch
-        ;;
-esac
+    case "$OS" in
+        debian | ubuntu | linuxmint)
+            OS=ubuntu
+            ;;
+        arch | manjaro | endeavouros | endevouros | garuda | cachyos)
+            OS=arch
+            ;;
+    esac
+fi
 
 PKGMGR_CONFIRM=''
 FLATPAK_CONFIRM=''
@@ -47,7 +51,11 @@ if [[ -n $1 ]]; then
 fi
 
 # package manager updates
-if [[ $OS == ubuntu ]]; then
+if [[ $OS == termux ]]; then
+    pkg upgrade $PKGMGR_CONFIRM
+    apt autoclean $PKGMGR_CONFIRM
+    apt autoremove $PKGMGR_CONFIRM
+elif [[ $OS == ubuntu ]]; then
     sudo apt update
     sudo apt upgrade $PKGMGR_CONFIRM
     # see https://www.networkworld.com/article/3453032/cleaning-up-with-apt-get.html
