@@ -13,7 +13,7 @@ all:
 	@# NOTE: should probably use ss from iproute2 package (networkmanager dependency)
 	$(INSTALL) net-tools
 
-help: ## Print this help menu
+help: ## Print help for targets with comments
 	@cat $(MAKEFILE_LIST) | \
 		awk ' \
 		/^##/ || /^#  +/ { \
@@ -25,9 +25,7 @@ help: ## Print this help menu
 		/^[a-zA-Z_-]+:.*## .*$$/ { \
 			match($$0, /^[a-zA-Z_-]+/); \
 			target_name = substr($$0, RSTART, RLENGTH); \
-			\
 			comment_start_pos = index($$0, "## "); \
-			\
 			if (comment_start_pos > 0) { \
 				description = substr($$0, comment_start_pos + 3); \
 				printf "\033[36m%-30s\033[0m %s\n", target_name, description \
@@ -90,7 +88,6 @@ fix_tectonic:
 
 uninstall_tectonic: ## Uninstall tectonic
 	rm -f ~/.local/bin/tectonic
-
 
 ###################################################################################################
 #                                             Software                                            #
@@ -432,17 +429,17 @@ linux_install: zsh ## Setup Debian-based Linux after new installation
 #==================================================================================================
 
 .PHONY: all help vimdir getnf maple-mono \
-	mise python rust julia go typescript tectonic fix_tectonic uninstall_tectonic\
-	flatpak docker podman pm2 ufw yazi\
-	nvim-reqs nvim_build_reqs nvim-dev uninstall-nvim-dev clean_nvim purge_nvim neovim\
-	zoxide starship zsh zap\
-	i3 awesome\
-	alacritty kitty\
-	brave chrome chromium zen vivaldi\
-	anydesk rustdesk\
-	telegram discord spotify obs vscode office gimp kdenlive inkscape audacity localsend tailscale\
-	ollama\
-	anki uninstall_anki blanket\
-	file-manager image-viewer pdf-viewer sysmon apps\
+	mise python rust julia go typescript tectonic fix_tectonic uninstall_tectonic \
+	flatpak docker podman pm2 ufw yazi \
+	nvim-reqs nvim_build_reqs nvim-dev uninstall-nvim-dev clean_nvim purge_nvim neovim \
+	zoxide starship zsh zap \
+	i3 awesome \
+	alacritty kitty \
+	brave chrome chromium zen vivaldi \
+	anydesk rustdesk \
+	telegram discord spotify obs vscode office gimp kdenlive inkscape audacity localsend tailscale \
+	ollama \
+	anki uninstall_anki blanket \
+	file-manager image-viewer pdf-viewer sysmon apps \
 	server install sinstall finstall \
 	linux_install

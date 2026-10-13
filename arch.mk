@@ -16,7 +16,7 @@ all:
 	@# Some tools like getnf make use of this
 	$(INSTALL) xdg-user-dirs
 
-help: ## Print this help menu
+help: ## Print help for targets with comments
 	@cat $(MAKEFILE_LIST) | \
 		awk ' \
 		/^##/ || /^#  +/ { \
@@ -28,9 +28,7 @@ help: ## Print this help menu
 		/^[a-zA-Z_-]+:.*## .*$$/ { \
 			match($$0, /^[a-zA-Z_-]+/); \
 			target_name = substr($$0, RSTART, RLENGTH); \
-			\
 			comment_start_pos = index($$0, "## "); \
-			\
 			if (comment_start_pos > 0) { \
 				description = substr($$0, comment_start_pos + 3); \
 				printf "\033[36m%-30s\033[0m %s\n", target_name, description \
@@ -77,15 +75,15 @@ brightnessctl: ## Install a brightness control tool
 	@# NOTE: there's a package in arch extra, but it's extremely outdated due to latest release being in 2020
 	@# Requires for you to be in video group: sudo usermod -aG video $USER
 	@if command -v brightnessctl &> /dev/null; then \
-		echo "[brightnessctl]: Already installed";\
+		echo "[brightnessctl]: Already installed"; \
 	else \
-		echo "[brightnessctl]: Installing..." &&\
-		git clone --depth=1 https://github.com/Hummer12007/brightnessctl /tmp/brightnessctl &&\
-		cd /tmp/brightnessctl &&\
-		./configure &&\
-		sudo make install &&\
-		rm -rf /tmp/brightnessctl &&\
-		echo "[brightnessctl]: Done";\
+		echo "[brightnessctl]: Installing..." && \
+		git clone --depth=1 https://github.com/Hummer12007/brightnessctl /tmp/brightnessctl && \
+		cd /tmp/brightnessctl && \
+		./configure && \
+		sudo make install && \
+		rm -rf /tmp/brightnessctl && \
+		echo "[brightnessctl]: Done"; \
 	fi
 
 ###################################################################################################
@@ -153,11 +151,11 @@ downgrade: ## Install a script to downgrade Arch/AUR packages
 
 flatpak: ## Install flatpak
 	@if command -v flatpak &> /dev/null; then\
-		echo "[flatpak]: Already installed";\
-	else\
-		echo "[flatpak]: Installing..." &&\
-		$(INSTALL) flatpak &&\
-		echo "[flatpak]: Done";\
+		echo "[flatpak]: Already installed"; \
+	else \
+		echo "[flatpak]: Installing..." && \
+		$(INSTALL) flatpak && \
+		echo "[flatpak]: Done"; \
 	fi
 	@# Arch does this by default:
 	@#if ! flatpak remotes | grep -q "flathub"; then
@@ -218,7 +216,7 @@ waypaper: ## Install waypaper (GUI wallpaper manager)
 		# Create a symlink for hyprlock to use the same wallpaper \
 		# TODO: check if this actually does somethin on clean system install \
 		#sed -i 's|^post_command =.*|post_command = ln -sf "$wallpaper" ~/.config/waypaper/current_wallpaper.png|' ~/.config/waypaper/config.ini \
-		echo "[waypaper]: Done";\
+		echo "[waypaper]: Done"; \
 	fi
 
 #============================================= Neovim =============================================
@@ -384,19 +382,19 @@ hyprhook: ## Create a pacman hook to add missing Environment Variables for hyprl
 
 	@echo "Creating pacman hook..."
 	@echo -e "[Trigger]\
-	\nOperation = Upgrade\
-	\nType = Package\
-	\nTarget = hyprland\
-	\n\n[Action]\
-	\nDescription = Running post-update tasks for Hyprland...\
-	\nWhen = PostTransaction\
+	\nOperation = Upgrade \
+	\nType = Package \
+	\nTarget = hyprland \
+	\n\n[Action] \
+	\nDescription = Running post-update tasks for Hyprland... \
+	\nWhen = PostTransaction \
 	\nExec = /usr/bin/bash -c '/usr/local/bin/hyprland-post-update.sh'" | sudo tee $(HOOK_FILE) > /dev/null
 
 	@echo "Creating post-update script..."
 	@echo -e "#!/usr/bin/env bash\
-	\nset -e\
-	\n\n# Add missing Environment Variables for Hyprland to work with Nvidia\
-	\nsed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=auto /usr/bin/start-hyprland|g' /usr/share/wayland-sessions/hyprland.desktop\
+	\nset -e \
+	\n\n# Add missing Environment Variables for Hyprland to work with Nvidia \
+	\nsed -i 's|^Exec=/usr/bin/start-hyprland|Exec=env NVD_BACKEND=direct LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia ELECTRON_OZONE_PLATFORM_HINT=auto /usr/bin/start-hyprland|g' /usr/share/wayland-sessions/hyprland.desktop \
 	\n\nexit 0" | sudo tee $(SCRIPT_FILE) > /dev/null
 
 	@echo "Setting execute permissions for the post-update script..."
@@ -421,9 +419,9 @@ cursor: ## Install my cursor theme (Bibata)
 	@# Alternative: download manually from https://www.pling.com/p/1356095/
 	@#$(INSTALL) inkscape xorg-xcursorgen
 	@#if [[ -d /usr/share/icons/volantes-cursors ]]; then echo "[volantes-cursors]: Already installed";\
-		#else echo "Installing volantes-cursors theme..." &&\
-		#git clone https://github.com/varlesh/volantes-cursors.git /tmp/volantes-cursors &&\
-		#pushd /tmp/volantes-cursors && export NO_AT_BRIDGE=1 && export DBUS_SESSION_BUS_ADDRESS=disabled &&\
+		#else echo "Installing volantes-cursors theme..." && \
+		#git clone https://github.com/varlesh/volantes-cursors.git /tmp/volantes-cursors && \
+		#pushd /tmp/volantes-cursors && export NO_AT_BRIDGE=1 && export DBUS_SESSION_BUS_ADDRESS=disabled && \
 		#make build && sudo make install && popd && rm -rf /tmp/volantes-cursors && echo "Done"; fi
 
 #======================================= Desktop Environment ======================================
@@ -712,7 +710,6 @@ screenshot-tool: ## Install screenshot tools for X11 and Wayland to be used with
 	$(INSTALL) maim slop satty
 	$(INSTALL) grim slurp swappy
 
-
 screen-recorder: ## Install screen recording tools for X11 and Wayland to be used with my script
 	$(INSTALL) ffmpeg xorg-xwininfo
 	$(INSTALL) wf-recorder slurp
@@ -794,20 +791,20 @@ install: ## Setup arch after new installation
 #==================================================================================================
 
 .PHONY: all help vimdir getnf wallpapers maple-mono bluetooth printer brightnessctl\
-	mise python python-modules rust julia go tectonic typst typescript\
-	paru downgrade flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper\
-	nvim-reqs nvim-build-reqs nvim-dev uninstall-nvim-dev clean-nvim purge-nvim neovim neovide\
-	zoxide zsh zap\
-	awesome qtile hyprland fix-nvidialand hyprhook undo-hyprhook cursor\
-	kde cosmic\
-	alacritty kitty wezterm ghostty\
-	brave chrome thorium helium zen vivaldi\
-	anydesk rustdesk\
-	thunderbird telegram discord spotify ncspot spotify-player\
-	obs audacity gimp kdenlive lossless-cut inkscape vlc\
-	vscode office quickemu vpn ventoy caligula localsend android clamav lynis tailscale\
-	ollama llmfit opencode handy\
-	anki pomodorolm syncthing obsidian blanket sioyek\
-	0ad luanti doom board-games minecraft osu\
-	file-manager image-viewer screenshot-tool screen-recorder pdf-viewer pdf-editor sysmon apps\
+	mise python python-modules rust julia go tectonic typst typescript \
+	paru downgrade flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper \
+	nvim-reqs nvim-build-reqs nvim-dev uninstall-nvim-dev clean-nvim purge-nvim neovim neovide \
+	zoxide zsh zap \
+	awesome qtile hyprland fix-nvidialand hyprhook undo-hyprhook cursor \
+	kde cosmic \
+	alacritty kitty wezterm ghostty \
+	brave chrome thorium helium zen vivaldi \
+	anydesk rustdesk \
+	thunderbird telegram discord spotify ncspot spotify-player \
+	obs audacity gimp kdenlive lossless-cut inkscape vlc \
+	vscode office quickemu vpn ventoy caligula localsend android clamav lynis tailscale \
+	ollama llmfit opencode handy \
+	anki pomodorolm syncthing obsidian blanket sioyek \
+	0ad luanti doom board-games minecraft osu \
+	file-manager image-viewer screenshot-tool screen-recorder pdf-viewer pdf-editor sysmon apps \
 	install
