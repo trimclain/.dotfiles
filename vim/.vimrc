@@ -48,7 +48,6 @@ set textwidth=80                        " wrap lines at 80 characters with gq
 set signcolumn=yes                      " enable error-column
 set updatetime=50                       " after this many milliseconds of not writing anything the swap file will be written, default 4000 is too long
 set timeoutlen=500                      " time to wait for a mapped sequence to complete (in milliseconds) (default: 1000)
-set clipboard^=unnamedplus              " allows vim to access the system clipboard
 set autoindent                          " make
 set smartindent                         " indenting
 set smarttab                            " smarter
@@ -479,6 +478,32 @@ com! W w
 " }}}
 
 " Autocommands {{{
+
+" SSH clipboard: requires Vim 8.0.1394+ (TextYankPost), base64 in PATH,
+" a Unix terminal with writable /dev/tty, and local OSC52 clipboard support.
+" If using tmux, it must allow OSC52 too. No plugins required.
+function! CopyToLocalClipboard() abort
+    let text = join(v:event.regcontents, "\n")
+                \ . (v:event.regtype ==# 'V' ? "\n" : "")
+    let encoded = substitute(system('base64', text), '\_s', '', 'g')
+    if !v:shell_error
+        call writefile(["\e]52;c;" . encoded . "\x07"], '/dev/tty', 'b')
+    endif
+endfunction
+
+augroup remote_clipboard
+    autocmd!
+    if !empty($SSH_CONNECTION) || !empty($SSH_TTY)
+        set clipboard=
+        if exists('##TextYankPost') && executable('base64')
+            " Export yanks only; deletes leave the local clipboard alone.
+            autocmd TextYankPost * if v:event.operator ==# 'y' |
+                        \ call CopyToLocalClipboard() | endif
+        endif
+    else
+        set clipboard^=unnamedplus
+    endif
+augroup END
 
 " Delete useless spaces
 function! TrimWhitespace()
