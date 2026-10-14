@@ -453,11 +453,11 @@ inoremap : :<c-g>u
 xnoremap J :m '>+1<CR>gv=gv
 xnoremap K :m '<-2<CR>gv=gv
 
-" Yank last command
-nnoremap <leader>y :let @+ = histget(':', -1)<CR>
+" Copy the last command to Vim's register and the terminal clipboard.
+nnoremap <silent> <leader>y :let @" = histget(':', -1)<Bar>call CopyToLocalClipboard(@")<CR>
 
 " Yank whole file
-nnoremap <leader>Y gg"+yG
+nnoremap <leader>Y ggyG
 
 " When replacing a higlighted text, don't yank it
 xnoremap p P
@@ -491,8 +491,8 @@ com! W w
 " SSH clipboard: requires Vim 8.0.1394+ (TextYankPost), base64 in PATH,
 " a Unix terminal with writable /dev/tty, and local OSC52 clipboard support.
 " If using tmux, it must allow OSC52 too. No plugins required.
-function! CopyToLocalClipboard() abort
-    let text = join(v:event.regcontents, "\n")
+function! CopyToLocalClipboard(...) abort
+    let text = a:0 ? a:1 : join(v:event.regcontents, "\n")
                 \ . (v:event.regtype ==# 'V' ? "\n" : "")
     let encoded = substitute(system('base64', text), '\_s', '', 'g')
     if !v:shell_error
@@ -502,10 +502,10 @@ endfunction
 
 augroup remote_clipboard
     autocmd!
-    if !empty($SSH_CONNECTION) || !empty($SSH_TTY)
+    " Use OSC52 over SSH or when native clipboard support is unavailable.
+    if !empty($SSH_CONNECTION) || !empty($SSH_TTY) || !has('clipboard')
         set clipboard=
         if exists('##TextYankPost') && executable('base64')
-            " Export yanks only; deletes leave the local clipboard alone.
             autocmd TextYankPost * if v:event.operator ==# 'y' |
                         \ call CopyToLocalClipboard() | endif
         endif
