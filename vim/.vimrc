@@ -294,22 +294,22 @@ let g:AutoPairsMapBS=0          " disable BS remap
 let g:AutoPairsMapSpace = 0
 imap <silent> <expr> <space> pumvisible()
     \ ? "<space>"
-    \ : "<c-r>=AutoPairsSpace()<cr>"
+    \ : "<c-r>=AutoPairsSpace()<CR>"
 
 if !has('patch-8.0.0283')
     let g:AutoPairsMapCR = 0
     imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
-    imap <cr> <Plug>MyCR
+    imap <CR> <Plug>MyCR
 endif
 
 " moll/vim-bbye
-nnoremap <silent> <leader>q :Bdelete<cr>
+nnoremap <silent> <leader>q :Bdelete<CR>
 
 " tpope/vim-fugitive
-nnoremap <silent> <leader>gs :G<cr>
+nnoremap <silent> <leader>gs :G<CR>
 " resolve conflicts when merging branches
-"nnoremap <leader>gj :diffget //3<cr>
-"nnoremap <leader>gf :diffget //2<cr>
+"nnoremap <leader>gj :diffget //3<CR>
+"nnoremap <leader>gf :diffget //2<CR>
 " Map <Tab> to do the toggle like =
 augroup trimclain_fugitive_mappings
     autocmd!
@@ -317,21 +317,21 @@ augroup trimclain_fugitive_mappings
 augroup END
 
 " mbbill/undotree
-nnoremap <silent> <leader>u :UndotreeToggle<cr>
+nnoremap <silent> <leader>u :UndotreeToggle<CR>
 
 " }}}
 
 " Other Remaps {{{
 
 " To exit vim and save files faster
-nnoremap <silent> Q :qa<cr>
-nnoremap <silent> <leader>w :update<cr>
+nnoremap <silent> Q :qa<CR>
+nnoremap <silent> <leader>w :update<CR>
 
 " Please disable hlsearch on redraw like neovim
-nnoremap <c-l> :nohlsearch<cr><c-l>
+nnoremap <c-l> :nohlsearch<CR><c-l>
 
 " Source .vimrc
-nnoremap <silent> <leader><cr> :so ~/.vimrc<cr>
+nnoremap <silent> <leader><CR> :so ~/.vimrc<CR>
 
 " " Easier movement between vim windows
 " nnoremap <leader>h <C-w>h
@@ -347,21 +347,21 @@ xnoremap <S-h> <gv
 xnoremap <S-l> >gv
 
 " Navigate buffers
-nnoremap <silent> <S-l> :bnext<cr>
-nnoremap <silent> <S-h> :bprevious<cr>
-nnoremap <silent> ]b :bnext<cr>
-nnoremap <silent> [b :bprevious<cr>
+nnoremap <silent> <S-l> :bnext<CR>
+nnoremap <silent> <S-h> :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :bprevious<CR>
 
 " Vim Diffs
-nnoremap <silent> <leader>D :diffthis<cr>
-nnoremap <silent> <leader>do :diffoff<cr>
+nnoremap <silent> <leader>D :diffthis<CR>
+nnoremap <silent> <leader>do :diffoff<CR>
 
 " Resizing
 " Use Ctrl + arrows to resize windows
-nnoremap <silent> <C-Up> :resize -5<cr>
-nnoremap <silent> <C-Down> :resize +5<cr>
-nnoremap <silent> <C-Left> :vertical resize -5<cr>
-nnoremap <silent> <C-Right> :vertical resize +5<cr>
+nnoremap <silent> <C-Up> :resize -5<CR>
+nnoremap <silent> <C-Down> :resize +5<CR>
+nnoremap <silent> <C-Left> :vertical resize -5<CR>
+nnoremap <silent> <C-Right> :vertical resize +5<CR>
 
 " Use Ctrl + Space to open completion menu
 inoremap <C-@> <C-x><C-o>
@@ -370,37 +370,46 @@ inoremap <C-@> <C-x><C-o>
 " PROBLEM: <Tab> is the same as <C-i> so I lose the <C-i> default mapping
 " nnoremap <silent> <Tab> za
 
-" Toggle Netrw
-let g:netrw_opened = 0
-function! NetrwToggle()
-    " always open NetRW in the leftmost split
-    if g:netrw_opened == 1
-        " I need to tp back only if I'm on netrw on close
-        if &filetype ==# 'netrw'
-            if exists("g:netrw_prev_winid")
-                call win_gotoid(g:netrw_prev_winid)
-            endif
+" Toggle a dedicated, full-height netrw sidebar in the current tab.
+function! NetrwToggle() abort
+    " Find this tab's sidebar, if it still exists.
+    let l:nr = win_id2win(get(t:, 'netrw_win', 0))
+
+    if l:nr && getbufvar(winbufnr(l:nr), '&filetype') ==# 'netrw'
+        " Return to the origin only when closing from inside netrw.
+        if win_getid() == t:netrw_win
+            call win_gotoid(get(t:, 'netrw_origin', 0))
         endif
 
-        " the leftmost window is always 1
-        execute '1close'
-    else
-        " to tp back on close
-        let g:netrw_prev_winid = win_getid()
+        " Close the sidebar without disturbing another editing window.
+        execute win_id2win(t:netrw_win) . 'close'
+        unlet! t:netrw_win t:netrw_origin
+        return
+    endif
 
-        " move to the most left since Vex goes only left of current split
-        let window_count = tabpagewinnr(tabpagenr(), '$')
-        if window_count > 1
-            " this is overkill by 1, in case I forget
-            execute window_count . "wincmd h"
-        endif
+    " Remember the origin and open a 35-column sidebar at the far left.
+    let t:netrw_origin = win_getid()
+    execute 'topleft vertical 35split ' . fnameescape(expand('%:p:h'))
+    let t:netrw_win = win_getid()
 
-        " 15% looks nice only with 1 split
-        execute '15Vex'
-        vertical resize 35
+    " Resolve the origin's new window number after adding the split.
+    let g:netrw_chgwin = win_id2win(t:netrw_origin)
+
+    " Extend netrw's Enter mapping once per buffer.
+    if !get(b:, 'netrw_enter_mapped', 0)
+        let l:map = maparg('<CR>', 'n', 0, 1)
+
+        " Preserve script-local references in the original mapping.
+        let l:rhs = substitute(l:map.rhs, '\c<SID>',
+                    \ '<SNR>' . l:map.sid . '_', 'g')
+
+        " Close after opening a file, but not after entering a directory.
+        execute 'nmap <silent> <buffer> <CR> ' . l:rhs
+                    \ . ':if &filetype !=# "netrw" \| call NetrwToggle() \| endif<CR>'
+        let b:netrw_enter_mapped = 1
     endif
 endfunction
-nnoremap <silent> <leader>e :call NetrwToggle()<cr>
+nnoremap <silent> <leader>e :call NetrwToggle()<CR>
 
 " Builder.nvim implementation
 function! Build()
@@ -421,7 +430,7 @@ function! Build()
         endif
     endif
 endfunction
-nnoremap <silent> <C-b> :call Build()<cr>
+nnoremap <silent> <C-b> :call Build()<CR>
 
 " Make Y work like C and D
 nnoremap Y y$
@@ -441,8 +450,8 @@ inoremap = =<c-g>u
 inoremap : :<c-g>u
 
 " Move higlighted lines up and down a line
-xnoremap J :m '>+1<cr>gv=gv
-xnoremap K :m '<-2<cr>gv=gv
+xnoremap J :m '>+1<CR>gv=gv
+xnoremap K :m '<-2<CR>gv=gv
 
 " Yank last command
 nnoremap <leader>y :let @+ = histget(':', -1)<CR>
@@ -514,8 +523,8 @@ endfunction
 
 " Close these filetypes with a single keypress instead of :q
 function! UnlistBuffers()
-    nnoremap <silent> <buffer> q :close<cr>
-    nnoremap <silent> <buffer> <esc> :close<cr>
+    nnoremap <silent> <buffer> q :close<CR>
+    nnoremap <silent> <buffer> <esc> :close<CR>
     set nobuflisted
 endfunction
 
@@ -546,13 +555,6 @@ augroup END
 augroup trimclain_fix_formatoptions
     autocmd!
     autocmd FileType * :setlocal formatoptions=cqrnj
-augroup END
-
-augroup trimclain_netrw_toggle
-    autocmd!
-    autocmd FileType netrw let g:netrw_opened = 1
-    autocmd FileType netrw autocmd BufWinEnter <buffer> let g:netrw_opened = 1
-    autocmd FileType netrw autocmd BufWinLeave <buffer> let g:netrw_opened = 0
 augroup END
 
 " I hate pressing q: by accident
