@@ -30,11 +30,11 @@ fonts: ## Install getnf and maple-mono
 	fi
 	./bin/.local/bin/install-maple-mono
 
-# Optional font folder name, supplied as: make termux-font name=JetBrainsMono
+# Optional font folder name, supplied as: make use-font name=JetBrainsMono
 name ?=
 export name
 
-use-font: ## Choose a font for termux
+use-font: ## Choose a font for Termux
 	@# Usage:
 	@#   install fonts with getnf or bin/install-maple-mono,
 	@#   or by any other method into ~/.local/share/fonts
@@ -48,8 +48,10 @@ use-font: ## Choose a font for termux
 	fi; \
 	[ -n "$$folder" ] || exit 0; \
 	cd "$$folder"; \
-	font=$$(find -L . -type f -iname '*.ttf' -printf '%P\n' \
-		| sort | fzf --prompt='TTF file: ') || exit 0; \
+	font=$$(find -L . -type f \
+		\( -iname '*.ttf' -o -iname '*.otf' -o -iname '*.ttc' \) \
+		-printf '%P\n' \
+		| sort | fzf --prompt='Font file: ') || exit 0; \
 	mkdir -p "$$HOME/.termux"; \
 	cp -- "$$font" "$$HOME/.termux/font.ttf"; \
 	termux-reload-settings
