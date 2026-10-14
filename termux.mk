@@ -35,6 +35,9 @@ name ?=
 export name
 
 use-font: ## Choose a font for termux
+	@# Usage:
+	@#   install fonts with getnf or bin/install-maple-mono,
+	@#   or by any other method into ~/.local/share/fonts
 	@set -eu; \
 	cd "$$HOME/.local/share/fonts"; \
 	folders=$$(find -L . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort); \
