@@ -389,7 +389,7 @@ function! NetrwToggle() abort
 
     " Remember the origin and open a 35-column sidebar at the far left.
     let t:netrw_origin = win_getid()
-    execute 'topleft vertical 35split ' . fnameescape(expand('%:p:h'))
+    silent execute 'topleft vertical 35split ' . fnameescape(expand('%:p:h'))
     let t:netrw_win = win_getid()
 
     " Resolve the origin's new window number after adding the split.
