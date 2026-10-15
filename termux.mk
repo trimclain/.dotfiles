@@ -30,8 +30,7 @@ fonts: ## Install getnf and maple-mono
 	fi
 	./bin/.local/bin/install-maple-mono
 
-# Optional font folder name, supplied as: make use-font name=JetBrainsMono
-name ?=
+# Optional font path filter, supplied as: make use-font name=JetBrainsMono
 export name
 
 use-font: ## Choose a font for Termux
@@ -40,18 +39,12 @@ use-font: ## Choose a font for Termux
 	@#   or by any other method into ~/.local/share/fonts
 	@set -eu; \
 	cd "$$HOME/.local/share/fonts"; \
-	folders=$$(find -L . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort); \
-	if [ -n "$$name" ]; then \
-		folder=$$(printf '%s\n' "$$folders" | awk 'index($$0, ENVIRON["name"]) { print; exit }'); \
-	else \
-		folder=$$(printf '%s\n' "$$folders" | fzf --prompt='Font folder: ') || exit 0; \
-	fi; \
-	[ -n "$$folder" ] || exit 0; \
-	cd "$$folder"; \
 	font=$$(find -L . -type f \
 		\( -iname '*.ttf' -o -iname '*.otf' -o -iname '*.ttc' \) \
 		-printf '%P\n' \
-		| sort | fzf --prompt='Font file: ') || exit 0; \
+		| awk 'index($$0, ENVIRON["name"])' \
+		| sort \
+		| fzf --prompt='Font file: ') || exit 0; \
 	mkdir -p "$$HOME/.termux"; \
 	cp -- "$$font" "$$HOME/.termux/font.ttf"; \
 	termux-reload-settings
