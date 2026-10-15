@@ -315,18 +315,18 @@ ollama: ## Install Ollama (To run LLMs locally)
 
 #============================================= Study ==============================================
 anki: ## Install Anki
-	$(eval ANKI_VERSION := $(shell curl -fsSL https://github.com/ankitects/anki/releases/latest | grep "<title>Release " | awk '{print $$2}'))
-	@echo "Installing Anki..."
-	@# Requirements
-	$(INSTALL) libxcb-xinerama0
-	@# Install the latest version
-	curl -LO https://github.com/ankitects/anki/releases/download/$(ANKI_VERSION)/anki-launcher.tar.zst
-	@# Unpack it
-	tar xaf ./anki-launcher.tar.zst
-	@# Run the installation script
-	cd ./anki-launcher && sudo ./install.sh
-	@# Delete the folder and the archive
-	rm -rf ./anki-launcher ./anki-launcher.tar.zst
+	@set -eu; \
+	echo "[anki]: Installing..."; \
+	$(INSTALL) libxcb-xinerama0; \
+	tmp=$$(mktemp -d); \
+	trap 'rm -rf "$$tmp"' EXIT; \
+	curl -fL --retry 3 \
+		https://github.com/ankitects/anki/releases/latest/download/anki-launcher.tar.zst \
+		-o "$$tmp/anki-launcher.tar.zst"; \
+	tar xf "$$tmp/anki-launcher.tar.zst" -C "$$tmp"; \
+	cd "$$tmp/anki-launcher"; \
+	sudo ./install.sh; \
+	echo "[anki]: Done"
 
 uninstall-anki: # Uninstall Anki
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
