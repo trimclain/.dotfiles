@@ -644,8 +644,13 @@ obsidian: ## Install Obsidian
 blanket: ## Install Blanket (white noise app)
 	$(INSTALL) blanket
 
+# TODO: test
 sioyek: ## Install Sioyek (PDF Viewer for research papers)
 	@set -eu; \
+	if ! pacman -Q fuse2 >/dev/null 2>&1; then \
+		echo "Missing AppImage dependency. Run: sudo pacman -Syu --needed fuse2" >&2; \
+		exit 1; \
+	fi; \
 	if ! flatpak info it.mijorus.gearlever >/dev/null 2>&1; then \
 		echo "Gear Lever is not installed. Run 'make gearlever' first." >&2; \
 		exit 1; \
