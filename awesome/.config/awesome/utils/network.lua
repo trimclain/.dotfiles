@@ -21,6 +21,8 @@ local disconnected_icon = "󰣼 " -- "󰤭 "
 
 local network_text = nil
 local network_widget = nil
+local refresh_generation = 0
+local nmcli_available = false
 
 local show_less_info = false
 local prioritize_wired = true
@@ -56,7 +58,7 @@ end
 ---@param iface string interface name
 ---@param callback fun(ip: string) function called with the IPv4 address
 local function get_ipv4(iface, callback)
-    local cmd = "ip -4 -brief addr show dev " .. iface
+    local cmd = "ip -4 -brief addr show dev " .. utils.shell_quote(iface)
     utils.get_command_output(cmd, function(out, err, _)
         if err then
             gg("Error in network.get_ipv4(): " .. err)
@@ -67,41 +69,60 @@ local function get_ipv4(iface, callback)
     end)
 end
 
---- Asynchronously get the active Wi-Fi connection name for a wireless interface.
---- Fall back to getting the IPv4 address if `nmcli` is not installed.
+--- Asynchronously get the active Wi-Fi connection name.
+--- Use the cached nmcli availability check; fall back to IPv4 on failure.
 ---@param iface string wireless interface name
----@param callback fun(ssid_or_ip: string) function called with the SSID/connection name or with the IPv4 address
+---@param callback fun(name_or_ip: string) connection name or IPv4 address
 local function get_wifi_ssid_or_ipv4(iface, callback)
-    utils.check_command_executable("nmcli", function(is_installed, _, _)
-        if is_installed then
-            local cmd = "LC_ALL=C nmcli -t -g GENERAL.CONNECTION device show " .. iface
-            utils.get_command_output(cmd, function(ssid, err, _)
-                if err then
-                    gg("Error in network.get_wifi_ssid(): " .. err)
-                    return
-                end
-                callback(ssid)
-            end)
-        else
-            get_ipv4(iface, function(ip)
-                callback(ip)
-            end)
+    if not nmcli_available then
+        get_ipv4(iface, callback)
+        return
+    end
+
+    local cmd = "LC_ALL=C nmcli -t --escape no -g GENERAL.CONNECTION device show " .. utils.shell_quote(iface)
+
+    utils.get_command_output(cmd, function(connection, err)
+        if err then
+            get_ipv4(iface, callback)
+            return
         end
+
+        callback(connection)
     end)
 end
 
---- Toggle the Wi-Fi on or off
+--- Toggle Wi-Fi through NetworkManager.
+--- Report missing nmcli, unexpected state, or command failures.
 local function toggle_wifi()
-    utils.get_command_output("nmcli radio wifi", function(status, err, _)
-        if err then
-            gg("Error in network.toggle_wifi(): " .. err)
+    utils.check_command_executable("nmcli", function(is_installed)
+        if not is_installed then
+            gg("Cannot toggle Wi-Fi: nmcli is not installed.")
             return
         end
-        if status == "enabled" then
-            awful.spawn("nmcli radio wifi off")
-        else
-            awful.spawn("nmcli radio wifi on")
-        end
+
+        utils.get_command_output("LC_ALL=C nmcli radio wifi", function(status, err)
+            if err then
+                gg("Could not read Wi-Fi state: " .. err)
+                return
+            end
+
+            local action
+
+            if status == "enabled" then
+                action = "off"
+            elseif status == "disabled" then
+                action = "on"
+            else
+                gg("Unexpected Wi-Fi state: " .. tostring(status))
+                return
+            end
+
+            utils.get_command_output("LC_ALL=C nmcli radio wifi " .. action, function(_, toggle_error)
+                if toggle_error then
+                    gg("Could not toggle Wi-Fi: " .. toggle_error)
+                end
+            end)
+        end)
     end)
 end
 
@@ -122,16 +143,28 @@ end
 --- `ordered_interfaces` so wired or wireless interfaces come first
 --- depending on `prioritize_wired`.
 local function get_interfaces()
+    interfaces = {}
     ordered_interfaces = {}
 
-    -- populate the interface list, e.g. iface_list = { "enp2s0", "wlp4s0" }
+    local file, err = io.open("/proc/net/dev", "r")
+
+    if not file then
+        utils.log("Could not discover network interfaces: " .. tostring(err), "warn")
+        return
+    end
+
     local iface_list = {}
-    for line in io.lines("/proc/net/dev") do
+
+    -- populate the interface list, e.g. iface_list = { "enp2s0", "wlp4s0" }
+    for line in file:lines() do
         local name = line:match("^%s*([^:]+):")
+
         if name and not is_ignored_interface(name) then
             iface_list[#iface_list + 1] = name
         end
     end
+
+    file:close()
 
     -- populate the wired_interfaces and wireless_interfaces lists
     local wired_interfaces, wireless_interfaces = {}, {}
@@ -162,6 +195,9 @@ local function refresh_widget()
         return
     end
 
+    refresh_generation = refresh_generation + 1
+    local generation = refresh_generation
+
     if #ordered_interfaces == 0 then
         network_text:set_text(eth_icon .. "N/A")
         return
@@ -170,14 +206,26 @@ local function refresh_widget()
     for _, name in ipairs(ordered_interfaces) do
         if has_carrier(name) then
             local iface = interfaces[name]
+
+            if show_less_info then
+                network_text:set_text(iface.wireless and wifi_icon or eth_icon)
+                return
+            end
+
             if iface.wireless then
                 get_wifi_ssid_or_ipv4(name, function(ssid_or_ip)
-                    ssid_or_ip = show_less_info and "" or ssid_or_ip
+                    if generation ~= refresh_generation then
+                        return
+                    end
+
                     network_text:set_text(wifi_icon .. ssid_or_ip)
                 end)
             else
                 get_ipv4(name, function(ip)
-                    ip = show_less_info and "" or ip
+                    if generation ~= refresh_generation then
+                        return
+                    end
+
                     network_text:set_text(eth_icon .. ip)
                 end)
             end
@@ -187,10 +235,12 @@ local function refresh_widget()
     network_text:set_text(disconnected_icon)
 end
 
---- Create and return the RAM widget, and start periodic refreshes (default: 1 sec)
+--- Create and return the network widget, and start periodic refreshes (default: 1 sec).
 ---@param args? { timeout?: integer, compact?: boolean }
 ---@return any
 function M.create_widget(args)
+    assert(network_widget == nil, "network.create_widget() must only be called once")
+
     args = args or {}
 
     show_less_info = args.compact == true
@@ -222,8 +272,13 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
-    -- NOTE: I don't think I need to check every timeout if this changes, I don't even know how it would without reboot
+    -- Discover interfaces once; newly added adapters require restarting Awesome.
     get_interfaces()
+
+    utils.check_command_executable("nmcli", function(is_installed)
+        nmcli_available = is_installed
+        refresh_widget()
+    end)
 
     gears.timer({
         timeout = args.timeout or 1,
