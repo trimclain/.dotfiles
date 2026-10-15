@@ -181,6 +181,11 @@ local function get_volume(callback)
             gg("Error in volume.get_volume(): " .. err)
             return
         end
+        -- Ignore blank volume readings: during startup, the audio backend or
+        -- default sink may not be ready yet, leaving no value to parse.
+        if out == nil or out:match("^%s*$") then
+            return
+        end
         if not tonumber(out) then
             utils.log("Ignoring invalid volume output: " .. tostring(out), "warn")
             return
