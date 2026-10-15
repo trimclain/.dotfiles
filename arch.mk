@@ -164,7 +164,10 @@ flatpak: ## Install flatpak
 	@#fi
 
 gearlever: ## Manage AppImages
-	$(FLATINSTALL) it.mijorus.gearlever
+	$(FLATINSTALL) it.mijorus.gearlever && \
+		mkdir -p ~/apps && \
+		flatpak run --command=gsettings it.mijorus.gearlever \
+		set it.mijorus.gearlever appimages-default-folder "~/apps"
 
 flatseal: ## Modify Flatpak App permissions
 	$(FLATINSTALL) com.github.tchx84.Flatseal
