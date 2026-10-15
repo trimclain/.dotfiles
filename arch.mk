@@ -645,17 +645,22 @@ blanket: ## Install Blanket (white noise app)
 	$(INSTALL) blanket
 
 sioyek: ## Install Sioyek (PDF Viewer for research papers)
-	$(eval SIOYEK_VERSION := $(shell curl -fsSL https://github.com/ahrm/sioyek/releases/latest | grep "<title>Release " | awk '{print $$3}'))
-	@echo "Installing Sioyek PDF Viewer..."
-	@# Install the latest version
-	curl -LO https://github.com/ahrm/sioyek/releases/download/$(SIOYEK_VERSION)/sioyek-release-linux-portable.zip --output-dir /tmp
-	unzip /tmp/sioyek-release-linux-portable.zip -d /tmp
-	rm -rf /tmp/sioyek-release-linux-portable.zip /tmp/Sioyek-x86_64.AppImage.config
-	@# Add to gearlever
-	flatpak run it.mijorus.gearlever --integrate --yes /tmp/Sioyek-x86_64.AppImage
-	@# If I have gearlever configured correctly, the appimages go to ~/apps
-	@# Symlink this appimage to ~/.local/bin so I can run it from the terminal
-	ln -s $$HOME/apps/sioyek.appimage $$HOME/.local/bin/sioyek
+	@set -eu; \
+	if ! flatpak info it.mijorus.gearlever >/dev/null 2>&1; then \
+		echo "Gear Lever is not installed. Run 'make gearlever' first." >&2; \
+		exit 1; \
+	fi; \
+	echo "[sioyek]: Installing Sioyek PDF Viewer..."; \
+	tmp=$$(mktemp -d); \
+	trap 'rm -rf "$$tmp"' EXIT; \
+	curl -fL --retry 3 \
+		https://github.com/ahrm/sioyek/releases/latest/download/sioyek-release-linux-portable.zip \
+		-o "$$tmp/sioyek.zip"; \
+	unzip -q "$$tmp/sioyek.zip" -d "$$tmp"; \
+	flatpak run it.mijorus.gearlever --integrate --yes "$$tmp/Sioyek-x86_64.AppImage"; \
+	mkdir -p "$$HOME/.local/bin"; \
+	ln -sf "$$HOME/apps/sioyek.appimage" "$$HOME/.local/bin/sioyek"; \
+	echo "[sioyek]: Done"
 
 #============================================= Games ==============================================
 
