@@ -20,7 +20,12 @@ map <C-r> recolor
 map <C-p> print
 
 # toggle_statusbar by default, fits better as night-mode switch
-map <C-n> recolor
+#map <C-n> recolor
+
+# Night mode: dark page and surrounding background
+map <C-n> feedkeys ":set recolor true<Return>:set default-bg rgba(30,30,46,1)<Return>"
+# Light mode: original page colors and Latte surrounding background
+map <C-l> feedkeys ":set recolor false<Return>:set default-bg rgba(239,241,245,1)<Return>"
 
 map r reload
 map R rotate
@@ -211,8 +216,10 @@ set notification-warning-bg        rgba(239,241,245,1)
 set notification-warning-fg        rgba(223,142,29,1)
 
 # set recolor                        "true"
-set recolor-lightcolor             rgba(239,241,245,1)
-set recolor-darkcolor              rgba(76,79,105,1)
+#set recolor-lightcolor             rgba(76,79,105,1)
+#set recolor-darkcolor              rgba(239,241,245,1)
+set recolor-lightcolor             rgba(30,30,46,1)
+set recolor-darkcolor              rgba(205,214,244,1)
 
 set index-fg                       rgba(76,79,105,1)
 set index-bg                       rgba(239,241,245,1)
