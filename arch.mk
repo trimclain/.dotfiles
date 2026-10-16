@@ -197,6 +197,7 @@ lf: ## Install lf (file manager)
 
 yazi: ## Install yazi (file manager)
 	$(INSTALL) yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide imagemagick resvg
+	$(INSTALL) perl-image-exiftool
 
 gh: ## Install github-cli
 	@# gh-dash migh be interesting for issues and PRs
