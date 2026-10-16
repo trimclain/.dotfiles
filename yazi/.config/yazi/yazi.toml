@@ -69,6 +69,9 @@ open = [
     { run = 'start "" %s1',    desc = "Open", for = "windows", orphan = true },
     { run = "termux-open %s1", desc = "Open", for = "android" },
 ]
+sioyek = [
+    { run = "sioyek %s", desc = "Sioyek", for = "linux", orphan = true },
+]
 reveal = [
     { run = "xdg-open %d1",         desc = "Reveal", for = "linux" },
     { run = "open -R %s1",          desc = "Reveal", for = "macos" },
@@ -106,6 +109,8 @@ rules = [
     { mime = "inode/empty", use = [ "edit", "reveal" ] },
     # Virtual file system
     { mime = "vfs/{absent,stale}", use = "download" },
+    # PDF
+    { mime = "application/pdf", use = [ "open", "sioyek", "reveal" ] },
     # Fallback
     { url = "*", use = [ "open", "reveal" ] },
 ]
