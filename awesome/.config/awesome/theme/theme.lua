@@ -79,6 +79,14 @@ theme.bg_exit = theme.bg_widget
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
 
+theme.tooltip_bg = theme.bg_widget
+theme.tooltip_fg = theme.fg_normal
+theme.tooltip_border_color = "#585b70"
+theme.tooltip_border_width = dpi(1)
+theme.tooltip_opacity = 1
+theme.tooltip_font = theme.font
+theme.tooltip_shape = gears.shape.rounded_rect
+
 theme.taglist_fg_focus = "#7287fd"
 theme.taglist_bg_focus = theme.bg_focus
 theme.taglist_fg_focus_inactive = "#1e1e2e" -- used for focused tag on unfocused screen

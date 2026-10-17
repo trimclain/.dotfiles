@@ -406,6 +406,15 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
+    utils.add_mouse_help(
+        brightness_widget,
+        table.concat({
+            "Brightness",
+            "Scroll up: Increase brightness",
+            "Scroll down: Decrease brightness",
+        }, "\n")
+    )
+
     refresh_widget()
 
     -- widget_refresh_timer = gears.timer({

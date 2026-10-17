@@ -73,6 +73,14 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
+    utils.add_mouse_help(
+        temp_widget,
+        table.concat({
+            "Temperature",
+            "Left click: Open system monitor",
+        }, "\n")
+    )
+
     gears.timer({
         timeout = poll_timeout,
         autostart = true,

@@ -175,6 +175,14 @@ mykbdlayout:buttons(gears.table.join(
         )
     end)
 ))
+utils.add_mouse_help(
+    mykbdlayout,
+    table.concat({
+        "Keyboard layout",
+        "Left click: Switch to the next layout",
+        "Right click: Show Compose-key reminder",
+    }, "\n")
+)
 
 local mynetwork = network.create_widget({ compact = compact })
 local mymemory = memory.create_widget({ compact = compact })
@@ -207,6 +215,14 @@ mypowermenu:buttons(
         awful.button({}, 1, utils.launch("~/.local/bin/powermenu --use-powertheme")),
         awful.button({}, 3, utils.launch("rofi -show drun"))
     )
+)
+utils.add_mouse_help(
+    mypowermenu,
+    table.concat({
+        "Power and applications",
+        "Left click: Open power menu",
+        "Right click: Open application launcher",
+    }, "\n")
 )
 -- Add on mouse hover effects (issue: tracks the enter/leave of the whole wibar)
 -- mypowermenu:connect_signal("mouse::enter", function()
@@ -304,6 +320,14 @@ function M.setup(s)
             s.mycalendar_year:toggle()
         end)
     ))
+    utils.add_mouse_help(
+        s.mytextclock,
+        table.concat({
+            "Clock and calendar",
+            "Left click: Toggle month calendar",
+            "Right click: Toggle year calendar",
+        }, "\n")
+    )
 
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
@@ -348,6 +372,14 @@ function M.setup(s)
         awful.button({}, 4, function() awful.layout.inc(1) end),
         awful.button({}, 5, function() awful.layout.inc(-1) end)
     ))
+    utils.add_mouse_help(
+        s.mylayoutbox,
+        table.concat({
+            "Window layout",
+            "Left click / Scroll up: Next layout",
+            "Right click / Scroll down: Previous layout",
+        }, "\n")
+    )
 
     -- Create a promptbox for each screen (used for awful.prompt.run and in case we use the awesome menubar)
     s.mypromptbox = awful.widget.prompt()
@@ -386,6 +418,19 @@ function M.setup(s)
 
                 -- Set initial bg according to state
                 set_tag_colors(self, tag)
+
+                -- Add tooltip on mouse hover
+                utils.add_mouse_help(
+                    self,
+                    table.concat({
+                        "Workspace",
+                        "Left click: Show only this workspace",
+                        "Right click: Toggle workspace visibility",
+                        env.modkey .. " + Left click: Move focused window here",
+                        env.modkey .. " + Right click: Toggle focused window membership",
+                    }, "\n"),
+                    1
+                )
 
                 -- Configure hover behavior
                 local taglist_fg_hover = beautiful.taglist_fg_hover or "#ffffff"

@@ -4,6 +4,7 @@ local gears = require("gears")
 local wibox = require("wibox")
 
 local env = require("env")
+local utils = require("utils")
 
 local M = {}
 
@@ -90,6 +91,14 @@ function M.create_widget(args)
         bottom = 4,
         widget = wibox.container.margin,
     })
+
+    utils.add_mouse_help(
+        ram_widget,
+        table.concat({
+            "Memory",
+            "Left click: Open system monitor",
+        }, "\n")
+    )
 
     gears.timer({
         timeout = poll_timeout,

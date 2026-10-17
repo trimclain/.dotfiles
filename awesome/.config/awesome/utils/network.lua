@@ -272,6 +272,15 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
+    utils.add_mouse_help(
+        network_widget,
+        table.concat({
+            "Network",
+            "Left click: Toggle Wi-Fi",
+            "Right click: Open connection editor",
+        }, "\n")
+    )
+
     -- Discover interfaces once; newly added adapters require restarting Awesome.
     get_interfaces()
 

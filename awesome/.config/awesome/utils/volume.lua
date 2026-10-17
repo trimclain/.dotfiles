@@ -447,6 +447,18 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
+    utils.add_mouse_help(
+        volume_widget,
+        table.concat({
+            "Volume",
+            "Left click: Toggle volume mute",
+            "Middle click: Open audio mixer",
+            "Right click: Toggle microphone mute",
+            "Scroll up: Increase volume and unmute",
+            "Scroll down: Decrease volume and unmute",
+        }, "\n")
+    )
+
     start_monitoring()
 
     return volume_widget

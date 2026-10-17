@@ -132,6 +132,14 @@ function M.create_widget(args)
         widget = wibox.container.margin,
     })
 
+    utils.add_mouse_help(
+        battery_widget,
+        table.concat({
+            "Battery",
+            "No mouse bindings",
+        }, "\n")
+    )
+
     discover_batteries()
 
     gears.timer({

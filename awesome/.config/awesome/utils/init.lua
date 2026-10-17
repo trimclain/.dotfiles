@@ -350,4 +350,19 @@ function M.useless_gaps_resize(thatmuch, s, t)
     awful.layout.arrange(scr)
 end
 
+--- Attach a plain-text mouse-binding hint to a widget
+---@param widget any widget receiving mouse enter/leave signals
+---@param text string tooltip text; use newlines to separate bindings
+---@param delay? number delay before showing the tooltip, in seconds; default: 0.5
+---@return table tooltip created by awful.tooltip
+function M.add_mouse_help(widget, text, delay)
+    widget._mouse_help_tooltip = awful.tooltip({
+        objects = { widget },
+        text = text,
+        delay_show = delay or 0.5,
+    })
+
+    return widget._mouse_help_tooltip
+end
+
 return M
