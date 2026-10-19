@@ -1,34 +1,52 @@
 # Execute commands during the X session startup
-# after the display manager authenticates the user and before the window manager
+# after the display manager authenticates the user
+# and before the window manager
 
-# Monitor Config
-~/.local/bin/monitor-layout --startup
+run_in_background() {
+    if command -v "$1" > /dev/null; then
+        "$@" &
+    fi
+}
 
-# Sets the delay and rate for keyboard auto-repeat
+# NOTE: If using xset in xinitrc does not work, specify settings within a file in /etc/X11/xorg.conf.d/,
+# see https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Configuration
+
+# Set the delay and rate for keyboard auto-repeat
 xset r rate 400 25
 
 # Disable DPMS and prevent screen from blanking
 # Docs: https://wiki.archlinux.org/title/Session_lock#DPMS
 xset s off -dpms
-#xset dpms 0 0 0
 
-# NOTE: If using xset in xinitrc does not work, specify settings within a file in /etc/X11/xorg.conf.d/,
-# see https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Configuration
-
-# Docs: https://wiki.archlinux.org/title/Session_lock#xss-lock
-xss-lock --transfer-sleep-lock slock &
-
-# Authentication agent for GUI sudo popups
-#/usr/lib/polkit-kde-authentication-agent-1
-
-# Enable transparency and other visual effects
-picom -b
-
-# Enable notifications
-# in awesomewm naughty is used; in qtile I do it elsewhere
-#dunst &
-
+# US/Russian layouts, Win+Space to switch, Caps Lock as Compose
+setxkbmap -layout us,ru -option '' -option grp:win_space_toggle,compose:caps
 # Remap caps to another escape
 #setxkbmap -option caps:escape
 # Swap escape and caps
 #setxkbmap -option caps:swapescape
+
+# Docs: https://wiki.archlinux.org/title/Session_lock#xss-lock
+if command -v slock > /dev/null; then
+    run_in_background xss-lock -- slock
+elif command -v i3lock > /dev/null; then
+    run_in_background xss-lock --transfer-sleep-lock -- i3lock --nofork
+fi
+
+# Monitor Config
+if [ -x "$HOME/.local/bin/monitor-layout" ]; then
+    "$HOME/.local/bin/monitor-layout" --startup
+fi
+
+# Polkit authentication agent for privileged GUI actions
+#run_in_background /usr/lib/polkit-kde-authentication-agent-1
+
+# Enable transparency and other visual effects
+if command -v picom > /dev/null; then
+    picom -b
+elif command -v xcompmgr > /dev/null; then
+    xcompmgr &
+fi
+
+# Enable notifications
+# in awesomewm naughty is used; in qtile I do it elsewhere
+#run_in_background dunst

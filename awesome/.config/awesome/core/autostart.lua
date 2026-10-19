@@ -13,29 +13,27 @@ run_in_background() {
     fi
 }
 
+# Set the delay and rate for keyboard auto-repeat (done in ~/.xprofile)
+#xset r rate 400 25
+
+# Disable DPMS and prevent screen from blanking (done in ~/.xprofile)
+#xset s off -dpms
+
+# US/Russian layouts, Win+Space to switch, Caps Lock as Compose (done in ~/.xprofile)
+#setxkbmap -layout us,ru -option '' -option grp:win_space_toggle,compose:caps
+
 # Enable transparency (done in ~/.xprofile)
 #run_in_background picom
-
-# Get the correct current brightness on system startup
-#~/.local/bin/brightness-control --update-actual-brightness
 
 # NetworkManager in system tray
 run_in_background nm-applet
 
-# Authentication agent for GUI sudo popups
+# Polkit authentication agent for privileged GUI actions
 run_in_background /usr/lib/polkit-kde-authentication-agent-1
 
 # System monitor for X11
 run_in_background conky --daemonize
 
 # implements the XDG autostart specification (https://github.com/jceb/dex)
-#dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"
-
-# Set the delay and rate for keyboard auto-repeat
-xset r rate 400 25
-
-# Enable multiple languages together with win-space toggle
-# Use "localectl list-x11-keymap-options | grep grp:" to determine available keymap-options
-# Use CAPS+"+a to compose letter ä, similarly for ö,ü,ß
-setxkbmap -layout us,ru -option grp:win_space_toggle,compose:caps
+#dex --environment Awesome --autostart
 ]])
