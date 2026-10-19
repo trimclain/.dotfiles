@@ -236,6 +236,7 @@ UNIXPAIRS = [
     (".dotfiles/awesome/.config/awesome", ".config/awesome"),
     (".dotfiles/i3/.config/i3", ".config/i3"),
     (".dotfiles/i3/.config/i3status", ".config/i3status"),
+    (".dotfiles/xorg/.xprofile", ".xprofile"),
 ]
 
 
