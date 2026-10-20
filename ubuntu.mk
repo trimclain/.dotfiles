@@ -45,6 +45,11 @@ getnf: ## Install the Nerd Font installer
 maple-mono: ## Install Maple Mono fonts
 	@./bin/.local/bin/install-maple-mono
 
+bluetooth: ## Setup bluetooth
+	@echo "Setting up bluetooth..."
+	$(INSTALL) bluez blueman
+	sudo systemctl enable --now bluetooth.service
+
 ###################################################################################################
 #                                            Languages                                            #
 ###################################################################################################
@@ -428,7 +433,7 @@ linux_install: zsh ## Setup Debian-based Linux after new installation
 
 #==================================================================================================
 
-.PHONY: all help vimdir getnf maple-mono \
+.PHONY: all help vimdir getnf maple-mono bluetooth \
 	mise python rust julia go typescript tectonic fix_tectonic uninstall_tectonic \
 	flatpak docker podman pm2 ufw yazi \
 	nvim-reqs nvim_build_reqs nvim-dev uninstall-nvim-dev clean_nvim purge_nvim neovim \
