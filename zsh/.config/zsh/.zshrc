@@ -339,8 +339,8 @@ if (( $+commands[yazi] )); then
         local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
         yazi "$@" --cwd-file="$tmp"
         IFS= read -r -d '' cwd < "$tmp"
-        [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-        rm -f -- "$tmp"
+        command rm -f -- "$tmp"
+        [ -z "$cwd" ] || [ "$cwd" = "$PWD" ] || builtin cd -- "$cwd"
     }
     bindkey -s '^o' '^uyazicd\n'
 elif (( $+commands[lf] )); then
@@ -348,23 +348,19 @@ elif (( $+commands[lf] )); then
         # This is a wrapper for lfub wrapper implementing lfcd functionality
         local lfub="$HOME/.config/lf/lfub"
 
-        if [[ ! -f "$lfub" ]]; then
+        if [[ ! -x "$lfub" ]]; then
             echo "lfub: file not found"
-            exit 1
+            return 1
         fi
-
-        local tmp="$(mktemp)"
 
         # needed by the previewer
         [[ -d "$HOME/.cache/lf" ]] || mkdir --parents "$HOME/.cache/lf"
 
-        # `command` is needed in case `lfcd` is aliased to `lf`
-        $lfub -last-dir-path="$tmp" "$@"
-        if [[ -f "$tmp" ]]; then
-            local dir="$(cat "$tmp")"
-            rm -f "$tmp"
-            [[ -d "$dir" ]] && [[ "$dir" != "$(pwd)" ]] && cd "$dir" || return 0
-        fi
+        local tmp="$(mktemp -t "lfub-cwd.XXXXXX")" cwd
+        "$lfub" -last-dir-path="$tmp" "$@"
+        IFS= read -r -d '' cwd < "$tmp"
+        command rm -f -- "$tmp"
+        [ -z "$cwd" ] || [ "$cwd" = "$PWD" ] || builtin cd -- "$cwd"
     }
 
     bindkey -s '^o' '^ulfubcd\n'
