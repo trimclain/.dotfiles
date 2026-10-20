@@ -1,8 +1,8 @@
 local awful = require("awful") -- Everything related to window managment
 
 -- this works better for me than awful.spawn.once
-awful.spawn.with_shell([[
-if xrdb -query | grep -q '^awesome\.started:\s*true$'; then
+awful.spawn.with_shell([=[
+if xrdb -query | grep -q '^awesome\.started:[[:space:]]*true$'; then
     exit
 fi
 printf 'awesome.started:true\n' | xrdb -merge
@@ -39,4 +39,4 @@ run_in_background conky --daemonize
 
 # implements the XDG autostart specification (https://github.com/jceb/dex)
 #dex --environment Awesome --autostart
-]])
+]=])
