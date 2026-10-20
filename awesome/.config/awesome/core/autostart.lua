@@ -28,6 +28,9 @@ run_in_background() {
 # NetworkManager in system tray
 run_in_background nm-applet
 
+# Bluetoorh Manager in system tray
+run_in_background blueman-applet
+
 # Polkit authentication agent for privileged GUI actions
 run_in_background /usr/lib/polkit-kde-authentication-agent-1
 
