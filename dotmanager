@@ -248,10 +248,8 @@ def unixpool_install():
             [
                 "mkdir",
                 "-p",
-                # fullpath(".local/bin"),
+                fullpath(".local/bin"),
                 fullpath(".config"),
-                fullpath(".config/i3"),
-                fullpath(".config/i3status"),
             ]
         )
     for pair in UNIXPAIRS:
