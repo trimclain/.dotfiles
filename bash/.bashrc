@@ -154,17 +154,6 @@ if command -v fzf > /dev/null; then
     bind -x '"\C-r": __fzf_history_widget'
 fi
 
-if command -v yazi > /dev/null; then
-    yazicd() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-        yazi "$@" --cwd-file="$tmp"
-        IFS= read -r -d '' cwd < "$tmp"
-        command rm -f -- "$tmp"
-        [ -z "$cwd" ] || [ "$cwd" = "$PWD" ] || builtin cd -- "$cwd"
-    }
-    bind -x '"\C-o": yazicd'
-fi
-
 # Disable annoying error sound in terminal
 bind 'set bell-style none'
 
@@ -244,4 +233,16 @@ fi
 # enable zoxide
 if command -v zoxide > /dev/null; then
     eval "$(zoxide init bash --cmd cd)"
+fi
+
+# this needs to be after mise activation since mise is what often installs yazi
+if command -v yazi > /dev/null; then
+    yazicd() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        IFS= read -r -d '' cwd < "$tmp"
+        command rm -f -- "$tmp"
+        [ -z "$cwd" ] || [ "$cwd" = "$PWD" ] || builtin cd -- "$cwd"
+    }
+    bind -x '"\C-o": yazicd'
 fi
