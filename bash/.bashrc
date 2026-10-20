@@ -160,6 +160,7 @@ bind 'set bell-style none'
 ###############################################################################
 # Aliases
 ###############################################################################
+alias vim="$EDITOR"
 alias ebrc="$EDITOR $DOTFILES/bash/.bashrc --cmd \"cd $DOTFILES/bash/\""
 alias evrc="$EDITOR $DOTFILES/vim/.vimrc --cmd \"cd $DOTFILES/vim\""
 
