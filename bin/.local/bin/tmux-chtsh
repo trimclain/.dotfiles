@@ -5,7 +5,18 @@
 # Dependencies: curl, fzf, less
 ###############################################################################
 
-LANGUAGES=("bash" "python" "julia" "lua" "html" "css" "javascript" "typescript")
+LANGUAGES=(
+    "bash"
+    "python"
+    "go"
+    "rust"
+    "julia"
+    "lua"
+    "html"
+    "css"
+    "javascript"
+    "typescript"
+)
 COMMANDS=("xargs" "find" "grep" "sed" "awk" "git")
 
 run() {
@@ -20,7 +31,7 @@ selected=$(
     {
         printf '%s\n' "${LANGUAGES[@]}"
         printf '%s\n' "${COMMANDS[@]}"
-    } | fzf
+    } | fzf --cycle --bind=tab:toggle-up,btab:toggle-down
 )
 
 if [[ -z $selected ]]; then
