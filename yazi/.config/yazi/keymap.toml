@@ -154,10 +154,14 @@ keymap = [
     { on = [ ",", "S" ], run = [ "sort size --reverse=yes", "linemode size" ],   desc = "Sort by size (reverse)" },
     { on = [ ",", "r" ], run = "sort random --reverse=no",                       desc = "Sort randomly" },
 
+    # CUSTOM: move Downloads contents into the current directory
+    { on = [ "g", "m" ], run = 'shell "mv -i ~/downloads/* ." --block', desc = "Move Downloads here" },
+
     # Goto
     { on = [ "g", "h" ],       run = "cd ~",             desc = "Go home" },
     { on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go ~/.config" },
-    { on = [ "g", "d" ],       run = "cd ~/Downloads",   desc = "Go ~/Downloads" },
+    # CUSTOM: I hate capital letters
+    { on = [ "g", "d" ],       run = "cd ~/downloads",   desc = "Go ~/downloads" },
     { on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Jump interactively" },
     { on = [ "g", "f" ],       run = "follow",           desc = "Follow hovered symlink" },
 
