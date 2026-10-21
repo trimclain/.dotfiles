@@ -746,11 +746,11 @@ pdf-editor: ## Install Stirling PDF (open source iLovePDF)
 sysmon: ## Install btop, mission-center and resources
 	$(INSTALL) btop mission-center resources
 
-apps: ## Install ncdu, mpv, file-manager, image-viewer, screenshot-tool, sysmon, pdf-viewers, thorium, telegram
+apps: ## Install gdu, mpv, file-manager, image-viewer, screenshot-tool, sysmon, pdf-viewers, thorium, telegram
 	@echo "==================================================================="
 	@echo "Installing apps..."
 	@echo "==================================================================="
-	$(INSTALL) ncdu mpv
+	$(INSTALL) gdu mpv
 	@make file-manager
 	@make image-viewer
 	@make screenshot-tool
