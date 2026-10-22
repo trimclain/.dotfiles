@@ -151,6 +151,9 @@ export DOCKER_BUILDKIT=1
 # Default $HOME/go is criminal
 export GOPATH="$HOME/.go"
 
+# Disable OpenCode's automatic update checks
+export OPENCODE_DISABLE_AUTOUPDATE=true
+
 ###############################################################################
 # vi mode
 ###############################################################################
@@ -599,7 +602,6 @@ plug "zsh-users/zsh-autosuggestions"
 
 # Syntax highlighting (should be the last one)
 plug "zsh-users/zsh-syntax-highlighting"
-
 
 ###############################################################################
 # Tool Activation
