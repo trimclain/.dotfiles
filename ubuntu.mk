@@ -64,9 +64,32 @@ mise: ## Install mise (a polyglot tool version manager) with latest node
 
 python: ## Install python3, pip, venv
 	$(INSTALL) python3 python3-pip python3-venv
+	@# extremely fast python package and project manager
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+
+python: ## Install python3, pip, venv, and uv
+	$(INSTALL) python3 python3-pip python3-venv
+	@set -euo pipefail; \
+	if command -v uv > /dev/null; then \
+		echo "[uv]: Already installed"; \
+	else \
+		echo "[uv]: Installing..." && \
+		curl -LsSf https://astral.sh/uv/install.sh | sh && \
+		echo "[uv]: Done"; \
+	fi
 
 rust: ## Install rust
-	$(MISEINSTALL) rust@latest
+	@set -euo pipefail; \
+	if command -v rustup > /dev/null; then \
+		echo "[rustup]: Already installed"; \
+	else \
+		echo "[rustup]: Installing..." && \
+		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && \
+		source "$$HOME/.cargo/env" && \
+		rustup default stable && \
+		rustup component add rustfmt clippy && \
+		echo "[rustup]: Done"; \
+	fi
 
 julia: ## Install julia
 	$(MISEINSTALL) julia@latest
@@ -318,20 +341,39 @@ tailscale: ## Install Tailscale
 ollama: ## Install Ollama (To run LLMs locally)
 	$(MISEINSTALL) ollama@latest
 
+opencode: ## Install OpenCode
+	@set -euo pipefail; \
+	if command -v opencode > /dev/null; then \
+		echo "[opencode]: Already installed"; \
+	else \
+		echo "[opencode]: Installing..." && \
+		curl -fsSL https://opencode.ai/v2/install | bash && \
+		echo "[opencode]: Done"; \
+	fi
+
 #============================================= Study ==============================================
 anki: ## Install Anki
-	@set -eu; \
-	echo "[anki]: Installing..."; \
-	$(INSTALL) libxcb-xinerama0; \
-	tmp=$$(mktemp -d); \
-	trap 'rm -rf "$$tmp"' EXIT; \
-	curl -fL --retry 3 \
-		https://github.com/ankitects/anki/releases/latest/download/anki-launcher.tar.zst \
-		-o "$$tmp/anki-launcher.tar.zst"; \
-	tar xf "$$tmp/anki-launcher.tar.zst" -C "$$tmp"; \
-	cd "$$tmp/anki-launcher"; \
-	sudo ./install.sh; \
-	echo "[anki]: Done"
+	@set -euo pipefail; \
+	if command -v anki >/dev/null 2>&1; then \
+		echo "[anki]: Already installed"; \
+	else \
+		echo "[anki]: Installing..."; \
+		$(INSTALL) zstd libxcb-xinerama0 libxcb-cursor0 libnss3 libxcb-icccm4 libxcb-keysyms1; \
+		tmp=$$(mktemp -d); \
+		trap 'rm -rf "$$tmp"' EXIT; \
+		base_url=https://github.com/ankitects/anki/releases; \
+		release_url=$$(curl -fsSL --retry 3 -o /dev/null -w '%{url_effective}' "$$base_url/latest"); \
+		tag=$${release_url##*/}; \
+		version=$${tag#v}; \
+		url="$$base_url/download/$$tag/anki-$$version-linux-x86_64.tar.zst"; \
+		curl -fL --retry 3 "$$url" -o "$$tmp/anki.tar.zst"; \
+		tar -xaf "$$tmp/anki.tar.zst" -C "$$tmp"; \
+		installer=$$(find "$$tmp" -mindepth 2 -maxdepth 2 -type f -name install.sh -print -quit); \
+		test -n "$$installer" || { echo "[anki]: install.sh not found" >&2; exit 1; }; \
+		cd "$$(dirname "$$installer")"; \
+		sudo ./install.sh; \
+		echo "[anki]: Done"; \
+	fi
 
 uninstall-anki: # Uninstall Anki
 	cd /usr/local/share/anki/ && sudo ./uninstall.sh
@@ -443,7 +485,7 @@ linux_install: zsh ## Setup Debian-based Linux after new installation
 	brave chrome chromium zen vivaldi \
 	anydesk rustdesk \
 	telegram discord spotify obs vscode office gimp kdenlive inkscape audacity localsend tailscale \
-	ollama \
+	ollama opencode \
 	anki uninstall_anki blanket \
 	file-manager image-viewer pdf-viewer sysmon apps \
 	server install sinstall finstall \
