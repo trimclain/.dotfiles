@@ -16,7 +16,7 @@ else
 fi
 
 PKGMGR_CONFIRM=''
-FLATPAK_CONFIRM=''
+DASH_Y_CONFIRM=''
 
 if [[ -n $1 ]]; then
     if [[ $1 == "--help" || $1 == "-h" ]]; then
@@ -46,7 +46,7 @@ if [[ -n $1 ]]; then
         else
             PKGMGR_CONFIRM='-y'
         fi
-        FLATPAK_CONFIRM='-y'
+        DASH_Y_CONFIRM='-y'
     fi
 fi
 
@@ -100,6 +100,22 @@ fi
 
 # flatpak
 if command -v flatpak > /dev/null; then
-    flatpak update $FLATPAK_CONFIRM
-    flatpak uninstall --unused $FLATPAK_CONFIRM
+    flatpak update $DASH_Y_CONFIRM
+    flatpak uninstall --unused $DASH_Y_CONFIRM
+fi
+
+# rustup
+if command -v rustup > /dev/null; then
+    rustup update
+fi
+
+# mise
+if command -v mise > /dev/null; then
+    mise up $DASH_Y_CONFIRM
+    mise prune $DASH_Y_CONFIRM
+fi
+
+# getnf
+if command -v getnf > /dev/null; then
+    getnf -U
 fi
