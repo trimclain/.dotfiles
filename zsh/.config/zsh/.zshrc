@@ -125,20 +125,22 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 ################################# History #####################################
 export HISTFILE=$HOME/.zsh_history
 # export HISTFILE="$XDG_STATE_HOME/zsh/history"
-export HISTSIZE=20000
-export SAVEHIST=20000
+export HISTSIZE=100000
+export SAVEHIST=100000
 export HISTORY_IGNORE="(ls|la|l|cd|cd -|cd ..|history|vim)"
 # Share history across all zsh sessions (combines append_history & inc_append_history)
 setopt sharehistory
-# If a command starts with a space, don't add it to a history
+# If a command starts with a space, don't add it to history
 setopt hist_ignore_space
 # Don't save older commands that duplicate newer ones
 setopt hist_save_no_dups
-# Do the same as above but also in the current session
+# Remove older duplicates first when in-memory history fills up
+setopt hist_expire_dups_first
+# Remove older duplicates from memory immediately
 #setopt hist_ignore_all_dups
-# Don't show duplicates in history search
+# Don't show duplicate matches in history search
 setopt hist_find_no_dups
-# When using !! or !<number>, don't expand the command before running it
+# Expand !! or !<number> and execute without a verification step
 setopt nohistverify
 ###############################################################################
 
