@@ -156,6 +156,8 @@ keymap = [
 
     # CUSTOM: move Downloads contents into the current directory
     { on = [ "g", "m" ], run = 'shell "mv -i ~/downloads/* ." --block', desc = "Move Downloads here" },
+    # CUSTOM: open PCManFM in the current directory (for Drag-and-Drop)
+    { on = [ "g", "e" ], run = 'shell --orphan "pcmanfm ."', desc = "Open current directory in PCManFM" },
 
     # Goto
     { on = [ "g", "h" ],       run = "cd ~",             desc = "Go home" },
