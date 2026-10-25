@@ -709,9 +709,13 @@ osu: ## Install osu
 file-manager: ## Install pcmanfm and dolphin
 	@# Options:
 	@# - krusader - Total Commander for linux (vsplit by default)
-	@# - thunar - xfce file manager
-	@# pcmanfm is lighweight, dolphin helps with MTP Android file transfer
-	$(INSTALL) pcmanfm dolphin
+	@# - pcmanfm - LXDE/LXQt file manager (the fastest)
+	@# - thunar - Xfce file manager (close second)
+	@# - dolphin - KDE file manager (good looking)
+	@# dolphin comes with MTP Android file transfer support,
+	@# pcmanfm and thunar need gvfs-mtp installed
+	$(INSTALL) pcmanfm gvfs-mtp
+	$(INSTALL) dolphin
 
 image-viewer: ## Install feh, sxiv and nomacs
 	$(INSTALL) feh sxiv
