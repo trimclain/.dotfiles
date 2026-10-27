@@ -571,9 +571,15 @@ vpn: ## Install VPN
 	@#$(INSTALL) wireguard-tools openresolv
 	@#$(PARUINSTALL) v2raya-bin
 
+torrent: ## Install aria2 (Download utility that supports BitTorrent and Metalink)
+	$(INSTALL) aria2
+	@# Stop seeding immediately after download and limit uploading to 1 KiB/s
+	@echo "Usage: aria2c --seed-time=0 --max-upload-limit=1K <name>.torrent"
+	@# $(INSTALL) qbittorrent
+
 ventoy: ## Install Ventoy (Multiboot USB)
-	@# NOTE: use ventoygui for same GUI as on windows
 	$(PARUINSTALL) ventoy-bin
+	@echo "Reminder: you can use ventoygui!"
 
 caligula: ## Install Caligula (TUI for disk imaging)
 	$(INSTALL) caligula
@@ -823,7 +829,7 @@ install: ## Setup arch after new installation
 	anydesk rustdesk \
 	thunderbird telegram discord spotify ncspot spotify-player \
 	obs audacity gimp kdenlive lossless-cut inkscape vlc \
-	vscode office quickemu vpn ventoy caligula localsend android clamav lynis tailscale \
+	vscode office quickemu vpn torrent ventoy caligula localsend android clamav lynis tailscale \
 	ollama llmfit opencode codex t3code handy \
 	anki pomodorolm syncthing obsidian blanket sioyek \
 	0ad luanti doom board-games minecraft osu \
