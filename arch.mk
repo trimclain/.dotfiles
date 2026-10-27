@@ -623,6 +623,12 @@ opencode: ## Install OpenCode
 	@# $(PARUINSTALL) opencode-bin
 	$(INSTALL) opencode
 
+codex: ## Install Codex
+	$(INSTALL) openai-codex
+
+t3code: ## Install T3 Code
+	$(PARUINSTALL) t3code-bin
+
 handy: ## Install Handy (extensible offline speech-to-text application)
 	$(PARUINSTALL) handy-bin
 
@@ -818,7 +824,7 @@ install: ## Setup arch after new installation
 	thunderbird telegram discord spotify ncspot spotify-player \
 	obs audacity gimp kdenlive lossless-cut inkscape vlc \
 	vscode office quickemu vpn ventoy caligula localsend android clamav lynis tailscale \
-	ollama llmfit opencode handy \
+	ollama llmfit opencode codex t3code handy \
 	anki pomodorolm syncthing obsidian blanket sioyek \
 	0ad luanti doom board-games minecraft osu \
 	file-manager image-viewer screenshot-tool screen-recorder pdf-viewer pdf-editor sysmon apps \
