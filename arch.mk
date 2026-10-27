@@ -554,8 +554,8 @@ vlc: ## Install VLC
 
 # I have to sometimes
 vscode: ## Install VSCode (VSCodium)
-	@# $(INSTALL) code
-	$(PARUINSTALL) vscodium-bin vscodium-bin-marketplace
+	@#$(PARUINSTALL) vscodium-bin vscodium-bin-marketplace
+	$(INSTALL) code
 
 office: ## Install LibreOffice
 	$(INSTALL) libreoffice-fresh
