@@ -138,8 +138,8 @@ paru: ## Install paru (the AUR helper)
 		echo "[paru]: Installing..."; \
 	fi; \
 	$(INSTALL) base-devel && \
-	# git clone https://aur.archlinux.org/paru-bin.git /tmp/paru && \
-	git clone https://aur.archlinux.org/paru.git /tmp/paru && \
+	git clone https://aur.archlinux.org/paru-bin.git /tmp/paru && \
+	# git clone https://aur.archlinux.org/paru.git /tmp/paru && \
 	pushd /tmp/paru && \
 	makepkg --noconfirm -si && \
 	popd && \
