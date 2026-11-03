@@ -102,7 +102,10 @@ elif [[ $OS == arch ]]; then
         fi
     done
 
-    # NOTE: use my paccache-clear script as well
+    if command -v paccache-clear > /dev/null && command -v paccache > /dev/null; then
+        printf '\n=== Cleaning pacman and paru caches ===\n'
+        paccache-clear
+    fi
 else
     echo "Error: OS not supported"
     exit 1
