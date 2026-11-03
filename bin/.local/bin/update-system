@@ -114,7 +114,14 @@ fi
 # flatpak
 if command -v flatpak > /dev/null; then
     flatpak update $DASH_Y_CONFIRM
-    flatpak uninstall --unused $DASH_Y_CONFIRM
+    while true; do
+        before=$(flatpak list --columns=installation,ref) || break
+        flatpak uninstall --unused $DASH_Y_CONFIRM || break
+        after=$(flatpak list --columns=installation,ref) || break
+        if [[ "$before" == "$after" ]]; then
+            break
+        fi
+    done
 fi
 
 # rustup
