@@ -4,6 +4,7 @@ if [[ -n "${TERMUX_VERSION:-}" || "${PREFIX:-}" == */com.termux/files/usr ]]; th
     OS=termux
 else
     OS=$(awk -F= '$1=="ID" { gsub(/"/, "", $2); print $2; }' /etc/os-release 2> /dev/null)
+    DISTRO_ID=$OS
 
     case "$OS" in
         debian | ubuntu | linuxmint)
@@ -30,13 +31,19 @@ if [[ -n $1 ]]; then
         exit 0
     fi
     if [[ $1 == "-m" || $1 == "-r" ]]; then
-        if [[ $OS == arch ]]; then
-            echo -n "Updating pacman mirror list... "
-            sudo reflector --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
+        if [[ "${DISTRO_ID:-}" != arch ]]; then
+            echo "Error: mirror refresh is configured only for Arch Linux." >&2
+            exit 1
+        fi
+
+        echo -n "Updating pacman mirror list... "
+        if sudo reflector --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist; then
             echo "Done"
         else
-            echo "Not using Arch BTW!"
+            echo "Failed to update pacman mirror list." >&2
+            exit 1
         fi
+
         exit 0
     fi
 
@@ -47,6 +54,9 @@ if [[ -n $1 ]]; then
             PKGMGR_CONFIRM='-y'
         fi
         DASH_Y_CONFIRM='-y'
+    else
+        printf 'Error: unknown argument: %s\n' "$1" >&2
+        exit 1
     fi
 fi
 
@@ -66,7 +76,7 @@ elif [[ $OS == arch ]]; then
     if command -v paru > /dev/null; then
         paru -Syu $PKGMGR_CONFIRM
     else
-        sudo pacman $PKGMGR_CONFIRM
+        sudo pacman -Syu $PKGMGR_CONFIRM
     fi
     # apt autoremove
     count=0
@@ -85,7 +95,7 @@ elif [[ $OS == arch ]]; then
             break
         else
             # shellcheck disable=SC2086
-            sudo pacman -Rns $orphans $PKGMGR_CONFIRM
+            sudo pacman -Rns $orphans $PKGMGR_CONFIRM || break
             # Add a small delay to prevent rapid looping if pacman is very fast
             # and new orphans appear immediately after removal (unlikely but good practice)
             sleep 1
