@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
-# shellcheck disable=SC2086
-
 # Script to clean pacman and paru cache
 # Requirements: paccache command from pacman-contrib package
-# Credit: https://gist.github.com/ericmurphyxyz/37baa4c9da9d3b057a522f20a9ad6eba
 
-readonly GREEN="\033[32m"
+# readonly GREEN="\033[32m"
 readonly YELLOW="\033[33m"
 readonly MAGENTA="\033[35m"
 readonly CYAN="\033[36m"
@@ -17,7 +14,7 @@ readonly AUR_CACHE_DIR="$HOME/.cache/paru/clone"
 VERBOSE='false'
 DRY_RUN='false'
 
-# NOTE: paru -Scc might be an interesting alternative
+# NOTE: paru -Scc exists, but its full cache purge is not an alternative to selective version retention.
 if ! command -v paccache > /dev/null; then
     echo "Command 'paccache' not found. Please install pacman-contrib."
     exit 1
@@ -38,11 +35,11 @@ show_help() {
     echo "  -d             Perform a dry run."
 }
 
-while getopts "hvd" opt; do
+while getopts ":hvd" opt; do
     case "$opt" in
         h) show_help && exit 0 ;;
-        v) readonly VERBOSE='true' ;;
-        d) readonly DRY_RUN='true' ;;
+        v) VERBOSE='true' ;;
+        d) DRY_RUN='true' ;;
         \?)
             echo "Error: Invalid option -$OPTARG" >&2
             exit 1
@@ -50,6 +47,7 @@ while getopts "hvd" opt; do
     esac
 done
 shift $((OPTIND - 1))
+readonly VERBOSE DRY_RUN
 
 # DRY_RUN toggle
 PACCACHE_FLAGS=()
@@ -65,22 +63,44 @@ if [[ "$VERBOSE" == "true" ]]; then
 fi
 
 inform "UNINSTALLED PACKAGES" "AUR" "0 versions"
-AUR_CACHE_REMOVED="$(find "$AUR_CACHE_DIR" -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
-if [[ "$DRY_RUN" == "true" ]]; then
-    AUR_REMOVED=$(paccache -duvk0 $AUR_CACHE_REMOVED | sed '/\.cache/!d' | cut -d \' -f2 | rev | cut -d / -f2- | rev)
-else
-    AUR_REMOVED=$(paccache -ruvk0 $AUR_CACHE_REMOVED | sed '/\.cache/!d' | cut -d \' -f2 | rev | cut -d / -f2- | rev)
+AUR_CACHE_REMOVED=()
+if [[ -d "$AUR_CACHE_DIR" ]]; then
+    mapfile -d '' -t AUR_CACHE_REMOVED < <(
+        find "$AUR_CACHE_DIR" -mindepth 1 -maxdepth 1 -type d -printf '-c\0%p\0'
+    )
 fi
 
-if [ -n "$AUR_REMOVED" ]; then
-    echo -e "${YELLOW}WARNING:${RESET} manually removing the following:"
-    echo "$AUR_REMOVED"
-    rm -rf $AUR_REMOVED
+# Clean package archives only when AUR cache directories were found.
+if ((${#AUR_CACHE_REMOVED[@]} > 0)); then
+    if [[ "$DRY_RUN" == "true" ]]; then
+        paccache -duvk0 "${AUR_CACHE_REMOVED[@]}"
+    else
+        paccache -ruvk0 "${AUR_CACHE_REMOVED[@]}"
+    fi
+fi
+
+# Independently remove empty immediate child directories.
+if [[ -d "$AUR_CACHE_DIR" ]]; then
+    while IFS= read -r -d '' dir; do
+        if [[ "$DRY_RUN" == "true" ]]; then
+            printf '%bWARNING:%b would remove currently empty directory: %s\n' "$YELLOW" "$RESET" "$dir"
+        else
+            printf '%bWARNING:%b removing empty directory: %s\n' "$YELLOW" "$RESET" "$dir"
+            rmdir --ignore-fail-on-non-empty -- "$dir"
+        fi
+    done < <(
+        find "$AUR_CACHE_DIR" -mindepth 1 -maxdepth 1 -type d -empty -print0
+    )
 fi
 
 inform "UNINSTALLED PACKAGES" "PACMAN" "1 version"
 paccache "${PACCACHE_FLAGS[@]}" -uk1
 
 inform "INSTALLED PACKAGES" "PACMAN+AUR" "2 versions"
-AUR_CACHE="$(find "$AUR_CACHE_DIR" -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
-paccache "${PACCACHE_FLAGS[@]}" -k2 -c /var/cache/pacman/pkg $AUR_CACHE
+AUR_CACHE=()
+if [[ -d "$AUR_CACHE_DIR" ]]; then
+    mapfile -d '' -t AUR_CACHE < <(
+        find "$AUR_CACHE_DIR" -mindepth 1 -maxdepth 1 -type d -printf '-c\0%p\0'
+    )
+fi
+paccache "${PACCACHE_FLAGS[@]}" -k2 -c /var/cache/pacman/pkg "${AUR_CACHE[@]}"
