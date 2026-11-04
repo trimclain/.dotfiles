@@ -1,10 +1,26 @@
 #!/usr/bin/env bash
 
 section() {
+    local title="$1"
+    local width=80
+    local padding left right left_fill right_fill heading
+
+    # Leave at least three '=' characters on each side.
+    (( width < ${#title} + 8 )) && width=$(( ${#title} + 8 ))
+
+    padding=$(( width - ${#title} - 2 ))
+    left=$(( padding / 2 ))
+    right=$(( padding - left ))
+
+    printf -v left_fill '%*s' "$left" ''
+    printf -v right_fill '%*s' "$right" ''
+    printf -v heading '%s %s %s' \
+        "${left_fill// /=}" "$title" "${right_fill// /=}"
+
     if [[ -t 1 && -z ${NO_COLOR+x} ]]; then
-        printf '\n\033[1;36m=== %s ===\033[0m\n\n' "$1"
+        printf '\n\033[1;36m%s\033[0m\n\n' "$heading"
     else
-        printf '\n=== %s ===\n\n' "$1"
+        printf '\n%s\n\n' "$heading"
     fi
 }
 
