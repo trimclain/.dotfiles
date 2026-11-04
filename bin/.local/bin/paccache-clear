@@ -73,9 +73,9 @@ fi
 # Clean package archives only when AUR cache directories were found.
 if ((${#AUR_CACHE_REMOVED[@]} > 0)); then
     if [[ "$DRY_RUN" == "true" ]]; then
-        paccache -duvk0 "${AUR_CACHE_REMOVED[@]}"
+        paccache -duvk0 "${AUR_CACHE_REMOVED[@]}" || exit "$?"
     else
-        paccache -ruvk0 "${AUR_CACHE_REMOVED[@]}"
+        paccache -ruvk0 "${AUR_CACHE_REMOVED[@]}" || exit "$?"
     fi
 fi
 
@@ -86,7 +86,7 @@ if [[ -d "$AUR_CACHE_DIR" ]]; then
             printf '%bWARNING:%b would remove currently empty directory: %s\n' "$YELLOW" "$RESET" "$dir"
         else
             printf '%bWARNING:%b removing empty directory: %s\n' "$YELLOW" "$RESET" "$dir"
-            rmdir --ignore-fail-on-non-empty -- "$dir"
+            rmdir --ignore-fail-on-non-empty -- "$dir" || exit "$?"
         fi
     done < <(
         find "$AUR_CACHE_DIR" -mindepth 1 -maxdepth 1 -type d -empty -print0
@@ -94,7 +94,7 @@ if [[ -d "$AUR_CACHE_DIR" ]]; then
 fi
 
 inform "UNINSTALLED PACKAGES" "PACMAN" "1 version"
-paccache "${PACCACHE_FLAGS[@]}" -uk1
+paccache "${PACCACHE_FLAGS[@]}" -uk1 || exit "$?"
 
 inform "INSTALLED PACKAGES" "PACMAN+AUR" "2 versions"
 AUR_CACHE=()
