@@ -155,7 +155,7 @@ keymap = [
     { on = [ ",", "r" ], run = "sort random --reverse=no",                       desc = "Sort randomly" },
 
     # CUSTOM: move Downloads contents into the current directory
-    { on = [ "g", "m" ], run = 'shell "mv -i ~/downloads/* ." --block', desc = "Move Downloads here" },
+    { on = [ "g", "m" ], run = 'shell "mv -f ~/downloads/* ." --block', desc = "Move Downloads here" },
     # CUSTOM: open PCManFM in the current directory (for Drag-and-Drop)
     { on = [ "g", "e" ], run = 'shell --orphan "pcmanfm ."', desc = "Open current directory in PCManFM" },
 
