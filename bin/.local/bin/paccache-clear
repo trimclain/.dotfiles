@@ -6,7 +6,7 @@
 # readonly GREEN="\033[32m"
 readonly YELLOW="\033[33m"
 readonly MAGENTA="\033[35m"
-readonly CYAN="\033[36m"
+readonly BLUE="\033[34m"
 readonly RESET="\033[0m"
 
 readonly AUR_CACHE_DIR="${AUR_CACHE_DIR:-${XDG_CACHE_HOME:-"$HOME/.cache"}/paru/clone}"
@@ -21,7 +21,7 @@ if ! command -v paccache > /dev/null; then
 fi
 
 inform() {
-    echo -e "\n${MAGENTA}$1${RESET}: ${CYAN}$2${RESET} - keeping $3"
+    echo -e "\n${MAGENTA}$1${RESET}: ${BLUE}$2${RESET} - keeping $3"
 }
 
 show_help() {

@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+section() {
+    if [[ -t 1 && -z ${NO_COLOR+x} ]]; then
+        printf '\n\033[1;36m=== %s ===\033[0m\n\n' "$1"
+    else
+        printf '\n=== %s ===\n\n' "$1"
+    fi
+}
+
 if [[ -n "${TERMUX_VERSION:-}" || "${PREFIX:-}" == */com.termux/files/usr ]]; then
     OS=termux
 else
@@ -24,7 +32,7 @@ if (($# > 1)); then
     exit 1
 fi
 
-if [[ -n $1 ]]; then
+if [[ -n ${1:-} ]]; then
     if [[ $1 == "--help" || $1 == "-h" ]]; then
         echo "Update the system packages and clean up unused packages."
         echo ""
@@ -35,13 +43,14 @@ if [[ -n $1 ]]; then
         echo "  -m, -r       Use reflector to update the pacman mirrorlist"
         exit 0
     fi
+
     if [[ $1 == "-m" || $1 == "-r" ]]; then
         if [[ "${DISTRO_ID:-}" != arch ]]; then
             echo "Error: mirror refresh is configured only for Arch Linux." >&2
             exit 1
         fi
 
-        echo -n "Updating pacman mirror list... "
+        section "Updating pacman mirror list"
         if sudo reflector --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist; then
             echo "Done"
         else
@@ -65,30 +74,41 @@ if [[ -n $1 ]]; then
     fi
 fi
 
-# package manager updates
+# Package manager updates
 if [[ $OS == termux ]]; then
+    section "Updating system packages"
     pkg upgrade $PKGMGR_CONFIRM || exit "$?"
+
+    section "Cleaning package cache"
     apt autoclean $PKGMGR_CONFIRM
+
+    section "Removing unused packages"
     apt autoremove $PKGMGR_CONFIRM
 elif [[ $OS == ubuntu ]]; then
+    section "Refreshing package lists"
     sudo apt update || exit "$?"
+
+    section "Updating system packages"
     sudo apt upgrade $PKGMGR_CONFIRM || exit "$?"
-    # see https://www.networkworld.com/article/3453032/cleaning-up-with-apt-get.html
-    # sudo apt clean -y
+
+    section "Cleaning package cache"
     sudo apt autoclean $PKGMGR_CONFIRM
+
+    section "Removing unused packages"
     sudo apt autoremove $PKGMGR_CONFIRM
 elif [[ $OS == arch ]]; then
+    section "Updating system packages"
     if command -v paru > /dev/null; then
         paru -Syu $PKGMGR_CONFIRM || exit "$?"
     else
         sudo pacman -Syu $PKGMGR_CONFIRM || exit "$?"
     fi
-    # apt autoremove
+
+    section "Removing orphaned packages"
     count=0
     while true; do
         ((count++))
-        # Get a list of orphaned packages
-        # -Qdtq: Query, dependencies, not required by others, print only package names
+        # -Qdtq: Query, dependencies, not required by others, package names only
         orphans=$(pacman -Qdtq)
 
         if [[ -z "$orphans" ]]; then
@@ -108,7 +128,7 @@ elif [[ $OS == arch ]]; then
     done
 
     if command -v paccache-clear > /dev/null && command -v paccache > /dev/null; then
-        printf '\n=== Cleaning pacman and paru caches ===\n'
+        section "Cleaning pacman and Paru caches"
         paccache-clear
     fi
 else
@@ -116,9 +136,12 @@ else
     exit 1
 fi
 
-# flatpak
+# Flatpak
 if command -v flatpak > /dev/null; then
+    section "Updating Flatpak apps"
     flatpak update $DASH_Y_CONFIRM || exit "$?"
+
+    section "Removing unused Flatpak runtimes"
     while true; do
         before=$(flatpak list --columns=installation,ref) || break
         flatpak uninstall --unused $DASH_Y_CONFIRM || break
@@ -129,18 +152,23 @@ if command -v flatpak > /dev/null; then
     done
 fi
 
-# rustup
+# Rustup
 if command -v rustup > /dev/null; then
+    section "Updating Rust toolchains"
     rustup update
 fi
 
-# mise
+# Mise
 if command -v mise > /dev/null; then
+    section "Updating mise tools"
     mise up $DASH_Y_CONFIRM || exit "$?"
+
+    section "Pruning unused mise versions"
     mise prune $DASH_Y_CONFIRM
 fi
 
-# getnf
+# Getnf
 if command -v getnf > /dev/null; then
+    section "Updating Nerd Fonts"
     getnf -U
 fi
