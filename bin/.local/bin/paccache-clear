@@ -9,7 +9,7 @@ readonly MAGENTA="\033[35m"
 readonly CYAN="\033[36m"
 readonly RESET="\033[0m"
 
-readonly AUR_CACHE_DIR="$HOME/.cache/paru/clone"
+readonly AUR_CACHE_DIR="${AUR_CACHE_DIR:-${XDG_CACHE_HOME:-"$HOME/.cache"}/paru/clone}"
 
 VERBOSE='false'
 DRY_RUN='false'
