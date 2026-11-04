@@ -62,21 +62,21 @@ fi
 
 # package manager updates
 if [[ $OS == termux ]]; then
-    pkg upgrade $PKGMGR_CONFIRM
+    pkg upgrade $PKGMGR_CONFIRM || exit "$?"
     apt autoclean $PKGMGR_CONFIRM
     apt autoremove $PKGMGR_CONFIRM
 elif [[ $OS == ubuntu ]]; then
-    sudo apt update
-    sudo apt upgrade $PKGMGR_CONFIRM
+    sudo apt update || exit "$?"
+    sudo apt upgrade $PKGMGR_CONFIRM || exit "$?"
     # see https://www.networkworld.com/article/3453032/cleaning-up-with-apt-get.html
     # sudo apt clean -y
     sudo apt autoclean $PKGMGR_CONFIRM
     sudo apt autoremove $PKGMGR_CONFIRM
 elif [[ $OS == arch ]]; then
     if command -v paru > /dev/null; then
-        paru -Syu $PKGMGR_CONFIRM
+        paru -Syu $PKGMGR_CONFIRM || exit "$?"
     else
-        sudo pacman -Syu $PKGMGR_CONFIRM
+        sudo pacman -Syu $PKGMGR_CONFIRM || exit "$?"
     fi
     # apt autoremove
     count=0
@@ -113,7 +113,7 @@ fi
 
 # flatpak
 if command -v flatpak > /dev/null; then
-    flatpak update $DASH_Y_CONFIRM
+    flatpak update $DASH_Y_CONFIRM || exit "$?"
     while true; do
         before=$(flatpak list --columns=installation,ref) || break
         flatpak uninstall --unused $DASH_Y_CONFIRM || break
@@ -131,7 +131,7 @@ fi
 
 # mise
 if command -v mise > /dev/null; then
-    mise up $DASH_Y_CONFIRM
+    mise up $DASH_Y_CONFIRM || exit "$?"
     mise prune $DASH_Y_CONFIRM
 fi
 
