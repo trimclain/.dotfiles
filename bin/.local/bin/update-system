@@ -19,6 +19,11 @@ fi
 PKGMGR_CONFIRM=''
 DASH_Y_CONFIRM=''
 
+if (($# > 1)); then
+    printf 'Error: expected at most one argument.\nUsage: update-system [flag]\n' >&2
+    exit 1
+fi
+
 if [[ -n $1 ]]; then
     if [[ $1 == "--help" || $1 == "-h" ]]; then
         echo "Update the system packages and clean up unused packages."
