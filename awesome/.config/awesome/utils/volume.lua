@@ -147,6 +147,7 @@ local function notify_volume(value, mode)
     end
 
     local notification = naughty.notify({
+        skip_log = true,
         text = string.format("%s Volume: %d%%", icon, value),
         timeout = 1.5,
         replaces_id = volume_notification_id,
@@ -161,6 +162,7 @@ end
 local function notify_micro(mode)
     local icon = mode == "muted" and microphone_muted_icon or microphone_unmuted_icon
     local notification = naughty.notify({
+        skip_log = true,
         text = " " .. icon .. " ",
         timeout = 1.5,
         replaces_id = volume_notification_id,

@@ -30,6 +30,7 @@ function M.notify(msg, opts)
     local title = opts.title or "Debugging Awesome"
     local timeout = opts.timeout or 10
     naughty.notify({
+        skip_log = true,
         preset = preset,
         title = title,
         text = msg,

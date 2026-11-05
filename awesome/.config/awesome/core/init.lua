@@ -1,5 +1,7 @@
 local awful = require("awful") -- Everything related to window managment
 
+require("core.notifications")
+
 local env = require("env")
 
 -- make sure that there's always a client that will have focus on events such as tag switching, client unmanaging, etc.

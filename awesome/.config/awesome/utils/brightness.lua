@@ -57,6 +57,7 @@ local function notify_brightness(value, mode)
 
     local text = icon .. " Brightness: " .. value .. "%"
     local notification = naughty.notify({
+        skip_log = true,
         text = text,
         timeout = 1.5,
         replaces_id = brightness_notification_id,
