@@ -560,6 +560,18 @@ vscode: ## Install VSCode (VSCodium)
 office: ## Install LibreOffice
 	$(INSTALL) libreoffice-fresh
 
+artcraft: ## Add the ArtCraft OCI Flatpak remote
+	@flatpak remote-add --user --if-not-exists artcraft-oci https://getartcraft.com/artcraft-oci.flatpakrepo
+	@echo ""
+	@echo "ArtCraft OCI Flatpak remote is configured."
+	@echo ""
+	@echo "Available apps:"
+	@echo "  flatpak remote-ls artcraft-oci"
+	@echo ""
+	@echo "Install ArtCraft apps (e.g. PDFCraft):"
+	@echo "  flatpak install --user ai.storyteller.pdfcraft"
+	@#echo "  flatpak install --user artcraft-oci ai.storyteller.artcraft-launcher"
+
 quickemu: ## Install Quickemu (Virtual Machine Manager)
 	@#$(INSTALL) qemu-desktop # wait for release 4.9.8+
 	@# INFO: use ctrl+alt+g to free the mouse from the VM
@@ -829,7 +841,7 @@ install: ## Setup arch after new installation
 	anydesk rustdesk \
 	thunderbird telegram discord spotify ncspot spotify-player \
 	obs audacity gimp kdenlive lossless-cut inkscape vlc \
-	vscode office quickemu vpn torrent ventoy caligula localsend android clamav lynis tailscale \
+	vscode office artcraft quickemu vpn torrent ventoy caligula localsend android clamav lynis tailscale \
 	ollama llmfit opencode codex t3code handy \
 	anki pomodorolm syncthing obsidian blanket sioyek \
 	0ad luanti doom board-games minecraft osu \
