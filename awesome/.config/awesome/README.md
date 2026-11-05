@@ -568,8 +568,10 @@ Notify(...)
 Logs are written to:
 
 ```text
-/tmp/awesome-log.txt
+$XDG_STATE_HOME/awesome/awesome.log
 ```
+
+If `XDG_STATE_HOME` is unset, empty, or relative, it defaults to `~/.local/state`.
 
 Commands are checked before being launched, and missing executables produce desktop notifications instead of silently failing.
 
