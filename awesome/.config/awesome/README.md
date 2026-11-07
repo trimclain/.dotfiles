@@ -349,6 +349,7 @@ awesome/
     ├── init.lua
     ├── battery.lua
     ├── brightness.lua
+    ├── logger.lua
     ├── memory.lua
     ├── network.lua
     ├── temperature.lua
@@ -572,6 +573,11 @@ $XDG_STATE_HOME/awesome/awesome.log
 ```
 
 If `XDG_STATE_HOME` is unset, empty, or relative, it defaults to `~/.local/state`.
+
+`utils/logger.lua` initializes on the first log entry, using a private directory (`0700`)
+and log file (`0600`). It rotates before an entry would take a nonempty log past 1 MiB,
+keeping one backup as `awesome.log.1`. A single oversized entry is kept in full.
+Logging failures go to stderr rather than generating notifications.
 
 Commands are checked before being launched, and missing executables produce desktop notifications instead of silently failing.
 

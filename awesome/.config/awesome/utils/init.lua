@@ -1,19 +1,9 @@
 local awful = require("awful") -- Everything related to window managment
-local GLib = require("lgi").GLib -- Filesystem utilities via Lua GObject Introspection
 local naughty = require("naughty") -- Notification library
 
 local M = {}
 
 local home = os.getenv("HOME") or "$HOME"
-
-local state_home = os.getenv("XDG_STATE_HOME") or ""
-if state_home:sub(1, 1) ~= "/" then
-    state_home = home .. "/.local/state"
-end
-
-local restart_separator_printed_in_logs = false
-local logdir = state_home .. "/awesome"
-local logfile = logdir .. "/awesome.log"
 
 ---@alias core.utils.PresetName
 ---| '"critical"'
@@ -46,28 +36,7 @@ function M.notify(msg, opts)
 end
 
 --- Log a message to the logfile
----@param msg string
----@param level? string debug (default) | info | warn | error
-function M.log(msg, level)
-    level = level and string.upper(level) or "DEBUG"
-    if GLib.mkdir_with_parents(logdir, tonumber("700", 8)) ~= 0 then
-        return
-    end
-    local f = io.open(logfile, "a")
-    if not f then
-        return
-    end
-    if GLib.chmod(logfile, tonumber("600", 8)) ~= 0 then
-        f:close()
-        return
-    end
-    if not restart_separator_printed_in_logs then
-        f:write(string.rep("—", 99) .. "\n")
-        restart_separator_printed_in_logs = true
-    end
-    f:write(os.date("[%Y-%m-%d %H:%M:%S] ") .. level .. " " .. msg .. "\n")
-    f:close()
-end
+M.log = require("utils.logger").log
 
 --- Get a human-readable representation of the given object
 ---@param value any

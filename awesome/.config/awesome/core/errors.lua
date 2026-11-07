@@ -6,6 +6,7 @@ local utils = require("utils")
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
     naughty.notify({
+        skip_log = true, -- already logged below at ERROR level
         preset = naughty.config.presets.critical,
         title = "Oops, there were errors during startup! Fix them and run\n`awesome-client 'awesome.restart()'` to reload the config.",
         text = awesome.startup_errors,
@@ -24,6 +25,7 @@ do
         in_error = true
 
         naughty.notify({
+            skip_log = true, -- already logged below at ERROR level
             preset = naughty.config.presets.critical,
             title = "Oops, an error happened!",
             text = tostring(err),
