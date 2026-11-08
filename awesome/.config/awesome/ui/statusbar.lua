@@ -222,7 +222,8 @@ utils.add_mouse_help(
         "Power and applications",
         "Left click: Open power menu",
         "Right click: Open application launcher",
-    }, "\n")
+    }, "\n"),
+    1
 )
 -- Add on mouse hover effects (issue: tracks the enter/leave of the whole wibar)
 -- mypowermenu:connect_signal("mouse::enter", function()
