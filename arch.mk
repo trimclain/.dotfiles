@@ -121,6 +121,11 @@ typst: ## Install Typst (better LaTeX) engine
 typescript: ## Install tsc, ts-node and pnpm
 	npm install -g typescript ts-node pnpm
 
+lean: ## Install Lean 4 theorem prover using its version manager Elan
+	$(PARUINSTALL) elan-lean
+	elan toolchain install leanprover/lean4:stable
+	elan default leanprover/lean4:stable
+
 ###################################################################################################
 #                                             Software                                            #
 ###################################################################################################
@@ -843,7 +848,7 @@ install: ## Setup arch after new installation
 #==================================================================================================
 
 .PHONY: all help vimdir getnf wallpapers maple-mono bluetooth printer brightnessctl\
-	mise python python-modules rust julia go tectonic typst typescript \
+	mise python python-modules rust julia go tectonic typst typescript lean \
 	paru downgrade flatpak gearlever flatseal docker lazydocker lf yazi gh waypaper \
 	nvim-reqs nvim-build-reqs nvim-dev uninstall-nvim-dev clean-nvim purge-nvim neovim neovide \
 	zoxide zsh zap \
