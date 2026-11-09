@@ -560,17 +560,30 @@ vscode: ## Install VSCode (VSCodium)
 office: ## Install LibreOffice
 	$(INSTALL) libreoffice-fresh
 
-artcraft: ## Add the ArtCraft OCI Flatpak remote
+artcraft: ## Configure the ArtCraft OCI Flatpak remote
 	@flatpak remote-add --user --if-not-exists artcraft-oci https://getartcraft.com/artcraft-oci.flatpakrepo
-	@echo ""
-	@echo "ArtCraft OCI Flatpak remote is configured."
-	@echo ""
-	@echo "Available apps:"
-	@echo "  flatpak remote-ls artcraft-oci"
-	@echo ""
-	@echo "Install ArtCraft apps (e.g. PDFCraft):"
-	@echo "  flatpak install --user ai.storyteller.pdfcraft"
-	@#echo "  flatpak install --user artcraft-oci ai.storyteller.artcraft-launcher"
+	@echo "[artcraft]: Remote configured"
+
+deckcraft pdfcraft: %: artcraft
+	@if flatpak info --user ai.storyteller.$* > /dev/null 2>&1; then \
+		echo "[$*]: Already installed"; \
+	else \
+		echo "[$*]: Installing..."; \
+		flatpak install --user -y artcraft-oci ai.storyteller.$* || exit $$?; \
+		echo "[$*]: Installed"; \
+	fi
+	@if [ -x "$(HOME)/.local/bin/$*-cli" ]; then \
+		echo "[$*]: CLI already executable, skipping"; \
+	else \
+		mkdir -p "$(HOME)/.local/bin" && \
+		rm -f "$(HOME)/.local/bin/$*-cli" && \
+		printf '%s\n' \
+			'#!/bin/sh' \
+			'exec flatpak run --command=$*-cli ai.storyteller.$* "$$@"' \
+			> "$(HOME)/.local/bin/$*-cli" && \
+		chmod +x "$(HOME)/.local/bin/$*-cli" && \
+		echo "[$*]: CLI created at ~/.local/bin/$*-cli"; \
+	fi
 
 quickemu: ## Install Quickemu (Virtual Machine Manager)
 	@#$(INSTALL) qemu-desktop # wait for release 4.9.8+
@@ -840,8 +853,9 @@ install: ## Setup arch after new installation
 	brave chrome thorium helium zen vivaldi \
 	anydesk rustdesk \
 	thunderbird telegram discord spotify ncspot spotify-player \
-	obs audacity gimp kdenlive lossless-cut inkscape vlc \
-	vscode office artcraft quickemu vpn torrent ventoy caligula localsend android clamav lynis tailscale \
+	obs audacity gimp kdenlive lossless-cut inkscape vlc vscode \
+	office artcraft deckcraft pdfcraft \
+	quickemu vpn torrent ventoy caligula localsend android clamav lynis tailscale \
 	ollama llmfit opencode codex t3code handy \
 	anki pomodorolm syncthing obsidian blanket sioyek \
 	0ad luanti doom board-games minecraft osu \
