@@ -152,7 +152,7 @@ export DOCKER_BUILDKIT=1
 export GOPATH="$HOME/.go"
 
 # Disable OpenCode's automatic update checks
-export OPENCODE_DISABLE_AUTOUPDATE=true
+export OPENCODE_DISABLE_AUTOUPDATE=1
 
 # General telemetry opt-out
 export DO_NOT_TRACK=1
