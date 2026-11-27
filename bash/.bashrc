@@ -31,6 +31,9 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # Default $HOME/go is criminal
 export GOPATH="$HOME/.go"
 
+# General telemetry opt-out
+export DO_NOT_TRACK=1
+
 ###############################################################################
 # Less
 ###############################################################################

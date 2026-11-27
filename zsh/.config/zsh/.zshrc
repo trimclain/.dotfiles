@@ -154,6 +154,9 @@ export GOPATH="$HOME/.go"
 # Disable OpenCode's automatic update checks
 export OPENCODE_DISABLE_AUTOUPDATE=true
 
+# General telemetry opt-out
+export DO_NOT_TRACK=1
+
 ###############################################################################
 # vi mode
 ###############################################################################
